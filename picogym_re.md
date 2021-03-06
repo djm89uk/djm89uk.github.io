@@ -45,8 +45,11 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 1. The password is revealed in the program's source code.
 
 ### Attachments
+{::options parse_block_html="true" /}
 
+<details><summary markdown="span">
 1. VaultDoorTraining.java
+</summary>
 
 ~~~java
 // VaultDoorTraining.java
@@ -77,6 +80,11 @@ class VaultDoorTraining {
     }
 }
 ~~~
+
+</details>
+<br/>
+
+{::options parse_block_html="false" /}
 
 ### [Top](#contents)
 
