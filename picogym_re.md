@@ -1,5 +1,4 @@
-
-## [Home](https://djm89uk.github.io)
+## [djm89uk.github.io](https://djm89uk.github.io)
 
 # [PicoGym](./picogym.md)
 [picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
@@ -1028,4 +1027,4 @@ In this program, identify the last integer value that is passed as parameter to 
 
 ---
 
-# [djm89uk homepage](https://djm89uk.github.io)
+## [djm89uk.github.io](https://djm89uk.github.io)
