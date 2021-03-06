@@ -1,9 +1,4 @@
-## [djm89uk.github.io](https://djm89uk.github.io)
-
-# [PicoGym](./picogym.md)
-[picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
-
-# Reverse Engineering
+# [PicoGym](./picogym.md) Reverse Engineering
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
 ## Contents
