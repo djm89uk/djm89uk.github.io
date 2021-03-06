@@ -5,7 +5,7 @@
 [picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 # [Reverse Engineering](./picogym_re.md)
-[test](#asm1)
+[test](#vault-door-1)
 ## Vault-Door-Training (50pt)
 - Author: Mark E. Haase
 - 50 Points
@@ -46,7 +46,7 @@ class VaultDoorTraining {
 }
 ```
 
-## vault-door-1 (100pts)
+## [vault-door-1] (100pts)
 - Author: Mark E. Haase
 - 100 points
 ### Description
