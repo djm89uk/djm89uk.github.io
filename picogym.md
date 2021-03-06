@@ -14,7 +14,7 @@ picoCTF provides a practice CTF environment called picoGym to allow individuals 
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
-- [vault-door-training](#vault-door-training)
+- [vault-door-training](./picogym_re.md#vault-door-training)
 - [vault-door-1](./picogym_re.md#vault-door-1)
 - [vault-door-3](./picogym_re.md#vault-door-3)
 - [vault-door-4](./picogym_re.md#vault-door-4)
