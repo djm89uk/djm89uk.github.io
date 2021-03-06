@@ -51,7 +51,7 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 <summary markdown="span">VaultDoorTraining.java</summary>
 <p>
 	
-~~~java
+```java
 // VaultDoorTraining.java
 import java.util.*;
 
@@ -79,7 +79,7 @@ class VaultDoorTraining {
         return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
     }
 }
-~~~
+```
 
 </p>
 </details>
