@@ -84,7 +84,7 @@ class VaultDoorTraining {
 ### Solutions
 <details>
 <summary markdown="span">Solution 1</summary>
-
+Solution here
 </details>
 
 ### Answer
@@ -185,6 +185,23 @@ class VaultDoor1 {
 
 </details>
 
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -255,6 +272,22 @@ class VaultDoor3 {
         return s.equals("jU5t_a_sna_3lpm12g94c_u_4_m7ra41");
     }
 }
+~~~
+
+</details>
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
 ~~~
 
 </details>
@@ -331,6 +364,22 @@ class VaultDoor4 {
         return true;
     }
 }
+~~~
+
+</details>
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
 ~~~
 
 </details>
@@ -415,6 +464,22 @@ class VaultDoor5 {
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -483,6 +548,22 @@ class VaultDoor6 {
         return true;
     }
 }
+~~~
+
+</details>
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
 ~~~
 
 </details>
@@ -585,6 +666,22 @@ class VaultDoor7 {
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -630,6 +727,22 @@ char mask2 = (char)(1 << p2); /* char mask3 = (char)(1<<p1<<p2); mask1++; mask1-
 System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char)(c & ~(mask1 | mask2)); char shift = (char)(p2 - p1); char result = (char)((bit1<<shift) | (bit2>>shift) | rest); return result;
 } public boolean checkPassword(String password) {char[] scrambled = scramble(password); char[] expected = {
 0xF4, 0xC0, 0x97, 0xF0, 0x77, 0x97, 0xC0, 0xE4, 0xF0, 0x77, 0xA4, 0xD0, 0xC5, 0x77, 0xF4, 0x86, 0xD0, 0xA5, 0x45, 0x96, 0x27, 0xB5, 0x77, 0xD2, 0xD0, 0xB4, 0xE1, 0xC1, 0xE0, 0xD0, 0xD0, 0xE0 }; return Arrays.equals(scrambled, expected); } }
+~~~
+
+</details>
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
 ~~~
 
 </details>
@@ -685,6 +798,22 @@ asm1:
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -730,6 +859,22 @@ asm2:
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -767,6 +912,22 @@ asm3:
 	<+22>:	nop
 	<+23>:	pop    ebp
 	<+24>:	ret    
+~~~
+
+</details>
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
 ~~~
 
 </details>
@@ -858,6 +1019,22 @@ asm4:
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -892,6 +1069,22 @@ otp (binary file)
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -915,6 +1108,22 @@ Where do droid logs go. Check out this file.
 ### Attachments
 
 zero.apk
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
 
 ---
 
@@ -941,6 +1150,22 @@ Find the pass, get the flag. Check out this file.
 
 one.apk
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -965,6 +1190,22 @@ Find the pass, get the flag. Check out this file.
 ### Attachments
 
 two.apk
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
 
 ---
 
@@ -991,6 +1232,22 @@ Find the pass, get the flag. Check out this file.
 
 three.apk
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -1013,6 +1270,22 @@ None
 ### Attachments
 
 four.apk
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
 
 ---
 
@@ -1046,6 +1319,22 @@ picoCTF{w1{1wq8/7376j.:}
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -1073,6 +1362,22 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 "need-for-speed" binary file.
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -1098,6 +1403,22 @@ Can you reverse this Windows Binary?
 
 win-exec-1.exe
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -1120,6 +1441,22 @@ In this program, identify the last integer value that is passed as parameter to 
 ### Attachments
 
 "vuln" binary file.
+
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+Solution here
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
 
 ---
 
