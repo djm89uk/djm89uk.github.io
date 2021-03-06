@@ -1,7 +1,7 @@
 
 ## [Home](https://djm89uk.github.io)
 
-# [PicoGym](./picogym.m)
+# [PicoGym](./picogym.md)
 [picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 # Reverse Engineering
