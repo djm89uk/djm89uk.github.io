@@ -84,7 +84,93 @@ class VaultDoorTraining {
 ### Solutions
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+The flag can be read directly from the VaultDoorTraining.java source file.
+
+Reviewing the source code we can see a class "VaultDoorTraining" is defined and a new "VaultDoorTraining" class object "VaultDoor" is created:
+
+~~~java
+class VaultDoorTraining {
+    public static void main(String args[]) {
+        VaultDoorTraining vaultDoor = new VaultDoorTraining();
+~~~
+
+Next, the code creates a new object, "scanner" of the ["Scanner" class](https://www.w3schools.com/java/java_user_input.asp), part of the java.util package.  The code then prints a string to the terminal: "Enter vault password: ".  The user input string is stored in a new String object "userInput":
+
+~~~java
+Scanner scanner = new Scanner(System.in); 
+System.out.print("Enter vault password: ");
+String userInput = scanner.next();
+~~~
+
+The next part of the code, creates a new String object, "input" and assigns the value to a substring of the user input "userInput" String object.  The first component of the string, "picoCTF{" is removed, and the final character is removed.  The substring "input" is subseuqently passed to the "checkPassword" Method.  This returns a boolean that determines the print string indicating if the password is successful:
+
+~~~java
+String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+if (vaultDoor.checkPassword(input)) {
+    System.out.println("Access granted.");
+} else {
+    System.out.println("Access denied!");
+}
+~~~
+
+The "checkPassword" Method is a simple equivalence comparator that returns 1 (True) if all characters in the object "input" match a predefined string, or 0 (False) if any character if the strings are not equivalent:
+
+~~~java
+public boolean checkPassword(String password) {
+    return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
+}
+~~~
+
+We can thus infer the correct flag is:
+
+~~~
+picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
+~~~
+
+This password can be tested using the java class file.  First the .java needs to be compiled into a class:
+
+~~~
+$ javac -d ./build VaultDoorTraining.java
+~~~
+
+This creates a build directory with "VaultDoorTraining.class".  We can call this class directly from java:
+
+~~~
+$ cd build
+$ java VaultDoorTraining
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: 
+~~~
+
+We can enter the flag and receive an Authentication message:
+
+~~~
+Enter vault password: picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
+Access granted.
+~~~
+
+Due to the string handling, the password must contain the string w4rm1ng_Up_w1tH_jAv4_3808d338b46 in positions [8..39] and must be exactly 41 characters in length.  However, the picoCTF{ and } characters can be replaced with any ascii input and access is granted:
+
+~~~
+Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46@
+Access granted.
+~~~
+
+However, if we shorten the string by removing the last character:
+
+~~~
+Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46
+Access denied!
+~~~
+
+Or if we add an erroneous character to the end of the string:
+
+~~~
+Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46@@
+Access denied!
+~~~
+
 </details>
 
 ### Answer
@@ -92,7 +178,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
 ~~~
 
 </details>
