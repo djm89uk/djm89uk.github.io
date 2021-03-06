@@ -447,22 +447,157 @@ What does asm1(0x8be) return? Submit the flag as a hexadecimal value (starting w
 ### Hints
 assembly conditions
 ### Attachments
+```nasm
+asm1:
+	<+0>:	push   ebp
+	<+1>:	mov    ebp,esp
+	<+3>:	cmp    DWORD PTR [ebp+0x8],0x71c
+	<+10>:	jg     0x512 <asm1+37>
+	<+12>:	cmp    DWORD PTR [ebp+0x8],0x6cf
+	<+19>:	jne    0x50a <asm1+29>
+	<+21>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+24>:	add    eax,0x3
+	<+27>:	jmp    0x529 <asm1+60>
+	<+29>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+32>:	sub    eax,0x3
+	<+35>:	jmp    0x529 <asm1+60>
+	<+37>:	cmp    DWORD PTR [ebp+0x8],0x8be
+	<+44>:	jne    0x523 <asm1+54>
+	<+46>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+49>:	sub    eax,0x3
+	<+52>:	jmp    0x529 <asm1+60>
+	<+54>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+57>:	add    eax,0x3
+	<+60>:	pop    ebp
+	<+61>:	ret    
+```
 ## asm2
+Author: Sanjay C
 ### Description
+What does asm2(0xb,0x2e) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
+assembly conditions
 ### Attachments
+```nasm
+asm2:
+	<+0>:	push   ebp
+	<+1>:	mov    ebp,esp
+	<+3>:	sub    esp,0x10
+	<+6>:	mov    eax,DWORD PTR [ebp+0xc]
+	<+9>:	mov    DWORD PTR [ebp-0x4],eax
+	<+12>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+15>:	mov    DWORD PTR [ebp-0x8],eax
+	<+18>:	jmp    0x509 <asm2+28>
+	<+20>:	add    DWORD PTR [ebp-0x4],0x1
+	<+24>:	sub    DWORD PTR [ebp-0x8],0xffffff80
+	<+28>:	cmp    DWORD PTR [ebp-0x8],0x63f3
+	<+35>:	jle    0x501 <asm2+20>
+	<+37>:	mov    eax,DWORD PTR [ebp-0x4]
+	<+40>:	leave  
+	<+41>:	ret    
+```
 ## asm3
+Author: Sanjay C
 ### Description
+What does asm3(0xba6c5a02,0xd101e3dd,0xbb86a173) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
+more(?) registers
 ### Attachments
+```nasm
+asm3:
+	<+0>:	push   ebp
+	<+1>:	mov    ebp,esp
+	<+3>:	xor    eax,eax
+	<+5>:	mov    ah,BYTE PTR [ebp+0xb]
+	<+8>:	shl    ax,0x10
+	<+12>:	sub    al,BYTE PTR [ebp+0xd]
+	<+15>:	add    ah,BYTE PTR [ebp+0xc]
+	<+18>:	xor    ax,WORD PTR [ebp+0x12]
+	<+22>:	nop
+	<+23>:	pop    ebp
+	<+24>:	ret    
+```
 ## asm4
+Author: Sanjay C
 ### Description
+What will asm4("picoCTF_f97bb") return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
+Treat the Array argument as a pointer
 ### Attachments
+```nasm
+asm4:
+	<+0>:	push   ebp
+	<+1>:	mov    ebp,esp
+	<+3>:	push   ebx
+	<+4>:	sub    esp,0x10
+	<+7>:	mov    DWORD PTR [ebp-0x10],0x27a
+	<+14>:	mov    DWORD PTR [ebp-0xc],0x0
+	<+21>:	jmp    0x518 <asm4+27>
+	<+23>:	add    DWORD PTR [ebp-0xc],0x1
+	<+27>:	mov    edx,DWORD PTR [ebp-0xc]
+	<+30>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+33>:	add    eax,edx
+	<+35>:	movzx  eax,BYTE PTR [eax]
+	<+38>:	test   al,al
+	<+40>:	jne    0x514 <asm4+23>
+	<+42>:	mov    DWORD PTR [ebp-0x8],0x1
+	<+49>:	jmp    0x587 <asm4+138>
+	<+51>:	mov    edx,DWORD PTR [ebp-0x8]
+	<+54>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+57>:	add    eax,edx
+	<+59>:	movzx  eax,BYTE PTR [eax]
+	<+62>:	movsx  edx,al
+	<+65>:	mov    eax,DWORD PTR [ebp-0x8]
+	<+68>:	lea    ecx,[eax-0x1]
+	<+71>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+74>:	add    eax,ecx
+	<+76>:	movzx  eax,BYTE PTR [eax]
+	<+79>:	movsx  eax,al
+	<+82>:	sub    edx,eax
+	<+84>:	mov    eax,edx
+	<+86>:	mov    edx,eax
+	<+88>:	mov    eax,DWORD PTR [ebp-0x10]
+	<+91>:	lea    ebx,[edx+eax*1]
+	<+94>:	mov    eax,DWORD PTR [ebp-0x8]
+	<+97>:	lea    edx,[eax+0x1]
+	<+100>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+103>:	add    eax,edx
+	<+105>:	movzx  eax,BYTE PTR [eax]
+	<+108>:	movsx  edx,al
+	<+111>:	mov    ecx,DWORD PTR [ebp-0x8]
+	<+114>:	mov    eax,DWORD PTR [ebp+0x8]
+	<+117>:	add    eax,ecx
+	<+119>:	movzx  eax,BYTE PTR [eax]
+	<+122>:	movsx  eax,al
+	<+125>:	sub    edx,eax
+	<+127>:	mov    eax,edx
+	<+129>:	add    eax,ebx
+	<+131>:	mov    DWORD PTR [ebp-0x10],eax
+	<+134>:	add    DWORD PTR [ebp-0x8],0x1
+	<+138>:	mov    eax,DWORD PTR [ebp-0xc]
+	<+141>:	sub    eax,0x1
+	<+144>:	cmp    DWORD PTR [ebp-0x8],eax
+	<+147>:	jl     0x530 <asm4+51>
+	<+149>:	mov    eax,DWORD PTR [ebp-0x10]
+	<+152>:	add    esp,0x10
+	<+155>:	pop    ebx
+	<+156>:	pop    ebp
+	<+157>:	ret    
+```
 ## OTP Implementation
+Author: madStacks
 ### Description
+Yay reversing! Relevant files: otp flag.txt
 ### Hints
+https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html
+I think GDB Python is very useful, you can solve this problem without it, but can you solve future problems (hint hint)?
+Also test your skills by solving this with ANGR!
 ### Attachments
+1. otp (binary file)
+2. flag.txt:
+```
+18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b
+```
 ## droids0
 ### Description
 ### Hints
