@@ -27,6 +27,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 ## vault-door-training
 
 - Author: Mark E. Haase
@@ -77,6 +81,8 @@ class VaultDoorTraining {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -92,7 +98,7 @@ This vault uses some complicated arrays! I hope you can make sense of it, specia
 
 ### Hints
 
-1. Look up the [charAt() method online](https://www.w3schools.com/jsref/jsref_charat.asp){:target="_blank"}.
+1. Look up the [charAt() method online](https://www.w3schools.com/jsref/jsref_charat.asp).
 
 ### Attachments
 
@@ -163,6 +169,8 @@ class VaultDoor1 {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -174,7 +182,7 @@ class VaultDoor1 {
 
 ### Description
 
-This vault uses [for-loops](https://www.w3schools.com/java/java_for_loop.asp){:target="_blank"} and [byte arrays](https://www.w3schools.com/java/java_ref_string.asp){:target="_blank"}. The source code for this vault is here: VaultDoor3.java
+This vault uses [for-loops](https://www.w3schools.com/java/java_for_loop.asp) and [byte arrays](https://www.w3schools.com/java/java_ref_string.asp). The source code for this vault is here: VaultDoor3.java
 
 ### Hints
 
@@ -235,6 +243,8 @@ class VaultDoor3 {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -246,12 +256,12 @@ class VaultDoor3 {
 
 ### Description
 
-This vault uses [ASCII encoding](https://en.wikipedia.org/wiki/ASCII){:target="_blank"} for the password. The source code for this vault is here: VaultDoor4.java
+This vault uses [ASCII encoding](https://en.wikipedia.org/wiki/ASCII) for the password. The source code for this vault is here: VaultDoor4.java
 
 ### Hints
 
-1. Use a search engine to find an ["ASCII table"](http://www.asciitable.com/){:target="_blank"}.
-2. You will also need to know the difference between [octal](https://en.wikipedia.org/wiki/Octal){:target="_blank"}, [decimal](https://en.wikipedia.org/wiki/Decimal){:target="_blank"}, and [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal){:target="_blank"} numbers.
+1. Use a search engine to find an ["ASCII table"](http://www.asciitable.com/).
+2. You will also need to know the difference between [octal](https://en.wikipedia.org/wiki/Octal), [decimal](https://en.wikipedia.org/wiki/Decimal), and [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers.
 
 ### Attachments
 
@@ -309,6 +319,8 @@ class VaultDoor4 {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -324,8 +336,8 @@ In the last challenge, you mastered octal (base 8), decimal (base 10), and hexad
 
 ### Hints
 
-1. You may find an encoder/decoder tool helpful, such as [https://encoding.tools/](https://encoding.tools/){:target="_blank"}.
-2. Read the wikipedia articles on [URL encoding](https://en.wikipedia.org/wiki/Percent-encoding){:target="_blank"} and [base 64 encoding](https://en.wikipedia.org/wiki/Base64){:target="_blank"} to understand how they work and what the results look like.
+1. You may find an encoder/decoder tool helpful, such as [https://encoding.tools/](https://encoding.tools/).
+2. Read the wikipedia articles on [URL encoding](https://en.wikipedia.org/wiki/Percent-encoding) and [base 64 encoding](https://en.wikipedia.org/wiki/Base64) to understand how they work and what the results look like.
 
 ### Attachments
 
@@ -386,6 +398,8 @@ class VaultDoor5 {
 ~~~
 
 </details>
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -457,6 +471,8 @@ class VaultDoor6 {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -472,8 +488,8 @@ This vault uses bit shifts to convert a password string into an array of integer
 
 ### Hints
 
-1. Use a decimal/hexadecimal converter such as [this one](https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html){:target="_blank"}.
-2. You will also need to consult an ASCII table such as [this one](https://www.asciitable.com/){:target="_blank"}.
+1. Use a decimal/hexadecimal converter such as [this one](https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html).
+2. You will also need to consult an ASCII table such as [this one](https://www.asciitable.com/).
 
 ### Attachments
 
@@ -553,6 +569,8 @@ class VaultDoor7 {
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -600,6 +618,8 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -615,7 +635,7 @@ What does asm1(0x8be) return? Submit the flag as a hexadecimal value (starting w
 
 ### Hints
 
-1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm){:target="_blank"}.
+1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm).
 
 ### Attachments
 
@@ -649,6 +669,8 @@ asm1:
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -664,7 +686,7 @@ What does asm2(0xb,0x2e) return? Submit the flag as a hexadecimal value (startin
 
 ### Hints
 
-1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm){:target="_blank"}.
+1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm).
 
 ### Attachments
 
@@ -692,6 +714,8 @@ asm2:
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -707,7 +731,7 @@ What does asm3(0xba6c5a02,0xd101e3dd,0xbb86a173) return? Submit the flag as a he
 
 ### Hints
 
-1. [more(?) registers](https://wiki.skullsecurity.org/index.php?title=Registers){:target="_blank"}.
+1. [more(?) registers](https://wiki.skullsecurity.org/index.php?title=Registers).
 
 ### Attachments
 
@@ -730,6 +754,8 @@ asm3:
 ~~~
 
 </details>
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -816,6 +842,8 @@ asm4:
 
 </details>
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -831,9 +859,9 @@ Yay reversing! Relevant files: otp flag.txt
 
 ### Hints
 
-1. [https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html){:target="_blank"}.
-2. I think [GDB Python](https://wiki.python.org/moin/DebuggingWithGdb){:target="_blank"} is very useful, you can solve this problem without it, but can you solve future problems (hint hint)?
-3. Also test your skills by solving this with [ANGR](https://github.com/angr/angr){:target="_blank"}!
+1. [https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html).
+2. I think [GDB Python](https://wiki.python.org/moin/DebuggingWithGdb) is very useful, you can solve this problem without it, but can you solve future problems (hint hint)?
+3. Also test your skills by solving this with [ANGR](https://github.com/angr/angr)!
 
 ### Attachments
 
@@ -847,6 +875,8 @@ otp (binary file)
 ~~~
 
 </details>
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -864,11 +894,13 @@ Where do droid logs go. Check out this file.
 ### Hints
 
 1. Try using an emulator or device
-2. [https://developer.android.com/studio](https://developer.android.com/studio){:target="_blank"}.
+2. [https://developer.android.com/studio](https://developer.android.com/studio).
 
 ### Attachments
 
 zero.apk
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -885,13 +917,15 @@ Find the pass, get the flag. Check out this file.
 
 ### Hints
 
-1. Try using [apktool](https://ibotpeaches.github.io/Apktool/){:target="_blank"} and an [emulator](https://developer.android.com/studio){:target="_blank"}.
-2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/){:target="_blank"}.
-3. [https://developer.android.com/studio](https://developer.android.com/studio){:target="_blank"}.
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/).
+3. [https://developer.android.com/studio](https://developer.android.com/studio).
 
 ### Attachments
 
 one.apk
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -908,13 +942,15 @@ Find the pass, get the flag. Check out this file.
 
 ### Hints
 
-1. Try using [apktool](https://ibotpeaches.github.io/Apktool/){:target="_blank"} and an [emulator](https://developer.android.com/studio){:target="_blank"}.
-2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/){:target="_blank"}.
-3. [https://developer.android.com/studio](https://developer.android.com/studio){:target="_blank"}.
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/).
+3. [https://developer.android.com/studio](https://developer.android.com/studio).
 
 ### Attachments
 
 two.apk
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -931,13 +967,15 @@ Find the pass, get the flag. Check out this file.
 
 ### Hints
 
-1. Try using [apktool](https://ibotpeaches.github.io/Apktool/){:target="_blank"} and an [emulator](https://developer.android.com/studio){:target="_blank"}.
-2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/){:target="_blank"}.
-3. [https://developer.android.com/studio](https://developer.android.com/studio){:target="_blank"}.
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/).
+3. [https://developer.android.com/studio](https://developer.android.com/studio).
 
 ### Attachments
 
 three.apk
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -960,6 +998,8 @@ None
 
 four.apk
 
+---
+
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
@@ -974,7 +1014,7 @@ four.apk
 We have recovered a binary and a text file. Can you reverse the flag.
 ### Hints
 
-1. [objdump](https://en.wikipedia.org/wiki/Objdump){:target="_blank"} and [Gihdra](https://ghidra-sre.org/){:target="_blank"} are some tools that could assist with this.
+1. [objdump](https://en.wikipedia.org/wiki/Objdump) and [Gihdra](https://ghidra-sre.org/) are some tools that could assist with this.
 
 ### Attachments
 
@@ -989,6 +1029,8 @@ picoCTF{w1{1wq8/7376j.:}
 ~~~
 
 </details>
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -1009,11 +1051,13 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 ### Links
 
-1. [https://www.youtube.com/watch?v=8piqd2BWeGI](https://www.youtube.com/watch?v=8piqd2BWeGI){:target="_blank"}
+1. [https://www.youtube.com/watch?v=8piqd2BWeGI](https://www.youtube.com/watch?v=8piqd2BWeGI).
 
 ### Attachments
 
 "need-for-speed" binary file.
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -1030,13 +1074,15 @@ Can you reverse this Windows Binary?
 
 ### Hints
 
-1. Microsoft provides [windows virtual machines](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines){:target="_blank"}.
-2. [Ollydbg](http://www.ollydbg.de/){:target="_blank"} may be helpful.
+1. Microsoft provides [windows virtual machines](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines).
+2. [Ollydbg](http://www.ollydbg.de/) may be helpful.
 3. Flag format: PICOCTF{XXXX}.
 
 ### Attachments
 
 win-exec-1.exe
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
@@ -1058,6 +1104,8 @@ In this program, identify the last integer value that is passed as parameter to 
 ### Attachments
 
 "vuln" binary file.
+
+---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
