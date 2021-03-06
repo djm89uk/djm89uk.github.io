@@ -47,7 +47,7 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 ### Attachments
 
 <details><summary markdown="span">
-1. VaultDoorTraining.java
+VaultDoorTraining.java
 </summary>
 
 ~~~java
