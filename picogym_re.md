@@ -25,6 +25,10 @@
 - [droids2](#droids2)
 - [droids3](#droids3)
 - [droids4](#droids4)
+- [revese_cipher](#reverse_cipher)
+- [Need For Speed](#need-for-speed)
+- [B1ll_Gat35](#b1ll_gat35)
+- [Forky](#forky)
 
 ## vault-door-training
 
@@ -897,7 +901,7 @@ Find the pass, get the flag. Check out this file.
 
 1. three.apk
 
-### [Top](#Contents)
+### [Top](#contents)
 
 ---
 
