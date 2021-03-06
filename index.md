@@ -1,24 +1,16 @@
 ---
 layout: default
 ---
+# DJM89UK
+This is a homepage to record my progression of CTF and programming challenges.
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+# PicoCTF(./picoctf.md)
 
-[Link to another page](./another-page.html).
-
-There should be whitespace between paragraphs.
-
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
-
-# PicoCTF
-
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+picoCTF(https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at Carnegie Mellon University(https://cmu.edu/).
 
 ## PicoGym
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+picoCTF provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 ### Web Exploitation
 ### Cryptography
