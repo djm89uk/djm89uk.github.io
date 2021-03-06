@@ -5,7 +5,21 @@
 [picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 # [Reverse Engineering](./picogym_re.md)
-[test](#vault-door-1)
+
+## Contents
+- [vault-door-training](#vault-door-training)
+- [vault-door-1](#vault-door-1)
+- [vault-door-3](#vault-door-3)
+- [vault-door-4](#vault-door-4)
+- [vault-door-5](#vault-door-5)
+- [vault-door-6](#vault-door-6)
+- [vault-door-7](#vault-door-7)
+- [vault-door-8](#vault-door-8)
+- [asm1](#asm1)
+- [asm2](#asm2)
+- [asm3](#asm3)
+- [asm4](#asm4)
+
 ## Vault-Door-Training
 - Author: Mark E. Haase
 - 50 Points
@@ -13,7 +27,6 @@
 Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for his Doomsday Project. The laboratory is protected by a series of locked vault doors. Each door is controlled by a computer and requires a password to open. Unfortunately, our undercover agents have not been able to obtain the secret passwords for the vault doors, but one of our junior agents obtained the source code for each vault's computer! You will need to read the source code for each level to figure out what the password is for that vault door. As a warmup, we have created a replica vault in our training facility. The source code for the training vault is here: VaultDoorTraining.java
 ### Hints
 1. The password is revealed in the program's source code.
-
 ### Attachments
 1. VaultDoorTraining.java
 ```js
@@ -45,7 +58,8 @@ class VaultDoorTraining {
     }
 }
 ```
-
+### [Top](#Contents)
+---
 ## vault-door-1
 - Author: Mark E. Haase
 - 100 points
@@ -115,6 +129,8 @@ class VaultDoor1 {
     }
 }
 ```
+### [Top](#Contents)
+---
 ## vault-door-3
 - Author: Mark E. Haase
 - 200 points
@@ -171,7 +187,9 @@ class VaultDoor3 {
     }
 }
 ```
-## vault-door-4 (250 pts)
+### [Top](#Contents)
+---
+## vault-door-4
 - Author: Mark E. Haase
 - 250 points
 ### Description
@@ -229,7 +247,9 @@ class VaultDoor4 {
     }
 }
 ```
-## vault-door-5 (300pts)
+### [Top](#Contents)
+---
+## vault-door-5
 - Author: Mark E. Haase
 - 300 points
 ### Description
@@ -291,7 +311,9 @@ class VaultDoor5 {
     }
 }
 ```
-## vault-door-6 (350 pts)
+### [Top](#Contents)
+---
+## vault-door-6
 - Author: Mark E. Haase
 - 350 points
 ### Description
@@ -345,7 +367,9 @@ class VaultDoor6 {
     }
 }
 ```
-## vault-door-7 (400 pts)
+### [Top](#Contents)
+---
+## vault-door-7
 - Author: Mark E. Haase
 - 400 points
 ### Description
@@ -425,7 +449,9 @@ class VaultDoor7 {
     }
 }
 ```
-## vault-door-8 (450 pts)
+### [Top](#Contents)
+---
+## vault-door-8
 - Author: Mark E. Haase
 - 450 points
 ### Description
@@ -456,7 +482,9 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char
 } public boolean checkPassword(String password) {char[] scrambled = scramble(password); char[] expected = {
 0xF4, 0xC0, 0x97, 0xF0, 0x77, 0x97, 0xC0, 0xE4, 0xF0, 0x77, 0xA4, 0xD0, 0xC5, 0x77, 0xF4, 0x86, 0xD0, 0xA5, 0x45, 0x96, 0x27, 0xB5, 0x77, 0xD2, 0xD0, 0xB4, 0xE1, 0xC1, 0xE0, 0xD0, 0xD0, 0xE0 }; return Arrays.equals(scrambled, expected); } }
 ```
-## asm1 (200 pts)
+### [Top](#Contents)
+---
+## asm1
 - Author: Sanjay C
 - 200 points
 ### Description
@@ -489,7 +517,9 @@ asm1:
 	<+60>:	pop    ebp
 	<+61>:	ret    
 ```
-## asm2 (250 pts)
+### [Top](#Contents)
+---
+## asm2
 - Author: Sanjay C
 - 250 points
 ### Description
@@ -516,7 +546,9 @@ asm2:
 	<+40>:	leave  
 	<+41>:	ret    
 ```
-## asm3 (300 pts)
+### [Top](#Contents)
+---
+## asm3
 - Author: Sanjay C
 - 300 points
 ### Description
@@ -539,7 +571,9 @@ asm3:
 	<+23>:	pop    ebp
 	<+24>:	ret    
 ```
-## asm4 (400 pts)
+### [Top](#Contents)
+---
+## asm4
 - Author: Sanjay C
 - 400 points
 ### Description
@@ -608,7 +642,9 @@ asm4:
 	<+156>:	pop    ebp
 	<+157>:	ret    
 ```
-## OTP Implementation (300 pts)
+### [Top](#Contents)
+---
+## OTP Implementation
 - Author: madStacks
 - 300 points
 ### Description
@@ -623,7 +659,7 @@ Yay reversing! Relevant files: otp flag.txt
 ```
 18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b
 ```
-## droids0 (300 pts)
+## droids0
 - Author: Jason
 - 300 points
 ### Description
@@ -633,7 +669,7 @@ Where do droid logs go. Check out this file.
 2. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. zero.apk
-## droids1 (350 pts)
+## droids1
 - Author: Jason
 - 350 points
 ### Description
@@ -644,7 +680,7 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. one.apk
-## droids2 (400 pts)
+## droids2
 - Author: Jason
 - 400 points
 ### Description
@@ -655,7 +691,7 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. two.apk
-## droids3 (450 pts)
+## droids3
 - Author: Jason
 - 450 points
 ### Description
@@ -666,7 +702,7 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. three.apk
-## droids4 (500 pts)
+## droids4
 - Author: Jason
 - 500 points
 ### Description
@@ -675,7 +711,7 @@ Reverse the pass, patch the file, get the flag. Check out this file.
 None
 ### Attachments
 1. four.apk
-## reverse_cipher (300 pts)
+## reverse_cipher
 - Author: Danny Tunitis
 - 300 points
 ### Description
@@ -688,7 +724,7 @@ We have recovered a binary and a text file. Can you reverse the flag.
 ```
 picoCTF{w1{1wq8/7376j.:}
 ```
-## Need For Speed (400 pts)
+## Need For Speed
 - Author: Alexander Bushkin
 - 400 points
 ### Description
@@ -699,7 +735,7 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 1. [https://www.youtube.com/watch?v=8piqd2BWeGI](https://www.youtube.com/watch?v=8piqd2BWeGI)
 ### Attachments
 1. "need-for-speed" binary file.
-## B1ll_Gat35 (400 pts)
+## B1ll_Gat35
 - Author: Alex Bushkin
 - 400 points
 ### Description
@@ -710,7 +746,7 @@ Can you reverse this Windows Binary?
 3. Flag format: PICOCTF{XXXX}
 ### Attachments
 1. win-exec-1.exe
-## Forky (500 pts)
+## Forky
 - Author: Samuel
 - 500 points
 ### Description
