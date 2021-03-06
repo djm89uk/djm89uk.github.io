@@ -6,7 +6,7 @@
 
 # [Reverse Engineering](./picogym_re.md)
 [test](#vault-door-1)
-## Vault-Door-Training (50pt)
+## Vault-Door-Training
 - Author: Mark E. Haase
 - 50 Points
 ### Description
@@ -46,7 +46,7 @@ class VaultDoorTraining {
 }
 ```
 
-## [vault-door-1] (100pts)
+## vault-door-1
 - Author: Mark E. Haase
 - 100 points
 ### Description
@@ -115,7 +115,7 @@ class VaultDoor1 {
     }
 }
 ```
-## vault-door-3 (200 pts)
+## vault-door-3
 - Author: Mark E. Haase
 - 200 points
 ### Description
