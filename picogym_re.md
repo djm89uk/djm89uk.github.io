@@ -32,6 +32,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Forky](#forky)
 
 ---
+---
 
 ## vault-door-training
 
@@ -51,7 +52,7 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 <details>
 <summary markdown="span">VaultDoorTraining.java</summary>
 
-~~~java
+```java
 // VaultDoorTraining.java
 import java.util.*;
 
@@ -79,7 +80,7 @@ class VaultDoorTraining {
         return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
     }
 }
-~~~
+```
 
 </details>
 
