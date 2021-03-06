@@ -19,14 +19,14 @@
 - [asm2](#asm2)
 - [asm3](#asm3)
 - [asm4](#asm4)
-- [OTP Implementation](#OTP-Implementation)
+- [OTP Implementation](#otp-implementation)
 - [droids0](#droids0)
 - [droids1](#droids1)
 - [droids2](#droids2)
 - [droids3](#droids3)
 - [droids4](#droids4)
 
-## Vault-Door-Training
+## vault-door-training
 
 - Author: Mark E. Haase
 - 50 Points
@@ -43,7 +43,7 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 
 1. VaultDoorTraining.java
 
-```js
+~~~java
 // VaultDoorTraining.java
 import java.util.*;
 
@@ -71,9 +71,9 @@ class VaultDoorTraining {
         return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
     }
 }
-```
+~~~
 
-### [Top](#Contents)
+### [Top](#contents)
 
 ---
 ## vault-door-1
