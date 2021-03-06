@@ -4,9 +4,9 @@ layout: default
 # DJM89UK
 This is a homepage to record my progression of CTF and programming challenges.
 
-# PicoCTF(./picoctf.md)
+# [PicoCTF](./picoctf.md)
 
-[picoCTF](https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at Carnegie Mellon University(https://cmu.edu/).
+[picoCTF](https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at [Carnegie Mellon University.](https://cmu.edu/).
 
 ## PicoGym
 
