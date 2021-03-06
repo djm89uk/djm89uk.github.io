@@ -81,6 +81,22 @@ class VaultDoorTraining {
 
 </details>
 
+### Solutions
+<details>
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+<details>
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
 ---
 
 ### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
