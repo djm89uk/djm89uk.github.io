@@ -8,113 +8,42 @@ This is a homepage to record my progression of CTF and programming challenges.
 
 [picoCTF](https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at [Carnegie Mellon University.](https://cmu.edu/).
 
-## PicoGym
+## [PicoGym](./picogym.md)
 
 picoCTF provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
-### Web Exploitation
-### Cryptography
-### Reverse Engineering
-### Forensics
-### General Skills
-### Binary Exploitation
+### [Web Exploitation](./picogym_we.md)
+### [Cryptography](./picogym_c.md)
+### [Reverse Engineering](./picogym_re.md)
+### [Forensics](./picogym_f.md)
+### [General Skills](./picogym_gs.md)
+### [Binary Exploitation](./picogym_be.md)
 
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
+# [CSAW365](./csaw.md)
 
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
+[CSAW365](https://365.csaw.io/) is an archive site of CSAW CTF challenges from 2013.  There are approximately 200 challenges split across various disciplines.  The site was built by [NYU OSIRIS Lab](https://www.osiris.cyber.nyu.edu/).
 
-#### Header 4
+### [Web Exploitation](./csaw_we.md)
+### [Networking](./csaw_n.md)
+### [Cryptography](./csaw_c.md)
+### [Pwning](./csaw_p.md)
+### [Forensics](./csaw_f.md)
+### [Miscellaneous](./csaw_m.md)
+### [Reverse Engineering](./csaw_re.md)
+### [Reconnaissance](./csaw_r.md)
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
+# [ACICTF 4](./acictf4.md)
 
-##### Header 5
+[ACICTF4](https://www.acictf.com/) (All-Army CyberStakes 2020) was the 2020 CTF event organised by the [Army Cyber Institute, West Point](https://cyber.army.mil/). 
 
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
+# [Project Euler](./euler.md)
+[Project Euler](https://projecteuler.net/) is a challenge site hosting over 700 mathematical challenges that can be solved by hand, using numerical programming or by brute force.
 
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+### [Challenges 001-100](./euler_0.md)
+### [Challenges 101-200](./euler_1.md)
+### [Challenges 201-300](./euler_2.md)
+### [Challenges 301-400](./euler_3.md)
+### [Challenges 401-500](./euler_4.md)
+### [Challenges 501-600](./euler_5.md)
+### [Challenges 601-700](./euler_6.md)
+### [Challenges 701-800](./euler_7.md)
