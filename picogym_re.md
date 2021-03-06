@@ -44,9 +44,8 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 
 <details>
 <summary markdown="span">VaultDoorTraining.java</summary>
-<p>
 	
-```java
+~~~java
 // VaultDoorTraining.java
 import java.util.*;
 
@@ -74,9 +73,8 @@ class VaultDoorTraining {
         return password.equals("w4rm1ng_Up_w1tH_jAv4_3808d338b46");
     }
 }
-```
+~~~
 
-</p>
 </details>
 
 ### [Top](#contents)
@@ -98,7 +96,8 @@ This vault uses some complicated arrays! I hope you can make sense of it, specia
 
 ### Attachments
 
-1. VaultDoor1.java
+<details>
+<summary markdown="span">VaultDoor1.java</summary>
 
 ~~~java
 // VaultDoor1.java
@@ -161,6 +160,8 @@ class VaultDoor1 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -180,7 +181,8 @@ This vault uses [for-loops](https://www.w3schools.com/java/java_for_loop.asp){:t
 
 ### Attachments
 
-1. VaultDoor3.java
+<details>
+<summary markdown="span">VaultDoor3.java</summary>
 
 ~~~java
 // VaultDoor3.java
@@ -230,6 +232,8 @@ class VaultDoor3 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -250,7 +254,8 @@ This vault uses [ASCII encoding](https://en.wikipedia.org/wiki/ASCII){:target="_
 
 ### Attachments
 
-1. VaultDoor4.java
+<details>
+<summary markdown="span">VaultDoor4.java</summary>
 
 ~~~java
 // VaultDoor4.java
@@ -301,6 +306,8 @@ class VaultDoor4 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -321,7 +328,8 @@ In the last challenge, you mastered octal (base 8), decimal (base 10), and hexad
 
 ### Attachments
 
-1. VaultDoor5.java
+<details>
+<summary markdown="span">VaultDoor5.java</summary>
 
 ~~~java
 // VaultDoor5.java
@@ -376,6 +384,8 @@ class VaultDoor5 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -395,7 +405,8 @@ This vault uses an XOR encryption scheme. The source code for this vault is here
 
 ### Attachments
 
-1. VaultDoor6.java
+<details>
+<summary markdown="span">VaultDoor6.java</summary>
 
 ~~~java
 // VaultDoor6.java
@@ -443,6 +454,8 @@ class VaultDoor6 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -463,7 +476,8 @@ This vault uses bit shifts to convert a password string into an array of integer
 
 ### Attachments
 
-1. VaultDoor7.java
+<details>
+<summary markdown="span">VaultDoor7.java</summary>
 
 ~~~java
 // VaultDoor7.java
@@ -536,6 +550,8 @@ class VaultDoor7 {
 }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -556,7 +572,8 @@ Apparently Dr. Evil's minions knew that our agency was making copies of their so
 
 ### Attachments
 
-1. VaultDoor8.java
+<details>
+<summary markdown="span">VaultDoor8.java</summary>
 
 ~~~java
 // VaultDoor8.java
@@ -580,6 +597,8 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char
 0xF4, 0xC0, 0x97, 0xF0, 0x77, 0x97, 0xC0, 0xE4, 0xF0, 0x77, 0xA4, 0xD0, 0xC5, 0x77, 0xF4, 0x86, 0xD0, 0xA5, 0x45, 0x96, 0x27, 0xB5, 0x77, 0xD2, 0xD0, 0xB4, 0xE1, 0xC1, 0xE0, 0xD0, 0xD0, 0xE0 }; return Arrays.equals(scrambled, expected); } }
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -599,7 +618,8 @@ What does asm1(0x8be) return? Submit the flag as a hexadecimal value (starting w
 
 ### Attachments
 
-1. test.S
+<details>
+<summary markdown="span">test.S</summary>
 
 ~~~nasm
 asm1:
@@ -626,6 +646,8 @@ asm1:
 	<+61>:	ret    
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -645,7 +667,8 @@ What does asm2(0xb,0x2e) return? Submit the flag as a hexadecimal value (startin
 
 ### Attachments
 
-1. test.S
+<details>
+<summary markdown="span">test.S</summary>
 
 ~~~nasm
 asm2:
@@ -666,6 +689,8 @@ asm2:
 	<+41>:	ret    
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -685,7 +710,8 @@ What does asm3(0xba6c5a02,0xd101e3dd,0xbb86a173) return? Submit the flag as a he
 
 ### Attachments
 
-1. test.S
+<details>
+<summary markdown="span">test.S</summary>
 
 ~~~nasm
 asm3:
@@ -701,6 +727,8 @@ asm3:
 	<+23>:	pop    ebp
 	<+24>:	ret    
 ~~~
+
+</details>
 
 ### [Top](#contents)
 
@@ -721,7 +749,8 @@ What will asm4("picoCTF_f97bb") return? Submit the flag as a hexadecimal value (
 
 ### Attachments
 
-1. test.S
+<details>
+<summary markdown="span">test.S</summary>
 
 ~~~nasm
 asm4:
@@ -784,6 +813,8 @@ asm4:
 	<+157>:	ret    
 ~~~
 
+</details>
+
 ### [Top](#contents)
 
 ---
@@ -805,12 +836,16 @@ Yay reversing! Relevant files: otp flag.txt
 
 ### Attachments
 
-1. otp (binary file)
-2. flag.txt:
+otp (binary file)
+
+<details>
+<summary markdown="span">flag.txt</summary>
 
 ~~~
 18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b
 ~~~
+
+</details>
 
 ### [Top](#contents)
 
@@ -832,7 +867,7 @@ Where do droid logs go. Check out this file.
 
 ### Attachments
 
-1. zero.apk
+zero.apk
 
 ### [Top](#contents)
 
@@ -855,7 +890,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-1. one.apk
+one.apk
 
 ### [Top](#contents)
 
@@ -878,7 +913,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-1. two.apk
+two.apk
 
 ### [Top](#contents)
 
@@ -901,7 +936,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-1. three.apk
+three.apk
 
 ### [Top](#contents)
 
@@ -922,7 +957,7 @@ None
 
 ### Attachments
 
-1. four.apk
+four.apk
 
 ### [Top](#contents)
 
@@ -942,12 +977,17 @@ We have recovered a binary and a text file. Can you reverse the flag.
 
 ### Attachments
 
-1. "rev" binary
-2. "rev_this" text file:
+"rev" binary
+
+
+<details>
+<summary markdown="span">"rev_this" text file:</summary>
 
 ~~~
 picoCTF{w1{1wq8/7376j.:}
 ~~~
+
+</details>
 
 ### [Top](#contents)
 
@@ -972,7 +1012,7 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 ### Attachments
 
-1. "need-for-speed" binary file.
+"need-for-speed" binary file.
 
 ### [Top](#contents)
 
@@ -995,7 +1035,7 @@ Can you reverse this Windows Binary?
 
 ### Attachments
 
-1. win-exec-1.exe
+win-exec-1.exe
 
 ### [Top](#contents)
 
@@ -1016,7 +1056,7 @@ In this program, identify the last integer value that is passed as parameter to 
 
 ### Attachments
 
-1. "vuln" binary file.
+"vuln" binary file.
 
 ### [Top](#contents)
 
