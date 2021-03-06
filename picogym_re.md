@@ -19,6 +19,12 @@
 - [asm2](#asm2)
 - [asm3](#asm3)
 - [asm4](#asm4)
+- [OTP Implementation](#OTP-Implementation)
+- [droids0](#droids0)
+- [droids1](#droids1)
+- [droids2](#droids2)
+- [droids3](#droids3)
+- [droids4](#droids4)
 
 ## Vault-Door-Training
 - Author: Mark E. Haase
@@ -29,6 +35,7 @@ Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for h
 1. The password is revealed in the program's source code.
 ### Attachments
 1. VaultDoorTraining.java
+
 ```js
 // VaultDoorTraining.java
 import java.util.*;
@@ -659,6 +666,8 @@ Yay reversing! Relevant files: otp flag.txt
 ```
 18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b
 ```
+### [Top](#Contents)
+---
 ## droids0
 - Author: Jason
 - 300 points
@@ -669,6 +678,8 @@ Where do droid logs go. Check out this file.
 2. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. zero.apk
+### [Top](#Contents)
+---
 ## droids1
 - Author: Jason
 - 350 points
@@ -680,6 +691,8 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. one.apk
+### [Top](#Contents)
+---
 ## droids2
 - Author: Jason
 - 400 points
@@ -691,6 +704,8 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. two.apk
+### [Top](#Contents)
+---
 ## droids3
 - Author: Jason
 - 450 points
@@ -702,6 +717,8 @@ Find the pass, get the flag. Check out this file.
 3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
 1. three.apk
+### [Top](#Contents)
+---
 ## droids4
 - Author: Jason
 - 500 points
@@ -711,6 +728,8 @@ Reverse the pass, patch the file, get the flag. Check out this file.
 None
 ### Attachments
 1. four.apk
+### [Top](#Contents)
+---
 ## reverse_cipher
 - Author: Danny Tunitis
 - 300 points
@@ -724,6 +743,8 @@ We have recovered a binary and a text file. Can you reverse the flag.
 ```
 picoCTF{w1{1wq8/7376j.:}
 ```
+### [Top](#Contents)
+---
 ## Need For Speed
 - Author: Alexander Bushkin
 - 400 points
@@ -735,6 +756,8 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 1. [https://www.youtube.com/watch?v=8piqd2BWeGI](https://www.youtube.com/watch?v=8piqd2BWeGI)
 ### Attachments
 1. "need-for-speed" binary file.
+### [Top](#Contents)
+---
 ## B1ll_Gat35
 - Author: Alex Bushkin
 - 400 points
@@ -746,6 +769,8 @@ Can you reverse this Windows Binary?
 3. Flag format: PICOCTF{XXXX}
 ### Attachments
 1. win-exec-1.exe
+### [Top](#Contents)
+---
 ## Forky
 - Author: Samuel
 - 500 points
@@ -755,5 +780,7 @@ In this program, identify the last integer value that is passed as parameter to 
 1. What happens when you fork? The flag is picoCTF{IntegerYouFound}. For example, if you found that the last integer passed was 1234, the flag would be picoCTF{1234}
 ### Attachments
 1. "vuln" binary file.
+### [Top](#Contents)
+---
 
 # [djm89uk homepage](./index.md)
