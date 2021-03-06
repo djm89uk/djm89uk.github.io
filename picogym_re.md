@@ -2,18 +2,20 @@
 ## [Home](./index.md)
 
 # [PicoGym](./picogym.md)
-picoCTF provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
+[picoCTF](https://picoCTF.org) provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 # [Reverse Engineering](./picogym_re.md)
 
-## Vault-Door-Training
-Author: Mark E. Haase
+## Vault-Door-Training (50pt)
+- Author: Mark E. Haase
+- 50 Points
 ### Description
 Your mission is to enter Dr. Evil's laboratory and retrieve the blueprints for his Doomsday Project. The laboratory is protected by a series of locked vault doors. Each door is controlled by a computer and requires a password to open. Unfortunately, our undercover agents have not been able to obtain the secret passwords for the vault doors, but one of our junior agents obtained the source code for each vault's computer! You will need to read the source code for each level to figure out what the password is for that vault door. As a warmup, we have created a replica vault in our training facility. The source code for the training vault is here: VaultDoorTraining.java
 ### Hints
-The password is revealed in the program's source code.
+1. The password is revealed in the program's source code.
 
 ### Attachments
+1. VaultDoorTraining.java
 ```js
 // VaultDoorTraining.java
 import java.util.*;
@@ -44,15 +46,17 @@ class VaultDoorTraining {
 }
 ```
 
-## vault-door-1
-Author: Mark E. Haase
+## vault-door-1 (100pts)
+- Author: Mark E. Haase
+- 100 points
 ### Description
 This vault uses some complicated arrays! I hope you can make sense of it, special agent. The source code for this vault is here: VaultDoor1.java
 ### Hints
-Look up the charAt() method online.
+1. Look up the [charAt() method online](https://www.w3schools.com/jsref/jsref_charat.asp).
 ### Attachments
+1. VaultDoor1.java
 ```js
-\\ VaultDoor1.java
+// VaultDoor1.java
 import java.util.*;
 
 class VaultDoor1 {
@@ -111,13 +115,15 @@ class VaultDoor1 {
     }
 }
 ```
-## vault-door-3
-Author: Mark E. Haase
+## vault-door-3 (200 pts)
+- Author: Mark E. Haase
+- 200 points
 ### Description
-This vault uses for-loops and byte arrays. The source code for this vault is here: VaultDoor3.java
+This vault uses [for-loops](https://www.w3schools.com/java/java_for_loop.asp) and [byte arrays](https://www.w3schools.com/java/java_ref_string.asp). The source code for this vault is here: VaultDoor3.java
 ### Hints
-Make a table that contains each value of the loop variables and the corresponding buffer index that it writes to.
+1. Make a table that contains each value of the loop variables and the corresponding buffer index that it writes to.
 ### Attachments
+1. VaultDoor3.java
 ```js
 \\ VaultDoor3.java
 import java.util.*;
@@ -165,14 +171,16 @@ class VaultDoor3 {
     }
 }
 ```
-## vault-door-4
-Author: Mark E. Haase
+## vault-door-4 (250 pts)
+- Author: Mark E. Haase
+- 250 points
 ### Description
-This vault uses ASCII encoding for the password. The source code for this vault is here: VaultDoor4.java
+This vault uses [ASCII encoding](https://en.wikipedia.org/wiki/ASCII) for the password. The source code for this vault is here: VaultDoor4.java
 ### Hints
-Use a search engine to find an "ASCII table".
-You will also need to know the difference between octal, decimal, and hexadecimal numbers.
+1. Use a search engine to find an ["ASCII table"](http://www.asciitable.com/).
+2. You will also need to know the difference between [octal](https://en.wikipedia.org/wiki/Octal), [decimal](https://en.wikipedia.org/wiki/Decimal), and [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers.
 ### Attachments
+1. VaultDoor4.java
 ```js
 \\ VaultDoor4.java
 import java.util.*;
@@ -221,14 +229,16 @@ class VaultDoor4 {
     }
 }
 ```
-## vault-door-5
-Author: Mark E. Haase
+## vault-door-5 (300pts)
+- Author: Mark E. Haase
+- 300 points
 ### Description
 In the last challenge, you mastered octal (base 8), decimal (base 10), and hexadecimal (base 16) numbers, but this vault door uses a different change of base as well as URL encoding! The source code for this vault is here: VaultDoor5.java
 ### Hints
-You may find an encoder/decoder tool helpful, such as https://encoding.tools/
-Read the wikipedia articles on URL encoding and base 64 encoding to understand how they work and what the results look like.
+1. You may find an encoder/decoder tool helpful, such as [https://encoding.tools/](https://encoding.tools/)
+2. Read the wikipedia articles on [URL encoding](https://en.wikipedia.org/wiki/Percent-encoding) and [base 64 encoding](https://en.wikipedia.org/wiki/Base64) to understand how they work and what the results look like.
 ### Attachments
+1. VaultDoor5.java
 ```js
 \\ VaultDoor5.java
 import java.net.URLDecoder;
@@ -281,13 +291,15 @@ class VaultDoor5 {
     }
 }
 ```
-## vault-door-6
-Author: Mark E. Haase
+## vault-door-6 (350 pts)
+- Author: Mark E. Haase
+- 350 points
 ### Description
 This vault uses an XOR encryption scheme. The source code for this vault is here: VaultDoor6.java
 ### Hints
-If X ^ Y = Z, then Z ^ Y = X. Write a program that decrypts the flag based on this fact.
+1. If X ^ Y = Z, then Z ^ Y = X. Write a program that decrypts the flag based on this fact.
 ### Attachments
+1. VaultDoor6.java
 ```js
 \\ VaultDoor6.java
 import java.util.*;
@@ -333,14 +345,16 @@ class VaultDoor6 {
     }
 }
 ```
-## vault-door-7
-Author: Mark E. Haase
+## vault-door-7 (400 pts)
+- Author: Mark E. Haase
+- 400 points
 ### Description
 This vault uses bit shifts to convert a password string into an array of integers. Hurry, agent, we are running out of time to stop Dr. Evil's nefarious plans! The source code for this vault is here: VaultDoor7.java
 ### Hints
-Use a decimal/hexadecimal converter such as this one: https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html
-You will also need to consult an ASCII table such as this one: https://www.asciitable.com/
+1. Use a decimal/hexadecimal converter such as [this one](https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html).
+2. You will also need to consult an ASCII table such as [this one](https://www.asciitable.com/).
 ### Attachments
+1. VaultDoor7.java
 ```js
 \\ VaultDoor7.java
 import java.util.*;
@@ -411,14 +425,16 @@ class VaultDoor7 {
     }
 }
 ```
-## vault-door-8
-Author: Mark E. Haase
+## vault-door-8 (450 pts)
+- Author: Mark E. Haase
+- 450 points
 ### Description
 Apparently Dr. Evil's minions knew that our agency was making copies of their source code, because they intentionally sabotaged this source code in order to make it harder for our agents to analyze and crack into! The result is a quite mess, but I trust that my best special agent will find a way to solve it. The source code for this vault is here: VaultDoor8.java
 ### Hints
-Clean up the source code so that you can read it and understand what is going on.
-Draw a diagram to illustrate which bits are being switched in the scramble() method, then figure out a sequence of bit switches to undo it. You should be able to reuse the switchBits() method as is.
+1. Clean up the source code so that you can read it and understand what is going on.
+2. Draw a diagram to illustrate which bits are being switched in the scramble() method, then figure out a sequence of bit switches to undo it. You should be able to reuse the switchBits() method as is.
 ### Attachments
+1. VaultDoor8.java
 ```js
 \\ VaultDoor8.java
 // These pesky special agents keep reverse engineering our source code and then
@@ -440,13 +456,15 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char
 } public boolean checkPassword(String password) {char[] scrambled = scramble(password); char[] expected = {
 0xF4, 0xC0, 0x97, 0xF0, 0x77, 0x97, 0xC0, 0xE4, 0xF0, 0x77, 0xA4, 0xD0, 0xC5, 0x77, 0xF4, 0x86, 0xD0, 0xA5, 0x45, 0x96, 0x27, 0xB5, 0x77, 0xD2, 0xD0, 0xB4, 0xE1, 0xC1, 0xE0, 0xD0, 0xD0, 0xE0 }; return Arrays.equals(scrambled, expected); } }
 ```
-## asm1
-Author: Sanjay C
+## asm1 (200 pts)
+- Author: Sanjay C
+- 200 points
 ### Description
 What does asm1(0x8be) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
-assembly conditions
+1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm)
 ### Attachments
+1. test.S
 ```nasm
 asm1:
 	<+0>:	push   ebp
@@ -471,13 +489,15 @@ asm1:
 	<+60>:	pop    ebp
 	<+61>:	ret    
 ```
-## asm2
-Author: Sanjay C
+## asm2 (250 pts)
+- Author: Sanjay C
+- 250 points
 ### Description
 What does asm2(0xb,0x2e) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
-assembly conditions
+1. [assembly conditions](https://www.tutorialspoint.com/assembly_programming/assembly_conditions.htm)
 ### Attachments
+1. test.S
 ```nasm
 asm2:
 	<+0>:	push   ebp
@@ -496,13 +516,15 @@ asm2:
 	<+40>:	leave  
 	<+41>:	ret    
 ```
-## asm3
-Author: Sanjay C
+## asm3 (300 pts)
+- Author: Sanjay C
+- 300 points
 ### Description
 What does asm3(0xba6c5a02,0xd101e3dd,0xbb86a173) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
-more(?) registers
+1. [more(?) registers](https://wiki.skullsecurity.org/index.php?title=Registers)
 ### Attachments
+1. test.S
 ```nasm
 asm3:
 	<+0>:	push   ebp
@@ -517,13 +539,15 @@ asm3:
 	<+23>:	pop    ebp
 	<+24>:	ret    
 ```
-## asm4
-Author: Sanjay C
+## asm4 (400 pts)
+- Author: Sanjay C
+- 400 points
 ### Description
 What will asm4("picoCTF_f97bb") return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source
 ### Hints
-Treat the Array argument as a pointer
+1. Treat the Array argument as a pointer
 ### Attachments
+1. test.S
 ```nasm
 asm4:
 	<+0>:	push   ebp
@@ -584,55 +608,116 @@ asm4:
 	<+156>:	pop    ebp
 	<+157>:	ret    
 ```
-## OTP Implementation
-Author: madStacks
+## OTP Implementation (300 pts)
+- Author: madStacks
+- 300 points
 ### Description
 Yay reversing! Relevant files: otp flag.txt
 ### Hints
-https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html
-I think GDB Python is very useful, you can solve this problem without it, but can you solve future problems (hint hint)?
-Also test your skills by solving this with ANGR!
+1. [https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html)
+2. I think [GDB Python](https://wiki.python.org/moin/DebuggingWithGdb) is very useful, you can solve this problem without it, but can you solve future problems (hint hint)?
+3. Also test your skills by solving this with [ANGR](https://github.com/angr/angr)!
 ### Attachments
 1. otp (binary file)
 2. flag.txt:
 ```
 18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b
 ```
-## droids0
+## droids0 (300 pts)
+- Author: Jason
+- 300 points
 ### Description
+Where do droid logs go. Check out this file.
 ### Hints
+1. Try using an emulator or device
+2. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
-## droids1
+1. zero.apk
+## droids1 (350 pts)
+- Author: Jason
+- 350 points
 ### Description
+Find the pass, get the flag. Check out this file.
 ### Hints
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/)
+3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
-## droids2
+1. one.apk
+## droids2 (400 pts)
+- Author: Jason
+- 400 points
 ### Description
+Find the pass, get the flag. Check out this file.
 ### Hints
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/)
+3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
-## droids3
+1. two.apk
+## droids3 (450 pts)
+- Author: Jason
+- 450 points
 ### Description
+Find the pass, get the flag. Check out this file.
 ### Hints
+1. Try using [apktool](https://ibotpeaches.github.io/Apktool/) and an [emulator](https://developer.android.com/studio).
+2. [https://ibotpeaches.github.io/Apktool/](https://ibotpeaches.github.io/Apktool/)
+3. [https://developer.android.com/studio](https://developer.android.com/studio)
 ### Attachments
-## droids4
+1. three.apk
+## droids4 (500 pts)
+- Author: Jason
+- 500 points
 ### Description
+Reverse the pass, patch the file, get the flag. Check out this file.
 ### Hints
+None
 ### Attachments
-## reverse_cipher
+1. four.apk
+## reverse_cipher (300 pts)
+- Author: Danny Tunitis
+- 300 points
 ### Description
+We have recovered a binary and a text file. Can you reverse the flag.
 ### Hints
+1. [objdump](https://en.wikipedia.org/wiki/Objdump) and [Gihdra](https://ghidra-sre.org/) are some tools that could assist with this.
 ### Attachments
-## Need For Speed
+1. "rev" binary
+2. "rev_this" text file:
+```
+picoCTF{w1{1wq8/7376j.:}
+```
+## Need For Speed (400 pts)
+- Author: Alexander Bushkin
+- 400 points
 ### Description
+The name of the game is speed. Are you quick enough to solve this problem and keep it above 50 mph? need-for-speed.
 ### Hints
+1. What is the final key?
+### Links
+1. [https://www.youtube.com/watch?v=8piqd2BWeGI](https://www.youtube.com/watch?v=8piqd2BWeGI)
 ### Attachments
-## B1ll_Gat35
+1. "need-for-speed" binary file.
+## B1ll_Gat35 (400 pts)
+- Author: Alex Bushkin
+- 400 points
 ### Description
+Can you reverse this Windows Binary?
 ### Hints
+1. Microsoft provides [windows virtual machines](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines)
+2. [Ollydbg](http://www.ollydbg.de/) may be helpful
+3. Flag format: PICOCTF{XXXX}
 ### Attachments
-## Forky
+1. win-exec-1.exe
+## Forky (500 pts)
+- Author: Samuel
+- 500 points
 ### Description
+In this program, identify the last integer value that is passed as parameter to the function doNothing().
 ### Hints
+1. What happens when you fork? The flag is picoCTF{IntegerYouFound}. For example, if you found that the last integer passed was 1234, the flag would be picoCTF{1234}
 ### Attachments
+1. "vuln" binary file.
 
 # [djm89uk homepage](./index.md)
