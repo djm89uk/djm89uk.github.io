@@ -77,7 +77,7 @@ class VaultDoorTraining {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -109,7 +109,8 @@ class VaultDoor1 {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter vault password: ");
 	String userInput = scanner.next();
-	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	String input = userInput.substring("
+	{".length(),userInput.length()-1);
 	if (vaultDoor.checkPassword(input)) {
 	    System.out.println("Access granted.");
 	} else {
@@ -162,7 +163,7 @@ class VaultDoor1 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -234,7 +235,7 @@ class VaultDoor3 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -308,7 +309,7 @@ class VaultDoor4 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -386,7 +387,7 @@ class VaultDoor5 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -456,7 +457,7 @@ class VaultDoor6 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -552,7 +553,7 @@ class VaultDoor7 {
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -599,7 +600,7 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */ char rest = (char
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -648,7 +649,7 @@ asm1:
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -691,7 +692,7 @@ asm2:
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -730,7 +731,7 @@ asm3:
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -815,7 +816,7 @@ asm4:
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -847,7 +848,7 @@ otp (binary file)
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -869,7 +870,7 @@ Where do droid logs go. Check out this file.
 
 zero.apk
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -892,7 +893,7 @@ Find the pass, get the flag. Check out this file.
 
 one.apk
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -915,7 +916,7 @@ Find the pass, get the flag. Check out this file.
 
 two.apk
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -938,7 +939,7 @@ Find the pass, get the flag. Check out this file.
 
 three.apk
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -959,7 +960,7 @@ None
 
 four.apk
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -989,7 +990,7 @@ picoCTF{w1{1wq8/7376j.:}
 
 </details>
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1014,7 +1015,7 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 "need-for-speed" binary file.
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1037,7 +1038,7 @@ Can you reverse this Windows Binary?
 
 win-exec-1.exe
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1058,7 +1059,7 @@ In this program, identify the last integer value that is passed as parameter to 
 
 "vuln" binary file.
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./PicoCTF.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
