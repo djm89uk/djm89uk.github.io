@@ -12,7 +12,7 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 - [what's a net cat?](#whats-a-net-cat)
 - [plumbing](#plumbing)
 - [Based](#based)
-- [flag_shop](#flag-shop)
+- [flag_shop](#flag_shop)
 - [mus1c](#mus1c)
 - [1_wanna_b3_a_r0ck5tar](#1_wanna_b3_a_r0ck5tar)
 
