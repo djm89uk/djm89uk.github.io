@@ -1662,7 +1662,7 @@ In this program, identify the last integer value that is passed as parameter to 
 
 ### Attachments
 
-[vuln](./resources/picoctf/picogym/attachments/reverse-engineering/forky/vuln}
+[vuln](./resources/picoctf/picogym/attachments/reverse-engineering/forky/vuln)
 
 ### Solutions
 
