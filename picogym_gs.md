@@ -51,17 +51,7 @@ $$42_{10} = x_2$$
 
 The simplest method to solve this problem is to use an online decoder/encoder tool such as the ones found on [rapidtables.com](https://www.rapidtables.com/convert/number/decimal-to-binary.html?x=42).  This provides the answer without requiring any strenuous thinking:
 
-<details>
-
-<summary markdown="span">rapidtables.com solution</summary>
-
-<div markdonw="1">
-
 ![2warm_0_3.png](./resources/picoctf/picogym/solutions/general_skills/2warm/2warm_3_0.png)
-
-</div>
-
-</details>
 
 
 
