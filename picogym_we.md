@@ -2,7 +2,7 @@
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
 ## Contents
-- [Insp3ct0r](#insp3t0r)
+- [Insp3ct0r](#insp3ct0r)
 - [logon](#logon)
 - [where are the robots](#where-are-the-robots)
 - [dont-use-client-side](#dont-use-client-side)
