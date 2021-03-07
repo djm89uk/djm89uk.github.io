@@ -38,6 +38,7 @@ Can you convert the number 42 (base 10) to binary (base 2)?
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
 
 This problem can be solved with basic maths and an understanding of number bases.  We have a base-10 number (decimal) we wish to convert to a base-2 number (binary):
