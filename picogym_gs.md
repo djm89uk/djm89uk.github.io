@@ -122,6 +122,12 @@ In [2]: type(bin(42))
 Out[2]: str
 ~~~
 
+Our binary number is: 101010, the flag is therefore:
+
+~~~
+picoCTF{101010}
+~~~
+
 </details>
 
 <details>
@@ -131,6 +137,12 @@ Out[2]: str
 The simplest method to solve this problem is to use an online decoder/encoder tool such as the ones found on [rapidtables.com](https://www.rapidtables.com/convert/number/decimal-to-binary.html?x=42).  This provides the answer without requiring any strenuous thinking:
 
 ![2warm_0_3.png](./resources/picoctf/picogym/solutions/general_skills/2warm/2warm_3_0.png)
+
+Our binary number is: 101010, the flag is therefore:
+
+~~~
+picoCTF{101010}
+~~~
 
 </details>
 
