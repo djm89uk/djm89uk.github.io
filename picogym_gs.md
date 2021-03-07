@@ -3,7 +3,7 @@
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
 ## Contents
-- [2Warm](#-2warm)
+- [2Warm](#two-warm)
 - [Warmed Up](#warmed-up)
 - [Lets Warm Up](#lets-warm-up)
 - [strings it](#strings-it)
@@ -14,7 +14,7 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 - [Based](#based)
 - [flag_shop](#flag-shop)
 - [mus1c](#mus1c)
-- [1_wanna_b3_a_r0ck5tar](#1-wanna-b3-a-r0ck5tar)
+- [1_wanna_b3_a_r0ck5tar](#one-wanna-b3-a-r0ck5tar)
 
 ---
 
@@ -22,7 +22,7 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 
 ---
 
-## 2warm
+## two-warm
 
 - Author: Sanjay C/Danny Tunitis
 - 50 Points
