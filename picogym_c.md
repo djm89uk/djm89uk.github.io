@@ -641,7 +641,7 @@ AES-ECB is bad, so I rolled my own cipher block chaining mechanism - Addition Bl
 
 ### Attachments
 
-- body.enc.ppm
+- [body.enc.ppm](./resources/picoctf/picogym/attachments/cryptography/aes-abc/body.enc.ppm)
 
 <details>
 
