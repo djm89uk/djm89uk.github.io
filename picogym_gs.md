@@ -365,7 +365,26 @@ Can you find the flag in file without running it?
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This problem is suggesting we should use the Unix in-built program, [strings](https://en.wikipedia.org/wiki/Strings_(Unix)).  This provides a list of all text strings within a binary file:
+
+~~~
+$ strings strings
+~~~
+
+Using strings on its own results in a long list of ascii strings which can be manually reviewed for the flag.  A more sensible solution, however, is to use a second in-built Unix program, [grep](https://en.wikipedia.org/wiki/Grep).
+
+~~~
+$ strings strings | grep pico
+picoCTF{5tRIng5_1T_7f766a23}
+~~~
+
+This gives us the flag:
+
+~~~
+picoCTF{5tRIng5_1T_7f766a23}
+~~~
+
 </details>
 
 ### Answer
@@ -374,7 +393,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{5tRIng5_1T_7f766a23}
 ~~~
 
 </details>
@@ -402,15 +421,60 @@ What does this bDNhcm5fdGgzX3IwcDM1 mean? I think it has something to do with ba
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This problem provides an encoded flag for us to resolve:
+
+~~~
+bDNhcm5fdGgzX3IwcDM1
+~~~
+
+There are many encoding bases used in computation including binary (base 2), octal (base 8), decimal (base 10), hex (base 16), base 32 and base 64.  These are the most common encoding bases.
+
+Reviewing the encoded flag, we can see it includes both numerals and letters.  This suggests that it must be encoded with a base greater than 10.
+
+Similarly, the encoded flag has letters beyond f, in this case it includes the letter z.  It is therefore not encoded in hexadecimal.  Base 32 employs letters and numerals to represent a digit however it only uses one set of letters (lower case or upper case depending on the version).  The flag, as is seen, has both upper and lower case letters (m and M for example).  It would therefore be sensible to assume it is encoded in base64.
+
+We can attempt the decoding in Python using the base64 library:
+
+~~~py
+In [0]: import base64 as b64
+
+In [1]: str64 = 'bDNhcm5fdGgzX3IwcDM1'
+
+In [2]: b64.b64decode(str64)
+Out[2]: b'l3arn_th3_r0p35'
+~~~
+
+This provides an ascii string; "l3arn_th3_r0p35" which leads us to the flag:
+
+~~~
+picoCTF{l3arn_th3_r0p35}
+~~~
+
+</details>
+
+<details>
+<summary markdown="span">Solution 2</summary>
+
+This can be solved using an online base 64 decoder such as [base64decode.org](https://www.base64decode.org/):
+
+![bases_2_0.png](./resources/picoctf/picogym/solutions/general_skills/bases/bases_2_0.png) 
+
+This provides an ascii string; "l3arn_th3_r0p35" which leads us to the flag:
+
+~~~
+picoCTF{l3arn_th3_r0p35}
+~~~
+
 </details>
 
 ### Answer
+
 <details>
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{l3arn_th3_r0p35}
 ~~~
 
 </details>
