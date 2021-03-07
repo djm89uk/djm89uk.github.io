@@ -47,7 +47,7 @@ $$42_{10} = x_2$$
 
 To convert by hand, we can divide the decimal number by the base we wish to convert it to and record the remainder:
 
-$$\frac{42}{2} = 21 \, \mathrm{r} \, 0$$
+$$\frac{42}{2} = 21 \. \mathrm{r} \. 0$$
 
 
 | digit | 1 |
@@ -57,7 +57,7 @@ $$\frac{42}{2} = 21 \, \mathrm{r} \, 0$$
 
 We repeat with the result of the division:
 
-$$\frac{21}{2} = 10 \, \mathrm{r} \, 1$$
+$$\frac{21}{2} = 10 \. \mathrm{r} \. 1$$
 
 | digit | 2 | 1 |
 |---|---|---|
