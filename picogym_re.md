@@ -1,7 +1,9 @@
 # [PicoGym](./picogym.md) Reverse Engineering
+
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
 ## Contents
+
 - [vault-door-training](#vault-door-training)
 - [vault-door-1](#vault-door-1)
 - [vault-door-3](#vault-door-3)
@@ -85,6 +87,7 @@ class VaultDoorTraining {
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
 
 The flag can be read directly from the VaultDoorTraining.java source file.
@@ -208,6 +211,7 @@ This vault uses some complicated arrays! I hope you can make sense of it, specia
 ### Attachments
 
 <details>
+
 <summary markdown="span">VaultDoor1.java</summary>
 
 ~~~java
@@ -274,17 +278,20 @@ class VaultDoor1 {
 
 </details>
 
-
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
 
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
