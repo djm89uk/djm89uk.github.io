@@ -52,6 +52,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ## [Forensics](./picogym_f.md)
 
 ## [General Skills](./picogym_gs.md)
+
 - [2Warm](./picogym_gs.md#two-warm)
 - [Warmed Up](./picogym_gs.md#warmed-up)
 - [Lets Warm Up](./picogym_gs.md#lets-warm-up)
@@ -66,5 +67,14 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#i-wanna-b3-a-r0ck5tar)
 
 ## [Binary Exploitation](./picogym_be.md)
+
+Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
+
+- [Guessing Game 1](./picogym_be.md#guessing-game-1)
+- [Guessing Game 2](./picogym_be.md#guessing-game-2)
+- [messy-malloc](./picogym_be.md#messy-malloc)
+- [seed-sPRiNG](./picogym_be.md#seed-spring)
+- [sice_cream](./picogym_be.md#sice-cream)
+- [zero_to_hero](./picogym_be.md#zero-to-hero)
 
 # [djm89uk homepage](./index.md)
