@@ -34,6 +34,22 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ## [Cryptography](./picogym_c.md)
 
+- [The Numbers](./picogym_c.md#the-numbers)
+- [caesar](./picogym_c.md#caesar)
+- [Easy1](./picogym_c.md#easy1]
+- [13](./picogym_c.md#thirteen)
+- [la cifra de](./picogym_c.md#la-cifra-de)
+- [rsa pop quiz](./picogym_c.md#rsa-pop-quiz)
+- [Tapping](./picogym_c.md#tapping)
+- [Mr-Worldwide](./picogym_c.md#mr-worldwide)
+- [Flags](./picogym_c.md#flags)
+- [waves over lambda](./picogym_c.md#waves-over-lambda)
+- [miniRSA](./picogym_c.md#minirsa)
+- [b00tl3gRSA2](./picogym_c.md#b00tl3grsa2)
+- [AES-ABC](./picogym_c.md#aes-abc)
+- [b00tl3gRSA3](./picogym_c.md#b00tl3grsa3)
+- [john_pollard](./picogym_c.md#john-pollard)
+
 ---
 
 ### [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
