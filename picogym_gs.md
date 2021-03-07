@@ -506,7 +506,26 @@ Can you find the flag in file? This would be really tedious to look through manu
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This problem is suggesting we should use the Unix in-built program, [strings](https://en.wikipedia.org/wiki/Strings_(Unix)).  This provides a list of all text strings within a binary file:
+
+~~~
+$ strings file
+~~~
+
+Using strings on its own results in a long list of ascii strings which can be manually reviewed for the flag.  A more sensible solution, however, is to use a second in-built Unix program, [grep](https://en.wikipedia.org/wiki/Grep).
+
+~~~
+$ strings file | grep pico
+picoCTF{grep_is_good_to_find_things_5af9d829}
+~~~
+
+This gives us the flag:
+
+~~~
+picoCTF{grep_is_good_to_find_things_5af9d829}
+~~~
+
 </details>
 
 ### Answer
@@ -514,7 +533,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{grep_is_good_to_find_things_5af9d829}
 ~~~
 
 </details>
@@ -542,7 +561,33 @@ Using netcat (nc) is going to be pretty important. Can you connect to jupiter.ch
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This is a very simple problem.  The flag is given when connecting to the host jupiter.challenges.picoctf.org on port 41120.
+
+This can be completed using netcat:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 41120
+You're on your way to becoming the net cat master
+picoCTF{nEtCat_Mast3ry_3214be47}
+~~~
+
+Or using telnet:
+
+~~~
+$ telnet jupiter.challenges.picoctf.org 41120
+Trying 3.131.60.8...
+Connected to jupiter.challenges.picoctf.org.
+Escape character is '^]'.
+You're on your way to becoming the net cat master
+picoCTF{nEtCat_Mast3ry_3214be47}
+Connection closed by foreign host.
+~~~
+
+Or even in a browser:
+
+![whats_a_netcat_1_0.png](./resources/picoctf/picogym/solutions/general_skills/whats-a-netcat/whats-a-netcat_1_0.png) 
+
 </details>
 
 ### Answer
@@ -550,7 +595,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{nEtCat_Mast3ry_3214be47}
 ~~~
 
 </details>
@@ -579,7 +624,25 @@ Sometimes you need to handle process data outside of a file. Can you find a way 
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This problem requires the use of netcat and grep.  Using netcat to access the remote host, results in an extended print of information including the flag.  Grep allows us to quickly and simply locate the flag and ignore the excess information:
+
+Using netcat:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 4427 | grep pico
+picoCTF{digital_plumb3r_5ea1fbd7}
+~~~
+
+Using telnet:
+
+~~~
+$ telnet jupiter.challenges.picoctf.org 4427 | grep pico
+Connected to jupiter.challenges.picoctf.org.
+picoCTF{digital_plumb3r_5ea1fbd7}
+Connection closed by foreign host.
+~~~
+
 </details>
 
 ### Answer
@@ -587,7 +650,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{digital_plumb3r_5ea1fbd7}
 ~~~
 
 </details>
