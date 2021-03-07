@@ -47,7 +47,7 @@ The numbers... what do they mean?
 
 <div markdonw="1">
 
-![numbers.png](./resources/picoctf/picogym/attachments/cryptography/the-numbers/numbers.png)
+![numbers.png](./resources/picoctf/picogym/attachments/cryptography/the-numbers/the_numbers.png)
 
 </div>
 
