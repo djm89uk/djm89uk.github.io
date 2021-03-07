@@ -1,7 +1,9 @@
 # [PicoGym](./picogym.md) Web Exploitation
+
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
 ## Contents
+
 - [Insp3ct0r](#insp3ct0r)
 - [logon](#logon)
 - [where are the robots](#where-are-the-robots)
@@ -30,6 +32,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 ### Description
 
 Kishor Balan tipped us off that the following code may need inspection: https://jupiter.challenges.picoctf.org/problem/9670/ ([link](https://jupiter.challenges.picoctf.org/problem/9670/)) or http://jupiter.challenges.picoctf.org:9670
+
 ### Hints
 
 1. How do you inspect web code on a browser?
@@ -38,6 +41,7 @@ Kishor Balan tipped us off that the following code may need inspection: https://
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
 
 solution details
@@ -45,7 +49,9 @@ solution details
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -76,12 +82,17 @@ The factory is hiding things from all of its users. Can you login as Joe and fin
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -112,12 +123,17 @@ Can you find the robots? https://jupiter.challenges.picoctf.org/problem/56830/ (
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -140,6 +156,7 @@ picoCTF{}
 ### Description
 
 Can you break into this super secure portal? https://jupiter.challenges.picoctf.org/problem/17682/ ([link](https://jupiter.challenges.picoctf.org/problem/17682/)) or http://jupiter.challenges.picoctf.org:17682
+
 ### Hints
 
 1. Never trust the client
@@ -147,12 +164,17 @@ Can you break into this super secure portal? https://jupiter.challenges.picoctf.
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -175,6 +197,7 @@ picoCTF{}
 ### Description
 
 Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:54319/ http://jupiter.challenges.picoctf.org:54319/filter.php
+
 ### Hints
 
 1. You are not allowed to login with valid credentials.
@@ -186,12 +209,17 @@ Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -222,12 +250,17 @@ This website can be rendered only by picobrowser, go and catch the flag! https:/
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -258,12 +291,17 @@ Can you break into this super secure portal? https://jupiter.challenges.picoctf.
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -295,12 +333,17 @@ There is a website running at https://jupiter.challenges.picoctf.org/problem/397
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -331,12 +374,17 @@ There is a website running at https://jupiter.challenges.picoctf.org/problem/528
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -367,12 +415,17 @@ There is a secure website running at https://jupiter.challenges.picoctf.org/prob
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -404,12 +457,17 @@ Check the admin scratchpad! https://jupiter.challenges.picoctf.org/problem/61864
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -440,12 +498,17 @@ The image link appears broken... https://jupiter.challenges.picoctf.org/problem/
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
@@ -476,12 +539,17 @@ The image link appears broken... twice as badly... https://jupiter.challenges.pi
 ### Solutions
 
 <details>
+
 <summary markdown="span">Solution 1</summary>
+
 Solution here
+
 </details>
 
 ### Answer
+
 <details>
+
 <summary markdown="span">Flag</summary>
 
 ~~~
