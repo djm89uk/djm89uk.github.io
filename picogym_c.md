@@ -449,7 +449,17 @@ What do the flags mean?
 
 ### Attachments
 
-- flags.png
+<details>
+
+<summary markdown="span">flag.png</summary>
+
+<div markdonw="1">
+
+![flag.png](./resources/picoctf/picogym/attachments/cryptography/flags/flag.png)
+
+</div>
+
+</details>
 
 ### Solutions
 
