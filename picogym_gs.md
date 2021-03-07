@@ -3,7 +3,7 @@
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
 ## Contents
-- [2Warm](#2warm)
+- [2Warm](#-2warm)
 - [Warmed Up](#warmed-up)
 - [Lets Warm Up](#lets-warm-up)
 - [strings it](#strings-it)
