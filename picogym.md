@@ -36,7 +36,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 - [The Numbers](./picogym_c.md#the-numbers)
 - [caesar](./picogym_c.md#caesar)
-- [Easy1](./picogym_c.md#easy1]
+- [Easy1](./picogym_c.md#easy1)
 - [13](./picogym_c.md#thirteen)
 - [la cifra de](./picogym_c.md#la-cifra-de)
 - [rsa pop quiz](./picogym_c.md#rsa-pop-quiz)
