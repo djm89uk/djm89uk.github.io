@@ -148,7 +148,7 @@ Can you find the flag in file without running it?
 
 ### Attachments
 
-- "strings" binary file.
+[strings](./resources/picoctf/picogym/attachments/general-skills/strings-it/strings)
 
 ### Solutions
 
@@ -224,7 +224,8 @@ Can you find the flag in file? This would be really tedious to look through manu
 1. grep [tutorial](https://ryanstutorials.net/linuxtutorial/grep.php).
 
 ### Attachments
-- "file" binary file.
+
+[file](./resources/picoctf/picogym/attachments/general-skills/first-grep/file)
 
 ### Solutions
 
