@@ -1225,7 +1225,7 @@ Yay reversing! Relevant files: otp flag.txt
 
 ### Attachments
 
-otp (binary file)
+[otp (binary file)](./resources/picoctf/picogym/attachments/reverse-engineering/otp-implementation)
 
 <details>
 
@@ -1281,7 +1281,7 @@ Where do droid logs go. Check out this file.
 
 ### Attachments
 
-zero.apk
+[zero.apk](./resources/picoctf/picogym/attachments/reverse-engineering/droids0/zero.apk)
 
 ### Solutions
 
@@ -1328,7 +1328,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-one.apk
+[one.apk](./resources/picoctf/picogym/attachments/reverse-engineering/droids1/one.apk)
 
 ### Solutions
 
@@ -1375,7 +1375,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-two.apk
+[two.apk](./resources/picoctf/picogym/attachments/reverse-engineering/droids2/two.apk)
 
 ### Solutions
 
@@ -1422,7 +1422,7 @@ Find the pass, get the flag. Check out this file.
 
 ### Attachments
 
-three.apk
+[three.apk](./resources/picoctf/picogym/attachments/reverse-engineering/droids3/three.apk)
 
 ### Solutions
 
@@ -1467,7 +1467,7 @@ None
 
 ### Attachments
 
-four.apk
+[four.apk](./resources/picoctf/picogym/attachments/reverse-engineering/droids4/four.apk)
 
 ### Solutions
 
@@ -1511,7 +1511,7 @@ We have recovered a binary and a text file. Can you reverse the flag.
 
 ### Attachments
 
-"rev" binary
+[rev](./resources/picoctf/picogym/attachments/reverse-engineering/reverse_cipher/rev)
 
 <details>
 
@@ -1570,7 +1570,7 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 ### Attachments
 
-"need-for-speed" binary file.
+[need-for-speed](./resources/picoctf/picogym/attachments/reverse-engineering/need-for-speed/need-for-speed)
 
 ### Solutions
 
@@ -1617,7 +1617,7 @@ Can you reverse this Windows Binary?
 
 ### Attachments
 
-win-exec-1.exe
+[win-exec-1.exe](./resources/picoctf/picogym/attachments/reverse-engineering/b1ll_gat35/win-exec-1.exe)
 
 ### Solutions
 
@@ -1662,7 +1662,7 @@ In this program, identify the last integer value that is passed as parameter to 
 
 ### Attachments
 
-"vuln" binary file.
+[vuln](./resources/picoctf/picogym/attachments/reverse-engineering/forky/vuln}
 
 ### Solutions
 
