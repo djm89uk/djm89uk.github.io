@@ -52,7 +52,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ## [Forensics](./picogym_f.md)
 
 ## [General Skills](./picogym_gs.md)
-- [2Warm](./picogym_gs.md#2warm)
+- [2Warm](./picogym_gs.md#two-warm)
 - [Warmed Up](./picogym_gs.md#warmed-up)
 - [Lets Warm Up](./picogym_gs.md#lets-warm-up)
 - [strings it](./picogym_gs.md#strings-it)
@@ -63,7 +63,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Based](./picogym_gs.md#based)
 - [flag_shop](./picogym_gs.md#flag-shop)
 - [mus1c](./picogym_gs.md#mus1c)
-- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#1-wanna-b3-a-r0ck5tar)
+- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#i-wanna-b3-a-r0ck5tar)
 
 ## [Binary Exploitation](./picogym_be.md)
 
