@@ -40,7 +40,30 @@ Can you convert the number 42 (base 10) to binary (base 2)?
 <details>
 <summary markdown="span">Solution 1</summary>
 
-solution details
+This problem can be solved with basic maths and an understanding of number bases.  We have a base-10 number (decimal) we wish to convert to a base-2 number (binary):
+
+$$42_{10} = x_2$$
+
+</details>
+
+<details>
+<summary markdown="span">Solution 3</summary>
+
+The simplest method to solve this problem is to use an online decoder/encoder tool such as the ones found on [rapidtables.com](https://www.rapidtables.com/convert/number/decimal-to-binary.html?x=42).  This provides the answer without requiring any strenuous thinking:
+
+<details>
+
+<summary markdown="span">rapidtables.com solution</summary>
+
+<div markdonw="1">
+
+![2warm_0_3.png](./resources/picoctf/picogym/solutions/general_skills/2warm/2warm_3_0.png)
+
+</div>
+
+</details>
+
+
 
 </details>
 
