@@ -49,7 +49,17 @@ This garden contains more than it seems.
 
 ### Attachments
 
-- garden.jpg
+<details>
+
+<summary markdown="span">garden.jpg</summary>
+
+<div markdonw="1">
+
+![garden.jpg](./resources/picoctf/picogym/attachments/forensics/glory-of-the-garden/garden.jpg)
+
+</div>
+
+</details>
 
 ### Solutions
 
@@ -95,7 +105,17 @@ Find the flag in this picture.
 
 ### Attachments
 
-- pico_img.png
+<details>
+
+<summary markdown="span">pico_img.png</summary>
+
+<div markdonw="1">
+
+![pico_img.png](./resources/picoctf/picogym/attachments/forensics/so-meta/pico_img.png)
+
+</div>
+
+</details>
 
 ### Solutions
 
@@ -141,7 +161,7 @@ This is a really weird text file TXT? Can you find the flag?
 
 ### Attachments
 
-- flag.txt
+[flag.txt](./resources/picoctf/picogym/attachments/forensics/extensions/flag.txt)
 
 ### Solutions
 
@@ -187,7 +207,7 @@ We found this packet capture. Recover the flag.
 
 ### Attachments
 
-- capture.pcap
+[capture.pcap](./resources/picoctf/picogym/attachments/forensics/shark-on-wire-1/capture.pcap)
 
 ### Solutions
 
@@ -232,7 +252,17 @@ There's something in the building. Can you retrieve the flag?
 
 ### Attachments
 
-- buildings.png
+<details>
+
+<summary markdown="span">buildings.png</summary>
+
+<div markdonw="1">
+
+![buildings.png](./resources/picoctf/picogym/attachments/forensics/what-lies-within/buildings.png)
+
+</div>
+
+</details>
 
 ### Solutions
 
@@ -278,7 +308,7 @@ picoCTF{}
 
 ### Attachments
 
-- suspicious.dd.sda1
+suspicious.dd.sda1
 
 ### Solutions
 
@@ -323,7 +353,7 @@ We found this file. Recover the flag.
 
 ### Attachments
 
-- mystery
+[mystery](./resources/picoctf/picogym/attachments/forensics/c0rrupt/mystery)
 
 ### Solutions
 
@@ -421,7 +451,7 @@ Decode this message from the moon.
 
 ### Attachments
 
-- message.wav
+[message.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk/message.wav)
 
 ### Solutions
 
@@ -465,7 +495,7 @@ This .tar file got tarred a lot.
 
 ### Attachments
 
-- 1000.tar
+[1000.tar](./resources/picoctf/picogym/attachments/forensics/like1000/1000.tar)
 
 ### Solutions
 
@@ -509,7 +539,7 @@ None
 
 ### Attachments
 
-- capture.pcap
+[capture.pcap](./resources/picoctf/picogym/attachments/forensics/shark-on-wire-2/capture.pcap)
 
 ### Solutions
 
@@ -553,10 +583,10 @@ Revisit the last transmission. We think this transmission contains a hidden mess
 
 ### Attachments
 
-- message.wav
-- clue1.wav
-- clue2.wav
-- clue3.wav
+[message.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/message.wav)
+[clue1.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue1.wav)
+[clue2.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue2.wav)
+[clue3.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue3.wav)
 
 ### Solutions
 
@@ -602,8 +632,19 @@ We have recovered a binary and an image. See what you can make of it. There shou
 
 ### Attachments
 
-- mystery
-- mystery.png
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-0/mystery)
+
+<details>
+
+<summary markdown="span">mystery.png</summary>
+
+<div markdonw="1">
+
+![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-0/mystery.png)
+
+</div>
+
+</details>
 
 ### Solutions
 
@@ -648,8 +689,44 @@ We found this packet capture and key. Recover the flag.
 
 ### Attachments
 
-- capture.pcap
-- picopico.key
+[capture.pcap](./resources/picoctf/picogym/attachments/forensics/webnet0/capture.pcap)
+
+<details>
+
+<summary markdown="span">picopico.key</summary>
+
+~~~
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwKlFPNKjseJF5
+puCJU5x38XcT1eQge5zOKNahAlYudvGVOEs61TnIgvcER4ko8i3OCwak2/atcGk3
+oz9jFKep7XFEYNP31IwwD9j/YazlKy4DRLGObOyIZUU1f2WRA7Uhf0POQXsDT1oU
+X32jMKZkQSSDW4MRZd9trJYdO2TrcEPMsBiZQlFlvgnNwl3QlawozTHLAJKI36j1
+cPwSMMeNca1e0Zi1s7R5IxfhpNXOBF0FmxiWvmeOHbaspyHg8UEmGBrkd4k4wXSK
+GQvrc8QjycP4ScEdquxJiYnDT8iEbAq70/7f/5NIN1DE9YoGJqKYjTS9nRPB4Yvj
+JN/SJnhvAgMBAAECggEACCnd3LrG/TZVH3sROqvqO1CwQPYPfUXdLVyNHab7EWon
+pc+XBOHurJENG2CpRYF7h+nQ5ADhfIYSCicBf/jsEB7VueJ20CxEVtHVL3h6R6Bp
+oHMle0Em8OcofuMpdL/kO+om3T8BkVSzCvCl5NMTUuAF7iRmfX7oDLALwM0IzzQv
+2un+2UmT15rgAZfl3IL1PGvJhbhLxfeeyPE9MBy1SqBjQ9rNFn8sQv959J6BHz4b
+EpK//ErtNP2yh7oiVBBgKEQ1gEuOjQC/4oxoqCFfZaf9XNRCxB/zY1nUprvJyz09
+NMQWNF2EmvmBVGfoTxmuut5N0GbVr2UyHxWMKm2sOQKBgQDpb2+AWgWlGtetuLKJ
+fJs8dnd6LhnafbKCOXMOT68qMBRoTpBtVTLRVSNvWCm8m4TTEazX4+ZA+bJFwUFw
+aATDmHcr6lMI3tNKrcsnY2F7o5I4z6mwuRuSeszq/ndxZqCzwCu4nKixh3cznp7j
+JiElNG0d8Lu5eQgmVAK1AhWXfQKBgQDBMa9ga7VJUP4pzcHnWAoi34OpfjvQYeGl
+IKL3AKO4OedaHdH9qid41PQHnL7O3xzN669SkLZ5s0d88A/LFLk4oZNMKdkSTQIQ
++AMbXH01HGFvnCOuPg/FbNp1wS7zJEg5u5HFQWyMPNJLr/hZ6g2Yp+UGpAcGTwM/
+RCPVAPhLWwKBgQDAB0OaOnPaVjKGXiHAqBirrGiswa/S5QQrzEaxxys5cUPYaoi0
+6BldysPTnJr45JZna2rcTkXjvYTBjTDf3zHMFWgzYBfefC8kh8NPK5nNs8ldorbd
+AemEnjBkP+DSELKyK6vLulOrdtzAQgRCp+MsT+xTbO2ArefeX826SXSpoQKBgC2v
+nDOHBQXje1dTawlUToFUrgQE8AwlOYEdKKyUoCLOvqEW8DO2a0MtyM+MB6tQI7Wm
+iH1T73L0LHGlK3bw3aRAwV5/fu/O+jAdFk8AHjPTFE+acu2fi4c6aKb0GjAxYksU
+yjIFeK/pKinv4SESMkjpW0WowGiDgtcRPBAA/LaFAoGAfEM1rfM0v3UmB7PS6u0m
+P3ckP2CFCdaryXPfC52GBcJ3Q46YpsQvLTVotM+teHvTjNw2jwwZxIl4NenGSEj3
+KDhQoOiQC9BrDD+DB4I9+T9nxT3g7R6MrgITghB4We7TVhL/PljnJTyDqpjNA4kY
+TveAJPv6Xq1ERt5PUtX3BqQ=
+-----END PRIVATE KEY-----
+~~~
+
+</details>
 
 ### Solutions
 
@@ -695,10 +772,43 @@ We have recovered a binary and a few images: image, image2, image3. See what you
 
 ### Attachments
 
-- mystery
-- mystery.png
-- mystery2.png
-- mystery3.png
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery)
+
+<details>
+
+<summary markdown="span">mystery.png</summary>
+
+<div markdonw="1">
+
+![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery.png)
+
+</div>
+
+</details>
+
+<details>
+
+<summary markdown="span">mystery2.png</summary>
+
+<div markdonw="1">
+
+![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery2.png)
+
+</div>
+
+</details>
+
+<details>
+
+<summary markdown="span">mystery3.png</summary>
+
+<div markdonw="1">
+
+![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery3.png)
+
+</div>
+
+</details>
 
 ### Solutions
 
@@ -744,8 +854,8 @@ We have recovered a binary and an image See what you can make of it. There shoul
 
 ### Attachments
 
-- mystery
-- encoded.bmp
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-2/mystery)
+[encoded.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-2/encoded.bmp)
 
 ### Solutions
 
@@ -789,8 +899,8 @@ We have recovered a binary and an image See what you can make of it. There shoul
 
 ### Attachments
 
-- mystery
-- encoded.bmp
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-3/mystery)
+[encoded.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-3/encoded.bmp)
 
 ### Solutions
 
@@ -834,12 +944,12 @@ None
 
 ### Attachments
 
-- mystery
-- item01_cp.bmp
-- item02_cp.bmp
-- item03_cp.bmp
-- item04_cp.bmp
-- item05_cp.bmp
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/mystery)
+[Item01_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item01_cp.bmp)
+[Item02_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item02_cp.bmp)
+[Item03_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item03_cp.bmp)
+[Item04_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item04_cp.bmp)
+[Item05_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item05
 
 ### Solutions
 
@@ -883,8 +993,8 @@ None
 
 ### Attachments
 
-- mystery
-- output
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_1/mystery)
+[output](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_1/output)
 
 ### Solutions
 
@@ -929,8 +1039,44 @@ We found this packet capture and key. Recover the flag.
 
 ### Attachments
 
-- capture.pcap
-- picopico.key
+[capture.pcap](./resources/picoctf/picogym/attachments/forensics/webnet1/capture.pcap)
+
+<details>
+
+<summary markdown="span">picopico.key</summary>
+
+~~~
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwKlFPNKjseJF5
+puCJU5x38XcT1eQge5zOKNahAlYudvGVOEs61TnIgvcER4ko8i3OCwak2/atcGk3
+oz9jFKep7XFEYNP31IwwD9j/YazlKy4DRLGObOyIZUU1f2WRA7Uhf0POQXsDT1oU
+X32jMKZkQSSDW4MRZd9trJYdO2TrcEPMsBiZQlFlvgnNwl3QlawozTHLAJKI36j1
+cPwSMMeNca1e0Zi1s7R5IxfhpNXOBF0FmxiWvmeOHbaspyHg8UEmGBrkd4k4wXSK
+GQvrc8QjycP4ScEdquxJiYnDT8iEbAq70/7f/5NIN1DE9YoGJqKYjTS9nRPB4Yvj
+JN/SJnhvAgMBAAECggEACCnd3LrG/TZVH3sROqvqO1CwQPYPfUXdLVyNHab7EWon
+pc+XBOHurJENG2CpRYF7h+nQ5ADhfIYSCicBf/jsEB7VueJ20CxEVtHVL3h6R6Bp
+oHMle0Em8OcofuMpdL/kO+om3T8BkVSzCvCl5NMTUuAF7iRmfX7oDLALwM0IzzQv
+2un+2UmT15rgAZfl3IL1PGvJhbhLxfeeyPE9MBy1SqBjQ9rNFn8sQv959J6BHz4b
+EpK//ErtNP2yh7oiVBBgKEQ1gEuOjQC/4oxoqCFfZaf9XNRCxB/zY1nUprvJyz09
+NMQWNF2EmvmBVGfoTxmuut5N0GbVr2UyHxWMKm2sOQKBgQDpb2+AWgWlGtetuLKJ
+fJs8dnd6LhnafbKCOXMOT68qMBRoTpBtVTLRVSNvWCm8m4TTEazX4+ZA+bJFwUFw
+aATDmHcr6lMI3tNKrcsnY2F7o5I4z6mwuRuSeszq/ndxZqCzwCu4nKixh3cznp7j
+JiElNG0d8Lu5eQgmVAK1AhWXfQKBgQDBMa9ga7VJUP4pzcHnWAoi34OpfjvQYeGl
+IKL3AKO4OedaHdH9qid41PQHnL7O3xzN669SkLZ5s0d88A/LFLk4oZNMKdkSTQIQ
++AMbXH01HGFvnCOuPg/FbNp1wS7zJEg5u5HFQWyMPNJLr/hZ6g2Yp+UGpAcGTwM/
+RCPVAPhLWwKBgQDAB0OaOnPaVjKGXiHAqBirrGiswa/S5QQrzEaxxys5cUPYaoi0
+6BldysPTnJr45JZna2rcTkXjvYTBjTDf3zHMFWgzYBfefC8kh8NPK5nNs8ldorbd
+AemEnjBkP+DSELKyK6vLulOrdtzAQgRCp+MsT+xTbO2ArefeX826SXSpoQKBgC2v
+nDOHBQXje1dTawlUToFUrgQE8AwlOYEdKKyUoCLOvqEW8DO2a0MtyM+MB6tQI7Wm
+iH1T73L0LHGlK3bw3aRAwV5/fu/O+jAdFk8AHjPTFE+acu2fi4c6aKb0GjAxYksU
+yjIFeK/pKinv4SESMkjpW0WowGiDgtcRPBAA/LaFAoGAfEM1rfM0v3UmB7PS6u0m
+P3ckP2CFCdaryXPfC52GBcJ3Q46YpsQvLTVotM+teHvTjNw2jwwZxIl4NenGSEj3
+KDhQoOiQC9BrDD+DB4I9+T9nxT3g7R6MrgITghB4We7TVhL/PljnJTyDqpjNA4kY
+TveAJPv6Xq1ERt5PUtX3BqQ=
+-----END PRIVATE KEY-----
+~~~
+
+</details>
 
 ### Solutions
 
@@ -974,8 +1120,8 @@ We have recovered a binary and 1 file: image01. See what you can make of it. NOT
 
 ### Attachments
 
-- mystery
-- output
+[mystery](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_2/mystery)
+[output](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_2/output)
 
 ### Solutions
 
@@ -1019,7 +1165,7 @@ None
 
 ### Attachments
 
-- b1g_mac.zip
+[b1g_mac.zip](./resources/picoctf/picogym/attachments/forensics/b1g_mac/b1g_mac.zip)
 
 ### Solutions
 
