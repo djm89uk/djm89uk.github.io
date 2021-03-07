@@ -14,7 +14,7 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 - [Based](#based)
 - [flag_shop](#flag-shop)
 - [mus1c](#mus1c)
-- [1_wanna_b3_a_r0ck5tar](#one-wanna-b3-a-r0ck5tar)
+- [1_wanna_b3_a_r0ck5tar](#i-wanna-b3-a-r0ck5tar)
 
 ---
 
@@ -595,7 +595,7 @@ picoCTF{}
 
 ---
 
-## 1-wanna-b3-a-r0ck5tar
+## I-wanna-b3-a-r0ck5tar
 
 - Author: Alex Bushkin
 - 350 points
