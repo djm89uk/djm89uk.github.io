@@ -679,7 +679,173 @@ To get truly 1337, you must understand different data encodings, such as hexadec
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This challenge requires rapid conversion of encoded strings into ascii.  When connecting using netcat the following is displayed:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 29956  
+Let us see how data is stored
+lamp
+Please give the 01101100 01100001 01101101 01110000 as a word.
+...
+you have 45 seconds.....
+
+Input:
+~~~
+
+Using online conversion tools, we can complete this challenge with relative ease.  The string in the first question is encoded as a binary array and can be converted into ascii using an online binary to ascii conversion tool, such as [rapidtables.com](https://www.rapidtables.com/convert/number/binary-to-ascii.html)
+
+![based_1_0.png](./resources/picoctf/picogym/solutions/general_skills/based/based_1_0.png) 
+
+we can manually enter lamp into the netcat session:
+
+~~~
+Input:
+lamp
+Please give me the  155 141 160 as a word.
+Input:
+~~~
+
+The next question is encoded in numerical digits 155, 141, 160.  Reviewing the ascii lookup table we can see this is not decimal.  Similarly, we can assume it is not hex, binary or base64 from the simplicity of the encoded values.  A review of an extended ascii table suggests that it is most likely encoded in octal:
+
+![ascii_table.png](./resources/picoctf/picogym/solutions/general_skills/based/ascii-table.png) 
+
+An online conversion tool can be used for octal to ascii such as found at [unit-conversion.info](http://www.unit-conversion.info/texttools/octal/):
+
+![based_1_1.png](./resources/picoctf/picogym/solutions/general_skills/based/based_1_1.png) 
+
+This gives us map, which can be manually entered into the terminal:
+
+~~~
+Input:
+map
+Please give me the 636f6d7075746572 as a word.
+Input:
+~~~
+
+The final question provides a string with both numeric and alphabetic characters: 636f6d7075746572.  This is most likely a hex string and can be converted using a hex to ascii conversion tool such as found at [rapidtables.com](https://www.rapidtables.com/convert/number/hex-to-ascii.html):
+
+![based_1_2.png](./resources/picoctf/picogym/solutions/general_skills/based/based_1_2.png) 
+
+This gives us the final string, computer, which can be manually entered into the terminal:
+
+~~~
+Input:
+computer
+You've beaten the challenge
+Flag: picoCTF{learning_about_converting_values_b375bb16}
+~~~
+
+The remote program responds with the flag:
+
+~~~
+Flag: picoCTF{learning_about_converting_values_b375bb16}
+~~~
+
+</details>
+
+<details>
+<summary markdown="span">Solution 1</summary>
+
+This challenge can be completed using simple programming techniques and libraries available on Python:
+
+
+<details>
+<summary markdown="span">based.py</summary>
+ 
+~~~py
+"""
+@author: djm89uk
+
+picoCTF picoGym general skills challenge, "based"
+
+based.py
+"""
+
+import sys
+import socket
+import time
+
+hostname = "jupiter.challenges.picoctf.org"
+port = 29956
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((hostname, port))
+
+data = sock.recv(1024)
+data = data.decode()
+
+q_start = data.find("give the ") + 9
+q_end = data.find("as a word")-1
+
+bstr = data[q_start:q_end]
+barr = bstr.split(" ")
+
+str1 = ''
+
+for letter in barr:
+    str1 += (chr(int(letter,2)))
+print(bstr + " = " + str1)
+sock.send(str1.encode())
+sock.send(("\n").encode())
+data = sock.recv(1024)
+data = data.decode()
+
+q_start = data.find("give me the ") + 13
+q_end = data.find("as a word")-1
+
+bstr = data[q_start:q_end]
+barr = bstr.split(" ")
+
+str2 = ''
+
+for letter in barr:
+    str2 += (chr(int(letter,8)))
+print(bstr + " = " + str2)
+sock.send(str2.encode())
+sock.send(("\n").encode())
+data = sock.recv(1024)
+data = data.decode()
+
+q_start = data.find("give me the ") + 12
+q_end = data.find("as a word")-1
+
+bstr = data[q_start:q_end]
+blen = int(len(bstr)/2)
+barr = ['']*blen
+intarr = ['']*blen
+str3 = ''
+for i in range (0,blen):
+    barr[i] = bstr[2*i]+bstr[2*i+1]
+    intarr[i] = int(barr[i],16)
+    str3 += chr(intarr[i])
+print(bstr + " = " + str3)
+sock.send(str3.encode())
+sock.send(("\n").encode())
+data = sock.recv(1024)
+data = data.decode()
+
+flag_start = data.find("pico")
+flag_end = data.find("}")+1
+flag = data[flag_start:flag_end]
+print("*"*20 + "\n"+flag+"\n"+"*"*20)
+
+sock.close()
+~~~
+
+</details>
+
+When run the following is output to the console:
+
+~~~
+In [0]: runfile('based.py')
+01100011 01101111 01101101 01110000 01110101 01110100 01100101 01110010 = computer
+146 141 154 143 157 156 = falcon
+616e696d6174696f6e = animation
+********************
+picoCTF{learning_about_converting_values_b375bb16}
+********************
+~~~
 </details>
 
 ### Answer
@@ -687,7 +853,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{learning_about_converting_values_b375bb16}
 ~~~
 
 </details>
