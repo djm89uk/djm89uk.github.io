@@ -52,6 +52,18 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ## [Forensics](./picogym_f.md)
 
 ## [General Skills](./picogym_gs.md)
+- [2Warm](./picogym_gs.md#2warm)
+- [Warmed Up](./picogym_gs.md#warmed-up)
+- [Lets Warm Up](./picogym_gs.md#lets-warm-up)
+- [strings it](./picogym_gs.md#strings-it)
+- [Bases](./picogym_gs.md#bases)
+- [First Grep](./picogym_gs.md#first-grep)
+- [what's a net cat?](./picogym_gs.md#whats-a-net-cat)
+- [plumbing](./picogym_gs.md#plumbing)
+- [Based](./picogym_gs.md#based)
+- [flag_shop](./picogym_gs.md#flag_shop)
+- [mus1c](./picogym_gs.md#mus1c)
+- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#1_wanna_b3_a_r0ck5tar)
 
 ## [Binary Exploitation](./picogym_be.md)
 
