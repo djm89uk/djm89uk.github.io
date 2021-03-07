@@ -187,11 +187,13 @@ Base 16, also known as hex, is a numerical system employed in computer programme
 Solving this problem by hand is a lot more difficult.  base16 numbers extend beyond the traditional numerical ascii characters since it is a larger base than base 10.  The index is defined in the table below:
 
 | base 16 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | A  | B  | C  | D  | E  | F  |
+|---------|---|---|---|---|---|---|---|---|---|---|----|----|----|----|----|----|
 | base 10 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
 
 We can solve this using lookup tables.  The second index of base 16 can be described as below:
 
 | base 16 | 00 | 10 | 20 | 30 | 40 | 50 | 60 | 70  | 80  | 90  | A0  | B0  | C0  | D0  | E0  | F0  |
+|---------|----|----|----|----|----|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
 | base 10 | 00 | 16 | 32 | 48 | 64 | 80 | 96 | 112 | 128 | 144 | 160 | 176 | 192 | 208 | 224 | 240 |
 
 This problem can be solved by breaking the hex number into its consituent parts:
