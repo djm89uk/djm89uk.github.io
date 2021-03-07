@@ -34,6 +34,8 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ## [Cryptography](./picogym_c.md)
 
+Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
+
 - [The Numbers](./picogym_c.md#the-numbers)
 - [caesar](./picogym_c.md#caesar)
 - [Easy1](./picogym_c.md#easy1)
