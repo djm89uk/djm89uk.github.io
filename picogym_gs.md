@@ -278,7 +278,51 @@ If I told you a word started with 0x70 in hexadecimal, what would it start with 
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This can be solved by hand using an ascii lookup table:
+
+![ascii_table.png](./resources/picoctf/picogym/solutions/general_skills/lets-warm-up/ascii_table.png)
+
+The hex number 0x70 corresponds to 112 in decimal.  Using the lookup table, we can see that this corresponds to the ascii character, 'p'.
+
+~~~
+picoCTF{p}
+~~~
+
+</details>
+
+<details>
+<summary markdown="span">Solution 2</summary>
+
+Using Python, the ascii value of 0x70 can be found using a simple command:
+
+~~~py
+In [0]: '\x70'
+Out[0]: 'p'
+~~~
+
+The flag is therefore:
+
+~~~
+picoCTF{p}
+~~~
+
+</details>
+
+<details>
+
+<summary markdown="span">Solution 3</summary>
+
+This can be solved using an online conversion tool such as [rapidtables.com](https://www.rapidtables.com/convert/number/hex-to-ascii.html):
+
+![lets-warm-up_0_3.png](./resources/picoctf/picogym/solutions/general_skills/lets-warm-up/lets-warm-up_3_0.png)
+
+This gives us the ascii character "p" resulting in the flag:
+
+~~~
+picoCTF{p}
+~~~
+
 </details>
 
 ### Answer
@@ -287,7 +331,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{p}
 ~~~
 
 </details>
