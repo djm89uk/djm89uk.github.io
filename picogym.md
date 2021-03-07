@@ -8,6 +8,22 @@ picoCTF provides a practice CTF environment called picoGym to allow individuals 
 
 ## [Web Exploitation](./picogym_we.md)
 
+Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
+
+- [Insp3ct0r](./picogym_we.md#insp3ct0r)
+- [logon](./picogym_we.md#logon)
+- [where are the robots](./picogym_we.md#where-are-the-robots)
+- [dont-use-client-side](./picogym_we.md#dont-use-client-side)
+- [Web Gauntlet](./picogym_we.md#web-gauntlet)
+- [picobrowser](./picogym_we.md#picobrowser)
+- [Client-side-again](./picogym_we.md#client-side-again)
+- [Irish-Name-Repo 1](./picogym_we.md#irish-name-repo-1)
+- [Irish-Name-Repo 2](./picogym_we.md#irish-name-repo-2)
+- [Irish-Name-Repo 3](./picogym_we.md#irish-name-repo-3)
+- [JaWT Scratchpad](./picogym_we.md#jawt-scratchpad)
+- [Java Script Kiddie](./picogym_we.md#java-script-kiddie)
+- [Java Script Kiddie 2](./picogym_we.md#java-script-kiddie-2)
+
 ## [Cryptography](./picogym_c.md)
 
 ## [Reverse Engineering](./picogym_re.md)
