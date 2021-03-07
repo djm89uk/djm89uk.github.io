@@ -93,6 +93,31 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ## [Forensics](./picogym_f.md)
 
+"Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
+
+- [Glory of the Garden](./picogym_f.md#glory-of-the-garden)
+- [So Meta](./picogym_f.md#so-meta)
+- [extensions](./picogym_f.md#extensions)
+- [shark on wire 1](./picogym_f.md#shark-on-wire-1)
+- [What Lies Within](./picogym_f.md#what-lies-within)
+- [Pitter, Patter, Platters](./picogym_f.md#pitter-patter-platters)
+- [c0rrupt](./picogym_f.md#c0rrupt)
+- [WhitePages](./picogym_f.md#whitepages)
+- [m00nwalk](./picogym_f.md#m00nwalk)
+- [like1000](./picogym_f.md#like1000)
+- [shark on wire 2](./picogym_f.md#shark-on-wire-2)
+- [m00nwalk2](./picogym_f.md#m00nwalk2)
+- [Investigative Reversing 0](./picogym_f.md#investigative-reversing-0)
+- [WebNet0](./picogym_f.md#webnet0)
+- [Investigative Reversing 1](./picogym_f.md#investigative-reversing-1)
+- [Investigative Reversing 2](./picogym_f.md#investigative-reversing-2)
+- [Investigative Reversing 3](./picogym_f.md#investigative-reversing-3)
+- [Investigative Reversing 4](./picogym_f.md#investigative-reversing-4)
+- [investigation_encoded_1](./picogym_f.md#investigation-encoded-1)
+- [WebNet1](./picogym_f.md#webnet1)
+- [investigation_encoded_2](./picogym_f.md#investigation-encoded-2)
+- [B1g_Mac](./picogym_f.md#b1g-mac)
+
 ---
 
 ### [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
