@@ -33,7 +33,7 @@ I made a simple game to show off my programming skills. See if you can beat it! 
 
 ### Attachments
 
-- "vuln" binary file.
+[vuln](./resources/picoctf/picogym/attachments/binary-exploitation/guessing-game-1/vuln)
 
 <details>
 
@@ -156,7 +156,7 @@ It's the Return of your favorite game! vuln vuln.c Makefile nc jupiter.challenge
 
 ### Attachments
 
-- "vuln" binary file.
+[vuln](./resources/picoctf/picogym/attachments/binary-exploitation/guessing-game-2/vuln)
 
 <details>
 
@@ -280,6 +280,7 @@ Can you take advantage of misused malloc calls to leak the secret through this [
 
 ### Attachments
 
+[auth](./resources/picoctf/picogym/attachments/binary-exploitation/messy-malloc/auth)
 
 <details>
 
@@ -448,7 +449,7 @@ The most revolutionary game is finally available: seed sPRiNG is open right now!
 
 ### Attachments
 
-- "seed_spring" binary file.
+[seed_spring](./resources/picoctf/picogym/attachments/binary-exploitation/seed-spring/seed_spring)
 
 ### Solutions
 
@@ -493,9 +494,11 @@ Just pwn this program and get a flag. Connect with nc jupiter.challenges.picoctf
 
 ### Attachments
 
-- "sice_cream" binary file.
-- libc.so.6
-- ld-2.23.so
+[sice_cream](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/sice_cream)
+
+[libc.so.6](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/libc.so.6)
+
+[ld-2.23.so](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/ld-2.23.so)
 
 ### Solutions
 
@@ -540,9 +543,11 @@ Now you're really cooking. Can you pwn this service?. Connect with nc jupiter.ch
 
 ### Attachments
 
-- "zero_to_hero" binary file.
-- libc.so.6
-- ld-2.29.so
+[zero_to_hero](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/zero_to_hero)
+
+[libc.so.6](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/libc.so.6)
+
+[ld-2.29.so](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/ld-2.29.so)
 
 ### Solutions
 
