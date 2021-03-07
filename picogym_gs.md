@@ -761,10 +761,7 @@ picoCTF picoGym general skills challenge, "based"
 
 based.py
 """
-
-import sys
 import socket
-import time
 
 hostname = "jupiter.challenges.picoctf.org"
 port = 29956
