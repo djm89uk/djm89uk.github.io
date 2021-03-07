@@ -45,51 +45,53 @@ This problem can be solved with basic maths and an understanding of number bases
 
 $$42_{10} = x_2$$
 
-To convert by hand, we can divide the decimal number by the base we wish to convert it to and record the remainder:
+To convert by hand, we can divide the decimal number by the base we wish to convert it to and record the remainder.  This iterative process will return the binary number starting at the smallest index. This can be easily recorded against the binary index in a table:
 
 $$\frac{42}{2} = 21 \mathrm{ r } 0$$
 
+We can record this against the first binary index:
 
-| digit | 1 |
-|---|---|
-| value | 0 |
-
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  ? |  ? |  ? | ? | ? | ? | 0 |
 
 We repeat with the result of the division:
 
 $$\frac{21}{2} = 10 \mathrm{ r } 1$$
 
-| digit | 2 | 1 |
-|---|---|---|
-| value | 1 | 0 |
+
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  ? |  ? |  ? | ? | ? | 1 | 0 |
 
 And again:
 
 $$\frac{10}{2} = 5 \mathrm{ r } 0$$
 
-| digit | 4 | 2 | 1 |
-|---|---|---|---|
-| value | 0 | 1 | 0 |
+
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  ? |  ? |  ? | ? | 0 | 1 | 0 |
 
 We keep doing this until the integer result is 0:
 
 $$\frac{5}{2} = 2 \mathrm{ r } 1$$
 
-| digit | 8 | 4 | 2 | 1 |
-|---|---|---|---|---|
-| value | 1 | 0 | 1 | 0 |
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  ? |  ? |  ? | 1 | 0 | 1 | 0 |
 
 $$\frac{2}{2} = 1 \mathrm{ r } 0$$
 
-| digit | 16 | 8 | 4 | 2 | 1 |
-|---|---|---|---|---|---|
-| value | 0 | 1 | 0 | 1 | 0 |
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  ? |  ? |  0 | 1 | 0 | 1 | 0 |
 
 $$\frac{1}{2} = 0 \mathrm{ r } 1$$
 
-| digit | 32 | 16 | 8 | 4 | 2 | 1 |
-|---|---|---|---|---|---|---|
-| value | 1 | 0 | 1 | 0 | 1 | 0 |
+| binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|--------------|----|----|----|---|---|---|---|
+| bin(42)      |  0 |  1 |  0 | 1 | 0 | 1 | 0 |
 
 Our binary number is: 101010, the flag is therefore:
 
