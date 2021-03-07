@@ -181,7 +181,68 @@ What is 0x3D (base 16) in decimal (base 10)?
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+Base 16, also known as hex, is a numerical system employed in computer programmes.  Hex provides a simplifcation of Byte data (8-bits) into a simple 2-character representation.
+
+Solving this problem by hand is a lot more difficult.  base16 numbers extend beyond the traditional numerical ascii characters since it is a larger base than base 10.  The index is defined in the table below:
+
+| base 16 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | A  | B  | C  | D  | E  | F  |
+| base 10 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+
+We can solve this using lookup tables.  The second index of base 16 can be described as below:
+
+| base 16 | 00 | 10 | 20 | 30 | 40 | 50 | 60 | 70  | 80  | 90  | A0  | B0  | C0  | D0  | E0  | F0  |
+| base 10 | 00 | 16 | 32 | 48 | 64 | 80 | 96 | 112 | 128 | 144 | 160 | 176 | 192 | 208 | 224 | 240 |
+
+This problem can be solved by breaking the hex number into its consituent parts:
+
+$$ 3D_{16} = 30_{16} + D_{16} $$
+
+We can lookup both values and calculate the decimal number:
+
+$$ 30_{16} + D_{16} = 48_{10} + 13_{10} = 61_{10} $$ 
+
+The decimal number is 61, the flag is therefore:
+
+~~~
+picoCTF{61}
+~~~
+
+</details>
+
+<details>
+
+<summary markdown="span">Solution 2</summary>
+
+Alternatively, we can use a simple program to convert this into a decimal number.  iPython will convert a hex number into decimal using the defined "0x" notation:
+
+~~~py
+In [0]: 0x3d
+Out[0]: 61
+~~~
+
+The decimal number is 61, the flag is therefore:
+
+~~~
+picoCTF{61}
+~~~
+
+</details>
+
+<details>
+
+<summary markdown="span">Solution 3</summary>
+
+Without any thinking, this can be solved using an online coversion tool such as [rapidtables.com](https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=3D):
+
+![2warm_0_3.png](./resources/picoctf/picogym/solutions/general_skills/warmed-up/warmed-up_3_0.png)
+
+The decimal number is 61, the flag is therefore:
+
+~~~
+picoCTF{61}
+~~~
+
 </details>
 
 ### Answer
@@ -189,7 +250,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{61}
 ~~~
 
 </details>
