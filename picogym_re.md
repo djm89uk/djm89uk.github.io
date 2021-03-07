@@ -20,9 +20,9 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [droids2](#droids2)
 - [droids3](#droids3)
 - [droids4](#droids4)
-- [revese_cipher](#reverse_cipher)
+- [revese_cipher](#reverse-cipher)
 - [Need For Speed](#need-for-speed)
-- [B1ll_Gat35](#b1ll_gat35)
+- [B1ll_Gat35](#b1ll-gat35)
 - [Forky](#forky)
 
 ---
@@ -1379,7 +1379,7 @@ picoCTF{}
 
 ---
 
-## reverse_cipher
+## reverse-cipher
 
 - Author: Danny Tunitis
 - 300 points
@@ -1470,7 +1470,7 @@ picoCTF{}
 
 ---
 
-## B1ll_Gat35
+## B1ll-Gat35
 
 - Author: Alex Bushkin
 - 400 points
