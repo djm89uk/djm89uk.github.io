@@ -745,7 +745,7 @@ Flag: picoCTF{learning_about_converting_values_b375bb16}
 </details>
 
 <details>
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution 2</summary>
 
 This challenge can be completed using simple programming techniques and libraries available on Python:
 
