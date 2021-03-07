@@ -47,7 +47,7 @@ $$42_{10} = x_2$$
 
 To convert by hand, we can divide the decimal number by the base we wish to convert it to and record the remainder.  This iterative process will return the binary number starting at the smallest index. This can be easily recorded against the binary index in a table:
 
-$$\frac{42}{2} = 21 \mathrm{ r } 0$$
+$$\frac{42}{2} = 21 \mathrm{, r } (0)$$
 
 We can record this against the first binary index:
 
@@ -57,7 +57,7 @@ We can record this against the first binary index:
 
 We repeat with the result of the division:
 
-$$\frac{21}{2} = 10 \mathrm{ r } 1$$
+$$\frac{21}{2} = 10 \mathrm{, r } (1)$$
 
 
 | binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
@@ -66,7 +66,7 @@ $$\frac{21}{2} = 10 \mathrm{ r } 1$$
 
 And again:
 
-$$\frac{10}{2} = 5 \mathrm{ r } 0$$
+$$\frac{10}{2} = 5 \mathrm{, r } (0)$$
 
 
 | binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
@@ -75,19 +75,19 @@ $$\frac{10}{2} = 5 \mathrm{ r } 0$$
 
 We keep doing this until the integer result is 0:
 
-$$\frac{5}{2} = 2 \mathrm{ r } 1$$
+$$\frac{5}{2} = 2 \mathrm{, r } (1)$$
 
 | binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 |--------------|----|----|----|---|---|---|---|
 | bin(42)      |  ? |  ? |  ? | 1 | 0 | 1 | 0 |
 
-$$\frac{2}{2} = 1 \mathrm{ r } 0$$
+$$\frac{2}{2} = 1 \mathrm{, r } (0)$$
 
 | binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 |--------------|----|----|----|---|---|---|---|
 | bin(42)      |  ? |  ? |  0 | 1 | 0 | 1 | 0 |
 
-$$\frac{1}{2} = 0 \mathrm{ r } 1$$
+$$\frac{1}{2} = 0 \mathrm{, r } (1)$$
 
 | binary index | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 |--------------|----|----|----|---|---|---|---|
@@ -101,6 +101,29 @@ picoCTF{101010}
 
 </details>
 
+
+<details>
+
+<summary markdown="span">Solution 2</summary>
+
+Solving by hand is easy with small numbers, when we have a series or very large decimal integers, it is easier to decode and encode numbers using a script.
+
+In Python, a decimal can be converted into a binary number using the native command, bin():
+
+~~~py
+In [1]: bin(42)
+Out[1]: '0b101010'
+~~~
+
+This returns a character string with the binary translated number.  Python indicates the number is binary with the '0b' character at the beginning of the binary string.  This can be verified using the in-built Python type() function:
+
+~~~py
+In [2]: type(bin(42))
+Out[2]: str
+~~~
+
+</details>
+
 <details>
 
 <summary markdown="span">Solution 3</summary>
@@ -108,8 +131,6 @@ picoCTF{101010}
 The simplest method to solve this problem is to use an online decoder/encoder tool such as the ones found on [rapidtables.com](https://www.rapidtables.com/convert/number/decimal-to-binary.html?x=42).  This provides the answer without requiring any strenuous thinking:
 
 ![2warm_0_3.png](./resources/picoctf/picogym/solutions/general_skills/2warm/2warm_3_0.png)
-
-
 
 </details>
 
