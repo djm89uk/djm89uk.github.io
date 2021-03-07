@@ -584,8 +584,11 @@ Revisit the last transmission. We think this transmission contains a hidden mess
 ### Attachments
 
 [message.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/message.wav)
+
 [clue1.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue1.wav)
+
 [clue2.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue2.wav)
+
 [clue3.wav](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue3.wav)
 
 ### Solutions
@@ -855,6 +858,7 @@ We have recovered a binary and an image See what you can make of it. There shoul
 ### Attachments
 
 [mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-2/mystery)
+
 [encoded.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-2/encoded.bmp)
 
 ### Solutions
@@ -900,6 +904,7 @@ We have recovered a binary and an image See what you can make of it. There shoul
 ### Attachments
 
 [mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-3/mystery)
+
 [encoded.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-3/encoded.bmp)
 
 ### Solutions
@@ -945,11 +950,16 @@ None
 ### Attachments
 
 [mystery](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/mystery)
+
 [Item01_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item01_cp.bmp)
+
 [Item02_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item02_cp.bmp)
+
 [Item03_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item03_cp.bmp)
+
 [Item04_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item04_cp.bmp)
-[Item05_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item05
+
+[Item05_cp.bmp](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-4/Item05_cp.bmp)
 
 ### Solutions
 
@@ -994,6 +1004,7 @@ None
 ### Attachments
 
 [mystery](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_1/mystery)
+
 [output](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_1/output)
 
 ### Solutions
@@ -1121,6 +1132,7 @@ We have recovered a binary and 1 file: image01. See what you can make of it. NOT
 ### Attachments
 
 [mystery](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_2/mystery)
+
 [output](./resources/picoctf/picogym/attachments/forensics/investigation_encoded_2/output)
 
 ### Solutions
