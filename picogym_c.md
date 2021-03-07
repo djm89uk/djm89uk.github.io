@@ -41,7 +41,13 @@ The numbers... what do they mean?
 
 ### Attachments
 
-- numbers.png
+<details>
+
+<summary markdown="span">numbers.png</summary>
+
+![numbers.png](./resources/picoctf/picogym/attachments/cryptography/the-numbers/numbers.png){:class="img-responsive"}
+
+</details>
 
 ### Solutions
 
