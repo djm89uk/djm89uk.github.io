@@ -387,10 +387,8 @@ int main()
     con = 0;
     int account_balance = 1100;
     while(con == 0){
-        
         printf("Welcome to the flag exchange\n");
         printf("We sell flags\n");
-
         printf("\n1. Check Account Balance\n");
         printf("\n2. Buy Flags\n");
         printf("\n3. Exit\n");
@@ -410,7 +408,6 @@ int main()
             scanf("%d", &auction_choice);
             if(auction_choice == 1){
                 printf("These knockoff Flags cost 900 each, enter desired quantity\n");
-                
                 int number_flags = 0;
                 fflush(stdin);
                 scanf("%d", &number_flags);
@@ -425,13 +422,7 @@ int main()
                     else{
                         printf("Not enough funds to complete purchase\n");
                     }
-                                    
-                    
-                }
-                    
-                    
-                    
-                
+                }    
             }
             else if(auction_choice == 2){
                 printf("1337 flags cost 100000 dollars, and we only have 1 in stock\n");
@@ -439,13 +430,10 @@ int main()
                 int bid = 0;
                 fflush(stdin);
                 scanf("%d", &bid);
-                
                 if(bid == 1){
-                    
                     if(account_balance > 100000){
                         FILE *f = fopen("flag.txt", "r");
                         if(f == NULL){
-
                             printf("flag not found: please run this on the server\n");
                             exit(0);
                         }
@@ -453,17 +441,14 @@ int main()
                         fgets(buf, 63, f);
                         printf("YOUR FLAG IS: %s\n", buf);
                         }
-                    
                     else{
                         printf("\nNot enough funds for transaction\n\n\n");
                     }}
-
             }
         }
         else{
             con = 1;
         }
-
     }
     return 0;
 }
