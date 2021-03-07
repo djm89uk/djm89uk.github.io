@@ -44,9 +44,9 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [droids2](./picogym_re.md#droids2)
 - [droids3](./picogym_re.md#droids3)
 - [droids4](./picogym_re.md#droids4)
-- [revese_cipher](./picogym_re.md#reverse_cipher)
+- [revese_cipher](./picogym_re.md#reverse-cipher)
 - [Need For Speed](./picogym_re.md#need-for-speed)
-- [B1ll_Gat35](./picogym_re.md#b1ll_gat35)
+- [B1ll_Gat35](./picogym_re.md#b1ll-gat35)
 - [Forky](./picogym_re.md#forky)
 
 ## [Forensics](./picogym_f.md)
@@ -61,9 +61,9 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [what's a net cat?](./picogym_gs.md#whats-a-net-cat)
 - [plumbing](./picogym_gs.md#plumbing)
 - [Based](./picogym_gs.md#based)
-- [flag_shop](./picogym_gs.md#flag_shop)
+- [flag_shop](./picogym_gs.md#flag-shop)
 - [mus1c](./picogym_gs.md#mus1c)
-- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#1_wanna_b3_a_r0ck5tar)
+- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#1-wanna-b3-a-r0ck5tar)
 
 ## [Binary Exploitation](./picogym_be.md)
 
