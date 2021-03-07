@@ -45,7 +45,7 @@ The numbers... what do they mean?
 
 <summary markdown="span">numbers.png</summary>
 
-![numbers.png](./resources/picoctf/picogym/attachments/cryptography/the-numbers/numbers.png){:class="img-responsive"}
+![numbers.png]({{site.url}}/resources/picoctf/picogym/attachments/cryptography/the-numbers/numbers.png)
 
 </details>
 
