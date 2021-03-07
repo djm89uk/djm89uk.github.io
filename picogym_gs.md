@@ -708,7 +708,7 @@ Input:
 
 The next question is encoded in numerical digits 155, 141, 160.  Reviewing the ascii lookup table we can see this is not decimal.  Similarly, we can assume it is not hex, binary or base64 from the simplicity of the encoded values.  A review of an extended ascii table suggests that it is most likely encoded in octal:
 
-![ascii_table.png](./resources/picoctf/picogym/solutions/general_skills/based/ascii-table.png) 
+![ascii-table.png](./resources/picoctf/picogym/solutions/general_skills/based/ascii-table.png) 
 
 An online conversion tool can be used for octal to ascii such as found at [unit-conversion.info](http://www.unit-conversion.info/texttools/octal/):
 
