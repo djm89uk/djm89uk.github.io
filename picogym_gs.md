@@ -46,7 +46,7 @@ $$42_{10} = x_2$$
 
 To convert by hand, we can divide the decimal number by the base we wish to convert it to and record the remainder:
 
-$$\frac{42}{2} = 21 \mathrm{r} 0$$
+$$\frac{42}{2} = 21 \, \mathrm{r} \, 0$$
 
 | digit | 1 |
 |---|---|
@@ -54,7 +54,7 @@ $$\frac{42}{2} = 21 \mathrm{r} 0$$
 
 We repeat with the result of the division:
 
-$$\frac{21}{2} = 10 \mathrm{r} 1$$
+$$\frac{21}{2} = 10 \, \mathrm{r} \, 1$$
 
 | digit | 2 | 1 |
 |---|---|---|
@@ -62,7 +62,7 @@ $$\frac{21}{2} = 10 \mathrm{r} 1$$
 
 And again:
 
-$$\frac{10}{2} = 5 \mathrm{r} 0$$
+$$\frac{10}{2} = 5 \, \mathrm{r} \, 0$$
 
 | digit | 4 | 2 | 1 |
 |---|---|---|---|
@@ -70,19 +70,19 @@ $$\frac{10}{2} = 5 \mathrm{r} 0$$
 
 We keep doing this until the integer result is 0:
 
-$$\frac{5}{2} = 2 \mathrm{r} 1$$
+$$\frac{5}{2} = 2 \, \mathrm{r} \, 1$$
 
 | digit | 8 | 4 | 2 | 1 |
 |---|---|---|---|---|
 | value | 1 | 0 | 1 | 0 |
 
-$$\frac{2}{2} = 1 \mathrm{r} 0$$
+$$\frac{2}{2} = 1 \, \mathrm{r} \, 0$$
 
 | digit | 16 | 8 | 4 | 2 | 1 |
 |---|---|---|---|---|---|
 | value | 0 | 1 | 0 | 1 | 0 |
 
-$$\frac{1}{2} = 0 \mathrm{r} 1$$
+$$\frac{1}{2} = 0 \, \mathrm{r} \, 1$$
 
 | digit | 32 | 16 | 8 | 4 | 2 | 1 |
 |---|---|---|---|---|---|---|
