@@ -284,7 +284,92 @@ class VaultDoor1 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This problem has the password in plaintext within the source code, with the string index values checked non-linearly.  The password could be read manually by recording each index value, however, we can edit this java file to print the password with some simple substitutions of the source.  A useful function for generating the password string literal is [StringBuilder](https://docs.oracle.com/javase/tutorial/java/data/buffers.html).  This has been completed under a new class name, "VaultDoor1_modified":
+
+~~~java
+import java.util.*;
+
+class VaultDoor1_modified {
+    public static void main(String args[]) {
+        VaultDoor1_modified vaultDoor = new VaultDoor1_modified();
+        vaultDoor.showPassword();
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Enter vault password: ");
+//	String userInput = scanner.next();
+//	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+//	if (vaultDoor.checkPassword(input)) {
+//	    System.out.println("Access granted.");
+//	} else {
+//	    System.out.println("Access denied!");
+//	}
+    }
+
+    // I came up with a more secure way to check the password without putting
+    // the password itself in the source code. I think this is going to be
+    // UNHACKABLE!! I hope Dr. Evil agrees...
+    //
+    // -Minion #8728
+    public boolean showPassword() {
+        StringBuilder password = new StringBuilder("abcdefghijklmnopqrstuvwxyzABCDEF");
+        password.setCharAt(0,'d');
+        password.setCharAt(29, 'a');
+        password.setCharAt(4, 'r');
+        password.setCharAt(2, '5');
+        password.setCharAt(23, 'r');
+        password.setCharAt(3, 'c');
+        password.setCharAt(17, '4');
+        password.setCharAt(1, '3');
+        password.setCharAt(7, 'b');
+        password.setCharAt(10, '_');
+        password.setCharAt(5, '4');
+        password.setCharAt(9, '3');
+        password.setCharAt(11, 't');
+        password.setCharAt(15, 'c');
+        password.setCharAt(8, 'l');
+        password.setCharAt(12, 'H');
+        password.setCharAt(20, 'c');
+        password.setCharAt(14, '_');
+        password.setCharAt(6, 'm');
+        password.setCharAt(24, '5');
+        password.setCharAt(18, 'r');
+        password.setCharAt(13, '3');
+        password.setCharAt(19, '4');
+        password.setCharAt(21, 'T');
+        password.setCharAt(16, 'H');
+        password.setCharAt(27, '6');
+        password.setCharAt(30, 'f');
+        password.setCharAt(25, '_');
+        password.setCharAt(22, '3');
+        password.setCharAt(28, 'd');
+        password.setCharAt(26, 'f');
+        password.setCharAt(31, '4');
+        System.out.println(password);
+        
+        return true;
+    }
+}
+~~~
+
+This can be compiled:
+
+~~~
+$ javac -d ./build VaultDoor1_modified.java  
+~~~
+
+And run:
+
+~~~
+$ java ./build/VaultDoor1_modified
+~~~
+
+This returns:
+
+~~~
+d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4
+~~~
+
+which is our flag.
+
 
 </details>
 
@@ -295,7 +380,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4}
 ~~~
 
 </details>
@@ -381,7 +466,102 @@ class VaultDoor3 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge again scrambles the password before comparison.  A simple method givePassword() can be added to a new file, VaultDoor3_modified to reverse the assignments in checkPassword as shown below.
+
+~~~java
+import java.util.*;
+
+class VaultDoor3_modified {
+    public static void main(String args[]) {
+        VaultDoor3_modified vaultDoor = new VaultDoor3_modified();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	    System.out.println("The Password is:");
+            vaultDoor.givePassword();
+        }
+    }
+
+    // Our security monitoring team has noticed some intrusions on some of the
+    // less secure doors. Dr. Evil has asked me specifically to build a stronger
+    // vault door to protect his Doomsday plans. I just *know* this door will
+    // keep all of those nosy agents out of our business. Mwa ha!
+    //
+    // -Minion #2671
+    public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        char[] buffer = new char[32];
+        int i;
+        for (i=0; i<8; i++) {
+            buffer[i] = password.charAt(i);
+        }
+        for (; i<16; i++) {
+            buffer[i] = password.charAt(23-i);
+        }
+        for (; i<32; i+=2) {
+            buffer[i] = password.charAt(46-i);
+        }
+        for (i=31; i>=17; i-=2) {
+            buffer[i] = password.charAt(i);
+        }
+        String s = new String(buffer);
+        return s.equals("jU5t_a_sna_3lpm12g94c_u_4_m7ra41");
+    }
+    public boolean givePassword(){
+    	String scrambled = new String("jU5t_a_sna_3lpm12g94c_u_4_m7ra41");
+        char[] buffer = new char[32];
+        int i;
+        for (i=0; i<8; i++) {
+            buffer[i] = scrambled.charAt(i);
+        }
+        for (; i<16; i++) {
+            buffer[23-i] = scrambled.charAt(i);
+        }
+        for (; i<32; i+=2) {
+            buffer[46-i] = scrambled.charAt(i);
+        }
+        for (i=31; i>=17; i-=2) {
+            buffer[i] = scrambled.charAt(i);
+        }
+        String password = new String(buffer);
+        System.out.println(password);
+        return true;
+    }
+}
+~~~
+
+This can be compiled:
+
+~~~
+$ javac VaultDoor3_modified.java
+~~~
+
+The original method is called.  When running the class, we must make a trivial guess at the password.  This rejects the password after checkPassword method is called and prints the correct password from the showPassword method:
+
+~~~
+$ java VaultDoor3_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{guess}
+Access denied!
+The Password is:
+jU5t_a_s1mpl3_an4gr4m_4_u_c79a21
+~~~
+
+We can check the password locally by entering this back in:
+
+~~~
+$ java VaultDoor3_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
+Access granted.
+~~~
 
 </details>
 
@@ -392,7 +572,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
 ~~~
 
 </details>
@@ -480,7 +660,98 @@ class VaultDoor4 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge compares an input password in a byte array.  The input string is converted using the [getBytes()](https://www.w3resource.com/java-tutorial/string/string_getbytes.php) method.
+
+Again, we can create a modified program, adding a showPassword method with an inverse of the comparison within checkPassword():
+
+~~~java
+import java.util.*;
+
+class VaultDoor4_modified {
+    public static void main(String args[]) {
+        VaultDoor4_modified vaultDoor = new VaultDoor4_modified();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	    System.out.println("Password Is:");
+	    vaultDoor.showPassword();
+        }
+    }
+
+    // I made myself dizzy converting all of these numbers into different bases,
+    // so I just *know* that this vault will be impenetrable. This will make Dr.
+    // Evil like me better than all of the other minions--especially Minion
+    // #5620--I just know it!
+    //
+    //  .:::.   .:::.
+    // :::::::.:::::::
+    // :::::::::::::::
+    // ':::::::::::::'
+    //   ':::::::::'
+    //     ':::::'
+    //       ':'
+    // -Minion #7781
+    public boolean checkPassword(String password) {
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            106 , 85  , 53  , 116 , 95  , 52  , 95  , 98  ,
+            0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f,
+            0142, 0131, 0164, 063 , 0163, 0137, 0146, 064 ,
+            'a' , '8' , 'c' , 'd' , '8' , 'f' , '7' , 'e' ,
+        };
+        for (int i=0; i<32; i++) {
+            if (passBytes[i] != myBytes[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean showPassword(){
+        byte[] passBytes = {
+            106 , 85  , 53  , 116 , 95  , 52  , 95  , 98  ,
+            0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f,
+            0142, 0131, 0164, 063 , 0163, 0137, 0146, 064 ,
+            'a' , '8' , 'c' , 'd' , '8' , 'f' , '7' , 'e' ,
+        };
+	String password = new String(passBytes);
+	System.out.println(password);
+    	return true;
+    }
+}
+~~~
+
+This can be compiled:
+
+~~~
+$ javac VaultDoor4_modified.java 
+~~~
+
+When run, we have to enter a password guess.  The program returns the correct password:
+
+~~~
+$ java VaultDoor4_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{guess}
+Access denied!
+Password Is:
+jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e
+~~~
+
+This can be checked locally to ensure it is correct using the unmodified checkPassword() method:
+
+~~~
+$ java VaultDoor4_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}
+Access granted.
+~~~
+
+The flag is therefore picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}.
 
 </details>
 
@@ -491,7 +762,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}
 ~~~
 
 </details>
