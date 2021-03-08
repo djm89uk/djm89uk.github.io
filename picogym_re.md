@@ -1732,7 +1732,158 @@ asm1:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+Reviewing the ASM1 assembly code in test.S we can better understand this challenge.
+
+First, we can see this assembly code is for 32-bit architecture.  The use of EAX and EBP indicate this architecture.  A description of resgisters can be seen in the tables below.
+
+| GP Register       | 8 bit   | 16 bit | 32 bit | 64 bit |
+|-------------------|---------|--------|--------|--------|
+| Acummulator       | AH / AL | AX     | EAX    | RAX    |
+| Base              | BH / BL | BX     | EBX    | RBX    |
+| Counter           | CH / CL | CX     | ECX    | RCX    |
+| Data              | DH / DL | DX     | EDX    | RDX    |
+| Source Index      | SIL     | SI     | ESI    | RSI    |
+| Destination Index | DIL     | DI     | EDI    | RDI    |
+| Stack Pointer     | SPL     | SP     | ESP    | RSP    |
+| Base Pointer      | BPL     | BP     | EBP    | RBP    |
+| General Purpose 1 | R8B     | R8W    | R8D    | R8     |
+| General Purpose 2 | R9B     | R9W    | R9D    | R9     |
+| General Purpose 3 | R10B    | R10W   | R10D   | R10    |
+| General Purpose 4 | R11B    | R11W   | R11D   | R11    |
+| General Purpose 5 | R12B    | R12W   | R12D   | R12    |
+| General Purpose 6 | R13B    | R13W   | R13D   | R13    |
+| General Purpose 7 | R14B    | R14W   | R14D   | R14    |
+| General Purpose 8 | R15B    | R15W   | R15D   | R15    |
+
+| Pointer Register    | 8 bit   | 16 bit | 32 bit | 64 bit |
+|---------------------|---------|--------|--------|--------|
+| Instruction Pointer | N/A     | IP     | EIP    | RIP    |
+
+We can see in the asm1 assembly code, references to the 32-bit registers: base pointer (EBP), stack pointer (ESP), Accumulator (EAX).
+
+Now we have a reference for the registers, we should understand the instructions in the assembly code.
+
+| Instruction | Description                                                                             |
+|-------------|-----------------------------------------------------------------------------------------|
+| push        | push a value to the stack                                                               |
+| mov         | mov data into registers (read and write to memory)                                      |
+| cmp         | comparison operator. Compares two values and amends ZF and CF                           |
+| jg          | conditional jump, performs jump if cmp(a,b) returns a>b                                 |
+| jne         | conditional jump, performs jump if cmp(a,b) returns a!=b                                |
+| add         | performs addition of two registers. add(a,b) sets a = a+b                               |
+| sub         | performs subtraction of two registers. sub(a,b) sets a = a-b                            |
+| pop         | restores the top of the stack into a reg. pop x sets x to value at the top of the stack |
+| ret         | pops the return address off the stack and returns control to that location              |
+
+We now have enough information to analyse the asm1 assembly code:
+
+The first two lines of the asm1 assembly are:
+
+~~~nasm
+<+0>:	push   ebp
+<+1>:	mov    ebp,esp
+~~~
+
+This is establishing a new stack frame. push ebp preserves the current frame pointer (for stack walking) and mov ebp,esp creates a new frame pointer at the top of the current stack.
+
+EBP is now the reference address for the stack.  EBP+8 refers to the user input byte, for this challenge, EBP+8 is 0x8BE.  The next line is a comparator:
+
+~~~nasm
+<+3>:	cmp    DWORD PTR [ebp+0x8],0x71c
+<+10>:	jg     0x512 <asm1+37>
+~~~
+
+This compares the value in memory address EBP+0x8 using the dword pointer and the value 0x71C.  We know the contents of the memory address EBP+0x8 is 0x8BE.  The comparator is thus comparing 0x8BE and 0x71C.  This instruction will affect the Zero Flag (ZF) and Carry Flag (CF) as described below.
+
+| CMP(A,B)  | ZF | CF |
+|-----------|----|----|
+| A == B    | 1  | 0  |
+| A < B     | 0  | 1  |
+| A > B     | 0  | 0  |
+
+These flags are used to inform sequential jump operations.  The next line, JG, is a conditional jump that is completed if ZF=CF=0, (e.g. A>B).
+
+We can now see, CMP(0x8BE,0x71C) will return ZF = 0, CF = 0.  We thus perform the jump to memory location 0x512, described at line 37 of the asm1 assembly code.
+
+If we were to enter a value, less than 0x71C, we would continue to the next line:
+
+~~~nasm
+<+12>:	cmp    DWORD PTR [ebp+0x8],0x6cf
+<+19>:	jne    0x50a <asm1+29>
+~~~
+
+Here, we have another comparator, we compare the input with 0x6CF.  The subsequent line is a "jump if not equal".  If we do not input 0x6Cf to the program, we will jump to address 0x50A.  If, however we were to enter 0x6CF to the program, we would not jump at <+10> and we would not jump at <+19> we would therefore continue to the next line:
+
+~~~nasm
+<+21>:	mov    eax,DWORD PTR [ebp+0x8]
+<+24>:	add    eax,0x3
+<+27>:	jmp    0x529 <asm1+60>
+~~~
+
+This moves the value of the memory at EBP+0x8 (user input) to the accumulator, adds 0x3 to this and jumps to memory address 0x529 (in this case, this is the pop call).
+
+If we were to enter a value that is not equal to 0x6CF and is less than 0x71C, we would jump to the next lines in ASM1:
+
+~~~nasm
+<+29>:	mov    eax,DWORD PTR [ebp+0x8]
+<+32>:	sub    eax,0x3
+<+35>:	jmp    0x529 <asm1+60>
+~~~
+
+This copies the input into the accumulator and subtracts 3 before jumpting to the pop call.
+
+If we were to enter a value that is greater than 0x71C, we would jump from <+10> to <+37>:
+
+~~~nasm
+<+37>:	cmp    DWORD PTR [ebp+0x8],0x8be
+<+44>:	jne    0x523 <asm1+54>
+~~~
+
+As before, this compares the user input to 0x8BE and if not equal, will jump to address 0x523.  If it is equal, it will continue to the next line:
+
+~~~nasm
+<+46>:	mov    eax,DWORD PTR [ebp+0x8]
+<+49>:	sub    eax,0x3
+<+52>:	jmp    0x529 <asm1+60>
+~~~
+
+If we arrive at <+46> the input is copied into the accumulator and 3 is subtracted from it before we jump to the pop call.
+
+If our input is greater than 0x71C, and is not equal to 0x8be, we will jump to <+54>:
+
+~~~nasm
+<+54>:	mov    eax,DWORD PTR [ebp+0x8]
+<+57>:	add    eax,0x3
+~~~
+
+This copies the input to the accumulator and adds 3 before we continue to <+60>.
+
+The end of the asm1 assembly code:
+
+~~~nasm
+<+60>:	pop    ebp
+<+61>:	ret
+~~~
+
+The first line restores the top of the stack into the register (return to the previous EBP address).  The second line returns the value of EAX.
+
+We can rewrite this ASM1 assembly code in pseudo code:
+
+~~~
+ASM1(input):
+  if input == 1743:
+    return input+3
+  else if input < 1820:
+    return input -3
+  else if input == 2238:
+    return input -3
+  else
+    return input + 3
+~~~
+
+The input for this challenge, 2238 will return 2235, or in hexadecimal: 0x8bb.
+
+As described in the hints, this is the flag without picoCTF{}.
 
 </details>
 
@@ -1743,7 +1894,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+0x8bb
 ~~~
 
 </details>
