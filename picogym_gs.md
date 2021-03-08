@@ -1358,7 +1358,155 @@ Break it down
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This challenge is a follow-on from mus1c.  The code is written with the [rockstar](codewithrockstar.com) language.  We can transcribe this using [rockstar-py](https://github.com/yyyyyyyan/rockstar-py) into Python:
+
+~~~
+$ rockstar-py -i lyrics.txt -o lyrics.py
+~~~
+
+This generates lyrics.py that needs a bit of clean up before it can run:
+
+~~~py
+Rocknroll = True
+Silence = False
+a_guitar = 10
+Tommy = 44
+Music = 170
+the_music = input()
+if the_music == a_guitar:
+    print("Keep on rocking!")
+    the_rhythm = input()
+    if the_rhythm - Music == False:
+        Tommy = 66
+        print(Tommy!)
+        Music = 79
+        Jamming = 78
+        print(Music!)
+        print(Jamming!)
+        Tommy = 74
+        print(Tommy!)
+        They are dazzled audiences
+        print(it!)
+        Rock = 86
+        print(it!)
+        Tommy = 73
+        print(it!)
+        break
+        print("Bring on the rock!")
+        Else print("That ain't it, Chief")
+        break
+~~~
+
+The excalamation marks need to be removed, and the second if statement should be changed to refer to the integer 0.  To simplify the code, we can assign the user input variables with their comparator values, ensuring the if statements return True and print the required variables.
+
+One line has failed transcription and requires manually transcribing.  Reviewing the rockstar [documentation](https://codewithrockstar.com/docs) we can see that "They are dazzled audiences" is a number literal assigning the last named variable (They) a numeric value with indices deterined from the word lengths for "dazzled" and "audiences".  
+
+"They are dazzled audiences" transcribes to "Tommy = 79".
+
+~~~py
+Rocknroll = True
+Silence = False
+a_guitar = 10
+Tommy = 44
+Music = 170
+#the_music = input()
+the_music = 10
+if the_music == a_guitar:
+    print("Keep on rocking!")
+#    the_rhythm = input()
+    the_rhythm = 170
+#    if the_rhythm - Music == False:
+    if the_rhythm - Music == 0:
+        Tommy = 66
+#        print(Tommy!)
+        print(Tommy)
+        Music = 79
+        Jamming = 78
+#        print(Music!)
+        print(Music)
+#        print(Jamming!)
+        print(Jamming)
+        Tommy = 74
+#        print(Tommy!)
+        print(Tommy)
+#        They are dazzled audiences
+        Tommy = 79
+#        print(it!)
+        print(Tommy)
+        Rock = 86
+#        print(it!)
+        print(Rock)
+        Tommy = 73
+#        print(it!)
+        print(Tommy)
+#        break
+        print("Bring on the rock!")
+#        Else print("That ain't it, Chief")
+    else:
+        print("That ain't it, Chief")
+#        break
+~~~
+
+Before finishing, we can manipulate the above code to generate the entire flag by converting the integers into ascii characters:
+
+~~~py
+flag = ''
+Rocknroll = True
+Silence = False
+a_guitar = 10
+Tommy = 44
+Music = 170
+#the_music = input()
+the_music = 10
+if the_music == a_guitar:
+    print("Keep on rocking!")
+#    the_rhythm = input()
+    the_rhythm = 170
+#    if the_rhythm - Music == False:
+    if the_rhythm - Music == 0:
+        Tommy = 66
+#        print(Tommy!)
+        flag += chr(Tommy)
+        Music = 79
+        Jamming = 78
+#        print(Music!)
+        flag += chr(Music)
+#        print(Jamming!)
+        flag += chr(Jamming)
+        Tommy = 74
+#        print(Tommy!)
+        flag += chr(Tommy)
+#        They are dazzled audiences
+        Tommy = 79
+#        print(it!)
+        flag += chr(Tommy)
+        Rock = 86
+#        print(it!)
+        flag += chr(Rock)
+        Tommy = 73
+#        print(it!)
+        flag += chr(Tommy)
+#        break
+        print("Bring on the rock!")
+#        Else print("That ain't it, Chief")
+    else:
+        print("That ain't it, Chief")
+#        break
+print("picoCTF{"+flag+"}")
+~~~
+
+This returns the strings:
+
+~~~
+runfile('lyrics.py')
+Keep on rocking!
+Bring on the rock!
+picoCTF{BONJOVI}
+~~~
+
+This returns the flag picoCTF{BONJOVI}.
+
 </details>
 
 ### Answer
@@ -1366,7 +1514,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{BONJOVI}
 ~~~
 
 </details>
