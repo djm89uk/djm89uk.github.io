@@ -854,7 +854,106 @@ class VaultDoor5 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge encodes the user input string into URL and Base64 bytes before comparing to an encoded passphrase.  We can create a modified version of the java class "VaultDoor5_modified" and create inversion methods using the [Base64 decoder](https://www.baeldung.com/java-base64-encode-and-decode) and the URL decoder that is hinted in the source code as an imported external library, [URLDeocder](https://www.baeldung.com/java-url-encoding-decoding):
+
+~~~java
+import java.net.URLDecoder;
+import java.util.*;
+
+class VaultDoor5_modified {
+    public static void main(String args[]) {
+        VaultDoor5_modified vaultDoor = new VaultDoor5_modified();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	    System.out.println("Password is:");
+	    vaultDoor.showPassword();
+        }
+    }
+
+    // Minion #7781 used base 8 and base 16, but this is base 64, which is
+    // like... eight times stronger, right? Riiigghtt? Well that's what my twin
+    // brother Minion #2415 says, anyway.
+    //
+    // -Minion #2414
+    public String base64Encode(byte[] input) {
+        return Base64.getEncoder().encodeToString(input);
+    }
+
+    // URL encoding is meant for web pages, so any double agent spies who steal
+    // our source code will think this is a web site or something, defintely not
+    // vault door! Oh wait, should I have not said that in a source code
+    // comment?
+    //
+    // -Minion #2415
+    public String urlEncode(byte[] input) {
+        StringBuffer buf = new StringBuffer();
+        for (int i=0; i<input.length; i++) {
+            buf.append(String.format("%%%2x", input[i]));
+        }
+        return buf.toString();
+    }
+
+    public boolean checkPassword(String password) {
+        String urlEncoded = urlEncode(password.getBytes());
+        String base64Encoded = base64Encode(urlEncoded.getBytes());
+        String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
+                        + "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2"
+                        + "JTM0JTVmJTM4JTM0JTY2JTY0JTM1JTMwJTM5JTM1";
+        return base64Encoded.equals(expected);
+    }
+    public String base64Decode(String encodedString) {
+    	byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+    	String decodedString = new String(decodedBytes);
+        return decodedString;
+    }
+    public String urlDecode(String value) {
+        return URLDecoder.decode(value);
+    }
+    public boolean showPassword(){
+    	String b64password = new String("JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
+                        + "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2"
+                        + "JTM0JTVmJTM4JTM0JTY2JTY0JTM1JTMwJTM5JTM1");
+	String urlpassword = base64Decode(b64password);
+	String password = urlDecode(urlpassword);
+	System.out.println(password);
+        return true;
+    }
+}
+~~~
+
+THis can be compiled:
+
+~~~
+$ javac VaultDoor5_modified.java
+~~~
+
+And we can run the code with an initial password guess.  The method showPassword will give us the correct passphrase:
+
+~~~
+$ java VaultDoor5_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{guess}
+Access denied!
+Password is:
+c0nv3rt1ng_fr0m_ba5e_64_84fd5095
+~~~
+
+This can be checked locally by entering in the correct passphrase:
+
+~~~
+$ java VaultDoor5_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}
+Access granted.
+~~~
+
+This shows us the correct flag is picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}.
 
 </details>
 
@@ -865,7 +964,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}
 ~~~
 
 </details>
@@ -949,7 +1048,105 @@ class VaultDoor6 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge uses XOR binary operation on the use input passphrase to compare to a binary array holding the correct password.  This can be inverted as described in the challenge hint, where A^B=C then C^B=A.
+
+We can invert the checkPassword method with a new showPassword method.  We need a correctly sized byte array, passBytes, in which the correct password (after XOR operation) will be stored and myBytes, which will hold the compared byte array:
+
+~~~java
+import java.util.*;
+
+class VaultDoor6_modified {
+    public static void main(String args[]) {
+        VaultDoor6_modified vaultDoor = new VaultDoor6_modified();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	    System.out.println("Password is:");
+	    vaultDoor.showPassword();
+        }
+    }
+
+    // Dr. Evil gave me a book called Applied Cryptography by Bruce Schneier,
+    // and I learned this really cool encryption system. This will be the
+    // strongest vault door in Dr. Evil's entire evil volcano compound for sure!
+    // Well, I didn't exactly read the *whole* book, but I'm sure there's
+    // nothing important in the last 750 pages.
+    //
+    // -Minion #3091
+    public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+        };
+        for (int i=0; i<32; i++) {
+            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean showPassword() {
+    	byte[] passBytes = {
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        };
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+        };
+        for (int i=0; i<32; i++) {
+            passBytes[i] = (byte) (myBytes[i] ^ 0x55);
+        }
+        String password = new String(passBytes);
+	System.out.println(password);
+        
+        return true;
+    }
+}
+~~~
+
+This can be compiled:
+
+~~~
+$ javac VaultDoor6_modified.java 
+~~~
+
+When run, we enter a password guess, and the correct password is returned:
+
+~~~
+$ java VaultDoor6_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{guess}
+Access denied!
+Password is:
+n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919
+~~~
+
+We can verify this is the correct password locally:
+
+~~~
+$ java VaultDoor6_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}
+Access granted.
+~~~
+
+The flag is therefore picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}.
 
 </details>
 
@@ -960,7 +1157,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}
 ~~~
 
 </details>
@@ -1070,7 +1267,133 @@ class VaultDoor7 {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+THis challenge uses bit shifting to split the user-submitted passphrase into 8, 4-letter byte arrays that are encoding into a large integer.  Each substring is appended into a byte array using bit shifting operations.
+
+Similar to before, we can simply generate a new method, showPassword, and invert the checkPassword method:
+
+~~~java
+import java.util.*;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.*;
+
+class VaultDoor7_modified {
+    public static void main(String args[]) {
+        VaultDoor7_modified vaultDoor = new VaultDoor7_modified();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+	    System.out.println("Password is:");
+	    vaultDoor.showPassword();
+        }
+    }
+
+    // Each character can be represented as a byte value using its
+    // ASCII encoding. Each byte contains 8 bits, and an int contains
+    // 32 bits, so we can "pack" 4 bytes into a single int. Here's an
+    // example: if the hex string is "01ab", then those can be
+    // represented as the bytes {0x30, 0x31, 0x61, 0x62}. When those
+    // bytes are represented as binary, they are:
+    //
+    // 0x30: 00110000
+    // 0x31: 00110001
+    // 0x61: 01100001
+    // 0x62: 01100010
+    //
+    // If we put those 4 binary numbers end to end, we end up with 32
+    // bits that can be interpreted as an int.
+    //
+    // 00110000001100010110000101100010 -> 808542562
+    //
+    // Since 4 chars can be represented as 1 int, the 32 character password can
+    // be represented as an array of 8 ints.
+    //
+    // - Minion #7816
+    public int[] passwordToIntArray(String hex) {
+        int[] x = new int[8];
+        byte[] hexBytes = hex.getBytes();
+        for (int i=0; i<8; i++) {
+            x[i] = hexBytes[i*4]   << 24
+                 | hexBytes[i*4+1] << 16
+                 | hexBytes[i*4+2] << 8
+                 | hexBytes[i*4+3];
+        }
+        return x;
+    }
+
+    public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        int[] x = passwordToIntArray(password);
+        return x[0] == 1096770097
+            && x[1] == 1952395366
+            && x[2] == 1600270708
+            && x[3] == 1601398833
+            && x[4] == 1716808014
+            && x[5] == 1734293296
+            && x[6] == 842413104
+            && x[7] == 1684157793;
+    }
+    public String IntArrayToPassword(int[] array){
+    	byte[] passBytes = new byte[32];
+    	for (int i=0; i<8; i++){
+    	    byte[] buffer = new byte[]{
+    	        (byte)(array[i] >> 24),
+    	        (byte)(array[i] >> 16),
+    	        (byte)(array[i] >> 8),
+    	        (byte)array[i],
+    	    };
+    	    for (int j=0; j<4; j++){
+    	        passBytes[i*4+j] = (byte) buffer[j];
+    	    }
+	}
+	return new String(passBytes);
+    }
+    public boolean showPassword() {
+    	int[] array = {
+    	    1096770097, 1952395366, 1600270708, 1601398833, 
+    	    1716808014, 1734293296,  842413104, 1684157793
+    	};
+        String password = IntArrayToPassword(array);
+        System.out.println(password);
+        return true;
+    }
+}
+~~~
+
+This can be compiled:
+
+~~~
+$ javac VaultDoor7_modified.java 
+~~~
+
+When run, we are prompted for a password and when the checkPassword method returns a false boolean, the correct password is printed when showPassword method is called:
+
+~~~
+$ java VaultDoor7_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{guess}
+Access denied!
+Password is:
+A_b1t_0f_b1t_sh1fTiNg_702640db5a
+~~~
+
+We can check the passphrase locally within the checkPassword Method:
+
+~~~
+$ java VaultDoor7_modified                                             1 ⚙
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
+Enter vault password: picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}
+Access granted.
+~~~
+
+Therefore the flag is picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}.
 
 </details>
 
@@ -1081,7 +1404,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}
 ~~~
 
 </details>
