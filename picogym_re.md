@@ -1786,7 +1786,15 @@ The first two lines of the asm1 assembly are:
 
 This is establishing a new stack frame. push ebp preserves the current frame pointer (for stack walking) and mov ebp,esp creates a new frame pointer at the top of the current stack.
 
-EBP is now the reference address for the stack.  EBP+8 refers to the user input byte, for this challenge, EBP+8 is 0x8BE.  The next line is a comparator:
+EBP is now the reference address for the stack.  The stack can be visualised as shown below.
+
+| Address    | Value   |
+|------------|---------|
+| EBP + 0x08 | input   |
+| EBP + 0x04 | ret     |
+| EBP        | Old EBP |
+
+EBP+0x8 refers to the user input byte, for this challenge, EBP+0x8 is 0x8BE.  The next line is a comparator:
 
 ~~~nasm
 <+3>:	cmp    DWORD PTR [ebp+0x8],0x71c
@@ -1951,7 +1959,100 @@ asm2:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+ASM2 is similar to ASM1.  The initial stack can be seen below.
+
+| Address    | Value   |
+|------------|---------|
+| EBP + 0x0C | input 2 |
+| EBP + 0x08 | input 1 |
+| EBP + 0x04 | ret     |
+| EBP        | Old EBP |
+
+The ASM2 assembly code first 3 lines allocate additional memory for the program:
+
+~~~nasm
+<+0>:	push   ebp
+<+1>:	mov    ebp,esp
+<+3>:	sub    esp,0x10
+~~~
+
+Line <+3> allocates an additional 4 memory location (4x4-Byte = 0x10), our stack now looks:
+
+| Address    | Value   |
+|------------|---------|
+| EBP + 0x0C | input 2 |
+| EBP + 0x08 | input 1 |
+| EBP + 0x04 | ret     |
+| EBP        | Old EBP |
+| EBP - 0x04 | 0x00    |
+| EBP - 0x08 | 0x00    |
+| EBP - 0x0c | 0x00    |
+| EBP - 0x10 | 0x00    |
+
+The next line assigns the accumulator register the value held in address ebp+0xc (input 2).  This is subsequently copied into the memory address EBP-0x4:
+
+~~~nasm
+<+6>:	mov    eax,DWORD PTR [ebp+0xc]
+<+9>:	mov    DWORD PTR [ebp-0x4],eax
+~~~
+
+Our stack now looks like:
+
+| Address    | Value   |
+|------------|---------|
+| EBP + 0x0C | input 2 |
+| EBP + 0x08 | input 1 |
+| EBP + 0x04 | ret     |
+| EBP        | Old EBP |
+| EBP - 0x04 | input 2 |
+| EBP - 0x08 | 0x00    |
+| EBP - 0x0c | 0x00    |
+| EBP - 0x10 | 0x00    |
+
+The next two lines copy input 1 from EBP + 0x08 to EBP - 0x08:
+
+~~~nasm
+<+12>:	mov    eax,DWORD PTR [ebp+0x8]
+<+15>:	mov    DWORD PTR [ebp-0x8],eax
+~~~
+
+The stack now appears:
+
+| Address    | Value   |
+|------------|---------|
+| EBP + 0x0C | input 2 |
+| EBP + 0x08 | input 1 |
+| EBP + 0x04 | ret     |
+| EBP        | Old EBP |
+| EBP - 0x04 | input 2 |
+| EBP - 0x08 | input 1 |
+| EBP - 0x0c | 0x00    |
+| EBP - 0x10 | 0x00    |
+
+The next 6 lines operate on the stored data.  Line <+18> jumps to the comparator operator at <+28>.  This compares the value at EBP - 0x08 with 0x63f3.  If dword ptr(0x08) is less than 0x63f3, line <+35> jumps to <+20>, otherwise the next line copies the value of the memory at EBP - 0x4 to the accumulator register for return.
+
+~~~nasm
+<+18>:	jmp    0x509 <asm2+28>
+<+20>:	add    DWORD PTR [ebp-0x4],0x1
+<+24>:	sub    DWORD PTR [ebp-0x8],0xffffff80
+<+28>:	cmp    DWORD PTR [ebp-0x8],0x63f3
+<+35>:	jle    0x501 <asm2+20>
+<+37>:	mov    eax,DWORD PTR [ebp-0x4]
+~~~
+
+We can now look at the pseudocode for the ASM2 program:
+
+~~~
+ASM(input1, input2):
+  var0 = input2
+  var1 = input1
+  while var1 <= 0x63f3:
+    var0 = var0 + 1
+    var1 = var1 - 0xffffff80
+  return var0
+~~~
+
+
 
 </details>
 
