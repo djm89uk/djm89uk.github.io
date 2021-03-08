@@ -1063,7 +1063,228 @@ shout Pico
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+A quick internet search shows that this is a program written in the [rockstar](https://codewithrockstar.com/) language.  To make sense of this, we can install a rockstar python transpiler, [rockstar-py](https://github.com/yyyyyyyan/rockstar-py):
+
+~~~
+$ git clone https://github.com/yyyyyyyan/rockstar-py.git
+$ cd rockstar-py
+$ python3 setup.py install
+~~~
+
+Once installed, we can transcribe the rockstar code in lyrics.txt into python:
+
+~~~
+$ rockstar-py -i lyrics.txt -o lyrics.py
+~~~
+
+We can now read the code in python:
+
+~~~py
+Pico = 19
+my_mind = 6
+It = 6
+This = my_mind * Pico
+my_flag != found
+put This into my_flag
+put my_flag into Pico
+shout Pico
+shout Pico
+shout Pico
+my_song = 9
+put Pico into This
+This -= 3
+put This into Ctf
+shout Ctf
+my_lyric = False
+my_lyric = This - my_song
+my_lyric -= 3
+shout my_lyric
+This = my_lyric
+my_lyric = my_song + This
+my_lyric -= 1
+shout my_lyric
+my_lyric += 1, up ,up
+shout my_lyric
+shout Pico
+shout It
+Pico_Ctf = 3
+security = 9
+Fun = 3
+Pico_Ctf = security + fun
+Fun += 1
+shout fun * Pico_Ctf
+put fun * Pico_Ctf into my_song
+build Fun up
+shout it
+shout it
+build Fun up, up
+shout it
+shout Pico
+~~~
+
+This requires further editing to enable it to run in Python.  Reviewing the [documentation](https://codewithrockstar.com/docs), we can correct issues with lyrics.py:
+
+~~~py
+Pico = 19
+my_mind = 6
+It = 6
+This = my_mind * Pico
+#my_flag != found
+#put This into my_flag
+my_flag = This
+#put my_flag into Pico
+Pico = my_flag
+#shout Pico
+print(Pico)
+#shout Pico
+print(Pico)
+#shout Pico
+print(Pico)
+my_song = 9
+#put Pico into This
+This = Pico
+This -= 3
+#put This into Ctf
+Ctf = This
+#shout Ctf
+print(Ctf)
+my_lyric = False
+my_lyric = This - my_song
+my_lyric -= 3
+#shout my_lyric
+print(my_lyric)
+This = my_lyric
+my_lyric = my_song + This
+my_lyric -= 1
+#shout my_lyric
+print(my_lyric)
+my_lyric += 3#, up ,up
+#shout my_lyric
+print(my_lyric)
+#shout Pico
+print(Pico)
+#shout It (las parsed variable)
+print(my_lyric)
+Pico_Ctf = 3
+security = 9
+Fun = 3
+Pico_Ctf = security + Fun
+Fun += 1
+#shout fun * Pico_Ctf
+print(Fun*Pico_Ctf)
+#put fun * Pico_Ctf into my_song
+my_song = Fun*Pico_Ctf
+#build Fun up <- Incorrect transcription, should be "it" = my_song
+my_song += 1
+#shout it
+print(my_song)
+#shout it
+print(my_song)
+#build Fun up, up
+my_song += 2
+#shout it
+print(my_song)
+#shout Pico
+print(Pico)
+~~~
+
+Running this returns:
+
+~~~
+runfile('lyrics.py')
+114
+114
+114
+111
+99
+107
+110
+114
+110
+48
+49
+49
+51
+114
+~~~
+
+This can be interpreted as ascii characters manually, or we can update the Python code to generate and print the flag:
+
+~~~py
+flag = ''
+Pico = 19
+my_mind = 6
+It = 6
+This = my_mind * Pico
+#my_flag != found
+#put This into my_flag
+my_flag = This
+#put my_flag into Pico
+Pico = my_flag
+#shout Pico
+flag += chr(Pico)
+#shout Pico
+flag += chr(Pico)
+#shout Pico
+flag += chr(Pico)
+my_song = 9
+#put Pico into This
+This = Pico
+This -= 3
+#put This into Ctf
+Ctf = This
+#shout Ctf
+flag += chr(Ctf)
+my_lyric = False
+my_lyric = This - my_song
+my_lyric -= 3
+#shout my_lyric
+flag += chr(my_lyric)
+This = my_lyric
+my_lyric = my_song + This
+my_lyric -= 1
+#shout my_lyric
+flag += chr(my_lyric)
+my_lyric += 3#, up ,up
+#shout my_lyric
+flag += chr(my_lyric)
+#shout Pico
+flag += chr(Pico)
+#shout It (las parsed variable)
+flag += chr(my_lyric)
+Pico_Ctf = 3
+security = 9
+Fun = 3
+Pico_Ctf = security + Fun
+Fun += 1
+#shout fun * Pico_Ctf
+flag += chr(Fun*Pico_Ctf)
+#put fun * Pico_Ctf into my_song
+my_song = Fun*Pico_Ctf
+#build Fun up <- Incorrect transcription, should be "it" = my_song
+my_song += 1
+#shout it
+flag += chr(my_song)
+#shout it
+flag += chr(my_song)
+#build Fun up, up
+my_song += 2
+#shout it
+flag += chr(my_song)
+#shout Pico
+flag += chr(Pico)
+
+print("picoCTF{" + flag + "}")
+~~~
+
+This returns:
+
+~~~
+runfile('lyrics.py')
+picoCTF{rrrocknrn0113r}
+~~~
+
 </details>
 
 ### Answer
@@ -1071,7 +1292,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{rrrocknrn0113r}
 ~~~
 
 </details>
