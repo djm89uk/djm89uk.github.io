@@ -2214,7 +2214,77 @@ asm3:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+~~~c
+#include <stdio.h>
+
+#include <stdlib.h>
+
+int asm3(int in1, int in2, int in3) {
+  int val;
+
+  asm(
+    // "push   ebp;"
+    // "mov    ebp,esp;"
+    "xor    eax,eax;"
+    "mov    ah,BYTE PTR [ebp+0xb];"
+    "shl    ax,0x10;"
+    "sub    al,BYTE PTR [ebp+0xd];"
+    "add    ah,BYTE PTR [ebp+0xc];"
+    "xor    ax,WORD PTR [ebp+0x12];"
+    "nop;"
+    //"pop    ebp;"
+    : "=r"(val): "b"(in1), "c"(in2), "d"(in3)
+  );
+
+  return val;
+}
+
+int main(void) {
+  int input1, input2, input3;
+  printf("asm3 executable.\n");
+  printf("Enter an input1 value for asm3 in hexadecimal format without 0x :");
+  scanf("%x", & input1);
+  printf("\nYou entered: 0x%x\n", input1);
+  printf("Enter an input2 value for asm3 in hexadecimal format without 0x :");
+  scanf("%x", & input2);
+  printf("\nYou entered: 0x%x\n", input2);
+  printf("Enter an input3 value for asm3 in hexadecimal format without 0x :");
+  scanf("%x", & input3);
+  printf("\nYou entered: 0x%x\n", input3);
+  printf("----------\n");
+  printf("running asm3(0x%x,0x%x,0x%x).\n", input1, input2, input3);
+  int output = asm3(input1, input2, input3);
+  printf("complete.\n");
+  printf("Flag = 0x%x\n", output);
+  printf("Goodbye\n");
+  printf("----------\n");
+  return 0;
+}
+~~~
+
+~~~
+$ gcc -masm=intel -m32 asm3.c -o asm3 -Wall -Wextra -fno-stack-protector -no-pie
+~~~
+
+~~~
+$ ./asm3
+asm3 executable.
+Enter an input1 value for asm3 in hexadecimal format without 0x :ba6c5a02
+
+You entered: 0xba6c5a02
+Enter an input2 value for asm3 in hexadecimal format without 0x :d101e3dd
+
+You entered: 0xd101e3dd
+Enter an input3 value for asm3 in hexadecimal format without 0x :bb86a173
+
+You entered: 0xbb86a173
+----------
+running asm3(0xba6c5a02,0xd101e3dd,0xbb86a173).
+complete.
+Flag = 0x669b
+Goodbye
+----------
+~~~
 
 </details>
 
