@@ -1899,16 +1899,6 @@ As described in the hints, this is the flag without picoCTF{}.
 
 <summary markdown="span">Solution 2</summary>
 
-Alternatively, we can use an online emulator to run the assembly code directly.
-
-
-
-</details>
-
-<details>
-
-<summary markdown="span">Solution 3</summary>
-
 This challenge can be solved without reviewing, or understanding, the assembly code.  We can write a c program to pass the relevant variables to the assembly code program and print the output.
 
 Using a 32-bit virtual machine, we can build and run executables in a native 32-bit architecture environment.  All that is required to compile in a 32-bit environment is the gcc compiler and dependent libraries.  These can be installed using:
