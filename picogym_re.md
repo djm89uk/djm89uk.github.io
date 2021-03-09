@@ -1895,6 +1895,29 @@ As described in the hints, this is the flag without picoCTF{}.
 
 </details>
 
+<details>
+
+<summary markdown="span">Solution 2</summary>
+
+This challenge can be solved without reviewing, or understanding, the assembly code.  We can write a c program to pass the relevant variables to the assembly code program and print the output.
+
+Using a 32-bit virtual machine, we can build and run executables in a native 32-bit architecture environment.
+
+~~~
+$ apt-get install gcc-multilib
+~~~
+
+This installs multi-architecture c-compiler, gcc but does not provide the 32-bit architecture required to execute a 32-bit compiled program.
+
+32 bit architecture programs can be run in virtual environments or locally, by installing multiarchitecture support:
+
+~~~
+$ dpkg --add-architecture i386
+$ apt-get update
+$ apt install 
+~~~
+
+
 ### Answer
 
 <details>
