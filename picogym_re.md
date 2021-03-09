@@ -1915,9 +1915,8 @@ We can now transcribe the asm into c using inline assembly code following the [e
 #include <stdio.h>
 #include <stdlib.h>
 
-int asm1(int in ) {
-  int val;
-
+int asm1(int input ) {
+  int output;
   asm(
     	// "push   ebp;"
     	// "mov    ebp,esp;"
@@ -1944,11 +1943,11 @@ int asm1(int in ) {
     "_asm1_60:"
     	// "pop    ebp;"
     	// "ret;"
-    	: "=r"(val)
-    	: "b"( in )
+    		: "=r"( output )
+    		: "b"( input )
   );
 
-  return val;
+  return output;
 }
 
 int main(void) {
@@ -2231,8 +2230,8 @@ As in previous asm challenges, we can compile the assembly code within c as show
 #include <stdio.h>
 #include <stdlib.h>
 
-int asm3(int in1, int in2, int in3) {
-  int val;
+int asm3(int input1, int input2, int input3) {
+  int output;
   asm(
     // "push   ebp;"
     // "mov    ebp,esp;"
@@ -2244,10 +2243,10 @@ int asm3(int in1, int in2, int in3) {
     "xor    ax,WORD PTR [ebp+0x12];"
     "nop;"
     //"pop    ebp;"
-    : "=r"(val)
-    : "b"(in1), "c"(in2), "d"(in3)
+    : "=r"( output )
+    : "b"( input1 ), "c"( input2 ), "d"( input3 )
   );
-  return val;
+  return output;
 }
 
 int main(void) {
@@ -2411,7 +2410,113 @@ asm4:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+
+int asm4(char * input ) {
+  int output;
+  asm(
+    	// "push   ebp;"
+    	// "mov    ebp,esp;"
+    	"push   ebx;"
+    	"sub    esp,0x10;"
+    	"mov    DWORD PTR [ebp-0x10],0x27a;"
+    	"mov    DWORD PTR [ebp-0xc],0x0;"
+    	"jmp    _asm4_27;"
+    "_asm4_23:"
+    	"add    DWORD PTR [ebp-0xc],0x1;"
+    "_asm4_27:"
+    	"mov    edx,DWORD PTR [ebp-0xc];"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,edx;"
+    	"movzx  eax,BYTE PTR [eax];"
+    	"test   al,al;"
+    	"jne   _asm4_23;"
+    	"mov    DWORD PTR [ebp-0x8],0x1;"
+    	"jmp   _asm4_138;"
+    "_asm4_51:"
+    	"mov    edx,DWORD PTR [ebp-0x8];"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,edx;"
+    	"movzx  eax,BYTE PTR [eax];"
+    	"movsx  edx,al;"
+    	"mov    eax,DWORD PTR [ebp-0x8];"
+    	"lea    ecx,[eax-0x1];"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,ecx;"
+    	"movzx  eax,BYTE PTR [eax];"
+    	"movsx  eax,al;"
+    	"sub    edx,eax;"
+    	"mov    eax,edx;"
+    	"mov    edx,eax;"
+    	"mov    eax,DWORD PTR [ebp-0x10];"
+    	"lea    ebx,[edx+eax*1];"
+    	"mov    eax,DWORD PTR [ebp-0x8];"
+    	"lea    edx,[eax+0x1];"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,edx;"
+    	"movzx  eax,BYTE PTR [eax];"
+    	"movsx  edx,al;"
+    	"mov    ecx,DWORD PTR [ebp-0x8];"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,ecx;"
+    	"movzx  eax,BYTE PTR [eax];"
+    	"movsx  eax,al;"
+    	"sub    edx,eax;"
+    	"mov    eax,edx;"
+    	"add    eax,ebx;"
+    	"mov    DWORD PTR [ebp-0x10],eax;"
+    	"add    DWORD PTR [ebp-0x8],0x1;"
+    "_asm4_138:"
+    	"mov    eax,DWORD PTR [ebp-0xc];"
+    	"sub    eax,0x1;"
+    	"cmp    DWORD PTR [ebp-0x8],eax;"
+    	"jl    _asm4_51;"
+    	"mov    eax,DWORD PTR [ebp-0x10];"
+    	"add    esp,0x10;"
+    	"pop    ebx;"
+    	// "pop    ebp;"
+    	// "ret;"
+    		: "=r"( output )
+		: "b"( input )
+  );
+  return output;
+}
+
+int main(void) {
+  char input[20];
+  printf("asm4 executable.\n");
+  printf("Enter an input value for asm4 as a string :");
+  scanf("%s", & input);
+  printf("\nYou entered: %s", input);
+  printf("----------\n");
+  printf("running asm4(\"%s\").\n", input);
+  int output = asm4(input);
+  printf("complete.\n");
+  printf("Flag = 0x%x\n", output);
+  printf("Goodbye\n");
+  printf("----------\n");
+  return 0;
+}
+~~~
+
+~~~
+$ gcc -masm=intel -m32 asm4.c -o asm4 -Wall -Wextra -fno-stack-protector -no-pie
+~~~
+
+~~~
+$ ./asm4
+asm4 executable.
+Enter an input value for asm4 as a string :picoCTF_f97bb
+
+You entered: picoCTF_f97bb----------
+running asm4("picoCTF_f97bb").
+complete.
+Flag = 0x265
+Goodbye
+----------
+~~~
 
 </details>
 
@@ -2422,7 +2527,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+0x265
 ~~~
 
 </details>
