@@ -1899,59 +1899,63 @@ As described in the hints, this is the flag without picoCTF{}.
 
 <summary markdown="span">Solution 2</summary>
 
+Alternatively, we can use an online emulator to run the assembly code directly.
+
+
+
+</details>
+
+<details>
+
+<summary markdown="span">Solution 3</summary>
+
 This challenge can be solved without reviewing, or understanding, the assembly code.  We can write a c program to pass the relevant variables to the assembly code program and print the output.
 
-Using a 32-bit virtual machine, we can build and run executables in a native 32-bit architecture environment.
+Using a 32-bit virtual machine, we can build and run executables in a native 32-bit architecture environment.  All that is required to compile in a 32-bit environment is the gcc compiler and dependent libraries.  These can be installed using:
 
 ~~~
-$ apt-get install gcc-multilib
+$ apt-get install build-essential
 ~~~
 
-This installs multi-architecture c-compiler, gcc but does not provide the 32-bit architecture required to execute a 32-bit compiled program.
+This installs the 32-bit gcc compiler.
 
-32 bit architecture programs can be run in virtual environments or locally, by installing multiarchitecture support:
-
-~~~
-$ dpkg --add-architecture i386
-$ apt-get update
-$ apt install 
-~~~
+We can now transcribe the asm into c using inline assembly code following the [extended asm](https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html) format.
 
 ~~~c
 #include <stdio.h>
-
 #include <stdlib.h>
 
 int asm1(int in ) {
   int val;
 
   asm(
-    // "push   ebp;"
-    // "mov    ebp,esp;"
-    "cmp    DWORD PTR [ebp+0x8],0x71c;"
-    "jg    _asm1_37;"
-    "cmp    DWORD PTR [ebp+0x8],0x6cf;"
-    "jne  _asm1_29;"
-    "mov    eax,DWORD PTR [ebp+0x8];"
-    "add    eax,0x3;"
-    "jmp  _asm1_60;"
+    	// "push   ebp;"
+    	// "mov    ebp,esp;"
+    	"cmp    DWORD PTR [ebp+0x8],0x71c;"
+    	"jg    _asm1_37;"
+    	"cmp    DWORD PTR [ebp+0x8],0x6cf;"
+    	"jne  _asm1_29;"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,0x3;"
+    	"jmp  _asm1_60;"
     "_asm1_29:"
-    "mov    eax,DWORD PTR [ebp+0x8];"
-    "sub    eax,0x3;"
-    "jmp  _asm1_60;"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"sub    eax,0x3;"
+    	"jmp  _asm1_60;"
     "_asm1_37:"
-    "cmp    DWORD PTR [ebp+0x8],0x8be;"
-    "jne    _asm1_54;"
-    "mov    eax,DWORD PTR [ebp+0x8];"
-    "sub    eax,0x3;"
-    "jmp  _asm1_60;"
+    	"cmp    DWORD PTR [ebp+0x8],0x8be;"
+    	"jne    _asm1_54;"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"sub    eax,0x3;"
+    	"jmp  _asm1_60;"
     "_asm1_54:"
-    "mov    eax,DWORD PTR [ebp+0x8];"
-    "add    eax,0x3;"
+    	"mov    eax,DWORD PTR [ebp+0x8];"
+    	"add    eax,0x3;"
     "_asm1_60:"
-    // "pop    ebp;"
-    // "ret;"
-    : "=r"(val): "b"( in )
+    	// "pop    ebp;"
+    	// "ret;"
+    	: "=r"(val)
+    	: "b"( in )
   );
 
   return val;
@@ -1974,9 +1978,24 @@ int main(void) {
 }
 ~~~
 
+This can be compiled using extended flags described below.
+
+| Flag                 | Description                                                                        |
+|----------------------|------------------------------------------------------------------------------------|
+| -masm=intel          | Sets assembly dialect to intel.                                                    |
+| -m32                 | flag for compiling 32 bit executable in 64 bit environment (not required for x86). |
+| -Wall                | enables all warnings about constructions from the compiler.                        |
+| -Wextra              | enables extra warning flags from compiler.                                         |
+| -fno-stack-protector | disables stack protection.                                                         |
+| -no-pie              | disables address space layout randomisation.                                       |
+
+The complete compiling command:
+
 ~~~
 $ gcc -masm=intel -m32 asm1.c -o asm1 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
+
+We can now run the executable and enter the input given in the challenge:
 
 ~~~
 $ ./asm1
@@ -1991,6 +2010,8 @@ Flag = 0x8bb
 Goodbye
 ----------
 ~~~
+
+This returns the flag 0x8bb.
 
 </details>
 
@@ -2212,7 +2233,7 @@ asm3:
 
 <details>
 
-<summary markdown="span">Solution 2</summary>
+<summary markdown="span">Solution 1</summary>
 
 As in previous asm challenges, we can compile the assembly code within c as shown below.
 
