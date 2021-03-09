@@ -2212,16 +2212,16 @@ asm3:
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution 2</summary>
+
+As in previous asm challenges, we can compile the assembly code within c as shown below.
 
 ~~~c
 #include <stdio.h>
-
 #include <stdlib.h>
 
 int asm3(int in1, int in2, int in3) {
   int val;
-
   asm(
     // "push   ebp;"
     // "mov    ebp,esp;"
@@ -2233,9 +2233,9 @@ int asm3(int in1, int in2, int in3) {
     "xor    ax,WORD PTR [ebp+0x12];"
     "nop;"
     //"pop    ebp;"
-    : "=r"(val): "b"(in1), "c"(in2), "d"(in3)
+    : "=r"(val)
+    : "b"(in1), "c"(in2), "d"(in3)
   );
-
   return val;
 }
 
@@ -2262,9 +2262,13 @@ int main(void) {
 }
 ~~~
 
+This can be compiled as shown below:
+
 ~~~
 $ gcc -masm=intel -m32 asm3.c -o asm3 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
+
+When executed, we can enter the three inputs separately to generate the flag:
 
 ~~~
 $ ./asm3
@@ -2286,6 +2290,8 @@ Goodbye
 ----------
 ~~~
 
+This returns the flag 0x669b.
+
 </details>
 
 ### Answer
@@ -2295,7 +2301,7 @@ Goodbye
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+0x669b
 ~~~
 
 </details>
