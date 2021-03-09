@@ -1917,6 +1917,82 @@ $ apt-get update
 $ apt install 
 ~~~
 
+~~~c
+#include <stdio.h>
+
+#include <stdlib.h>
+
+int asm1(int in ) {
+  int val;
+
+  asm(
+    // "push   ebp;"
+    // "mov    ebp,esp;"
+    "cmp    DWORD PTR [ebp+0x8],0x71c;"
+    "jg    _asm1_37;"
+    "cmp    DWORD PTR [ebp+0x8],0x6cf;"
+    "jne  _asm1_29;"
+    "mov    eax,DWORD PTR [ebp+0x8];"
+    "add    eax,0x3;"
+    "jmp  _asm1_60;"
+    "_asm1_29:"
+    "mov    eax,DWORD PTR [ebp+0x8];"
+    "sub    eax,0x3;"
+    "jmp  _asm1_60;"
+    "_asm1_37:"
+    "cmp    DWORD PTR [ebp+0x8],0x8be;"
+    "jne    _asm1_54;"
+    "mov    eax,DWORD PTR [ebp+0x8];"
+    "sub    eax,0x3;"
+    "jmp  _asm1_60;"
+    "_asm1_54:"
+    "mov    eax,DWORD PTR [ebp+0x8];"
+    "add    eax,0x3;"
+    "_asm1_60:"
+    // "pop    ebp;"
+    // "ret;"
+    : "=r"(val): "b"( in )
+  );
+
+  return val;
+}
+
+int main(void) {
+  int input;
+  printf("asm1 executable.\n");
+  printf("Enter an input value for asm1 in hexadecimal format without 0x :");
+  scanf("%x", & input);
+  printf("\nYou entered: 0x%x\n", input);
+  printf("----------\n");
+  printf("running asm1(0x%x).\n", input);
+  int output = asm1(input);
+  printf("complete.\n");
+  printf("Flag = 0x%x\n", output);
+  printf("Goodbye\n");
+  printf("----------\n");
+  return 0;
+}
+~~~
+
+~~~
+$ gcc -masm=intel -m32 asm1.c -o asm1 -Wall -Wextra -fno-stack-protector -no-pie
+~~~
+
+~~~
+$ ./asm1
+asm1 executable.
+Enter an input value for asm1 in hexadecimal format without 0x :8be
+
+You entered: 0x8be
+----------
+running asm1(0x8be).
+complete.
+Flag = 0x8bb
+Goodbye
+----------
+~~~
+
+</details>
 
 ### Answer
 
