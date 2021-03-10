@@ -53,11 +53,7 @@ This garden contains more than it seems.
 
 <summary markdown="span">garden.jpg</summary>
 
-<div markdonw="1">
-
 ![garden.jpg](./resources/picoctf/picogym/attachments/forensics/glory-of-the-garden/garden.jpg)
-
-</div>
 
 </details>
 
@@ -121,11 +117,7 @@ Find the flag in this picture.
 
 <summary markdown="span">pico_img.png</summary>
 
-<div markdonw="1">
-
 ![pico_img.png](./resources/picoctf/picogym/attachments/forensics/so-meta/pico_img.png)
-
-</div>
 
 </details>
 
@@ -409,11 +401,7 @@ There's something in the building. Can you retrieve the flag?
 
 <summary markdown="span">buildings.png</summary>
 
-<div markdonw="1">
-
 ![buildings.png](./resources/picoctf/picogym/attachments/forensics/what-lies-within/buildings.png)
-
-</div>
 
 </details>
 
@@ -748,11 +736,7 @@ We can now open the image file:
 
 <summary markdown="span">mystery.png</summary>
 
-<div markdonw="1">
-
 ![mystery01.png](./resources/picoctf/picogym/solutions/forensics/c0rrupt/mystery01.png)
-
-</div>
 
 </details>
 
@@ -887,11 +871,7 @@ Playing the wav file will show a waterfall of the audio and decode the SSTV imag
 
 <summary markdown="span">flag.png</summary>
 
-<div markdonw="1">
-
 ![flag.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk/flag.png)
-
-</div>
 
 </details>
 
@@ -967,13 +947,11 @@ $ chmod +x untar.sh
 
 We can execute the above bash script.  Once complete, we will have a png flag file:
 
+<details>
+
 <summary markdown="span">mystery.png</summary>
 
-<div markdonw="1">
-
 ![flag.png](./resources/picoctf/picogym/solutions/forensics/like1000/flag.png)
-
-</div>
 
 </details>
 
@@ -1042,7 +1020,7 @@ There are a lot of red herrings in the streams ("picoCTF{N0t_a_fLag}" in udp str
 We can try to export objects from the packet capture using tshark, for example to export imf objects we use:
 
 ~~~
-$tshark -r capture_final.pcap --export-objects imf,temp_folder
+$ tshark -r capture_final.pcap --export-objects imf,temp_folder
 ~~~
 
 No objects are exported.  This challenge must use a more interesting method to hide the flag.
@@ -1257,11 +1235,7 @@ We have recovered a binary and an image. See what you can make of it. There shou
 
 <summary markdown="span">mystery.png</summary>
 
-<div markdonw="1">
-
 ![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-0/mystery.png)
-
-</div>
 
 </details>
 
@@ -1397,11 +1371,7 @@ We have recovered a binary and a few images: image, image2, image3. See what you
 
 <summary markdown="span">mystery.png</summary>
 
-<div markdonw="1">
-
 ![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery.png)
-
-</div>
 
 </details>
 
@@ -1409,11 +1379,7 @@ We have recovered a binary and a few images: image, image2, image3. See what you
 
 <summary markdown="span">mystery2.png</summary>
 
-<div markdonw="1">
-
 ![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery2.png)
-
-</div>
 
 </details>
 
@@ -1421,11 +1387,7 @@ We have recovered a binary and a few images: image, image2, image3. See what you
 
 <summary markdown="span">mystery3.png</summary>
 
-<div markdonw="1">
-
 ![mystery.png](./resources/picoctf/picogym/attachments/forensics/investigative-reversing-1/mystery3.png)
-
-</div>
 
 </details>
 
