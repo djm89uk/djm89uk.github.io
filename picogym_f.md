@@ -869,6 +869,8 @@ Loading QSSTV, we ensure the program is receiving from our active audio interfac
 
 Playing the wav file will show a waterfall of the audio and decode the SSTV image:
 
+<details>
+
 <summary markdown="span">flag.png</summary>
 
 ![flag.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk/flag.png)
