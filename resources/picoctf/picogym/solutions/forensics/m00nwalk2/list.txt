@@ -1,0 +1,4 @@
+clue1.png
+clue2.png
+clue3.png
+message.png
