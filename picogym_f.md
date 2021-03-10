@@ -67,7 +67,19 @@ This garden contains more than it seems.
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+This challenge can be solved with the in-built linux command strings and can be optimised using grep:
+
+~~~
+$ strings garden.jpg | grep pico
+~~~
+
+This searches the hex values for a string including the substring "pico".  The command returns:
+
+~~~
+Here is a flag "picoCTF{more_than_m33ts_the_3y33dd2eEF5}"
+~~~
+
+The flag is therefore picoCTF{more_than_m33ts_the_3y33dd2eEF5}
 
 </details>
 
@@ -78,7 +90,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{more_than_m33ts_the_3y33dd2eEF5}
 ~~~
 
 </details>
@@ -270,7 +282,13 @@ There's something in the building. Can you retrieve the flag?
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+A quick online search finds a useful tool for decoding messages within images.  Stylesuxx's [steganography tool](https://stylesuxx.github.io/steganography/) can be used to decode the image and returns:
+
+~~~
+picoCTF{h1d1ng_1n_th3_b1t5}
+~~~
+
+Giving us the flag.
 
 </details>
 
@@ -281,7 +299,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{h1d1ng_1n_th3_b1t5}
 ~~~
 
 </details>
