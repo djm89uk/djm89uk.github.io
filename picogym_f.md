@@ -999,7 +999,149 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge provides a packet capture file, similar to the previous shark on the wire challenge.
+
+The capture file has 1326 packets.  We can again reduce the capture file size using the following commands:
+
+~~~
+$ tcpdump -r capture.pcap -w capture_ip.pcap
+$ editcap --novlan -d capture_ip.pcap capture_ip_no_replicas.pcap
+$ tcpdump -r capture_ip_no_replicas.pcap -w capture_final.pcap tcp or udp
+~~~
+
+This has reduced the total capture size to 101 packets. Looking through the files, we do not see any useful contents:
+
+~~~
+$ tshark -r capture_final.pcap -z "follow,udp,ascii,1"
+~~~
+
+There are a lot of red herrings in the streams ("picoCTF{N0t_a_fLag}" in udp stream 6, "picoCTF{StaT315e" in udp stream 7, "picoCTF Sure is fun!" in udp stream 9, "I really want to find some picoCTF flags" in udp stream 10).  Reviewing the packet contents is not getting us anywhere.
+
+We can try to export objects from the packet capture using tshark, for example to export imf objects we use:
+
+~~~
+$tshark -r capture_final.pcap --export-objects imf,temp_folder
+~~~
+
+No objects are exported.  This challenge must use a more interesting method to hide the flag.
+
+We can look at a summary of the capture using the command:
+
+~~~
+$ tshark -r capture_final.pcap
+~~~
+
+This shows a lot of information, not much use except there seems to be some strange ports in use.  We can review the tcp ports by filtering tshark and piping to sort and uniq:
+
+~~~
+$ tshark -r capture_final.pcap -Y "tcp" -T fields -e tcp.srcport -e tcp.dstport | sort | uniq
+60218   80
+80      60218
+~~~
+
+This shows ports 60218 and 80 are used for tcp conversations.  We can do the same for udp:
+
+~~~
+$ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -e udp.dstport | sort | uniq
+1234    123
+1234    1234
+49852   1900
+5000    22
+5000    8888
+5000    8990
+5000    9999
+5048    22
+5049    22
+5051    22
+5067    22
+5070    22
+5076    22
+5084    22
+50845   1900
+5095    22
+5097    100
+5097    22
+5097    80
+5099    22
+5100    22
+5102    22
+5103    22
+5105    22
+5111    22
+5112    22
+5114    22
+5115    22
+5116    22
+5118    22
+5123    22
+5125    22
+51736   1900
+52219   1900
+52274   5355
+52318   1900
+52759   1900
+5353    5353
+54450   1900
+56287   1900
+56624   1900
+58515   1900
+~~~
+
+There are some interesting source port numbers in use with the conversation to port 22.  We can filter these:
+
+~~~
+$ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22
+5000
+5112
+5105
+5099
+5111
+5067
+5084
+5070
+5123
+5112
+5049
+5076
+5102
+5051
+5114
+5051
+5100
+5095
+5100
+5097
+5116
+5097
+5095
+5118
+5049
+5097
+5095
+5115
+5116
+5051
+5103
+5048
+5125
+5000
+~~~
+
+It appears each source port uses a slightly different 5000 port number.  We can do some piping and basic maths to see if the decimal integers can represent ascii characters for the flag:
+
+~~~
+$ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22 | awk '{print sprintf("%c",$1-5000)}' | tr -d '\n'
+picoCTF{p1Lf3r3d_data_v1a_st3g0}
+~~~
+
+This gives us the flag picoCTF{p1Lf3r3d_data_v1a_st3g0}, which is again an incorrect flag due to packet loss in the file reduction.  reusing the above command on the original capture file:
+
+~~~
+$ tshark -r capture.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22 | awk '{print sprintf("%c",$1-5000)}' | tr -d '\n'
+picoCTF{p1LLf3r3d_data_v1a_st3g0}
+~~~
+
+Gives us the flag picoCTF{p1LLf3r3d_data_v1a_st3g0}.
 
 </details>
 
@@ -1010,7 +1152,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{p1LLf3r3d_data_v1a_st3g0}
 ~~~
 
 </details>
