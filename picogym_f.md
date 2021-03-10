@@ -135,7 +135,20 @@ Find the flag in this picture.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge suggests we review the meta data for the image.  A useful tool for extracting meta data from photographs is [Exiftool](https://exiftool.org/).  We can combine this with grep to deliver a concise solution:
+
+~~~
+$ exiftool pico_img.png | grep pico
+~~~
+
+This returns:
+
+~~~
+File Name                       : pico_img.png
+Artist                          : picoCTF{s0_m3ta_d8944929}
+~~~
+
+Which give us the flag.
 
 </details>
 
@@ -146,7 +159,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{s0_m3ta_d8944929}
 ~~~
 
 </details>
@@ -181,7 +194,55 @@ This is a really weird text file TXT? Can you find the flag?
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+THis challenge provides a file, flag.txt.  When we open the file, we can safely assume this is not a text file.
+
+A quick review of the hex strings returns us the first five lines:
+
+~~~
+$ strings flag.txt 
+IHDR
+sRGB
+gAMA
+        pHYs
+IDATx^
+~~~
+
+We can see gAMA and sRGB strings, so we can assume this is an image file which has had the file signature corrupted.
+
+This file can be opened in a hex editor such as [GHex](https://wiki.gnome.org/Apps/Ghex) to view and edit the hex bytes in the file signature.
+
+The first 4 Bytes of the file are:
+
+~~~
+89 50 4E 47
+. P N G
+~~~
+
+This suggests that the file is likely a png image.  We can find a detail of the PNG signature header at [filesignatures.net](https://www.filesignatures.net/index.php?page=search&search=PNG&mode=EXT).
+
+This gives us the first 8 Bytes of a PNG file:
+
+~~~
+89 50 4E 47 0D 0A 1A 0A 
+~~~
+
+Reviewing the Bytes in GHex shows that all 8 Bytes are matched.  This is definitely a PNG file.
+
+The extension can be changed from .txt to .png:
+
+~~~
+$ cp flag.txt flag.png
+~~~
+
+When opened, the image shows the flag:
+
+<details>
+
+<summary markdown="span">flag.png</summary>
+
+![flag.png](./resources/picoctf/picogym/solutions/forensics/extensions/flag.png)
+
+</details>
 
 </details>
 
@@ -192,7 +253,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{now_you_know_about_extensions}
 ~~~
 
 </details>
