@@ -288,7 +288,87 @@ We found this packet capture. Recover the flag.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+In this challenge, we are provided a packet capture file, capture.pcap, that contains the flag.
+
+Two common programs that can open and view this packet capture are wireshark and tcpdump.  Using tcpdump we can load all packets and check the packet datagram for strings that may return the flag:
+
+~~~
+$ tcpdump -r capture.pcap -A | grep pico 
+~~~
+
+This returns:
+
+~~~
+reading from file capture.pcap, link-type EN10MB (Ethernet), snapshot length 262144
+.....'....Upico..............
+.....'....Upico..............
+.....'....Upico..............
+.....'....Upico..............
+~~~
+
+The flag is likely fragmented across multiple packets in the capture and therefore cannot be read directly.  Wireshark provides a tool to review data streams (IP conversations) in which the flag will likely be found, however we need to locate which conversation contains the flag which cannot be achieved in Wireshark, we can simplify this by filtering the pcap until we have a more manageable capture.
+
+To reduce the size of the file, we can extract IP only captures, removing all ARP and ICMP packets:
+
+~~~
+$ tcpdump -r capture.pcap -w capture_ip.pcap ip
+~~~
+
+This reduces capture.pcap from 2,317 packets to 1,230 IP packets.
+
+This can be reduced further using editcap to remove packet replicas from the capture file:
+
+~~~
+$ editcap --novlan -d capture_ip.pcap capture_ip_no_replicas.pcap 
+~~~
+
+This reduces the packet capture from 1,230 to 561.
+
+Finally, we can filter for just UDP and TCP:
+
+~~~
+$ tcpdump -r capture_ip_no_replicas.pcap -w capture_final.pcap tcp or udp
+~~~
+
+This gives us a capture file, capture_final.pcap with only 493 captured packets of interest.
+
+We can now interrogate the conversations using the wireshark command line utility, tshark:
+
+~~~
+$ tshark -r capture_final.pcap -z "follow,udp,ascii,1"
+~~~
+
+This isolates the udp conversation with index 1 and displays the contents in ascii format to the terminal.  As we work our way up through the various conversations, we can see the flag is identifiable in UDP stream 5:
+
+~~~
+$ tshark -r capture_final.pcap -z "follow,udp,ascii,5"
+~~~
+
+It is given in a rather illegible format with interruoting characters between each data segment.  We can open wireshark GUI program and filter using:
+
+~~~
+udp.stream eq 5
+~~~
+
+We can then use the follow udp stream function to read:
+
+~~~
+picoCTF{StaT315_63fee}
+~~~
+
+Which is NOT the flag.  The removal of repeated characters has reduced the flag length.  We can record the checksum for the UDP segment, for the first packet in this conversation this is 0x458e.
+
+In the original capture.pcap, we can filter to find this packet:
+
+~~~
+udp.checksum eq 0x458e
+~~~
+
+We can then view the udp conversation using follow stream and get the correct flag:
+
+~~~
+picoCTF{StaT31355_636f6e6e}
+~~~
 
 </details>
 
@@ -299,7 +379,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{StaT31355_636f6e6e}
 ~~~
 
 </details>
