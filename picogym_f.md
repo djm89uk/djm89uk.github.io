@@ -557,7 +557,204 @@ We found this file. Recover the flag.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+In this challenge, we have a binary file without an extension.  Inspecting the binary data, we do not find the string:
+
+~~~
+$ strings mystery | grep pico  
+~~~
+
+This does not return anything.  The flag is likely encoded in the file.  Two simple strings commands can provide an inidication of the file type:
+
+~~~
+$ strings mystery | grep RGB                                           1 ⨯
+sRGB
+$ strings mystery | grep gAMA                                          1 ⨯
+gAMA
+~~~
+
+This shows that it is likely an image file.  We can open the file in a hex editor to attempt to identify the file type.
+
+The last 8 Bytes of the file are:
+
+~~~
+IEND\UffffffffB`
+~~~
+
+A quick google of "IEND" suggests this may be a PNG file, we can find the ONG specification at [w3.org](https://www.w3.org/TR/PNG-Structure.html).  We will be editing the file Bytes directly, so we will create a copy to work on in the hex editor:
+
+~~~
+$ cp mystery mystery01.png
+~~~
+
+We can attempt to open this file but get an error.  We still have further steps to take.
+
+The PNG specification states "The first eight bytes of a PNG file always contain the following (decimal) values:"
+
+~~~
+137 80 78 71 13 10 26 10
+~~~
+
+In hex, these are:
+
+~~~
+89  50  4e  47  0d  0a  1a  0a
+~~~
+
+in ASCII:
+
+~~~
+.PNG....
+~~~
+
+our file, mystery01.png has the following 8-Byte header:
+
+~~~
+89 65 4E 34 0D 0A B0 AA
+~~~
+
+in ASCII:
+
+~~~
+.eN4....
+~~~
+
+We will change these to match the PNG standard and save the file.  With this corrected, the file will still not open. [w3.org](https://www.w3.org/TR/PNG-Chunks.html) provides details of the PNG chunks that should be present.  The first chunk must be the IHDR detail providing dimensions, palette , compression and interlacing details of the file.  Opening another png file, we see the header looks like:
+
+~~~
+89  50  4e  47  0d  0a  1a  0a 00 00 00 0d 49 48 44 00 00 02 93 00 00 02 81 08 02 00 00 00
+~~~
+
+in ASCII:
+
+~~~
+.PNG........IHDR.............
+~~~
+
+mystery01.png has the following header:
+
+~~~
+89  50  4e  47  0d  0a  1a  0a 00 00 00 0d 43 22 44 52 00 06 6A 00 00 04 47 08 02 00 00 00
+~~~
+
+in ASCII:
+
+~~~
+.PNG........C"DR.............
+~~~
+
+Since we do not know the dimensions, palette, compression or interlacing information for our file, we will only ammend the IHDR bytes. Our header now appears:
+
+~~~
+89  50  4e  47  0d  0a  1a  0a 00 00 00 0d 43 22 44 52 00 06 6A 00 00 04 47 08 02 00 00 00
+~~~
+
+in ASCII:
+
+~~~
+.PNG........IHDR.............
+~~~
+
+We still cannot open the file.  We need to make some more changes.  We can use a tool, [pngcheck](http://www.libpng.org/pub/png/apps/pngcheck.html) to identify issues with the file contents:
+
+~~~
+$ pngcheck mystery01.png                                             127 ⨯
+mystery01.png  CRC error in chunk pHYs (computed 38d82c82, expected 495224f0)
+ERROR: mystery01.png
+~~~
+
+This highlights a CRC error in the "pHYs" chunk.  pHYs is a chunk in png files detailing the pixel relative dimension size.  Details of the pHYs chunk can be found at [libpng.org](http://www.libpng.org/pub/png/book/chapter11.html#png.ch11.div.8).
+
+The pHYs chunk in our file is:
+
+~~~
+09 70 48 59 73 aa 00 16 25 00 00 16 25 01
+~~~
+
+or in ASCII:
+
+~~~
+.pHYs.........
+~~~
+
+The pHYs block definition from [libpng.org](http://www.libpng.org/pub/png/book/chapter11.html#png.ch11.div.8) shows the chunk fields:
+
+| Field                   | Length  | Minimum Value | Maximum Value | mystery01.png |
+|-------------------------|---------|---------------|---------------|---------------|
+| pixels per unit, x axis | 4 Bytes | 0             | 2,147,483,647 | 2,852,132,389 |
+| pixels per unit, y axis | 4 Bytes | 0             | 2,147,483,647 | 5,669         |
+| Unit specifier          | 1 Byte  | 0             | 1             | 1             |
+
+As can be seen, the first field, pixels per unit x-axis, is outside of the valid range for the png standard.  Inspecting the Byte data, we can see the pixels per field in the x-axis is:
+
+~~~
+AA 00 16 25
+~~~
+
+Whereas the y-axis field is:
+
+~~~
+00 00 16 25
+~~~
+
+We can assume the first Byte is corrupted and should be 00, effectively both x and y resolution are identical, as could be expected in a normal picture.  Once ammended, the block becomes:
+
+~~~
+09 70 48 59 73 00 00 16 25 00 00 16 25 01
+~~~
+
+We still cannot open the png file, however running the pngcheck there is no longer a CRC error with the pHYs chunk:
+
+~~~
+$ pngcheck mystery01.png                                               2 ⨯
+mystery01.png  invalid chunk length (too large)
+ERROR: mystery01.png
+~~~
+
+This shows an invalid chunk length.  Inspecting the hex editor, we can see the next chunk:
+
+~~~
+AA AA FF A5 AB 44 45 54
+~~~
+
+in ASCII:
+
+~~~
+.....DET
+~~~
+
+No chunk is provided for DET in the png standard.  This is likely another corrupted section of the file.  The closest chunk is the IDAT (image data) chunk.  We can ammend this in the file:
+
+~~~
+AA AA FF A5 49 44 41 54
+~~~
+
+in ASCII:
+
+~~~
+....IDAT
+~~~
+
+The Bytes preceding the IDAT string define the chunk size.  In this case, the chunk size is defined as 0xaaaaffa5, or 2,863,333,285 Bytes.  This is larger than the file itself, and is therefore incorrect.  The correct size can be determined by locating the next chunk.  In GHex we can search for the IDAT string and see the next IDAT chunk starts at 0x10004. The chunk data we are fixing starts at 0x5B and ends at 0x10000 (4 Byte trailer), the chunk size is therefore: 0x10000 - 0x5B =  65536 - 91 = 65445 = 0xFFA5.
+
+We can now change the IDAT header to match the block size:
+
+~~~
+00 00 FF A5 49 44 41 54
+~~~
+
+We can now open the image file:
+
+<summary markdown="span">mystery.png</summary>
+
+<div markdonw="1">
+
+![mystery01.png](./resources/picoctf/picogym/solutions/forensics/c0rrupt/mystery01.png)
+
+</div>
+
+</details>
+
+The flag can be read from theimage: picoCTF{c0rrupt10n_1847995}.
 
 </details>
 
@@ -568,7 +765,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{c0rrupt10n_1847995}
 ~~~
 
 </details>
