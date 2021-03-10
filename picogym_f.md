@@ -873,7 +873,29 @@ Decode this message from the moon.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge provides a wav audio file from which we are required to retrieve the flag.  The hints suggest that we should look at the NASA moon missions to understand how pictures were transmitted back to earth.  A quick web search leads us to [Slow-Scan Television](https://en.wikipedia.org/wiki/Slow-scan_television#Early_usage_in_space_exploration).  SSTV uses voice frequencies to transmit pictures.
+
+Another web search leads us to an [amateur radio website](https://www.amateur-radio-wiki.net/sstv-software/) that suggests [qsstv](http://users.telenet.be/on4qz/qsstv/index.html) can be used to decode SSTV broadcasts:
+
+~~~
+$ sudo apt install qsstv
+~~~
+
+Loading QSSTV, we ensure the program is receiving from our active audio interface.  In QSSTV we can set Auto Slant on and set the mode to Auto.
+
+Playing the wav file will show a waterfall of the audio and decode the SSTV image:
+
+<summary markdown="span">flag.png</summary>
+
+<div markdonw="1">
+
+![flag.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk/flag.png)
+
+</div>
+
+</details>
+
+This gives us the flag: picoCTF{beep_boop_im_in_space}.
 
 </details>
 
@@ -884,7 +906,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{beep_boop_im_in_space}
 ~~~
 
 </details>
