@@ -744,6 +744,8 @@ We can now change the IDAT header to match the block size:
 
 We can now open the image file:
 
+<details>
+
 <summary markdown="span">mystery.png</summary>
 
 <div markdonw="1">
