@@ -756,7 +756,7 @@ We can now open the image file:
 
 </details>
 
-The flag can be read from theimage: picoCTF{c0rrupt10n_1847995}.
+The flag can be read from the image: picoCTF{c0rrupt10n_1847995}.
 
 </details>
 
@@ -809,9 +809,28 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+On inspection, this file is constructed from two characters, spaces and tabs.  A simple substitution throughout the file can generate the following binary string:
+
+~~~
+00001010000010010000100101110000011010010110001101101111010000110101010001000110000010100000101000001001000010010101001101000101010001010010000001010000010101010100001001001100010010010100001100100000010100100100010101000011010011110101001001000100010100110010000000100110001000000100001001000001010000110100101101000111010100100100111101010101010011100100010000100000010100100100010101010000010011110101001001010100000010100000100100001001001101010011000000110000001100000010000001000110011011110111001001100010011001010111001100100000010000010111011001100101001011000010000001010000011010010111010001110100011100110110001001110101011100100110011101101000001011000010000001010000010000010010000000110001001101010011001000110001001100110000101000001001000010010111000001101001011000110110111101000011010101000100011001111011011011100110111101110100010111110110000101101100011011000101111101110011011100000110000101100011011001010111001101011111011000010111001001100101010111110110001101110010011001010110000101110100011001010110010001011111011001010111000101110101011000010110110001011111001101110011000100110000001100000011100000110110001100000110001000110000011001100110000100110111001101110011100101100001001101010110001001100100001110000110001101100101001100100011100101100110001100100011010001100110001101010011100000110110011001000110001101111101000010100000100100001001
+~~~
+
+Using the binary to ascii online [translator](https://www.rapidtables.com/convert/number/binary-to-ascii.html), we can recover the ASCII text:
+
+~~~
+
+		picoCTF
+
+		SEE PUBLIC RECORDS & BACKGROUND REPORT
+		5000 Forbes Ave, Pittsburgh, PA 15213
+		picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}
+		
+~~~
+
 
 </details>
+
+The flag is therefore picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}.
 
 ### Answer
 
@@ -820,7 +839,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}
 ~~~
 
 </details>
@@ -898,7 +917,45 @@ This .tar file got tarred a lot.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge has the flag held in a compressed folder that has been tar-compressed 1000 times.  To solve this, we can write a simple bash command:
+
+~~~bash
+#!/bin/bash 
+
+echo "picoCTF like1000 solution."
+
+FILE="1000.tar"
+i="1000"
+while (($i > 0));
+do
+
+tar -xvf $FILE
+rm $FILE
+i=$[$i-1]
+FILE="${i}.tar"
+
+done
+~~~
+
+We must enable this bash file to be executed:
+
+~~~
+$ chmod +x untar.sh
+~~~
+
+We can execute the above bash script.  Once complete, we will have a png flag file:
+
+<summary markdown="span">mystery.png</summary>
+
+<div markdonw="1">
+
+![flag.png](./resources/picoctf/picogym/solutions/forensics/like1000/flag.png)
+
+</div>
+
+</details>
+
+This gives us the flag picoCTF{l0t5_0f_TAR5}.
 
 </details>
 
@@ -909,7 +966,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{l0t5_0f_TAR5}
 ~~~
 
 </details>
