@@ -867,7 +867,7 @@ $ sudo apt install qsstv
 
 Loading QSSTV, we ensure the program is receiving from our active audio interface.  In QSSTV we can set Auto Slant on and set the mode to Auto.
 
-Playing the wav file will show a waterfall of the audio and decode the SSTV image:
+Playing the wav file will show a waterfall of the audio and decode the SSTV image using Scottie 1:
 
 <details>
 
@@ -1193,7 +1193,49 @@ Revisit the last transmission. We think this transmission contains a hidden mess
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+As in m00nwalk, we play these wav files and decode them using QSSTV.
+
+message.wav provides the same image as before, decoded using [Scottie 1](https://radio.clubs.etsit.upm.es/blog/2019-08-10-sstv-scottie1-encoder/):
+
+<details>
+
+<summary markdown="span">message.png</summary>
+
+![message.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/message.png)
+
+</details>
+
+clue1.wav provides a new image with the words "Password hidden_stegosaurus" using [Martin 1](https://www.sstv-handbook.com/download/sstv_04.pdf):
+
+<details>
+
+<summary markdown="span">clue1.png</summary>
+
+![clue1.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue1.png)
+
+</details>
+
+clue2.wav provides a new image with the words "The quieter you are the more you can HEAR" using [Scottie 2](https://www.sstv-handbook.com/download/sstv_04.pdf):
+
+<details>
+
+<summary markdown="span">clue2.png</summary>
+
+![clue2.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue2.png)
+
+</details>
+
+clue3.wav provides a new image with the words "Alan Eliasen the Future Boy" using [Martin 2](https://www.sstv-handbook.com/download/sstv_04.pdf):
+
+<details>
+
+<summary markdown="span">clue3.png</summary>
+
+![clue3.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue3.png)
+
+</details>
+
+A quick web search for Alan Eliasen leads us to a steganography tools website at [futureboy.us](https://futureboy.us/stegano/).  We can submit the message.wav file to this site and enter a password: hidden_stegosaurus to decode a hidden message in the file, picoCTF{the_answer_lies_hidden_in_plain_sight}.
 
 </details>
 
@@ -1204,7 +1246,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{the_answer_lies_hidden_in_plain_sight}
 ~~~
 
 </details>
@@ -1329,7 +1371,20 @@ TveAJPv6Xq1ERt5PUtX3BqQ=
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge can be solved very simply using the [ssldump](http://ssldump.sourceforge.net/) tool.  Using ssldump, we can import the capture file, import a key and decrypt application data for SSL and TLS conversations.  We use flags: "-r" to point to the packet capture file, "-k" to point to the keyfile, "-A" to print all record fields, "-e" to print the absolite timestamps and "-d" to display the application data traffic.  We can use an extended grep command to search for the flag:
+
+~~~
+$ ssldump -Aed -nr ./capture.pcap -k ./picopico.key | grep -A2 pico
+    61 67 3a 20 70 69 63 6f 43 54 46 7b 6e 6f 6e 67    ag: picoCTF{nong
+    73 68 69 6d 2e 73 68 72 69 6d 70 2e 63 72 61 63    shim.shrimp.crac
+    6b 65 72 73 7d 0d 0a 43 6f 6e 74 65 6e 74 2d 4c    kers}..Content-L
+--
+    67 3a 20 70 69 63 6f 43 54 46 7b 6e 6f 6e 67 73    g: picoCTF{nongs
+    68 69 6d 2e 73 68 72 69 6d 70 2e 63 72 61 63 6b    him.shrimp.crack
+    65 72 73 7d 0d 0a 43 6f 6e 74 65 6e 74 2d 4c 65    ers}..Content-Le
+~~~
+
+This gives us the flag picoCTF{nongshim.shrimp.crackers}.
 
 </details>
 
@@ -1340,7 +1395,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{nongshim.shrimp.crackers}
 ~~~
 
 </details>
@@ -1675,7 +1730,28 @@ TveAJPv6Xq1ERt5PUtX3BqQ=
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can solve this with the exact command used for WebNet0 challenge:
+
+~~~
+$ ssldump -Aed -nr ./capture.pcap -k ./picopico.key | grep -A2 pico
+    61 67 3a 20 70 69 63 6f 43 54 46 7b 74 68 69 73    ag: picoCTF{this
+    2e 69 73 2e 6e 6f 74 2e 79 6f 75 72 2e 66 6c 61    .is.not.your.fla
+    67 2e 61 6e 79 6d 6f 72 65 7d 0d 0a 43 6f 6e 74    g.anymore}..Cont
+--
+    67 3a 20 70 69 63 6f 43 54 46 7b 74 68 69 73 2e    g: picoCTF{this.
+    69 73 2e 6e 6f 74 2e 79 6f 75 72 2e 66 6c 61 67    is.not.your.flag
+    2e 61 6e 79 6d 6f 72 65 7d 0d 0a 43 6f 6e 74 65    .anymore}..Conte
+--
+    Pico-Flag: picoCTF{this.is.not.your.flag.anymore}
+    Keep-Alive: timeout=5, max=99
+    Connection: Keep-Alive
+--
+    00 00 00 01 00 00 00 01 70 69 63 6f 43 54 46 7b    ........picoCTF{
+    68 6f 6e 65 79 2e 72 6f 61 73 74 65 64 2e 70 65    honey.roasted.pe
+    61 6e 75 74 73 7d 00 00 ff e2 02 1c 49 43 43 5f    anuts}......ICC_
+~~~
+
+We get two red-herring flags and the flag picoCTF{honey.roasted.peanuts}
 
 </details>
 
@@ -1686,7 +1762,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{honey.roasted.peanuts}
 ~~~
 
 </details>
