@@ -2410,6 +2410,8 @@ asm4:
 
 <summary markdown="span">Solution 1</summary>
 
+As with the previous ASM challenges, we can compile a C program to execute the assembly code:
+
 ~~~c
 #include <stdio.h>
 #include <stdlib.h>
@@ -2501,9 +2503,13 @@ int main(void) {
 }
 ~~~
 
+This can be compiled as before:
+
 ~~~
 $ gcc -masm=intel -m32 asm4.c -o asm4 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
+
+When run, we enter the challenge input and the flag is returned:
 
 ~~~
 $ ./asm4
@@ -2517,6 +2523,8 @@ Flag = 0x265
 Goodbye
 ----------
 ~~~
+
+The flag is therefore 0x265
 
 </details>
 
