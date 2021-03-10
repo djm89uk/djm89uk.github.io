@@ -475,7 +475,44 @@ suspicious.dd.sda1
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This dd file can be mounted to a loop partition to inspect files, however this may interfere with the data in the image file.  Alternatively, the program Autopsy can be used to load the image and inspect the contents.
+
+After creating a new case file, the image can be mounted as a volume image.  Autopsy detects this image uses ext partition.  Opening the file analysis tool, we can see 3 sub directories, boot/, lost+found/ and tce/ and 1 file, suspicious-file.txt.
+
+![autopsy_01.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_01.png)
+
+We can inspect the contents of the file in autopsy:
+
+~~~
+Contents Of File: /1/suspicious-file.txt
+
+
+Nothing to see here! But you may want to look here -->
+~~~
+
+This is interesting.  Selecting the inode id (12) from the file analysis tool we get more information on the file:
+
+![autopsy_02.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_02.png)
+
+From here, we can access the data blocks for the file directly (2049):
+
+![autopsy_03.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_03.png)
+
+This shows the ASCII contents of the 2049 fragment including the slack space, in which we can see what appears to be an inverted flag:
+
+~~~
+ASCII Contents of Fragment 2049 in suspicious.dd.sda1-0-0
+
+
+Nothing to see here! But you may want to look here -->
+}.6.f.a.0.9.2.5.f._.3.<._.|.L.m._.1.1.1.t.5._.3.b.{.F.T.C.o.c.i.p........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+~~~
+
+This can be reversed to give the flag: 
+
+~~~
+picoCTF{b3_5t111_mL|_<3_f5290af6}
+~~~
 
 </details>
 
@@ -486,7 +523,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{b3_5t111_mL|_<3_f5290af6}
 ~~~
 
 </details>
