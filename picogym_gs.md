@@ -3,6 +3,8 @@
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
 ## Contents
+
+- [Useful References](#useful-references)
 - [2Warm](#two-warm)
 - [Warmed Up](#warmed-up)
 - [Lets Warm Up](#lets-warm-up)
@@ -18,7 +20,29 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Useful References
+
+| Link | Description |
+|------|-------------|
+| [rapidtables.com](https://www.rapidtables.com/convert/number/index.html) | Number conversion tools. |
+| [asciitable.com](http://www.asciitable.com/) | ASCII character table. |
+| [strings wiki](https://en.wikipedia.org/wiki/Strings_(Unix)) | Unix strings command. |
+| [grep wiki](https://en.wikipedia.org/wiki/Grep) | Unix grep command. |
+| [base64decode.org](https://www.base64decode.org/) | Base64 decoder online tool. |
+| [nc man page](https://linux.die.net/man/1/nc) | NetCat Linux man page. |
+| [linfo pipes](http://www.linfo.org/pipe.html) | Linux information page on pipes. |
+| [unit-conversion.info](http://www.unit-conversion.info/texttools/category/Converters) | Text tools - Converters. |
+| [cppreference.com](https://en.cppreference.com/w/c/types/limits) | Data type 32-bit limits reference. |
+| [codewithrockstar.com](https://codewithrockstar.com/) | Rockstar programming language homepage. |
+| [rockstar-py](https://github.com/yyyyyyyan/rockstar-py) | Rockstar python transpiler. |
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -160,7 +184,7 @@ picoCTF{101010}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -259,7 +283,7 @@ picoCTF{61}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -340,7 +364,7 @@ picoCTF{p}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -400,7 +424,7 @@ picoCTF{5tRIng5_1T_7f766a23}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -481,7 +505,7 @@ picoCTF{l3arn_th3_r0p35}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -540,7 +564,7 @@ picoCTF{grep_is_good_to_find_things_5af9d829}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -602,7 +626,7 @@ picoCTF{nEtCat_Mast3ry_3214be47}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -657,7 +681,7 @@ picoCTF{digital_plumb3r_5ea1fbd7}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -857,7 +881,7 @@ picoCTF{learning_about_converting_values_b375bb16}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -962,7 +986,85 @@ int main()
 
 <details>
 <summary markdown="span">Solution 1</summary>
-Solution here
+
+This challenge requires exploiting the maximum size of a 32-bit integer.   [cppreference.com](https://en.cppreference.com/w/c/types/limits) provides details on the maximum and minimum integer size:
+
+| Limit   | Integer        |
+|---------|----------------|
+| Minimum | -2,147,483,648 |
+| Maximum | +2,147,483,647 |
+
+When we exceed these limits, we can expect the value to revert to the alternate limit.  E.g. 2,147,483,647+3 = -2,147,483,648.
+
+Inspecting the source code, we can see two variables we need to manipulate, account_balance and total_cost.  By exceeding the maximum integer size in total_cost we can induce a negative cost.  We need to do this to maximise the account_balance so as to be able to afford the flag.
+
+We start with an account balance of 1100.  Our balance after purchasing the "Definitely not the flag flag" can be calculated:
+
+~~~
+account_balance = 1100 - total_cost 
+~~~
+
+We need to exceed the integer threshold to minimise the total cost and maximise our account balance.  The total cost is calculated:
+
+~~~
+total_cost = 900*number_flags
+~~~
+
+To exceed the integer threshold, we need to purchase more than 2,386,092 flags:
+
+~~~
+2386092 * 900 > 2147483647
+~~~
+
+If we select 2,386,093 flags, the total cost is 2,147,483,700.  This exceeds the maximum integer threshold by 53.  The total_cost variable will be:
+
+~~~
+-2,147,483,648 + 53 - 1 = -2147483596
+~~~
+
+However, when this is taken from the account balance, we will again exceed the maximum threshold, resulting in a very low account balance, exceeding the threshold by 1049:
+
+~~~
+1100 + 2147483596 = 2147484696
+                  = -2147483648 + 1049 - 1
+                  = -2147482600
+~~~
+
+To avoid this, we need to ensure the account_balance does not exceed the maximum integer threshold:
+
+~~~
+1100 + 2147483596 -n*900 < 2147483647
+
+-n*900 < 2147483647 -1100 -2147483596
+-n*900 < -1049
+n > 1.165
+~~~
+
+Solving the above, gives us a reduction of n=2.  The number of flags to purchase is therefore 
+
+~~~
+2386093+n = 2386095
+~~~
+
+This will have a total cost of:
+
+~~~
+total_cost = 2386095*900
+           = 2147485500
+           = -2147483648 + (2147485500-2147483647) -1
+           = -2147483648 + 1853 -1
+           = -2147481796
+~~~
+
+This will give us an account balance of:
+
+~~~
+account_balance = 1100+2147481796
+                = 2147482896
+~~~
+
+We can netcat to the challenge server and purchase 2386095 "Definitely not the flag Flag"s and proceed to purchase the "1337 Flag" that holds: picoCTF{m0n3y_bag5_65d67a74}.
+
 </details>
 
 ### Answer
@@ -970,14 +1072,14 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{m0n3y_bag5_65d67a74}
 ~~~
 
 </details>
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1299,7 +1401,7 @@ picoCTF{rrrocknrn0113r}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1521,8 +1623,10 @@ picoCTF{BONJOVI}
 
 ---
 
-### [General Skills](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+This page was last updated 11 March 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
