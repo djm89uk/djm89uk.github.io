@@ -1,9 +1,10 @@
-# [PicoGym](./picogym.md) Cryptography
+# [PicoCTF](./picoctf.md) PicoGym Cryptography
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
 ## Contents
 
+- [Useful References](#useful-references)
 - [The Numbers](#the-numbers)
 - [caesar](#caesar)
 - [Easy1](#easy1)
@@ -20,9 +21,35 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [b00tl3gRSA3](#b00tl3grsa3)
 - [john_pollard](#john-pollard)
 
+
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Useful References
+
+| Link | Description |
+|------|-------------|
+| [privacycanada.net](https://privacycanada.net/classical-encryption/caesar-cipher/) | Caesar Cipher Overview. |
+| [Caesar Cipher wiki](https://en.wikipedia.org/wiki/Caesar_cipher) | Caesar Cipher Overview. |
+| [dcode.fr](https://www.dcode.fr/caesar-cipher) | Caesar Cipher decoder. |
+| [boxentriq.com](https://www.boxentriq.com/code-breaking/one-time-pad) | OTP encoder/decoder. |
+| [ROT13 Wiki](https://en.wikipedia.org/wiki/ROT13) | ROT13 Overview. |
+| [ROT13.com](https://rot13.com/) | ROT13 Encoder/Decoder. |
+| [Vigenere Cipher Wiki](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) | Vigenere Cipher Overview. |
+| [guballa.de](https://www.guballa.de/vigenere-solver) | Vigenere Cipher solver. |
+| [guballa.de](https://www.guballa.de/substitution-solver) | Substitution Cipher solver. |
+| [RSA Wiki](https://simple.wikipedia.org/wiki/RSA_algorithm) | RSA Encryption Overview. |
+| [asecuritysite.com](https://asecuritysite.com/encryption/rsa12_2) | RSA Decryption Tool. |
+| [morsecode.world](https://morsecode.world/international/translator.html) | Morse Code Translator. |
+| [gps-coordinates.net](https://www.gps-coordinates.net/) | Lat/Long Address Lookup Tool. |
+| [IMSF Wiki](https://en.wikipedia.org/wiki/International_maritime_signal_flags) | Maritime Signal Flags Reference. |
+| [Dan Boneh Paper](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf) | Paper detailing vulnerabilities of RSA algorithm. |
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -96,7 +123,7 @@ PICOCTF{THENUMBERSMASON}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -155,7 +182,7 @@ picoCTF{crossingtherubicondjneoach}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -243,7 +270,7 @@ picoCTF{CRYPTOISFUN}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -290,7 +317,7 @@ picoCTF{not_too_bad_of_a_problem}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -379,7 +406,7 @@ picoCTF{b311a50_0r_v1gn3r3_c1ph3r6fe60eaa}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -480,7 +507,7 @@ picoCTF{wA8_th4t$_ill3aGal..ode01e4bb}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -538,7 +565,7 @@ PICOCTF{M0RS3C0D31SFUN1261438181}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -608,7 +635,7 @@ picoCTF{KODIAK_ALASKA}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Flags
@@ -668,7 +695,7 @@ PICOCTF{F1AG5AND5TUFF}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## waves over lambda
@@ -732,7 +759,7 @@ frequency_is_c_over_lambda_agflcgtyue
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## miniRSA
@@ -840,7 +867,7 @@ picoCTF{n33d_a_lArg3r_e_d0cd6eae}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## b00tl3gRSA2
@@ -880,7 +907,7 @@ picoCTF{}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## AES-ABC
@@ -985,7 +1012,7 @@ picoCTF{}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## b00tl3gRSA3
@@ -1025,7 +1052,7 @@ picoCTF{}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## john-pollard
@@ -1090,7 +1117,7 @@ picoCTF{}
 
 ---
 
-### [Cryptography](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
