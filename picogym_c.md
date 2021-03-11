@@ -59,7 +59,26 @@ The numbers... what do they mean?
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+This challenge provides the following decimal integer string:
+
+~~~
+16 9 3 15 3 20 6 { 20 8 5 14 21 13 2 5 18 19 13 1 19 15 14 }
+~~~
+
+This is a simple substitution cipher.  Each alphabetical letter has been replaced by its corresponding integer:
+
+~~~
+ A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
+01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+~~~
+
+The numbers from the image can be replaced with their corresponding letters:
+
+~~~
+P I C O C T F { T H E N U M B E R S M A S O N }
+~~~
+
+This gives us the flag: PICOCTF{THENUMBERSMASON}
 
 </details>
 
@@ -70,7 +89,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+PICOCTF{THENUMBERSMASON}
 ~~~
 
 </details>
@@ -112,7 +131,13 @@ picoCTF{gvswwmrkxlivyfmgsrhnrisegl}
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This is a simple Caesar cipher and can be solved using an online Caesar deciphering tools such as the one available at [dcode.fr](https://www.dcode.fr/caesar-cipher).
+
+Entering the enciphered text, the decipher returns:
+
+~~~
+crossingtherubicondjneoach
+~~~
 
 </details>
 
@@ -123,7 +148,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{crossingtherubicondjneoach}
 ~~~
 
 </details>
@@ -194,7 +219,13 @@ Z | Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This is a simple problem to complete by hand.  To speed up the solution we can use an OTP decipher tool such as the one available at [boxentriq.com](https://www.boxentriq.com/code-breaking/one-time-pad).
+
+Entering the scrambled flag and the key, we get:
+
+~~~
+CRYPTOISFUN
+~~~
 
 </details>
 
@@ -205,7 +236,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{CRYPTOISFUN}
 ~~~
 
 </details>
@@ -235,7 +266,13 @@ Cryptography can be easy, do you know what ROT13 is? cvpbPGS{abg_gbb_onq_bs_n_ce
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+[ROT13](https://en.wikipedia.org/wiki/ROT13) is a simple letter substitution cipher.  We can use an online solver such as the one available at [rot13.com](https://rot13.com/) to solve this challenge.
+
+Entering the ciphertext, the flag is returned:
+
+~~~
+picoCTF{not_too_bad_of_a_problem}
+~~~
 
 </details>
 
@@ -246,7 +283,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{not_too_bad_of_a_problem}
 ~~~
 
 </details>
