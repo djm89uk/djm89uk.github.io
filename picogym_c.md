@@ -48,6 +48,9 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 | [IMSF Wiki](https://en.wikipedia.org/wiki/International_maritime_signal_flags) | Maritime Signal Flags Reference. |
 | [Dan Boneh Paper](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf) | Paper detailing vulnerabilities of RSA algorithm. |
 | [Wiener's Attack Wiki](https://en.wikipedia.org/wiki/Wiener%27s_attack) | Wiener's Attack overview. |
+| [Block Cipher Wiki](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) | Block Cipher Overview. |
+| [openssl.org](https://wiki.openssl.org/index.php/Command_Line_Utilities) | Linux openssl command guide. |
+| [alpertron.com](https://www.alpertron.com.ar/ECM.HTM) | Integer factorisation. |
 
 ---
 
@@ -1263,7 +1266,84 @@ q16/S1WLvzg4PsElmv1f
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can use [openssl](https://wiki.openssl.org/index.php/Command_Line_Utilities) to extract the keys from the certificate:
+
+~~~
+$ openssl x509 -pubkey -in cert   
+~~~
+
+This gives us the public key:
+
+~~~
+-----BEGIN PUBLIC KEY-----
+MCIwDQYJKoZIhvcNAQEBBQADEQAwDgIHEaTUUhKxfwIDAQAB
+-----END PUBLIC KEY-----
+-----BEGIN CERTIFICATE-----
+MIIB6zCB1AICMDkwDQYJKoZIhvcNAQECBQAwEjEQMA4GA1UEAxMHUGljb0NURjAe
+Fw0xOTA3MDgwNzIxMThaFw0xOTA2MjYxNzM0MzhaMGcxEDAOBgNVBAsTB1BpY29D
+VEYxEDAOBgNVBAoTB1BpY29DVEYxEDAOBgNVBAcTB1BpY29DVEYxEDAOBgNVBAgT
+B1BpY29DVEYxCzAJBgNVBAYTAlVTMRAwDgYDVQQDEwdQaWNvQ1RGMCIwDQYJKoZI
+hvcNAQEBBQADEQAwDgIHEaTUUhKxfwIDAQABMA0GCSqGSIb3DQEBAgUAA4IBAQAH
+al1hMsGeBb3rd/Oq+7uDguueopOvDC864hrpdGubgtjv/hrIsph7FtxM2B4rkkyA
+eIV708y31HIplCLruxFdspqvfGvLsCynkYfsY70i6I/dOA6l4Qq/NdmkPDx7edqO
+T/zK4jhnRafebqJucXFH8Ak+G6ASNRWhKfFZJTWj5CoyTMIutLU9lDiTXng3rDU1
+BhXg04ei1jvAf0UrtpeOA6jUyeCLaKDFRbrOm35xI79r28yO8ng1UAzTRclvkORt
+b8LMxw7e+vdIntBGqf7T25PLn/MycGPPvNXyIsTzvvY/MXXJHnAqpI5DlqwzbRHz
+q16/S1WLvzg4PsElmv1f
+-----END CERTIFICATE-----
+~~~
+
+We can use this to print the RSA modulus (n):
+
+~~~
+$ openssl x509 -pubkey -noout -in cert | openssl rsa -pubin -text
+RSA Public-Key: (53 bit)
+Modulus: 4966306421059967 (0x11a4d45212b17f)
+Exponent: 65537 (0x10001)
+writing RSA key
+-----BEGIN PUBLIC KEY-----
+MCIwDQYJKoZIhvcNAQEBBQADEQAwDgIHEaTUUhKxfwIDAQAB
+-----END PUBLIC KEY-----
+~~~
+
+The modulus is very small and can be trivially factored (e.g. using [alpertron.com](https://www.alpertron.com.ar/ECM.HTM)) to give p and q:
+
+~~~
+n = 4966306421059967
+p = 67867967
+q = 73176001
+~~~
+
+From these, we can identify more RSA parameters:
+
+~~~py
+import numpy as np
+
+n = 4966306421059967
+p = 67867967
+q = 73176001
+lam_n = np.lcm(p,q)
+tot_n = (p-1)*(q-1)
+
+print("n = {}".format(n))
+print("p = {}".format(p))
+print("q = {}".format(q))
+print("phi(n) = {}".format(tot_n))
+print("lambda(n) = {}".format(lam_n))
+~~~
+
+This produces:
+
+~~~
+In [1]: ('john_pollard.py')
+n = 4966306421059967
+p = 67867967
+q = 73176001
+phi(n) = 4966306280016000
+lambda(n) = 4966306421059967
+~~~
+
+The flag is the p and q values, picoCTF{73176001,67867967}
 
 </details>
 
@@ -1274,7 +1354,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{73176001,67867967}
 ~~~
 
 </details>
@@ -1284,5 +1364,7 @@ picoCTF{}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+Last updated 11 March 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
