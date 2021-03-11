@@ -1,4 +1,4 @@
-# [PicoGym](./picogym.md) Web Exploitation
+# [PicoCTF](./picoctf.md) PicoGym Web Exploitation
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
@@ -20,7 +20,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -188,7 +188,7 @@ picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?2e7b23e3}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -322,7 +322,7 @@ picoCTF{th3_c0nsp1r4cy_l1v3s_0c98aacc}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -379,7 +379,7 @@ picoCTF{ca1cu1at1ng_Mach1n3s_1bb4c}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -474,7 +474,7 @@ picoCTF{no_clients_plz_b706c5}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -519,7 +519,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -580,7 +580,7 @@ picoCTF{p1c0_s3cr3t_ag3nt_84f9c865}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -693,7 +693,7 @@ picoCTF{not_this_again_ef49bf}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -735,7 +735,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -776,7 +776,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -817,7 +817,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -859,7 +859,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -900,7 +900,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -941,7 +941,7 @@ picoCTF{}
 
 ---
 
-### [Web Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
