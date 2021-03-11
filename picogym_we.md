@@ -211,7 +211,100 @@ The factory is hiding things from all of its users. Can you login as Joe and fin
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+For this challenge, we can inspect the source code:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Factory Login</title>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a>
+                    </li>
+                    <li role="presentation"><a href="/logout" class="btn btn-link pull-right">Sign Out</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Factory Login</h3>
+        </div>
+        
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        
+      
+      <div class="jumbotron">
+        <p class="lead"></p>
+        <div class="login-form">
+            <form role="form" action="/login" method="post">
+                <div class="form-group">
+                    <input type="text" name="user" id="email" class="form-control input-lg" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+                </div>
+            </div>
+        </form>
+    </div>
+    <footer class="footer">
+        <p>&copy; PicoCTF 2019</p>
+    </footer>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $("myAlert").alert("close");
+    });
+});
+</script>
+</body>
+
+</html>
+~~~
+
+We can login using any account.  The website does not seem to authenticate login details.  Afetr logging in we get the response:
+
+~~~
+Success: You logged in! Not sure you'll be able to see the flag though. 
+~~~
+
+and:
+
+~~~
+No flag for you
+~~~
+
+We can look at the cookies used for this site and see an admin cookie is set to False.
+
+~~~
+admin:"False"
+~~~
+
+We can change this cookie to True and reload the website.  We are now given the flag picoCTF{th3_c0nsp1r4cy_l1v3s_0c98aacc}.
 
 </details>
 
@@ -222,7 +315,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{th3_c0nsp1r4cy_l1v3s_0c98aacc}
 ~~~
 
 </details>
@@ -449,7 +542,27 @@ This website can be rendered only by picobrowser, go and catch the flag! https:/
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+When connecting to a website, the [user agent](https://en.wikipedia.org/wiki/User_agent) is passed to the web server to adapt a website for optimisation to the clients browser.
+
+This challenge suggests the flag is only available to picobrowser.  We therefore have to access the website whilst using a bespoke user agent "picobrowser".
+
+We can inspect the website to locate the flag at https://jupiter.challenges.picoctf.org/problem/28921/flag and use curl to retrieve the flag:
+
+~~~
+$ curl -A "picobrowser" https://jupiter.challenges.picoctf.org/problem/28921/flag | grep pico
+~~~
+
+This returns:
+
+~~~
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     100  2115  100  2115    0     0   2627      0 --:--:-- --:--:-- --:--:--  2627
+         <!-- <strong>Title</strong> --> picobrowser!
+            <p style="text-align:center; font-size:30px;"><b>Flag</b>: <code>picoCTF{p1c0_s3cr3t_ag3nt_84f9c865}</code></p>
+~~~
+
+This gives us the flag picoCTF{p1c0_s3cr3t_ag3nt_84f9c865}.
 
 </details>
 
@@ -460,7 +573,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{p1c0_s3cr3t_ag3nt_84f9c865}
 ~~~
 
 </details>
