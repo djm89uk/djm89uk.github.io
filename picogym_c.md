@@ -47,6 +47,8 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 | [gps-coordinates.net](https://www.gps-coordinates.net/) | Lat/Long Address Lookup Tool. |
 | [IMSF Wiki](https://en.wikipedia.org/wiki/International_maritime_signal_flags) | Maritime Signal Flags Reference. |
 | [Dan Boneh Paper](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf) | Paper detailing vulnerabilities of RSA algorithm. |
+| [Wiener's Attack Wiki](https://en.wikipedia.org/wiki/Wiener%27s_attack) | Wiener's Attack overview. |
+
 ---
 
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -889,7 +891,58 @@ In RSA d is a lot bigger than e, why don't we use d to encrypt instead of e? Con
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can connect to the challenge server:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 57464 
+~~~
+
+We get the following response:
+
+~~~
+c: 5351990119264486021463998259577857389550091734808220411064077869828812176996909544383783074826646696108064448056820831412294611898158753108119448190141507706042099890106893843045866585460884966070672896816037637660536676352569715620543182957282271937741435772097855328237136757638982049772724745947605550233
+n: 93123034013868694006606723954789943852610266852458894799067594150615348603292064418212629387080142285353017615980435683446631913045985007905376417762198502350230741528560878286561404585080829746766718177257420963269383093720995140541068257486692897521854354301844900303193098387225483419011018793145419683591
+e: 76687217079336762676603520024413892453505288646523437940486718285986700094903225912857402810942143814036381902352321800442722803104991239706626260991895450098849184887766980715855450271648611083591538859159565182698138127318299641760540363042629704348736122997013083809394208508947068400282409515628665228193
+~~~
+
+This is likely a form of RSA encryption with the flag encrypted in the ciphertext, c.  This challenge requires an understanding of the Wiener's Attack](https://en.wikipedia.org/wiki/Wiener%27s_attack).
+
+The public and private keys have the following relationship:
+
+$${ed=1{\bmod {\lambda }}(N)},$$
+
+When e is sufficiently large, it is possible to find d using Wiener's attack method where d will be significantly smaller.
+
+We can use the Python library owiener to automate this exploit:
+
+~~~py
+import owiener
+
+n = 93123034013868694006606723954789943852610266852458894799067594150615348603292064418212629387080142285353017615980435683446631913045985007905376417762198502350230741528560878286561404585080829746766718177257420963269383093720995140541068257486692897521854354301844900303193098387225483419011018793145419683591
+e = 76687217079336762676603520024413892453505288646523437940486718285986700094903225912857402810942143814036381902352321800442722803104991239706626260991895450098849184887766980715855450271648611083591538859159565182698138127318299641760540363042629704348736122997013083809394208508947068400282409515628665228193
+ct = 5351990119264486021463998259577857389550091734808220411064077869828812176996909544383783074826646696108064448056820831412294611898158753108119448190141507706042099890106893843045866585460884966070672896816037637660536676352569715620543182957282271937741435772097855328237136757638982049772724745947605550233 
+
+d = owiener.attack(e,n)
+
+if d is None:
+    print("Failed")
+else:
+    print("Hacked d={}".format(d))
+    
+pt = (ct**d)%n
+
+print(bytearray.fromhex(hex(pt)[2:]).decode())
+~~~
+
+This produces the private key, d and the flag:
+
+~~~
+In [1]: runfile('b00tl3rsa2.py')
+Hacked d=65537
+picoCTF{bad_1d3a5_2152720}
+~~~
+
+This gives us the flag picoCTF{bad_1d3a5_2152720}.
 
 </details>
 
@@ -900,7 +953,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{bad_1d3a5_2152720}
 ~~~
 
 </details>
@@ -994,7 +1047,66 @@ if __name__=="__main__":
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge exploits the vulnerabilities of [Block Cipher](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) encryption.
+
+We can adapt the given python code to generate an inversion of the encryption algorithm.  We have also fixed issues with the existing code to enable it to run in Python 3.9:
+
+~~~py
+#!/usr/bin/env python
+
+import math
+
+BLOCK_SIZE = 16
+UMAX = int(math.pow(256, BLOCK_SIZE))
+
+
+def remove_line(s):
+    # returns the header line, and the rest of the file
+    return s[:s.index(b'\n') + 1], s[s.index(b'\n')+1:]
+
+def parse_header_ppm(f):
+    data = f.read()
+
+    header = b""
+
+    for i in range(3):
+        header_i, data = remove_line(data)
+        header += header_i
+
+    return header, data
+
+def aes_abc_decrypt(ct):
+    ct_blocks = [ct[int(i * BLOCK_SIZE):int((i+1) * BLOCK_SIZE)] for i in range(int(len(ct) / BLOCK_SIZE))]
+    pt_blocks = [0]*len(ct_blocks)
+    n_arr = []
+    for i in range(0,len(ct_blocks)):
+        pt_blocks[i] = int.from_bytes(ct_blocks[i],"big")
+    for i in range(len(ct_blocks)-1):
+        prev_blk = pt_blocks[i]
+        curr_blk = pt_blocks[i+1]
+        n_curr_blk = (curr_blk - prev_blk) % UMAX
+        n_arr.append(n_curr_blk)
+    for i in range(1,len(pt_blocks)):
+        pt_blocks[i] = hex(n_arr[i-1])[2:]
+        if len(pt_blocks[i])%2!=0:
+            pt_blocks[i] = '0'+pt_blocks[i]
+    for i in range(1,len(pt_blocks)):
+        pt_blocks[i] = bytearray.fromhex(pt_blocks[i])
+    pt_blocks = pt_blocks[1:]
+    pt = b"".join(pt_blocks)
+    return pt 
+
+if __name__=="__main__":
+    with open('body.enc.ppm', 'rb') as f:
+        header, data = parse_header_ppm(f)
+    data = aes_abc_decrypt(data)
+
+    with open('flag.ppm', 'wb') as fw:
+        fw.write(header)
+        fw.write(data)
+~~~
+
+This produces a ppm encrypted image from which the flag picoCTF{d0Nt_r0ll_yoUr_0wN_aES} can be read.
 
 </details>
 
@@ -1005,7 +1117,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{d0Nt_r0ll_yoUr_0wN_aES}
 ~~~
 
 </details>
@@ -1034,7 +1146,59 @@ Why use p and q when I can use more? Connect with nc jupiter.challenges.picoctf.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can connect to the challenge server and get the following response:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 3726                               1 ⨯
+c: 6354005985848295437260803658493278225170941006801001877629928065087665830073956807845851151702425409183064037321452016808063060475065513096587358859853841181646032565466406974373779332765137854857858147644515487913045195988785838680047334727698267912458811453391803236081356856092424052143871953445547555941923902509373594471295821510351978635
+n: 35899252402586206174061834888616133487496959337016709417230707019606074280411566390651320977959893840094964808181140250583605808219865384962417471318050375343833857361812748594429325642360631005480747859847055801461411261673431986757745695463523535969213048708546634488544830377309773885849132311228250429219422838785232969887164904129186086699
+e: 65537   
+~~~
+
+This gives us some components of the RSA encryption algorithm. We can generate a list of factors for n using the integer factor tool [alpertron.com](https://www.alpertron.com.ar/ECM.HTM).
+
+This gives us:
+
+~~~
+n = 8750 701277 × 8894 545381 × 9119 362829 × 9203 892233 × 9296 200801 × 9491 450153 × 10104 002333 × 10767 228151 × 10770 556843 × 11066 422201 × 11410 051469 × 11498 182687 × 11740 699151 × 11961 834529 × 12227 050399 × 12347 978983 × 12989 353361 × 13298 546879 × 13550 608277 × 13687 212503 × 13732 538357 × 13997 022503 × 14071 217497 × 14345 591963 × 14722 370809 × 15600 358307 × 15860 033491 × 16270 900661 × 16652 711797 × 16695 622843 × 16836 760561 × 16982 846477 × 17164 582333 × 17173 380541 
+~~~
+
+This can be solved using a simple python script:
+
+~~~py
+ct = 6354005985848295437260803658493278225170941006801001877629928065087665830073956807845851151702425409183064037321452016808063060475065513096587358859853841181646032565466406974373779332765137854857858147644515487913045195988785838680047334727698267912458811453391803236081356856092424052143871953445547555941923902509373594471295821510351978635
+n = 35899252402586206174061834888616133487496959337016709417230707019606074280411566390651320977959893840094964808181140250583605808219865384962417471318050375343833857361812748594429325642360631005480747859847055801461411261673431986757745695463523535969213048708546634488544830377309773885849132311228250429219422838785232969887164904129186086699
+e = 65537 
+
+factors = [8750701277, 8894545381, 9119362829, 
+           9203892233, 9296200801, 9491450153,
+           10104002333, 10767228151, 10770556843,
+           11066422201, 11410051469, 11498182687,
+           11740699151, 11961834529, 12227050399,
+           12347978983, 12989353361, 13298546879,
+           13550608277, 13687212503, 13732538357,
+           13997022503, 14071217497, 14345591963,
+           14722370809, 15600358307, 15860033491,
+           16270900661, 16652711797, 16695622843,
+           16836760561, 16982846477, 17164582333,
+           17173380541]
+
+totn = factors[0]-1
+for i in range(1,len(factors)):
+    totn *= (factors[i]-1)
+    
+d = pow(e, -1, totn)
+
+pt = pow(ct,d,n)
+print(bytearray.fromhex(hex(pt)[2:]).decode())
+~~~
+
+This gives us the flag picoCTF{too_many_fact0rs_8606199}:
+
+~~~
+In [1]: runfile('b00tl3grsa3.py')
+picoCTF{too_many_fact0rs_8606199}
+~~~
 
 </details>
 
@@ -1045,7 +1209,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{too_many_fact0rs_8606199}
 ~~~
 
 </details>
