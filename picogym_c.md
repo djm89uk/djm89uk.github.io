@@ -772,7 +772,7 @@ ciphertext (c): 2205316413931134031074603746928247799030155221252519872650080519
 
 <summary markdown="span">Solution 1</summary>
 
-This challenge uses the known exploit of RSA encryption when using a low private exponent.  This is detailed in full by [Dan Doneh](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf).
+This challenge uses the known exploit of RSA encryption when using a low private exponent.  This is detailed in full by [Dan Boneh](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf).
 
 We can review the RSA algorithm to understand how to exploit this in more detail.
 
