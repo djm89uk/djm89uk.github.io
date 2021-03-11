@@ -501,7 +501,9 @@ Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge is the first [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) challenge in picoCTF picoGym.  As given in the hints, the website uses SQLite. 
+
+We can complete this challenge using only a browser and select inputs to the login form. 
 
 </details>
 
@@ -512,7 +514,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}
 ~~~
 
 </details>
