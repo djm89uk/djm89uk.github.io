@@ -44,7 +44,133 @@ Kishor Balan tipped us off that the following code may need inspection: https://
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+We can visit the website and inspect the source code:
+
+~~~html
+<!doctype html>
+<html>
+  <head>
+    <title>My First Website :)</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="mycss.css">
+    <script type="application/javascript" src="myjs.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+	<h1>Inspect Me</h1>
+      </header>
+
+      <button class="tablink" onclick="openTab('tabintro', this, '#222')" id="defaultOpen">What</button>
+      <button class="tablink" onclick="openTab('tababout', this, '#222')">How</button>
+      
+      <div id="tabintro" class="tabcontent">
+	<h3>What</h3>
+	<p>I made a website</p>
+      </div>
+
+      <div id="tababout" class="tabcontent">
+	<h3>How</h3>
+	<p>I used these to make this site: <br/>
+	  HTML <br/>
+	  CSS <br/>
+	  JS (JavaScript)
+	</p>
+	<!-- Html is neat. Anyways have 1/3 of the flag: picoCTF{tru3_d3 -->
+      </div>
+      
+    </div>
+    
+  </body>
+</html>
+~~~
+
+This gives us the first part of the flag, "picoCTF{tru3_d3".  Inspecting the stylesheet, mycss.css, we can find the second part of the flag:
+
+~~~css
+div.container {
+    width: 100%;
+}
+
+header {
+    background-color: black;
+    padding: 1em;
+    color: white;
+    clear: left;
+    text-align: center;
+}
+
+body {
+    font-family: Roboto;
+}
+
+h1 {
+    color: white;
+}
+
+p {
+    font-family: "Open Sans";
+}
+
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 50%;
+}
+
+.tablink:hover {
+    background-color: #777;
+}
+
+.tabcontent {
+    color: #111;
+    display: none;
+    padding: 50px;
+    text-align: center;
+}
+
+#tabintro { background-color: #ccc; }
+#tababout { background-color: #ccc; }
+
+/* You need CSS to make pretty pages. Here's part 2/3 of the flag: t3ct1ve_0r_ju5t */
+~~~
+
+Our flag is now "picoCTF{tru3_d3t3ct1ve_0r_ju5t".  We can also view the javascript source, myjs.js:
+
+~~~js
+function openTab(tabName,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+	tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+	tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(tabName).style.display = "block";
+    if(elmnt.style != null) {
+	elmnt.style.backgroundColor = color;
+    }
+}
+
+window.onload = function() {
+    openTab('tabintro', this, '#222');
+}
+
+/* Javascript sure is neat. Anyways part 3/3 of the flag: _lucky?2e7b23e3} */
+~~~
+
+This gives us the final part of the flag.  Our flag is complete: picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?2e7b23e3}
+
+
 
 </details>
 
@@ -55,7 +181,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?2e7b23e3}
 ~~~
 
 </details>
@@ -167,7 +293,61 @@ Can you break into this super secure portal? https://jupiter.challenges.picoctf.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can inspect the html source for this website:
+
+~~~html
+<html>
+<head>
+<title>Secure Login Portal</title>
+</head>
+<body bgcolor=blue>
+<!-- standard MD5 implementation -->
+<script type="text/javascript" src="md5.js"></script>
+
+<script type="text/javascript">
+  function verify() {
+    checkpass = document.getElementById("pass").value;
+    split = 4;
+    if (checkpass.substring(0, split) == 'pico') {
+      if (checkpass.substring(split*6, split*7) == '706c') {
+        if (checkpass.substring(split, split*2) == 'CTF{') {
+         if (checkpass.substring(split*4, split*5) == 'ts_p') {
+          if (checkpass.substring(split*3, split*4) == 'lien') {
+            if (checkpass.substring(split*5, split*6) == 'lz_b') {
+              if (checkpass.substring(split*2, split*3) == 'no_c') {
+                if (checkpass.substring(split*7, split*8) == '5}') {
+                  alert("Password Verified")
+                  }
+                }
+              }
+      
+            }
+          }
+        }
+      }
+    }
+    else {
+      alert("Incorrect password");
+    }
+    
+  }
+</script>
+<div style="position:relative; padding:5px;top:50px; left:38%; width:350px; height:140px; background-color:yellow">
+<div style="text-align:center">
+<p>This is the secure login portal</p>
+<p>Enter valid credentials to proceed</p>
+<form action="index.html" method="post">
+<input type="password" id="pass" size="8" />
+<br/>
+<input type="submit" value="verify" onclick="verify(); return false;" />
+</form>
+</div>
+</div>
+</body>
+</html>
+~~~
+
+We can see the password is authenticated in an inline javascript in the page.  We can reconstruct the password and retrieve the flag picoCTF{no_clients_plz_b706c5}.
 
 </details>
 
@@ -178,7 +358,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{no_clients_plz_b706c5}
 ~~~
 
 </details>
