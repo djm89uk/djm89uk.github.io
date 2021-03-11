@@ -1201,7 +1201,7 @@ message.wav provides the same image as before, decoded using [Scottie 1](https:/
 
 <summary markdown="span">message.png</summary>
 
-![message.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/message.png)
+![message.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk2/message.png)
 
 </details>
 
@@ -1211,7 +1211,7 @@ clue1.wav provides a new image with the words "Password hidden_stegosaurus" usin
 
 <summary markdown="span">clue1.png</summary>
 
-![clue1.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue1.png)
+![clue1.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk2/clue1.png)
 
 </details>
 
@@ -1221,7 +1221,7 @@ clue2.wav provides a new image with the words "The quieter you are the more you 
 
 <summary markdown="span">clue2.png</summary>
 
-![clue2.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue2.png)
+![clue2.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk2/clue2.png)
 
 </details>
 
@@ -1231,7 +1231,7 @@ clue3.wav provides a new image with the words "Alan Eliasen the Future Boy" usin
 
 <summary markdown="span">clue3.png</summary>
 
-![clue3.png](./resources/picoctf/picogym/attachments/forensics/m00nwalk2/clue3.png)
+![clue3.png](./resources/picoctf/picogym/solutions/forensics/m00nwalk2/clue3.png)
 
 </details>
 
