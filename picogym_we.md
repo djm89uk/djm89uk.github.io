@@ -252,7 +252,23 @@ Can you find the robots? https://jupiter.challenges.picoctf.org/problem/56830/ (
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge hints that the solution involves inspecting the [robots exclusions file](https://en.wikipedia.org/wiki/Robots_exclusion_standard).  This is a text file that specifies which components of the website should not be processed or scanned by [web crawlers](https://en.wikipedia.org/wiki/Web_crawler).
+
+We can view the robots text file by entering "robots.txt" in the subdirectory.  The robots .txt file gives us:
+
+~~~
+User-agent: *
+Disallow: /1bb4c.html
+~~~
+
+We can access this website and the following is displayed in the webpage:
+
+~~~
+Guess you found the robots
+picoCTF{ca1cu1at1ng_Mach1n3s_1bb4c}
+~~~
+
+This gives us the flag picoCTF{ca1cu1at1ng_Mach1n3s_1bb4c}.
 
 </details>
 
@@ -263,7 +279,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{ca1cu1at1ng_Mach1n3s_1bb4c}
 ~~~
 
 </details>
