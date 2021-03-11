@@ -3,7 +3,6 @@
 picoCTF hold periodic CTF events and provide a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
 ## Contents
-
 - [PicoGym Web Exploitation](#picogym-web-exploitation)
 - [PicoGym Cryptography](#picogym-cryptography)
 - [PicoGym Reverse Engineering](#picogym-reverse-engineering)
@@ -13,7 +12,7 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -37,7 +36,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -63,7 +62,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -96,7 +95,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -129,7 +128,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## [PicoGym General Skills](./picogym_gs.md)
@@ -149,7 +148,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -166,7 +165,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ---
 
-### [PicoCtf](./picoctf.md) | [Home](./index.md)
+### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
