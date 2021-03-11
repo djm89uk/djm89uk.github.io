@@ -513,7 +513,24 @@ picoCTF{(35.028309, 135.753082)(46.469391, 30.740883)(39.758949, -84.191605)(41.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge provides longitude and latitude Decimal Degree coordinates.  We can lookup the addresses for each location using online gps tool such as [gps-coordinates.net](https://www.gps-coordinates.net/).
+
+| Coordinates              | City          | Letter |
+|--------------------------|---------------|--------|
+| (35.028309, 135.753082)  | Kyoto         | K      |
+| (46.469391, 30.740883)   | Odessa        | O      |
+| (39.758949, -84.191605)  | Dayton        | D      |
+| (41.015137, 28.979530)   | Istanbul      | I      |
+| (24.466667, 54.366669)   | Abu Dhabi     | A      |
+| (3.140853, 101.693207)   | Kuala Lumpur  | K      |
+| (9.005401, 38.763611)    | Addis Ababa   | A      |
+| (-3.989038, -79.203560)  | Loja          | L      |
+| (52.377956, 4.897070)    | Amsterdam     | A      |
+| (41.085651, -73.858467)  | Sleepy Hollow | S      |
+| (57.790001, -152.407227) | Kodiak        | K      |
+| (31.205753, 29.924526)   | Alexandria    | A      |
+
+This gives us the flag picoCTF{KODIAK_ALASKA}.
 
 </details>
 
@@ -524,7 +541,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{KODIAK_ALASKA}
 ~~~
 
 </details>
@@ -567,7 +584,13 @@ What do the flags mean?
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge provides an image of [international maritime signal flags](https://en.wikipedia.org/wiki/International_maritime_signal_flags).
+
+We can lookup each flag to find its corresponding alphanumeric character:
+
+~~~
+PICOCTF{F1AG5AND5TUFF}
+~~~
 
 </details>
 
@@ -578,7 +601,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+PICOCTF{F1AG5AND5TUFF}
 ~~~
 
 </details>
