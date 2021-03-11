@@ -690,7 +690,31 @@ We made a lot of substitutions to encrypt this. Can you decrypt it? Connect with
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+When connecting to the challenge server:
+
+~~~
+$ nc jupiter.challenges.picoctf.org 39894
+~~~
+
+We get the following response:
+
+~~~
+-------------------------------------------------------------------------------
+xmqfhgre zwhw ae smnh tvgf - thwknwqxs_ae_x_muwh_vgybpg_gftvxfrsnw
+-------------------------------------------------------------------------------
+bwrowwq ne rzwhw oge, ge a zguw gvhwgps egap emywozwhw, rzw bmqp mt rzw ewg. bweapwe zmvpaqf mnh zwghre rmfwrzwh rzhmnfz vmqf lwhampe mt ewlghgramq, ar zgp rzw wttwxr mt ygdaqf ne rmvwhgqr mt wgxz mrzwh'e sghqegqp wuwq xmquaxramqe. rzw vgoswhrzw bwer mt mvp twvvmoezgp, bwxgnew mt zae ygqs swghe gqp ygqs uahrnwe, rzw mqvs xnezamq mq pwxd, gqp oge vsaqf mq rzw mqvs hnf. rzw gxxmnqrgqr zgp bhmnfzr mnr gvhwgps g bmc mt pmyaqmwe, gqp oge rmsaqf ghxzarwxrnhgvvs oarz rzw bmqwe. yghvmo egr xhmee-vwffwp hafzr gtr, vwgqaqf gfgaqer rzw yaiiwq-yger. zw zgp enqdwq xzwwde, g swvvmo xmylvwcamq, g erhgafzr bgxd, gq gexwrax gelwxr, gqp, oarz zae ghye phmllwp, rzw lgvye mt zgqpe mnroghpe, hwewybvwp gq apmv. rzw pahwxrmh, egraetawp rzw gqxzmh zgp fmmp zmvp, ygpw zae ogs gtr gqp egr pmoq gymqfer ne. ow wcxzgqfwp g two omhpe vgiavs. gtrwhoghpe rzwhw oge eavwqxw mq bmghp rzw sgxzr. tmh emyw hwgemq mh mrzwh ow pap qmr bwfaq rzgr fgyw mt pmyaqmwe. ow twvr ywpargrauw, gqp tar tmh qmrzaqf bnr lvgxap erghaqf. rzw pgs oge wqpaqf aq g ewhwqars mt eravv gqp wcknaearw bhavvagqxw. rzw ogrwh ezmqw lgxataxgvvs; rzw eds, oarzmnr g elwxd, oge g bwqafq ayywqears mt nqergaqwp vafzr; rzw uwhs yaer mq rzw weewc yghez oge vadw g fgnis gqp hgpagqr tgbhax, znqf thmy rzw ommpwp haewe aqvgqp, gqp phglaqf rzw vmo ezmhwe aq paglzgqmne tmvpe. mqvs rzw fvmmy rm rzw ower, bhmmpaqf muwh rzw nllwh hwgxzwe, bwxgyw ymhw emybhw wuwhs yaqnrw, ge at gqfwhwp bs rzw gllhmgxz mt rzw enq.
+~~~
+
+This is an enciphered message.  We can try to break the cipher using online tool at [guballa.de](https://www.guballa.de/substitution-solver).  This returns a message:
+
+~~~
+-------------------------------------------------------------------------------
+congrats here is your flag - frequency_is_c_over_lambda_agflcgtyue
+-------------------------------------------------------------------------------
+between us there was, as i have already said somewhere, the bond of the sea. besides holding our hearts together through long periods of separation, it had the effect of making us tolerant of each other's yarnsand even convictions. the lawyerthe best of old fellowshad, because of his many years and many virtues, the only cushion on deck, and was lying on the only rug. the accountant had brought out already a box of dominoes, and was toying architecturally with the bones. marlow sat cross-legged right aft, leaning against the mizzen-mast. he had sunken cheeks, a yellow complexion, a straight back, an ascetic aspect, and, with his arms dropped, the palms of hands outwards, resembled an idol. the director, satisfied the anchor had good hold, made his way aft and sat down amongst us. we exchanged a few words lazily. afterwards there was silence on board the yacht. for some reason or other we did not begin that game of dominoes. we felt meditative, and fit for nothing but placid staring. the day was ending in a serenity of still and exquisite brilliance. the water shone pacifically; the sky, without a speck, was a benign immensity of unstained light; the very mist on the essex marsh was like a gauzy and radiant fabric, hung from the wooded rises inland, and draping the low shores in diaphanous folds. only the gloom to the west, brooding over the upper reaches, became more sombre every minute, as if angered by the approach of the sun.
+~~~
+
+This gives us the flag frequency_is_c_over_lambda_agflcgtyue.
 
 </details>
 
@@ -701,7 +725,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+frequency_is_c_over_lambda_agflcgtyue
 ~~~
 
 </details>
@@ -748,7 +772,57 @@ ciphertext (c): 2205316413931134031074603746928247799030155221252519872650080519
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge uses the known exploit of RSA encryption when using a low private exponent.  This is detailed in full by [Dan Doneh](https://crypto.stanford.edu/~dabo/pubs/papers/RSA-survey.pdf).
+
+We can review the RSA algorithm to understand how to exploit this in more detail.
+
+We know:
+
+$$m^e = c (\mathrm{mod} n)$$
+
+Since n is much larger than c:
+
+$$m^e = c (\mathrm{mod} n) = c$$
+
+The message can be recovered by:
+
+$$m = c^{1/e}$$
+
+So we can retrieve the message by taking the cube root of the ciphertext.  This should be easy, however due to the size of the ciphertext integer, we can not simply calculate this using native numerical libraries.  We must use an iterative approach.  Using a very simple iteration, we can find the cube root:
+
+~~~py
+n = 29331922499794985782735976045591164936683059380558950386560160105740343201513369939006307531165922708949619162698623675349030430859547825708994708321803705309459438099340427770580064400911431856656901982789948285309956111848686906152664473350940486507451771223435835260168971210087470894448460745593956840586530527915802541450092946574694809584880896601317519794442862977471129319781313161842056501715040555964011899589002863730868679527184420789010551475067862907739054966183120621407246398518098981106431219207697870293412176440482900183550467375190239898455201170831410460483829448603477361305838743852756938687673
+e = 3
+ct = 2205316413931134031074603746928247799030155221252519872650080519263755075355825243327515211479747536697517688468095325517209911688684309894900992899707504087647575997847717180766377832435022794675332132906451858990782325436498952049751141 
+
+guessmax = int(1)
+
+while guessmax**3 < ct:
+    guessmax *= 10
+
+guessmin = int(guessmax/10)
+
+guess = int((guessmin+guessmax)/2)
+
+while guess**3 != ct:
+    if guess**3 > ct:
+        guessmax = int(guess)
+        guess = int(guessmin + int((guessmax-guessmin)/2))
+    elif guess**3<ct:
+        guessmin = int(guess)
+        guess = int(guessmin + int((guessmax-guessmin)/2))
+
+print(bytearray.fromhex(hex(guess)[2:]).decode())
+~~~
+
+The first part of this program specifies the variables for the encryption.  The algorithm then finds the order of the cube root and uses this for the initial limits for a simple iterative search.
+
+The program returns:
+
+~~~
+In [1]: runfile('miniRSA.py')
+picoCTF{n33d_a_lArg3r_e_d0cd6eae}
+~~~
 
 </details>
 
@@ -759,7 +833,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{n33d_a_lArg3r_e_d0cd6eae}
 ~~~
 
 </details>
