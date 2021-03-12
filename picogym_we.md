@@ -4,6 +4,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ## Contents
 
+- [Useful References](#useful-references)
 - [Insp3ct0r](#insp3ct0r)
 - [logon](#logon)
 - [where are the robots](#where-are-the-robots)
@@ -17,6 +18,23 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [JaWT Scratchpad](#jawt-scratchpad)
 - [Java Script Kiddie](#java-script-kiddie)
 - [Java Script Kiddie 2](#java-script-kiddie-2)
+
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Useful References
+
+| Link | Description |
+|------|-------------|
+| [robots exclusions file](https://en.wikipedia.org/wiki/Robots_exclusion_standard) | Robots Wikipedia page. |
+| [web crawlers](https://en.wikipedia.org/wiki/Web_crawler). | Web Crawlers Wikipedia page. |
+| [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) | SQL Injection Wikipedia page. |
+| [beautifier.io](https://beautifier.io/) | Code formatting tool. |
+
 
 ---
 
@@ -503,7 +521,19 @@ Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:
 
 This challenge is the first [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) challenge in picoCTF picoGym.  As given in the hints, the website uses SQLite. 
 
-We can complete this challenge using only a browser and select inputs to the login form. 
+We can complete this challenge using only a browser and select inputs to the login form.  A subpage , filter.php, provides us details of the filter used by the form.
+
+The first round, has username and password inputs and the filter.php provides:
+
+~~~php
+Round1: or
+~~~
+
+We can try a default username and password: test, test.  The website provides the SQL query:
+
+~~~SQL
+SELECT * FROM users WHERE username='test' AND password='test'
+~~~
 
 </details>
 
