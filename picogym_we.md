@@ -1773,7 +1773,148 @@ The image link appears broken... twice as badly... https://jupiter.challenges.pi
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can view the wesbsite source code using curl:
+
+~~~shell
+$ curl "https://jupiter.challenges.picoctf.org/problem/51400/"
+~~~
+
+We get the following html:
+
+~~~html
+<html>
+<head>
+	<script src="jquery-3.3.1.min.js"></script>
+	<script>
+        	var bytes = [];
+		$.get("bytes", function(resp) {
+                	bytes = Array.from(resp.split(" "), x => Number(x));
+              	});
+
+                function assemble_png(u_in){
+			var LEN = 16;
+			var key = "00000000000000000000000000000000";
+			var shifter;
+			if(u_in.length == key.length){
+				key = u_in;
+			}
+			var result = [];
+			for(var i = 0; i < LEN; i++){
+				shifter = Number(key.slice((i*2),(i*2)+1));
+				for(var j = 0; j < (bytes.length / LEN); j ++){
+					result[(j * LEN) + i] = bytes[(((j + shifter) * LEN) % bytes.length) + i]
+				}
+			}
+			while(result[result.length-1] == 0){
+				result = result.slice(0,result.length-1);
+			}
+			document.getElementById("Area").src = "data:image/png;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(result)));
+			return false;
+		}
+	</script>
+</head>
+<body>
+	<center>
+	<form action="#" onsubmit="assemble_png(document.getElementById('user_in').value)">
+	<input type="text" id="user_in">
+	<input type="submit" value="Submit">
+	</form>
+	<img id="Area" src=""/>
+	</center>
+</body>
+</html>
+~~~
+
+We can inspect the JavaScript in more detail:
+
+~~~js
+var bytes = [];
+$.get("bytes", function(resp) {
+  bytes = Array.from(resp.split(" "), x => Number(x));
+});
+
+function assemble_png(u_in) {
+  var LEN = 16;
+  var key = "00000000000000000000000000000000";
+  var shifter;
+  if (u_in.length == key.length) {
+    key = u_in;
+  }
+  var result = [];
+  for (var i = 0; i < LEN; i++) {
+    shifter = Number(key.slice((i * 2), (i * 2) + 1));
+    for (var j = 0; j < (bytes.length / LEN); j++) {
+      result[(j * LEN) + i] = bytes[(((j + shifter) * LEN) % bytes.length) + i]
+    }
+  }
+  while (result[result.length - 1] == 0) {
+    result = result.slice(0, result.length - 1);
+  }
+  document.getElementById("Area").src = "data:image/png;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(result)));
+  return false;
+}
+~~~
+
+This is very similar to before however the key is fragmented before the image is manipulated.  We can solve for the shifter as before:
+
+The image return with default key is encoded in base64:
+
+~~~
+5FAncQCUAI/8rOEG3PNE/z8ApPMNfxoenjCuRAZ3X4DIAL8cAGsBRfPqTg2wQm6uGxC8R4fkROtkwNsA60jl5ziUlnKN92X+rEWr7VrASXUrmk4Clv6B/HwA/0euTZhbiQ0BX0U7tACkAE7pSav/9QDFAACFAPMK/3gAVQCZgcOk30aqzQowckkcAPOa/Q+CMCDcPiUAI0EA2JyqgTtaUnBomQwtSd1pAZMgYkTdiWxC0L9vHS0evlTvpp92TZekjPoi0hgt09+kxUoezoR/Zm8kmZAJSwrOWWa81Ge/RxScfkmz44MhReLfYFjW/Fv4jtvHocRiYAA7fc0DSs48HkXSc5CmSfl6gOWZ7efN/HpHAI++Rv9nyEGIrKbjODey+P/19xiq/aWcgh9fPTmUN5//H2Aaw7lggfzpJCRckm9xtPLSr9AdP2b2rJr4vwz4FpmMtD2XbwCKcWVZSX24DwwIQZBI7/k/qG7vxp45T+sjpcX4M99rB4TZfv+pyd8hzrWeAaY399tbWw74c5VpXXWC8lTilFNU6HW1mzMfBLT87aHDzqSvSxP1wkG67z7902+Cmhj+ydbC/mmtrgWfrQi0chfKNSfzrVc7Xz1FQNt6jz4IiDNikoBD8X7Ypqbq8r/PnfI1/idOxdfFGiGwJMFxl9ODOZ6zVnGLdDtkB72kLcj7egzf/bNnSuT+WZtTBa0g5n7Jx8dWW35yPmlbhLe888FN2fOnyb57R8RudXNMOmc9vnI6guhuq5PzSZ3KHuvw767grJU1jarOIjfU4+WYgtndm91mMFdtPutrljpAEo4EuxhGhbSv3w0Wv37/vMZJdyicX2+gT5vf6opiB5F/Go2uz7Mfv3r76b9ProKgvuj057/had6f/S4lmwPUtu/6lWbE9WvhX366funik70zxR7OTe+AuLD/auyRYKA=
+~~~
+
+This can be decoded to Hex:
+
+~~~
+e45027710094008ffcace106dcf344ff3f00a4f30d7f1a1e9e30ae4406775f80c800bf1c006b0145f3ea4e0db0426eae1b10bc4787e444eb64c0db00eb48e5e7389496728df765feac45abed5ac049752b9a4e0296fe81fc7c00ff47ae4d985b890d015f453bb400a4004ee949abfff500c500008500f30aff780055009981c3a4df46aacd0a3072491c00f39afd0f823020dc3e2500234100d89caa813b5a527068990c2d49dd690193206244dd896c42d0bf6f1d2d1ebe54efa69f764d97a48cfa22d2182dd3dfa4c54a1ece847f666f249990094b0ace5966bcd467bf47149c7e49b3e3832145e2df6058d6fc5bf88edbc7a1c46260003b7dcd034ace3c1e45d27390a649f97a80e599ede7cdfc7a47008fbe46ff67c84188aca6e33837b2f8fff5f718aafda59c821f5f3d3994379fff1f601ac3b96081fce924245c926f71b4f2d2afd01d3f66f6ac9af8bf0cf816998cb43d976f008a716559497db80f0c08419048eff93fa86eefc69e394feb23a5c5f833df6b0784d97effa9c9df21ceb59e01a637f7db5b5b0ef87395695d7582f254e2945354e875b59b331f04b4fceda1c3cea4af4b13f5c241baef3efdd36f829a18fec9d6c2fe69adae059fad08b47217ca3527f3ad573b5f3d4540db7a8f3e08883362928043f17ed8a6a6eaf2bfcf9df235fe274ec5d7c51a21b024c17197d383399eb356718b743b6407bda42dc8fb7a0cdffdb3674ae4fe599b5305ad20e67ec9c7c7565b7e723e695b84b7bcf3c14dd9f3a7c9be7b47c46e75734c3a673dbe723a82e86eab93f3499dca1eebf0efaee0ac95358daace2237d4e3e59882d9dd9bdd6630576d3eeb6b963a40128e04bb184685b4afdf0d16bf7effbcc64977289c5f6fa04f9bdfea8a6207917f1a8daecfb31fbf7afbe9bf4fae82a0bee8f4e7bfe169de9ffd2e259b03d4b6effa9566c4f56be15f7eba7ee9e293bd33c51ece4def80b8b0ff6aec9160a0
+~~~
+
+This can be loaded into Python and an integer array can be generated as in the previous challenge.  We can subsequently locate all locations of these Bytes in the image data:
+
+~~~py
+def find_in_arr(num,arr):
+    return [i for i, x in enumerate(arr) if x == num]
+
+hexstr = "e45027710094008ffcace106dcf344ff3f00a4f30d7f1a1e9e30ae4406775f80c800bf1c006b0145f3ea4e0db0426eae1b10bc4787e444eb64c0db00eb48e5e7389496728df765feac45abed5ac049752b9a4e0296fe81fc7c00ff47ae4d985b890d015f453bb400a4004ee949abfff500c500008500f30aff780055009981c3a4df46aacd0a3072491c00f39afd0f823020dc3e2500234100d89caa813b5a527068990c2d49dd690193206244dd896c42d0bf6f1d2d1ebe54efa69f764d97a48cfa22d2182dd3dfa4c54a1ece847f666f249990094b0ace5966bcd467bf47149c7e49b3e3832145e2df6058d6fc5bf88edbc7a1c46260003b7dcd034ace3c1e45d27390a649f97a80e599ede7cdfc7a47008fbe46ff67c84188aca6e33837b2f8fff5f718aafda59c821f5f3d3994379fff1f601ac3b96081fce924245c926f71b4f2d2afd01d3f66f6ac9af8bf0cf816998cb43d976f008a716559497db80f0c08419048eff93fa86eefc69e394feb23a5c5f833df6b0784d97effa9c9df21ceb59e01a637f7db5b5b0ef87395695d7582f254e2945354e875b59b331f04b4fceda1c3cea4af4b13f5c241baef3efdd36f829a18fec9d6c2fe69adae059fad08b47217ca3527f3ad573b5f3d4540db7a8f3e08883362928043f17ed8a6a6eaf2bfcf9df235fe274ec5d7c51a21b024c17197d383399eb356718b743b6407bda42dc8fb7a0cdffdb3674ae4fe599b5305ad20e67ec9c7c7565b7e723e695b84b7bcf3c14dd9f3a7c9be7b47c46e75734c3a673dbe723a82e86eab93f3499dca1eebf0efaee0ac95358daace2237d4e3e59882d9dd9bdd6630576d3eeb6b963a40128e04bb184685b4afdf0d16bf7effbcc64977289c5f6fa04f9bdfea8a6207917f1a8daecfb31fbf7afbe9bf4fae82a0bee8f4e7bfe169de9ffd2e259b03d4b6effa9566c4f56be15f7eba7ee9e293bd33c51ece4def80b8b0ff6aec9160a0"
+intarr = [0]*int(len(hexstr)/2)
+
+
+for i in range(0,len(hexstr),2):
+    hexchar = hexstr[i]+hexstr[i+1]
+    intchar = int(hexchar,16)
+    intarr[int(i/2)] = intchar
+
+pngarr = [137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82]
+
+pngloc = []
+
+for i in range(0,len(pngarr),1):
+    index = i
+    value = pngarr[i]
+    locs = find_in_arr(value,intarr)
+    count = len(locs)
+    pngdict = {"index":index, "value":value, "count":count, "locs":locs}
+    pngloc.append(pngdict)
+~~~
+
+| PNG Index | Value | Count in File | Byte Locations |
+|-----------|-------|---------------|----------------|
+|  0        | 137   |  2            | [ 96, 174 ] |
+|  1        |  80   |  1            | [  1 ] |
+|  2        |  78   |  4            | [ 42, 82, 106, 488 ] |
+|  3        |  71   |  5            | [ 51, 91, 222, 272, 555 ] |
+|  4        |  13   |  4            | [ 20, 43, 97, 619 ] |
+|  5        |  10   |  3            | [ 119, 133, 214 ] |
+|  6        |  26   |  4            | [ 22, 308, 492, 642 ] |
+|  7        |  10   |  3            | [ 119, 133, 214 ] |
+|  8        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
+|  9        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
+| 10        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
+| 11        |  13   |  4            | [ 20, 43, 97, 619 ]
+| 12        |  73   |  9            | [ 78, 108, 136, 165, 226, 261, 348, 573, 626 ] |
+| 13        |  72   |  2            | [ 61, 356 ] |
+| 14        |  68   |  4            | [ 14, 27, 54, 172 ] |
+| 15        |  82   |  1            | [ 159 ] |
 
 </details>
 
