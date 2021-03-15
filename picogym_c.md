@@ -348,7 +348,7 @@ I found this cipher in an old book. Can you figure out what it says? Connect wit
 
 Connecting using netcat:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 5726 
 ~~~
 
@@ -538,7 +538,7 @@ heres tapping coming in from the wires. What's it saying nc jupiter.challenges.p
 
 Using netcat, we can connect to the program:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 48247
 ~~~
 
@@ -724,13 +724,13 @@ We made a lot of substitutions to encrypt this. Can you decrypt it? Connect with
 
 When connecting to the challenge server:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 39894
 ~~~
 
 We get the following response:
 
-~~~
+~~~shell
 -------------------------------------------------------------------------------
 xmqfhgre zwhw ae smnh tvgf - thwknwqxs_ae_x_muwh_vgybpg_gftvxfrsnw
 -------------------------------------------------------------------------------
@@ -789,7 +789,6 @@ Let's decrypt this: ciphertext? Something seems a bit small.
 <summary markdown="span">ciphertext</summary>
 
 ~~~
-
 N: 29331922499794985782735976045591164936683059380558950386560160105740343201513369939006307531165922708949619162698623675349030430859547825708994708321803705309459438099340427770580064400911431856656901982789948285309956111848686906152664473350940486507451771223435835260168971210087470894448460745593956840586530527915802541450092946574694809584880896601317519794442862977471129319781313161842056501715040555964011899589002863730868679527184420789010551475067862907739054966183120621407246398518098981106431219207697870293412176440482900183550467375190239898455201170831410460483829448603477361305838743852756938687673
 e: 3
 
@@ -851,7 +850,7 @@ The first part of this program specifies the variables for the encryption.  The 
 
 The program returns:
 
-~~~
+~~~shell
 In [1]: runfile('miniRSA.py')
 picoCTF{n33d_a_lArg3r_e_d0cd6eae}
 ~~~
@@ -896,7 +895,7 @@ In RSA d is a lot bigger than e, why don't we use d to encrypt instead of e? Con
 
 We can connect to the challenge server:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 57464 
 ~~~
 
@@ -939,7 +938,7 @@ print(bytearray.fromhex(hex(pt)[2:]).decode())
 
 This produces the private key, d and the flag:
 
-~~~
+~~~shell
 In [1]: runfile('b00tl3rsa2.py')
 Hacked d=65537
 picoCTF{bad_1d3a5_2152720}
@@ -1151,7 +1150,7 @@ Why use p and q when I can use more? Connect with nc jupiter.challenges.picoctf.
 
 We can connect to the challenge server and get the following response:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 3726                               1 ⨯
 c: 6354005985848295437260803658493278225170941006801001877629928065087665830073956807845851151702425409183064037321452016808063060475065513096587358859853841181646032565466406974373779332765137854857858147644515487913045195988785838680047334727698267912458811453391803236081356856092424052143871953445547555941923902509373594471295821510351978635
 n: 35899252402586206174061834888616133487496959337016709417230707019606074280411566390651320977959893840094964808181140250583605808219865384962417471318050375343833857361812748594429325642360631005480747859847055801461411261673431986757745695463523535969213048708546634488544830377309773885849132311228250429219422838785232969887164904129186086699
@@ -1268,7 +1267,7 @@ q16/S1WLvzg4PsElmv1f
 
 We can use [openssl](https://wiki.openssl.org/index.php/Command_Line_Utilities) to extract the keys from the certificate:
 
-~~~
+~~~shell
 $ openssl x509 -pubkey -in cert   
 ~~~
 
@@ -1295,7 +1294,7 @@ q16/S1WLvzg4PsElmv1f
 
 We can use this to print the RSA modulus (n):
 
-~~~
+~~~shell
 $ openssl x509 -pubkey -noout -in cert | openssl rsa -pubin -text
 RSA Public-Key: (53 bit)
 Modulus: 4966306421059967 (0x11a4d45212b17f)
@@ -1334,7 +1333,7 @@ print("lambda(n) = {}".format(lam_n))
 
 This produces:
 
-~~~
+~~~shell
 In [1]: ('john_pollard.py')
 n = 4966306421059967
 p = 67867967
