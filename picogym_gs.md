@@ -392,13 +392,13 @@ Can you find the flag in file without running it?
 
 This problem is suggesting we should use the Unix in-built program, [strings](https://en.wikipedia.org/wiki/Strings_(Unix)).  This provides a list of all text strings within a binary file:
 
-~~~
+~~~shell
 $ strings strings
 ~~~
 
 Using strings on its own results in a long list of ascii strings which can be manually reviewed for the flag.  A more sensible solution, however, is to use a second in-built Unix program, [grep](https://en.wikipedia.org/wiki/Grep).
 
-~~~
+~~~shell
 $ strings strings | grep pico
 picoCTF{5tRIng5_1T_7f766a23}
 ~~~
@@ -533,13 +533,13 @@ Can you find the flag in file? This would be really tedious to look through manu
 
 This problem is suggesting we should use the Unix in-built program, [strings](https://en.wikipedia.org/wiki/Strings_(Unix)).  This provides a list of all text strings within a binary file:
 
-~~~
+~~~shell
 $ strings file
 ~~~
 
 Using strings on its own results in a long list of ascii strings which can be manually reviewed for the flag.  A more sensible solution, however, is to use a second in-built Unix program, [grep](https://en.wikipedia.org/wiki/Grep).
 
-~~~
+~~~shell
 $ strings file | grep pico
 picoCTF{grep_is_good_to_find_things_5af9d829}
 ~~~
@@ -590,7 +590,7 @@ This is a very simple problem.  The flag is given when connecting to the host ju
 
 This can be completed using netcat:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 41120
 You're on your way to becoming the net cat master
 picoCTF{nEtCat_Mast3ry_3214be47}
@@ -598,7 +598,7 @@ picoCTF{nEtCat_Mast3ry_3214be47}
 
 Or using telnet:
 
-~~~
+~~~shell
 $ telnet jupiter.challenges.picoctf.org 41120
 Trying 3.131.60.8...
 Connected to jupiter.challenges.picoctf.org.
@@ -653,14 +653,14 @@ This problem requires the use of netcat and grep.  Using netcat to access the re
 
 Using netcat:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 4427 | grep pico
 picoCTF{digital_plumb3r_5ea1fbd7}
 ~~~
 
 Using telnet:
 
-~~~
+~~~shell
 $ telnet jupiter.challenges.picoctf.org 4427 | grep pico
 Connected to jupiter.challenges.picoctf.org.
 picoCTF{digital_plumb3r_5ea1fbd7}
@@ -706,7 +706,7 @@ To get truly 1337, you must understand different data encodings, such as hexadec
 
 This challenge requires rapid conversion of encoded strings into ascii.  When connecting using netcat the following is displayed:
 
-~~~
+~~~shell
 $ nc jupiter.challenges.picoctf.org 29956  
 Let us see how data is stored
 lamp
@@ -723,7 +723,7 @@ Using online conversion tools, we can complete this challenge with relative ease
 
 we can manually enter lamp into the netcat session:
 
-~~~
+~~~shell
 Input:
 lamp
 Please give me the  155 141 160 as a word.
@@ -740,7 +740,7 @@ An online conversion tool can be used for octal to ascii such as found at [unit-
 
 This gives us map, which can be manually entered into the terminal:
 
-~~~
+~~~shell
 Input:
 map
 Please give me the 636f6d7075746572 as a word.
@@ -753,7 +753,7 @@ The final question provides a string with both numeric and alphabetic characters
 
 This gives us the final string, computer, which can be manually entered into the terminal:
 
-~~~
+~~~shell
 Input:
 computer
 You've beaten the challenge
@@ -858,7 +858,7 @@ sock.close()
 
 When run the following is output to the console:
 
-~~~
+~~~shell
 In [0]: runfile('based.py')
 01100011 01101111 01101101 01110000 01110101 01110100 01100101 01110010 = computer
 146 141 154 143 157 156 = falcon
@@ -1168,7 +1168,7 @@ shout Pico
 
 A quick internet search shows that this is a program written in the [rockstar](https://codewithrockstar.com/) language.  To make sense of this, we can install a rockstar python transpiler, [rockstar-py](https://github.com/yyyyyyyan/rockstar-py):
 
-~~~
+~~~shell
 $ git clone https://github.com/yyyyyyyan/rockstar-py.git
 $ cd rockstar-py
 $ python3 setup.py install
@@ -1176,7 +1176,7 @@ $ python3 setup.py install
 
 Once installed, we can transcribe the rockstar code in lyrics.txt into python:
 
-~~~
+~~~shell
 $ rockstar-py -i lyrics.txt -o lyrics.py
 ~~~
 
@@ -1382,8 +1382,8 @@ print("picoCTF{" + flag + "}")
 
 This returns:
 
-~~~
-runfile('lyrics.py')
+~~~shell
+In [1]: runfile('lyrics.py')
 picoCTF{rrrocknrn0113r}
 ~~~
 
@@ -1463,7 +1463,7 @@ Break it down
 
 This challenge is a follow-on from mus1c.  The code is written with the [rockstar](codewithrockstar.com) language.  We can transcribe this using [rockstar-py](https://github.com/yyyyyyyan/rockstar-py) into Python:
 
-~~~
+~~~shell
 $ rockstar-py -i lyrics.txt -o lyrics.py
 ~~~
 
@@ -1600,8 +1600,8 @@ print("picoCTF{"+flag+"}")
 
 This returns the strings:
 
-~~~
-runfile('lyrics.py')
+~~~Shell
+In [1]: runfile('lyrics.py')
 Keep on rocking!
 Bring on the rock!
 picoCTF{BONJOVI}
