@@ -1897,6 +1897,8 @@ for i in range(0,len(pngarr),1):
     pngloc.append(pngdict)
 ~~~
 
+The outpu is summarised in the table below.
+
 | PNG Index | Value | Count in File | Byte Locations |
 |-----------|-------|---------------|----------------|
 |  0        | 137   |  2            | [ 96, 174 ] |
@@ -1910,11 +1912,151 @@ for i in range(0,len(pngarr),1):
 |  8        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
 |  9        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
 | 10        |   0   | 21            | [ 4, 6, 17, 33, 36, 59, 89, 103, 105, 112, 114, 115, 117, 122, 124, 138, 149, 152, 247, 279, 343 ] |
-| 11        |  13   |  4            | [ 20, 43, 97, 619 ]
+| 11        |  13   |  4            | [ 20, 43, 97, 619 ] |
 | 12        |  73   |  9            | [ 78, 108, 136, 165, 226, 261, 348, 573, 626 ] |
 | 13        |  72   |  2            | [ 61, 356 ] |
 | 14        |  68   |  4            | [ 14, 27, 54, 172 ] |
 | 15        |  82   |  1            | [ 159 ] |
+
+The total number of possible keys is now 6,618,931,200.
+
+We have 2 Bytes in the PNG header that occur once in the enciphered PNG image.  We can solve the key for these two components:
+
+~~~js
+for (var j = 0; j < (bytes.length / LEN); j++) {
+  result[(j * LEN) + i] = bytes[(((j + shifter) * LEN) % bytes.length) + i]
+}
+~~~
+
+We know the LEN value is set at 16 and for PNG header Byte 2 at index 1: j=0 and i=1.  The length of the file is 704 Bytes (bytes.length = 704).
+
+~~~
+result[1] = bytes[((shifter * 16) % 704) + 1]
+~~~
+
+This Byte has a scrambled index at 1 also.  Therefore:
+
+~~~
+16*shifter%704 + 1 = 1
+16*shifter%704 = 0.
+~~~
+
+This gives us possible values for the shifter at i=1:
+
+~~~
+16*shifter = n*704
+shifter = n*44
+~~~
+
+We can also solve the shifter for index 15:
+
+~~~
+result[15] = bytes[((shifter * 16) % 704) + 15]
+~~~
+
+We know this Byte is located at index 159 in the enciphered image:
+
+~~~
+((shifter * 16) % 704) + 15 = 159
+(shifter * 16) % 704 = 144
+shifter * 16 = 144 + n*704
+shifter = 9 + n*44
+~~~
+
+We can generate a shifter array which can be solved later for the key:
+
+| Shifter Index | Possible values |
+|  0 |  |
+|  1 | n*44 |
+|  2 |  |
+|  3 |  |
+|  4 |  |
+|  5 |  |
+|  6 |  |
+|  7 |  |
+|  8 |  |
+|  9 |  |
+| 10 |  |
+| 11 |  |
+| 12 |  |
+| 13 |  |
+| 14 |  |
+| 15 | 9 +n*44 |
+
+We can reduce this to usable ASCII characters: 31 < charindex < 127
+
+We can iterate through all the Byte solutions for the PNG header and remove any values that are infeasible:
+
+~~~
+(loc - i)%16 != 0 -> invalid
+(loc - i)/16 >128 -> invalid
+otherwise -> valid
+~~~
+
+Our solution table now is:
+
+| PNG Index | Value | Count in File | Byte Locations |
+|-----------|-------|---------------|----------------|
+|  0        | 137   |  1            | [  96 ] |
+|  1        |  80   |  1            | [   1 ] |
+|  2        |  78   |  1            | [  82 ] |
+|  3        |  71   |  1            | [  51 ] |
+|  4        |  13   |  1            | [  20 ] |
+|  5        |  10   |  1            | [ 133 ] |
+|  6        |  26   |  1            | [  22 ] |
+|  7        |  10   |  1            | [ 119 ] |
+|  8        |   0   |  1            | [ 152 ] |
+|  9        |   0   |  2            | [  89, 105 ] |
+| 10        |   0   |  2            | [ 122, 138 ] |
+| 11        |  13   |  2            | [  43, 619 ] |
+| 12        |  73   |  2            | [ 108, 348 ] |
+| 13        |  72   |  1            | [ 61 ] |
+| 14        |  68   |  1            | [ 14 ] |
+| 15        |  82   |  1            | [ 159 ] |
+
+The total number of possible keys is now 16.
+
+| Index | Value | Solution number | Shifter Value |
+|  0    | 137   | 1               |  6 + 44n      | 
+|  1    |  80   | 1               |  0 + 44n      | 
+|  2    |  78   | 1               |  5 + 44n      | 
+|  3    |  71   | 1               |  3 + 44n      | 
+|  4    |  13   | 1               |  1 + 44n      | 
+|  5    |  10   | 1               |  8 + 44n      | 
+|  6    |  26   | 1               |  1 + 44n      | 
+|  7    |  10   | 1               |  7 + 44n      | 
+|  8    |   0   | 1               |  9 + 44n      | 
+|  9    |   0   | 1               |  5 + 44n      | 
+|  9    |   0   | 2               |  6 + 44n      | 
+| 10    |   0   | 1               |  7 + 44n      | 
+| 10    |   0   | 2               |  8 + 44n      | 
+| 11    |  13   | 1               |  2 + 44n      | 
+| 11    |  13   | 2               | 38 + 44n      | 
+| 12    |  73   | 1               |  6 + 44n      | 
+| 12    |  73   | 2               | 21 + 44n      | 
+| 13    |  72   | 1               |  3 + 44n      | 
+| 14    |  68   | 1               |  0 + 44n      | 
+| 15    |  82   | 1               |  9 + 44n      | 
+
+We can remove the infeasible characters and setting n=0, we now have 4 possible keys:
+
+~~~
+key 1 = 6053181795726309
+key 2 = 6053181795826309
+key 3 = 6053181796726309
+key 4 = 6053181796826309
+~~~
+
+We have a set of solutions from which we can generate possible keys.  We can see the shifter is generated from the user input.  Each shifter value is generated from the concatenation of two userinput character Bytes.  We can append any character to the shifter integer to generate 4 user inputs:
+
+~~~
+ui 1 = 6a0a5a3a1a8a1a7a9a5a7a2a6a3a0a9a
+ui 2 = 6a0a5a3a1a8a1a7a9a5a8a2a6a3a0a9a
+ui 3 = 6a0a5a3a1a8a1a7a9a6a7a2a6a3a0a9a
+ui 4 = 6a0a5a3a1a8a1a7a9a6a8a2a6a3a0a9a
+~~~
+
+Attempting the first input, we receive a png qr-code which can be decoded to reveal the flag picoCTF{59d5db659865190a07120652e6c77f84}.
 
 </details>
 
@@ -1925,7 +2067,7 @@ for i in range(0,len(pngarr),1):
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{59d5db659865190a07120652e6c77f84}
 ~~~
 
 </details>
