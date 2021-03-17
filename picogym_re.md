@@ -927,7 +927,7 @@ class VaultDoor5_modified {
 }
 ~~~
 
-THis can be compiled:
+This can be compiled:
 
 ~~~
 $ javac VaultDoor5_modified.java
@@ -2581,7 +2581,392 @@ Yay reversing! Relevant files: otp flag.txt
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can decompile the OTP binary in Ghidra.  The main function provides:
+
+~~~c
+undefined8 main(int param_1,undefined8 *param_2)
+
+{
+  char cVar1;
+  byte bVar2;
+  int iVar3;
+  undefined8 uVar4;
+  long in_FS_OFFSET;
+  int local_f0;
+  int local_ec;
+  char local_e8 [100];
+  undefined local_84;
+  char local_78 [104];
+
+
+long local_10;
+  
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  if (param_1 < 2) {
+    printf("USAGE: %s [KEY]\n",*param_2);
+    uVar4 = 1;
+  }
+  else {
+    strncpy(local_e8,(char *)param_2[1],100);
+    local_84 = 0;
+    local_f0 = 0;
+    while( true ) {
+      uVar4 = valid_char(local_e8[local_f0]);
+      if ((int)uVar4 == 0) break;
+      if (local_f0 == 0) {
+        cVar1 = jumble(local_e8[0]);
+        bVar2 = (byte)(cVar1 >> 7) >> 4;
+        local_78[0] = (cVar1 + bVar2 & 0xf) - bVar2;
+      }
+      else {
+        cVar1 = jumble(local_e8[local_f0]);
+        bVar2 = (byte)((int)cVar1 + (int)local_78[local_f0 + -1] >> 0x37);
+        local_78[local_f0] =
+             ((char)((int)cVar1 + (int)local_78[local_f0 + -1]) + (bVar2 >> 4) & 0xf) - (bVar2 >> 4)
+        ;
+      }
+      local_f0 = local_f0 + 1;
+    }
+    local_ec = 0;
+    while (local_ec < local_f0) {
+      local_78[local_ec] = local_78[local_ec] + 'a';
+      local_ec = local_ec + 1;
+    }
+    if (local_f0 == 100) {
+      iVar3 = strncmp(local_78,
+                      "mngjlepdcbcmjmmjipmmegfkjbicaemoemkkpjgnhgomlknmoepmfbcoffikhplmadmganmlojndmfahbhaancamdhfdkiancdjf"
+                      ,100);
+      if (iVar3 == 0) {
+        puts("You got the key, congrats! Now xor it with the flag!");
+        uVar4 = 0;
+        goto LAB_001009ea;
+      }
+    }
+    puts("Invalid key!");
+    uVar4 = 1;
+  }
+LAB_001009ea:
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return uVar4;
+}
+~~~
+
+The main function takes two inputs: "param_1" and "param_2" these are decompiled names for argc (argument count) and argv (argument vector) the [command-line arguments](https://ece.uwaterloo.ca/~dwharder/icsrts/C/05/) for c programs.
+
+| argc | Argument Count  | Integer for number of parameters + executable call passed to the program |
+| argv | Argument Vector | Character array vector pointer (string pointer) for parameters and executable passed to program. |
+
+argc is always greater than 0 and provides a count of the number of inputs. For example, in this program we will run it using a command similar to:
+
+~~~shell
+$ ./otp input_string
+~~~
+
+The argc in this call will be 2 and the argument vector will be argv[0] = otp, argv[1] = input_string.
+
+In the main program, an IF statement is used to check the minimum number of inputs is included in the program call:
+
+~~~c
+  if (param_1 < 2) {
+    printf("USAGE: %s [KEY]\n",*param_2);
+    ret_val = 1;
+  }
+~~~
+
+This will pass value 1 to the return statement if argc is less than 2 (no additional input is given to the program call).  In effect, we require an input string in order to successfully execute this program.
+
+The first code block within the main function, after the main function signature are initialisations of local variables.
+
+~~~c
+  char cVar1;
+  byte bVar2;
+  int iVar3;
+  undefined8 uVar4;
+  long in_FS_OFFSET;
+  int local_f0;
+  int local_ec;
+  char local_e8 [100];
+  undefined local_84;
+  char local_78 [104];
+  long local_10;
+~~~
+
+We can rename these later to reflect the purpose of these variables.
+
+The first line after initialisations, is generating a local long integer value read from the FileSystem value at FS:0x28, known as the stack_cookie:
+
+~~~c
+local_10 = *(long *)(in_FS_OFFSET + 0x28);
+~~~
+
+This is used to verify the integrity of the stack prior to the completion of the program execution.  It is a code-hardening technique to protect againt buffer overflows.  The validation code can be found towards the end of the main function:
+
+~~~c
+if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+~~~
+
+[stack_chk_fail()](http://refspecs.linux-foundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/libc---stack-chk-fail-1.html) is a function that aborts execution of the program.
+
+After checking the input to the program, the program first copies the input string to a new local variable, local_e8, using the function [strncpy](https://www.cplusplus.com/reference/cstring/strncpy/) up to 100 characters in length.  This is the input key and we can rename to key_str:
+
+~~~c
+strncpy(key_str,(char *)argv[1],100);
+~~~
+
+An unknown variable, "local_84" is set to zero in the next line.  This is not used elsewhere in the code so can be removed from the program.
+
+A new integer, "local_f0", is set to 0 and used to increment through an iterative while loop.  We can rename this variable i:
+
+~~~c
+int i;
+...
+
+i = 0;
+while (true){
+  ...
+  i = i + 1;
+}
+~~~
+
+This is a [for loop](https://www.tutorialspoint.com/cprogramming/c_for_loop.htm) iterating through the length of the key_str string and can be re-written using the [strlen()](https://www.programiz.com/c-programming/library-function/string.h/strlen) function for clarity:
+
+~~~c
+for (int i=0; i<strlen(key_str); i++){
+  ...
+}
+~~~
+
+The first line of this loop checks the corresponding key_str index to see if it is a valid character using the string function [valid_char](https://valadoc.org/glib-2.0/string.valid_char.html).  If the valid_char returns FALSE, this sets the ret_val to 1 and breaks from the loop:
+
+~~~c
+ret_val = valid_char(key_str[i]);
+if ((int)ret_val == 0) break;
+~~~
+
+The next code block affects the first character of the key_str.  This assigns two local variables from the key_str using local function, jumble, and using binary shift operations.  The first local variable, "cVar1" is a char variable that is set from the jumble function.  The second local variable, "bVar2" is a byte variable set using bit shifting operations on cVar1. These are appended to the local character array, "local_78" we can rename these as x, y and new_str:
+
+~~~c
+x = jumble(key_str[0]);
+y = (byte)(x >> 7) >> 4;
+new_str[0] = (x + y & 0xf) - y;
+~~~
+
+The new_str[0] character is assigned the value of the summation of y subtracted from x and the bitwise AND calculation (y & 0xf).
+
+for all other indexes (above 0) the local variable x is calculated using the jumble function from the key_str character.  The byte variable, y, is set from the summation of x and the previous character, bit shifted.  New_str[i] is a function of the previous character and x and y:
+
+~~~c
+x = jumble(key_str[i]);
+y = (byte)((int)x + (int)new_str[i - 1] >> 0x37);
+new_str[i] = ((char)((int)x + (int)new_str[i - 1]) + (y >> 4) & 0xf) - (y >> 4);
+~~~
+
+We can re-write this entire for loop to make it more condensed and easier to reverse engineer:
+
+~~~c
+for(int i=0; i<strlen(key_str); i++){
+  ret_val = valid_char(key_str[i]);
+  if ((int)ret_val == 0) break;
+  x = jumble(key_str[i]);
+  if (i == 0) {
+    y = (byte)(x >> 7) >> 4;
+    new_str[0] = (x + y & 0xf) - y;
+  } else {
+    y = (byte)((int)x + (int)new_str[i - 1] >> 0x37);
+    new_str[i] = ((char)((int)x + (int)new_str[i - 1]) + (y >> 4) & 0xf) - (y >> 4);
+  }
+}
+~~~
+
+The next code block is another for loop adding 48 ('a') to each string value:
+
+~~~c
+local_ec = 0;
+while (local_ec < i) {
+  new_str[local_ec] = new_str[local_ec] + 'a';
+  local_ec = local_ec + 1;
+}
+~~~
+
+We can rewrite this to condense it again:
+
+~~~c
+for(int j=0; j<100; j++){
+  new_str[j] = new_str[j] + 'a';
+}
+~~~
+
+The final operation compares the new_str to a known correct string to identify if the original key input is correct and jumps to the nex code block if it is correct, or returns an error if incorrect:
+
+~~~c
+if (i == 100) {
+  iVar3 = strncmp(new_str,"mngjlepdcbcmjmmjipmmegfkjbicaemoemkkpjgnhgomlknmoepmfbcoffikhplmadmganmlojndmfahbhaancamdhfdkiancdjf",100);
+  if (iVar3 == 0) {
+    puts("You got the key, congrats! Now xor it with the flag!");
+    ret_val = 0;
+    goto LAB_001009ea;
+  }
+}
+puts("Invalid key!");
+ret_val = 1;
+~~~
+
+We can remove error checking and condense the main program block as shown below:
+
+~~~c
+undefined8 main(int argc,char *argv[])
+{
+  char x;
+  byte y;
+  char key_str [100];
+  char new_str [104];
+  
+  // copy input string to local variable, up to 100 characters in length.
+  strncpy(key_str,(char *)argv[1],100);
+  
+  // For loop to iterate through key string:
+  for(int i=0; i<strlen(key_str); i++){
+      
+    // Calculate jumbled value from key_str character
+    x = jumble(key_str[i])
+      
+    // Assign  new_str values:
+    if (i == 0) {
+      y = (byte)(x >> 7) >> 4;
+      new_str[0] = (x + y & 0xf) - y;
+    } else {
+      y = (byte)((int)x + (int)new_str[i - 1] >> 0x37);
+      new_str[i] = ((char)((int)x + (int)new_str[i - 1]) + (y >> 4) & 0xf) - (y >> 4);
+    }
+    new_str[j] = new_str[j] + 'a';
+  }
+  if(strncmp(new_str,"mngjlepdcbcmjmmjipmmegfkjbicaemoemkkpjgnhgomlknmoepmfbcoffikhplmadmganmlojndmfahbhaancamdhfdkiancdjf",100)){
+    printf("Incorrect Key\n");
+  } else {
+    printf("Correct Key! Now xor it with the flag!");
+  }
+  return 0;
+}
+~~~
+
+We need to review the jumble function to understand the return value:
+
+~~~c
+char jumble(char param_1)
+{
+  byte bVar1;
+  char local_c;
+  
+  local_c = param_1;
+  if ('`' < param_1) {
+    local_c = param_1 + '\t';
+  }
+  bVar1 = (byte)(local_c >> 7) >> 4;
+  local_c = ((local_c + bVar1 & 0xf) - bVar1) * '\x02';
+  if ('\x0f' < local_c) {
+    local_c = local_c + '\x01';
+  }
+  return local_c;
+}
+~~~
+
+This is a series of binary operations that change the input character and return an adapted output character.  We can simplify this:
+
+~~~c
+char jumble(char input)
+{
+  byte x;
+  
+  if ('`' < input) {
+    input = input + '\t';
+  }
+  x = (byte)(input >> 7) >> 4;
+  input = ((input + x & 0xf) - x) * '\x02';
+  if ('\x0f' < input) {
+    input = input + '\x01';
+  }
+  return input;
+}
+~~~
+
+We can rewrite these manipulation subroutines as function in Python:
+
+~~~py
+def jumble(c):
+    c = ord(c)
+    if (c > 96):
+        c += 9
+    a = (c>>7)>>4
+    c = ((c + a & 0xf) - a) * 2
+    if c > 15:
+        c += 1
+    return chr(c)
+
+def newstr(keystr):
+    outstr = ''
+    for i in range(0,len(keystr),1):
+        x = jumble(keystr[i])
+        if i==0:
+            y = (ord(x)>>7)>>4
+            outstr += chr((ord(x)+y&0xf)-y)
+        else:
+            y = ord(x)+ord(outstr[i-1])>>0x37
+            outstr += chr(((ord(x)+ord(outstr[i-1]))+(y>>4)&0xf)-(y>>4))
+    return outstr
+~~~
+
+The test string can be adapted for direct comparison:
+
+~~~py
+test_str1 = "mngjlepdcbcmjmmjipmmegfkjbicaemoemkkpjgnhgomlknmoepmfbcoffikhplmadmganmlojndmfahbhaancamdhfdkiancdjf"
+test_str2 = ''
+
+for i in range(0,len(test_str1),1):
+    test_int = ord(test_str1[i])
+    test_str2 += chr(test_int-97)
+~~~
+
+The enciphered flag and key are both hex strings, we can iterate through a key string using hex alphanumeric characters:
+
+~~~py
+key_str = ''
+charset = "0123456789abcdef"
+
+for i in range(0,len(test_str2),1):
+    string = test_str2[:i+1]
+    for a in charset:
+        b = key_str + a
+        c = newstr(b)
+        if(c==string):
+            key_str += a
+            break
+~~~
+
+We should now have the key in hex string form, we need to convert this into a byte array to be XOR's with the enciphered flag:
+
+~~~py
+key_int = int(key_str,16)
+    
+ct_str = "18a07fbdbcd1af759895328ec4d82d2b411dc7876c34a0ab61eda8f2efa5bb0f198a3aa0ac47ff9a0cf3d913d3138678ce4b"
+ct_int = int(ct_str,16)
+
+flag_int = key_int^ct_int
+flag = bytearray.fromhex(hex(flag_int)[2:]).decode()
+print(flag)
+~~~
+
+Running this, we get the response:
+
+~~~shell
+In [1]: runfile('otp.py')
+picoCTF{cust0m_jumbl3s_4r3nt_4_g0Od_1d3A_33ead16f}
+~~~
 
 </details>
 
@@ -2592,7 +2977,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{cust0m_jumbl3s_4r3nt_4_g0Od_1d3A_33ead16f}
 ~~~
 
 </details>
@@ -2867,7 +3252,273 @@ picoCTF{w1{1wq8/7376j.:}
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge provides a binary file, rev, and the output rev_this, generated from an unknown flag.txt input file.
+
+We can import the binary into Ghidra and review the main function:
+
+~~~c
+void main(void)
+{
+  size_t sVar1;
+  char local_58 [23];
+  char local_41;
+  int local_2c;
+  FILE *local_28;
+  FILE *local_20;
+  uint local_14;
+  int local_10;
+  char local_9;
+  
+  local_20 = fopen("flag.txt","r");
+  local_28 = fopen("rev_this","a");
+  if (local_20 == (FILE *)0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (local_28 == (FILE *)0x0) {
+    puts("please run this on the server");
+  }
+  sVar1 = fread(local_58,0x18,1,local_20);
+  local_2c = (int)sVar1;
+  if ((int)sVar1 < 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_10 = 0;
+  while (local_10 < 8) {
+    local_9 = local_58[local_10];
+    fputc((int)local_9,local_28);
+    local_10 = local_10 + 1;
+  }
+  local_14 = 8;
+  while ((int)local_14 < 0x17) {
+    if ((local_14 & 1) == 0) {
+      local_9 = local_58[(int)local_14] + '\x05';
+    }
+    else {
+      local_9 = local_58[(int)local_14] + -2;
+    }
+    fputc((int)local_9,local_28);
+    local_14 = local_14 + 1;
+  }
+  local_9 = local_41;
+  fputc((int)local_41,local_28);
+  fclose(local_28);
+  fclose(local_20);
+  return;
+}
+~~~
+
+Skipping the variable initialisations, we can see two files are opened at the beginning of this program:
+
+~~~c
+local_20 = fopen("flag.txt","r");
+local_28 = fopen("rev_this","a");
+~~~
+
+The first file, flag.txt, is opened in a read-only mode.  This is the file that we do not have access to.  A second file, rev_this is opened in "append" mode, that is to add characters to the file without altering the existing information.
+
+We can rename these variables, in_file and out_file to make the source easier to read and rewrite in pseudo code:
+
+~~~c
+in_file   = OpenFile(flag.txt,readonly)
+out_file  = OpenFile(rev_this,append);
+
+  if (in_file == (FILE *)0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (out_file == (FILE *)0x0) {
+    puts("please run this on the server");
+  }
+  sVar1 = fread(local_58,0x18,1,in_file);
+  local_2c = (int)sVar1;
+  if ((int)sVar1 < 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_10 = 0;
+  while (local_10 < 8) {
+    local_9 = local_58[local_10];
+    fputc((int)local_9,out_file);
+    local_10 = local_10 + 1;
+  }
+  local_14 = 8;
+  while ((int)local_14 < 0x17) {
+    if ((local_14 & 1) == 0) {
+      local_9 = local_58[(int)local_14] + '\x05';
+    }
+    else {
+      local_9 = local_58[(int)local_14] + -2;
+    }
+    fputc((int)local_9,out_file);
+    local_14 = local_14 + 1;
+  }
+  local_9 = local_41;
+  fputc((int)local_41,out_file);
+  fclose(out_file);
+  fclose(in_file);
+  return;
+}
+~~~
+
+The next functions are print statements for if the required files are not found.  We can remove these to simplify our code.
+
+The contents of flag.txt are then read to a variable, local_58 we can rename flag.  We can ignore the boolean error handling:
+
+~~~c
+in_file   = OpenFile(flag.txt,readonly)
+out_file  = OpenFile(rev_this,append);
+
+flag 	  = ReadFile(flag.txt, length=24)
+
+  local_10 = 0;
+  while (local_10 < 8) {
+    local_9 = flag[local_10];
+    fputc((int)local_9,out_file);
+    local_10 = local_10 + 1;
+  }
+  local_14 = 8;
+  while ((int)local_14 < 0x17) {
+    if ((local_14 & 1) == 0) {
+      local_9 = flag[(int)local_14] + '\x05';
+    }
+    else {
+      local_9 = flag[(int)local_14] + -2;
+    }
+    fputc((int)local_9,out_file);
+    local_14 = local_14 + 1;
+  }
+  local_9 = local_41;
+  fputc((int)local_41,out_file);
+  fclose(out_file);
+  fclose(in_file);
+  return;
+}
+~~~
+
+The program now iterates through the first 8 Bytes and appends these to the output file:
+
+~~~c
+in_file   = OpenFile(flag.txt,readonly)
+out_file  = OpenFile(rev_this,append)
+
+flag 	  = ReadFile(flag.txt, length=24)
+
+i = 0
+while (i < 8) {
+  buff = flag[i];
+  WriteFile(rev_this,buff)
+  i += 1
+
+
+  local_14 = 8;
+  while ((int)local_14 < 0x17) {
+    if ((local_14 & 1) == 0) {
+      local_9 = flag[(int)local_14] + '\x05';
+    }
+    else {
+      local_9 = flag[(int)local_14] + -2;
+    }
+    fputc((int)local_9,out_file);
+    local_14 = local_14 + 1;
+  }
+  local_9 = local_41;
+  fputc((int)local_41,out_file);
+  fclose(out_file);
+  fclose(in_file);
+  return;
+}
+~~~
+
+The program now iterates through the next 15 Bytes and either adds 5 or subtracts 2 if the index is even or odd respectively:
+
+~~~c
+in_file   = OpenFile(flag.txt,readonly)
+out_file  = OpenFile(rev_this,append)
+
+flag 	  = ReadFile(flag.txt, length=24)
+
+i = 0
+while (i < 8):
+  buff = flag[i]
+  WriteFile(rev_this,buff)
+  i += 1
+
+i = 8
+while (i < 23):
+  if (i is even):
+    buff = flag[i]+5
+  else:
+    buff = flag[i]-2
+  WriteFile(rev_this, buff)
+  i += 1
+
+  local_9 = local_41;
+  fputc((int)local_41,out_file);
+  fclose(out_file);
+  fclose(in_file);
+  return;
+}
+~~~
+
+Finally, the program appends variable "local_41" to the rev_this file and closes the files.  We do not have a declaration for local_41, however we can assume this is the "}" character expected at the end of the flag:
+
+
+~~~c
+in_file   = OpenFile(flag.txt,readonly)
+out_file  = OpenFile(rev_this,append)
+
+flag 	  = ReadFile(flag.txt, length=24)
+
+i = 0
+while (i < 8):
+  buff = flag[i]
+  AppendFile(rev_this,buff)
+  i += 1
+
+i = 8
+while (i < 23):
+  if (i is even):
+    buff = flag[i]+5
+  else:
+    buff = flag[i]-2
+  AppendFile(rev_this, buff)
+  i += 1
+
+AppendFile(rev_this,"}")
+
+close(flag.txt)
+close(rev_this)
+~~~
+
+We can now reverse this program; We have the following rev_this output:
+
+~~~
+picoCTF{w1{1wq8/7376j.:}
+~~~
+
+The first 8 characters and the last character are unchanged. Then from index 8 to index 22 the ASCII characters can be substituted for ASCII(int - 5) for even indexes and ASCII(int + 2) for odd indexes:
+
+| Index | Character | Decimal | Reversing | Out Dec | Out ASCII |
+|-------|-----------|---------|-----------|---------|-----------|
+|  8    | w         | 119     | -5        | 114     | r         |
+|  9    | 1         |  49     | +2        |  51     | 3         |
+| 10    | {         | 123     | -5        | 118     | v         |
+| 11    | 1         |  49     | +2        |  51     | 3         |
+| 12    | w         | 119     | -5        | 114     | r         |
+| 13    | q         | 113     | +2        | 115     | s         |
+| 14    | 8         |  56     | -5        |  51     | 3         |
+| 15    | /         |  47     | +2        |  49     | 1         |
+| 16    | 7         |  55     | -5        |  50     | 2         |
+| 17    | 3         |  51     | +2        |  53     | 5         |
+| 18    | 7         |  55     | -5        |  50     | 2         |
+| 19    | 6         |  54     | +2        |  56     | 8         |
+| 20    | j         | 106     | -5        | 101     | e         |
+| 21    | .         |  46     | +2        |  48     | 0         |
+| 22    | :         |  58     | -5        |  53     | 5         |
+
+~~~
+picoCTF{r3v3rs312528e05}
+~~~
 
 </details>
 
@@ -2878,7 +3529,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{r3v3rs312528e05}
 ~~~
 
 </details>
@@ -2916,7 +3567,140 @@ The name of the game is speed. Are you quick enough to solve this problem and ke
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+If we run the executable, we can see the program begins generating a key and exits before the key is given:
+
+~~~shell
+$ ./need-for-speed 
+Keep this thing over 50 mph!
+============================
+
+Creating key...
+Not fast enough. BOOM!
+~~~
+
+We can load the executable into Ghidra and see the main function:
+
+~~~c
+undefined8 main(void)
+
+{
+  header();
+  set_timer();
+  get_key();
+  print_flag();
+  return 0;
+}
+~~~
+
+This calls 4 subfunctions: header(), set_timer(), get_key() and print_flag().
+
+If we look at header:
+
+~~~c
+void header(void)
+
+{
+  uint local_c;
+  
+  puts("Keep this thing over 50 mph!");
+  local_c = 0;
+  while (local_c < 0x1c) {
+    putchar(0x3d);
+    local_c = local_c + 1;
+  }
+  puts("\n");
+  return;
+}
+~~~
+
+We can see this provides the initial print function for the program. The second function, set_timer():
+
+~~~c
+void set_timer(void)
+
+{
+  __sighandler_t p_Var1;
+  
+  p_Var1 = __sysv_signal(0xe,alarm_handler);
+  if (p_Var1 == (__sighandler_t)0xffffffffffffffff) {
+    puts("\n\nSomething bad happened here. ");
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  alarm(1);
+  return;
+}
+~~~
+
+This calls the function, alarm_handler:
+
+~~~c
+void alarm_handler(void)
+
+{
+  puts("Not fast enough. BOOM!");
+                    /* WARNING: Subroutine does not return */
+  exit(0);
+}
+~~~
+
+Which exits the program.
+
+We need to find a way to avoid this function.  We can load the executable into the [GNU debugger](https://www.gnu.org/software/gdb/):
+
+~~~shell
+$ gdb -f need-for-speed
+~~~
+
+In the debugger, we can run the program as before:
+
+~~~shell
+(gdb) run
+Starting program: /home/djm89uk/Downloads/need-for-speed 
+Keep this thing over 50 mph!
+============================
+
+Creating key...
+Not fast enough. BOOM!
+[Inferior 1 (process 158598) exited normally]
+~~~
+
+We can put a break into the main function and rerun the program:
+
+~~~shell
+(gdb) br main
+Breakpoint 1 at 0x55555540091e
+(gdb) run
+Starting program: /home/djm89uk/Downloads/need-for-speed 
+
+Breakpoint 1, 0x000055555540091e in main ()
+~~~
+
+Lets call the subfunction and skip the timer function.  Calling the header first, we get the expected output:
+
+~~~shell
+(gdb) call (void) header()
+Keep this thing over 50 mph!
+============================
+~~~
+
+We can now run the get_key() function, skipping the timer:
+
+~~~shell
+(gdb) call (void) get_key()
+Creating key...
+Finished
+~~~
+
+We should now be able to retrieve the flag by calling the print_flag() function:
+
+~~~shell
+(gdb) call (void) print_flag()
+Printing flag:
+PICOCTF{Good job keeping bus #190ca38b speeding along!}
+~~~
+
+This gives us the flag PICOCTF{Good job keeping bus #190ca38b speeding along!}
 
 </details>
 
@@ -2927,7 +3711,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+PICOCTF{Good job keeping bus #190ca38b speeding along!}
 ~~~
 
 </details>
