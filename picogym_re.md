@@ -3792,7 +3792,163 @@ In this program, identify the last integer value that is passed as parameter to 
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge implements multiprocessing using the [fork](https://man7.org/linux/man-pages/man2/fork.2.html) system call.
+
+We can import the binary vuln file into Ghidra to decompile the source.  This gives us a main function:
+
+~~~c
+undefined4 main(undefined1 param_1)
+
+{
+  int *piVar1;
+  
+  piVar1 = (int *)mmap((void *)0x0,4,3,0x21,-1,0);
+  *piVar1 = 1000000000;
+  fork();
+  fork();
+  fork();
+  fork();
+  *piVar1 = *piVar1 + 0x499602d2;
+  doNothing(*piVar1);
+  return 0;
+}
+~~~
+
+With a custom subfunction, "doNothing":
+
+~~~c
+void doNothing(undefined4 param_1)
+
+{
+  return;
+}
+~~~
+
+This program can be rewritten for compiling using the c libraries [stdio.h](https://man7.org/linux/man-pages/man3/stdio.3.html), [sys/mman.h](https://man7.org/linux/man-pages/man0/sys_mman.h.0p.html), [sys/types.h](http://manpages.ubuntu.com/manpages/precise/en/man7/sys_types.h.7posix.html) and [unistd.h](https://man7.org/linux/man-pages/man0/unistd.h.0p.html).  Another useful library is [sys/wait.h](https://manpages.ubuntu.com/manpages/precise/man7/wait.h.7posix.html) that provides the wait and waitpid functions:
+
+~~~c
+#include <stdio.h>
+#include <sys/mman.h>
+#include <sys/types.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+void doNothing(int32_t param_1);
+
+int32_t main(void)
+{
+  int32_t *piVar1;
+  piVar1 = (int32_t *)mmap((void *)0x0,4,3,0x21,-1,0);
+  *piVar1 = 1000000000;
+  fork();
+  fork();
+  fork();
+  fork();
+  *piVar1 = *piVar1 + 0x499602d2;
+  doNothing(*piVar1);
+  return 0;
+}
+
+void doNothing(int32_t param_1)
+{
+    return;
+}
+~~~
+
+This can be compiled and executed with gcc.  We can ass a printf statement at the end of the main function block to see what is returned:
+
+~~~c
+#include <stdio.h>
+#include <sys/mman.h>
+#include <sys/types.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+void doNothing(int32_t param_1);
+
+int32_t main(void)
+{
+  int32_t *piVar1;
+  piVar1 = (int32_t *)mmap((void *)0x0,4,3,0x21,-1,0);
+  *piVar1 = 1000000000;
+  fork();
+  fork();
+  fork();
+  fork();
+  *piVar1 = *piVar1 + 0x499602d2;
+  doNothing(*piVar1);
+  
+  printf("piVar1 = %d \n",*piVar1);
+  
+  return 0;
+}
+
+void doNothing(int32_t param_1)
+{
+    return;
+}
+~~~
+
+Compiling and running this executable results in various returns that are not repeatable.  This is most likely caused by the alive subprocesses returning values from their threads.  We can run this code multiple times and eventually can identify 16 unique outputs that are printed in repeatable sequences.
+
+~~~
+piVar1 = -2060399406                                                                
+piVar1 = -825831516                                                                 
+piVar1 = 408736374                                                                  
+piVar1 = 1643304264                                                                 
+piVar1 = -1417095142                                                                
+piVar1 = -182527252                                                                 
+piVar1 = 1052040638                                                                 
+piVar1 = -2008358768                                                                
+piVar1 = -773790878 
+piVar1 = 460777012                                                                  
+piVar1 = 1695344902                                                                 
+piVar1 = -1365054504                                                                
+piVar1 = -130486614                                                                 
+piVar1 = 1104081276                                                                 
+piVar1 = -1956318130
+piVar1 = -721750240
+~~~
+
+One of these is the correct (and final) value.  To understand this better, we can review the fork() command.  Each fork() call creates 2 child processes.  The first fork will generate two further forks etc.  When no child process dies, we should see 2x2x2x2 (4xfork() calls) = 16 child processes.  The executable does not always maintain these child processes and we do not always get all 16 responses.  We can try to close and wait for the child processes to end using waitpid and sleep functions:
+
+~~~c
+#include <stdio.h>
+#include <sys/mman.h>
+#include <sys/types.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+int32_t main(void)
+{
+  int32_t *piVar1;
+  pid_t parent = getpid();
+  piVar1 = (int32_t *)mmap((void *)0x0,4,3,0x21,-1,0);
+  *piVar1 = 1000000000;
+  fork();
+  fork();
+  fork();
+  fork();
+  *piVar1 = *piVar1 + 0x499602d2;
+  pid_t current = getpid();
+  if(current != parent){
+    int status;
+    waitpid(current,&status,0);
+    sleep(1);
+  }
+  sleep(1);
+  printf("piVar1 = %d\n",*piVar1);
+  return 0;
+}
+~~~
+
+This provides a repeatable and exact return:
+
+~~~
+piVar1 = -721750240 
+~~~
+
+Giving our flag picoCTF{-721750240}.
 
 </details>
 
@@ -3803,7 +3959,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{-721750240}
 ~~~
 
 </details>
