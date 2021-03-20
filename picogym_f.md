@@ -1,4 +1,4 @@
-# [PicoGym](./picogym.md) Forensics
+# [PicoCTF](./picoctf.md) PicoGym Forensics
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -30,7 +30,7 @@
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -93,7 +93,7 @@ picoCTF{more_than_m33ts_the_3y33dd2eEF5}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -158,7 +158,7 @@ picoCTF{s0_m3ta_d8944929}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -252,7 +252,7 @@ picoCTF{now_you_know_about_extensions}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -378,7 +378,7 @@ picoCTF{StaT31355_636f6e6e}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -435,7 +435,7 @@ picoCTF{h1d1ng_1n_th3_b1t5}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -518,7 +518,7 @@ picoCTF{b3_5t111_mL|_<3_f5290af6}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -758,7 +758,7 @@ picoCTF{c0rrupt10n_1847995}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -830,7 +830,7 @@ picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## m00nwalk
@@ -895,7 +895,7 @@ picoCTF{beep_boop_im_in_space}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## like1000
@@ -975,7 +975,7 @@ picoCTF{l0t5_0f_TAR5}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## shark on wire 2
@@ -1161,7 +1161,7 @@ picoCTF{p1LLf3r3d_data_v1a_st3g0}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## m00nwalk2
@@ -1253,7 +1253,7 @@ picoCTF{the_answer_lies_hidden_in_plain_sight}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Investigative Reversing 0
@@ -1289,7 +1289,106 @@ We have recovered a binary and an image. See what you can make of it. There shou
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can open the mystery binary and deocmpile it in Ghidra.  We find the main function:
+
+~~~c
+void main(void)
+
+{
+  FILE * __stream;
+  FILE * __stream_00;
+  size_t sVar1;
+  long in_FS_OFFSET;
+  int local_54;
+  int local_50;
+  char local_38[4];
+  char local_34;
+  char local_33;
+  char local_29;
+  long local_10;
+
+  local_10 = * (long * )(in_FS_OFFSET + 0x28);
+  __stream = fopen("flag.txt", "r");
+  __stream_00 = fopen("mystery.png", "a");
+  if (__stream == (FILE * ) 0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (__stream_00 == (FILE * ) 0x0) {
+    puts("mystery.png is missing, please run this on the server");
+  }
+  sVar1 = fread(local_38, 0x1a, 1, __stream);
+  if ((int) sVar1 < 1) {
+    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  puts("at insert");
+  fputc((int) local_38[0], __stream_00);
+  fputc((int) local_38[1], __stream_00);
+  fputc((int) local_38[2], __stream_00);
+  fputc((int) local_38[3], __stream_00);
+  fputc((int) local_34, __stream_00);
+  fputc((int) local_33, __stream_00);
+  local_54 = 6;
+  while (local_54 < 0xf) {
+    fputc((int)(char)(local_38[local_54] + '\x05'), __stream_00);
+    local_54 = local_54 + 1;
+  }
+  fputc((int)(char)(local_29 + -3), __stream_00);
+  local_50 = 0x10;
+  while (local_50 < 0x1a) {
+    fputc((int) local_38[local_50], __stream_00);
+    local_50 = local_50 + 1;
+  }
+  fclose(__stream_00);
+  fclose(__stream);
+  if (local_10 != * (long * )(in_FS_OFFSET + 0x28)) {
+    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return;
+}
+~~~
+
+We can see a flag.txt file is read and the bytes are manipulated and appended to the png file.  Opening the png file in a hex editor, we see the last 26 bytes are:
+
+~~~
+picoCTK\x80k5zsid6q_3d659f57}
+~~~
+
+after the first 6 characters are appended to the file, the next 9 characters are read from the flag.txt file, 5 is added to the Byte value, and they are appended to the png file. Character 15 is appended from another non-flag variable subtracted by 3, and 16-26 are appended without manipulation from the flag.txt file.
+
+| Index | Value | Manipulation | flag.txt |
+|-------|-------|--------------|----------|
+|  0    | p     | +0           | p        |
+|  1    | i     | +0           | i        |
+|  2    | c     | +0           | c        |
+|  3    | o     | +0           | o        |
+|  4    | C     | +0           | C        |
+|  5    | T     | +0           | T        |
+|  6    | K     | +5           | F        |
+|  7    | \x80  | +5           | {        |
+|  8    | k     | +5           | f        |
+|  9    | 5     | +5           | 0        |
+| 10    | z     | +5           | u        |
+| 11    | s     | +5           | n        |
+| 12    | i     | +5           | d        |
+| 13    | d     | +5           | _        |
+| 14    | 6     | +5           | 1        |
+| 15    | q     | -3           | t        |
+| 16    | _     | +0           | _        |
+| 17    | 3     | +0           | 3        |
+| 18    | d     | +0           | d        |
+| 19    | 6     | +0           | 6        |
+| 20    | 5     | +0           | 5        |
+| 21    | 9     | +0           | 9        |
+| 22    | f     | +0           | f        |
+| 23    | 5     | +0           | 5        |
+| 24    | 7     | +0           | 7        |
+| 25    | }     | +0           | }        |
+
+This gives us our flag:
+
+picoCTF{f0und_1t_3d659f57}
 
 </details>
 
@@ -1300,14 +1399,14 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{f0und_1t_3d659f57}
 ~~~
 
 </details>
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## WebNet0
@@ -1402,7 +1501,7 @@ picoCTF{nongshim.shrimp.crackers}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Investigative Reversing 1
@@ -1454,7 +1553,107 @@ We have recovered a binary and a few images: image, image2, image3. See what you
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can again open the mystery binary in Ghidra and recompile it.  We find the main function:
+
+~~~c
+void main(void)
+
+{
+  FILE * __stream;
+  FILE * __stream_00;
+  FILE * __stream_01;
+  FILE * __stream_02;
+  long in_FS_OFFSET;
+  char local_6b;
+  int local_68;
+  int local_64;
+  int local_60;
+  char local_38[4];
+  char local_34;
+  char local_33;
+  long local_10;
+
+  local_10 = * (long * )(in_FS_OFFSET + 0x28);
+  __stream = fopen("flag.txt", "r");
+  __stream_00 = fopen("mystery.png", "a");
+  __stream_01 = fopen("mystery2.png", "a");
+  __stream_02 = fopen("mystery3.png", "a");
+  if (__stream == (FILE * ) 0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (__stream_00 == (FILE * ) 0x0) {
+    puts("mystery.png is missing, please run this on the server");
+  }
+  fread(local_38, 0x1a, 1, __stream);
+  fputc((int) local_38[1], __stream_02);
+  fputc((int)(char)(local_38[0] + '\x15'), __stream_01);
+  fputc((int) local_38[2], __stream_02);
+  local_6b = local_38[3];
+  fputc((int) local_33, __stream_02);
+  fputc((int) local_34, __stream_00);
+  local_68 = 6;
+  while (local_68 < 10) {
+    local_6b = local_6b + '\x01';
+    fputc((int) local_38[local_68], __stream_00);
+    local_68 = local_68 + 1;
+  }
+  fputc((int) local_6b, __stream_01);
+  local_64 = 10;
+  while (local_64 < 0xf) {
+    fputc((int) local_38[local_64], __stream_02);
+    local_64 = local_64 + 1;
+  }
+  local_60 = 0xf;
+  while (local_60 < 0x1a) {
+    fputc((int) local_38[local_60], __stream_00);
+    local_60 = local_60 + 1;
+  }
+  fclose(__stream_00);
+  fclose(__stream);
+  if (local_10 != * (long * )(in_FS_OFFSET + 0x28)) {
+    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return;
+}
+~~~
+
+This a similar program to before, we have a file reading flag.txt and appending the data to 3 separate png files.
+
+We  identifying where each value will be stored, how it was manipulated and what the original format was:
+
+| Flag Index | Mainpulation | Location  | PNG value | Original |
+|------------|--------------|-----------|-----------|----------|
+|  0         | +0x15 = +21  | png 1:+1  | \x85      | p        |
+|  1         | +0           | png 2:+1  | i         | i        |
+|  2         | +0           | png 2:+2  | c         | c        |
+|  3         | +4           | png 1:+2  | s         | o        |
+|  4         | +0           | png 0:+1  | C         | C        |
+|  5         | +0           | png 2:+3  | T         | T        |
+|  6         | +0           | png 0:+2  | F         | F        |
+|  7         | +0           | png 0:+3  | {         | {        |
+|  8         | +0           | png 0:+4  | A         | A        |
+|  9         | +0           | png 0:+5  | n         | n        |
+| 10         | +0           | png 2:+4  | 0         | 0        |
+| 11         | +0           | png 2:+5  | t         | t        |
+| 12         | +0           | png 2:+6  | h         | h        |
+| 13         | +0           | png 2:+7  | a         | a        |
+| 14         | +0           | png 2:+8  | _         | _        |
+| 15         | +0           | png 0:+6  | 1         | 1        |
+| 16         | +0           | png 0:+7  | _         | _        |
+| 17         | +0           | png 0:+8  | e         | e        |
+| 18         | +0           | png 0:+9  | 2         | 2        |
+| 19         | +0           | png 0:+10 | 6         | 6        |
+| 20         | +0           | png 0:+11 | 3         | 3        |
+| 21         | +0           | png 0:+12 | 0         | 0        |
+| 22         | +0           | png 0:+13 | 7         | 7        |
+| 23         | +0           | png 0:+14 | 2         | 2        |
+| 24         | +0           | png 0:+15 | 5         | 5        |
+| 25         | +0           | png 0:+16 | }         | }        |
+
+This gives us the flag:
+
+picoCTF{An0tha_1_e2630725}
 
 </details>
 
@@ -1465,14 +1664,14 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{An0tha_1_e2630725}
 ~~~
 
 </details>
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Investigative Reversing 2
@@ -1502,7 +1701,208 @@ We have recovered a binary and an image See what you can make of it. There shoul
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can again import and decompile the mystery binary in Ghidra.  The main function is shown below.
+
+~~~c
+undefined8 main(void)
+
+{
+  size_t sVar1;
+  long in_FS_OFFSET;
+  byte local_7e;
+  byte local_7d;
+  int local_7c;
+  int local_78;
+  int local_74;
+  int local_70;
+  undefined4 local_6c;
+  int local_68;
+  int local_64;
+  FILE * local_60;
+  FILE * local_58;
+  FILE * local_50;
+  char local_48[56];
+  long local_10;
+
+  local_10 = * (long * )(in_FS_OFFSET + 0x28);
+  local_6c = 0;
+  local_60 = fopen("flag.txt", "r");
+  local_58 = fopen("original.bmp", "r");
+  local_50 = fopen("encoded.bmp", "a");
+  if (local_60 == (FILE * ) 0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (local_58 == (FILE * ) 0x0) {
+    puts("original.bmp is missing, please run this on the server");
+  }
+  sVar1 = fread( & local_7e, 1, 1, local_58);
+  local_7c = (int) sVar1;
+  local_68 = 2000;
+  local_78 = 0;
+  while (local_78 < local_68) {
+    fputc((int)(char) local_7e, local_50);
+    sVar1 = fread( & local_7e, 1, 1, local_58);
+    local_7c = (int) sVar1;
+    local_78 = local_78 + 1;
+  }
+  sVar1 = fread(local_48, 0x32, 1, local_60);
+  local_64 = (int) sVar1;
+  if (local_64 < 1) {
+    puts("flag is not 50 chars");
+    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_74 = 0;
+  while (local_74 < 0x32) {
+    local_70 = 0;
+    while (local_70 < 8) {
+      local_7d = codedChar(local_70, local_48[local_74] - 5, local_7e);
+      fputc((int)(char) local_7d, local_50);
+      fread( & local_7e, 1, 1, local_58);
+      local_70 = local_70 + 1;
+    }
+    local_74 = local_74 + 1;
+  }
+  while (local_7c == 1) {
+    fputc((int)(char) local_7e, local_50);
+    sVar1 = fread( & local_7e, 1, 1, local_58);
+    local_7c = (int) sVar1;
+  }
+  fclose(local_50);
+  fclose(local_58);
+  fclose(local_60);
+  if (local_10 == * (long * )(in_FS_OFFSET + 0x28)) {
+    return 0;
+  }
+  /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+~~~
+
+This is a bit more complicated than the previous 2 investigative reversing challenges. Lets clean things up, remove error checking, stack protection and rename variables:
+
+~~~c
+int main(void)
+
+{
+  size_t sVar1;
+  byte bmp_buffer;
+  byte otp_buffer;
+  FILE * file_flag;
+  FILE * file_original_bmp;
+  FILE * file_encoded_bmp;
+  char flag_buffer[56];
+
+  file_flag = fopen("flag.txt", "r");
+  file_original_bmp = fopen("original.bmp", "r");
+  file_encoded_bmp = fopen("encoded.bmp", "a");
+
+  sVar1 = fread( & bmp_buffer, 1, 1, file_original_bmp);
+  for(int i=0; i<2000; i++){
+    fputc((int)(char) bmp_buffer, file_encoded_bmp);
+    sVar1 = fread( &bmp_buffer, 1, 1, file_original_bmp);
+  }
+  sVar1 = fread(flag_buffer, 0x32, 1, file_flag);
+
+  for(int i=0;i<50;i++){
+    for(int j=0; j<8; j++){
+      otp_buffer = codedChar(j, flag_buffer[i] - 5, bmp_buffer);
+      fputc((int)(char) otp_buffer, file_encoded_bmp);
+      fread( & bmp_buffer, 1, 1, file_original_bmp);
+    }
+  }
+  while ((int) sVar1 == 1) {
+    fputc((int)(char) bmp_buffer, file_encoded_bmp);
+    sVar1 = fread( &bmp_buffer, 1, 1, file_original_bmp);
+  }
+  fclose(file_encoded_bmp);
+  fclose(file_original_bmp);
+  fclose(file_flag);
+  
+  return 0;
+}
+~~~
+
+We can see that 3 files are opened by the program, flag.txt is opened in read-only mode, original.bmp is opened in read-only mode and encoded.bmp is opened in appending mode.  
+
+The first 2000Bytes of the original bmp are copied directly into the encoded.bmp file.
+
+The flag.txt is read into a 56-Byte character array. This is appended to the encoded.bmp file with each character encoded using the codedChar subroutine that will append an encoded char generated from the original bmp and the flag contents.  This will fill the next 400 Bytes of the encoded bmp.
+
+The remainder of the original bmp is copied to the encoded bmp file in the final while loop.  We are therefore only interested in the encoded.bmp Bytes 2000-2400.
+
+We can separate these Bytes using dd:
+
+~~~shell
+$ dd skip=2000 count=400 if=encoded.bmp of=output.binary bs=1
+400+0 records in
+400+0 records out
+400 bytes copied, 0.00173631 s, 230 kB/s
+~~~
+
+We should take a look at the codedChar subroutine in Ghidra:
+
+~~~c
+byte codedChar(int param_1, byte param_2, byte param_3)
+{
+  byte local_20;
+  local_20 = param_2;
+  if (param_1 != 0) {
+    local_20 = (byte)((int)(char) param_2 >> ((byte) param_1 & 0x1f));
+  }
+  return param_3 & 0xfe | local_20 & 1;
+}
+~~~
+
+we can tidy this up:
+
+
+~~~c
+byte codedChar(int j, byte flag_buff_edit, byte bmp_buff)
+{
+  byte flag_code_buff;
+  flag_code_buff = flag_buff_edit;
+  if (j != 0) {
+    flag_code_buff = (byte)((int)(char) flag_buff_edit >> ((byte) j & 0x1f));
+  }
+  return bmp_buff & 0xfe | flag_code_buff & 1;
+}
+~~~
+
+We can reverse this function in python:
+
+~~~py
+bin_str = ['']*50
+int_str = [0]*50
+flag = ''
+
+file = open("output.binary","rb")
+byte = file.read(1)
+
+i = 0
+for i in range(0,50):
+    for j in range(0,8):
+        bin_val = ord(byte)&0x1
+        bin_str[i] = str(bin_val) +bin_str[i]
+        byte = file.read(1)
+
+
+for i in range(0,50,1):
+    int_str[i] = int(bin_str[i],2)+5
+    newchar = chr(int_str[i])
+    flag += newchar
+
+print(flag)
+~~~
+
+Running, we get the output:
+
+~~~shell
+In [1]: runfile('InvestigativeReversing2.py')
+picoCTF{n3xt_0n300000000000000000000000000394060c}
+~~~
+
+This is our flag.
 
 </details>
 
@@ -1513,14 +1913,14 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{n3xt_0n300000000000000000000000000394060c}
 ~~~
 
 </details>
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Investigative Reversing 3
@@ -1548,7 +1948,182 @@ We have recovered a binary and an image See what you can make of it. There shoul
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This challenge is very similar to the previous Investigative Reversing challenge.  We can import and decompile in Ghidra, giving us the main function:
+
+~~~c
+undefined8 main(void)
+
+{
+  size_t sVar1;
+  long in_FS_OFFSET;
+  byte local_7e;
+  byte local_7d;
+  int local_7c;
+  int local_78;
+  uint local_74;
+  int local_70;
+  undefined4 local_6c;
+  int local_68;
+  int local_64;
+  FILE * local_60;
+  FILE * local_58;
+  FILE * local_50;
+  byte local_48[56];
+  long local_10;
+
+  local_10 = * (long * )(in_FS_OFFSET + 0x28);
+  local_6c = 0;
+  local_60 = fopen("flag.txt", "r");
+  local_58 = fopen("original.bmp", "r");
+  local_50 = fopen("encoded.bmp", "a");
+  if (local_60 == (FILE * ) 0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  if (local_58 == (FILE * ) 0x0) {
+    puts("No output found, please run this on the server");
+  }
+  sVar1 = fread( & local_7e, 1, 1, local_58);
+  local_7c = (int) sVar1;
+  local_68 = 0x2d3;
+  local_78 = 0;
+  while (local_78 < local_68) {
+    fputc((int)(char) local_7e, local_50);
+    sVar1 = fread( & local_7e, 1, 1, local_58);
+    local_7c = (int) sVar1;
+    local_78 = local_78 + 1;
+  }
+  sVar1 = fread(local_48, 0x32, 1, local_60);
+  local_64 = (int) sVar1;
+  if (local_64 < 1) {
+    puts("Invalid Flag");
+    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_74 = 0;
+  while ((int) local_74 < 100) {
+    if ((local_74 & 1) == 0) {
+      local_70 = 0;
+      while (local_70 < 8) {
+        local_7d = codedChar(local_70, local_48[(int) local_74 / 2], local_7e);
+        fputc((int)(char) local_7d, local_50);
+        fread( & local_7e, 1, 1, local_58);
+        local_70 = local_70 + 1;
+      }
+    } else {
+      fputc((int)(char) local_7e, local_50);
+      fread( & local_7e, 1, 1, local_58);
+    }
+    local_74 = local_74 + 1;
+  }
+  while (local_7c == 1) {
+    fputc((int)(char) local_7e, local_50);
+    sVar1 = fread( & local_7e, 1, 1, local_58);
+    local_7c = (int) sVar1;
+  }
+  fclose(local_50);
+  fclose(local_58);
+  fclose(local_60);
+  if (local_10 == * (long * )(in_FS_OFFSET + 0x28)) {
+    return 0;
+  }
+  /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+~~~
+
+This can be cleaned up for simplicity:
+
+~~~c
+int main(void)
+
+{
+  size_t sVar1;
+  byte bmp_buffer;
+  byte otp_buffer;
+  FILE * file_flag;
+  FILE * file_bitmap;
+  FILE * file_encoded;
+  byte flag_buffer[56];
+
+
+  file_flag = fopen("flag.txt", "r");
+  file_bitmap = fopen("original.bmp", "r");
+  file_encoded = fopen("encoded.bmp", "a");
+  sVar1 = fread( &bmp_buffer, 1, 1, file_bitmap);
+  for (int i=0; i < 723; i++){
+    fputc((int)(char) bmp_buffer, file_encoded);
+    sVar1 = fread( &bmp_buffer, 1, 1, file_bitmap);
+  }
+  sVar1 = fread(flag_buffer, 50, 1, file_flag);
+
+  for (int i=0; i<100; i++){
+    if ((i & 1) == 0) {
+      for(int j=0; j<8; j++){
+        otp_buff = codedChar(j, flag_buffer[(int) i/2], bmp_buffer);
+        fputc((int)(char) otp_buffer, file_encoded);
+        fread( &bmp_buffer, 1, 1, file_bitmap);
+      }
+    } else {
+      fputc((int)(char) bmp_buffer, file_encoded);
+      fread( &bmp_buffer, 1, 1, file_bitmap);
+    }
+  }
+  while ((int) sVar1 == 1) {
+    fputc((int)(char) bmp_buffer, file_encoded);
+    sVar1 = fread( & bmp_buffer, 1, 1, file_bitmap);
+  }
+  fclose(file_encoded);
+  fclose(file_bitmap);
+  fclose(file_flag);
+
+  return 0;
+}
+~~~
+
+We can see that the Bytes of interest start at Byte 723 and continue for 450 Bytes.  We can extract these Bytes using dd:
+
+~~~shell
+$ dd skip=723 count=450 if=encoded.bmp of=output.binary bs=1
+450+0 records in
+450+0 records out
+450 bytes copied, 0.00426108 s, 106 kB/s
+~~~
+
+We can make some minor adjustments to the python code used in invetsigative reversing 2:
+
+~~~py
+bin_str = ['']*50
+int_str = [0]*50
+flag = ''
+
+file = open("output.binary","rb")
+byte = file.read(1)
+
+i = 0
+for i in range(0,100,1):
+    if i%2==0:
+        for j in range(0,8,1):
+            bin_val = ord(byte)&0x1
+            bin_str[int(i/2)] = str(bin_val) + bin_str[int(i/2)]
+            byte = file.read(1)
+    else:
+        byte = file.read(1)
+
+
+for i in range(0,50,1):
+    int_str[i] = int(bin_str[i],2)
+    newchar = chr(int_str[i])
+    flag += newchar
+
+print(flag)
+~~~
+
+This returns:
+
+~~~shell
+In [1]: runfile('InvestigativeReversing3.py')
+picoCTF{4n0th3r_L5b_pr0bl3m_0000000000000dec3960d}
+~~~
 
 </details>
 
@@ -1559,14 +2134,14 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{4n0th3r_L5b_pr0bl3m_0000000000000dec3960d}
 ~~~
 
 </details>
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## Investigative Reversing 4
@@ -1620,7 +2195,7 @@ picoCTF{}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## investigation-encoded-1
@@ -1666,7 +2241,7 @@ picoCTF{}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## WebNet1
@@ -1769,7 +2344,7 @@ picoCTF{honey.roasted.peanuts}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## investigation-encoded-2
@@ -1815,7 +2390,7 @@ picoCTF{}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 ## B1g-Mac
@@ -1859,7 +2434,7 @@ picoCTF{}
 
 ---
 
-### [Forensics](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
