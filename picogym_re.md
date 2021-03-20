@@ -1,4 +1,4 @@
-# [PicoGym](./picogym.md) Reverse Engineering
+# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
@@ -29,7 +29,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -191,7 +191,7 @@ picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -387,7 +387,7 @@ picoCTF{d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -579,7 +579,7 @@ picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -769,7 +769,7 @@ picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -971,7 +971,7 @@ picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1164,7 +1164,7 @@ picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1411,7 +1411,7 @@ picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -1676,7 +1676,7 @@ picoCTF{s0m3_m0r3_b1t_sh1fTiNg_91c642112}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -2018,7 +2018,7 @@ This returns the flag 0x8bb.
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -2179,7 +2179,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -2318,7 +2318,7 @@ This returns the flag 0x669b.
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -2542,7 +2542,7 @@ The flag is therefore 0x265
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -2984,7 +2984,7 @@ picoCTF{cust0m_jumbl3s_4r3nt_4_g0Od_1d3A_33ead16f}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3030,7 +3030,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3077,7 +3077,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3124,7 +3124,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3171,7 +3171,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3216,7 +3216,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3536,7 +3536,7 @@ picoCTF{r3v3rs312528e05}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3718,7 +3718,7 @@ PICOCTF{Good job keeping bus #190ca38b speeding along!}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3765,7 +3765,7 @@ picoCTF{}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -3966,7 +3966,7 @@ picoCTF{-721750240}
 
 ---
 
-### [Reverse Engineering](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
