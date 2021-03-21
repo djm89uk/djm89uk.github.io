@@ -2177,7 +2177,258 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+This is the 4th Investigative Reporting challenge.  We can import the mystery binary and decompile it in Ghidra again:
+
+~~~c
+undefined8 main(void)
+
+{
+  size_t sVar1;
+  undefined4 local_4c;
+  undefined local_48 [52];
+  int local_14;
+  FILE *local_10;
+  
+  flag = local_48;
+  local_4c = 0;
+  flag_index = &local_4c;
+  local_10 = fopen("flag.txt","r");
+  if (local_10 == (FILE *)0x0) {
+    puts("No flag found, please make sure this is run on the server");
+  }
+  sVar1 = fread(flag,0x32,1,local_10);
+  local_14 = (int)sVar1;
+  if (local_14 < 1) {
+    puts("Invalid Flag");
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  fclose(local_10);
+  encodeAll();
+  return 0;
+}
+~~~
+
+This can be simplified as before:
+
+~~~c
+int main(void)
+
+{
+  size_t sVar1;
+  int index;
+  char flag [52];
+  FILE *flag_file;
+  
+  index = 0;
+  flag_index = &index;
+  flag_file = fopen("flag.txt","r");
+  sVar1 = fread(flag,50,1,flag_file);
+
+  fclose(flag_file);
+  encodeAll();
+  return 0;
+}
+~~~
+
+The main function reads the flags.txt into a new 50-character array, flag. The main function then calls the encodeAll function:
+
+~~~c
+void encodeAll(void)
+{
+  ulong local_48;
+  undefined8 local_40;
+  undefined4 local_38;
+  ulong local_28;
+  undefined8 local_20;
+  undefined4 local_18;
+  char local_9;
+  local_28 = 0x635f31306d657449;
+  local_20 = 0x706d622e70;
+  local_18 = 0;
+  local_48 = 0x622e31306d657449;
+  local_40 = 0x706d;
+  local_38 = 0;
+  local_9 = '5';
+  while ('0' < local_9) {
+    local_48._0_6_ = CONCAT15(local_9,(undefined5)local_48);
+    local_48 = local_48 & 0xffff000000000000 | (ulong)(uint6)local_48;
+    local_28._0_6_ = CONCAT15(local_9,(undefined5)local_28);
+    local_28 = local_28 & 0xffff000000000000 | (ulong)(uint6)local_28;
+    encodeDataInFile((char *)&local_48,(char *)&local_28);
+    local_9 = local_9 + -1;
+  }
+  return;
+}
+~~~
+
+This function generates concatenated strings for passing to the encodedDataInFile function:
+
+~~~c
+void encodeDataInFile(char *param_1,char *param_2)
+{
+  size_t sVar1;
+  byte local_2e;
+  byte local_2d;
+  int local_2c;
+  FILE *local_28;
+  FILE *local_20;
+  int local_18;
+  int local_14;
+  int local_10;
+  int local_c;
+  
+  local_20 = fopen(param_1,"r");
+  local_28 = fopen(param_2,"a");
+  if (local_20 != (FILE *)0x0) {
+    sVar1 = fread(&local_2e,1,1,local_20);
+    local_c = (int)sVar1;
+    local_2c = 0x7e3;
+    local_10 = 0;
+    while (local_10 < local_2c) {
+      fputc((int)(char)local_2e,local_28);
+      sVar1 = fread(&local_2e,1,1,local_20);
+      local_c = (int)sVar1;
+      local_10 = local_10 + 1;
+    }
+    local_14 = 0;
+    while (local_14 < 0x32) {
+      if (local_14 % 5 == 0) {
+        local_18 = 0;
+        while (local_18 < 8) {
+          local_2d = codedChar(local_18,*(byte *)(*flag_index + flag),local_2e);
+          fputc((int)(char)local_2d,local_28);
+          fread(&local_2e,1,1,local_20);
+          local_18 = local_18 + 1;
+        }
+        *flag_index = *flag_index + 1;
+      }
+      else {
+        fputc((int)(char)local_2e,local_28);
+        fread(&local_2e,1,1,local_20);
+      }
+      local_14 = local_14 + 1;
+    }
+    while (local_c == 1) {
+      fputc((int)(char)local_2e,local_28);
+      sVar1 = fread(&local_2e,1,1,local_20);
+      local_c = (int)sVar1;
+    }
+    fclose(local_28);
+    fclose(local_20);
+    return;
+  }
+  puts("No output found, please run this on the server");
+                    /* WARNING: Subroutine does not return */
+  exit(0);
+}
+~~~
+
+This function appends the flag encoded to the file with name passed from the calling function.  We can simplify the function:
+
+~~~c
+void encodeDataInFile(char *param_1,char *param_2)
+
+{
+  size_t sVar1;
+  byte bmp_buff;
+  byte enc_buff;
+  FILE *enc_file;
+  FILE *bmp_file;
+  
+  bmp_file = fopen(param_1,"r");
+  enc_file = fopen(param_2,"a");
+  if (bmp_file != (FILE *)0x0) {
+    sVar1 = fread(&bmp_buff,1,1,bmp_file);
+    for(int i=0; i<2019; i++){
+      fputc((int)(char)bmp_buff,enc_file);
+      sVar1 = fread(&bmp_buff,1,1,bmp_file);
+    }
+    for(int i=0; i<50; i++){
+      if (i % 5 == 0) {
+	for(int j=0; j<8; j++){
+          enc_buff = codedChar(j,*(byte *)(*flag_index + flag),bmp_buff);
+          fputc((int)(char)enc_buff,enc_file);
+          fread(&bmp_buff,1,1,bmp_file);
+        }
+        *flag_index = *flag_index + 1;
+      }
+      else {
+        fputc((int)(char)bmp_buff,enc_file);
+        fread(&bmp_buff,1,1,bmp_file);
+      }
+    }
+    while ((int) sVar1 == 1) {
+      fputc((int)(char)bmp_buff,enc_file);
+      sVar1 = fread(&bmp_buff,1,1,bmp_file);
+    }
+    fclose(enc_file);
+    fclose(bmp_file);
+    return;
+  }
+}
+~~~
+
+This function copies the first 2019 bytes directly from the source bitmap to the encoded bitmap.  Following this, the source bitmap is copied with an encoded flag iterating 5 Bytes of the bitmap, followed by 8 Bytes with the encoded flag.  The data we are interested in is stored in the encoded bitmaps starting at 2019B for 120B.  We can isolate these segments using dd:
+
+~~~shell
+$ for ((i=1; i<=5; i++)); do infile="Item0"$i"_cp.bmp"; outfile="output_0"$i".binary"; dd skip=2019 count=120 if=$infile of=$outfile bs=1; done
+120+0 records in
+120+0 records out
+120 bytes copied, 0.000354645 s, 338 kB/s
+120+0 records in
+120+0 records out
+120 bytes copied, 0.000345508 s, 347 kB/s
+120+0 records in
+120+0 records out
+120 bytes copied, 0.000603438 s, 199 kB/s
+120+0 records in
+120+0 records out
+120 bytes copied, 0.000637103 s, 188 kB/s
+120+0 records in
+120+0 records out
+120 bytes copied, 0.000292808 s, 410 kB/s
+
+61440 bytes (61 kB, 60 KiB) copied, 0.000273198 s, 225 MB/s
+~~~
+
+We can extract the flag characters from these binary files by reversing the c algorithm in Python:
+
+~~~py
+bin_str  = ['']*50
+int_str  = [0]*50
+flag     = ''
+x = int(0)
+for i in range(0,5,1):
+    file_index = int(5-i)
+    file = open("output_0{}.binary".format(file_index),"rb")
+    for j in range(0,50,1):
+        if(j%5==0):
+            for k in range(0,8,1):
+                byte = file.read(1)
+                binval = ord(byte)&0x01
+                bin_str[x] = str(binval) + bin_str[x]
+            x += 1
+        else:
+            byte = file.read(1)
+    file.close()
+
+for i in range(0,50,1):
+    int_str[i] = int(bin_str[i],2)
+    newchar = chr(int_str[i])
+    flag += newchar
+
+print(flag)
+~~~
+
+Executing this provides the following:
+
+~~~shell
+$ python InvestigativeReversing04.py
+picoCTF{N1c3_R3ver51ng_5k1115_00000000000f9d605bf}
+~~~
+
+This provides the flag picoCTF{N1c3_R3ver51ng_5k1115_00000000000f9d605bf}.
 
 </details>
 
@@ -2188,7 +2439,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{N1c3_R3ver51ng_5k1115_00000000000f9d605bf}
 ~~~
 
 </details>
