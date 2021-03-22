@@ -1825,7 +1825,7 @@ int main(void)
 
 We can see that 3 files are opened by the program, flag.txt is opened in read-only mode, original.bmp is opened in read-only mode and encoded.bmp is opened in appending mode.  
 
-The first 2000Bytes of the original bmp are copied directly into the encoded.bmp file.
+The first 2000 Bytes of the original bmp are copied directly into the encoded.bmp file.
 
 The flag.txt is read into a 56-Byte character array. This is appended to the encoded.bmp file with each character encoded using the codedChar subroutine that will append an encoded char generated from the original bmp and the flag contents.  This will fill the next 400 Bytes of the encoded bmp.
 
@@ -2474,7 +2474,145 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We can import the mystery binary and decompile in Ghidra.  The main function is decompiled:
+
+~~~c
+undefined8 main(void)
+
+{
+  long lVar1;
+  size_t sVar2;
+  undefined4 local_18;
+  int local_14;
+  FILE *local_10;
+  
+  local_10 = fopen("flag.txt","r");
+  if (local_10 == (FILE *)0x0) {
+    fwrite("./flag.txt not found\n",1,0x15,stderr);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  flag_size = 0;
+  fseek(local_10,0,2);
+  lVar1 = ftell(local_10);
+  flag_size = (int)lVar1;
+  fseek(local_10,0,0);
+  if (0xfffe < flag_size) {
+    fwrite("Error, file bigger that 65535\n",1,0x1e,stderr);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  flag = malloc((long)flag_size);
+  sVar2 = fread(flag,1,(long)flag_size,local_10);
+  local_14 = (int)sVar2;
+  if (local_14 < 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_18 = 0;
+  flag_index = &local_18;
+  output = fopen("output","w");
+  buffChar = 0;
+  remain = 7;
+  fclose(local_10);
+  encode();
+  fclose(output);
+  fwrite("I\'m Done, check ./output\n",1,0x19,stderr);
+  return 0;
+}
+~~~
+
+We can tidy this up:
+
+~~~c
+int main(void)
+{
+  undefined4 local_18;
+  int local_14;
+  FILE *flag_file = fopen("flag.txt","r");
+  fseek(flag_file,0,2);
+  int flag_size = (int) ftell(flag_file);
+  fseek(flag_file,0,0);
+  flag = malloc((long)flag_size);
+  size_t sVar2 = fread(flag,1,(long)flag_size,flag_file);
+  local_14 = (int)sVar2;
+  output = fopen("output","w");
+  buffChar = 0;
+  remain = 7;
+  fclose(flag_file);
+  encode();
+  fclose(output);
+  return 0;
+}
+~~~
+
+~~~c
+void encode(void)
+{
+  byte bVar1;
+  uint uVar2;
+  int iVar3;
+  undefined8 uVar4;
+  int local_10;
+  char local_9;
+  
+  while( true ) {
+    if (flag_size <= *flag_index) {
+      while (remain != 7) {
+        save(0);
+      }
+      return;
+    }
+    bVar1 = *(byte *)(*flag_index + flag);
+    uVar4 = isValid(bVar1);
+    if ((char)uVar4 != '\x01') break;
+    uVar2 = lower(bVar1);
+    local_9 = (char)uVar2;
+    if (local_9 == ' ') {
+      local_9 = '{';
+    }
+    local_10 = *(int *)(matrix + (long)(local_9 + -0x61) * 8 + 4);
+    iVar3 = local_10 + *(int *)(matrix + (long)(local_9 + -0x61) * 8);
+    while (local_10 < iVar3) {
+      uVar2 = getValue(local_10);
+      save((byte)uVar2);
+      local_10 = local_10 + 1;
+    }
+    *flag_index = *flag_index + 1;
+  }
+  fwrite("Error, I don\'t know why I crashed\n",1,0x22,stderr);
+                    /* WARNING: Subroutine does not return */
+  exit(1);
+}
+~~~
+
+~~~c
+void encode(void)
+{
+  byte flag_byte;
+  uint flag_int;
+  int iVar3;
+  undefined8 uVar4;
+  int i;
+  char flag_char;
+  
+  for(int flag_index=0; flag_index<flag_size; flag_index++){
+    flag_byte = *(byte *)(flag_index + flag);
+    flag_int = lower(flag_byte);
+    flag_char = (char)flag_int;
+    if (flag_char == ' ') {
+      flag_char = '{';
+    }
+    i = *(int *)(matrix + (long)(flag_char - 97) * 8 + 4);
+    iVar3 = local_10 + *(int *)(matrix + (long)(flag_char - 97) * 8);
+    while (i < iVar3) {
+      flag_int = getValue(i);
+      save((byte)flag_int);
+      i++;
+    }
+  }
+}
+~~~
 
 </details>
 
