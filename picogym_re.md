@@ -3012,7 +3012,68 @@ Where do droid logs go. Check out this file.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We are given an Android Package Kite (APK) titled "zero.apk".  We can extract the files to a directory in Linux:
+
+~~~shell
+$ unzip zero.apk -d zero
+~~~
+
+In the lib subdirectory, we find folders:
+
+~~~
+arm64-v8a
+armeabi-v7a
+x86
+x86_64
+~~~
+
+These directories all have the file "libhellojni.so".  We can thus determine that this apk was likely built for arm7, arm8, x86 (intel Atom x86) and x86-64bit architectures.
+
+This can be confirmed by inspecting the lib files:
+
+~~~shell
+$ file libhellojni.so      
+libhellojni.so: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, BuildID[sha1]=d0c69f98297e5b6953f09c22bfa382c4a12c60e8, stripped
+~~~
+
+Or by reviewing the ELF header:
+
+~~~shell
+$ readelf -h libhellojni.so
+ELF Header:
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF32
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           Intel 80386
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          52 (bytes into file)
+  Start of section headers:          12840 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               52 (bytes)
+  Size of program headers:           32 (bytes)
+  Number of program headers:         8
+  Size of section headers:           40 (bytes)
+  Number of section headers:         25
+  Section header string table index: 24
+~~~
+
+We now know what hardware this apk will run on, we need to find what Software Development Kit (SDK) version of Android the apk is compiled for.
+
+We can use aapt to identify the compatible SDK version:
+
+~~~shell
+$ aapt dump badging zero.apk | grep "Version"                                                             1 ⨯
+package: name='com.hellocmu.picoctf' versionCode='1' versionName='1.0' compileSdkVersion='29' compileSdkVersionCodename='10'
+sdkVersion:'15'
+targetSdkVersion:'29'
+~~~
+
+We can see the APK is compiled for v29 of the Android SDK (Android 10).
 
 </details>
 
