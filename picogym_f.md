@@ -3106,7 +3106,92 @@ Attempting to open in GIMP, we get an error message:
 Opening '/home/derek/Downloads/tunn3l_v1s10n.bmp' failed: Error reading BMP file header from '/home/derek/Downloads/tunn3l_v1s10n.bmp'
 ~~~
 
-This shows us the header is corrupt.  We should attempt to repair this.
+This shows us the header is corrupt.  We will attempt to repair this.
+
+We can first view the exif data for thr bitmap:
+
+~~~shell
+$ exiftool tunn3l_v1s10n.bmp 
+ExifTool Version Number         : 11.88
+File Name                       : tunn3l_v1s10n.bmp
+Directory                       : .
+File Size                       : 2.8 MB
+File Modification Date/Time     : 2021:05:09 13:08:36+01:00
+File Access Date/Time           : 2021:05:09 13:17:21+01:00
+File Inode Change Date/Time     : 2021:05:09 13:17:21+01:00
+File Permissions                : rwxrwxr-x
+File Type                       : BMP
+File Type Extension             : bmp
+MIME Type                       : image/bmp
+BMP Version                     : Unknown (53434)
+Image Width                     : 1134
+Image Height                    : 306
+Planes                          : 1
+Bit Depth                       : 24
+Compression                     : None
+Image Length                    : 2893400
+Pixels Per Meter X              : 5669
+Pixels Per Meter Y              : 5669
+Num Colors                      : Use BitDepth
+Num Important Colors            : All
+Red Mask                        : 0x27171a23
+Green Mask                      : 0x20291b1e
+Blue Mask                       : 0x1e212a1d
+Alpha Mask                      : 0x311a1d26
+Color Space                     : Unknown (,5%()
+Rendering Intent                : Unknown (826103054)
+Image Size                      : 1134x306
+Megapixels                      : 0.347
+~~~
+
+This shows us the image size as provided in the exiftool is 1134 x 306 pixels. 
+
+We can review the header in a hex editor and using the file format, we can identify the BMP header fields:
+
+| Offset | Length | Parameter       | Expected Value           | File Value                  |
+|--------|--------|-----------------|--------------------------|-----------------------------|
+| 0x00   | 0x02   | Filetype        | 0x42 0x4D (BM)           | 0x42 0x4D (BM)              |
+| 0x02   | 0x04   | Filesize        | 8E 26 2C (2,893,454B)    | 8E 26 2C (2,893,454B)       | 
+| 0x06   | 0x02   | Reserved        | 0x00 0x00                | 0x00 0x00                   |
+| 0x08   | 0x02   | Reserved        | 0x00 0x00                | 0x00 0x00                   |
+| 0x0a   | 0x04   | PixelDataOffset | 0x0E 0x00 0x00 0x00 (14) | 0xba 0xd0 0x00 0x00 (53434) |
+|        |        |                 | 0x36 0x00 0x00 0x00 (54) |                             |
+|        |        |                 | 0x3a 0x00 0x00 0x00 (58) |                             |
+|--------|--------|-----------------|--------------------------|-----------------------------|
+
+As can be seen above, the pixel offset value is incorrect.  If we assume no colour data, we can ammend the offset to 0x36 to include the BMP file header and the DIB information header:
+
+| Offset | Length | Parameter       | Expected Value             | File Value                  |
+|--------|--------|-----------------|----------------------------|-----------------------------|
+| 0x0e   | 0x04   | HeaderSize      | 0x28 0x00 0x00 0x00 (40)   | 0xba 0xd0 0x00 0x00         |
+| 0x12   | 0x04   | ImageWidth      | 0x6e 0x04 0x00 0x00 (1134) | 0x6e 0x04 0x00 0x00         |
+| 0x16   | 0x04   | ImageHeight     | 0x32 0x01 0x00 0x00 (306)  | 0x32 0x01 0x00 0x00         |
+| 0x1a   | 0x02   | Planes          | 0x01 0x00                  | 0x01 0x00                   |
+| 0x1c   | 0x02   | BitsPerPixel    | 0x18 0x00 (24)             | 0x18 0x00                   |
+| 0x1e   | 0x04   | Compression     | 0x00 0x00 0x00 0x00 (0)    | 0x00 0x00 0x00 0x00         |
+| 0x22   | 0x04   | ImageSize       | 0x00 0x00 0x00 0x00 (0)    | 0x58 0x26 0x2c 0x00         |
+| 0x26   | 0x04   | XpixelsPerMeter | 0x00 0x00 0x00 0x00 (0)    | 0x25 0x16 0x00 0x00         |
+| 0x2a   | 0x04   | YpixelsPerMeter | 0x00 0x00 0x00 0x00 (0)    | 0x25 0x16 0x00 0x00         |
+| 0x2e   | 0x04   | TotalColors     | 0x00 0x01 0x00 0x00 (256)  | 0x00 0x00 0x00 0x00         |
+| 0x32   | 0x04   | ImportantColors | 0x00 0x00 0x00 0x00 (0)    | 0x00 0x00 0x00 0x00         |
+|--------|--------|-----------------|----------------------------|-----------------------------|
+
+Correcting the above components of the header, we can save and try to open the bitmap.
+
+The bitmap opens but does not have any content.  Reviewing the file further, we can see that the file size is excessive for the expected image size.  The total bmp image size is 2893400 Bytes, however the image is expected to be (1134x306)x24/8 = 1041012 B.  If we expand the image size to a height of 850 (2893400x8/24)/1134 = 850.  We may be able to recover the missing part of the file:
+
+
+| Offset | Length | Parameter       | Expected Value             | File Value                  |
+|--------|--------|-----------------|----------------------------|-----------------------------|
+| 0x12   | 0x04   | ImageWidth      | 0x6e 0x04 0x00 0x00 (1134) | 0x6e 0x04 0x00 0x00         |
+| 0x16   | 0x04   | ImageHeight     | 0x52 0x03 0x00 0x00 (850)  | 0x32 0x01 0x00 0x00         |
+|--------|--------|-----------------|----------------------------|-----------------------------|
+
+This gives us a full image with the flag:
+
+~~~
+picoCTF{qu1t3_a_v13w_2020}
+~~~
 
 </details>
 
@@ -3117,7 +3202,82 @@ This shows us the header is corrupt.  We should attempt to repair this.
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{96fac089316e094d41ea046900197662}
+picoCTF{qu1t3_a_v13w_2020}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Wireshark doo dooo do doo
+
+- Author: DYLAN
+- 50 points
+
+### Description
+
+Can you find the flag? shark1.pcapng.
+
+### Hints
+
+None
+
+### Attachments
+
+shark1.pcapng
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Similar to shark on the wire challenge, we can remove unwanted components of the file and review the conversations.  One tcp conversation review returns an interesting string:
+
+~~~shell
+$ tshark -r shark1.pcap -z "follow,tcp,ascii,5"
+~~~
+
+This returns:
+
+~~~
+	330
+HTTP/1.1 200 OK
+Date: Mon, 10 Aug 2020 01:51:45 GMT
+Server: Apache/2.4.29 (Ubuntu)
+Last-Modified: Fri, 07 Aug 2020 00:45:02 GMT
+ETag: "2f-5ac3eea4fcf01"
+Accept-Ranges: bytes
+Content-Length: 47
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html
+
+Gur synt vf cvpbPGS{c33xno00_1_f33_h_qrnqorrs}
+~~~
+
+This looks like a simple substitution cipher with key nopqrstuvwxyzabcdefghijklm
+
+Using this for the alphabetic characters we get:
+
+~~~
+picoCTF{p33kab00_1_s33_u_deadbeef}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{p33kab00_1_s33_u_deadbeef}
 ~~~
 
 </details>
