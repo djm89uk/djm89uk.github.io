@@ -4,22 +4,37 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ## Contents
 
-- [Useful References](#useful-references)
-- [The Numbers](#the-numbers)
-- [caesar](#caesar)
-- [Easy1](#easy1)
-- [13](#thirteen)
-- [la cifra de](#la-cifra-de)
-- [rsa pop quiz](#rsa-pop-quiz)
-- [Tapping](#tapping)
-- [Mr-Worldwide](#mr-worldwide)
-- [Flags](#flags)
-- [waves over lambda](#waves-over-lambda)
-- [miniRSA](#minirsa)
-- [b00tl3gRSA2](#b00tl3grsa2)
-- [AES-ABC](#aes-abc)
-- [b00tl3gRSA3](#b00tl3grsa3)
-- [john_pollard](#john-pollard)
+- [Useful References (2019)](#useful-references)
+- [The Numbers (2019)](#the-numbers)
+- [caesar (2019)](#caesar)
+- [Easy1 (2019)](#easy1)
+- [13 (2019)](#thirteen)
+- [la cifra de (2019)](#la-cifra-de)
+- [rsa pop quiz (2019)](#rsa-pop-quiz)
+- [Tapping (2019)](#tapping)
+- [Mr-Worldwide (2019)](#mr-worldwide)
+- [Flags (2019)](#flags)
+- [waves over lambda (2019)](#waves-over-lambda)
+- [miniRSA (2019)](#minirsa)
+- [b00tl3gRSA2 (2019)](#b00tl3grsa2)
+- [AES-ABC (2019)](#aes-abc)
+- [b00tl3gRSA3 (2019)](#b00tl3grsa3)
+- [john_pollard (2019)](#john-pollard)
+- [Mod 26 (2021)](#mod26)
+- [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs)
+- [Easy Peasy (2021)](#easy-peasy)
+- [New Ceasar (2021)](#new-ceasar)
+- [Mini RSA (2021)](#mini-rsa)
+- [Dachshund Attacks (2021)](#dachshund-attacks)
+- [No Padding, No Problem (2021)](#no-padding-no-problem)
+- [Pixelated (2021)](#pixelated)
+- [Play Nice (2021)](#play-nice)
+- [Double DES (2021)](#double-des)
+- [Compress and Attack (2021)](#compress-and-attack)
+- [Scrambled: RSA (2021)](#scrambled-rsa)
+- [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
+- [New Vignere (2021)](#new-vignere)
+- [Clouds (2021)](#clouds)
 
 
 ---
@@ -1221,6 +1236,7 @@ picoCTF{too_many_fact0rs_8606199}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
 ## john-pollard
 
 - Author: Samuel S
@@ -1364,6 +1380,127 @@ picoCTF{73176001,67867967}
 
 ---
 
-Last updated 11 March 2021.
+## Mod 26
+
+- Author: Pandu
+- 10 points
+
+### Description
+
+Cryptography can be easy, do you know what ROT13 is? cvpbPGS{arkg_gvzr_V'yy_gel_2_ebhaqf_bs_ebg13_nSkgmDJE}
+
+### Hints
+
+1. This can be solved online if you don't want to do it by hand!
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This can be solved online using a ROT13 decoder (https://www.boxentriq.com/code-breaking/rot13)
+
+~~~
+picoCTF{next_time_I'll_try_2_rounds_of_rot13_aFxtzQWR}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{next_time_I'll_try_2_rounds_of_rot13_aFxtzQWR}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Mind your Ps and Qs
+
+- Author: Sara
+- 20 points
+
+### Description
+
+In RSA, a small e value can be problematic, but what about N? Can you decrypt this? values
+
+### Hints
+
+1. Bits are expensive, I used only a little bit over 100 to save money
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The contents of values can be found using the strings command
+
+~~~shell
+$ strings values
+c: 843044897663847841476319711639772861390329326681532977209935413827620909782846667
+n: 1422450808944701344261903748621562998784243662042303391362692043823716783771691667
+e: 65537
+~~~
+
+The factors and totient for n can be found using integer factorisation calculator online (https://www.alpertron.com.ar/ECM.HTM)
+
+~~~
+p = 2159947535959146091116171018558446546179 
+q = 658558036833541874645521278345168572231473
+euler_totient = 1422450808944701344261903748621562998783582944057933890341955406374353056752914016
+~~~
+
+The carmichael totient can be calculated as the lowest common multiple of p-1 and q-1:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import numpy as np
+
+p = 2159947535959146091116171018558446546179 
+q = 658558036833541874645521278345168572231473
+
+car_t = np.lcm(p-1,q-1)
+~~~
+
+This gives the carmichael totient:
+
+~~~
+car_t = 237075134824116890710317291436927166463930490676322315056992567729058842792152336
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{next_time_I'll_try_2_rounds_of_rot13_aFxtzQWR}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+Last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
