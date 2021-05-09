@@ -3786,10 +3786,10 @@ Timestamps,Queries,fQ==.reddshrimpandherring.com: type A, class IN
 Timestamps,Queries,fQ==.reddshrimpandherring.com: type A, class IN
 ~~~
 
-This provides 7 unique queries which can be concatenated:
+This provides 6 unique queries which can be concatenated:
 
 ~~~
-cGljb0NURntkbnNfM3hmMWxfZnR3X2RlYWRiZWVmfQ==fQ==
+cGljb0NURntkbnNfM3hmMWxfZnR3X2RlYWRiZWVmfQ==
 ~~~
 
 This appears to be base64 which we can attempt to decode:
