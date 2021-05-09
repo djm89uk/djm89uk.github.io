@@ -3527,6 +3527,61 @@ picoCTF{D1d_u_kn0w_ppts_r_z1p5}
 
 ---
 
+## Trivial Flag Transfer Protocol
+
+- Author: DANNY
+- 90 points
+
+### Description
+
+Figure out how they moved the flag.
+
+### Hints
+
+1. What are some other ways to hide data?
+
+### Attachments
+
+tftp.pcapng
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Using wireshark, files can be extracted from the pcap using the export objects function from TFTP.  This provides 3 pictures: picture1.bmp, picture2.bmp and picture3.bmp with two text files: instructions.txt, plan and a Debian linux package program.deb that provides the steghide steganography program.
+
+Using online substitution cipher the text files can be decoded:
+
+~~~
+instructions.txt:
+GSGCQBRFAGRAPELCGBHEGENSSVPFBJRZHFGQVFTHVFRBHESYNTGENAFSRE.SVTHERBHGNJNLGBUVQRGURSYNTNAQVJVYYPURPXONPXSBEGURCYNA
+TFTPDOESNTENCRYPTOURTRAFFICSOWEMUSTDISGUISEOURFLAGTRANSFER.FIGUREOUTAWAYTOHIDETHEFLAGANDIWILLCHECKBACKFORTHEPLAN
+~~~
+
+This provides the instruction: TFTP doesnt encrypt your traffic so we must disguise our flag transfer. Figure out a way to hide the flag and I will check back for the plan
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{D1d_u_kn0w_ppts_r_z1p5}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 Page last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
