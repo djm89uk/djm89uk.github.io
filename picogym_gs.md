@@ -5,18 +5,25 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 ## Contents
 
 - [Useful References](#useful-references)
-- [2Warm](#two-warm)
-- [Warmed Up](#warmed-up)
-- [Lets Warm Up](#lets-warm-up)
-- [strings it](#strings-it)
-- [Bases](#bases)
-- [First Grep](#first-grep)
-- [what's a net cat?](#whats-a-net-cat)
-- [plumbing](#plumbing)
-- [Based](#based)
-- [flag_shop](#flag-shop)
-- [mus1c](#mus1c)
-- [1_wanna_b3_a_r0ck5tar](#i-wanna-b3-a-r0ck5tar)
+- [2Warm (2019)](#two-warm)
+- [Warmed Up (2019)](#warmed-up)
+- [Lets Warm Up (2019)](#lets-warm-up)
+- [strings it (2019)](#strings-it)
+- [Bases (2019)](#bases)
+- [First Grep (2019)](#first-grep)
+- [what's a net cat? (2019)](#whats-a-net-cat)
+- [plumbing (2019)](#plumbing)
+- [Based (2019)](#based)
+- [flag_shop (2019)](#flag-shop)
+- [mus1c (2019)](#mus1c)
+- [1_wanna_b3_a_r0ck5tar (2019)](#i-wanna-b3-a-r0ck5tar)
+- [Obedient cat (2021)](#obedient-cat)
+- [Python Wrangling (2021)](#python-wrangling)
+- [Wave a flag (2021)](#wave-a-flag)
+- [Nice netcat (2021)](#nice-netcat)
+- [Static aint always noise (2021)](#static-aint-always-noise)
+- [Tab Tab Attack (2021)](#tab-tab-attack)
+- [Magikarp Ground Mission (2021)](#magikarp-ground-mission)
 
 ---
 
@@ -1627,6 +1634,505 @@ picoCTF{BONJOVI}
 
 ---
 
-This page was last updated 11 March 2021.
+## Obedient Cat
+
+- Author: SYREAL
+- 5 Points
+
+### Description
+
+This file has a flag in plain sight (aka "in-the-clear"). Download flag.
+
+### Hints
+
+1. Any hints about entering a command into the Terminal (such as the next one), will start with a '$'... everything after the dollar sign will be typed (or copy and pasted) into your Terminal.
+2. To get the file accessible in your shell, enter the following in the Terminal prompt: $ wget https://mercury.picoctf.net/static/2d24d50b4ebed90c704575627f1f57b2/flag
+3. $ man cat
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The flag file can be interrogated using the strings command:
+
+~~~shell
+$ strings flag
+~~~
+
+This returns the flag:
+
+~~~
+picoCTF{s4n1ty_v3r1f13d_f28ac910}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{s4n1ty_v3r1f13d_f28ac910}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Python Wrangling
+
+- Author: SYREAL
+- 10 Points
+
+### Description
+
+Python scripts are invoked kind of like programs in the Terminal... Can you run this Python script using this password to get the flag?
+
+### Hints
+
+1. Get the Python script accessible in your shell by entering the following command in the Terminal prompt: $ wget https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py
+2. $ man python
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides three files; a python script, a password file and the flag.
+
+The python script given:
+
+~~~py
+import sys
+import base64
+from cryptography.fernet import Fernet
+
+usage_msg = "Usage: "+ sys.argv[0] +" (-e/-d) [file]"
+help_msg = usage_msg + "\n" +\
+        "Examples:\n" +\
+        "  To decrypt a file named 'pole.txt', do: " +\
+        "'$ python "+ sys.argv[0] +" -d pole.txt'\n"
+
+if len(sys.argv) < 2 or len(sys.argv) > 4:
+    print(usage_msg)
+    sys.exit(1)
+
+if sys.argv[1] == "-e":
+    if len(sys.argv) < 4:
+        sim_sala_bim = input("Please enter the password:")
+    else:
+        sim_sala_bim = sys.argv[3]
+
+    ssb_b64 = base64.b64encode(sim_sala_bim.encode())
+    c = Fernet(ssb_b64)
+
+    with open(sys.argv[2], "rb") as f:
+        data = f.read()
+        data_c = c.encrypt(data)
+        sys.stdout.write(data_c.decode())
+
+elif sys.argv[1] == "-d":
+    if len(sys.argv) < 4:
+        sim_sala_bim = input("Please enter the password:")
+    else:
+        sim_sala_bim = sys.argv[3]
+
+    ssb_b64 = base64.b64encode(sim_sala_bim.encode())
+    c = Fernet(ssb_b64)
+
+    with open(sys.argv[2], "r") as f:
+        data = f.read()
+        data_c = c.decrypt(data.encode())
+        sys.stdout.buffer.write(data_c)
+
+elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
+    print(help_msg)
+    sys.exit(1)
+
+else:
+    print("Unrecognized first argument: "+ sys.argv[1])
+    print("Please use '-e', '-d', or '-h'.")
+~~~
+
+The password is given in a text file:
+
+~~~
+6008014f6008014f6008014f6008014f
+~~~
+
+The flag is encoded in a text file:
+
+~~~
+gAAAAABgUAIVI-r3OTKrDSgUJ8i3N9OzjacXZ1w4Hua00I_-Bg7gZu9Fld-TFYRiUiZlkLkChceqqpL9XnGOMO-W2-lRXpFhTkrqk9fHAvDfNkZHuZcjGPpG4xaR4mPnagzSNIrtL9tK
+~~~
+
+Running the python script in BASH shell, we can decode the flag:
+
+~~~shell 
+$ python3 ende.py -d flag.txt.en
+Please enter the password:6008014f6008014f6008014f6008014f
+~~~
+
+This returns the flag:
+
+~~~shell
+picoCTF{4p0110_1n_7h3_h0us3_6008014f}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{4p0110_1n_7h3_h0us3_6008014f}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Wave a flag
+
+- Author: SYREAL
+- 10 Points
+
+### Description
+
+Can you invoke help flags for a tool or binary? This program has extraordinarily helpful information...
+
+### Hints
+
+1. This program will only work in the webshell or another Linux computer.
+2. To get the file accessible in your shell, enter the following in the Terminal prompt: $ wget https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm
+3. Run this program by entering the following in the Terminal prompt: $ ./warm, but you'll first have to make it executable with $ chmod +x warm
+4. -h and --help are the most common arguments to give to programs to get more information from them!
+5. Not every program implements help features like -h and --help.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides one file, warm.
+
+This can be executed in the shell after adding execution permissions:
+
+~~~shell
+$ sudo chmod +x warm
+$ ./warm
+~~~
+
+When executed, the following response is given:
+
+~~~shell
+$ ./warm
+Hello user! Pass me a -h to learn what I can do!
+~~~
+
+Using the -h flag:
+
+~~~shell
+$ ./warm -h
+Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{b1scu1ts_4nd_gr4vy_d6969390}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Nice netcat
+
+- Author: SYREAL
+- 15 Points
+
+### Description
+
+There is a nice program that you can talk to by using this command in a shell: $ nc mercury.picoctf.net 22342, but it doesn't speak English...
+
+### Hints
+
+1. You can practice using netcat with this picoGym problem: what's a netcat?
+2. You can practice reading and writing ASCII with this picoGym problem: Let's Warm Up
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Connecting to the challenge server on netcat, a series of integers is returned:
+
+~~~shell
+$ nc mercury.picoctf.net 22342
+~~~
+
+The following integers are returned:
+
+~~~shell
+112 105 99 111 67 84 70 123 103 48 48 100 95 107 49 116 116 121 33 95 110 49 99 51 95 107 49 116 116 121 33 95 53 102 98 53 101 53 49 100 125 10
+~~~
+
+This can be decoded as ASCII using an online decimal to ascii converter (https://www.calculators.tech/decimal-to-ascii)
+
+~~~shell
+picoCTF{g00d_k1tty!_n1c3_k1tty!_5fb5e51d}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{g00d_k1tty!_n1c3_k1tty!_5fb5e51d}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Static aint always noise
+
+- Author: SYREAL
+- 20 Points
+
+### Description
+
+Can you look at the data in this binary: static? This BASH script might help!
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Two files are given, static and a bash script, ltdis.sh:
+
+~~~bash
+#!/bin/bash
+
+echo "Attempting disassembly of $1 ..."
+
+#This usage of "objdump" disassembles all (-D) of the first file given by 
+#invoker, but only prints out the ".text" section (-j .text) (only section
+#that matters in almost any compiled program...
+
+objdump -Dj .text $1 > $1.ltdis.x86_64.txt
+
+
+#Check that $1.ltdis.x86_64.txt is non-empty
+#Continue if it is, otherwise print error and eject
+
+if [ -s "$1.ltdis.x86_64.txt" ]
+then
+	echo "Disassembly successful! Available at: $1.ltdis.x86_64.txt"
+
+	echo "Ripping strings from binary with file offsets..."
+	strings -a -t x $1 > $1.ltdis.strings.txt
+	echo "Any strings found in $1 have been written to $1.ltdis.strings.txt with file offset"
+
+else
+	echo "Disassembly failed!"
+	echo "Usage: ltdis.sh <program-file>"
+	echo "Bye!"
+fi
+~~~
+
+The bash script can be modified to enable execution:
+
+~~~shell
+$ sudo chmod +x ltdis.sh
+~~~
+
+When executed, with the static binary file, the following response is returned:
+
+~~~shell
+$ ./ltdis.sh static
+Attempting disassembly of static ...
+Disassembly successful! Available at: static.ltdis.x86_64.txt
+Ripping strings from binary with file offsets...
+Any strings found in static have been written to static.ltdis.strings.txt with file offset
+~~~
+
+In the returned text file, static.ltdis.strings.txt, the following string is written:
+
+~~~
+picoCTF{d15a5m_t34s3r_98d35619}
+~~~
+
+A simpler solution can be found by running the strings command on the static file:
+
+~~~shell
+$ strings static | grep pico
+picoCTF{d15a5m_t34s3r_98d35619}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{d15a5m_t34s3r_98d35619}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Tab Tab Attack
+
+- Author: SYREAL
+- 20 Points
+
+### Description
+
+Using tabcomplete in the Terminal will add years to your life, esp. when dealing with long rambling directory structures and filenames: Addadshashanammu.zip
+
+### Hints
+
+1. After `unzip`ing, this problem can be solved with 11 button-presses...(mostly Tab)...
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The given file, ddadshashanammu.zip can be unzipped:
+
+~~~shell
+$ unzip Addadshashanammu.zip 
+Archive:  Addadshashanammu.zip
+   creating: Addadshashanammu/
+   creating: Addadshashanammu/Almurbalarammi/
+   creating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/
+   creating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/
+   creating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/
+   creating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/
+   creating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku/
+  inflating: Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku/fang-of-haynekhtnamet  
+~~~
+
+In the lowest subdirectory, a file, fang-of-haynekhtnamet can be found.
+
+~~~shell
+$ strings Addadshashanammu/Almurbalarammi/Ashalmimilkala/Assurnabitashpi/Maelkashishi/Onnissiralis/Ularradallaku/fang-of-haynekhtnamet | grep pico
+*ZAP!* picoCTF{l3v3l_up!_t4k3_4_r35t!_f3553887}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{l3v3l_up!_t4k3_4_r35t!_f3553887}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Magikarp Ground Mission
+
+- Author: SYREAL
+- 30 Points
+
+### Description
+
+Do you know how to move between directories and read files in the shell? Start the container, `ssh` to it, and then `ls` once connected to begin. Login via `ssh` as `ctf-player` with the password, `481e7b14`
+
+### Hints
+
+1. Finding a cheatsheet for bash would be really helpful!
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+This page was last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
