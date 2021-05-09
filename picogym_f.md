@@ -3560,7 +3560,47 @@ GSGCQBRFAGRAPELCGBHEGENSSVPFBJRZHFGQVFTHVFRBHESYNTGENAFSRE.SVTHERBHGNJNLGBUVQRGU
 TFTPDOESNTENCRYPTOURTRAFFICSOWEMUSTDISGUISEOURFLAGTRANSFER.FIGUREOUTAWAYTOHIDETHEFLAGANDIWILLCHECKBACKFORTHEPLAN
 ~~~
 
-This provides the instruction: TFTP doesnt encrypt your traffic so we must disguise our flag transfer. Figure out a way to hide the flag and I will check back for the plan
+This provides the instruction: TFTP doesnt encrypt your traffic so we must disguise our flag transfer. Figure out a way to hide the flag and I will check back for the plan.
+
+Similarly, for the plan file:
+
+~~~
+plan
+VHFRQGURCEBTENZNAQUVQVGJVGU-QHRQVYVTRAPR.PURPXBHGGURCUBGBF
+IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS
+~~~
+
+this provides the passphrase:  I used the program abd hid it with - duediligence. Check out the photos.
+
+This provides us the passphrase to extract the flag: duediligence.
+
+Using steghide, we can attempt to extract data from the bmp image files:
+
+~~~shell
+$ steghide --extract -sf picture1.bmp -p DUEDILIGENCE
+steghide: could not extract any data with that passphrase!
+~~~
+
+No data extracted from picture1.bmp,
+
+~~~shell
+$ steghide --extract -sf picture2.bmp -p DUEDILIGENCE
+steghide: could not extract any data with that passphrase!
+~~~
+
+No data extracted from picture2.bmp.
+
+~~~shell
+$ steghide --extract -sf picture3.bmp -p DUEDILIGENCE
+wrote extracted data to "flag.txt".
+~~~
+
+We find a hidden file, flag.txt in the third bitmap.  We can view the contents of the flag.txt file to retrieve the flag:
+
+~~~shell
+$ cat flag.txt
+picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
+~~~
 
 </details>
 
@@ -3571,7 +3611,7 @@ This provides the instruction: TFTP doesnt encrypt your traffic so we must disgu
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{D1d_u_kn0w_ppts_r_z1p5}
+picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
 ~~~
 
 </details>
