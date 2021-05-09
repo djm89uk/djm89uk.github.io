@@ -3741,50 +3741,64 @@ Timestamps,HTTP/1.0 200 OK\r\n,\r\n,picoCTF{98406c4acbf0f57b3ccbc923aab5a603d70f
 Timestamps,HTTP/1.0 200 OK\r\n,\r\n,picoCTF{3fe0b2788f30d9cb9f77d3b2752f13c554fe7f0e7a2883e57c8a44b34f35675c}
 ~~~
 
-This appears to be a series of red-herring conversations that we can ignore.
+This appears to be a series of red-herring conversations that we can ignore.  We can simplify the capture file using tcpdump to remove replicas, layer-2 captures and separate UDP and TCP packets:
 
-
-This provides the instruction: TFTP doesnt encrypt your traffic so we must disguise our flag transfer. Figure out a way to hide the flag and I will check back for the plan.
-
-Similarly, for the plan file:
-
-~~~
-plan
-VHFRQGURCEBTENZNAQUVQVGJVGU-QHRQVYVTRAPR.PURPXBHGGURCUBGBF
-IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS
-~~~
-
-this provides the passphrase:  I used the program abd hid it with - duediligence. Check out the photos.
-
-This provides us the passphrase to extract the flag: duediligence.
-
-Using steghide, we can attempt to extract data from the bmp image files:
+Extract IP packets only:
 
 ~~~shell
-$ steghide --extract -sf picture1.bmp -p DUEDILIGENCE
-steghide: could not extract any data with that passphrase!
+$ tcpdump -r shark2.pcapng -w shark2_reduced.pcapng ip 
+reading from file shark2.pcapng, link-type EN10MB (Ethernet)
 ~~~
 
-No data extracted from picture1.bmp,
+Remove replicas:
 
 ~~~shell
-$ steghide --extract -sf picture2.bmp -p DUEDILIGENCE
-steghide: could not extract any data with that passphrase!
+$ editcap --novlan -d shark2_reduced.pcapng shark2_reduced2.pcapng 
+4829 packets seen, 0 packets skipped with duplicate window of 5 packets.
 ~~~
 
-No data extracted from picture2.bmp.
+Extract UDP packets:
 
 ~~~shell
-$ steghide --extract -sf picture3.bmp -p DUEDILIGENCE
-wrote extracted data to "flag.txt".
+$ tcpdump -r shark2_reduced2.pcapng -w shark2_udp.pcap udp
+reading from file shark2_reduced2.pcapng, link-type EN10MB (Ethernet)
 ~~~
 
-We find a hidden file, flag.txt in the third bitmap.  We can view the contents of the flag.txt file to retrieve the flag:
+Extract TCP packets:
 
 ~~~shell
-$ cat flag.txt
-picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
+$ tcpdump -r shark2_reduced2.pcapng -w shark2_tcp.pcap tcp
+reading from file shark2_reduced2.pcapng, link-type EN10MB (Ethernet)
 ~~~
+
+We know some of the TCP packets are red herrings so we can look at the smaller UDP capture first;  There are 1553 packets with ~40 UDP datagrams which are likely encrypted data transfers, and ~1500 DNS queries.
+
+Looking at the DNS queries we can see they are all queries and null responses for subdomains of reddshrimpandherring.com.  This may be a clue related to the red herring captures seen before.  Multiple queries for the same domain are made to multiple DNS servers,  we can simplify this by identifying a unique DNS server address and query type:
+
+~~~shell
+$ tshark -r shark2_udp.pcap -Y 'dns.qry.name contains "reddshrimpandherring.com" and ip.src==192.168.38.104 and ip.dst==18.217.1.57 and not dns.qry.name contains "amazonaws" and not dns.qry.name contains "windomain"' -T fields -e text
+Timestamps,Queries,cGljb0NU.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,RntkbnNf.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,M3hmMWxf.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,ZnR3X2Rl.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,YWRiZWVm.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,fQ==.reddshrimpandherring.com: type A, class IN
+Timestamps,Queries,fQ==.reddshrimpandherring.com: type A, class IN
+~~~
+
+This provides 7 unique queries which can be concatenated:
+
+~~~
+cGljb0NURntkbnNfM3hmMWxfZnR3X2RlYWRiZWVmfQ==fQ==
+~~~
+
+This appears to be base64 which we can attempt to decode:
+
+~~~
+picoCTF{dns_3xf1l_ftw_deadbeef}
+~~~
+
+which is the flag.
 
 </details>
 
@@ -3795,7 +3809,7 @@ picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
+picoCTF{dns_3xf1l_ftw_deadbeef}
 ~~~
 
 </details>
