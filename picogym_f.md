@@ -4,28 +4,40 @@
 
 ## Contents
 
-- [Glory of the Garden](#glory-of-the-garden)
-- [So Meta](#so-meta)
-- [extensions](#extensions)
-- [shark on wire 1](#shark-on-wire-1)
-- [What Lies Within](#what-lies-within)
-- [Pitter, Patter, Platters](#pitter-patter-platters)
-- [c0rrupt](#c0rrupt)
-- [WhitePages](#whitepages)
-- [m00nwalk](#m00nwalk)
-- [like1000](#like1000)
-- [shark on wire 2](#shark-on-wire-2)
-- [m00nwalk2](#m00nwalk2)
-- [Investigative Reversing 0](#investigative-reversing-0)
-- [WebNet0](#webnet0)
-- [Investigative Reversing 1](#investigative-reversing-1)
-- [Investigative Reversing 2](#investigative-reversing-2)
-- [Investigative Reversing 3](#investigative-reversing-3)
-- [Investigative Reversing 4](#investigative-reversing-4)
-- [investigation_encoded_1](#investigation-encoded-1)
-- [WebNet1](#webnet1)
-- [investigation_encoded_2](#investigation-encoded-2)
-- [B1g_Mac](#b1g-mac)
+- [Glory of the Garden (2019)](#glory-of-the-garden)
+- [So Meta (2019)](#so-meta)
+- [extensions (2019)](#extensions)
+- [shark on wire 1 (2019)](#shark-on-wire-1)
+- [What Lies Within (2019)](#what-lies-within)
+- [c0rrupt (2019)](#c0rrupt)
+- [WhitePages (2019)](#whitepages)
+- [m00nwalk (2019)](#m00nwalk)
+- [like1000 (2019)](#like1000)
+- [shark on wire 2 (2019)](#shark-on-wire-2)
+- [m00nwalk2 (2019)](#m00nwalk2)
+- [Investigative Reversing 0 (2019)](#investigative-reversing-0)
+- [WebNet0 (2019)](#webnet0)
+- [Investigative Reversing 1 (2019)](#investigative-reversing-1)
+- [Investigative Reversing 2 (2019)](#investigative-reversing-2)
+- [Investigative Reversing 3 (2019)](#investigative-reversing-3)
+- [Investigative Reversing 4 (2019)](#investigative-reversing-4)
+- [investigation_encoded_1 (2019)](#investigation-encoded-1)
+- [WebNet1 (2019)](#webnet1)
+- [investigation_encoded_2 (2019)](#investigation-encoded-2)
+- [B1g_Mac (2019)](#b1g-mac)
+- [Pitter, Patter, Platters (2020)](#pitter-patter-platters)
+- [Information (2021)](#information)
+- [Matryoshka doll (2021)](#matryoshka-doll)
+- [tunn3l v1s10n (2021)](#tunn3l-v1s10n)
+- [Wireshark doo dooo do doo (2021)](#wireshark-doo-dooo-do-doo)
+- [MacroHard WeakEdge (2021)](#macrohard-weakedge)
+- [Trivial Flag Transfer Protocol (2021)](#trivial-flag-transfer-protocol)
+- [Wireshark twoo twooo two twoo (2021)](#wireshark-twoo-twooo-two-twoo)
+- [Disk, disk, sleuth! (2021)](#disk-disk-sleuth)
+- [Milkslap (2021)](#milkslap)
+- [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii)
+- [Surfing the Waves (2021)](#surfing-the-waves)
+- [Very very very Hidden (2021)](#very-very-very-hidden)
 
 
 ---
@@ -429,89 +441,6 @@ Giving us the flag.
 
 ~~~
 picoCTF{h1d1ng_1n_th3_b1t5}
-~~~
-
-</details>
-
----
-
-### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
-
----
-
-## Pitter Patter Platters
-
-- Author: syreal
-- 200 points
-
-### Description
-
-'Suspicious' is written all over this disk image. Download suspicious.dd.sda1
-
-### Hints
-
-1. It may help to analyze this image in multiple ways: as a blob, and as an actual mounted disk.
-2. Have you heard of slack space? There is a certain set of tools that now come with Ubuntu that I'd recommend for examining that disk space phenomenon...
-
-### Attachments
-
-suspicious.dd.sda1
-
-### Solutions
-
-<details>
-
-<summary markdown="span">Solution 1</summary>
-
-This dd file can be mounted to a loop partition to inspect files, however this may interfere with the data in the image file.  Alternatively, the program Autopsy can be used to load the image and inspect the contents.
-
-After creating a new case file, the image can be mounted as a volume image.  Autopsy detects this image uses ext partition.  Opening the file analysis tool, we can see 3 sub directories, boot/, lost+found/ and tce/ and 1 file, suspicious-file.txt.
-
-![autopsy_01.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_01.png)
-
-We can inspect the contents of the file in autopsy:
-
-~~~
-Contents Of File: /1/suspicious-file.txt
-
-
-Nothing to see here! But you may want to look here -->
-~~~
-
-This is interesting.  Selecting the inode id (12) from the file analysis tool we get more information on the file:
-
-![autopsy_02.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_02.png)
-
-From here, we can access the data blocks for the file directly (2049):
-
-![autopsy_03.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_03.png)
-
-This shows the ASCII contents of the 2049 fragment including the slack space, in which we can see what appears to be an inverted flag:
-
-~~~
-ASCII Contents of Fragment 2049 in suspicious.dd.sda1-0-0
-
-
-Nothing to see here! But you may want to look here -->
-}.6.f.a.0.9.2.5.f._.3.<._.|.L.m._.1.1.1.t.5._.3.b.{.F.T.C.o.c.i.p........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-~~~
-
-This can be reversed to give the flag: 
-
-~~~
-picoCTF{b3_5t111_mL|_<3_f5290af6}
-~~~
-
-</details>
-
-### Answer
-
-<details>
-
-<summary markdown="span">Flag</summary>
-
-~~~
-picoCTF{b3_5t111_mL|_<3_f5290af6}
 ~~~
 
 </details>
@@ -2826,5 +2755,379 @@ picoCTF{}
 ### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## Pitter Patter Platters
+
+- Author: syreal
+- 200 points
+
+### Description
+
+'Suspicious' is written all over this disk image. Download suspicious.dd.sda1
+
+### Hints
+
+1. It may help to analyze this image in multiple ways: as a blob, and as an actual mounted disk.
+2. Have you heard of slack space? There is a certain set of tools that now come with Ubuntu that I'd recommend for examining that disk space phenomenon...
+
+### Attachments
+
+suspicious.dd.sda1
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This dd file can be mounted to a loop partition to inspect files, however this may interfere with the data in the image file.  Alternatively, the program Autopsy can be used to load the image and inspect the contents.
+
+After creating a new case file, the image can be mounted as a volume image.  Autopsy detects this image uses ext partition.  Opening the file analysis tool, we can see 3 sub directories, boot/, lost+found/ and tce/ and 1 file, suspicious-file.txt.
+
+![autopsy_01.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_01.png)
+
+We can inspect the contents of the file in autopsy:
+
+~~~
+Contents Of File: /1/suspicious-file.txt
+
+
+Nothing to see here! But you may want to look here -->
+~~~
+
+This is interesting.  Selecting the inode id (12) from the file analysis tool we get more information on the file:
+
+![autopsy_02.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_02.png)
+
+From here, we can access the data blocks for the file directly (2049):
+
+![autopsy_03.png](./resources/picoctf/picogym/solutions/forensics/pitter-patter-platters/autopsy_03.png)
+
+This shows the ASCII contents of the 2049 fragment including the slack space, in which we can see what appears to be an inverted flag:
+
+~~~
+ASCII Contents of Fragment 2049 in suspicious.dd.sda1-0-0
+
+
+Nothing to see here! But you may want to look here -->
+}.6.f.a.0.9.2.5.f._.3.<._.|.L.m._.1.1.1.t.5._.3.b.{.F.T.C.o.c.i.p........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+~~~
+
+This can be reversed to give the flag: 
+
+~~~
+picoCTF{b3_5t111_mL|_<3_f5290af6}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{b3_5t111_mL|_<3_f5290af6}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## information
+
+- Author: SUSIE
+- 10 points
+
+### Description
+
+Files can always be changed in a secret way. Can you find the flag? cat.jpg
+
+### Hints
+
+1. Look at the details of the file
+2. Make sure to submit the flag as picoCTF{XXXXX}
+
+### Attachments
+
+cat.jpg
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The image file metadata can be viewed using exiftool application:
+
+~~~shell
+$ exiftool cat.jpg 
+ExifTool Version Number         : 11.88
+File Name                       : cat.jpg
+Directory                       : .
+File Size                       : 858 kB
+File Modification Date/Time     : 2021:05:09 12:43:26+01:00
+File Access Date/Time           : 2021:05:09 12:43:27+01:00
+File Inode Change Date/Time     : 2021:05:09 12:43:27+01:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.02
+Resolution Unit                 : None
+X Resolution                    : 1
+Y Resolution                    : 1
+Current IPTC Digest             : 7a78f3d9cfb1ce42ab5a3aa30573d617
+Copyright Notice                : PicoCTF
+Application Record Version      : 4
+XMP Toolkit                     : Image::ExifTool 10.80
+License                         : cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9
+Rights                          : PicoCTF
+Image Width                     : 2560
+Image Height                    : 1598
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 2560x1598
+Megapixels                      : 4.1
+~~~
+
+Two fields show interesting strings: the IPTC digest and the License.
+
+The IPTC digest is a MD5-128bit hash generated by exiftool for version control and is unlikely to contain the flag.  The license field is a string, but provides encoded detail in this file.  Reviewing the string, we can see it is a base64 string and can be decoded using an online decoding tool (https://www.base64decode.org/)
+
+~~~
+base64 flag:  cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9
+decoded flag: picoCTF{the_m3tadata_1s_modified}
+~~~
+
+This provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{the_m3tadata_1s_modified}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Matryoshka doll
+
+- Author: Susie/Pandu
+- 30 points
+
+### Description
+
+Matryoshka dolls are a set of wooden dolls of decreasing size placed one inside another. What's the final one? Image: this
+
+### Hints
+
+1. Wait, you can hide files inside files? But how do you find them?
+2. Make sure to submit the flag as picoCTF{XXXXX}
+
+### Attachments
+
+dolls.jpg
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge provides a jpg image of a doll.  Using binwalk, we can identify encapsulated files within the binary:
+
+~~~shell
+$ binwalk dolls.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 594 x 1104, 8-bit/color RGBA, non-interlaced
+3226          0xC9A           TIFF image data, big-endian, offset of first image directory: 8
+272492        0x4286C         Zip archive data, at least v2.0 to extract, compressed size: 378952, uncompressed size: 383937, name: base_images/2_c.jpg
+651610        0x9F15A         End of Zip archive, footer length: 22
+~~~
+
+This shows a zip file is contained within the dolls.jpg file.  Using unzip, we can extract the contents:
+
+~~~shell
+$ unzip dolls.jpg
+Archive:  dolls.jpg
+warning [dolls.jpg]:  272492 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+  inflating: base_images/2_c.jpg  
+~~~
+
+This extracts another jpg file, 2_c.jpg.  We can view the file type using binwalk again:
+
+~~~shell
+$ binwalk 2_c.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 526 x 1106, 8-bit/color RGBA, non-interlaced
+3226          0xC9A           TIFF image data, big-endian, offset of first image directory: 8
+187707        0x2DD3B         Zip archive data, at least v2.0 to extract, compressed size: 196042, uncompressed size: 201444, name: base_images/3_c.jpg
+383804        0x5DB3C         End of Zip archive, footer length: 22
+383915        0x5DBAB         End of Zip archive, footer length: 22
+~~~
+
+Another zip file, we can extract as before:
+
+~~~shell
+$ unzip 2_c.jpg
+Archive:  2_c.jpg
+warning [2_c.jpg]:  187707 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+  inflating: base_images/3_c.jpg     
+~~~
+
+And again:
+
+~~~shell
+$ unzip 3_c.jpg
+Archive:  3_c.jpg
+warning [3_c.jpg]:  123606 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+  inflating: base_images/4_c.jpg 
+~~~
+
+And again:
+
+~~~shell
+$ unzip 4_c.jpg
+Archive:  4_c.jpg
+warning [4_c.jpg]:  79578 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+  inflating: flag.txt                
+~~~
+
+This gives us a text file with the flag:
+
+~~~shell
+$ cat flag.txt 
+picoCTF{96fac089316e094d41ea046900197662}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{96fac089316e094d41ea046900197662}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## tunn3l v1s10n
+
+- Author: DANNY
+- 40 points
+
+### Description
+
+We found this file. Recover the flag.
+
+### Hints
+
+1. Weird that it won't display right...
+
+### Attachments
+
+tunn3l_v1s10n
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides us with a file "tunn3l_v1s10n".  We can review the file type using linux's file command:
+
+~~~shell
+$ file tunn3l_v1s10n 
+tunn3l_v1s10n: data
+~~~
+
+This suggests the file header may be corrupted.  We can view the header in the Linux shell:
+
+~~~shell
+$ xxd -g 1 tunn3l_v1s10n | head
+00000000: 42 4d 8e 26 2c 00 00 00 00 00 ba d0 00 00 ba d0  BM.&,...........
+00000010: 00 00 6e 04 00 00 32 01 00 00 01 00 18 00 00 00  ..n...2.........
+00000020: 00 00 58 26 2c 00 25 16 00 00 25 16 00 00 00 00  ..X&,.%...%.....
+00000030: 00 00 00 00 00 00 23 1a 17 27 1e 1b 29 20 1d 2a  ......#..'..) .*
+00000040: 21 1e 26 1d 1a 31 28 25 35 2c 29 33 2a 27 38 2f  !.&..1(%5,)3*'8/
+00000050: 2c 2f 26 23 33 2a 26 2d 24 20 3b 32 2e 32 29 25  ,/&#3*&-$ ;2.2)%
+00000060: 30 27 23 33 2a 26 38 2c 28 36 2b 27 39 2d 2b 2f  0'#3*&8,(6+'9-+/
+00000070: 26 23 1d 12 0e 23 17 11 29 16 0e 55 3d 31 97 76  &#...#..)..U=1.v
+00000080: 66 8b 66 52 99 6d 56 9e 70 58 9e 6f 54 9c 6f 54  f.fR.mV.pX.oT.oT
+00000090: ab 7e 63 ba 8c 6d bd 8a 69 c8 97 71 c1 93 71 c1  .~c..m..i..q..q.
+
+~~~
+
+The first two characters suggest this is a bmp image file.  We can append the bmp file extension and attempt to open the file:
+
+~~~shell
+$ mv tunn3l_v1s10n tunn3l_v1s10n.bmp
+~~~
+
+Attempting to open in GIMP, we get an error message:
+
+~~~
+Opening '/home/derek/Downloads/tunn3l_v1s10n.bmp' failed: Error reading BMP file header from '/home/derek/Downloads/tunn3l_v1s10n.bmp'
+~~~
+
+This shows us the header is corrupt.  We should attempt to repair this.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{96fac089316e094d41ea046900197662}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+Page last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
