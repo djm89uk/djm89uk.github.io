@@ -4226,6 +4226,8 @@ This returns:
 b'#!/usr/bin/env python3\nimport numpy as np\nfrom scipy.io.wavfile import write\nfrom binascii import hexlify\nfrom random import random\n\nwith open(\'generate_wav.py\', \'rb\') as f:\n\tcontent = f.read()\n\tf.close()\n\n# Convert this program into an array of hex values\nhex_stuff = (list(hexlify(content).decode("utf-8")))\n\n# Loop through the each character, and convert the hex a-f characters to 10-15\nfor i in range(len(hex_stuff)):\n\tif hex_stuff[i] == \'a\':\n\t\thex_stuff[i] = 10\n\telif hex_stuff[i] == \'b\':\n\t\thex_stuff[i] = 11\n\telif hex_stuff[i] == \'c\':\n\t\thex_stuff[i] = 12\n\telif hex_stuff[i] == \'d\':\n\t\thex_stuff[i] = 13\n\telif hex_stuff[i] == \'e\':\n\t\thex_stuff[i] = 14\n\telif hex_stuff[i] == \'f\':\n\t\thex_stuff[i] = 15\n\n\t# To make the program actually audible, 100 hertz is added from the beginning, then the number is multiplied by\n\t# 500 hertz\n\t# Plus a cheeky random amount of noise\n\thex_stuff[i] = 1000 + int(hex_stuff[i]) * 500 + (10 * random())\n\n\ndef sound_generation(name, rand_hex):\n\t# The hex array is converted to a 16 bit integer array\n\tscaled = np.int16(np.array(hex_stuff))\n\t# Sci Pi then writes the numpy array into a wav file\n\twrite(name, len(hex_stuff), scaled)\n\trandomness = rand_hex\n\n\n# Pump up the music!\n# print("Generating main.wav...")\n# sound_generation(\'main.wav\')\n# print("Generation complete!")\n\n# Your ears have been blessed\n# picoCTF{mU21C_1s_1337_b58b4519}'
 ~~~
 
+This provides a nonsense description for the encoding since the encoding is applied in the time samples not in the frequency domain.  The ascii output includes the flag.
+
 </details>
 
 ### Answer
@@ -4245,6 +4247,67 @@ picoCTF{mU21C_1s_1337_b58b4519}
 ### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## Very very very hidden
+
+- Author: Sara
+- 300 points
+
+### Description
+
+Finding a flag may take many steps, but if you look diligently it won't be long until you find the light at the end of the tunnel. Just remember, sometimes you find the hidden treasure, but sometimes you find only a hidden map to the treasure. try_me.pcap
+
+### Hints
+
+1. I believe you found something, but are there any more subtle hints as random queries?
+2. The flag will only be found once you reverse the hidden message.
+
+### Attachments
+
+try_me.pcap
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can export objects from the pcap file using tshark,  http objects are available for export in this file.
+
+~~~shell
+$ tshark -r try_me.pcap --export-objects "http,try_me_objs"
+~~~
+
+5 objects are exported into this new directory; 2 png image files, and icon file and 2 ASCII files.
+
+~~~shell
+$ cd try_me_objs/
+$ ls
+%2f  duck.png  evil_duck.png  favicon.ico  NothingSus
+~~~
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{mU21C_1s_1337_b58b4519}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 
 Page last updated 10 May 2021.
 
