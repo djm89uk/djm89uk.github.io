@@ -4044,6 +4044,208 @@ picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
 
 ---
 
-Page last updated 09 May 2021.
+## Surfing the Waves
+
+- Author: William Batista
+- 250 points
+
+### Description
+
+While you're going through the FBI's servers, you stumble across their incredible taste in music. One main.wav you found is particularly interesting, see if you can find the flag!
+
+### Hints
+
+1. Music is cool, but what other kinds of waves are there?
+2. Look deep below the surface
+
+### Attachments
+
+main.wav
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can use some simple commands to provide further information on this file:
+
+~~~shell$ exiftool main.wav 
+ExifTool Version Number         : 11.88
+File Name                       : main.wav
+Directory                       : .
+File Size                       : 5.4 kB
+File Modification Date/Time     : 2021:05:10 09:14:01+01:00
+File Access Date/Time           : 2021:05:10 09:14:02+01:00
+File Inode Change Date/Time     : 2021:05:10 09:14:02+01:00
+File Permissions                : rw-rw-r--
+File Type                       : WAV
+File Type Extension             : wav
+MIME Type                       : audio/x-wav
+Encoding                        : Microsoft PCM
+Num Channels                    : 1
+Sample Rate                     : 2736
+Avg Bytes Per Sec               : 5472
+Bits Per Sample                 : 16
+Duration                        : 1.01 s
+~~~
+
+This shows there is no flag hidden in the exif metadata for the audio file.  We can see the provided file size and sample rate information.
+
+Using strings, we can look for ASCII data in the binary:
+
+~~~shell
+$ strings main.wav
+RIFF
+WAVEfmt 
+data`
+~~~
+
+This does not provide the flag, but confirms the file uses a wave file header.
+
+Third, we can look at the audio codec details using mediainfo:
+
+~~~shell
+$ mediainfo main.wav
+General
+Complete name                            : main.wav
+Format                                   : Wave
+File size                                : 5.39 KiB
+Duration                                 : 1 s 0 ms
+Overall bit rate mode                    : Constant
+Overall bit rate                         : 44.1 kb/s
+
+Audio
+Format                                   : PCM
+Format settings                          : Little / Signed
+Codec ID                                 : 1
+Duration                                 : 1 s 0 ms
+Bit rate mode                            : Constant
+Bit rate                                 : 43.8 kb/s
+Channel(s)                               : 1 channel
+Sampling rate                            : 2 736 Hz
+Bit depth                                : 16 bits
+Stream size                              : 5.34 KiB (99%)
+~~~
+
+From these details, we can see the file was generated using a microsoft PCM codec.  The bit depth (audio resolution) is 16 bits with a sampling frequency of 2,736Hz.  The wav header is 44B in size thus, the expected file size can be calculated:
+
+~~~
+FileSize = length*f_sample*bit_depth/8+Header
+~~~
+
+The audio clip is 1 second long.  The expected file size is 
+
+~~~
+2,736*16/8+44 = 5,516B.  
+~~~
+
+This is exactly correct, it is therefore safe to assume there is no excess data hidden within the file.  The flag is likely hidden within the audio file data itself.  This could be achieved using LSB steganographic techniques or through 16 bit encoding.
+
+First, we need to recover the sample data.  This can be completed in Python using the wave library:
+
+~~~py
+#coding: utf-8
+import wave
+
+wav = wave.open("main.wav", mode='rb')
+
+channels = wav.getnchannels()
+print("number of channels = {}".format(channels))
+sample_width = wav.getsampwidth()
+print("sample width       = {}".format(sample_width))
+frame_rate = wav.getframerate()
+print("Frame rate         = {} Hz".format(frame_rate))
+frame_count = wav.getnframes()
+print("Frame count        = {}".format(frame_count))
+wav_length = frame_count / frame_rate
+print("Audio length       = {}s".format(wav_length))
+comp_type = wav.getcomptype()
+print("Compression type   = {}".format(comp_type))
+comp_name = wav.getcompname()
+print("Compression name   = {}".format(comp_name))
+
+get_bin = lambda x, n: format(x, 'b').zfill(n)
+
+frame_bytes = wav.readframes(frame_count)
+data_int = [0]*int(len(frame_bytes)/2)
+
+for i in range(0,int(len(frame_bytes)/2)):
+    data_string = get_bin(frame_bytes[2*i+1],8)+get_bin(frame_bytes[2*i],8)
+    data_int[i] = int(data_string,2)
+~~~
+
+This generates a 16-bit integer from each pair of wave Bytes (the sample width is returned as 2 and we know it uses 16bit (2Byte) sample depth).  This is confirmed using the wave library with the response below:
+
+~~~
+number of channels = 1
+sample width       = 2
+Frame rate         = 2736 Hz
+Frame count        = 2736
+Audio length       = 1.0s
+Compression type   = NONE
+Compression name   = not compressed
+~~~
+
+We can identify the maximum and minimum sample values to infer an encoding scheme:
+
+~~~py
+print("Min val = {}".format(min(data_int)))
+print("Max val = {}".format(max(data_int)))
+~~~
+
+This provides a response:
+
+~~~
+Min val = 1000
+Max val = 8509
+~~~
+
+If we assume each sample represents one hex digit, we need to discretise the samples into 16 steps.  The minimum value can be set to 0 resulting in a total range of 7509.  This can be rounded into 16 discretisations nicely using a divisor of 500:
+
+~~~py
+hex_str = ''
+
+for i in range(0,len(data_int)):
+    data_int[i] = data_int[i] - 1000
+    bit4_bin = get_bin(data_int[i]//500,16)[12:16]
+    bit4_hex = hex(int(bit4_bin,2))[2:]
+    hex_str += bit4_hex
+~~~
+
+The hex string can be converted into ascii using binascii unhexlify function:
+
+~~~py
+out_str = binascii.unhexlify(hex_str)
+print(out_str)
+~~~
+
+This returns:
+
+~~~
+b'#!/usr/bin/env python3\nimport numpy as np\nfrom scipy.io.wavfile import write\nfrom binascii import hexlify\nfrom random import random\n\nwith open(\'generate_wav.py\', \'rb\') as f:\n\tcontent = f.read()\n\tf.close()\n\n# Convert this program into an array of hex values\nhex_stuff = (list(hexlify(content).decode("utf-8")))\n\n# Loop through the each character, and convert the hex a-f characters to 10-15\nfor i in range(len(hex_stuff)):\n\tif hex_stuff[i] == \'a\':\n\t\thex_stuff[i] = 10\n\telif hex_stuff[i] == \'b\':\n\t\thex_stuff[i] = 11\n\telif hex_stuff[i] == \'c\':\n\t\thex_stuff[i] = 12\n\telif hex_stuff[i] == \'d\':\n\t\thex_stuff[i] = 13\n\telif hex_stuff[i] == \'e\':\n\t\thex_stuff[i] = 14\n\telif hex_stuff[i] == \'f\':\n\t\thex_stuff[i] = 15\n\n\t# To make the program actually audible, 100 hertz is added from the beginning, then the number is multiplied by\n\t# 500 hertz\n\t# Plus a cheeky random amount of noise\n\thex_stuff[i] = 1000 + int(hex_stuff[i]) * 500 + (10 * random())\n\n\ndef sound_generation(name, rand_hex):\n\t# The hex array is converted to a 16 bit integer array\n\tscaled = np.int16(np.array(hex_stuff))\n\t# Sci Pi then writes the numpy array into a wav file\n\twrite(name, len(hex_stuff), scaled)\n\trandomness = rand_hex\n\n\n# Pump up the music!\n# print("Generating main.wav...")\n# sound_generation(\'main.wav\')\n# print("Generation complete!")\n\n# Your ears have been blessed\n# picoCTF{mU21C_1s_1337_b58b4519}'
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{mU21C_1s_1337_b58b4519}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+Page last updated 10 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
