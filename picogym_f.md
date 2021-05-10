@@ -3820,6 +3820,230 @@ picoCTF{dns_3xf1l_ftw_deadbeef}
 
 ---
 
+## Disk disk sleuth
+
+- Author: SYREAL
+- 110 points
+
+### Description
+
+Use `srch_strings` from the sleuthkit and some terminal-fu to find a flag in this disk image: dds1-alpine.flag.img.gz
+
+### Hints
+
+1. Have you ever used `file` to determine what a file was?
+2. Relevant terminal-fu in picoGym: https://play.picoctf.org/practice/challenge/85
+3. Mastering this terminal-fu would enable you to find the flag in a single command: https://play.picoctf.org/practice/challenge/48
+4. Using your own computer, you could use qemu to boot from this disk!
+
+### Attachments
+
+dds1-alpine.flag.img.gz
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides a compressed disk image file, dds1-alpine.flag.img.gz.
+
+We can open the img directory directly from Archive Manager and mount to a local directory.
+
+~~~shell
+655d1b59-b527-47f6-b78c-9828747e6bf7$ ls
+bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+~~~
+
+We can recursively search for a string using grep:
+
+~~~shell
+$ grep -ri "pico"
+grep: lost+found: Permission denied
+grep: etc/crontabs/root: Permission denied
+grep: etc/shadow-: Permission denied
+grep: etc/shadow: Permission denied
+boot/System.map-virt:ffffffff81399ccf t pirq_pico_get
+boot/System.map-virt:ffffffff81399cee t pirq_pico_set
+boot/System.map-virt:ffffffff820adb46 t pico_router_probe
+boot/config-virt:# CONFIG_HID_PICOLCD is not set
+boot/syslinux.cfg:  SAY picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
+grep: root: Permission denied
+grep: lib/apk/db/lock: Permission denied
+~~~
+
+This provides the flag hidden in /boot/syslinux.cfg:
+
+~~~
+picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Milkslap
+
+- Author: James Lynch
+- 120 points
+
+### Description
+
+http://mercury.picoctf.net:29522/
+
+### Hints
+
+1. Look at the problem category
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides a link to a website with an interactive png image.  We can locate the image at http://mercury.picoctf.net:29522/concat_v.png.
+
+This image can be saved locally for investigation.  After some time, the flag can be found using the steganography tool, zsteg, hidden within the LSB of the image:
+
+~~~shell
+$ zsteg concat_v.png 
+imagedata           .. file: dBase III DBT, version number 0, next free block index 3368931841, 1st item "\001\001\001\001"
+b1,b,lsb,xy         .. text: "picoCTF{imag3_m4n1pul4t10n_sl4p5}\n"
+b1,bgr,lsb,xy       .. <wbStego size=9706075, data="\xB6\xAD\xB6}\xDB\xB2lR\x7F\xDF\x86\xB7c\xFC\xFF\xBF\x02Zr\x8E\xE2Z\x12\xD8q\xE5&MJ-X:\xB5\xBF\xF7\x7F\xDB\xDFI\bm\xDB\xDB\x80m\x00\x00\x00\xB6m\xDB\xDB\xB6\x00\x00\x00\xB6\xB6\x00m\xDB\x12\x12m\xDB\xDB\x00\x00\x00\x00\x00\xB6m\xDB\x00\xB6\x00\x00\x00\xDB\xB6mm\xDB\xB6\xB6\x00\x00\x00\x00\x00m\xDB", even=true, mix=true, controlbyte="[">
+b2,r,lsb,xy         .. file: SoftQuad DESC or font file binary
+b2,r,msb,xy         .. file: VISX image file
+b2,g,lsb,xy         .. file: VISX image file
+b2,g,msb,xy         .. file: SoftQuad DESC or font file binary - version 15722
+b2,b,msb,xy         .. text: "UfUUUU@UUU"
+b4,r,lsb,xy         .. text: "\"\"\"\"\"#4D"
+b4,r,msb,xy         .. text: "wwww3333"
+b4,g,lsb,xy         .. text: "wewwwwvUS"
+b4,g,msb,xy         .. text: "\"\"\"\"DDDD"
+b4,b,lsb,xy         .. text: "vdUeVwweDFw"
+b4,b,msb,xy         .. text: "UUYYUUUUUUUU"
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{imag3_m4n1pul4t10n_sl4p5}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Disk disk sleuth II
+
+- Author: SYREAL
+- 130 points
+
+### Description
+
+All we know is the file with the flag is named `down-at-the-bottom.txt`... Disk image: dds2-alpine.flag.img.gz
+
+### Hints
+
+1. The sleuthkit has some great tools for this challenge as well.
+2. Sleuthkit docs here are so helpful: TSK Tool Overview
+3. This disk can also be booted with qemu!
+
+### Attachments
+
+dds2-alpine.flag.img.gz
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge provides a compressed disk image file, dds2-alpine.flag.img.gz.
+
+We can open the img directory directly from Archive Manager and mount to a local directory.
+
+~~~shell
+655d1b59-b527-47f6-b78c-9828747e6bf7$ ls
+bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+~~~
+
+The challenge tells us the flag is in a text file.  We can locate all text files in the archive:
+
+~~~shell
+$ sudo find . -name "*.txt"
+./root/down-at-the-bottom.txt
+~~~
+
+That was easy.  The file can be read using cat:
+
+~~~shell
+$ sudo cat ./root/down-at-the-bottom.txt
+   _     _     _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( p ) ( i ) ( c ) ( o ) ( C ) ( T ) ( F ) ( { ) ( f ) ( 0 ) ( r ) ( 3 ) ( n )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+   _     _     _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( s ) ( 1 ) ( c ) ( 4 ) ( t ) ( 0 ) ( r ) ( _ ) ( n ) ( 0 ) ( v ) ( 1 ) ( c )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+   _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( 3 ) ( _ ) ( 0 ) ( d ) ( 9 ) ( d ) ( 9 ) ( e ) ( c ) ( b ) ( } )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+~~~
+
+This gives us the flag:
+
+~~~
+picoCTF{f0r3ns1c4t0r_n0v1c3_0d9d9ecb}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 Page last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
