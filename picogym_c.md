@@ -1481,6 +1481,50 @@ This gives the carmichael totient:
 car_t = 237075134824116890710317291436927166463930490676322315056992567729058842792152336
 ~~~
 
+Using the Euler totient, the decryption key can be calculated:
+
+~~~py
+import math
+
+def getModInverse(a, m):
+    if math.gcd(a, m) != 1:
+        return None
+    u1, u2, u3 = 1, 0, a
+    v1, v2, v3 = 0, 1, m
+
+    while v3 != 0:
+        q = u3 // v3
+        v1, v2, v3, u1, u2, u3 = (
+            u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
+    return u1 % m
+    
+q = 658558036833541874645521278345168572231473
+p = 2159947535959146091116171018558446546179
+e = 65537
+n = 1422450808944701344261903748621562998784243662042303391362692043823716783771691667
+totn = (p-1)*(q-1)
+d = getModInverse(e, totn)
+~~~
+
+~~~
+d = 975120122884150896343356420256053234758228648361853546720066993334766006694511009
+~~~
+
+We now have all the encryption and decryption elements for the RSA algorithm.  The ciphertext message can be deciphered:
+
+~~~py
+ct = 843044897663847841476319711639772861390329326681532977209935413827620909782846667
+
+pt = pow(ct,d,n)
+print(bytearray.fromhex(hex(pt)[2:]).decode())
+~~~
+
+This returns the flag:
+
+~~~
+picoCTF{sma11_N_n0_g0od_00264570}
+~~~
+
 </details>
 
 ### Answer
@@ -1490,7 +1534,7 @@ car_t = 237075134824116890710317291436927166463930490676322315056992567729058842
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{next_time_I'll_try_2_rounds_of_rot13_aFxtzQWR}
+picoCTF{sma11_N_n0_g0od_00264570}
 ~~~
 
 </details>
