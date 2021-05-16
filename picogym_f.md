@@ -38,7 +38,8 @@
 - [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii)
 - [Surfing the Waves (2021)](#surfing-the-waves)
 - [Very very very Hidden (2021)](#very-very-very-hidden)
-
+- [advanced-potion-making (2021)](#advanced-potion-making)
+- [srambled-bytes](#scrambled-bytes)
 
 ---
 
@@ -4308,6 +4309,182 @@ picoCTF{mU21C_1s_1337_b58b4519}
 
 ---
 
+## advanced-potion-making
+
+- Author: BIGC
+- 100 points
+
+### Description
+
+Ron just found his own copy of advanced potion making, but its been corrupted by some kind of spell. Help him recover it! 
+
+### Hints
+
+None
+
+### Attachments
+
+advanced-potion-making
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Opening the attached file in a hex editor, we can see the start and end of the file appear:
+
+~~~
+89 50 42 11 0d 0a 1a 0a 00 12 13 14 49 48 44 52
+.  P  B  .  .  .  .  .  .  .  .  .  I  H  D  R
+~~~
+
+~~~
+49 45 4e 44 ae 42 60 82
+I  E  N  D  .  B  `  .
+~~~
+
+This looks like a png file.  We can copy the original to a new file:
+
+~~~shell
+cp advanced-potion-making avp_new.png
+~~~
+
+We now have a png file with the correct file extension.  This is not openable however.  We need to fix the header.  As before with similar tasks, we can correct the header to the standard format:
+
+~~~
+Original:
+89 50 42 11 0d 0a 1a 0a 00 12 13 14 49 48 44 52
+.  P  B  .  .  .  .  .  .  .  .  .  I  H  D  R
+
+New:
+89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52
+.  P  M  G  .  .  .  .  .  .  .  .  I  H  D  R
+~~~
+
+The file can be checked using pngcheck:
+
+~~~shell
+$ pngcheck -vtp7f avp_new.png 
+File: avp_new.png (30372 bytes)
+  chunk IHDR at offset 0x0000c, length 13
+    2448 x 1240 image, 24-bit RGB, non-interlaced
+  chunk sRGB at offset 0x00025, length 1
+    rendering intent = perceptual
+  chunk gAMA at offset 0x00032, length 4: 0.45455
+  chunk pHYs at offset 0x00042, length 9: 5669x5669 pixels/meter (144 dpi)
+  chunk IDAT at offset 0x00057, length 30265
+    zlib: deflated, 32K window, fast compression
+  chunk IEND at offset 0x0769c, length 0
+No errors detected in avp_new.png (6 chunks, 99.7% compression).
+~~~
+
+This shows no discoverable errors in the file.
+
+For completeness, we can check to see if there is a string in the png binary:
+
+~~~shell
+$ strings -n 7 -t x avp_new.png 
+     55 v9IDATx^
+   149b Wd`	<D~F
+   16e6 H2o)7}(
+   185d {}]jY.7h(
+   1a05 J9o)7}(
+   1b10 )^ENq@ix(
+   2420 |RBNr;N
+   2dff 'Yv.[<N
+   33fb 4icRB>e
+   391d R{@ix^r
+   3e7b OY3#	7I
+   4062 l=#	'Y6
+   425f 40#	'Yv
+   4803 K{<T.~d
+   4a34 zwJ8<S>
+   5606 S~:_s.Q
+   5663 Oyb>Gz8
+~~~
+
+Nothing here of note, secondly we can check to see if the flag is in the image exif data:
+
+~~~shell
+$ exiftool avp_new.png 
+ExifTool Version Number         : 11.88
+File Name                       : avp_new.png
+Directory                       : .
+File Size                       : 30 kB
+File Modification Date/Time     : 2021:05:16 11:10:38+01:00
+File Access Date/Time           : 2021:05:16 11:10:38+01:00
+File Inode Change Date/Time     : 2021:05:16 11:10:38+01:00
+File Permissions                : rw-rw-r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 2448
+Image Height                    : 1240
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+SRGB Rendering                  : Perceptual
+Gamma                           : 2.2
+Pixels Per Unit X               : 5669
+Pixels Per Unit Y               : 5669
+Pixel Units                     : meters
+Image Size                      : 2448x1240
+Megapixels                      : 3.0
+~~~
+
+Nothing of note here.  We can check to see if there is an embedded file in the png:
+
+~~~shell
+$ binwalk -Me avp_new.png 
+
+Scan Time:     2021-05-16 11:13:11
+Target File:   /home/derek/Downloads/avp_new.png
+MD5 Checksum:  54be76cbb51bde77f453f8c64ed407a4
+Signatures:    391
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 2448 x 1240, 8-bit/color RGB, non-interlaced
+91            0x5B            Zlib compressed data, compressed
+
+
+Scan Time:     2021-05-16 11:13:11
+Target File:   /home/derek/Downloads/_avp_new.png.extracted/5B
+MD5 Checksum:  e8789f9ed022607cd1ef037bc8511621
+Signatures:    391
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+~~~
+
+Nothing here either.  The flag most likely is embedded using stegaongraphy techniques.  A useful online tool, StegOnline(stegonline.georgeom.net) provides some simple tools to view the image data;  We can review the red, green or blue content individually and we can view the inverse RGB content.  Using this tool no flag was discovered however, if we look at the "bit planes" (this isolates LSB encoded data) we can see a flag.  The flag is included in the image within the first 2 bits of each colour Byte.
+
+~~~
+picoCTF{w1z4rdry}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{w1z4rdry}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 
 Page last updated 10 May 2021.
 
