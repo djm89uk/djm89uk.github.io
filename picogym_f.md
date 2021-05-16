@@ -39,7 +39,7 @@
 - [Surfing the Waves (2021)](#surfing-the-waves)
 - [Very very very Hidden (2021)](#very-very-very-hidden)
 - [advanced-potion-making (2021)](#advanced-potion-making)
-- [srambled-bytes](#scrambled-bytes)
+- [srambled-bytes (2021)](#scrambled-bytes)
 
 ---
 
@@ -4460,7 +4460,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 ~~~
 
-Nothing here either.  The flag most likely is embedded using stegaongraphy techniques.  A useful online tool, StegOnline(#stegonline.georgeom.net) provides some simple tools to view the image data;  We can review the red, green or blue content individually and we can view the inverse RGB content.  Using this tool no flag was discovered however, if we look at the "bit planes" (this isolates LSB encoded data) we can see a flag.  The flag is included in the image within the first 2 bits of each colour Byte.
+Nothing here either.  The flag most likely is embedded using stegaongraphy techniques.  A useful online tool, [StegOnline](#stegonline.georgeom.net) provides some simple tools to view the image data;  We can review the red, green or blue content individually and we can view the inverse RGB content.  Using this tool no flag was discovered however, if we look at the "bit planes" (this isolates LSB encoded data) we can see a flag.  The flag is included in the image within the first 2 bits of each colour Byte.
 
 ~~~
 picoCTF{w1z4rdry}
