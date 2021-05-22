@@ -4051,5 +4051,2295 @@ picoCTF{cust0m_jumbl3s_4r3nt_4_g0Od_1d3A_33ead16f}
 ### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
+## Transformation
+
+- Author: madStacks
+- 20 points
+
+### Description
+
+I wonder what this really is... enc 
+
+~~~
+''.join([chr((ord(flag[i]) << 8) + ord(flag[i + 1])) for i in range(0, len(flag), 2)])
+~~~
+
+### Hints
+
+1. You may find some decoders online
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">enc</summary>
+
+~~~
+灩捯䍔䙻ㄶ形楴獟楮獴㌴摟潦弸彥ㄴㅡて㝽
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## keygenme-py
+
+- Author: Syreal
+- 30 points
+
+### Description
+
+keygenme-trial.py
+
+### Hints
+
+None
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">keygenme-trial.py</summary>
+
+~~~py
+#============================================================================#
+#============================ARCANE CALCULATOR===============================#
+#============================================================================#
+
+import hashlib
+from cryptography.fernet import Fernet
+import base64
+
+
+
+# GLOBALS --v
+arcane_loop_trial = True
+jump_into_full = False
+full_version_code = ""
+
+username_trial = "FREEMAN"
+bUsername_trial = b"FREEMAN"
+
+key_part_static1_trial = "picoCTF{1n_7h3_|<3y_of_"
+key_part_dynamic1_trial = "xxxxxxxx"
+key_part_static2_trial = "}"
+key_full_template_trial = key_part_static1_trial + key_part_dynamic1_trial + key_part_static2_trial
+
+star_db_trial = {
+  "Alpha Centauri": 4.38,
+  "Barnard's Star": 5.95,
+  "Luhman 16": 6.57,
+  "WISE 0855-0714": 7.17,
+  "Wolf 359": 7.78,
+  "Lalande 21185": 8.29,
+  "UV Ceti": 8.58,
+  "Sirius": 8.59,
+  "Ross 154": 9.69,
+  "Yin Sector CL-Y d127": 9.86,
+  "Duamta": 9.88,
+  "Ross 248": 10.37,
+  "WISE 1506+7027": 10.52,
+  "Epsilon Eridani": 10.52,
+  "Lacaille 9352": 10.69,
+  "Ross 128": 10.94,
+  "EZ Aquarii": 11.10,
+  "61 Cygni": 11.37,
+  "Procyon": 11.41,
+  "Struve 2398": 11.64,
+  "Groombridge 34": 11.73,
+  "Epsilon Indi": 11.80,
+  "SPF-LF 1": 11.82,
+  "Tau Ceti": 11.94,
+  "YZ Ceti": 12.07,
+  "WISE 0350-5658": 12.09,
+  "Luyten's Star": 12.39,
+  "Teegarden's Star": 12.43,
+  "Kapteyn's Star": 12.76,
+  "Talta": 12.83,
+  "Lacaille 8760": 12.88
+}
+
+
+def intro_trial():
+    print("\n===============================================\n\
+Welcome to the Arcane Calculator, " + username_trial + "!\n")    
+    print("This is the trial version of Arcane Calculator.")
+    print("The full version may be purchased in person near\n\
+the galactic center of the Milky Way galaxy. \n\
+Available while supplies last!\n\
+=====================================================\n\n")
+
+
+def menu_trial():
+    print("___Arcane Calculator___\n\n\
+Menu:\n\
+(a) Estimate Astral Projection Mana Burn\n\
+(b) [LOCKED] Estimate Astral Slingshot Approach Vector\n\
+(c) Enter License Key\n\
+(d) Exit Arcane Calculator")
+
+    choice = input("What would you like to do, "+ username_trial +" (a/b/c/d)? ")
+    
+    if not validate_choice(choice):
+        print("\n\nInvalid choice!\n\n")
+        return
+    
+    if choice == "a":
+        estimate_burn()
+    elif choice == "b":
+        locked_estimate_vector()
+    elif choice == "c":
+        enter_license()
+    elif choice == "d":
+        global arcane_loop_trial
+        arcane_loop_trial = False
+        print("Bye!")
+    else:
+        print("That choice is not valid. Please enter a single, valid \
+lowercase letter choice (a/b/c/d).")
+
+
+def validate_choice(menu_choice):
+    if menu_choice == "a" or \
+       menu_choice == "b" or \
+       menu_choice == "c" or \
+       menu_choice == "d":
+        return True
+    else:
+        return False
+
+
+def estimate_burn():
+  print("\n\nSOL is detected as your nearest star.")
+  target_system = input("To which system do you want to travel? ")
+
+  if target_system in star_db_trial:
+      ly = star_db_trial[target_system]
+      mana_cost_low = ly**2
+      mana_cost_high = ly**3
+      print("\n"+ target_system +" will cost between "+ str(mana_cost_low) \
++" and "+ str(mana_cost_high) +" stone(s) to project to\n\n")
+  else:
+      # TODO : could add option to list known stars
+      print("\nStar not found.\n\n")
+
+
+def locked_estimate_vector():
+    print("\n\nYou must buy the full version of this software to use this \
+feature!\n\n")
+
+
+def enter_license():
+    user_key = input("\nEnter your license key: ")
+    user_key = user_key.strip()
+
+    global bUsername_trial
+    
+    if check_key(user_key, bUsername_trial):
+        decrypt_full_version(user_key)
+    else:
+        print("\nKey is NOT VALID. Check your data entry.\n\n")
+
+
+def check_key(key, username_trial):
+
+    global key_full_template_trial
+
+    if len(key) != len(key_full_template_trial):
+        return False
+    else:
+        # Check static base key part --v
+        i = 0
+        for c in key_part_static1_trial:
+            if key[i] != c:
+                return False
+
+            i += 1
+
+        # TODO : test performance on toolbox container
+        # Check dynamic part --v
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[4]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[5]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[3]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[6]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[2]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[7]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[1]:
+            return False
+        else:
+            i += 1
+
+        if key[i] != hashlib.sha256(username_trial).hexdigest()[8]:
+            return False
+
+
+
+        return True
+
+
+def decrypt_full_version(key_str):
+
+    key_base64 = base64.b64encode(key_str.encode())
+    f = Fernet(key_base64)
+
+    try:
+        with open("keygenme.py", "w") as fout:
+          global full_version
+          global full_version_code
+          full_version_code = f.decrypt(full_version)
+          fout.write(full_version_code.decode())
+          global arcane_loop_trial
+          arcane_loop_trial = False
+          global jump_into_full
+          jump_into_full = True
+          print("\nFull version written to 'keygenme.py'.\n\n"+ \
+                 "Exiting trial version...")
+    except FileExistsError:
+    	sys.stderr.write("Full version of keygenme NOT written to disk, "+ \
+	                  "ERROR: 'keygenme.py' file already exists.\n\n"+ \
+			  "ADVICE: If this existing file is not valid, "+ \
+			  "you may try deleting it and entering the "+ \
+			  "license key again. Good luck")
+
+def ui_flow():
+    intro_trial()
+    while arcane_loop_trial:
+        menu_trial()
+
+
+
+# Encrypted blob of full version
+full_version = \
+b"""
+gAAAAABgT_nvdPbQsvAhvsNvjCeuMqNP4gGInWyNCirwqXlGMM4EDHMeVEIci77G1dQTtGCgsVSeUfJKzwcBldLozZ24_kcrd9fd-a81-z2KBOrI8Qv_IOhY1LqsooySaeEQMvjMqBhhLhoIDfsXBSWnEb8RPDXVzZhc_5WaNDorzw8lUMqf1vLI8bWCP97UnQZclfIa_hH-ib5hy6hXuimvny4X9-eOzEIAROHD5l-FB8r82ZfUiPKED2woAgROd1_PF9HrCN_Poi_b5D42E_-R4fTX5G6ASWexix3vtO9jXW9YqSI4mN-RMoTLcYHe6wAt89e-SnhmmVxdqXzsbx37Z0UNaEEToIaUqEWuI5hHWRx9ytb9GQLimBzBVd3ZS1vuOp4gYaxRzCy8tAR63G3QrEx3mo-XLPRm8ajHVMxlsbc5U9D11znoZKEYZd2zTjTPGxaHwXaQA7hw4ZWHEEQIAUaBtAJtB_Ua0ERrop1xG1P6U-zlAWKzzymqYIV88_yHqChyWta8291J-QTy5sYYsbWygg65G5Ea4G30Eu5I6izqanJMhMFTLcBSKx_b0HBokRvim65ywa8tCh4iYZFHDsOqr2kDgyq2pZuvSRRTEHaPJVct68QScVLmWlBXSIM36ng4izANXH1qWTMxakfHQ52MRKmKhRV3sVUHGgHqdtQWJPnIeKlnWw6bHUtGxAvCQLTgwO6HR3D5EAiHMB6qu5yiAxRJMWophLMIZNN0alYV2VX0Amvd54WqAW9MnO0q1sunAyao7l1JJe6bGYIeKSYwyRiQVKtQ2nOkWXuJCRPY3PsfcT9OAkfKRCowlGF_hPmgCpB3izpUNOAD8HuNrkqKIUhROAOU-WCa04rQ2ig7bETXfJJldPRQGCvHC9zzczQC-ppq1G5PWs_tjT8VwtrrOc_Nb14dGqbLkDuKdPMa09TJKhBto0kD8O0f-JO--TOl51bPSitqTT11E1ZLiRufSojQDDbpFBMTFJNzf5puj4r3JJnDERw0quqGU8IxBPR91ZfKKEjW1U44p5G5GBbHVN1JTb0j4hpQAyKbWQKs7kGIyuToTL0VKR0WBovSeOwR_O4KmDit6ncHHEBXt7FBD6BCWkmUPuiF2QfIIFW83AizJfilZ4YhIOjiBW2J3b7-CJj0Vayq8eZY_ZeDiehwErGeiuxgeH96TZVA3C9-vAnNjdSJLPGLU935tuv74HOsPln5zQCiNyhJ3JZR4BaWLyex3haa1X-XJJZLgeGAVNqtU0ByUR5nLG37tKF9POPEkTH7Z7ujMVtcH9GfK231Fm9giBurP2CQmInoyp_oyuErlBFDPH0p5F8qWx1zcgOUZBTscZPtCzrT4otRh0HCNSV0blYPwxPjvpW2Nqs-ojXjjRgMOS6prdbtTm0eiCMC0DLY9b4YY7Gt5CKYX4HM8eyaY8Z04WPCpVvqEOLTl4NSqUlWRaVEUcbCBQNdyHIFeUbDUrs9PjXa4_WMwbqMnBPzQmBzmx4KqJJZz9RCy7I0BeqP_wy0kcTV5q8SPfZPyz_WoHx65e3z0GCuxZrzN1D7rj_WLsTPp96oCkF3B9yBx81UKXgZodZrUGooEJLxglMTCwX35X_GTh2aIggPah_k8emL1_rX_psDqGlDUPMYj8Af_O1KinL9lylCtHgGYLyGInBzHMgv4ixHPqqHk56YFmsKgqWUwR8g9an8eevQwm9_KAcg6VzreQEYsCjnsGLKvEMHt7ll3QfwhHiW-GHnPWxvhk169hKVaidBXuJuHmOpsQad5eJyvywwg0Hx0cfd6cKi3RS4PQcaYBlQXw7nsQ3xDLk0s6Bv97G3MAyQ_FIi5ieHdWO1FMYW1kbZy3Zrx5muiRmoNEBaTyDVeko8rJ9aaZWEXV1gQdDVAr92bFT_tb2ZImbPc2yJxmynaRV40ZCnVuxmwLVwCq36BSLss6yz_vnUVpswWQ4qKDbFbdPAof9mkNt0fe4Vqe_MC4ZhVvWSlsJhTlMvLedsrTbp3mL2JGvBOfvxwiOGkO-XgW1F7TGMXzh8j-KbTVKHdt6xp3DRs1Uhae5hncMCaIGqq5ocTO9Id-esyaJEumEL7oR-uzYXss3z6rSOjnGDF0k0aWCCFEKMWe1zzYhZis74IsFZ7cCfV0daXkrdD7VFIgor0ifd4-DoLYxIr-eC-yLc7eVouoHHirk0PcrMC2w7SuXReCuYvMt-jcUlZBEphb9D_0IEZDsua_Rl62FwT-1wPzyZg_uGcUviq1h8Bkgh0rs4DBdheLwRg3k6ekdTzPA78bqk5qnSbSyJMD5fK4daKbplPcNFLHTMJzKSAhQeGx0Uw3NS70q_k2uLXvbaagMB5NHzM7ZzH8P5chxcT07hkNNt7dfu9_ux35z6sEIeCmQ-MqvVn4GRBK3zEF2t_PYsQw_da6lbzEiPVWIlqQUkFcmyhsL9hSFDeBkK18abEknjs3cdukrD-e9JRKdxRJxJW97gJM-btsh_5Nbf1pIz-uxQbQhBZQkHOqC4BWyLjg3xT92B-3yDmZnykvk7d8pXNHOwtXSHtBD0jCAdCzUyE9_U51p7icO8toV0sbZ9tj22tPe1DKMM5M2uMHQXCySv4oTGpTGp4xA4tD5Wo_o59zgzwlpXtKukU7cT8DS2NCBRlDW_2L6HojArs2NPeKtBm_-DIDCiSrHSYdiITZq7GaoeyAywiOiqlVNDdLy0p3lcNW_Yo4vXyzfSm8qXTfEpoAb9gPps0LbJhci1sWqNL9JJPI4yIca4r0rr9Y1wIEYuwXeyLoQD_Yn6xPRiVmuGSnco3HsIBOuDoyU3AGQOczn_QZ_TvyIJYdS8op8UJFRMD7W7lJWFe-ivoFdUlAjMqyDCUO_PbAeJYaE0ekh7xh3yudd7dMmD9LcTOi_LQoEfYjPXIEQPaC7D_SDYw8AbBJ51FyKSif7n_fW6_PU0U6vfYZwbPWU5tp0nNjTuaPxI_88tyuZC_2gW3YgAIWs4vo0zWBk9AvdgfxNwFiIdp4dugGGg0-dJp_SW_XzgGv1ALkaMbxiOYSK0sE8ZXb3_5zA3vUn2OsKpCq6ROt4poLIFce_Cot1RSU3FUYie2V4GT7ChUrq-vJfTPVlixee1gSPE7TnlyAm_kANyQ3_VFgIyEiEfGBLb_mlIWbVCO9e9QC6_SDKbc8UvuXodJ9HcDe-yWTjV7V-7s7-Qhp_WSIBVwex8tmyCo5W69An5eOrPRwK5NfCFp0uJClvim9qfLnVDXc5QQmajx61VuwnCVZg82iWxMh_Jms-2EiaCEz1oyB87F_awJ413I_kT8Wa6OW1ZhadZkDS5IVEZTNYwIxeIaVUoZLSBESHwwwzD7zsR02pGlJFJcWcvdI96wtCcx1os6g_Lq7tpTwd33zCA-RgYZWTHKPnFSi1z0h-RsyCIqbBmGx2eswpfJbKRKi_QFQMw60w7O41FWQL8ZluxBOSd3kSP5xyVJC7bnDfE3g_OnBdU5MFQGl6uFaIxr1lUt98GeD6Gt2X1A-Hi1zOF4iaxCbb9h9FECqUrwGlwGo_TY_W0ekFM1UXFVVcUwsCwm5hL_wC7hCcN5Ad4dWx9EAL4NX3_N8n9qC3hW_l34Cq5V4Xzm1O7T7py7XF_CZ_Xd_GDdU89f2hrV1IngHqey_fc9lTroIhoLeZ3v2nj7_9osKs7qLHa_QwnwQ5jH0LxhAOGS9FHLBGdn3tXnRyzglLLOTP3XR1qeoSOEqz4Uk13qfI3GRiHacUnyyyT2OHdi4IsrxlxzGNEjBMDws9FPjXH4Xv_R0iSeD77JBIKqgd0n0hxaZRu8lOUhmnJFHpe6OrnmK8nB4A-yHuI5z37zC3KJDgKxnBBs8zfAOP0-g==
+"""
+
+
+
+# Enter main loop
+ui_flow()
+
+if jump_into_full:
+    exec(full_version_code)
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## crackme-py
+
+- Author: Syreal
+- 30 points
+
+### Description
+
+crackme.py
+
+### Hints
+
+None
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">crackme.py</summary>
+
+~~~py
+# Hiding this really important number in an obscure piece of code is brilliant!
+# AND it's encrypted!
+# We want our biggest client to know his information is safe with us.
+bezos_cc_secret = "A:4@r%uL`M-^M0c0AbcM-MFE067d3eh2bN"
+
+# Reference alphabet
+alphabet = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ"+ \
+            "[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+
+
+
+def decode_secret(secret):
+    """ROT47 decode
+
+    NOTE: encode and decode are the same operation in the ROT cipher family.
+    """
+
+    # Encryption key
+    rotate_const = 47
+
+    # Storage for decoded secret
+    decoded = ""
+
+    # decode loop
+    for c in secret:
+        index = alphabet.find(c)
+        original_index = (index + rotate_const) % len(alphabet)
+        decoded = decoded + alphabet[original_index]
+
+    print(decoded)
+
+
+
+def choose_greatest():
+    """Echo the largest of the two numbers given by the user to the program
+
+    Warning: this function was written quickly and needs proper error handling
+    """
+
+    user_value_1 = input("What's your first number? ")
+    user_value_2 = input("What's your second number? ")
+    greatest_value = user_value_1 # need a value to return if 1 & 2 are equal
+
+    if user_value_1 > user_value_2:
+        greatest_value = user_value_1
+    elif user_value_1 < user_value_2:
+        greatest_value = user_value_2
+
+    print( "The number with largest positive magnitude is "
+        + str(greatest_value) )
+
+
+
+choose_greatest()
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## ARMssembly 0
+
+- Author: Dylan McGuire
+- 40 points
+
+### Description
+
+What integer does this program print with arguments 4134207980 and 950176538? File: chall.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+### Hints
+
+1. Simple Compare
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall.S</summary>
+
+~~~
+	.arch armv8-a
+	.file	"chall.c"
+	.text
+	.align	2
+	.global	func1
+	.type	func1, %function
+func1:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	str	w1, [sp, 8]
+	ldr	w1, [sp, 12]
+	ldr	w0, [sp, 8]
+	cmp	w1, w0
+	bls	.L2
+	ldr	w0, [sp, 12]
+	b	.L3
+.L2:
+	ldr	w0, [sp, 8]
+.L3:
+	add	sp, sp, 16
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	x19, [sp, 16]
+	str	w0, [x29, 44]
+	str	x1, [x29, 32]
+	ldr	x0, [x29, 32]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w19, w0
+	ldr	x0, [x29, 32]
+	add	x0, x0, 16
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w1, w0
+	mov	w0, w19
+	bl	func1
+	mov	w1, w0
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	printf
+	mov	w0, 0
+	ldr	x19, [sp, 16]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## speeds and feeds
+
+- Author: Ryan Ramseyer
+- 50 points
+
+### Description
+
+There is something on my shop network running at nc mercury.picoctf.net 16524, but I can't tell what it is. Can you?
+
+### Hints
+
+1. What language does a CNC machine use?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Shop
+
+- Author: THELSHELL
+- 50 points
+
+### Description
+
+Best Stuff - Cheap Stuff, Buy Buy Buy... Store Instance: source. The shop is open for business at nc mercury.picoctf.net 11371.
+
+### Hints
+
+1. Always check edge cases when programming
+	
+### Attachments
+
+- source
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## ARMssembly 1
+
+- Author: Pranay Garg
+- 70 points
+
+### Description
+
+For what argument does this program print `win` with variables 68, 2 and 3? File: chall_1.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+### Hints
+
+1. Shifts
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall_1.S</summary>
+
+~~~
+	.arch armv8-a
+	.file	"chall_1.c"
+	.text
+	.align	2
+	.global	func
+	.type	func, %function
+func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	mov	w0, 68
+	str	w0, [sp, 16]
+	mov	w0, 2
+	str	w0, [sp, 20]
+	mov	w0, 3
+	str	w0, [sp, 24]
+	ldr	w0, [sp, 20]
+	ldr	w1, [sp, 16]
+	lsl	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 24]
+	sdiv	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 12]
+	sub	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w0, [sp, 28]
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"You win!"
+	.align	3
+.LC1:
+	.string	"You Lose :("
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+.L4:
+	adrp	x0, .LC1
+	add	x0, x0, :lo12:.LC1
+	bl	puts
+.L6:
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## ARMssembly 2
+
+- Author: Dylan McGuire
+- 90 points
+
+### Description
+
+What integer does this program print with argument 2403814618? File: chall_2.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+### Hints
+
+1. Loops
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall_2.S</summary>
+
+~~~
+	.arch armv8-a
+	.file	"chall_2.c"
+	.text
+	.align	2
+	.global	func1
+	.type	func1, %function
+func1:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	str	wzr, [sp, 24]
+	str	wzr, [sp, 28]
+	b	.L2
+.L3:
+	ldr	w0, [sp, 24]
+	add	w0, w0, 3
+	str	w0, [sp, 24]
+	ldr	w0, [sp, 28]
+	add	w0, w0, 1
+	str	w0, [sp, 28]
+.L2:
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 12]
+	cmp	w1, w0
+	bcc	.L3
+	ldr	w0, [sp, 24]
+	add	sp, sp, 32
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	bl	func1
+	str	w0, [x29, 44]
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	ldr	w1, [x29, 44]
+	bl	printf
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Hurry up Wait
+
+- Author: Syreal
+- 100 points
+
+### Description
+
+svchost.exe
+
+### Hints
+
+None
+	
+### Attachments
+
+- svchost.exe
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## gogo
+	
+- Author: THELSHELL
+- 110 points
+
+### Description
+
+Hmmm this is a weird file... enter_password. There is a instance of the service running at mercury.picoctf.net:20140.
+
+### Hints
+
+1. use go tool objdump or ghidra
+	
+### Attachments
+
+- enter_password
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## ARMssembly 3
+
+- Author: Dylan McGuire
+- 130 points
+
+### Description
+
+What integer does this program print with argument 3634247936? File: chall_3.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+### Hints
+
+1. beep boop beep boop...
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall_2.S</summary>
+
+~~~
+	.arch armv8-a
+	.file	"chall_3.c"
+	.text
+	.align	2
+	.global	func1
+	.type	func1, %function
+func1:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	wzr, [x29, 44]
+	b	.L2
+.L4:
+	ldr	w0, [x29, 28]
+	and	w0, w0, 1
+	cmp	w0, 0
+	beq	.L3
+	ldr	w0, [x29, 44]
+	bl	func2
+	str	w0, [x29, 44]
+.L3:
+	ldr	w0, [x29, 28]
+	lsr	w0, w0, 1
+	str	w0, [x29, 28]
+.L2:
+	ldr	w0, [x29, 28]
+	cmp	w0, 0
+	bne	.L4
+	ldr	w0, [x29, 44]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	func1, .-func1
+	.align	2
+	.global	func2
+	.type	func2, %function
+func2:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	ldr	w0, [sp, 12]
+	add	w0, w0, 3
+	add	sp, sp, 16
+	ret
+	.size	func2, .-func2
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	bl	func1
+	str	w0, [x29, 44]
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	ldr	w1, [x29, 44]
+	bl	printf
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Lets get dynamic
+
+- Author: Ryan Ramseyer
+- 150 points
+
+### Description
+
+Can you tell what this file is reading? chall.S
+
+### Hints
+
+1. Running this in a debugger would be helpful
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall.S</summary>
+
+~~~
+	.file	"chall.c"
+	.text
+	.section	.rodata
+	.align 8
+.LC1:
+	.string	"Correct! You entered the flag."
+.LC2:
+	.string	"No, that's not right."
+	.align 8
+.LC0:
+	.string	"\207\312\304\371\307m\2753&V\035A"
+	.string	"\231]\314~\025\345\225\343\177\013M\214\034SJG\246i\372\026\0323@\033jW\204\370\311}\221\350T\236pr"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB5:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	pushq	%rbx
+	subq	$296, %rsp
+	.cfi_offset 3, -24
+	movl	%edi, -292(%rbp)
+	movq	%rsi, -304(%rbp)
+	movq	%fs:40, %rax
+	movq	%rax, -24(%rbp)
+	xorl	%eax, %eax
+	movq	.LC0(%rip), %rax
+	movq	8+.LC0(%rip), %rdx
+	movq	%rax, -144(%rbp)
+	movq	%rdx, -136(%rbp)
+	movq	16+.LC0(%rip), %rax
+	movq	24+.LC0(%rip), %rdx
+	movq	%rax, -128(%rbp)
+	movq	%rdx, -120(%rbp)
+	movq	32+.LC0(%rip), %rax
+	movq	40+.LC0(%rip), %rdx
+	movq	%rax, -112(%rbp)
+	movq	%rdx, -104(%rbp)
+	movzwl	48+.LC0(%rip), %eax
+	movw	%ax, -96(%rbp)
+	movabsq	$6696342006613324260, %rax
+	movabsq	$-8132455899522779815, %rdx
+	movq	%rax, -80(%rbp)
+	movq	%rdx, -72(%rbp)
+	movabsq	$1620531284261501257, %rax
+	movabsq	$-8910415579227789898, %rdx
+	movq	%rax, -64(%rbp)
+	movq	%rdx, -56(%rbp)
+	movabsq	$-1220993050035004038, %rax
+	movabsq	$9122898327681286650, %rdx
+	movq	%rax, -48(%rbp)
+	movq	%rdx, -40(%rbp)
+	movw	$44, -32(%rbp)
+	movq	stdin(%rip), %rdx
+	leaq	-208(%rbp), %rax
+	movl	$49, %esi
+	movq	%rax, %rdi
+	call	fgets@PLT
+	movl	$0, -276(%rbp)
+	jmp	.L2
+.L3:
+	movl	-276(%rbp), %eax
+	cltq
+	movzbl	-144(%rbp,%rax), %edx
+	movl	-276(%rbp), %eax
+	cltq
+	movzbl	-80(%rbp,%rax), %eax
+	xorl	%eax, %edx
+	movl	-276(%rbp), %eax
+	xorl	%edx, %eax
+	xorl	$19, %eax
+	movl	%eax, %edx
+	movl	-276(%rbp), %eax
+	cltq
+	movb	%dl, -272(%rbp,%rax)
+	addl	$1, -276(%rbp)
+.L2:
+	movl	-276(%rbp), %eax
+	movslq	%eax, %rbx
+	leaq	-144(%rbp), %rax
+	movq	%rax, %rdi
+	call	strlen@PLT
+	cmpq	%rax, %rbx
+	jb	.L3
+	leaq	-272(%rbp), %rcx
+	leaq	-208(%rbp), %rax
+	movl	$49, %edx
+	movq	%rcx, %rsi
+	movq	%rax, %rdi
+	call	memcmp@PLT
+	testl	%eax, %eax
+	je	.L4
+	leaq	.LC1(%rip), %rdi
+	call	puts@PLT
+	movl	$0, %eax
+	jmp	.L6
+.L4:
+	leaq	.LC2(%rip), %rdi
+	call	puts@PLT
+	movl	$1, %eax
+.L6:
+	movq	-24(%rbp), %rcx
+	xorq	%fs:40, %rcx
+	je	.L7
+	call	__stack_chk_fail@PLT
+.L7:
+	addq	$296, %rsp
+	popq	%rbx
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE5:
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Easy as GDB
+
+- Author: MCKADE
+- 160 points
+
+### Description
+
+The flag has got to be checked somewhere... File: brute
+
+### Hints
+
+1. [https://sourceware.org/gdb/onlinedocs/gdb/Basic-Python.html#Basic-Python](#https://sourceware.org/gdb/onlinedocs/gdb/Basic-Python.html#Basic-Python)
+2. With GDB Python, I can guess wrong flags faster than ever before!
+	
+### Attachments
+
+- brute
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## ARMssembly 4
+
+- Author: Dylan McGuire
+- 170 points
+
+### Description
+
+What integer does this program print with argument 1215610622? File: chall_4.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+### Hints
+
+1. Switching things up
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">chall_4.S</summary>
+
+~~~
+	.arch armv8-a
+	.file	"chall_4.c"
+	.text
+	.align	2
+	.global	func1
+	.type	func1, %function
+func1:
+	stp	x29, x30, [sp, -32]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	ldr	w0, [x29, 28]
+	cmp	w0, 100
+	bls	.L2
+	ldr	w0, [x29, 28]
+	add	w0, w0, 100
+	bl	func2
+	b	.L3
+.L2:
+	ldr	w0, [x29, 28]
+	bl	func3
+.L3:
+	ldp	x29, x30, [sp], 32
+	ret
+	.size	func1, .-func1
+	.align	2
+	.global	func2
+	.type	func2, %function
+func2:
+	stp	x29, x30, [sp, -32]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	ldr	w0, [x29, 28]
+	cmp	w0, 499
+	bhi	.L5
+	ldr	w0, [x29, 28]
+	sub	w0, w0, #86
+	bl	func4
+	b	.L6
+.L5:
+	ldr	w0, [x29, 28]
+	add	w0, w0, 13
+	bl	func5
+.L6:
+	ldp	x29, x30, [sp], 32
+	ret
+	.size	func2, .-func2
+	.align	2
+	.global	func3
+	.type	func3, %function
+func3:
+	stp	x29, x30, [sp, -32]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	ldr	w0, [x29, 28]
+	bl	func7
+	ldp	x29, x30, [sp], 32
+	ret
+	.size	func3, .-func3
+	.align	2
+	.global	func4
+	.type	func4, %function
+func4:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	mov	w0, 17
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func1
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 28]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	func4, .-func4
+	.align	2
+	.global	func5
+	.type	func5, %function
+func5:
+	stp	x29, x30, [sp, -32]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	ldr	w0, [x29, 28]
+	bl	func8
+	str	w0, [x29, 28]
+	ldr	w0, [x29, 28]
+	ldp	x29, x30, [sp], 32
+	ret
+	.size	func5, .-func5
+	.align	2
+	.global	func6
+	.type	func6, %function
+func6:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	mov	w0, 314
+	str	w0, [sp, 24]
+	mov	w0, 1932
+	str	w0, [sp, 28]
+	str	wzr, [sp, 20]
+	str	wzr, [sp, 20]
+	b	.L14
+.L15:
+	ldr	w1, [sp, 28]
+	mov	w0, 800
+	mul	w0, w1, w0
+	ldr	w1, [sp, 24]
+	udiv	w2, w0, w1
+	ldr	w1, [sp, 24]
+	mul	w1, w2, w1
+	sub	w0, w0, w1
+	str	w0, [sp, 12]
+	ldr	w0, [sp, 20]
+	add	w0, w0, 1
+	str	w0, [sp, 20]
+.L14:
+	ldr	w0, [sp, 20]
+	cmp	w0, 899
+	bls	.L15
+	ldr	w0, [sp, 12]
+	add	sp, sp, 32
+	ret
+	.size	func6, .-func6
+	.align	2
+	.global	func7
+	.type	func7, %function
+func7:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	ldr	w0, [sp, 12]
+	cmp	w0, 100
+	bls	.L18
+	ldr	w0, [sp, 12]
+	b	.L19
+.L18:
+	mov	w0, 7
+.L19:
+	add	sp, sp, 16
+	ret
+	.size	func7, .-func7
+	.align	2
+	.global	func8
+	.type	func8, %function
+func8:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	ldr	w0, [sp, 12]
+	add	w0, w0, 2
+	add	sp, sp, 16
+	ret
+	.size	func8, .-func8
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func1
+	mov	w1, w0
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	printf
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Powershelly
+
+- Author: Sara
+- 180 points
+
+### Description
+
+It's not a bad idea to learn to read Powershell. We give you the output, but do you think you can find the input? rev_PS.ps1 output.txt
+
+### Hints
+
+1. We tend to move only forward, but it may be a good idea to begin solving it backwards.
+2. The flag is in standard format, I promise.
+	
+### Attachments
+
+<details>
+
+<summary markdown="span">rev_PS.ps1</summary>
+
+~~~
+$input = ".\input.txt"
+
+$out = Get-Content -Path $input
+$enc = [System.IO.File]::ReadAllBytes("$input")
+$encoding = [system.Text.Encoding]::UTF8
+$total = 264
+$t = ($total + 1) * 5
+$numLength = ($total * 30 ) + $t
+if ($out.Length -gt 5 -or $enc.count -ne $numLength)
+{
+  Write-Output "Wrong format 5"
+  Exit
+}
+
+else
+{
+  for($i=0; $i -lt $enc.count ; $i++)
+  {
+    if (($enc[$i] -ne 49) -and ($enc[$i] -ne 48) -and ($enc[$i] -ne 10) -and ($enc[$i] -ne 13) -and ($enc[$i] -ne 32))
+    {
+      Write-Output "Wrong format 1/0/"
+      Exit
+    }
+  }
+}
+
+$blocks = @{}
+for ($i=0; $i -lt $out.Length ; $i++)
+{
+  $r = $out[$i].Split(" ")
+  if ($i -gt 0)
+  {
+    for ($j=0; $j -lt $r.Length ; $j++)
+    {
+    if ($r[$j].Length -ne 6)
+    {
+      Write-Output "Wrong Format 6" $r[$j].Length
+      Exit
+    }
+      $blocks[$j] += $r[$j]
+    }
+  }
+  else
+  {
+    for ($j=0; $j -lt $r.Length ; $j++)
+    {
+    if ($r[$j].Length -ne 6)
+    {
+      Write-Output "Wrong Format 6" $r[$j].Length
+      Exit
+    }
+      $blocks[$j] = @()
+      $blocks[$j] += $r[$j]
+    }
+  }
+
+}
+
+
+function Exit  {
+  exit
+}
+
+
+function Random-Gen {
+  $list1 = @()
+  for ($i=1; $i -lt ($blocks.count + 1); $i++)
+  {
+    $y = ((($i * 327) % 681 ) + 344) % 313
+    $list1 += $y
+  }
+  return $list1
+}
+
+
+function Scramble {
+    param (
+        $block,
+        $seed
+    )
+    $raw = [system.String]::Join("", $block)
+    $bm = "10 " * $raw.Length
+    $bm = $bm.Split(" ")
+    for ($i=0; $i -lt $raw.Length ; $i++)
+    {
+
+      $y = ($i * $seed) % $raw.Length
+      $n = $bm[$y]
+      while ($n -ne "10")
+      {
+        $y = ($y + 1) % $raw.Length
+        $n = $bm[$y]
+      }
+      if ($raw[$i] -eq "1" )
+      {
+        $n = "11"
+      }
+      else
+      {
+      $n = "00"
+      }
+      $bm[$y] = $n
+    }
+    $raw2 = [system.String]::Join("", $bm)
+    $b = [convert]::ToInt64($raw2,2)
+    return $b
+}
+
+
+$result = 0
+$seeds = @()
+for ($i=1; $i -lt ($blocks.count +1); $i++)
+{
+  $seeds += ($i * 127) % 500
+}
+
+$randoms = Random-Gen
+$output_file = @()
+for ($i=0; $i -lt $blocks.count ; $i++)
+{
+
+  $fun = Scramble -block $blocks[$i] -seed $seeds[$i]
+  if($i -eq 263)
+  {
+  Write-Output $seeds[$i]
+  Write-Output $randoms[$i]
+  Write-Output $fun
+  }
+  $result = $fun -bxor $result -bxor $randoms[$i]
+  $output_file += $result
+}
+  Add-Content -Path output.txt -Value $output_file
+~~~
+
+</details>
+
+<details>
+
+<summary markdown="span">output.txt</summary>
+
+~~~
+879059547225600221
+71793452475485205
+1148698281253257227
+217070812329394967
+1085086090799284516
+4238685779263969
+1085311228075820020
+4486897510174167
+879257471590075933
+233062363111948053
+879310247956329413
+220620237942043428
+864704387274818528
+219564707018453810
+1080930139169943704
+284575531841633519
+1095289279840717921
+219827558966836273
+922164813414728577
+71789326353092547
+922970468266331303
+284624197914774733
+935887582569446640
+233341656386976839
+1095496211378261093
+270431259404009621
+922112088142040996
+271114274360574141
+936480455350027154
+14580558453485969
+1149315982842597017
+273649820165456770
+1134960775807159720
+69285389258153
+868979240123514018
+230541216188255296
+1148645726972267632
+72057336087430075
+1135966209599275106
+220398260916600638
+1152010064483073927
+271272397879702293
+1139343700758887558
+271077784355540943
+1139146754428701768
+4222399461461231
+922326496319573062
+283942073776672713
+1081923578845401015
+274442431825195106
+1097967845536444498
+16944574752682771
+935675805365747915
+67832102939014098
+1081920473329287448
+1073068336005587
+1081721748899955656
+55155024869773009
+918738451380057054
+274652781735887568
+918791227752582714
+270430592862047689
+922960640253902083
+17112864268238567
+878479842607955275
+229951587760733494
+881632416504951469
+1112495565767363
+882638470697435530
+17112815333330190
+1151848652045611600
+54057266045841968
+919582927853977200
+274441624099950113
+881860882925030709
+58476429884768707
+869190591810957703
+220606270746394268
+1138496186912600710
+288226252967132741
+1139407393294925175
+68609593282673765
+1095272117148061322
+68468771777351541
+935689876626275940
+287170512185785987
+1098877480162557621
+220452029779136139
+1138341911719821923
+287966424658087442
+933159088420617518
+57487952572330426
+1084466749241033436
+13735927918412192
+881805026941256233
+216450958350103112
+1135821692603413223
+284838396737815122
+1148422235162410505
+271130552259837474
+922972957682372071
+220675298603830864
+1139406530802367886
+18010259016859042
+879323443101908642
+284839262375919183
+1149490972761796781
+58493138394427981
+922182117624696644
+71780503401582160
+922129603001122379
+13464974967361
+918750881951576401
+57636189074621104
+882438342200737477
+233910087384579782
+882635416186125660
+288018432198980036
+882691507922931320
+229740485016616693
+1081778432842190433
+274504086948213472
+919012484050846377
+273870767986373374
+1098653128292552208
+17789823524785699
+936484823391600233
+288006061884174664
+1135755039810466391
+220610149264392545
+923026816572866165
+220673079782928545
+1084509890119794064
+57698195299630181
+1098597714352143950
+273662949817528928
+1084245170751013532
+233289910418682556
+1152868676445159022
+273861906596622869
+1152062995421196783
+16892006533755522
+878202962169560357
+219551526581911207
+1081712678517132855
+54901075530993324
+1138351810784785110
+287368617589457513
+918959449055625535
+68663387948777742
+864744991438602546
+17789270218755452
+879100224243548756
+18010272116257113
+879323430003683923
+284839275073057464
+935837243715555216
+233127265157825173
+1098822166335471510
+284585233327522172
+1081089049280840078
+66190813938289
+1085311369869266603
+217017417431055728
+1085086103734386376
+4238672944955073
+868969548061077922
+230585125518176963
+1134964279694586486
+58532504927404773
+935903202292740735
+13788713532460788
+1098610032472277687
+273808907837424086
+1098611059250691362
+287170705462591839
+935904280600953359
+54953797377651428
+1081972437337034002
+3431352717032734
+882490899915869684
+217017478683823314
+1080880677300142569
+3395020505739494
+864760452650840824
+68399248252862156
+1152854450759479489
+72056508471328536
+1135967031275879667
+220398260878299005
+923237031130165425
+220461087109169122
+1081778639814733919
+54940658191577131
+1094599850818548609
+271327652553490220
+1080916961136738199
+229961702408703798
+868279998848633946
+54044282154139485
+879258544116612891
+284625063628717240
+879258296069853009
+284798865657302933
+1152867835705298073
+55168202888248452
+1138513488130130342
+287107984222384471
+1085089592271237237
+271274871827451557
+923224455449361838
+67817894327611560
+878469330928386996
+270483416669012830
+879274208876507235
+220675540129136812
+868980306940527370
+230594235130183793
+1094599899900607733
+217282137553960044
+1094652833283493100
+283796252737158241
+878482303020224500
+270496420967206807
+1138513245732277422
+220675350747672793
+1085300646950993669
+14570660180524263
+1149279867130331935
+283727823485587214
+1135765772921798622
+55164714502340078
+919001518395568616
+14422035514995649
+919002553226628642
+270494089596571160
+1081075896199954192
+233909007654326019
+1081765291043638494
+3645104131685402
+881847842601189364
+287158284404650157
+933353496081530906
+288213815831556244
+868082087813444404
+71833031890124679
+882441640700022534
+233962879194169438
+1151852763148127243
+274455678322262261
+869181263355903934
+274442229753314412
+1135751534516958032
+71776131962646638
+932248434541314171
+229697655603511460
+1149491014637175127
+271063908134941100
+936537392976704440
+14636695302442350
+1098824639182863983
+216398129639732071
+1084469432518917257
+216177127761104710
+~~~
+
+</details>
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Rolling My Own
+
+- Author: Luke Rindells
+- 300 points
+
+### Description
+
+I don't trust password checkers made by other people, so I wrote my own. It doesn't even need to store the password! If you can crack it I'll give you a flag. remote nc mercury.picoctf.net 57112
+
+### Hints
+
+1. It's based on [this paper](#https://link.springer.com/article/10.1007/s11416-006-0011-3)
+2. Here's the start of the password: D1v1
+	
+### Attachments
+
+- remote
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## Checkpass
+
+- Author: Jay Bosamiya
+- 375 points
+
+### Description
+
+What is the password? File: checkpass Flag format: picoCTF{...}
+
+### Hints
+
+1. How is the password being checked?
+	
+### Attachments
+
+- checkpass
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## not crypto
+
+- Author: Asphyxia
+- 150 points
+
+### Description
+
+there's crypto in here but the challenge is not crypto... 🤔
+
+### Hints
+
+None
+
+### Attachments
+
+- not-crypto
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## breadth
+
+- Author: Asphyxia
+- 200 points
+
+### Description
+
+Surely this is what people mean when they say "horizontal scaling," right?
+
+TOP SECRET INFO:
+
+Our operatives managed to exfiltrate an in-development version of this challenge, where the function with the real flag had a mistake in it. Can you help us get the flag?
+
+### Hints
+
+None
+	
+### Attachments
+
+- breadth.v1
+- breadth.v2
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## riscy business
+
+- Author: Asphyxia
+- 350 points
+
+### Description
+
+Try not to take too many riscs when finding the flag.
+
+### Hints
+
+None
+	
+### Attachments
+
+- riscy
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+		
+## MATRIX
+
+- Author: Asphyxia
+- 500 points
+
+### Description
+
+Enter the M A T R I X
+
+nc mars.picoctf.net 31259
+
+### Hints
+
+None
+	
+### Attachments
+
+- matrix
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Solution 1
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
