@@ -35,6 +35,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
+- [Easy Peasy (2021)](#easy-peasy)
 
 
 ---
@@ -1438,6 +1439,191 @@ In RSA, a small e value can be problematic, but what about N? Can you decrypt th
 
 1. Bits are expensive, I used only a little bit over 100 to save money
 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The contents of values can be found using the strings command
+
+~~~shell
+$ strings values
+c: 843044897663847841476319711639772861390329326681532977209935413827620909782846667
+n: 1422450808944701344261903748621562998784243662042303391362692043823716783771691667
+e: 65537
+~~~
+
+The factors and totient for n can be found using integer factorisation calculator online (https://www.alpertron.com.ar/ECM.HTM)
+
+~~~
+p = 2159947535959146091116171018558446546179 
+q = 658558036833541874645521278345168572231473
+euler_totient = 1422450808944701344261903748621562998783582944057933890341955406374353056752914016
+~~~
+
+The carmichael totient can be calculated as the lowest common multiple of p-1 and q-1:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import numpy as np
+
+p = 2159947535959146091116171018558446546179 
+q = 658558036833541874645521278345168572231473
+
+car_t = np.lcm(p-1,q-1)
+~~~
+
+This gives the carmichael totient:
+
+~~~
+car_t = 237075134824116890710317291436927166463930490676322315056992567729058842792152336
+~~~
+
+Using the Euler totient, the decryption key can be calculated:
+
+~~~py
+import math
+
+def getModInverse(a, m):
+    if math.gcd(a, m) != 1:
+        return None
+    u1, u2, u3 = 1, 0, a
+    v1, v2, v3 = 0, 1, m
+
+    while v3 != 0:
+        q = u3 // v3
+        v1, v2, v3, u1, u2, u3 = (
+            u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
+    return u1 % m
+    
+q = 658558036833541874645521278345168572231473
+p = 2159947535959146091116171018558446546179
+e = 65537
+n = 1422450808944701344261903748621562998784243662042303391362692043823716783771691667
+totn = (p-1)*(q-1)
+d = getModInverse(e, totn)
+~~~
+
+~~~
+d = 975120122884150896343356420256053234758228648361853546720066993334766006694511009
+~~~
+
+We now have all the encryption and decryption elements for the RSA algorithm.  The ciphertext message can be deciphered:
+
+~~~py
+ct = 843044897663847841476319711639772861390329326681532977209935413827620909782846667
+
+pt = pow(ct,d,n)
+print(bytearray.fromhex(hex(pt)[2:]).decode())
+~~~
+
+This returns the flag:
+
+~~~
+picoCTF{sma11_N_n0_g0od_00264570}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{sma11_N_n0_g0od_00264570}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Easy Peasy
+
+- Author: MADSTACKS
+- 40 points
+
+### Description
+
+A one-time pad is unbreakable, but can you manage to recover the flag? (Wrap with picoCTF{}) nc mercury.picoctf.net 58913 otp.py
+
+### Hints
+
+1. Maybe there's a way to make this a 2x pad.
+
+### Attachments
+
+<details>
+
+<summary markdown="span">otp.py</summary>
+
+~~~py
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import os.path
+
+KEY_FILE = "key"
+KEY_LEN = 50000
+FLAG_FILE = "flag"
+
+
+def startup(key_location):
+    flag = open(FLAG_FILE).read()
+    kf = open(KEY_FILE, "rb").read()
+
+    start = key_location
+    stop = key_location + len(flag)
+
+    key = kf[start:stop]
+    key_location = stop
+
+    result = list(map(lambda p, k: "{:02x}".format(ord(p) ^ k), flag, key))
+    print """This is the encrypted flag!{}""".format("".join(result))
+
+    return key_location
+
+
+def encrypt(key_location):
+    ui = input("What data would you like to encrypt? ").rstrip()
+    if len(ui) == 0 or len(ui) > KEY_LEN:
+        return -1
+
+    start = key_location
+    stop = key_location + len(ui)
+
+    kf = open(KEY_FILE, "rb").read()
+
+    if stop >= KEY_LEN:
+        stop = stop % KEY_LEN
+        key = kf[start:] + kf[:stop]
+    else:
+        key = kf[start:stop]
+    key_location = stop
+
+    result = list(map(lambda p, k: "{:02x}".format(ord(p) ^ k), ui, key))
+
+    print """Here ya go!{}""".format("".join(result))
+
+    return key_location
+
+
+print "******************Welcome to our OTP implementation!******************"
+c = startup(0)
+while c >= 0:
+    c = encrypt(c)
+~~~
+ 
+</details>
+ 
 ### Solutions
 
 <details>
