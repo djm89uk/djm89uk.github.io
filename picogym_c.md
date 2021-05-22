@@ -782,6 +782,7 @@ frequency_is_c_over_lambda_agflcgtyue
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
 ## miniRSA
 
 - Author: speeeday/Danny
@@ -793,15 +794,15 @@ Let's decrypt this: ciphertext? Something seems a bit small.
 
 ### Hints
 
-1. RSA [tutorial](https://en.wikipedia.org/wiki/RSA_(cryptosystem)).
-2. How could having too small an e affect the security of this 2048 bit key?
-3. Make sure you don't lose precision, the numbers are pretty big (besides the e value).
+1. RSA [tutorial](#https://en.wikipedia.org/wiki/RSA_(cryptosystem)).
+3. How could having too small an e affect the security of this 2048 bit key?
+4. Make sure you don't lose precision, the numbers are pretty big (besides the e value).
 
 ### Attachments
 
 <details>
 
-<summary markdown="span">ciphertext</summary>
+<summary markdown="span"> ciphertext </summary>
 
 ~~~
 N: 29331922499794985782735976045591164936683059380558950386560160105740343201513369939006307531165922708949619162698623675349030430859547825708994708321803705309459438099340427770580064400911431856656901982789948285309956111848686906152664473350940486507451771223435835260168971210087470894448460745593956840586530527915802541450092946574694809584880896601317519794442862977471129319781313161842056501715040555964011899589002863730868679527184420789010551475067862907739054966183120621407246398518098981106431219207697870293412176440482900183550467375190239898455201170831410460483829448603477361305838743852756938687673
@@ -824,15 +825,21 @@ We can review the RSA algorithm to understand how to exploit this in more detail
 
 We know:
 
-$$m^e = c (\mathrm{mod} n)$$
+~~~
+m**e = c mod(n)
+~~~
 
 Since n is much larger than c:
 
-$$m^e = c (\mathrm{mod} n) = c$$
+~~~
+m**e = c mod(n) = c
+~~~
 
 The message can be recovered by:
 
-$$m = c^{1/e}$$
+~~~
+m = c**(1/e)
+~~~
 
 So we can retrieve the message by taking the cube root of the ciphertext.  This should be easy, however due to the size of the ciphertext integer, we can not simply calculate this using native numerical libraries.  We must use an iterative approach.  Using a very simple iteration, we can find the cube root:
 
@@ -842,23 +849,22 @@ e = 3
 ct = 2205316413931134031074603746928247799030155221252519872650080519263755075355825243327515211479747536697517688468095325517209911688684309894900992899707504087647575997847717180766377832435022794675332132906451858990782325436498952049751141 
 
 guessmax = int(1)
-
-while guessmax**3 < ct:
-    guessmax *= 10
-
+while (guessmax**3 < ct): guessmax *= 10
 guessmin = int(guessmax/10)
-
 guess = int((guessmin+guessmax)/2)
 
 while guess**3 != ct:
     if guess**3 > ct:
         guessmax = int(guess)
-        guess = int(guessmin + int((guessmax-guessmin)/2))
+        guessmean = int((guessmax-guessmin)/2)
+        guess = int(guessmin + guessmean)
     elif guess**3<ct:
         guessmin = int(guess)
-        guess = int(guessmin + int((guessmax-guessmin)/2))
+        guessmean = int((guessmax-guessmin)/2)
+        guess = int(guessmin + guessmean)
 
 print(bytearray.fromhex(hex(guess)[2:]).decode())
+
 ~~~
 
 The first part of this program specifies the variables for the encryption.  The algorithm then finds the order of the cube root and uses this for the initial limits for a simple iterative search.
@@ -871,6 +877,7 @@ picoCTF{n33d_a_lArg3r_e_d0cd6eae}
 ~~~
 
 </details>
+
 
 ### Answer
 
@@ -889,6 +896,7 @@ picoCTF{n33d_a_lArg3r_e_d0cd6eae}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
 ## b00tl3gRSA2
 
 - Author: invisibility
@@ -980,6 +988,7 @@ picoCTF{bad_1d3a5_2152720}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
 ## AES-ABC
 
 - Author: waituckw
@@ -1651,6 +1660,146 @@ picoCTF{}
 
 ---
 
+## New Caesar
+
+- Author: MADSTACKS
+- 60 points
+
+### Description
+
+We found a brand new type of encryption, can you break the secret code? (Wrap with picoCTF{}) lkmjkemjmkiekeijiiigljlhilihliikiliginliljimiklligljiflhiniiiniiihlhilimlhijil new_caesar.py
+
+### Hints
+
+1. How does the cipher work if the alphabet isn't 26 letters?
+2. Even though the letters are split up, the same paradigms still apply
+
+### Attachments
+
+<details>
+
+<summary markdown="span">new_caesar.py</summary>
+
+~~~py
+import string
+
+LOWERCASE_OFFSET = ord("a")
+ALPHABET = string.ascii_lowercase[:16]
+
+def b16_encode(plain):
+	enc = ""
+	for c in plain:
+		binary = "{0:08b}".format(ord(c))
+		enc += ALPHABET[int(binary[:4], 2)]
+		enc += ALPHABET[int(binary[4:], 2)]
+	return enc
+
+def shift(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 + t2) % len(ALPHABET)]
+
+flag = "redacted"
+key = "redacted"
+assert all([k in ALPHABET for k in key])
+assert len(key) == 1
+
+b16 = b16_encode(flag)
+enc = ""
+for i, c in enumerate(b16):
+	enc += shift(c, key[i % len(key)])
+print(enc)
+~~~
+ 
+</details>
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+ 
+## Mini RSA
+
+- Author: SARA
+- 70 points
+
+### Description
+
+What happens if you have a small exponent? There is a twist though, we padded the plaintext so that (M ** e) is just barely larger than N. Let's decrypt this: ciphertext
+
+### Hints
+
+1. RSA [tutorial](#https://en.wikipedia.org/wiki/RSA_(cryptosystem))
+2. How could having too small of an e affect the security of this key?
+3. Make sure you don't lose precision, the numbers are pretty big (besides the e value)
+4. You shouldn't have to make too many guesses
+5. pico is in the flag, but not at the beginning
+
+### Attachments
+
+<details>
+
+<summary markdown="span">ciphertext</summary>
+
+~~~
+N: 1615765684321463054078226051959887884233678317734892901740763321135213636796075462401950274602405095138589898087428337758445013281488966866073355710771864671726991918706558071231266976427184673800225254531695928541272546385146495736420261815693810544589811104967829354461491178200126099661909654163542661541699404839644035177445092988952614918424317082380174383819025585076206641993479326576180793544321194357018916215113009742654408597083724508169216182008449693917227497813165444372201517541788989925461711067825681947947471001390843774746442699739386923285801022685451221261010798837646928092277556198145662924691803032880040492762442561497760689933601781401617086600593482127465655390841361154025890679757514060456103104199255917164678161972735858939464790960448345988941481499050248673128656508055285037090026439683847266536283160142071643015434813473463469733112182328678706702116054036618277506997666534567846763938692335069955755244438415377933440029498378955355877502743215305768814857864433151287
+e: 3
+
+ciphertext (c): 1220012318588871886132524757898884422174534558055593713309088304910273991073554732659977133980685370899257850121970812405700793710546674062154237544840177616746805668666317481140872605653768484867292138139949076102907399831998827567645230986345455915692863094364797526497302082734955903755050638155202890599808154558034707767377524500302754459807923331810585173010977657982069888996945830789092526932364658459034145456505057469113036134559745659079236466119515004648189278227777550415021840140147319061470183840214034417917161940379351273394212022847037696265532968684592354941479799473941357715953204487236888712642494877545201005807776354854390358015733495331101077851132489983665939643188064986446883595239842621440918456201787168234988410659153219277329426230136499096098072681939491840913961290536851217677043565743644469862992310241563891464225935615676242084658617931225618537173689559419607688905143683603007487996422560430269750305079282818976557285786253025774883158125978164878245223052992502106
+~~~
+ 
+</details>
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 Last updated 09 May 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
