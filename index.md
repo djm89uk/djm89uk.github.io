@@ -7,12 +7,12 @@ This is a homepage to record my progression of CTF and programming challenges.
 
 picoCTF provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
-### [Web Exploitation](./picogym_we.md)
-### [Cryptography](./picogym_c.md)
-### [Reverse Engineering](./picogym_re.md)
-### [Forensics](./picogym_f.md)
-### [General Skills](./picogym_gs.md)
-### [Binary Exploitation](./picogym_be.md)
+- [PicoGym Web Exploitation](./picogym_we.md)
+- [PicoGym Cryptography](./picogym_c.md)
+- [PicoGym Reverse Engineering](./picogym_re.md)
+- [PicoGym Forensics](./picogym_f.md)
+- [PicoGym General Skills](./picogym_gs.md)
+- [PicoGym Binary Exploitation](./picogym_be.md)
 
 # [CSAW365](./csaw.md)
 
