@@ -5,7 +5,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 ## Contents
 
 - [Useful References](#useful-references)
-- [Insp3ct0r (2019)](#insp3ct0r)
+✓ [Insp3ct0r (2019)](#insp3ct0r)
 - [logon (2019)](#logon)
 - [where are the robots (2019)](#where-are-the-robots)
 - [dont-use-client-side (2019)](#dont-use-client-side)
