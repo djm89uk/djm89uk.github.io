@@ -5,7 +5,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 ## Contents
 
 - [Useful References](#useful-references)
-✓ [Insp3ct0r (2019)](#insp3ct0r)
+- [Insp3ct0r (2019)](#insp3ct0r)
 - [logon (2019)](#logon)
 - [where are the robots (2019)](#where-are-the-robots)
 - [dont-use-client-side (2019)](#dont-use-client-side)
@@ -18,7 +18,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Java Script Kiddie (2019)](#java-script-kiddie)
 - [Java Script Kiddie 2 (2019)](#java-script-kiddie-2)
 - [Web Gauntlet (2020)](#web-gauntlet)
-- [GET aHEAD (2021)](#get-ahead)
+- [GET aHEAD (2021)](#get-ahead) ✓
 - [Cookies (2021)](#cookies)
 - [Scavenger Hunt (2021)](#scavenger-hunt)
 - [Some Assembly Required 1 (2021)](#some-assembly-required-1)
