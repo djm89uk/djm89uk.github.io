@@ -1,4 +1,4 @@
-# [PicoGym](./picogym.md) Binary Exploitation
+# [PicoCTF](./picoctf.md) Binary Exploitation
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -30,7 +30,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -153,7 +153,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -278,7 +278,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -446,7 +446,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -492,7 +492,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -541,7 +541,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
@@ -590,7 +590,7 @@ picoCTF{}
 
 ---
 
-### [Binary Exploitation](#contents) | [PicoGym](./picogym.md) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
