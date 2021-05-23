@@ -5,23 +5,23 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 ## Contents
 
 - [Useful References (2019)](#useful-references)
-- [The Numbers (2019)](#the-numbers)
-- [caesar (2019)](#caesar)
-- [Easy1 (2019)](#easy1)
-- [13 (2019)](#thirteen)
-- [la cifra de (2019)](#la-cifra-de)
-- [rsa pop quiz (2019)](#rsa-pop-quiz)
-- [Tapping (2019)](#tapping)
-- [Mr-Worldwide (2019)](#mr-worldwide)
-- [Flags (2019)](#flags)
-- [waves over lambda (2019)](#waves-over-lambda)
-- [miniRSA (2019)](#minirsa)
-- [b00tl3gRSA2 (2019)](#b00tl3grsa2)
-- [AES-ABC (2019)](#aes-abc)
-- [b00tl3gRSA3 (2019)](#b00tl3grsa3)
-- [john_pollard (2019)](#john-pollard)
-- [Mod 26 (2021)](#mod26)
-- [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs)
+- [The Numbers (2019)](#the-numbers) ✓
+- [caesar (2019)](#caesar) ✓
+- [Easy1 (2019)](#easy1) ✓
+- [13 (2019)](#thirteen) ✓
+- [la cifra de (2019)](#la-cifra-de) ✓
+- [rsa pop quiz (2019)](#rsa-pop-quiz) ✓
+- [Tapping (2019)](#tapping) ✓
+- [Mr-Worldwide (2019)](#mr-worldwide) ✓
+- [Flags (2019)](#flags) ✓
+- [waves over lambda (2019)](#waves-over-lambda) ✓
+- [miniRSA (2019)](#minirsa) ✓
+- [b00tl3gRSA2 (2019)](#b00tl3grsa2) ✓
+- [AES-ABC (2019)](#aes-abc) ✓
+- [b00tl3gRSA3 (2019)](#b00tl3grsa3) ✓
+- [john_pollard (2019)](#john-pollard) ✓
+- [Mod 26 (2021)](#mod26) ✓
+- [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
 - [Easy Peasy (2021)](#easy-peasy)
 - [New Ceasar (2021)](#new-ceasar)
 - [Mini RSA (2021)](#mini-rsa)
