@@ -881,7 +881,6 @@ SQL query: SELECT * FROM users WHERE name='admin' AND password='' OR 1=1--'
 
 This gives us the flag, picoCTF{s0m3_SQL_c218b685}.
 
-
 </details>
 
 ### Answer
@@ -3615,20 +3614,45 @@ picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}
 
 ---
 
+## caas
 
-## Bithug
-
-- Author: ZWAD3
-- 500 Points
+- Author: BrownieInMotion
+- 150 Points
 
 ### Description
 
-Code management software is way too bloated. Try our new lightweight solution, BitHug.
-Source: distribution.tgz
+Now presenting cowsay as a service
 
 ### Hints
 
-1. Every user gets their own target repository to attack called _/.git, but no permission to read it
+None
+
+### Attachments
+
+<details>
+
+<summary markdown="span">index.js</summary>
+
+~~~js
+const express = require('express');
+const app = express();
+const { exec } = require('child_process');
+
+app.use(express.static('public'));
+
+app.get('/cowsay/:message', (req, res) => {
+  exec(`/usr/games/cowsay ${req.params.message}`, (error, stdout) => {
+    if (error) return res.status(500).end();
+    res.type('txt').send(stdout).end();
+  });
+});
+
+app.listen(3000, () => {
+  console.log('listening');
+});
+~~~
+
+</details>
 
 ### Solutions
 
