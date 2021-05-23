@@ -4,41 +4,41 @@
 
 ## Contents
 
-- [Glory of the Garden (2019)](#glory-of-the-garden)
-- [So Meta (2019)](#so-meta)
-- [extensions (2019)](#extensions)
-- [shark on wire 1 (2019)](#shark-on-wire-1)
-- [What Lies Within (2019)](#what-lies-within)
-- [c0rrupt (2019)](#c0rrupt)
-- [WhitePages (2019)](#whitepages)
-- [m00nwalk (2019)](#m00nwalk)
-- [like1000 (2019)](#like1000)
-- [shark on wire 2 (2019)](#shark-on-wire-2)
-- [m00nwalk2 (2019)](#m00nwalk2)
-- [Investigative Reversing 0 (2019)](#investigative-reversing-0)
-- [WebNet0 (2019)](#webnet0)
-- [Investigative Reversing 1 (2019)](#investigative-reversing-1)
-- [Investigative Reversing 2 (2019)](#investigative-reversing-2)
-- [Investigative Reversing 3 (2019)](#investigative-reversing-3)
-- [Investigative Reversing 4 (2019)](#investigative-reversing-4)
+- [Glory of the Garden (2019)](#glory-of-the-garden) ✓
+- [So Meta (2019)](#so-meta) ✓
+- [extensions (2019)](#extensions) ✓
+- [shark on wire 1 (2019)](#shark-on-wire-1) ✓
+- [What Lies Within (2019)](#what-lies-within) ✓
+- [c0rrupt (2019)](#c0rrupt) ✓
+- [WhitePages (2019)](#whitepages) ✓
+- [m00nwalk (2019)](#m00nwalk) ✓
+- [like1000 (2019)](#like1000) ✓
+- [shark on wire 2 (2019)](#shark-on-wire-2) ✓
+- [m00nwalk2 (2019)](#m00nwalk2) ✓
+- [Investigative Reversing 0 (2019)](#investigative-reversing-0) ✓
+- [WebNet0 (2019)](#webnet0) ✓
+- [Investigative Reversing 1 (2019)](#investigative-reversing-1) ✓
+- [Investigative Reversing 2 (2019)](#investigative-reversing-2) ✓
+- [Investigative Reversing 3 (2019)](#investigative-reversing-3) ✓
+- [Investigative Reversing 4 (2019)](#investigative-reversing-4) ✓
 - [investigation_encoded_1 (2019)](#investigation-encoded-1)
-- [WebNet1 (2019)](#webnet1)
+- [WebNet1 (2019)](#webnet1) ✓
 - [investigation_encoded_2 (2019)](#investigation-encoded-2)
 - [B1g_Mac (2019)](#b1g-mac)
-- [Pitter, Patter, Platters (2020)](#pitter-patter-platters)
-- [Information (2021)](#information)
-- [Matryoshka doll (2021)](#matryoshka-doll)
-- [tunn3l v1s10n (2021)](#tunn3l-v1s10n)
-- [Wireshark doo dooo do doo (2021)](#wireshark-doo-dooo-do-doo)
-- [MacroHard WeakEdge (2021)](#macrohard-weakedge)
-- [Trivial Flag Transfer Protocol (2021)](#trivial-flag-transfer-protocol)
-- [Wireshark twoo twooo two twoo (2021)](#wireshark-twoo-twooo-two-twoo)
-- [Disk, disk, sleuth! (2021)](#disk-disk-sleuth)
-- [Milkslap (2021)](#milkslap)
-- [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii)
-- [Surfing the Waves (2021)](#surfing-the-waves)
+- [Pitter, Patter, Platters (2020)](#pitter-patter-platters) ✓
+- [Information (2021)](#information) ✓
+- [Matryoshka doll (2021)](#matryoshka-doll) ✓
+- [tunn3l v1s10n (2021)](#tunn3l-v1s10n) ✓
+- [Wireshark doo dooo do doo (2021)](#wireshark-doo-dooo-do-doo) ✓
+- [MacroHard WeakEdge (2021)](#macrohard-weakedge) ✓
+- [Trivial Flag Transfer Protocol (2021)](#trivial-flag-transfer-protocol) ✓
+- [Wireshark twoo twooo two twoo (2021)](#wireshark-twoo-twooo-two-twoo) ✓
+- [Disk, disk, sleuth! (2021)](#disk-disk-sleuth) ✓
+- [Milkslap (2021)](#milkslap) ✓
+- [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii) ✓
+- [Surfing the Waves (2021)](#surfing-the-waves) ✓
 - [Very very very Hidden (2021)](#very-very-very-hidden)
-- [advanced-potion-making (2021)](#advanced-potion-making)
+- [advanced-potion-making (2021)](#advanced-potion-making) ✓
 - [srambled-bytes (2021)](#scrambled-bytes)
 
 ---
