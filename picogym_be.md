@@ -4,12 +4,29 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ## Contents
 
-- [Guessing Game 1](#guessing-game-1)
-- [Guessing Game 2](#guessing-game-2)
-- [messy-malloc](#messy-malloc)
-- [seed-sPRiNG](#seed-spring)
-- [sice_cream](#sice-cream)
-- [zero_to_hero](#zero-to-hero)
+- [messy-malloc (2019)](#messy-malloc)
+- [seed-sPRiNG (2019)](#seed-spring)
+- [sice_cream (2019)](#sice-cream)
+- [zero_to_hero (2019)](#zero-to-hero)
+- [Guessing Game 1 (2020)](#guessing-game-1)
+- [Guessing Game 2 (2020)](#guessing-game-2)
+- [Stonks (2021)](#stonks)
+- [Cache Me Outside (2021)](#cache-me-outside)
+- [Here's a LIBC (2021)](#heres-a-libc)
+- [Unsubscriptions Are Free (2021)](#unsubscriptions-are-free)
+- [filtered-shellcode (2021)](#filtered-shellcode)
+- [Kit Engine (2021)](#kit-engine)
+- [Stonk Market (2021)](#stonk-market)
+- [Download Horsepower (2021)](#download-horsepower)
+- [The Office (2021)](#the-office)
+- [Turboflan (2021)](#turboflan)
+- [Bizz Fuzz (2021)](#bizz-fuzz)
+- [clutter-overflow (2021)](#clutter-overflow)
+- [fermat-strings (2021)](#fermat-strings)
+- [SaaS (2021)](#saas)
+- [homework (2021)](#homework)
+- [lockdown-horses (2021)](#lockdown-horses)
+- [vr-school (2021)](#vr-school)
 
 ---
 
