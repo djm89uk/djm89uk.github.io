@@ -4,31 +4,31 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ## Contents
 
-- [vault-door-training (2019)](#vault-door-training)
-- [vault-door-1 (2019)](#vault-door-1)
-- [vault-door-3 (2019)](#vault-door-3)
-- [vault-door-4 (2019)](#vault-door-4)
-- [vault-door-5 (2019)](#vault-door-5)
-- [vault-door-6 (2019)](#vault-door-6)
-- [vault-door-7 (2019)](#vault-door-7)
-- [vault-door-8 (2019)](#vault-door-8)
-- [asm1 (2019)](#asm1)
+- [vault-door-training (2019)](#vault-door-training) ✓
+- [vault-door-1 (2019)](#vault-door-1) ✓
+- [vault-door-3 (2019)](#vault-door-3) ✓
+- [vault-door-4 (2019)](#vault-door-4) ✓
+- [vault-door-5 (2019)](#vault-door-5) ✓
+- [vault-door-6 (2019)](#vault-door-6) ✓
+- [vault-door-7 (2019)](#vault-door-7) ✓
+- [vault-door-8 (2019)](#vault-door-8) ✓
+- [asm1 (2019)](#asm1) ✓
 - [asm2 (2019)](#asm2)
-- [asm3 (2019)](#asm3)
-- [asm4 (2019)](#asm4)
-- [droids0 (2019)](#droids0)
+- [asm3 (2019)](#asm3) ✓
+- [asm4 (2019)](#asm4) ✓
+- [droids0 (2019)](#droids0) ✓
 - [droids1 (2019)](#droids1)
 - [droids2 (2019)](#droids2)
 - [droids3 (2019)](#droids3)
 - [droids4 (2019)](#droids4)
-- [revese_cipher (2019)](#reverse-cipher)
-- [Need For Speed (2019)](#need-for-speed)
+- [revese_cipher (2019)](#reverse-cipher) ✓
+- [Need For Speed (2019)](#need-for-speed) ✓
 - [B1ll_Gat35 (2019)](#b1ll-gat35)
-- [Forky (2019)](#forky)
-- [OTP Implementation (2020)](#otp-implementation)
-- [Transformation (2021)](#transformation)
-- [Keygenme-py (2021)](#keygneme-py)
-- [crackme-py (2021)](#crackme-py)
+- [Forky (2019)](#forky) ✓
+- [OTP Implementation (2020)](#otp-implementation) ✓
+- [Transformation (2021)](#transformation) ✓
+- [Keygenme-py (2021)](#keygneme-py) ✓
+- [crackme-py (2021)](#crackme-py) ✓
 - [ARMssembly 0 (2021)](#armssembly-0)
 - [speeds and feeds (2021)](#speeds-and-feeds)
 - [Shop (2021)](#shop)
