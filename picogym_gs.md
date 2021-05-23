@@ -5,25 +5,25 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 ## Contents
 
 - [Useful References](#useful-references)
-- [2Warm (2019)](#two-warm)
-- [Warmed Up (2019)](#warmed-up)
-- [Lets Warm Up (2019)](#lets-warm-up)
-- [strings it (2019)](#strings-it)
-- [Bases (2019)](#bases)
-- [First Grep (2019)](#first-grep)
-- [what's a net cat? (2019)](#whats-a-net-cat)
-- [plumbing (2019)](#plumbing)
-- [Based (2019)](#based)
-- [flag_shop (2019)](#flag-shop)
-- [mus1c (2019)](#mus1c)
-- [1_wanna_b3_a_r0ck5tar (2019)](#i-wanna-b3-a-r0ck5tar)
-- [Obedient cat (2021)](#obedient-cat)
-- [Python Wrangling (2021)](#python-wrangling)
-- [Wave a flag (2021)](#wave-a-flag)
-- [Nice netcat (2021)](#nice-netcat)
-- [Static aint always noise (2021)](#static-aint-always-noise)
-- [Tab Tab Attack (2021)](#tab-tab-attack)
-- [Magikarp Ground Mission (2021)](#magikarp-ground-mission)
+- [2Warm (2019)](#two-warm) ✓
+- [Warmed Up (2019)](#warmed-up) ✓
+- [Lets Warm Up (2019)](#lets-warm-up) ✓
+- [strings it (2019)](#strings-it) ✓
+- [Bases (2019)](#bases) ✓
+- [First Grep (2019)](#first-grep) ✓
+- [what's a net cat? (2019)](#whats-a-net-cat) ✓
+- [plumbing (2019)](#plumbing) ✓
+- [Based (2019)](#based) ✓
+- [flag_shop (2019)](#flag-shop) ✓
+- [mus1c (2019)](#mus1c) ✓
+- [1_wanna_b3_a_r0ck5tar (2019)](#i-wanna-b3-a-r0ck5tar) ✓
+- [Obedient cat (2021)](#obedient-cat) ✓
+- [Python Wrangling (2021)](#python-wrangling) ✓
+- [Wave a flag (2021)](#wave-a-flag) ✓
+- [Nice netcat (2021)](#nice-netcat) ✓
+- [Static aint always noise (2021)](#static-aint-always-noise) ✓
+- [Tab Tab Attack (2021)](#tab-tab-attack) ✓
+- [Magikarp Ground Mission (2021)](#magikarp-ground-mission) ✓
 
 ---
 
