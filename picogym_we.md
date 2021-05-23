@@ -5,26 +5,26 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 ## Contents
 
 - [Useful References](#useful-references)
-- [Insp3ct0r (2019)](#insp3ct0r)
-- [logon (2019)](#logon)
-- [where are the robots (2019)](#where-are-the-robots)
-- [dont-use-client-side (2019)](#dont-use-client-side)
-- [picobrowser (2019)](#picobrowser)
-- [Client-side-again (2019)](#client-side-again)
-- [Irish-Name-Repo 1 (2019)](#irish-name-repo-1)
-- [Irish-Name-Repo 2 (2019)](#irish-name-repo-2)
-- [Irish-Name-Repo 3 (2019)](#irish-name-repo-3)
-- [JaWT Scratchpad (2019)](#jawt-scratchpad)
-- [Java Script Kiddie (2019)](#java-script-kiddie)
-- [Java Script Kiddie 2 (2019)](#java-script-kiddie-2)
-- [Web Gauntlet (2020)](#web-gauntlet)
+- [Insp3ct0r (2019)](#insp3ct0r) ✓
+- [logon (2019)](#logon) ✓
+- [where are the robots (2019)](#where-are-the-robots) ✓
+- [dont-use-client-side (2019)](#dont-use-client-side) ✓
+- [picobrowser (2019)](#picobrowser) ✓
+- [Client-side-again (2019)](#client-side-again) ✓
+- [Irish-Name-Repo 1 (2019)](#irish-name-repo-1) ✓
+- [Irish-Name-Repo 2 (2019)](#irish-name-repo-2) ✓
+- [Irish-Name-Repo 3 (2019)](#irish-name-repo-3) ✓
+- [JaWT Scratchpad (2019)](#jawt-scratchpad) ✓
+- [Java Script Kiddie (2019)](#java-script-kiddie) ✓
+- [Java Script Kiddie 2 (2019)](#java-script-kiddie-2) ✓
+- [Web Gauntlet (2020)](#web-gauntlet) ✓
 - [GET aHEAD (2021)](#get-ahead) ✓
-- [Cookies (2021)](#cookies)
-- [Scavenger Hunt (2021)](#scavenger-hunt)
+- [Cookies (2021)](#cookies) ✓
+- [Scavenger Hunt (2021)](#scavenger-hunt) ✓
 - [Some Assembly Required 1 (2021)](#some-assembly-required-1)
 - [More Cookies (2021)](#more-cookies)
 - [It is my Birthday (2021)](#it-is-my-birthday)
-- [Who are you? (2021)](#who-are-you)
+- [Who are you? (2021)](#who-are-you) ✓
 - [Some Assembly Required 2 (2021)](#some-assembly-required-2)
 - [Super Serial (2021)](#super-serial)
 - [Most Cookies (2021)](#most-cookies)
@@ -34,7 +34,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [X marks the spot (2021)](#x-marks-the-spot)
 - [Web Gauntlet 3 (2021)](#web-gauntlet-3)
 - [Bithug (2021)](#bithug)
-- [login (2021)](#login)
+- [login (2021)](#login) ✓
 - [caas (2021)](#caas)
 - [notepad (2021)](#notepad)
 
@@ -3681,19 +3681,18 @@ picoCTF{}
 ---
 
 
-## Bithug
+## notepad
 
-- Author: ZWAD3
-- 500 Points
+- Author: ginkoid
+- 250 Points
 
 ### Description
 
-Code management software is way too bloated. Try our new lightweight solution, BitHug.
-Source: distribution.tgz
+This note-taking site seems a bit off. [notepad.mars.picoctf.net](notepad.mars.picoctf.net)
 
 ### Hints
 
-1. Every user gets their own target repository to attack called _/.git, but no permission to read it
+None
 
 ### Solutions
 
