@@ -4486,6 +4486,51 @@ picoCTF{w1z4rdry}
 
 ---
 
-Page last updated 10 May 2021.
+## scrambled-bytes
+
+- Author: KFB
+- 200 points
+
+### Description
+
+I sent my secret flag over the wires, but the bytes got all mixed up!
+
+### Hints
+
+None
+
+### Attachments
+
+- capture.pcapng
+- send.py
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+Page last updated 27 Dec 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
