@@ -29,7 +29,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Transformation (2021)](#transformation) ✓
 - [Keygenme-py (2021)](#keygneme-py) ✓
 - [crackme-py (2021)](#crackme-py) ✓
-- [ARMssembly 0 (2021)](#armssembly-0)
+- [ARMssembly 0 (2021)](#armssembly-0) ✓
 - [speeds and feeds (2021)](#speeds-and-feeds)
 - [Shop (2021)](#shop)
 - [ARMssembly 1 (2021)](#armssembly-1)
@@ -47,7 +47,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [breadth (2021)](#breadth)
 - [riscy business (2021)](#riscy-business)
 - [MATRIX (2021)](#matrix)
-
+ 
 ---
 
 ### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -4949,7 +4949,21 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+This file can be compiled using binutils-aarch64-linux-gnu and gcc-aarch64-linux-gnu:
+	
+~~~bash
+$ aarch64-linux-gnu-as -o chall.o chall.S 
+$ aarch64-linux-gnu-gcc -static -o chall chall.o
+~~~
+
+To run, the qemu-user-static package must be installed:
+
+~~~bash
+$ ./chall 4134207980 950176538
+Result: 4134207980
+~~~
+	
+This can be converted into hex as per the challenge description.
 
 </details>
 
@@ -4960,7 +4974,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{f66b01ec}
 ~~~
 
 </details>
