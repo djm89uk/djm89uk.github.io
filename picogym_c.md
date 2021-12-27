@@ -1720,7 +1720,71 @@ print(enc)
 
 <summary markdown="span">Solution 1</summary>
 
+We can reverse the encryption python code:
+	
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import string
 
+LOWERCASE_OFFSET = ord("a")
+ALPHABET = string.ascii_lowercase[:16]
+
+def b16_encode(plain):
+	enc = ""
+	for c in plain:
+		binary = "{0:08b}".format(ord(c))
+		enc += ALPHABET[int(binary[:4], 2)]
+		enc += ALPHABET[int(binary[4:], 2)]
+	return enc
+
+def b16_decode(plain):
+    dec = ""
+    for i in range(int(len(plain)/2)):
+        a = plain[2*i]
+        b = plain[2*i+1]
+        a_int = ALPHABET.index(a)
+        b_int = ALPHABET.index(b)
+        a_bin = "{0:04b}".format(a_int)
+        b_bin = "{0:04b}".format(b_int)
+        dec += chr(int(a_bin+b_bin,2))
+    return dec
+
+def shift(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 + t2) % len(ALPHABET)]
+
+def unshift(c, k):
+    t1 = ord(c) + LOWERCASE_OFFSET
+    t2 = ord(k) + LOWERCASE_OFFSET
+    return ALPHABET[(t1 - t2) % len(ALPHABET)]
+
+def is_ascii(s):
+    return len(s) == len(s.encode())
+
+flag = "a"
+key = "a"
+
+enc = "gb"
+
+b16 = b16_encode(flag)
+
+encrypted = "lkmjkemjmkiekeijiiigljlhilihliikiliginliljimiklligljiflhiniiiniiihlhilimlhijil"
+for i, c in enumerate(b16):
+	encrypted += shift(c, key[i % len(key)])
+print(enc)
+
+for a in ALPHABET:
+    b16dec = ""
+    for i,c in enumerate(encrypted):
+        b16dec += unshift(c, a)
+    flag = b16_decode(b16dec)
+    if is_ascii(flag) and " " not in flag:
+        print("Flag: picoCTF{%s}"%flag)
+~~~
+
+This returns the flag.
 
 </details>
 
@@ -1731,7 +1795,7 @@ print(enc)
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{et_tu?_431db62c5618cd75f1d0b83832b67b46}
 ~~~
 
 </details>
