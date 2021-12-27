@@ -21,11 +21,11 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [GET aHEAD (2021)](#get-ahead) ✓
 - [Cookies (2021)](#cookies) ✓
 - [Scavenger Hunt (2021)](#scavenger-hunt) ✓
-- [Some Assembly Required 1 (2021)](#some-assembly-required-1)
+- [Some Assembly Required 1 (2021)](#some-assembly-required-1) ✓
 - [More Cookies (2021)](#more-cookies)
 - [It is my Birthday (2021)](#it-is-my-birthday)
 - [Who are you? (2021)](#who-are-you) ✓
-- [Some Assembly Required 2 (2021)](#some-assembly-required-2)
+- [Some Assembly Required 2 (2021)](#some-assembly-required-2) ✓
 - [Super Serial (2021)](#super-serial)
 - [Most Cookies (2021)](#most-cookies)
 - [Some Assembly Required 3 (2021)](#some-assembly-required-3)
