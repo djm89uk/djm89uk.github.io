@@ -28,7 +28,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Some Assembly Required 2 (2021)](#some-assembly-required-2) ✓
 - [Super Serial (2021)](#super-serial)
 - [Most Cookies (2021)](#most-cookies)
-- [Some Assembly Required 3 (2021)](#some-assembly-required-3)
+- [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
 - [Web Gauntlet 2 (2021)](#web-gauntlet-2)
 - [Some Assembly Required 4 (2021)](#some-assembly-required-4)
 - [X marks the spot (2021)](#x-marks-the-spot)
