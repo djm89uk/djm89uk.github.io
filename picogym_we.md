@@ -37,6 +37,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [login (2021)](#login) ✓
 - [caas (2021)](#caas)
 - [notepad (2021)](#notepad)
+- [It is my birthday (2021)](#it-is-my-birthday) ✓
 
 
 ---
@@ -3307,6 +3308,230 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
+Visiting the website, we can inspect the source:
+
+~~~html
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="Y8splx37qY.js"></script>
+</head>
+<body>
+	<h4>Enter flag:</h4>
+	<input type="text" id="input"/>
+	<button onclick="onButtonPress()">Submit</button>
+	<p id="result"></p>
+</body>
+</html>
+~~~
+
+This calls and external javascript file, Y8splx37qY.js:
+
+~~~js
+const _0x6d8f = ['copy_char', 
+                 'value', 
+                 '207aLjBod', 
+                 '1301420SaUSqf', 
+                 '233ZRpipt', 
+                 '2224QffgXU', 
+                 'check_flag', 
+                 '408533hsoVYx', 
+                 'instance', 
+                 '278338GVFUrH', 
+                 'Correct!', 
+                 '549933ZVjkwI', 
+                 'innerHTML', 
+                 'charCodeAt', 
+                 './aD8SvhyVkb', 
+                 'result', 
+                 '977AzKzwq', 
+                 'Incorrect!', 
+                 'exports', 
+                 'length', 
+                 'getElementById', 
+                 '1jIrMBu', 
+                 'input', 
+                 '615361geljRK'];
+const _0x5c00 = function(_0x58505a, _0x4d6e6c) {
+    _0x58505a = _0x58505a - 0xc3;
+    let _0x6d8fc4 = _0x6d8f[_0x58505a];
+    return _0x6d8fc4;
+};
+(function(_0x12fd07, _0x4e9d05) {
+    const _0x4f7b75 = _0x5c00;
+    while (!![]) {
+        try {
+            const _0x1bb902 = -parseInt(_0x4f7b75(0xc8)) * -parseInt(_0x4f7b75(0xc9)) + -parseInt(_0x4f7b75(0xcd)) + parseInt(_0x4f7b75(0xcf)) + parseInt(_0x4f7b75(0xc3)) + -parseInt(_0x4f7b75(0xc6)) * parseInt(_0x4f7b75(0xd4)) + parseInt(_0x4f7b75(0xcb)) + -parseInt(_0x4f7b75(0xd9)) * parseInt(_0x4f7b75(0xc7));
+            if (_0x1bb902 === _0x4e9d05) break;
+            else _0x12fd07['push'](_0x12fd07['shift']());
+        } catch (_0x4f8a) {
+            _0x12fd07['push'](_0x12fd07['shift']());
+        }
+    }
+}(_0x6d8f, 0x4bb06));
+let exports;
+(async () => {
+    const _0x835967 = _0x5c00;
+    let _0x1adb5f = await fetch(_0x835967(0xd2)),
+        _0x355961 = await WebAssembly['instantiate'](await _0x1adb5f['arrayBuffer']()),
+        _0x5c0ffa = _0x355961[_0x835967(0xcc)];
+    exports = _0x5c0ffa[_0x835967(0xd6)];
+})();
+
+function onButtonPress() {
+    const _0x50ea62 = _0x5c00;
+    let _0x5f4170 = document[_0x50ea62(0xd8)](_0x50ea62(0xda))[_0x50ea62(0xc5)];
+    for (let _0x19d3ca = 0x0; _0x19d3ca < _0x5f4170['length']; _0x19d3ca++) {
+        exports[_0x50ea62(0xc4)](_0x5f4170[_0x50ea62(0xd1)](_0x19d3ca), _0x19d3ca);
+    }
+    exports['copy_char'](0x0, _0x5f4170[_0x50ea62(0xd7)]), exports[_0x50ea62(0xca)]() == 0x1 ? document['getElementById'](_0x50ea62(0xd3))[_0x50ea62(0xd0)] = _0x50ea62(0xce) : document[_0x50ea62(0xd8)](_0x50ea62(0xd3))['innerHTML'] = _0x50ea62(0xd5);
+}
+~~~
+
+This includes a call to an external file in the site directory: ./aD8SvhyVkb.  Navigating to this, provides a wasm file which can be decompiled:
+						    
+~~~bash
+$ wasm-decompile aD8SvhyVkb > decompiled_wasm.txt
+~~~
+
+This text file shows:
+
+~~~
+export memory memory(initial: 2, max: 0);
+
+global g_a:int = 66864;
+export global input:int = 1072;
+global dso_handle:int = 1024;
+global data_end:int = 1328;
+global global_base:int = 1024;
+global heap_base:int = 66864;
+global memory_base:int = 0;
+global table_base:int = 1;
+
+table T_a:funcref(min: 1, max: 1);
+
+data d_a(offset: 1024) = 
+"xakgK\Ns>j:<?m8>m;>k110<j?=88lj0l11:n;nmu\00\00";
+
+function wasm_call_ctors() {
+}
+
+export function strcmp(a:int, b:int):int {
+  var c:int = g_a;
+  var d:int = 32;
+  var e:int = c - d;
+  e[6]:int = a;
+  e[5]:int = b;
+  var f:int = e[6]:int;
+  e[4]:int = f;
+  var g:int = e[5]:int;
+  e[3]:int = g;
+  loop L_b {
+    var h:ubyte_ptr = e[4]:int;
+    var i:int = 1;
+    var j:int = h + i;
+    e[4]:int = j;
+    var k:int = h[0];
+    e[11]:byte = k;
+    var l:ubyte_ptr = e[3]:int;
+    var m:int = 1;
+    var n:int = l + m;
+    e[3]:int = n;
+    var o:int = l[0];
+    e[10]:byte = o;
+    var p:int = e[11]:ubyte;
+    var q:int = 255;
+    var r:int = p & q;
+    if (r) goto B_c;
+    var s:int = e[11]:ubyte;
+    var t:int = 255;
+    var u:int = s & t;
+    var v:int = e[10]:ubyte;
+    var w:int = 255;
+    var x:int = v & w;
+    var y:int = u - x;
+    e[7]:int = y;
+    goto B_a;
+    label B_c:
+    var z:int = e[11]:ubyte;
+    var aa:int = 255;
+    var ba:int = z & aa;
+    var ca:int = e[10]:ubyte;
+    var da:int = 255;
+    var ea:int = ca & da;
+    var fa:int = ba;
+    var ga:int = ea;
+    var ha:int = fa == ga;
+    var ia:int = 1;
+    var ja:int = ha & ia;
+    if (ja) continue L_b;
+  }
+  var ka:int = e[11]:ubyte;
+  var la:int = 255;
+  var ma:int = ka & la;
+  var na:int = e[10]:ubyte;
+  var oa:int = 255;
+  var pa:int = na & oa;
+  var qa:int = ma - pa;
+  e[7]:int = qa;
+  label B_a:
+  var ra:int = e[7]:int;
+  return ra;
+}
+
+export function check_flag():int {
+  var a:int = 0;
+  var b:int = 1072;
+  var c:int = 1024;
+  var d:int = strcmp(c, b);
+  var e:int = d;
+  var f:int = a;
+  var g:int = e != f;
+  var h:int = -1;
+  var i:int = g ^ h;
+  var j:int = 1;
+  var k:int = i & j;
+  return k;
+}
+
+function copy(a:int, b:int) {
+  var c:int = g_a;
+  var d:int = 16;
+  var e:int_ptr = c - d;
+  e[3] = a;
+  e[2] = b;
+  var f:int = e[3];
+  if (eqz(f)) goto B_a;
+  var g:int = e[3];
+  var h:int = 8;
+  var i:int = g ^ h;
+  e[3] = i;
+  label B_a:
+  var j:int = e[3];
+  var k:byte_ptr = e[2];
+  k[1072] = j;
+}
+~~~
+
+This shows the enciphered flag:
+
+~~~
+xakgK\Ns>j:<?m8>m;>k110<j?=88lj0l11:n;nmu\00\00
+~~~
+
+This is manipulated in the copy function (xor with 8).  The flag can be recovered:
+
+~~~py
+enc = b'xakgK\Ns>j:<?m8>m;>k110<j?=88lj0l11:n;nmu\00\00'
+
+flag = ""
+
+for a in enc:
+    flag += (chr(a^8))
+~~~
+
+This returns the flag.
+
 </details>
 
 ### Answer
@@ -3316,7 +3541,7 @@ None
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{6b247e06e36c9984b7500db8d992f3fe}
 ~~~
 
 </details>
@@ -3423,6 +3648,228 @@ None
 <details>
 
 <summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find the html source code:
+
+~~~html
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="rTEuOmSfG3.js"></script>
+</head>
+<body>
+	<h4>Enter flag:</h4>
+	<input type="text" id="input"/>
+	<button onclick="onButtonPress()">Submit</button>
+	<p id="result"></p>
+</body>
+</html>
+~~~
+
+This shows the external javascript file call, rTEuOmSfG3.js:
+
+~~~js
+const _0x143f = ['exports', 
+                 '270328ewawLo', 
+                 'instantiate', 
+                 '1OsuamQ', 
+                 'Incorrect!', 
+                 'length', 
+                 'copy_char', 
+                 'value', 
+                 '1512517ESezaM', 
+                 'innerHTML', 
+                 'check_flag', 
+                 'result', 
+                 '1383842SQRPPf', 
+                 '924408cukzgO', 
+                 'getElementById', 
+                 '418508cLDohp', 
+                 'input', 
+                 'Correct!', 
+                 '573XsMMHp', 
+                 'arrayBuffer', 
+                 '183RUQBDE', 
+                 '38934oMACea'];
+const _0x187e = function(_0x3075b9, _0x2ac888) {
+    _0x3075b9 = _0x3075b9 - 0x11d;
+    let _0x143f7d = _0x143f[_0x3075b9];
+    return _0x143f7d;
+};
+(function(_0x3379df, _0x252604) {
+    const _0x1e2b12 = _0x187e;
+    while (!![]) {
+        try {
+            const _0x5e2d0a = -parseInt(_0x1e2b12(0x122)) + 
+                  -parseInt(_0x1e2b12(0x12f)) + 
+                  -parseInt(_0x1e2b12(0x126)) * 
+                  -parseInt(_0x1e2b12(0x12b)) + 
+                  -parseInt(_0x1e2b12(0x132)) + 
+                  parseInt(_0x1e2b12(0x124)) + 
+                  -parseInt(_0x1e2b12(0x121)) * 
+                  -parseInt(_0x1e2b12(0x11f)) + 
+                  parseInt(_0x1e2b12(0x130));
+            if (_0x5e2d0a === _0x252604) break;
+            else _0x3379df['push'](_0x3379df['shift']());
+        } catch (_0x289152) {
+            _0x3379df['push'](_0x3379df['shift']());
+        }
+    }
+}(_0x143f, 0xed04c));
+let exports;
+(async () => {
+    const _0x484ae0 = _0x187e;
+    let _0x487b31 = await fetch('./qCCYI0ajpD'),
+        _0x5eebfd = await WebAssembly[_0x484ae0(0x125)](await _0x487b31[_0x484ae0(0x120)]()),
+        _0x30f3ed = _0x5eebfd['instance'];
+    exports = _0x30f3ed[_0x484ae0(0x123)];
+})();
+
+function onButtonPress() {
+    const _0x271e58 = _0x187e;
+    let _0x441124 = document[_0x271e58(0x131)](_0x271e58(0x11d))[_0x271e58(0x12a)];
+    for (let _0x34c54a = 0x0; _0x34c54a < _0x441124[_0x271e58(0x128)]; _0x34c54a++) {
+        exports[_0x271e58(0x129)](_0x441124['charCodeAt'](_0x34c54a), _0x34c54a);
+    }
+    exports[_0x271e58(0x129)](0x0, _0x441124[_0x271e58(0x128)]), exports[_0x271e58(0x12d)]() == 0x1 ? document[_0x271e58(0x131)](_0x271e58(0x12e))[_0x271e58(0x12c)] = _0x271e58(0x11e) : document[_0x271e58(0x131)](_0x271e58(0x12e))['innerHTML'] = _0x271e58(0x127);
+}
+~~~
+
+This javascript code calls an external file, ./qCCYI0ajpD which when downloaded, can be identified as a web-assembly.  This can be decompiled:
+
+~~~bash
+$ wasm-decompile qCCYI0ajpD > decompiled_wasm.txt
+~~~
+
+The decompiled wasm can be reviewed:
+
+~~~
+export memory memory(initial: 2, max: 0);
+
+global g_a:int = 66864;
+export global input:int = 1072;
+export global key:int = 1067;
+global dso_handle:int = 1024;
+global data_end:int = 1328;
+global global_base:int = 1024;
+global heap_base:int = 66864;
+global memory_base:int = 0;
+global table_base:int = 1;
+
+table T_a:funcref(min: 1, max: 1);
+
+data d_a(offset: 1024) = 
+  "\9dn\93\c8\b2\b9A\8b\c5\c6\dda\93\c3\c2\da?\c7\93\c1\8b1\95\93\93\8eb\c8"
+  "\94\c9\d5d\c0\96\c4\d97\93\93\c2\90\00\00";
+data d_b(offset: 1067) = "\f1\a7\f0\07\ed";
+
+function wasm_call_ctors() {
+}
+
+export function strcmp(a:int, b:int):int {
+  var c:int = g_a;
+  var d:int = 32;
+  var e:int = c - d;
+  e[6]:int = a;
+  e[5]:int = b;
+  var f:int = e[6]:int;
+  e[4]:int = f;
+  var g:int = e[5]:int;
+  e[3]:int = g;
+  loop L_b {
+    var h:ubyte_ptr = e[4]:int;
+    var i:int = 1;
+    var j:int = h + i;
+    e[4]:int = j;
+    var k:int = h[0];
+    e[11]:byte = k;
+    var l:ubyte_ptr = e[3]:int;
+    var m:int = 1;
+    var n:int = l + m;
+    e[3]:int = n;
+    var o:int = l[0];
+    e[10]:byte = o;
+    var p:int = e[11]:ubyte;
+    var q:int = 255;
+    var r:int = p & q;
+    if (r) goto B_c;
+    var s:int = e[11]:ubyte;
+    var t:int = 255;
+    var u:int = s & t;
+    var v:int = e[10]:ubyte;
+    var w:int = 255;
+    var x:int = v & w;
+    var y:int = u - x;
+    e[7]:int = y;
+    goto B_a;
+    label B_c:
+    var z:int = e[11]:ubyte;
+    var aa:int = 255;
+    var ba:int = z & aa;
+    var ca:int = e[10]:ubyte;
+    var da:int = 255;
+    var ea:int = ca & da;
+    var fa:int = ba;
+    var ga:int = ea;
+    var ha:int = fa == ga;
+    var ia:int = 1;
+    var ja:int = ha & ia;
+    if (ja) continue L_b;
+  }
+  var ka:int = e[11]:ubyte;
+  var la:int = 255;
+  var ma:int = ka & la;
+  var na:int = e[10]:ubyte;
+  var oa:int = 255;
+  var pa:int = na & oa;
+  var qa:int = ma - pa;
+  e[7]:int = qa;
+  label B_a:
+  var ra:int = e[7]:int;
+  return ra;
+}
+
+export function check_flag():int {
+  var a:int = 0;
+  var b:int = 1072;
+  var c:int = 1024;
+  var d:int = strcmp(c, b);
+  var e:int = d;
+  var f:int = a;
+  var g:int = e != f;
+  var h:int = -1;
+  var i:int = g ^ h;
+  var j:int = 1;
+  var k:int = i & j;
+  return k;
+}
+
+function copy(a:int, b:int) {
+  var c:int = g_a;
+  var d:int = 16;
+  var e:int_ptr = c - d;
+  e[3] = a;
+  e[2] = b;
+  var f:int = e[3];
+  if (eqz(f)) goto B_a;
+  var g:int = 4;
+  var h:int = e[2];
+  var i:int = 5;
+  var j:int = h % i;
+  var k:ubyte_ptr = g - j;
+  var l:int = k[1067];
+  var m:int = 24;
+  var n:int = l << m;
+  var o:int = n >> m;
+  var p:int = e[3];
+  var q:int = p ^ o;
+  e[3] = q;
+  label B_a:
+  var r:int = e[3];
+  var s:byte_ptr = e[2];
+  s[1072] = r;
+}
+~~~
 
 </details>
 
@@ -3843,6 +4290,155 @@ picoCTF{}
 
 </details>
 
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## notepad
+
+- Author: madStacks
+- 100 Points
+
+### Description
+	
+I sent out 2 invitations to all of my friends for my birthday! I'll know if they get stolen because the two invites look similar, and they even have the same md5 hash, but they are slightly different! You wouldn't believe how long it took me to find a collision. Anyway, see if you're invited by submitting 2 PDFs to my website. http://mercury.picoctf.net:20277/
+
+### Hints
+
+None
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This exploit requires two colliding pdf-files.  These can be found on [GitHub](https://github.com/corkami/collisions/tree/master/examples/free).  Uploading two pdfs, [md5-1.pdf](https://github.com/corkami/collisions/blob/master/examples/free/md5-1.pdf) and [md5-2.pdf](https://github.com/corkami/collisions/blob/master/examples/free/md5-2.pdf).
+
+When these are submitted, we find the html page for http://mercury.picoctf.net:20277/index.php:
+
+~~~html
+ <?php
+
+if (isset($_POST["submit"])) {
+    $type1 = $_FILES["file1"]["type"];
+    $type2 = $_FILES["file2"]["type"];
+    $size1 = $_FILES["file1"]["size"];
+    $size2 = $_FILES["file2"]["size"];
+    $SIZE_LIMIT = 18 * 1024;
+
+    if (($size1 < $SIZE_LIMIT) && ($size2 < $SIZE_LIMIT)) {
+        if (($type1 == "application/pdf") && ($type2 == "application/pdf")) {
+            $contents1 = file_get_contents($_FILES["file1"]["tmp_name"]);
+            $contents2 = file_get_contents($_FILES["file2"]["tmp_name"]);
+
+            if ($contents1 != $contents2) {
+                if (md5_file($_FILES["file1"]["tmp_name"]) == md5_file($_FILES["file2"]["tmp_name"])) {
+                    highlight_file("index.php");
+                    die();
+                } else {
+                    echo "MD5 hashes do not match!";
+                    die();
+                }
+            } else {
+                echo "Files are not different!";
+                die();
+            }
+        } else {
+            echo "Not a PDF!";
+            die();
+        }
+    } else {
+        echo "File too large!";
+        die();
+    }
+}
+
+// FLAG: picoCTF{c0ngr4ts_u_r_1nv1t3d_da36cc1b}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>It is my Birthday</title>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">It is my Birthday</h3>
+        </div>
+        <div class="jumbotron">
+            <p class="lead"></p>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <h3>See if you are invited to my party!</h3>
+                </div>
+            </div>
+            <br/>
+            <div class="upload-form">
+                <form role="form" action="/index.php" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="form-group">
+                        <input type="file" name="file1" id="file1" class="form-control input-lg">
+                        <input type="file" name="file2" id="file2" class="form-control input-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <input type="submit" class="btn btn-lg btn-success btn-block" name="submit" value="Upload">
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; PicoCTF</p>
+    </footer>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $("myAlert").alert("close");
+    });
+});
+</script>
+</body>
+
+</html> 
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{c0ngr4ts_u_r_1nv1t3d_da36cc1b}
+~~~
+
+</details>
 ---
 
 ### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
