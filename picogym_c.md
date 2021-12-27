@@ -23,7 +23,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Mod 26 (2021)](#mod26) ✓
 - [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
 - [Easy Peasy (2021)](#easy-peasy)
-- [New Ceasar (2021)](#new-ceasar)
+- [New Caesar (2021)](#new-caesar) ✓
 - [Mini RSA (2021)](#mini-rsa)
 - [Dachshund Attacks (2021)](#dachshund-attacks)
 - [No Padding, No Problem (2021)](#no-padding-no-problem)
