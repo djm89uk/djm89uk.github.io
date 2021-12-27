@@ -38,8 +38,8 @@
 - [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii) ✓
 - [Surfing the Waves (2021)](#surfing-the-waves) ✓
 - [Very very very Hidden (2021)](#very-very-very-hidden)
-- [advanced-potion-making (2021)](#advanced-potion-making) ✓
-- [srambled-bytes (2021)](#scrambled-bytes)
+- [Advanced-potion-making (2021)](#advanced-potion-making) ✓
+- [Scrambled-bytes (2021)](#scrambled-bytes) ✓
 
 ---
 
