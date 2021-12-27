@@ -4571,14 +4571,14 @@ This will provide us with all UDP traffic indluding UDP enabled protocols such a
 
 Using tcpdump, we can see the source and destination ports and addresses; the data stream can be seen to be sent with the following parameters:
 
-PARAMETER 			VALUE
--------------------------------------------
-Protocol			UDP
-Source I.P. Address 		172.17.0.2
-Destination I.P. Address 	172.17.0.3
-Source Port			RANDOM
-Destination Port 		56742
--------------------------------------------
+| PARAMETER 			| VALUE      |
+|-------------------------------|------------|
+| Protocol			| UDP	     |
+| Source I.P. Address 		| 172.17.0.2 |
+| Destination I.P. Address 	| 172.17.0.3 |
+| Source Port			| RANDOM     |
+| Destination Port 		| 56742      |
+|-------------------------------|------------|
 
 We can again filter the pcap with this information:
 
