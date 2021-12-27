@@ -3980,6 +3980,35 @@ function copy(a:int, b:int) {
 }
 ~~~
 
+The encrypted flag and key can be identified from this assembly:
+
+~~~
+Encrypted Flag: \9dn\93\c8\b2\b9A\8b\c5\c6\dda\93\c3\c2\da?\c7\93\c1\8b1\95\93\93\8eb\c8\94\c9\d5d\c0\96\c4\d97\93\93\c2\90\00\00
+Key: \f1\a7\f0\07\ed
+~~~
+
+We can find the deciphered flag using the known xor flag substring "picoC":
+
+~~~py
+enc = [0x9d,0x6e,0x93,0xc8,0xb2,0xb9,0x41,0x8b,0xc5,0xc6,0xdd,0x61,0x93,0xc3,0xc2,0xda,0x3f,0xc7,0x93,0xc1,0x8b,0x31,0x95,0x93,0x93,0x8e,0x62,0xc8,0x94,0xc9,0xd5,0x64,0xc0,0x96,0xc4,0xd9,0x37,0x93,0x93,0xc2,0x90,0x00,0x00]
+key = [0xf1, 0xa7, 0xf0, 0x07, 0xed]
+key2 = []
+out1 = "picoC"
+flag = ""
+
+for i in range(len(out1)):
+    key2.append(enc[i]^ord(out1[i]))
+    
+i = 0
+for l in enc:
+    flag += chr(l^key2[i])
+    i += 1
+    if i==5:
+        i = 0
+~~~
+
+This returns the flag.
+
 </details>
 
 ### Answer
@@ -3989,7 +4018,7 @@ function copy(a:int, b:int) {
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{b70fcd378740f6e4bce8388c01540c43}
 ~~~
 
 </details>
