@@ -4510,6 +4510,297 @@ None
 
 <summary markdown="span">Solution</summary>
 
+This challenge provides the flag in a packet capture file and the python script used to send the flag.  Reviewing the python code we can see the flag is sent using UDP:
+
+~~~py
+#!/usr/bin/env python3
+
+import argparse
+from progress.bar import IncrementalBar
+
+from scapy.all import *
+import ipaddress
+
+import random
+from time import time
+
+def check_ip(ip):
+  try:
+    return ipaddress.ip_address(ip)
+  except:
+    raise argparse.ArgumentTypeError(f'{ip} is an invalid address')
+
+def check_port(port):
+  try:
+    port = int(port)
+    if port < 1 or port > 65535:
+      raise ValueError
+    return port
+  except:
+    raise argparse.ArgumentTypeError(f'{port} is an invalid port')
+
+def main(args):
+  with open(args.input, 'rb') as f:
+    payload = bytearray(f.read())
+  random.seed(int(time()))
+  random.shuffle(payload)
+  with IncrementalBar('Sending', max=len(payload)) as bar:
+    for b in payload:
+      send(
+        IP(dst=str(args.destination)) /
+        UDP(sport=random.randrange(65536), dport=args.port) /
+        Raw(load=bytes([b^random.randrange(256)])),
+      verbose=False)
+      bar.next()
+
+if __name__=='__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('destination', help='destination IP address', type=check_ip)
+  parser.add_argument('port', help='destination port number', type=check_port)
+  parser.add_argument('input', help='input file')
+  main(parser.parse_args())
+~~~
+
+We can extract UDP packets from the pcap file using tcpdump:
+
+~~~bash
+$ tcpdump -r capture.pcapng -w capture_udp.pcap udp
+~~~
+	   
+This will provide us with all UDP traffic indluding UDP enabled protocols such as DNS.  This can be filtered out using wireshark filter: not(DNS or MDNS).
+
+Using tcpdump, we can see the source and destination ports and addresses; the data stream can be seen to be sent with the following parameters:
+
+PARAMETER 			VALUE
+-------------------------------------------
+Protocol			UDP
+Source I.P. Address 		172.17.0.2
+Destination I.P. Address 	172.17.0.3
+Source Port			RANDOM
+Destination Port 		56742
+-------------------------------------------
+
+We can again filter the pcap with this information:
+
+~~~bash
+$ tcpdump -r capture_udp_data.pcapng -w capture_udp_data_only.pcap net 172.17.0.0/24
+~~~
+
+This gives us the UDP traffic containing the flag only.
+
+We can now import this into Python using scapy:
+	  
+~~~py
+from scapy.utils import RawPcapReader
+
+def process_pcap(filename):
+    print('Opening {}...'.format(filename))
+    count = 0
+    data_array = []
+    metadata_array = []
+    for (pkt_data, pkt_metadata,) in RawPcapReader(filename):
+        data_array.append(pkt_data)
+        metadata_array.append(pkt_metadata)
+        count += 1
+    return (data_array, metadata_array, count)
+~~~
+
+This populates three variables for use in our main program, data_array contains all packet data including encapsulation headers, metadata_array contains the packet metadata including transmission time and packet lengths.  Each packet contains only 1 Byte of data, this can be isolated in another function:
+
+~~~py
+def extract_data(data_array):
+    data = []
+    for d in data_array:
+        x = len(d)-1
+        data.append(d[x])
+    return data
+~~~
+
+The time data can be similarly extracted:
+
+~~~py
+def extract_time(metadata_array):
+    time_us = []
+    start = metadata_array[0][0]*int(1e6)+metadata_array[0][1]
+    t0 = metadata_array[0][0]
+    for m in metadata_array:
+        time_us.append(m[0]*int(1e6)+m[1]-start)
+    return t0, time_us
+~~~
+
+And the source port for each transmission (which is unique):
+	   
+~~~py
+def extract_port(data_array):
+    port = []
+    for d in data_array:
+        x = len(d)-9
+        bin_port = d[x:x+2]
+        int_port = int.from_bytes(bin_port,"big")
+        port.append(int_port)
+    return port	   
+~~~
+
+The first part of our main program can now extract the useful information from the packet capture:
+
+~~~py
+if __name__ == "__main__":
+    filename = "capture_udp_data_only.pcap"
+    (d,m,c) = process_pcap(filename)
+    data = extract_data(d)
+    t0, time = extract_time(m)
+    port = extract_port(d)
+~~~
+
+Inspecting the source program, the source file (flag) is opened into variable "payload", shuffled using the random.shuffle function each Byte is read from this shuffled bytearray and transmitted using a random source port after being xor'd with a random integer:
+		     
+~~~py
+  with open(args.input, 'rb') as f:
+    payload = bytearray(f.read())
+  random.seed(int(time()))
+  random.shuffle(payload)
+  with IncrementalBar('Sending', max=len(payload)) as bar:
+    for b in payload:
+      send(
+        IP(dst=str(args.destination)) /
+        UDP(sport=random.randrange(65536), dport=args.port) /
+        Raw(load=bytes([b^random.randrange(256)])),
+      verbose=False)
+      bar.next()
+~~~
+
+We can see, however, the random function is seeded using the local time (in integer seconds).  If we can identify this seed, we can replicate the random numbers generated in the function.  We have the variable t0, which is the start time in seconds.  This can be used as a start point (assuming packets were sent from a machine with same time as seen on the network) in the recent past.  By replicating the random functions in the same order as used in the source, we can verify the seed by comparing the source ports generated using random.randrange(65536):
+
+~~~py
+def find_seed(payload_length,start,ports):
+    for i in range(start):
+        index = [j for j in range(payload_length)]
+        x = start-i
+        random.seed(int(x))
+        random.shuffle(index)
+        p1 = []
+        cipher = []
+        for i in range(payload_length):
+            p1.append(random.randrange(65536))
+            cipher.append(random.randrange(256))
+        if p1 == ports:
+            print("x = {}".format(x))
+            return x
+~~~
+
+With the verified seed, the shuffle and xor operations can be reversed in a function returning the original raw data:
+
+~~~py
+def find_flag(data, x, port):
+    index = [i for i in range(len(data))]
+    data_buffer = []
+    data_out = bytearray(len(data))
+    flag = ""
+    random.seed(int(x))
+    random.shuffle(index)
+    for i in range(len(data)):
+        p = random.randrange(65536)
+        if p != port[i]:
+            print("port mismatch!, i = {}, p1 = {}, port = {}".format(i,p,port[i]))
+        data_buffer.append(data[i]^random.randrange(256))
+    
+    for i, x in enumerate(index):
+        data_out[x] = data_buffer[i]
+    
+    return data_out
+~~~
+
+This can be written to a binary file.  The complete recovery program is:
+		     
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from scapy.utils import RawPcapReader
+import random
+
+def process_pcap(filename):
+    print('Opening {}...'.format(filename))
+    count = 0
+    data_array = []
+    metadata_array = []
+    for (pkt_data, pkt_metadata,) in RawPcapReader(filename):
+        data_array.append(pkt_data)
+        metadata_array.append(pkt_metadata)
+        count += 1
+    return (data_array, metadata_array, count)
+
+def extract_data(data_array):
+    data = []
+    for d in data_array:
+        x = len(d)-1
+        data.append(d[x])
+    return data
+
+def extract_time(metadata_array):
+    time_us = []
+    start = metadata_array[0][0]*int(1e6)+metadata_array[0][1]
+    t0 = metadata_array[0][0]
+    for m in metadata_array:
+        time_us.append(m[0]*int(1e6)+m[1]-start)
+    return t0, time_us
+
+def extract_port(data_array):
+    port = []
+    for d in data_array:
+        x = len(d)-9
+        bin_port = d[x:x+2]
+        int_port = int.from_bytes(bin_port,"big")
+        port.append(int_port)
+    return port
+
+def find_flag(data, x, port):
+    index = [i for i in range(len(data))]
+    data_buffer = []
+    data_out = bytearray(len(data))
+    flag = ""
+    random.seed(int(x))
+    random.shuffle(index)
+    for i in range(len(data)):
+        p = random.randrange(65536)
+        if p != port[i]:
+            print("port mismatch!, i = {}, p1 = {}, port = {}".format(i,p,port[i]))
+        data_buffer.append(data[i]^random.randrange(256))
+    
+    for i, x in enumerate(index):
+        data_out[x] = data_buffer[i]
+    
+    return data_out
+
+def find_seed(payload_length,start,ports):
+    for i in range(start):
+        index = [j for j in range(payload_length)]
+        x = start-i
+        random.seed(int(x))
+        random.shuffle(index)
+        p1 = []
+        cipher = []
+        for i in range(payload_length):
+            p1.append(random.randrange(65536))
+            cipher.append(random.randrange(256))
+        if p1 == ports:
+            print("x = {}".format(x))
+            return x
+
+if __name__ == "__main__":
+    filename = "capture_udp_data_only.pcap"
+    (d,m,c) = process_pcap(filename)
+    data = extract_data(d)
+    t0, time = extract_time(m)
+    port = extract_port(d)
+    x = find_seed(len(data),t0,port)
+    raw_data = find_flag(data,x, port)
+    f = open('scrambled_bytes_out','w+b')
+    f.write(bytearray(raw_data))
+    f.close()
+~~~
+
+The file written from this script is a png with the flag: picoCTF{n0_t1m3_t0_w4st3_5hufflin9_ar0und}
 
 </details>
 
@@ -4520,7 +4811,7 @@ None
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{n0_t1m3_t0_w4st3_5hufflin9_ar0und}
 ~~~
 
 </details>
