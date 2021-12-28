@@ -4,7 +4,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ## Contents
 
-- [Useful References (2019)](#useful-references)
+- [Useful References](#useful-references)
 - [The Numbers (2019)](#the-numbers) ✓
 - [caesar (2019)](#caesar) ✓
 - [Easy1 (2019)](#easy1) ✓
@@ -2221,6 +2221,6 @@ picoCTF{7188864c}
 ---
 	
 	
-Last updated 28 Dec 2021.
+Last updated Dec 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
