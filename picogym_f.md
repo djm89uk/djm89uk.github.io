@@ -3536,8 +3536,9 @@ Using wireshark, files can be extracted from the pcap using the export objects f
 
 Using online substitution cipher the text files can be decoded:
 
-~~~txt
 instructions.txt:
+	
+~~~txt
 GSGCQBRFAGRAPELCGBHEGENSSVPFBJRZHFGQVFTHVFRBHESYNTGENAFSRE.SVTHERBHGNJNLGBUVQRGURSYNTNAQVJVYYPURPXONPXSBEGURCYNA
 TFTPDOESNTENCRYPTOURTRAFFICSOWEMUSTDISGUISEOURFLAGTRANSFER.FIGUREOUTAWAYTOHIDETHEFLAGANDIWILLCHECKBACKFORTHEPLAN
 ~~~
@@ -3546,8 +3547,9 @@ This provides the instruction: TFTP doesnt encrypt your traffic so we must disgu
 
 Similarly, for the plan file:
 
+plan:
+	
 ~~~txt
-plan
 VHFRQGURCEBTENZNAQUVQVGJVGU-QHRQVYVTRAPR.PURPXBHGGURCUBGBF
 IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS
 ~~~
@@ -4315,7 +4317,57 @@ $ du -h evil_duck.png
 
 We can assume evil_duck.png has hidden data that we should discover.  Steganography tools and strings do not provide any discernible data.
 
-Reviewing the objects seen in wireshark, there is an object of 0 Bytes with hostname powershell.org.  A short look online shows the use of png files to embed powershell scripts using [Invoke-PSImage](https://github.com/peewpw/Invoke-PSImage).  Further, the extraction of powershell code from png can be achieved using [PowershellStegoDecode.exe](https://github.com/PCsXcetra/Decode_PS_Stego):
+Reviewing the objects seen in wireshark, there is an object of 0 Bytes with hostname powershell.org.  A short look online shows the use of png files to embed powershell scripts using [Invoke-PSImage](https://github.com/peewpw/Invoke-PSImage).  Further, the extraction of powershell code from png can be achieved using [PowershellStegoDecode.exe](https://github.com/PCsXcetra/Decode_PS_Stego) and/or [Extract-PSImage](https://github.com/imurasheen/Extract-PSImage):
+
+~~~ps
+> Extract-Invoke-PSImage -Image .\evil_duck.png -Out out.ps1
+[Oneliner to extract embedded payload]
+sal a New-Object;Add-Type -AssemblyName "System.Drawing";$g=a System.Drawing.Bitmap("C:\Users\user\Desktop\evil_duck.png");$o=a Byte[] 1490837;(0..811)|%{foreach($x in(0..1222)){$p=$g.GetPixel($x,$_);$o[$_*1223+$x]=([math]::Floor(($p.B-band15)*16)-bor($p.G-band15))}};$g.Dispose();[System.Text.Encoding]::ASCII.GetString($o[0..1490831])|Out-File $Out
+[First 50 characters of extracted payload]
+$out = "flag.txt"
+$enc = [system.Text.Encoding]::
+~~~
+
+This provides a file, out.ps1 with the following code:
+
+~~~ps
+$out = "flag.txt"
+$enc = [system.Text.Encoding]::UTF8
+$string1 = "HEYWherE(IS_tNE)50uP?^DId_YOu(]E@t*mY_3RD()B2g3l?"
+$string2 = "8,:8+14>Fx0l+$*KjVD>[o*.;+1|*[n&2G^201l&,Mv+_'T_B"
+
+$data1 = $enc.GetBytes($string1)
+$bytes = $enc.GetBytes($string2)
+
+for($i=0; $i -lt $bytes.count ; $i++)
+{
+    $bytes[$i] = $bytes[$i] -bxor $data1[$i]
+}
+[System.IO.File]::WriteAllBytes("$out", $bytes)
+~~~
+
+This script takes string 1 and string 2 and produces the flag using XOR.  We can solve using a simply Python script:
+	
+~~~py
+import binascii
+
+str1 = "HEYWherE(IS_tNE)50uP?^DId_YOu(]E@t*mY_3RD()B2g3l?".encode()
+str2 = "8,:8+14>Fx0l+$*KjVD>[o*.;+1|*[n&2G^201l&,Mv+_'T_B".encode()
+
+bin1 = binascii.hexlify(str1)
+bin2 = binascii.hexlify(str2)
+
+dec1 = int(bin1,16)
+dec2 = int(bin2,16)
+
+dec_flag = dec1^dec2
+
+flag = binascii.unhexlify(hex(dec_flag)[2:]).decode()
+
+print(flag)
+~~~
+
+This returns the flag.
 
 </details>
 
@@ -4326,7 +4378,7 @@ Reviewing the objects seen in wireshark, there is an object of 0 Bytes with host
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{n1c3_job_f1nd1ng_th3_s3cr3t_in_the_im@g3}
 ~~~
 
 </details>
@@ -4870,7 +4922,49 @@ I thought that my password was super-secret, but it turns out that passwords pas
 
 This challenge provides a pcap file.  The description hints at the solution requires the aircrack-ng package and the password is held in [rockyou.txt](https://github.com/zacheller/rockyou).
 
+Using aircrack-ng we can crack the WPA password with rockyou.txt almost instantaneously:
 
+~~~shell
+$ aircrack-ng -z wpa-ing_out.pcap -w rockyou.txt
+Reading packets, please wait...
+Opening wpa-ing_out.pcap
+Read 23523 packets.
+
+   #  BSSID              ESSID                     Encryption
+
+   1  00:5F:67:4F:6A:1A  Gone_Surfing              WPA (1 handshake)
+
+Choosing first network as target.
+
+Reading packets, please wait...
+Opening wpa-ing_out.pcap
+Read 23523 packets.
+
+1 potential targets
+
+
+
+                               Aircrack-ng 1.6 
+
+      [00:00:00] 1805/10303727 keys tested (19008.10 k/s) 
+
+      Time left: 9 minutes, 1 second                             0.02%
+
+                          KEY FOUND! [ mickeymouse ]
+
+
+      Master Key     : 61 64 B9 5E FC 6F 41 70 70 81 F6 40 80 9F AF B1 
+                       4A 9E C5 C4 E1 67 B8 AB 58 E3 E8 8E E6 66 EB 11 
+
+      Transient Key  : 35 74 2D 18 10 1C 25 F9 14 BC 41 DA 58 52 48 86 
+                       B0 D6 14 89 F6 77 00 05 DB 37 04 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+      EAPOL HMAC     : 65 2F 6C 0E 75 F0 49 27 6A AA 6A 06 A7 24 B9 A9
+~~~
+
+The password is the flag.
 	
 </details>
 
@@ -4881,7 +4975,7 @@ This challenge provides a pcap file.  The description hints at the solution requ
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{mickeymouse}
 ~~~
 
 </details>
