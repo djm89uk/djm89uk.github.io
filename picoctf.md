@@ -7,7 +7,7 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 - [PicoGym Cryptography](./picogym_c.md)
 - [PicoGym Reverse Engineering](./picogym_re.md)
 - [PicoGym Forensics](./picogym_f.md)
-- [PicoGym General Skills](./picogym_gs.md)
+- [PicoGym General Skills](./picogym_gs.md) ✓
 - [PicoGym Binary Exploitation](./picogym_be.md)
 
 ---
