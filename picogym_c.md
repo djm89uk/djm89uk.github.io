@@ -26,7 +26,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [New Caesar (2021)](#new-caesar) ✓
 - [Mini RSA (2021)](#mini-rsa) ✓
 - [Dachshund Attacks (2021)](#dachshund-attacks) ✓
-- [No Padding, No Problem (2021)](#no-padding-no-problem)
+- [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
 - [Pixelated (2021)](#pixelated)
 - [Play Nice (2021)](#play-nice)
 - [Double DES (2021)](#double-des)
