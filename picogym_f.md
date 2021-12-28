@@ -4282,7 +4282,7 @@ $ tshark -r try_me.pcap --export-objects "http,try_me_objs"
 
 5 objects are exported into this new directory; 2 png image files, and icon file and 2 ASCII files.
 
-~~~shell
+~~~bash
 $ cd try_me_objs/
 $ ls
 %2f  duck.png  evil_duck.png  favicon.ico  NothingSus
