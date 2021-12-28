@@ -79,13 +79,13 @@ This garden contains more than it seems.
 
 This challenge can be solved with the in-built linux command strings and can be optimised using grep:
 
-~~~
+~~~shell
 $ strings garden.jpg | grep pico
 ~~~
 
 This searches the hex values for a string including the substring "pico".  The command returns:
 
-~~~
+~~~shell
 Here is a flag "picoCTF{more_than_m33ts_the_3y33dd2eEF5}"
 ~~~
 
@@ -143,13 +143,13 @@ Find the flag in this picture.
 
 This challenge suggests we review the meta data for the image.  A useful tool for extracting meta data from photographs is [Exiftool](https://exiftool.org/).  We can combine this with grep to deliver a concise solution:
 
-~~~
+~~~shell
 $ exiftool pico_img.png | grep pico
 ~~~
 
 This returns:
 
-~~~
+~~~shell
 File Name                       : pico_img.png
 Artist                          : picoCTF{s0_m3ta_d8944929}
 ~~~
@@ -204,12 +204,12 @@ THis challenge provides a file, flag.txt.  When we open the file, we can safely 
 
 A quick review of the hex strings returns us the first five lines:
 
-~~~
+~~~shell
 $ strings flag.txt 
 IHDR
 sRGB
 gAMA
-        pHYs
+pHYs
 IDATx^
 ~~~
 
@@ -236,7 +236,7 @@ Reviewing the Bytes in GHex shows that all 8 Bytes are matched.  This is definit
 
 The extension can be changed from .txt to .png:
 
-~~~
+~~~shell
 $ cp flag.txt flag.png
 ~~~
 
@@ -298,13 +298,13 @@ In this challenge, we are provided a packet capture file, capture.pcap, that con
 
 Two common programs that can open and view this packet capture are wireshark and tcpdump.  Using tcpdump we can load all packets and check the packet datagram for strings that may return the flag:
 
-~~~
+~~~shell
 $ tcpdump -r capture.pcap -A | grep pico 
 ~~~
 
 This returns:
 
-~~~
+~~~shell
 reading from file capture.pcap, link-type EN10MB (Ethernet), snapshot length 262144
 .....'....Upico..............
 .....'....Upico..............
@@ -316,7 +316,7 @@ The flag is likely fragmented across multiple packets in the capture and therefo
 
 To reduce the size of the file, we can extract IP only captures, removing all ARP and ICMP packets:
 
-~~~
+~~~shell
 $ tcpdump -r capture.pcap -w capture_ip.pcap ip
 ~~~
 
@@ -324,7 +324,7 @@ This reduces capture.pcap from 2,317 packets to 1,230 IP packets.
 
 This can be reduced further using editcap to remove packet replicas from the capture file:
 
-~~~
+~~~shell
 $ editcap --novlan -d capture_ip.pcap capture_ip_no_replicas.pcap 
 ~~~
 
@@ -332,7 +332,7 @@ This reduces the packet capture from 1,230 to 561.
 
 Finally, we can filter for just UDP and TCP:
 
-~~~
+~~~shell
 $ tcpdump -r capture_ip_no_replicas.pcap -w capture_final.pcap tcp or udp
 ~~~
 
@@ -340,13 +340,13 @@ This gives us a capture file, capture_final.pcap with only 493 captured packets 
 
 We can now interrogate the conversations using the wireshark command line utility, tshark:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -z "follow,udp,ascii,1"
 ~~~
 
 This isolates the udp conversation with index 1 and displays the contents in ascii format to the terminal.  As we work our way up through the various conversations, we can see the flag is identifiable in UDP stream 5:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -z "follow,udp,ascii,5"
 ~~~
 
@@ -478,13 +478,13 @@ We found this file. Recover the flag.
 
 In this challenge, we have a binary file without an extension.  Inspecting the binary data, we do not find the string:
 
-~~~
+~~~shell
 $ strings mystery | grep pico  
 ~~~
 
 This does not return anything.  The flag is likely encoded in the file.  Two simple strings commands can provide an inidication of the file type:
 
-~~~
+~~~shell
 $ strings mystery | grep RGB                                           1 ⨯
 sRGB
 $ strings mystery | grep gAMA                                          1 ⨯
@@ -501,7 +501,7 @@ IEND\UffffffffB`
 
 A quick google of "IEND" suggests this may be a PNG file, we can find the ONG specification at [w3.org](https://www.w3.org/TR/PNG-Structure.html).  We will be editing the file Bytes directly, so we will create a copy to work on in the hex editor:
 
-~~~
+~~~shell
 $ cp mystery mystery01.png
 ~~~
 
@@ -575,7 +575,7 @@ in ASCII:
 
 We still cannot open the file.  We need to make some more changes.  We can use a tool, [pngcheck](http://www.libpng.org/pub/png/apps/pngcheck.html) to identify issues with the file contents:
 
-~~~
+~~~shell
 $ pngcheck mystery01.png                                             127 ⨯
 mystery01.png  CRC error in chunk pHYs (computed 38d82c82, expected 495224f0)
 ERROR: mystery01.png
@@ -623,7 +623,7 @@ We can assume the first Byte is corrupted and should be 00, effectively both x a
 
 We still cannot open the png file, however running the pngcheck there is no longer a CRC error with the pHYs chunk:
 
-~~~
+~~~shell
 $ pngcheck mystery01.png                                               2 ⨯
 mystery01.png  invalid chunk length (too large)
 ERROR: mystery01.png
@@ -764,6 +764,7 @@ picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}
 ### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
 ## m00nwalk
 
 - Author: Joon
@@ -792,7 +793,7 @@ This challenge provides a wav audio file from which we are required to retrieve 
 
 Another web search leads us to an [amateur radio website](https://www.amateur-radio-wiki.net/sstv-software/) that suggests [qsstv](http://users.telenet.be/on4qz/qsstv/index.html) can be used to decode SSTV broadcasts:
 
-~~~
+~~~shell
 $ sudo apt install qsstv
 ~~~
 
@@ -874,7 +875,7 @@ done
 
 We must enable this bash file to be executed:
 
-~~~
+~~~shell
 $ chmod +x untar.sh
 ~~~
 
@@ -936,7 +937,7 @@ This challenge provides a packet capture file, similar to the previous shark on 
 
 The capture file has 1326 packets.  We can again reduce the capture file size using the following commands:
 
-~~~
+~~~shell
 $ tcpdump -r capture.pcap -w capture_ip.pcap
 $ editcap --novlan -d capture_ip.pcap capture_ip_no_replicas.pcap
 $ tcpdump -r capture_ip_no_replicas.pcap -w capture_final.pcap tcp or udp
@@ -944,7 +945,7 @@ $ tcpdump -r capture_ip_no_replicas.pcap -w capture_final.pcap tcp or udp
 
 This has reduced the total capture size to 101 packets. Looking through the files, we do not see any useful contents:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -z "follow,udp,ascii,1"
 ~~~
 
@@ -952,7 +953,7 @@ There are a lot of red herrings in the streams ("picoCTF{N0t_a_fLag}" in udp str
 
 We can try to export objects from the packet capture using tshark, for example to export imf objects we use:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap --export-objects imf,temp_folder
 ~~~
 
@@ -960,13 +961,13 @@ No objects are exported.  This challenge must use a more interesting method to h
 
 We can look at a summary of the capture using the command:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap
 ~~~
 
 This shows a lot of information, not much use except there seems to be some strange ports in use.  We can review the tcp ports by filtering tshark and piping to sort and uniq:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -Y "tcp" -T fields -e tcp.srcport -e tcp.dstport | sort | uniq
 60218   80
 80      60218
@@ -974,7 +975,7 @@ $ tshark -r capture_final.pcap -Y "tcp" -T fields -e tcp.srcport -e tcp.dstport 
 
 This shows ports 60218 and 80 are used for tcp conversations.  We can do the same for udp:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -e udp.dstport | sort | uniq
 1234    123
 1234    1234
@@ -1022,7 +1023,7 @@ $ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -e udp.dstport 
 
 There are some interesting source port numbers in use with the conversation to port 22.  We can filter these:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22
 5000
 5112
@@ -1062,14 +1063,14 @@ $ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport=
 
 It appears each source port uses a slightly different 5000 port number.  We can do some piping and basic maths to see if the decimal integers can represent ascii characters for the flag:
 
-~~~
+~~~shell
 $ tshark -r capture_final.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22 | awk '{print sprintf("%c",$1-5000)}' | tr -d '\n'
 picoCTF{p1Lf3r3d_data_v1a_st3g0}
 ~~~
 
 This gives us the flag picoCTF{p1Lf3r3d_data_v1a_st3g0}, which is again an incorrect flag due to packet loss in the file reduction.  reusing the above command on the original capture file:
 
-~~~
+~~~shell
 $ tshark -r capture.pcap -Y "udp" -T fields -e udp.srcport -Y udp.dstport==22 | awk '{print sprintf("%c",$1-5000)}' | tr -d '\n'
 picoCTF{p1LLf3r3d_data_v1a_st3g0}
 ~~~
@@ -1403,7 +1404,7 @@ TveAJPv6Xq1ERt5PUtX3BqQ=
 
 This challenge can be solved very simply using the [ssldump](http://ssldump.sourceforge.net/) tool.  Using ssldump, we can import the capture file, import a key and decrypt application data for SSL and TLS conversations.  We use flags: "-r" to point to the packet capture file, "-k" to point to the keyfile, "-A" to print all record fields, "-e" to print the absolite timestamps and "-d" to display the application data traffic.  We can use an extended grep command to search for the flag:
 
-~~~
+~~~shell
 $ ssldump -Aed -nr ./capture.pcap -k ./picopico.key | grep -A2 pico
     61 67 3a 20 70 69 63 6f 43 54 46 7b 6e 6f 6e 67    ag: picoCTF{nong
     73 68 69 6d 2e 73 68 72 69 6d 70 2e 63 72 61 63    shim.shrimp.crac
@@ -1764,7 +1765,7 @@ The remainder of the original bmp is copied to the encoded bmp file in the final
 
 We can separate these Bytes using dd:
 
-~~~bash
+~~~shell
 $ dd skip=2000 count=400 if=encoded.bmp of=output.binary bs=1
 400+0 records in
 400+0 records out
@@ -1817,7 +1818,6 @@ for i in range(0,50):
         bin_str[i] = str(bin_val) +bin_str[i]
         byte = file.read(1)
 
-
 for i in range(0,50,1):
     int_str[i] = int(bin_str[i],2)+5
     newchar = chr(int_str[i])
@@ -1826,9 +1826,10 @@ for i in range(0,50,1):
 print(flag)
 ~~~
 
+
 Running, we get the output:
 
-~~~bash
+~~~shell
 In [1]: runfile('InvestigativeReversing2.py')
 picoCTF{n3xt_0n300000000000000000000000000394060c}
 ~~~
@@ -2013,7 +2014,7 @@ int main(void)
 
 We can see that the Bytes of interest start at Byte 723 and continue for 450 Bytes.  We can extract these Bytes using dd:
 
-~~~bash
+~~~shell
 $ dd skip=723 count=450 if=encoded.bmp of=output.binary bs=1
 450+0 records in
 450+0 records out
@@ -2040,7 +2041,6 @@ for i in range(0,100,1):
     else:
         byte = file.read(1)
 
-
 for i in range(0,50,1):
     int_str[i] = int(bin_str[i],2)
     newchar = chr(int_str[i])
@@ -2051,7 +2051,7 @@ print(flag)
 
 This returns:
 
-~~~bash
+~~~shell
 In [1]: runfile('InvestigativeReversing3.py')
 picoCTF{4n0th3r_L5b_pr0bl3m_0000000000000dec3960d}
 ~~~
@@ -2112,7 +2112,6 @@ This is the 4th Investigative Reporting challenge.  We can import the mystery bi
 
 ~~~c
 undefined8 main(void)
-
 {
   size_t sVar1;
   undefined4 local_4c;
@@ -2144,7 +2143,6 @@ This can be simplified as before:
 
 ~~~c
 int main(void)
-
 {
   size_t sVar1;
   int index;
@@ -2302,7 +2300,7 @@ void encodeDataInFile(char *param_1,char *param_2)
 
 This function copies the first 2019 bytes directly from the source bitmap to the encoded bitmap.  Following this, the source bitmap is copied with an encoded flag iterating 5 Bytes of the bitmap, followed by 8 Bytes with the encoded flag.  The data we are interested in is stored in the encoded bitmaps starting at 2019B for 120B.  We can isolate these segments using dd:
 
-~~~bash
+~~~shell
 $ for ((i=1; i<=5; i++)); do infile="Item0"$i"_cp.bmp"; outfile="output_0"$i".binary"; dd skip=2019 count=120 if=$infile of=$outfile bs=1; done
 120+0 records in
 120+0 records out
@@ -2354,7 +2352,7 @@ print(flag)
 
 Executing this provides the following:
 
-~~~bash
+~~~shell
 $ python InvestigativeReversing04.py
 picoCTF{N1c3_R3ver51ng_5k1115_00000000000f9d605bf}
 ~~~
@@ -2627,7 +2625,7 @@ TveAJPv6Xq1ERt5PUtX3BqQ=
 
 We can solve this with the exact command used for WebNet0 challenge:
 
-~~~
+~~~shell
 $ ssldump -Aed -nr ./capture.pcap -k ./picopico.key | grep -A2 pico
     61 67 3a 20 70 69 63 6f 43 54 46 7b 74 68 69 73    ag: picoCTF{this
     2e 69 73 2e 6e 6f 74 2e 79 6f 75 72 2e 66 6c 61    .is.not.your.fla
@@ -2815,11 +2813,7 @@ Nothing to see here! But you may want to look here -->
 }.6.f.a.0.9.2.5.f._.3.<._.|.L.m._.1.1.1.t.5._.3.b.{.F.T.C.o.c.i.p........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
 ~~~
 
-This can be reversed to give the flag: 
-
-~~~
-picoCTF{b3_5t111_mL|_<3_f5290af6}
-~~~
+This can be reversed to give the flag.
 
 </details>
 
@@ -2867,7 +2861,7 @@ cat.jpg
 
 The image file metadata can be viewed using exiftool application:
 
-~~~bash
+~~~shell
 $ exiftool cat.jpg 
 ExifTool Version Number         : 11.88
 File Name                       : cat.jpg
@@ -2906,7 +2900,6 @@ The IPTC digest is a MD5-128bit hash generated by exiftool for version control a
 
 ~~~
 base64 flag:  cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9
-decoded flag: picoCTF{the_m3tadata_1s_modified}
 ~~~
 
 This provides the flag.
@@ -2957,7 +2950,7 @@ dolls.jpg
 
 The challenge provides a jpg image of a doll.  Using binwalk, we can identify encapsulated files within the binary:
 
-~~~bash
+~~~shell
 $ binwalk dolls.jpg 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -2970,7 +2963,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 This shows a zip file is contained within the dolls.jpg file.  Using unzip, we can extract the contents:
 
-~~~bash
+~~~shell
 $ unzip dolls.jpg
 Archive:  dolls.jpg
 warning [dolls.jpg]:  272492 extra bytes at beginning or within zipfile
@@ -2980,7 +2973,7 @@ warning [dolls.jpg]:  272492 extra bytes at beginning or within zipfile
 
 This extracts another jpg file, 2_c.jpg.  We can view the file type using binwalk again:
 
-~~~bash
+~~~shell
 $ binwalk 2_c.jpg 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -2994,7 +2987,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 Another zip file, we can extract as before:
 
-~~~bash
+~~~shell
 $ unzip 2_c.jpg
 Archive:  2_c.jpg
 warning [2_c.jpg]:  187707 extra bytes at beginning or within zipfile
@@ -3004,7 +2997,7 @@ warning [2_c.jpg]:  187707 extra bytes at beginning or within zipfile
 
 And again:
 
-~~~bash
+~~~shell
 $ unzip 3_c.jpg
 Archive:  3_c.jpg
 warning [3_c.jpg]:  123606 extra bytes at beginning or within zipfile
@@ -3014,7 +3007,7 @@ warning [3_c.jpg]:  123606 extra bytes at beginning or within zipfile
 
 And again:
 
-~~~bash
+~~~shell
 $ unzip 4_c.jpg
 Archive:  4_c.jpg
 warning [4_c.jpg]:  79578 extra bytes at beginning or within zipfile
@@ -3024,7 +3017,7 @@ warning [4_c.jpg]:  79578 extra bytes at beginning or within zipfile
 
 This gives us a text file with the flag:
 
-~~~bash
+~~~shell
 $ cat flag.txt 
 picoCTF{96fac089316e094d41ea046900197662}
 ~~~
@@ -3074,7 +3067,7 @@ tunn3l_v1s10n
 
 This challenge provides us with a file "tunn3l_v1s10n".  We can review the file type using linux's file command:
 
-~~~bash
+~~~shell
 $ file tunn3l_v1s10n 
 tunn3l_v1s10n: data
 ~~~
@@ -3093,7 +3086,6 @@ $ xxd -g 1 tunn3l_v1s10n | head
 00000070: 26 23 1d 12 0e 23 17 11 29 16 0e 55 3d 31 97 76  &#...#..)..U=1.v
 00000080: 66 8b 66 52 99 6d 56 9e 70 58 9e 6f 54 9c 6f 54  f.fR.mV.pX.oT.oT
 00000090: ab 7e 63 ba 8c 6d bd 8a 69 c8 97 71 c1 93 71 c1  .~c..m..i..q..q.
-
 ~~~
 
 The first two characters suggest this is a bmp image file.  We can append the bmp file extension and attempt to open the file:
@@ -3104,7 +3096,7 @@ $ mv tunn3l_v1s10n tunn3l_v1s10n.bmp
 
 Attempting to open in GIMP, we get an error message:
 
-~~~
+~~~shell
 Opening '/home/derek/Downloads/tunn3l_v1s10n.bmp' failed: Error reading BMP file header from '/home/derek/Downloads/tunn3l_v1s10n.bmp'
 ~~~
 
@@ -3189,11 +3181,7 @@ The bitmap opens but does not have any content.  Reviewing the file further, we 
 | 0x16   | 0x04   | ImageHeight     | 0x52 0x03 0x00 0x00 (850)  | 0x32 0x01 0x00 0x00         |
 |--------|--------|-----------------|----------------------------|-----------------------------|
 
-This gives us a full image with the flag:
-
-~~~
-picoCTF{qu1t3_a_v13w_2020}
-~~~
+This gives us a full image with the flag.
 
 </details>
 
@@ -3246,7 +3234,7 @@ $ tshark -r shark1.pcap -z "follow,tcp,ascii,5"
 
 This returns:
 
-~~~
+~~~shell
 	330
 HTTP/1.1 200 OK
 Date: Mon, 10 Aug 2020 01:51:45 GMT
@@ -3264,11 +3252,7 @@ Gur synt vf cvpbPGS{c33xno00_1_f33_h_qrnqorrs}
 
 This looks like a simple substitution cipher with key nopqrstuvwxyzabcdefghijklm
 
-Using this for the alphabetic characters we get:
-
-~~~
-picoCTF{p33kab00_1_s33_u_deadbeef}
-~~~
+Using this for the alphabetic characters we get the flag.
 
 </details>
 
@@ -3503,11 +3487,7 @@ $ cat ppt/slideMasters/hidden
 Z m x h Z z o g c G l j b 0 N U R n t E M W R f d V 9 r b j B 3 X 3 B w d H N f c l 9 6 M X A 1 f Q
 ~~~
 
-This is likely the flag string encoded in base64.  Decoding online, we get:
-
-~~~
-flag: picoCTF{D1d_u_kn0w_ppts_r_z1p5}
-~~~
+This is likely the flag string encoded in base64.  Decoding online, we get the flag.
 
 </details>
 
@@ -3556,7 +3536,7 @@ Using wireshark, files can be extracted from the pcap using the export objects f
 
 Using online substitution cipher the text files can be decoded:
 
-~~~
+~~~txt
 instructions.txt:
 GSGCQBRFAGRAPELCGBHEGENSSVPFBJRZHFGQVFTHVFRBHESYNTGENAFSRE.SVTHERBHGNJNLGBUVQRGURSYNTNAQVJVYYPURPXONPXSBEGURCYNA
 TFTPDOESNTENCRYPTOURTRAFFICSOWEMUSTDISGUISEOURFLAGTRANSFER.FIGUREOUTAWAYTOHIDETHEFLAGANDIWILLCHECKBACKFORTHEPLAN
@@ -3566,7 +3546,7 @@ This provides the instruction: TFTP doesnt encrypt your traffic so we must disgu
 
 Similarly, for the plan file:
 
-~~~
+~~~txt
 plan
 VHFRQGURCEBTENZNAQUVQVGJVGU-QHRQVYVTRAPR.PURPXBHGGURCUBGBF
 IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS
@@ -3597,12 +3577,7 @@ $ steghide --extract -sf picture3.bmp -p DUEDILIGENCE
 wrote extracted data to "flag.txt".
 ~~~
 
-We find a hidden file, flag.txt in the third bitmap.  We can view the contents of the flag.txt file to retrieve the flag:
-
-~~~shell
-$ cat flag.txt
-picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}
-~~~
+We find a hidden file, flag.txt in the third bitmap.  We can view the contents of the flag.txt file to retrieve the flag.
 
 </details>
 
@@ -3794,13 +3769,7 @@ This provides 6 unique queries which can be concatenated:
 cGljb0NURntkbnNfM3hmMWxfZnR3X2RlYWRiZWVmfQ==
 ~~~
 
-This appears to be base64 which we can attempt to decode:
-
-~~~
-picoCTF{dns_3xf1l_ftw_deadbeef}
-~~~
-
-which is the flag.
+This appears to be base64 which we can attempt to decode to get the flag.
 
 </details>
 
@@ -3874,11 +3843,7 @@ grep: root: Permission denied
 grep: lib/apk/db/lock: Permission denied
 ~~~
 
-This provides the flag hidden in /boot/syslinux.cfg:
-
-~~~
-picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}
-~~~
+This provides the flag hidden in /boot/syslinux.cfg.
 
 </details>
 
@@ -4020,11 +3985,7 @@ $ sudo cat ./root/down-at-the-bottom.txt
   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
 ~~~
 
-This gives us the flag:
-
-~~~
-picoCTF{f0r3ns1c4t0r_n0v1c3_0d9d9ecb}
-~~~
+This gives us the flag.
 
 </details>
 
@@ -4072,7 +4033,8 @@ main.wav
 
 We can use some simple commands to provide further information on this file:
 
-~~~shell$ exiftool main.wav 
+~~~shell
+$ exiftool main.wav 
 ExifTool Version Number         : 11.88
 File Name                       : main.wav
 Directory                       : .
@@ -4276,13 +4238,13 @@ Finding a flag may take many steps, but if you look diligently it won't be long 
 
 We can export objects from the pcap file using tshark,  http objects are available for export in this file.
 
-~~~bash
+~~~shell
 $ tshark -r try_me.pcap --export-objects "http,try_me_objs"
 ~~~
 
 5 objects are exported into this new directory; 2 png image files, and icon file and 2 ASCII files.
 
-~~~bash
+~~~shell
 $ cd try_me_objs/
 $ ls
 %2f  duck.png  evil_duck.png  favicon.ico  NothingSus
@@ -4291,6 +4253,7 @@ $ ls
 Reviewing the various objects:
 
 NothingSus Hex:
+
 ~~~
 48 65 6c 6c 6f 0a
 ~~~
@@ -4298,7 +4261,8 @@ NothingSus Hex:
 This is an ASCII message:
 
 NothingSus Text:
-~~~
+
+~~~txt
 Hello.
 ~~~
 
@@ -4311,6 +4275,7 @@ Hello.
 It is safe to assume this file is not required.
 
 favicon.ico:
+
 ~~~html
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -4325,7 +4290,7 @@ Not sure why this html code is included in a .ico file.
 	
 duck.png and evil_duck.png appear to be identical png images of a duck:
 
-~~~bash
+~~~shell
 $ file duck.png 
 duck.png: PNG image data, 1223 x 812, 8-bit/color RGB, non-interlaced
 $ file evil_duck.png 
@@ -4334,14 +4299,14 @@ evil_duck.png: PNG image data, 1223 x 812, 8-bit/color RGB, non-interlaced
 
 however we can confirm using Linux' diff command:
 
-~~~bash
+~~~shell
 $ diff duck.png evil_duck.png 
 Binary files duck.png and evil_duck.png differ
 ~~~
 
 This shows there is a difference between these files.  Reviewing the file sizes, we see evil_duck.png is approximately 1.1MB larger:
 
-~~~bash
+~~~shell
 $ du -h duck.png 
 1.3M	duck.png
 $ du -h evil_duck.png 
@@ -4351,11 +4316,6 @@ $ du -h evil_duck.png
 We can assume evil_duck.png has hidden data that we should discover.  Steganography tools and strings do not provide any discernible data.
 
 Reviewing the objects seen in wireshark, there is an object of 0 Bytes with hostname powershell.org.  A short look online shows the use of png files to embed powershell scripts using [Invoke-PSImage](https://github.com/peewpw/Invoke-PSImage).  Further, the extraction of powershell code from png can be achieved using [PowershellStegoDecode.exe](https://github.com/PCsXcetra/Decode_PS_Stego):
-	
-~~~bash
-
-~~~
-
 
 </details>
 
@@ -4405,9 +4365,7 @@ Opening the attached file in a hex editor, we can see the start and end of the f
 ~~~
 89 50 42 11 0d 0a 1a 0a 00 12 13 14 49 48 44 52
 .  P  B  .  .  .  .  .  .  .  .  .  I  H  D  R
-~~~
-
-~~~
+...
 49 45 4e 44 ae 42 60 82
 I  E  N  D  .  B  `  .
 ~~~
@@ -4530,10 +4488,6 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 Nothing here either.  The flag most likely is embedded using stegaongraphy techniques.  A useful online tool, [StegOnline](#stegonline.georgeom.net) provides some simple tools to view the image data;  We can review the red, green or blue content individually and we can view the inverse RGB content.  Using this tool no flag was discovered however, if we look at the "bit planes" (this isolates LSB encoded data) we can see a flag.  The flag is included in the image within the first 2 bits of each colour Byte.
 
-~~~
-picoCTF{w1z4rdry}
-~~~
-
 </details>
 
 ### Answer
@@ -4631,7 +4585,7 @@ if __name__=='__main__':
 
 We can extract UDP packets from the pcap file using tcpdump:
 
-~~~bash
+~~~shell
 $ tcpdump -r capture.pcapng -w capture_udp.pcap udp
 ~~~
 	   
@@ -4650,7 +4604,7 @@ Using tcpdump, we can see the source and destination ports and addresses; the da
 
 We can again filter the pcap with this information:
 
-~~~bash
+~~~shell
 $ tcpdump -r capture_udp_data.pcapng -w capture_udp_data_only.pcap net 172.17.0.0/24
 ~~~
 
@@ -4868,7 +4822,7 @@ if __name__ == "__main__":
     f.close()
 ~~~
 
-The file written from this script is a png with the flag: picoCTF{n0_t1m3_t0_w4st3_5hufflin9_ar0und}
+The file written from this script is a png with the flag.
 
 </details>
 
