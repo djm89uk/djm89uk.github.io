@@ -1764,7 +1764,7 @@ The remainder of the original bmp is copied to the encoded bmp file in the final
 
 We can separate these Bytes using dd:
 
-~~~shell
+~~~bash
 $ dd skip=2000 count=400 if=encoded.bmp of=output.binary bs=1
 400+0 records in
 400+0 records out
@@ -1828,7 +1828,7 @@ print(flag)
 
 Running, we get the output:
 
-~~~shell
+~~~bash
 In [1]: runfile('InvestigativeReversing2.py')
 picoCTF{n3xt_0n300000000000000000000000000394060c}
 ~~~
@@ -2013,7 +2013,7 @@ int main(void)
 
 We can see that the Bytes of interest start at Byte 723 and continue for 450 Bytes.  We can extract these Bytes using dd:
 
-~~~shell
+~~~bash
 $ dd skip=723 count=450 if=encoded.bmp of=output.binary bs=1
 450+0 records in
 450+0 records out
@@ -2051,7 +2051,7 @@ print(flag)
 
 This returns:
 
-~~~shell
+~~~bash
 In [1]: runfile('InvestigativeReversing3.py')
 picoCTF{4n0th3r_L5b_pr0bl3m_0000000000000dec3960d}
 ~~~
@@ -2302,7 +2302,7 @@ void encodeDataInFile(char *param_1,char *param_2)
 
 This function copies the first 2019 bytes directly from the source bitmap to the encoded bitmap.  Following this, the source bitmap is copied with an encoded flag iterating 5 Bytes of the bitmap, followed by 8 Bytes with the encoded flag.  The data we are interested in is stored in the encoded bitmaps starting at 2019B for 120B.  We can isolate these segments using dd:
 
-~~~shell
+~~~bash
 $ for ((i=1; i<=5; i++)); do infile="Item0"$i"_cp.bmp"; outfile="output_0"$i".binary"; dd skip=2019 count=120 if=$infile of=$outfile bs=1; done
 120+0 records in
 120+0 records out
@@ -2354,7 +2354,7 @@ print(flag)
 
 Executing this provides the following:
 
-~~~shell
+~~~bash
 $ python InvestigativeReversing04.py
 picoCTF{N1c3_R3ver51ng_5k1115_00000000000f9d605bf}
 ~~~
@@ -2867,7 +2867,7 @@ cat.jpg
 
 The image file metadata can be viewed using exiftool application:
 
-~~~shell
+~~~bash
 $ exiftool cat.jpg 
 ExifTool Version Number         : 11.88
 File Name                       : cat.jpg
@@ -2957,7 +2957,7 @@ dolls.jpg
 
 The challenge provides a jpg image of a doll.  Using binwalk, we can identify encapsulated files within the binary:
 
-~~~shell
+~~~bash
 $ binwalk dolls.jpg 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -2970,7 +2970,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 This shows a zip file is contained within the dolls.jpg file.  Using unzip, we can extract the contents:
 
-~~~shell
+~~~bash
 $ unzip dolls.jpg
 Archive:  dolls.jpg
 warning [dolls.jpg]:  272492 extra bytes at beginning or within zipfile
@@ -2980,7 +2980,7 @@ warning [dolls.jpg]:  272492 extra bytes at beginning or within zipfile
 
 This extracts another jpg file, 2_c.jpg.  We can view the file type using binwalk again:
 
-~~~shell
+~~~bash
 $ binwalk 2_c.jpg 
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
@@ -2994,7 +2994,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 Another zip file, we can extract as before:
 
-~~~shell
+~~~bash
 $ unzip 2_c.jpg
 Archive:  2_c.jpg
 warning [2_c.jpg]:  187707 extra bytes at beginning or within zipfile
@@ -3004,7 +3004,7 @@ warning [2_c.jpg]:  187707 extra bytes at beginning or within zipfile
 
 And again:
 
-~~~shell
+~~~bash
 $ unzip 3_c.jpg
 Archive:  3_c.jpg
 warning [3_c.jpg]:  123606 extra bytes at beginning or within zipfile
@@ -3014,7 +3014,7 @@ warning [3_c.jpg]:  123606 extra bytes at beginning or within zipfile
 
 And again:
 
-~~~shell
+~~~bash
 $ unzip 4_c.jpg
 Archive:  4_c.jpg
 warning [4_c.jpg]:  79578 extra bytes at beginning or within zipfile
@@ -3024,7 +3024,7 @@ warning [4_c.jpg]:  79578 extra bytes at beginning or within zipfile
 
 This gives us a text file with the flag:
 
-~~~shell
+~~~bash
 $ cat flag.txt 
 picoCTF{96fac089316e094d41ea046900197662}
 ~~~
@@ -3074,7 +3074,7 @@ tunn3l_v1s10n
 
 This challenge provides us with a file "tunn3l_v1s10n".  We can review the file type using linux's file command:
 
-~~~shell
+~~~bash
 $ file tunn3l_v1s10n 
 tunn3l_v1s10n: data
 ~~~
