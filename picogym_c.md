@@ -35,7 +35,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
-- [Spelling-Quiz (2021)](#spelling-quiz)
+- [Spelling-Quiz (2021)](#spelling-quiz) ✓
 - [XtraORdinary (2021)](#xtraordinary)
 - [Triple-Secure (2021)](#triple-secure)
 - [College-Rowing-Team (2021)](#college-rowing-team)
@@ -2390,6 +2390,111 @@ This can be directly submitted as the flag.
 
 ~~~
 dbc8bf9bae7152d35d3c200c46a0fa30
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## spelling-quiz
+
+- Author: BrownieInMotion
+- 100 points
+
+### Description
+
+I found the flag, but my brother wrote a program to encrypt all his text files. He has a spelling quiz study guide too, but I don't know if that helps.
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [public.zip](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/spelling-quiz/public.zip)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reviewing the python code, we can see the program opens all local txt files and encrypts them using a simple substitution cipher:
+	
+~~~py
+import random
+import os
+
+files = [
+    os.path.join(path, file)
+    for path, dirs, files in os.walk('.')
+    for file in files
+    if file.split('.')[-1] == 'txt'
+]
+
+alphabet = list('abcdefghijklmnopqrstuvwxyz')
+random.shuffle(shuffled := alphabet[:])
+dictionary = dict(zip(alphabet, shuffled))
+
+for filename in files:
+    text = open(filename, 'r').read()
+    encrypted = ''.join([
+        dictionary[c]
+        if c in dictionary else c
+        for c in text
+    ])
+    open(filename, 'w').write(encrypted)
+~~~
+
+Luckily, we have a dictionary of enciphered words (study-guide.txt) which we can use to find the key using an [online substitution cipher solver](https://www.guballa.de/substitution-solver).
+	
+This provides the following cipher key:
+
+~~~txt
+abcdefghijklmnopqrstuvwxyz
+xunmrydfwhglstibjcavopezqk
+~~~
+
+We can write a simple python script to decipher the flag:
+
+~~~py	
+ALPHABET = list('abcdefghijklmnopqrstuvwxyz')
+KEY = list('xunmrydfwhglstibjcavopezqk')
+
+
+f1 = open("flag.txt",'r')
+enc_flag = f1.read()
+f1.close()
+
+flag = ""
+
+for a in enc_flag:
+    if a == "_":
+        flag += "_"
+    elif a == "\n":
+        break
+    else:
+        flag += ALPHABET[KEY.index(a)]
+
+print(flag)
+~~~
+
+This provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{perhaps_the_dog_jumped_over_was_just_tired}
 ~~~
 
 </details>
