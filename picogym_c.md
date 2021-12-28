@@ -25,7 +25,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Easy Peasy (2021)](#easy-peasy)
 - [New Caesar (2021)](#new-caesar) ✓
 - [Mini RSA (2021)](#mini-rsa) ✓
-- [Dachshund Attacks (2021)](#dachshund-attacks)
+- [Dachshund Attacks (2021)](#dachshund-attacks) ✓
 - [No Padding, No Problem (2021)](#no-padding-no-problem)
 - [Pixelated (2021)](#pixelated)
 - [Play Nice (2021)](#play-nice)
@@ -36,7 +36,6 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
 - [Scrambled (2021)](#scrambled) ✓
-- [Dachshund Attacks (2021)](#dachshund-attacks) ✓
 
 
 ---
@@ -1881,71 +1880,7 @@ picoCTF{e_sh0u1d_b3_lArg3r_aef7377d}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-	 
-## scrambled
 
-- Author: SARA
-- 100 points
-
-### Description
-
-I have these 2 images, can you make a flag out of them? scrambled1.png scrambled2.png
-
-### Hints
-
-1. [https://en.wikipedia.org/wiki/Visual_cryptography](https://en.wikipedia.org/wiki/Visual_cryptography)
-2. Think of different ways you can "stack" images
-
-### Attachments
-
-1. scrambled1.png
-2. scrambled2.png
- 
-### Solutions
-
-<details>
-
-<summary markdown="span">Solution 1</summary>
-
-Reading the wikipedia article for visual cryptography, you can see that the manipulation of pixels from 2 images can be used to decipher a secret.  From this challenge, the two scrambled images can be imported and combined in Python:
-	
-~~~py
-from PIL import Image as im
-import numpy as np
-
-scr1 = im.open("scrambled1.png")
-scr2 = im.open("scrambled2.png")
-
-scr1_arr = np.array(scr1)
-scr2_arr = np.array(scr2)
-
-comb_arr = scr1_arr + scr2_arr
-
-out = im.fromarray(comb_arr).save("flag.png")
-~~~
-
-This produces an image with the flag.
-	
-</details>
-
-### Answer
-
-<details>
-
-<summary markdown="span">Flag</summary>
-
-~~~
-picoCTF{7188864c}
-~~~
-
-</details>
-
----
-
-### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
-
----
-	
 ## Dachshund Attacks
 
 - Author: SARA
@@ -2019,6 +1954,71 @@ picoCTF{proving_wiener_5086186}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
+## scrambled
+
+- Author: SARA
+- 100 points
+
+### Description
+
+I have these 2 images, can you make a flag out of them? scrambled1.png scrambled2.png
+
+### Hints
+
+1. [https://en.wikipedia.org/wiki/Visual_cryptography](https://en.wikipedia.org/wiki/Visual_cryptography)
+2. Think of different ways you can "stack" images
+
+### Attachments
+
+1. scrambled1.png
+2. scrambled2.png
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reading the wikipedia article for visual cryptography, you can see that the manipulation of pixels from 2 images can be used to decipher a secret.  From this challenge, the two scrambled images can be imported and combined in Python:
+	
+~~~py
+from PIL import Image as im
+import numpy as np
+
+scr1 = im.open("scrambled1.png")
+scr2 = im.open("scrambled2.png")
+
+scr1_arr = np.array(scr1)
+scr2_arr = np.array(scr2)
+
+comb_arr = scr1_arr + scr2_arr
+
+out = im.fromarray(comb_arr).save("flag.png")
+~~~
+
+This produces an image with the flag.
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{7188864c}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
 	
 Last updated 28 Dec 2021.
 
