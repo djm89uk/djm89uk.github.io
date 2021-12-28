@@ -1954,6 +1954,150 @@ picoCTF{proving_wiener_5086186}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## No Padding No Problem
+
+- Author: SARA
+- 90 points
+
+### Description
+
+Oracles can be your best friend, they will decrypt anything, except the flag's ciphertext. How will you break it? Connect with nc mercury.picoctf.net 2671.
+
+### Hints
+
+1. What can you do with a different pair of ciphertext and plaintext? What if it is not so different after all...
+
+### Attachments
+
+None.
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Connecting to the challenge server, we get the following response:
+
+~~~bash
+$ nc mercury.picoctf.net 2671
+Welcome to the Padding Oracle Challenge
+This oracle will take anything you give it and decrypt using RSA. It will not accept the ciphertext with the secret message... Good Luck!
+
+
+n: 99345616404160490581924979307217066304514899976392862432192189435489707011150641968260746491133766160143208534578405024325415750584779502596181917376115542179416018462368341791998700722878732164984548531802239356053300645320494212879410772889712714079244827669972559526542309563525101021029142183754472726969
+e: 65537
+ciphertext: 42059054525445512344438316796946837936571047540289800758221524321039138442057165001570454931163368770427152975820819525787276768725630752904270411977284309302007528246321343918872064638118021772231426448575387859094853698608669832859926530020028404969343380031068185811013922571183738200553831606632689991632
+
+
+Give me ciphertext to decrypt:
+~~~
+
+These encryption parameters change for each connection. This can be implemented in Python to extract the key values:
+
+~~~py
+import socket
+import time
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("mercury.picoctf.net", 2671))
+time.sleep(5)
+recvstr = s.recv(1000).decode()
+nloc = recvstr.find("n:")
+eloc = recvstr.find("e:")
+cloc = recvstr.find("ciphertext:")
+nstr = recvstr[nloc+3:eloc-1]
+estr = recvstr[eloc+3:cloc-1]
+cstr = recvstr[cloc+12:-34]
+n = int(nstr)
+e = int(estr)
+c = int(cstr)
+~~~
+
+This implementation of RSA (unpadded) is homomorphic, we can therefore use an encrypted constant to decrypt the ciphertext:
+
+~~~py
+K = gp.powmod(2,e,n)
+c2 = int(c*K)
+~~~
+
+decrypting the response and dividing by our constant will provide the plaintext message:
+	
+~~~py
+s.send(str(c2).encode())
+s.send("\n".encode())
+time.sleep(5)
+resp = s.recv(1000).decode()
+s.close()
+
+m2loc = resp.find("go:")
+m2str = resp[m2loc+4:-32]
+m2 = int(m2str)
+
+m = m2//2
+
+print(bytearray.fromhex(hex(m)[2:]).decode())
+~~~
+
+The entire python code is:
+
+~~~py
+import gmpy2 as gp
+import socket
+import time
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("mercury.picoctf.net", 2671))
+time.sleep(5)
+recvstr = s.recv(1000).decode()
+nloc = recvstr.find("n:")
+eloc = recvstr.find("e:")
+cloc = recvstr.find("ciphertext:")
+nstr = recvstr[nloc+3:eloc-1]
+estr = recvstr[eloc+3:cloc-1]
+cstr = recvstr[cloc+12:-34]
+n = int(nstr)
+e = int(estr)
+c = int(cstr)
+
+K = gp.powmod(2,e,n)
+c2 = int(c*K)
+
+s.send(str(c2).encode())
+s.send("\n".encode())
+time.sleep(5)
+resp = s.recv(1000).decode()
+s.close()
+
+m2loc = resp.find("go:")
+m2str = resp[m2loc+4:-32]
+m2 = int(m2str)
+
+m = m2//2
+
+print(bytearray.fromhex(hex(m)[2:]).decode())
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{m4yb3_Th0se_m3s54g3s_4r3_difurrent_5814368}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 	
 ## scrambled
 
