@@ -40,6 +40,7 @@
 - [Very very very Hidden (2021)](#very-very-very-hidden)
 - [Advanced-potion-making (2021)](#advanced-potion-making) ✓
 - [Scrambled-bytes (2021)](#scrambled-bytes) ✓
+- [WPA-ing Out](#wpa-ping-out)
 
 ---
 
@@ -4287,6 +4288,73 @@ $ ls
 %2f  duck.png  evil_duck.png  favicon.ico  NothingSus
 ~~~
 
+Reviewing the various objects:
+
+NothingSus Hex:
+~~~
+48 65 6c 6c 6f 0a
+~~~
+
+This is an ASCII message:
+
+NothingSus Text:
+~~~
+Hello.
+~~~
+
+%2f Hex:
+
+~~~
+0
+~~~
+
+It is safe to assume this file is not required.
+
+favicon.ico:
+~~~html
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+</body></html>
+~~~
+
+Not sure why this html code is included in a .ico file.
+	
+duck.png and evil_duck.png appear to be identical png images of a duck:
+
+~~~bash
+$ file duck.png 
+duck.png: PNG image data, 1223 x 812, 8-bit/color RGB, non-interlaced
+$ file evil_duck.png 
+evil_duck.png: PNG image data, 1223 x 812, 8-bit/color RGB, non-interlaced
+~~~
+
+however we can confirm using Linux' diff command:
+
+~~~bash
+$ diff duck.png evil_duck.png 
+Binary files duck.png and evil_duck.png differ
+~~~
+
+This shows there is a difference between these files.  Reviewing the file sizes, we see evil_duck.png is approximately 1.1MB larger:
+
+~~~bash
+$ du -h duck.png 
+1.3M	duck.png
+$ du -h evil_duck.png 
+2.4M	evil_duck.png
+~~~
+
+We can assume evil_duck.png has hidden data that we should discover.  Steganography tools and strings do not provide any discernible data.
+
+Reviewing the objects seen in wireshark, there is an object of 0 Bytes with hostname powershell.org.  A short look online shows the use of png files to embed powershell scripts using [Invoke-PSImage](https://github.com/peewpw/Invoke-PSImage).  Further, the extraction of powershell code from png can be achieved using [PowershellStegoDecode.exe](https://github.com/PCsXcetra/Decode_PS_Stego):
+	
+~~~bash
+
+~~~
 
 
 </details>
@@ -4298,7 +4366,7 @@ $ ls
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{mU21C_1s_1337_b58b4519}
+picoCTF{}
 ~~~
 
 </details>
@@ -4822,6 +4890,54 @@ picoCTF{n0_t1m3_t0_w4st3_5hufflin9_ar0und}
 
 ---
 
-Page last updated 27 Dec 2021.
+## WPA-ing out
+
+- Author: MistressVampy
+- 200 points
+
+### Description
+
+I thought that my password was super-secret, but it turns out that passwords passed over the AIR can be CRACKED, especially if I used the same wireless network password as one in the rockyou.txt credential dump. Use this 'pcap file' and the rockyou wordlist. The flag should be entered in the picoCTF{XXXXXX} format.
+
+### Hints
+
+1. Finding the IEEE 802.11 wireless protocol used in the wireless traffic packet capture is easier with wireshark, the JAWS of the network.
+2. Aircrack-ng can make a pcap file catch big air...and crack a password.
+
+### Attachments
+
+- [wpa-ing_out.pcap](https://artifacts.picoctf.net/c/8/wpa-ing_out.pcap)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+This challenge provides a pcap file.  The description hints at the solution requires the aircrack-ng package and the password is held in [rockyou.txt](https://github.com/zacheller/rockyou).
+
+
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+Page last updated Dec 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
