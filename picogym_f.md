@@ -37,10 +37,10 @@
 - [Milkslap (2021)](#milkslap) ✓
 - [Disk,disk, sleauth II (2021)](#disk-disk-sleuth-ii) ✓
 - [Surfing the Waves (2021)](#surfing-the-waves) ✓
-- [Very very very Hidden (2021)](#very-very-very-hidden)
+- [Very very very Hidden (2021)](#very-very-very-hidden) ✓
 - [Advanced-potion-making (2021)](#advanced-potion-making) ✓
 - [Scrambled-bytes (2021)](#scrambled-bytes) ✓
-- [WPA-ing Out](#wpa-ping-out)
+- [WPA-ing Out](#wpa-ing-out) ✓
 
 ---
 
