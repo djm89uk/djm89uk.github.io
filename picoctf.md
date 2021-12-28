@@ -133,18 +133,26 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ---
 ## [PicoGym General Skills](./picogym_gs.md)
 
-- [2Warm](./picogym_gs.md#two-warm)
-- [Warmed Up](./picogym_gs.md#warmed-up)
-- [Lets Warm Up](./picogym_gs.md#lets-warm-up)
-- [strings it](./picogym_gs.md#strings-it)
-- [Bases](./picogym_gs.md#bases)
-- [First Grep](./picogym_gs.md#first-grep)
-- [what's a net cat?](./picogym_gs.md#whats-a-net-cat)
-- [plumbing](./picogym_gs.md#plumbing)
-- [Based](./picogym_gs.md#based)
-- [flag_shop](./picogym_gs.md#flag-shop)
-- [mus1c](./picogym_gs.md#mus1c)
-- [1_wanna_b3_a_r0ck5tar](./picogym_gs.md#i-wanna-b3-a-r0ck5tar)
+- [Useful References](./picogym_gs.md#useful-references)
+- [2Warm (2019)](./picogym_gs.md#two-warm) ✓
+- [Warmed Up (2019)](./picogym_gs.md#warmed-up) ✓
+- [Lets Warm Up (2019)](./picogym_gs.md#lets-warm-up) ✓
+- [strings it (2019)](./picogym_gs.md#strings-it) ✓
+- [Bases (2019)](./picogym_gs.md#bases) ✓
+- [First Grep (2019)](./picogym_gs.md#first-grep) ✓
+- [what's a net cat? (2019)](./picogym_gs.md#whats-a-net-cat) ✓
+- [plumbing (2019)](./picogym_gs.md#plumbing) ✓
+- [Based (2019)](./picogym_gs.md#based) ✓
+- [flag_shop (2019)](./picogym_gs.md#flag-shop) ✓
+- [mus1c (2019)](./picogym_gs.md#mus1c) ✓
+- [1_wanna_b3_a_r0ck5tar (2019)](./picogym_gs.md#i-wanna-b3-a-r0ck5tar) ✓
+- [Obedient cat (2021)](./picogym_gs.md#obedient-cat) ✓
+- [Python Wrangling (2021)](./picogym_gs.md#python-wrangling) ✓
+- [Wave a flag (2021)](./picogym_gs.md#wave-a-flag) ✓
+- [Nice netcat (2021)](./picogym_gs.md#nice-netcat) ✓
+- [Static aint always noise (2021)](./picogym_gs.md#static-aint-always-noise) ✓
+- [Tab Tab Attack (2021)](./picogym_gs.md#tab-tab-attack) ✓
+- [Magikarp Ground Mission (2021)](./picogym_gs.md#magikarp-ground-mission) ✓
 
 ---
 
