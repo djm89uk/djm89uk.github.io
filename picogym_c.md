@@ -22,7 +22,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [john_pollard (2019)](#john-pollard) ✓
 - [Mod 26 (2021)](#mod26) ✓
 - [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
-- [Easy Peasy (2021)](#easy-peasy)
+- [Easy Peasy (2021)](#easy-peasy) ✓
 - [New Caesar (2021)](#new-caesar) ✓
 - [Mini RSA (2021)](#mini-rsa) ✓
 - [Dachshund Attacks (2021)](#dachshund-attacks) ✓
@@ -1638,7 +1638,65 @@ while c >= 0:
 
 <summary markdown="span">Solution 1</summary>
 
+In Python, we can read the encrypted flag and generate an empty buffer to record the key.  Inspecting the source code, we can see each encryption key is taken from a 50,000 long key in series.  We can generate a buffer submission that exceeds this value and sets the key position to 0, the same used to encrypt the flag.  With an empty buffer of the same length as the flag, the key should be returned which can be xor-d with the encrypted flag to return the plaintext flag:
+	
+~~~py
+import socket
+import time
 
+# Set key length based on otp.py
+KEYLEN = 50000
+
+# initialise connection
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("mercury.picoctf.net", 58913))
+time.sleep(1)
+# receive flag:
+recvbuff = s.recv(1000)
+print(recvbuff)
+cflag_hex = recvbuff[99:-39].decode()
+cflag_dec = int(cflag_hex,16)
+
+print("\nencrypted flag \nc_hex = {}".format(cflag_hex))
+print("\nencrypted flag \nc_dec = {}".format(cflag_dec))
+
+# find flag length:
+flaglen = int(len(cflag_hex)/2)
+
+# set buffer message length and generate empty buffer to reset key start:
+mlen = KEYLEN-flaglen
+m1 = "\x00"*mlen+"\n"
+
+# empty buffer to retrieve key for flag:
+m2 = "\x00"*flaglen+"\n"
+
+# send reset buffer:
+s.send(m1.encode())
+time.sleep(1)
+
+# for large response
+while True:
+    buff = s.recv(1024)
+    if buff.decode().find("What data would you like") >= 0:
+        break
+
+# send empty buffer to receive key:
+s.send(m2.encode())
+time.sleep(1)
+recvbuff = s.recv(1000)
+s.close()
+
+# record key:
+key_hex = recvbuff[12:-39].decode()
+key_dec = int(key_hex,16)
+
+# decipher flag:
+pflag_dec = cflag_dec^key_dec
+
+print(bytearray.fromhex(hex(pflag_dec)[2:]).decode())
+~~~
+
+This returns 35ecb423b3b43472c35cc2f41011c6d2.	
 
 </details>
 
@@ -1649,7 +1707,7 @@ while c >= 0:
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{35ecb423b3b43472c35cc2f41011c6d2}
 ~~~
 
 </details>
