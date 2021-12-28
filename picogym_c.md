@@ -27,7 +27,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Mini RSA (2021)](#mini-rsa) ✓
 - [Dachshund Attacks (2021)](#dachshund-attacks) ✓
 - [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
-- [Pixelated (2021)](#pixelated)
+- [Pixelated (2021)](#pixelated) ✓
 - [Play Nice (2021)](#play-nice)
 - [Double DES (2021)](#double-des)
 - [Compress and Attack (2021)](#compress-and-attack)
@@ -35,7 +35,6 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
-- [Scrambled (2021)](#scrambled) ✓
 
 
 ---
@@ -2099,7 +2098,7 @@ picoCTF{m4yb3_Th0se_m3s54g3s_4r3_difurrent_5814368}
 
 ---
 	
-## scrambled
+## Pixelated
 
 - Author: SARA
 - 100 points
