@@ -2400,6 +2400,104 @@ dbc8bf9bae7152d35d3c200c46a0fa30
 
 ---
 
+## Double DES
+
+- Author: madStacks
+- 120 points
+
+### Description
+
+I wanted an encryption service that's more secure than regular DES, but not as slow as 3DES... The flag is not in standard format. nc mercury.picoctf.net 29980 ddes.py
+	
+### Hints
+
+1. How large is the keyspace?
+
+### Attachments
+
+1. [ddes.py](https://mercury.picoctf.net/static/234355303e00119853580a394796e0d4/ddes.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reviewing the python code, we can see the program opens the flag, pads it to a fixed length of 8 Bytes and encrypts it twice using DEC mode ECB:
+	
+~~~py
+#!/usr/bin/python3 -u
+from Crypto.Cipher import DES
+import binascii
+import itertools
+import random
+import string
+
+
+def pad(msg):
+    block_len = 8
+    over = len(msg) % block_len
+    pad = block_len - over
+    return (msg + " " * pad).encode()
+
+def generate_key():
+    return pad("".join(random.choice(string.digits) for _ in range(6)))
+
+
+FLAG = open("flag").read().rstrip()
+KEY1 = generate_key()
+KEY2 = generate_key()
+
+
+def get_input():
+    try:
+        res = binascii.unhexlify(input("What data would you like to encrypt? ").rstrip()).decode()
+    except:
+        res = None
+    return res
+
+def double_encrypt(m):
+    msg = pad(m)
+
+    cipher1 = DES.new(KEY1, DES.MODE_ECB)
+    enc_msg = cipher1.encrypt(msg)
+    cipher2 = DES.new(KEY2, DES.MODE_ECB)
+    return binascii.hexlify(cipher2.encrypt(enc_msg)).decode()
+
+
+print("Here is the flag:")
+print(double_encrypt(FLAG))
+
+while True:
+    inputs = get_input()
+    if inputs:
+        print(double_encrypt(inputs))
+    else:
+        print("Invalid input.")
+~~~
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
 ## spelling-quiz
 
 - Author: BrownieInMotion
