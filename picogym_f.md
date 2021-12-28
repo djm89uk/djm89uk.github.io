@@ -2403,7 +2403,54 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-We can import the mystery binary and decompile in Ghidra.  The main function is decompiled:
+Using file, we can identify the file types:
+
+~~~shell
+$ file *
+mystery: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=29b4dba83a1a5a26d76e122ad48d63cff886b075, not stripped
+output:  Non-ISO extended-ASCII text, with no line terminators
+~~~
+
+It appears mystery is an [Executable and Linkable Format (ELF)](https://www.opensourceforu.com/2020/02/understanding-elf-the-executable-and-linkable-format/) file and output is a nonstandard ASCII text file.
+
+Using readelf, we can investigate mystery further:
+
+~~~shell
+$ readelf -h mystery 
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           Advanced Micro Devices X86-64
+  Version:                           0x1
+  Entry point address:               0x7c0
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          11448 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           56 (bytes)
+  Number of program headers:         9
+  Size of section headers:           64 (bytes)
+  Number of section headers:         30
+  Section header string table index: 29
+~~~
+
+This shows us the entrypoint for the ELF is x7c0.  This can be confirmed using objdump:
+
+~~~shell
+$ objdump -f mystery
+
+mystery:     file format elf64-x86-64
+architecture: i386:x86-64, flags 0x00000150:
+HAS_SYMS, DYNAMIC, D_PAGED
+start address 0x00000000000007c0
+~~~
+
+We can either use gdb to investigate the assembly or we can decompile. Using Ghildra, we can import the mystery binary and decompile.  The main function is decompiled:
 
 ~~~c
 undefined8 main(void)
@@ -2475,6 +2522,8 @@ int main(void)
 }
 ~~~
 
+The main function opens the file containing the flag, reads the flag and sets some global variables, then opens a writable file (output) closes the flag_file and calls the function "encode()":
+	
 ~~~c
 void encode(void)
 {
@@ -2515,6 +2564,8 @@ void encode(void)
 }
 ~~~
 
+Simplifying this makes it easier to understand:
+	
 ~~~c
 void encode(void)
 {
@@ -2533,7 +2584,7 @@ void encode(void)
       flag_char = '{';
     }
     i = *(int *)(matrix + (long)(flag_char - 97) * 8 + 4);
-    iVar3 = local_10 + *(int *)(matrix + (long)(flag_char - 97) * 8);
+    iVar3 = i + *(int *)(matrix + (long)(flag_char - 97) * 8);
     while (i < iVar3) {
       flag_int = getValue(i);
       save((byte)flag_int);
@@ -2542,6 +2593,8 @@ void encode(void)
   }
 }
 ~~~
+	
+encode() iterates through the flag using flag_index. The characters at each index are read and converted to lower-case and if the character is " " it is substituted for "{".  Two variables, i and iVar3 are calculated using a variable "matrix". This provides the iteration limits for the while loop in which the value i is given to flag int and sent to another subroutine, "save()".
 
 </details>
 
