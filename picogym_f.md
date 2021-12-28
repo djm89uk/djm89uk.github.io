@@ -4266,7 +4266,7 @@ Finding a flag may take many steps, but if you look diligently it won't be long 
 
 ### Attachments
 
-try_me.pcap
+- [try_me.pcap](https://mercury.picoctf.net/static/9e74d8eddbb00c7769c21215f542917e/try_me.pcap)
 
 ### Solutions
 
