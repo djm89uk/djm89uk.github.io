@@ -4276,7 +4276,7 @@ Finding a flag may take many steps, but if you look diligently it won't be long 
 
 We can export objects from the pcap file using tshark,  http objects are available for export in this file.
 
-~~~shell
+~~~bash
 $ tshark -r try_me.pcap --export-objects "http,try_me_objs"
 ~~~
 
