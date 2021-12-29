@@ -34,8 +34,8 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Shop (2021)](#shop) ✓
 - [ARMssembly 1 (2021)](#armssembly-1) ✓
 - [ARMssembly 2 (2021)](#armssembly-2) ✓
-- [Hurry up! Wait! (2021)](#hurry-up-wait)
-- [gogo (2021)](#gogo)
+- [Hurry up! Wait! (2021)](#hurry-up-wait) ✓
+- [gogo (2021)](#gogo) ✓
 - [ARMssembly 3 (2021)](#armssembly-3)
 - [Let's get dynamic (2021)](#lets-get-dynamic)
 - [Easy as GDB (2021)](#easy-as-gdb)
@@ -5670,7 +5670,7 @@ When attempting to run, the program does not complete execution:
 
 ~~~
 (gdb) run
-Starting program: /home/derek/Downloads/svchost.exe 
+Starting program: ~/svchost.exe 
 ^C
 Program received signal SIGINT, Interrupt.
 0x00007ffff7ad3334 in __GI___clock_nanosleep (clock_id=<optimised out>, clock_id@entry=0, flags=flags@entry=0, req=0x7fffffffd5a0, rem=0x7fffffffd5b0) at ../sysdeps/unix/sysv/linux/clock_nanosleep.c:78
@@ -5947,7 +5947,195 @@ Hmmm this is a weird file... enter_password. There is a instance of the service 
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+Decompiling the binary in Ghidra, we find a check password function:
+
+~~~c
+void __regparm1 main.checkPassword(undefined4 param_1,int param_2,uint param_3){
+  uint *puVar1;
+  uint uVar2;
+  undefined4 uVar3;
+  int iVar4;
+  int *in_GS_OFFSET;
+  undefined4 local_40;
+  undefined4 local_3c;
+  undefined4 local_38;
+  undefined4 local_34;
+  undefined4 local_30;
+  undefined4 local_2c;
+  undefined4 local_28;
+  undefined4 local_24;
+  byte local_20 [28];
+  undefined4 uStack4;
+  
+  puVar1 = (uint *)(*(int *)(*in_GS_OFFSET + -4) + 8);
+  if (register0x00000010 < (undefined *)*puVar1 ||
+      (undefined *)register0x00000010 == (undefined *)*puVar1) {
+    uStack4 = 0x80d4b72;
+    uVar3 = runtime.morestack_noctxt(param_1);
+    main.checkPassword(uVar3,param_2,param_3);
+    return;
+  }
+  if ((int)param_3 < 0x20) {
+    os.Exit(param_1,0);
+  }
+  FUN_08090b18(0);
+  local_40 = 0x38313638;
+  local_3c = 0x31663633;
+  local_38 = 0x64336533;
+  local_34 = 0x64373236;
+  local_30 = 0x37336166;
+  local_2c = 0x62646235;
+  local_28 = 0x39383338;
+  local_24 = 0x65343132;
+  FUN_08090fe0();
+  uVar2 = 0;
+  iVar4 = 0;
+  while( true ) {
+    if (0x1f < (int)uVar2) {
+      if (iVar4 == 0x20) {
+        return;
+      }
+      return;
+    }
+    if ((param_3 <= uVar2) || (0x1f < uVar2)) break;
+    if ((*(byte *)(param_2 + uVar2) ^ *(byte *)((int)&local_40 + uVar2)) == local_20[uVar2]) {
+      iVar4 = iVar4 + 1;
+    }
+    uVar2 = uVar2 + 1;
+  }
+  runtime.panicindex();
+  do {
+    invalidInstructionException();
+  } while( true );
+}
+~~~
+
+The principle component of this function is the while loop, written in pseudocode:
+					    
+~~~
+checkpassword(A,B,C)
+i = 0
+j = 0
+L20 = ??
+L40 = ??
+while(True):
+	if (i > 31):
+		if (Y == 32):
+			return
+		return
+	if (C <= i) OR (31 < i):
+		break
+	if(B[i]^L40[i] == L20[i]):
+		j += 1
+	i += 1
+~~~
+
+This shows that the password is iterated through each character which is XOR'd with a key (L40) and compared against an answer (L20).  We can recover the password if we can find L20 and L40.
+
+This XOR and comparison is shown in assembly (MOVZX 080d4b18 to CMP 080d4b30).
+
+~~~
+                             LAB_080d4b0e                                    XREF[2]:     080d4b35(j), 080d4b38(j)  
+        080d4b0e 40              INC        param_1
+                             LAB_080d4b0f                                    XREF[1]:     080d4b0c(j)  
+        080d4b0f 83 f8 20        CMP        param_1,0x20
+        080d4b12 7d 26           JGE        LAB_080d4b3a
+        080d4b14 39 d0           CMP        param_1,EDX
+        080d4b16 73 4e           JNC        LAB_080d4b66
+        080d4b18 0f b6 2c 01     MOVZX      EBP,byte ptr [ECX + param_1*0x1]
+        080d4b1c 83 f8 20        CMP        param_1,0x20
+        080d4b1f 73 45           JNC        LAB_080d4b66
+        080d4b21 0f b6 74        MOVZX      ESI,byte ptr [ESP + param_1*0x1 + 0x4]
+                 04 04
+        080d4b26 31 f5           XOR        EBP,ESI
+        080d4b28 0f b6 74        MOVZX      ESI,byte ptr [ESP + param_1*0x1 + 0x24]
+                 04 24
+        080d4b2d 95              XCHG       param_1,EBP
+        080d4b2e 87 de           XCHG       ESI,EBX
+        080d4b30 38 d8           CMP        param_1,BL
+        080d4b32 87 de           XCHG       ESI,EBX
+        080d4b34 95              XCHG       param_1,EBP
+        080d4b35 75 d7           JNZ        LAB_080d4b0e
+        080d4b37 43              INC        EBX
+~~~
+	
+Using gdb with a breakpoint at 0x08d4b28, we can enter a 32-character dummy password ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"). As shown above, the key and answer are held in $esp+0x04 and $esp+0x24 respectively.  We can run the program in gdb with breakpoint:
+
+~~~
+(gdb) b * 0x80d4b28
+Breakpoint 1 at 0x80d4b28: file /opt/hacksports/shared/staging/gogo_1_4641419246175075/problem_files/enter_password.go, line 71.
+(gdb) r
+Starting program: ~/enter_password 
+[New LWP 59423]
+[New LWP 59424]
+[New LWP 59425]
+[New LWP 59426]
+Enter Password: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+Thread 1 "enter_password" hit Breakpoint 1, 0x080d4b28 in main.checkPassword (input=..., ~r1=172) at /opt/hacksports/shared/staging/gogo_1_4641419246175075/problem_files/enter_password.go:71
+71	/opt/hacksports/shared/staging/gogo_1_4641419246175075/problem_files/enter_password.go: No such file or directory.
+(gdb)
+~~~
+
+using gdb x command we can find the key and answer:
+
+~~~
+(gdb) x/32b $esp+0x04
+0x1845bf28:	0x38	0x36	0x31	0x38	0x33	0x36	0x66	0x31
+0x1845bf30:	0x33	0x65	0x33	0x64	0x36	0x32	0x37	0x64
+0x1845bf38:	0x66	0x61	0x33	0x37	0x35	0x62	0x64	0x62
+0x1845bf40:	0x38	0x33	0x38	0x39	0x32	0x31	0x34	0x65
+(gdb) x/32b $esp+0x24
+0x1845bf48:	0x4a	0x53	0x47	0x5d	0x41	0x45	0x3	0x54
+0x1845bf50:	0x5d	0x2	0x5a	0xa	0x53	0x57	0x45	0xd
+0x1845bf58:	0x5	0x0	0x5d	0x55	0x54	0x10	0x1	0xe
+0x1845bf60:	0x41	0x55	0x57	0x4b	0x45	0x50	0x46	0x1
+~~~
+
+The key and answer are:
+
+~~~
+key = 0x3836313833366631336533643632376466613337356264623833383932313465
+answer = 0x4a53475d414503545d025a0a5357450d05005d555410010e4155574b45504601
+~~~
+
+These can be xor-d and the passphrase is retrieved:
+
+~~~
+reverseengineericanbarelyforward
+~~~
+
+This can be submitted to the challenge server to (attempt to) retrieve the flag:
+
+~~~shell
+$ nc mercury.picoctf.net 20140
+Enter Password: reverseengineericanbarelyforward
+=========================================
+This challenge is interrupted by psociety
+What is the unhashed key?
+~~~
+
+It seems we need the unhashed key also.  The key can be converted into ascii:
+
+~~~
+key(hex):	0x3836313833366631336533643632376466613337356264623833383932313465
+key(dec):	25425268962882262003904025561472295415444850798858485249993781863733343106149
+key(ascii): 	861836f13e3d627dfa375bdb8389214e
+~~~
+
+Using an online un-hasher [md5hashing](https://md5hashing.net/hash) we can attempt to unhash the key.  Through trial and error we find the key is an md5 hash of goldfish.
+
+We can now retrieve the flag:
+
+~~~shell
+$ nc mercury.picoctf.net 20140
+Enter Password: reverseengineericanbarelyforward
+=========================================
+This challenge is interrupted by psociety
+What is the unhashed key?
+goldfish
+Flag is:  picoCTF{p1kap1ka_p1c02720c216}
+~~~
 
 </details>
 
@@ -5958,7 +6146,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{p1kap1ka_p1c02720c216}
 ~~~
 
 </details>
