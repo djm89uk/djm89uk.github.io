@@ -33,7 +33,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [speeds and feeds (2021)](#speeds-and-feeds)
 - [Shop (2021)](#shop) ✓
 - [ARMssembly 1 (2021)](#armssembly-1) ✓
-- [ARMssembly 2 (2021)](#armssembly-2)
+- [ARMssembly 2 (2021)](#armssembly-2) ✓
 - [Hurry up! Wait! (2021)](#hurry-up-wait)
 - [gogo (2021)](#gogo)
 - [ARMssembly 3 (2021)](#armssembly-3)
@@ -5812,7 +5812,102 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+This is a convoluted assembly code.  We can start with func1:
+
+~~~nasm
+func1:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	wzr, [x29, 44]
+	b	.L2
+~~~
+
+This generates the stack and assigns input stack+28 and 0 to stack + 44, then branches to L2, our stack:
+
+~~~
+stack + 28 = input
+stack + 44 = 0
+~~~
+
+Pseudocode:
+
+~~~
+input = 3634247936
+Var1 = 0
+funcL2()
+~~~
+
+branch L2:
+
+~~~nasm
+.L2:
+	ldr	w0, [x29, 28]
+	cmp	w0, 0
+	bne	.L4
+	ldr	w0, [x29, 44]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	func1, .-func1
+	.align	2
+	.global	func2
+	.type	func2, %function
+~~~
+
+This loads value at stack+28 (input value) and compares to 0.  While this is not true, this branches to L4. When true howeber, w0 is set to value at stack+44 and the function returns.  Our Pseudocode now:
+
+~~~
+input = 3634247936
+Var1 = 0
+While (input != Var1):
+	L4()
+~~~
+
+The L4 branch can now be reviewed:
+
+~~~nasm
+.L4:
+	ldr	w0, [x29, 28]
+	and	w0, w0, 1
+	cmp	w0, 0
+	beq	.L3
+	ldr	w0, [x29, 44]
+	bl	func2
+	str	w0, [x29, 44]
+~~~
+
+This assigns the value at stack+28 to w0. This completes and and operation on w0 and 1 (returns 0 if w0 is 0 and 1 if w0 is not). This is compared to 0 and we branch to L3 if it is. If w0!=0 w0 is assigned the value in stack+44 and we branch to function 2, upon return the value of w0 is stored in stack+44.
+
+Our pseudocode now:
+
+~~~
+input = 3634247936
+Var1 = 0
+While (input != Var1):
+	if(input == 0):
+	 	L3()
+	else:
+		func2()
+~~~
+
+L3 provides a right shift by 1 to the input:
+
+~~~nasm
+.L3:
+	ldr	w0, [x29, 28]
+	lsr	w0, w0, 1
+	str	w0, [x29, 28]
+~~~
+
+~~~
+input = 3634247936
+Var1 = 0
+While (input != Var1):
+	if(input == 0):
+	 	input >> 1
+	else:
+		func2()
+~~~
 
 </details>
 
