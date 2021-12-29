@@ -32,7 +32,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [ARMssembly 0 (2021)](#armssembly-0) ✓
 - [speeds and feeds (2021)](#speeds-and-feeds)
 - [Shop (2021)](#shop) ✓
-- [ARMssembly 1 (2021)](#armssembly-1)
+- [ARMssembly 1 (2021)](#armssembly-1) ✓
 - [ARMssembly 2 (2021)](#armssembly-2)
 - [Hurry up! Wait! (2021)](#hurry-up-wait)
 - [gogo (2021)](#gogo)
@@ -5516,7 +5516,89 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+Similar to ARMssembly1 we can step through the program and review the stack.  
+	
+~~~nasm
+func1:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	str	wzr, [sp, 24]
+	str	wzr, [sp, 28]
+	b	.L2
+~~~
+
+Starting with function, we can see 3 storage calls for input and "wzr".  WZR is the abstract register for 32-bit zero (equivalent to 64 bit "xzr").  We then jump to branch L2.  The stack now looks like:
+
+~~~
+stack + 12 = input
+stack + 24 = 0
+stack + 28 = 0
+~~~
+
+The next branch L2:
+	
+~~~nasm
+.L2:
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 12]
+	cmp	w1, w0
+	bcc	.L3
+	ldr	w0, [sp, 24]
+	add	sp, sp, 32
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+~~~
+
+This assigns values to w1=0 and w0=input. compares w1 and w0 and branches to L3 if w1 < w0. If w1=>w0, w0 is set to the value in stack+24 and we return to the main branch.  We know, however, with input > 0 we will go to branch L3:
+
+~~~nasm
+.L3:
+	ldr	w0, [sp, 24]
+	add	w0, w0, 3
+	str	w0, [sp, 24]
+	ldr	w0, [sp, 28]
+	add	w0, w0, 1
+	str	w0, [sp, 28]
+~~~
+
+Here, w0 is set to the value in stack+24 (in first iteration, 0).  This is summed with 3 and assigned to w0 (w0=w0+3), and stored at stack+24.  w0 is now assigned to stack + 28 and added to 1 before storing back in the variable.  The pseudo code so far:
+
+~~~
+input = 2403814618
+stack0 = input
+stack1 = 0
+stack2 = 0
+
+var1 = stack2
+var0 = stack0
+
+while stack2 < stack0:
+	var0 = stack1
+	var0 = var0 + 3
+	stack1 = var0
+	var0 = stack2
+	var0 = var0 + 1
+	stack2 = var0
+
+var0 = stack1
+print(Result: %var0)
+~~~
+
+This can be simplified:
+		     
+~~~
+input = 2403814618
+Var1 = 0
+Var2 = 0
+
+for Var2 in (0,1,input):
+	Var1 += 3
+print(Var1)
+~~~
+
+The output will be 2403814618 x 3 = 7211443854.  This is 0x1add5e68e in hex, 0xadd5e68e when reduced to 32bit.
 
 </details>
 
@@ -5527,7 +5609,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{add5e68e}
 ~~~
 
 </details>
