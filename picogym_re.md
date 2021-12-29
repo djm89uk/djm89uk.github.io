@@ -13,7 +13,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [vault-door-7 (2019)](#vault-door-7) ✓
 - [vault-door-8 (2019)](#vault-door-8) ✓
 - [asm1 (2019)](#asm1) ✓
-- [asm2 (2019)](#asm2)
+- [asm2 (2019)](#asm2) ✓
 - [asm3 (2019)](#asm3) ✓
 - [asm4 (2019)](#asm4) ✓
 - [droids0 (2019)](#droids0) ✓
@@ -2075,100 +2075,84 @@ asm2:
 
 <summary markdown="span">Solution 1</summary>
 
-ASM2 is similar to ASM1.  The initial stack can be seen below.
+ASM2 is similar to ASM1.  We can compile an extended asm file in c:
+	
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
 
-| Address    | Value   |
-|------------|---------|
-| EBP + 0x0C | input 2 |
-| EBP + 0x08 | input 1 |
-| EBP + 0x04 | ret     |
-| EBP        | Old EBP |
+int asm2(int input1, int input2 ) {
+  int output;
+  asm(
+    	// "push   ebp;"
+    	// "mov    ebp,esp;"
+	"sub    esp,0x10;"
+	"mov    eax,DWORD PTR [ebp+0xc];"
+	"mov    DWORD PTR [ebp-0x4],eax;"
+	"mov    eax,DWORD PTR [ebp+0x8];"
+	"mov    DWORD PTR [ebp-0x8],eax;"
+	"jmp    _asm2_28;"
+    "_asm2_20:"
+	"add    DWORD PTR [ebp-0x4],0x1;"
+	"sub    DWORD PTR [ebp-0x8],0xffffff80;"
+	"jmp 	_asm2_28;"
+    "_asm2_28:"
+	"cmp 	DWORD PTR [ebp-0x8],0x63f3;"
+	"jle    _asm2_20;"
+	"mov    eax,DWORD PTR [ebp-0x4];"
+	// "leave;"
+	// "ret;"
+    		: "=r"( output )
+    		: "0" ( input1 ), "g" ( input2 )
+  );
+  return output;
+}
 
-The ASM2 assembly code first 3 lines allocate additional memory for the program:
-
-~~~nasm
-<+0>:	push   ebp
-<+1>:	mov    ebp,esp
-<+3>:	sub    esp,0x10
+int main(void) {
+  int input1;
+  int input2;
+  printf("asm2 executable.\n");
+  printf("Enter an input value 1 for asm2 in hexadecimal format without 0x :");
+  scanf("%x", & input1);
+  printf("\nYou entered: 0x%x\n", input1);
+  printf("Enter an input value 2 for asm2 in hexadecimal format without 0x :");
+  scanf("%x", & input2);
+  printf("\nYou entered: 0x%x\n", input2);
+  printf("----------\n");"
+  printf("running asm2(0x%x,0x%x).\n", input1, input2);
+  int output = asm2(input1, input2);
+  printf("complete.\n");
+  printf("Flag = 0x%x\n", output);
+  printf("Goodbye\n");
+  printf("----------\n");
+  return 0;
+}
 ~~~
 
-Line <+3> allocates an additional 4 memory location (4x4-Byte = 0x10), our stack now looks:
+This can be compiled as before:
 
-| Address    | Value   |
-|------------|---------|
-| EBP + 0x0C | input 2 |
-| EBP + 0x08 | input 1 |
-| EBP + 0x04 | ret     |
-| EBP        | Old EBP |
-| EBP - 0x04 | 0x00    |
-| EBP - 0x08 | 0x00    |
-| EBP - 0x0c | 0x00    |
-| EBP - 0x10 | 0x00    |
-
-The next line assigns the accumulator register the value held in address ebp+0xc (input 2).  This is subsequently copied into the memory address EBP-0x4:
-
-~~~nasm
-<+6>:	mov    eax,DWORD PTR [ebp+0xc]
-<+9>:	mov    DWORD PTR [ebp-0x4],eax
+~~~shell
+$ gcc -masm=intel -m32 asm2.c -o asm2 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
 
-Our stack now looks like:
+Which can be run to get the flag:
 
-| Address    | Value   |
-|------------|---------|
-| EBP + 0x0C | input 2 |
-| EBP + 0x08 | input 1 |
-| EBP + 0x04 | ret     |
-| EBP        | Old EBP |
-| EBP - 0x04 | input 2 |
-| EBP - 0x08 | 0x00    |
-| EBP - 0x0c | 0x00    |
-| EBP - 0x10 | 0x00    |
+~~~shell
+$ ./asm2
+asm2 executable.
+Enter an input value 1 for asm2 in hexadecimal format without 0x :0b
 
-The next two lines copy input 1 from EBP + 0x08 to EBP - 0x08:
+You entered: 0xb
+Enter an input value 2 for asm2 in hexadecimal format without 0x :2e
 
-~~~nasm
-<+12>:	mov    eax,DWORD PTR [ebp+0x8]
-<+15>:	mov    DWORD PTR [ebp-0x8],eax
+You entered: 0x2e
+----------
+running asm2(0xb,0x2e).
+complete.
+Flag = 0xf6
+Goodbye
+----------
 ~~~
-
-The stack now appears:
-
-| Address    | Value   |
-|------------|---------|
-| EBP + 0x0C | input 2 |
-| EBP + 0x08 | input 1 |
-| EBP + 0x04 | ret     |
-| EBP        | Old EBP |
-| EBP - 0x04 | input 2 |
-| EBP - 0x08 | input 1 |
-| EBP - 0x0c | 0x00    |
-| EBP - 0x10 | 0x00    |
-
-The next 6 lines operate on the stored data.  Line <+18> jumps to the comparator operator at <+28>.  This compares the value at EBP - 0x08 with 0x63f3.  If dword ptr(0x08) is less than 0x63f3, line <+35> jumps to <+20>, otherwise the next line copies the value of the memory at EBP - 0x4 to the accumulator register for return.
-
-~~~nasm
-<+18>:	jmp    0x509 <asm2+28>
-<+20>:	add    DWORD PTR [ebp-0x4],0x1
-<+24>:	sub    DWORD PTR [ebp-0x8],0xffffff80
-<+28>:	cmp    DWORD PTR [ebp-0x8],0x63f3
-<+35>:	jle    0x501 <asm2+20>
-<+37>:	mov    eax,DWORD PTR [ebp-0x4]
-~~~
-
-We can now look at the pseudocode for the ASM2 program:
-
-~~~
-ASM(input1, input2):
-  var0 = input2
-  var1 = input1
-  while var1 <= 0x63f3:
-    var0 = var0 + 1
-    var1 = var1 - 0xffffff80
-  return var0
-~~~
-
-
 
 </details>
 
@@ -2179,7 +2163,7 @@ ASM(input1, input2):
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+0xf6
 ~~~
 
 </details>
