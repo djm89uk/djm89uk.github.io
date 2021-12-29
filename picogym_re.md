@@ -5226,7 +5226,188 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+This challenge asks us to identify the input that produces a winning output.  Reviewing the assembly we can see the win output is provided from LC0:
+
+~~~nasm
+.LC0:
+	.string	"You win!"
+	.align	3
+~~~
+
+And the losing output is provided by LC1:
+
+~~~nasm
+.LC1:
+	.string	"You Lose :("
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+~~~
+
+We need an input that results in a call to LC0 and not a call to LC1.  The additional branches, func, main, L4 and L6 must have a call to LC0 and/or LC1.  L4 provides a call to LC1:
+
+~~~nasm
+.L4:
+	adrp	x0, .LC1
+	add	x0, x0, :lo12:.LC1
+	bl	puts
+~~~
+
+L6 provides the program exit, it would be safe to say this is required for succesful completion of this task:
+
+~~~nasm
+.L6:
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+~~~
+
+We now want to find the input conditions that enable succesful calls to LC0 and L6 and avoid calls to LC1 and L4. The main branch has calls to L4, LC0 and L6:
+
+~~~nasm
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+~~~
+
+The key lines here are:
+
+~~~nasm
+	cmp	w0, 0
+	bne	.L4
+~~~
+
+This compares the value of "w0" against 0 and calls L4 is they are not equal (w0 must equal 0 for succesful completion).  Looking at the function, we can start to understand the assembly:
+
+~~~nasm
+func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	mov	w0, 68
+	str	w0, [sp, 16]
+	mov	w0, 2
+	str	w0, [sp, 20]
+	mov	w0, 3
+	str	w0, [sp, 24]
+	ldr	w0, [sp, 20]
+	ldr	w1, [sp, 16]
+	lsl	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 24]
+	sdiv	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 12]
+	sub	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w0, [sp, 28]
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+~~~
+
+Lines 1-8 make space on the stack for user input (12), 68(16), 2(20), 3(24):
+
+~~~nasm
+sub	sp, sp, #32
+str	w0, [sp, 12]
+mov	w0, 68
+str	w0, [sp, 16]
+mov	w0, 2
+str	w0, [sp, 20]
+mov	w0, 3
+str	w0, [sp, 24]
+~~~
+
+Our stack now looks like:
+
+~~~
+stack + 12 = input
+stack + 16 = 68
+stack + 20 = 2
+stack + 24 = 3
+~~~
+
+The next 4 lines assign values w0 = 2, w1 = 68, complete a left bit shift (w1 << w0) and store in variable w0 (w0=272). This is stored on the stack at 28.
+
+~~~nasm
+ldr	w0, [sp, 20]
+ldr	w1, [sp, 16]
+lsl	w0, w1, w0
+str	w0, [sp, 28]
+~~~
+
+Our stack now looks like:
+
+~~~
+stack + 12 = input
+stack + 16 = 68
+stack + 20 = 2
+stack + 24 = 3
+stack + 28 = 272
+~~~
+
+The next 4 lines assign values w1 = 272, w0 = 3, complete a division (w1//w0) and store in w0 (w0=90). This is stored on the stack. 
+	
+~~~nasm
+ldr	w1, [sp, 28]
+ldr	w0, [sp, 24]
+sdiv	w0, w1, w0
+str	w0, [sp, 28]
+~~~
+
+Our stack now looks like:
+
+~~~
+stack + 12 = input
+stack + 16 = 68
+stack + 20 = 2
+stack + 24 = 3
+stack + 28 = 90
+~~~
+
+The next 4 lines assign values w1 = 90, w0 = input, complete a subtraction (w1-w0) and store in the value w0. This is stored on the stack:
+
+~~~nasm
+ldr	w1, [sp, 28]
+ldr	w0, [sp, 12]
+sub	w0, w1, w0
+str	w0, [sp, 28]
+~~~
+
+Our stack now looks like:
+
+~~~
+stack + 12 = input
+stack + 16 = 68
+stack + 20 = 2
+stack + 24 = 3
+stack + 28 = 90-input
+~~~
+
+The final part of the function loads this value 90-input to w0 and returns to the main function.  We can see the user input must negate the value to 0.  The flag is therefore 90 (5a in hex).
 
 </details>
 
@@ -5237,7 +5418,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{0000005a}
 ~~~
 
 </details>
