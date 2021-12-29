@@ -30,7 +30,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Keygenme-py (2021)](#keygneme-py) ✓
 - [crackme-py (2021)](#crackme-py) ✓
 - [ARMssembly 0 (2021)](#armssembly-0) ✓
-- [speeds and feeds (2021)](#speeds-and-feeds)
+- [speeds and feeds (2021)](#speeds-and-feeds) ✓
 - [Shop (2021)](#shop) ✓
 - [ARMssembly 1 (2021)](#armssembly-1) ✓
 - [ARMssembly 2 (2021)](#armssembly-2) ✓
@@ -47,7 +47,6 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [breadth (2021)](#breadth)
 - [riscy business (2021)](#riscy-business)
 - [MATRIX (2021)](#matrix)
-- [Speeds and Feeds (2021)](#speeds-and-feeds) ✓
  
 ---
 
@@ -4943,7 +4942,7 @@ picoCTF{f66b01ec}
 
 ---
 	
-## speeds and feeds
+## Speeds and Feeds
 
 - Author: Ryan Ramseyer
 - 50 points
@@ -4955,6 +4954,10 @@ There is something on my shop network running at nc mercury.picoctf.net 16524, b
 ### Hints
 
 1. What language does a CNC machine use?
+	
+### Attachments
+
+None
 
 ### Solutions
 
@@ -4962,7 +4965,23 @@ There is something on my shop network running at nc mercury.picoctf.net 16524, b
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+When connecting to the remote host, the response is a series of coordinates.  Upon further inspection, this is [G-Code](https://en.wikipedia.org/wiki/G-code) used for CNC milling:
+
+~~~shell
+$ nc mercury.picoctf.net 16524 > out.txt
+~~~
+
+This produces the out.txt file:
+
+~~~
+G17 G21 G40 G90 G64 P0.003 F50
+G0Z0.1
+...
+G1X194.6207Y-1.9310
+G0Z0.1
+~~~
+
+This can be imported to a [GCode Viewer](https://ncviewer.com/) to show the mill route, which plots out the flag.
 
 </details>
 
@@ -4973,7 +4992,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{num3r1cal_c0ntr0l_1395ffad}
 ~~~
 
 </details>
@@ -7563,65 +7582,5 @@ picoCTF{}
 
 ---
 		
-## Speeds and Feeds
-
-- Author: Ryan Ramseyer
-- 50 points
-
-### Description
-
-There is something on my shop network running at nc mercury.picoctf.net 16524, but I can't tell what it is. Can you?
-
-### Hints
-
-1. What language does a CNC machine use?
-	
-### Attachments
-
-None
-
-### Solutions
-
-<details>
-
-<summary markdown="span">Solution 1</summary>
-
-When connecting to the remote host, the response is a series of coordinates.  Upon further inspection, this is [G-Code](https://en.wikipedia.org/wiki/G-code) used for CNC milling:
-
-~~~shell
-$ nc mercury.picoctf.net 16524 > out.txt
-~~~
-
-This produces the out.txt file:
-
-~~~
-G17 G21 G40 G90 G64 P0.003 F50
-G0Z0.1
-...
-G1X194.6207Y-1.9310
-G0Z0.1
-~~~
-
-This can be imported to a [GCode Viewer](https://ncviewer.com/) to show the mill route, which plots out the flag.
-
-</details>
-
-### Answer
-
-<details>
-
-<summary markdown="span">Flag</summary>
-
-~~~
-picoCTF{num3r1cal_c0ntr0l_1395ffad}
-~~~
-
-</details>
-
----
-
-### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
-
----
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
