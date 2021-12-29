@@ -31,7 +31,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [crackme-py (2021)](#crackme-py) ✓
 - [ARMssembly 0 (2021)](#armssembly-0) ✓
 - [speeds and feeds (2021)](#speeds-and-feeds)
-- [Shop (2021)](#shop)
+- [Shop (2021)](#shop) ✓
 - [ARMssembly 1 (2021)](#armssembly-1)
 - [ARMssembly 2 (2021)](#armssembly-2)
 - [Hurry up! Wait! (2021)](#hurry-up-wait)
@@ -157,13 +157,13 @@ picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
 
 This password can be tested using the java class file.  First the .java needs to be compiled into a class:
 
-~~~
+~~~shell
 $ javac -d ./build VaultDoorTraining.java
 ~~~
 
 This creates a build directory with "VaultDoorTraining.class".  We can call this class directly from java:
 
-~~~
+~~~shell
 $ cd build
 $ java VaultDoorTraining
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
@@ -172,28 +172,28 @@ Enter vault password:
 
 We can enter the flag and receive an Authentication message:
 
-~~~
+~~~shell
 Enter vault password: picoCTF{w4rm1ng_Up_w1tH_jAv4_3808d338b46}
 Access granted.
 ~~~
 
 Due to the string handling, the password must contain the string w4rm1ng_Up_w1tH_jAv4_3808d338b46 in positions [8..39] and must be exactly 41 characters in length.  However, the picoCTF{ and } characters can be replaced with any ascii input and access is granted:
 
-~~~
+~~~shell
 Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46@
 Access granted.
 ~~~
 
 However, if we shorten the string by removing the last character:
 
-~~~
+~~~shell
 Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46
 Access denied!
 ~~~
 
 Or if we add an erroneous character to the end of the string:
 
-~~~
+~~~shell
 Enter vault password: !"£$%^&*w4rm1ng_Up_w1tH_jAv4_3808d338b46@@
 Access denied!
 ~~~
@@ -374,24 +374,17 @@ class VaultDoor1_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac -d ./build VaultDoor1_modified.java  
 ~~~
 
 And run:
 
-~~~
+~~~shell
 $ java ./build/VaultDoor1_modified
 ~~~
 
-This returns:
-
-~~~
-d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4
-~~~
-
-which is our flag.
-
+This returns the flag
 
 </details>
 
@@ -418,7 +411,7 @@ picoCTF{d35cr4mbl3_tH3_cH4r4cT3r5_f6daf4}
 - Author: Mark E. Haase
 - 200 points
 
-### Description
+### Description 
 
 This vault uses [for-loops](https://www.w3schools.com/java/java_for_loop.asp) and [byte arrays](https://www.w3schools.com/java/java_ref_string.asp). The source code for this vault is here: VaultDoor3.java
 
@@ -561,13 +554,13 @@ class VaultDoor3_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor3_modified.java
 ~~~
 
 The original method is called.  When running the class, we must make a trivial guess at the password.  This rejects the password after checkPassword method is called and prints the correct password from the showPassword method:
 
-~~~
+~~~shell
 $ java VaultDoor3_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -578,7 +571,7 @@ jU5t_a_s1mpl3_an4gr4m_4_u_c79a21
 
 We can check the password locally by entering this back in:
 
-~~~
+~~~shell
 $ java VaultDoor3_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
@@ -749,13 +742,13 @@ class VaultDoor4_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor4_modified.java 
 ~~~
 
 When run, we have to enter a password guess.  The program returns the correct password:
 
-~~~
+~~~shell
 $ java VaultDoor4_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -766,14 +759,12 @@ jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e
 
 This can be checked locally to ensure it is correct using the unmodified checkPassword() method:
 
-~~~
+~~~shell
 $ java VaultDoor4_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}
 Access granted.
 ~~~
-
-The flag is therefore picoCTF{jU5t_4_bUnCh_0f_bYt3s_f4a8cd8f7e}.
 
 </details>
 
@@ -951,13 +942,13 @@ class VaultDoor5_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor5_modified.java
 ~~~
 
 And we can run the code with an initial password guess.  The method showPassword will give us the correct passphrase:
 
-~~~
+~~~shell
 $ java VaultDoor5_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -968,14 +959,12 @@ c0nv3rt1ng_fr0m_ba5e_64_84fd5095
 
 This can be checked locally by entering in the correct passphrase:
 
-~~~
+~~~shell
 $ java VaultDoor5_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}
 Access granted.
 ~~~
-
-This shows us the correct flag is picoCTF{c0nv3rt1ng_fr0m_ba5e_64_84fd5095}.
 
 </details>
 
@@ -1144,13 +1133,13 @@ class VaultDoor6_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor6_modified.java 
 ~~~
 
 When run, we enter a password guess, and the correct password is returned:
 
-~~~
+~~~shell
 $ java VaultDoor6_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -1161,7 +1150,7 @@ n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919
 
 We can verify this is the correct password locally:
 
-~~~
+~~~shell
 $ java VaultDoor6_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}
@@ -1391,13 +1380,13 @@ class VaultDoor7_modified {
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor7_modified.java 
 ~~~
 
 When run, we are prompted for a password and when the checkPassword method returns a false boolean, the correct password is printed when showPassword method is called:
 
-~~~
+~~~shell
 $ java VaultDoor7_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -1408,14 +1397,12 @@ A_b1t_0f_b1t_sh1fTiNg_702640db5a
 
 We can check the passphrase locally within the checkPassword Method:
 
-~~~
+~~~shell
 $ java VaultDoor7_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}
 Access granted.
 ~~~
-
-Therefore the flag is picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}.
 
 </details>
 
@@ -1656,13 +1643,13 @@ System.out.println("bit2 " + Integer.toBinaryString(bit2)); */
 
 This can be compiled:
 
-~~~
+~~~shell
 $ javac VaultDoor8_modified.java 
 ~~~
 
 When run, we enter a trivial guess of the passphrase and the correct passphrase is returned:
 
-~~~
+~~~shell
 $ java VaultDoor8_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{guess}
@@ -1673,14 +1660,12 @@ s0m3_m0r3_b1t_sh1fTiNg_91c642112
 
 This can be checked using the checkPassword Method to validate the returned string:
 
-~~~
+~~~shell
 $ java VaultDoor8_modified                                             1 ⚙
 Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true
 Enter vault password: picoCTF{s0m3_m0r3_b1t_sh1fTiNg_91c642112}
 Access granted.
 ~~~
-
-The flag is therefore picoCTF{s0m3_m0r3_b1t_sh1fTiNg_91c642112}.
 
 </details>
 
@@ -1925,7 +1910,7 @@ This challenge can be solved without reviewing, or understanding, the assembly c
 
 Using a 32-bit virtual machine, we can build and run executables in a native 32-bit architecture environment.  All that is required to compile in a 32-bit environment is the gcc compiler and dependent libraries.  These can be installed using:
 
-~~~
+~~~shell
 $ apt-get install build-essential
 ~~~
 
@@ -2002,13 +1987,13 @@ This can be compiled using extended flags described below.
 
 The complete compiling command:
 
-~~~
+~~~shell
 $ gcc -masm=intel -m32 asm1.c -o asm1 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
 
 We can now run the executable and enter the input given in the challenge:
 
-~~~
+~~~shell
 $ ./asm1
 asm1 executable.
 Enter an input value for asm1 in hexadecimal format without 0x :8be
@@ -2296,13 +2281,13 @@ int main(void) {
 
 This can be compiled as shown below:
 
-~~~
+~~~shell
 $ gcc -masm=intel -m32 asm3.c -o asm3 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
 
 When executed, we can enter the three inputs separately to generate the flag:
 
-~~~
+~~~shell
 $ ./asm3
 asm3 executable.
 Enter an input1 value for asm3 in hexadecimal format without 0x :ba6c5a02
@@ -2527,13 +2512,13 @@ int main(void) {
 
 This can be compiled as before:
 
-~~~
+~~~shell
 $ gcc -masm=intel -m32 asm4.c -o asm4 -Wall -Wextra -fno-stack-protector -no-pie
 ~~~
 
 When run, we enter the challenge input and the flag is returned:
 
-~~~
+~~~shell
 $ ./asm4
 asm4 executable.
 Enter an input value for asm4 as a string :picoCTF_f97bb
@@ -3157,10 +3142,6 @@ The first 8 characters and the last character are unchanged. Then from index 8 t
 | 21    | .         |  46     | +2        |  48     | 0         |
 | 22    | :         |  58     | -5        |  53     | 5         |
 
-~~~
-picoCTF{r3v3rs312528e05}
-~~~
-
 </details>
 
 ### Answer
@@ -3341,7 +3322,7 @@ Printing flag:
 PICOCTF{Good job keeping bus #190ca38b speeding along!}
 ~~~
 
-This gives us the flag PICOCTF{Good job keeping bus #190ca38b speeding along!}
+This gives us the flag.
 
 </details>
 
@@ -4111,11 +4092,7 @@ for i in range(0,len(enc)):
 print(flag)
 ~~~
 
-This returns:
-	
-~~~
-picoCTF{16_bits_inst34d_of_8_e141a0f7}
-~~~
+This returns the flag.
 	
 </details>
 
@@ -4835,11 +4812,7 @@ choose_greatest()
 decode_secret(bezos_cc_secret)
 ~~~
 
-This returns the flag:
-
-~~~
-picoCTF{1|\/|_4_p34|\|ut_ef5b69a3}
-~~~
+This returns the flag.
 
 </details>
 
@@ -4880,7 +4853,7 @@ What integer does this program print with arguments 4134207980 and 950176538? Fi
 
 <summary markdown="span">chall.S</summary>
 
-~~~
+~~~nasm
 	.arch armv8-a
 	.file	"chall.c"
 	.text
@@ -4952,14 +4925,14 @@ main:
 
 This file can be compiled using binutils-aarch64-linux-gnu and gcc-aarch64-linux-gnu:
 	
-~~~bash
+~~~shell
 $ aarch64-linux-gnu-as -o chall.o chall.S 
 $ aarch64-linux-gnu-gcc -static -o chall chall.o
 ~~~
 
 To run, the qemu-user-static package must be installed:
 
-~~~bash
+~~~shell
 $ ./chall 4134207980 950176538
 Result: 4134207980
 ~~~
@@ -5052,7 +5025,101 @@ Best Stuff - Cheap Stuff, Buy Buy Buy... Store Instance: source. The shop is ope
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+Connecting to the challenge server, we find an online shop for fruit and veg including an expensive "Fruitful Flag":
+
+~~~shell
+$ nc mercury.picoctf.net 11371
+Welcome to the market!
+=====================
+You have 40 coins
+	Item		Price	Count
+(0) Quiet Quiches	10	12
+(1) Average Apple	15	8
+(2) Fruitful Flag	100	1
+(3) Sell an Item
+(4) Exit
+Choose an option: 
+~~~
+
+Let's test the mechanics of this shop, we can buy a Quiet Quiche:
+
+~~~shell
+Choose an option: 
+0
+How many do you want to buy?
+1
+You have 30 coins
+	Item		Price	Count
+(0) Quiet Quiches	10	11
+(1) Average Apple	15	8
+(2) Fruitful Flag	100	1
+(3) Sell an Item
+(4) Exit
+Choose an option: 
+~~~
+
+This reduces the coins variable by the cost times the count, as to be expected.  We can sell this back to the shop:
+
+~~~shell
+Choose an option: 
+3
+Your inventory
+(0) Quiet Quiches	10	1
+(1) Average Apple	15	0
+(2) Fruitful Flag	100	0
+What do you want to sell? 
+0
+How many?
+1
+You have 40 coins
+	Item		Price	Count
+(0) Quiet Quiches	10	11
+(1) Average Apple	15	8
+(2) Fruitful Flag	100	1
+(3) Sell an Item
+(4) Exit
+Choose an option: 
+~~~
+
+We can get our money back!.  What happens if we try to buy negative items?
+
+~~~shell
+Choose an option: 
+0
+How many do you want to buy?
+-1
+You have 50 coins
+	Item		Price	Count
+(0) Quiet Quiches	10	12
+(1) Average Apple	15	8
+(2) Fruitful Flag	100	1
+(3) Sell an Item
+(4) Exit
+Choose an option:
+~~~
+
+We seem to have found a flaw in the program.  Let's buy -5 more Quiche's and see if we can buy the "Fruitful Flag":
+
+~~~shell
+Choose an option: 
+0
+How many do you want to buy?
+-5
+You have 100 coins
+	Item		Price	Count
+(0) Quiet Quiches	10	18
+(1) Average Apple	15	8
+(2) Fruitful Flag	100	1
+(3) Sell an Item
+(4) Exit
+Choose an option: 
+2
+How many do you want to buy?
+1
+Flag is:  [112 105 99 111 67 84 70 123 98 52 100 95 98 114 111 103 114 97 109 109 101 114 95 98 56 100 55 50 55 49 102 125]
+~~~
+
+This can be read as ASCII to give us the flag.
 
 </details>
 
@@ -5063,7 +5130,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{b4d_brogrammer_b8d7271f}
 ~~~
 
 </details>
@@ -5093,7 +5160,7 @@ For what argument does this program print `win` with variables 68, 2 and 3? File
 
 <summary markdown="span">chall_1.S</summary>
 
-~~~
+~~~nasm
 	.arch armv8-a
 	.file	"chall_1.c"
 	.text
@@ -5216,7 +5283,7 @@ What integer does this program print with argument 2403814618? File: chall_2.S F
 
 <summary markdown="span">chall_2.S</summary>
 
-~~~
+~~~nasm
 	.arch armv8-a
 	.file	"chall_2.c"
 	.text
@@ -5415,7 +5482,7 @@ What integer does this program print with argument 3634247936? File: chall_3.S F
 
 <summary markdown="span">chall_2.S</summary>
 
-~~~
+~~~nasm
 	.arch armv8-a
 	.file	"chall_3.c"
 	.text
@@ -5539,7 +5606,7 @@ Can you tell what this file is reading? chall.S
 
 <summary markdown="span">chall.S</summary>
 
-~~~
+~~~nasm
 	.file	"chall.c"
 	.text
 	.section	.rodata
@@ -5758,7 +5825,7 @@ What integer does this program print with argument 1215610622? File: chall_4.S F
 
 <summary markdown="span">chall_4.S</summary>
 
-~~~
+~~~nasm
 	.arch armv8-a
 	.file	"chall_4.c"
 	.text
@@ -5991,7 +6058,7 @@ It's not a bad idea to learn to read Powershell. We give you the output, but do 
 
 <summary markdown="span">rev_PS.ps1</summary>
 
-~~~
+~~~shell
 $input = ".\input.txt"
 
 $out = Get-Content -Path $input
@@ -6732,7 +6799,7 @@ None
 
 When connecting to the remote host, the response is a series of coordinates.  Upon further inspection, this is [G-Code](https://en.wikipedia.org/wiki/G-code) used for CNC milling:
 
-~~~bash
+~~~shell
 $ nc mercury.picoctf.net 16524 > out.txt
 ~~~
 
@@ -6767,4 +6834,5 @@ picoCTF{num3r1cal_c0ntr0l_1395ffad}
 ### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
 ## [djm89uk.github.io](https://djm89uk.github.io)
