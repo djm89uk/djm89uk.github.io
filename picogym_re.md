@@ -5643,8 +5643,267 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+We can import the binary into gdb:
 
+~~~shell
+$ gdb ./svchost.exe 
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./svchost.exe...
+(No debugging symbols found in ./svchost.exe)
+~~~
+
+When attempting to run, the program does not complete execution:
+
+~~~
+(gdb) run
+Starting program: /home/derek/Downloads/svchost.exe 
+^C
+Program received signal SIGINT, Interrupt.
+0x00007ffff7ad3334 in __GI___clock_nanosleep (clock_id=<optimised out>, clock_id@entry=0, flags=flags@entry=0, req=0x7fffffffd5a0, rem=0x7fffffffd5b0) at ../sysdeps/unix/sysv/linux/clock_nanosleep.c:78
+78	../sysdeps/unix/sysv/linux/clock_nanosleep.c: No such file or directory.
+~~~
+
+decompiling using Ghidra, we can see hundreds of functions.  Starting at entry:
+
+~~~c
+void entry(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  undefined8 in_stack_00000000;
+  undefined auStack8 [8];
+  
+  __libc_start_main(FUN_00101fcc,in_stack_00000000,&stack0x00000008,FUN_00102a30,FUN_00102aa0,
+                    param_3,auStack8);
+  do {
+                    /* WARNING: Do nothing block with infinite loop */
+  } while( true );
+}
+~~~
+
+We see a call to FUN_00101fcc:
+
+~~~c
+undefined4 FUN_00101fcc(undefined4 param_1,undefined8 param_2,undefined8 param_3)
+
+{
+  undefined local_10 [8];
+  
+  gnat_envp = param_3;
+  gnat_argv = param_2;
+  gnat_argc = param_1;
+  __gnat_initialize(local_10);
+  FUN_00101d7c();
+  FUN_0010298a();
+  FUN_00101d52();
+  __gnat_finalize();
+  return gnat_exit_status;
+}
+~~~
+
+the second function, FUN_0010298a() may explain why the program doesnt complete:
+
+~~~c
+
+void FUN_0010298a(void)
+
+{
+  ada__calendar__delays__delay_for(1000000000000000);
+  FUN_00102616();
+  FUN_001024aa();
+  FUN_00102372();
+  FUN_001025e2();
+  FUN_00102852();
+  FUN_00102886();
+  FUN_001028ba();
+  FUN_00102922();
+  FUN_001023a6();
+  FUN_00102136();
+  FUN_00102206();
+  FUN_0010230a();
+  FUN_00102206();
+  FUN_0010257a();
+  FUN_001028ee();
+  FUN_0010240e();
+  FUN_001026e6();
+  FUN_00102782();
+  FUN_001028ee();
+  FUN_0010226e();
+  FUN_00102136();
+  FUN_0010226e();
+  FUN_0010233e();
+  FUN_001023da();
+  FUN_0010230a();
+  FUN_001021d2();
+  FUN_00102956();
+  return;
+}
+~~~
+
+There appears to be a wait function that will keep the program suspended for a significant period of time. We can review each of these and they all call the function ada_text_io_put_4() with argument 1 of each call presenting a memory pointer to the flag characters:
+
+~~~c
+void FUN_00102616(void)
+
+{
+  ada__text_io__put__4(&DAT_00102cd8,&DAT_00102cb8);
+  return;
+}
+~~~
+
+Where the memory pointer can be found:
+
+~~~
+&DAT_00102cd8 = 70h = "p"
+~~~
+
+Using the in-built script editor, we can use the Ghidra python extensions to automate the solution:
+	
+~~~py
+FUNLIST =   ["FUN_00102616","FUN_001024aa","FUN_00102372","FUN_001025e2",
+		"FUN_00102852","FUN_00102886","FUN_001028ba","FUN_00102922",
+		"FUN_001023a6","FUN_00102136","FUN_00102206","FUN_0010230a",
+		"FUN_00102206","FUN_0010257a","FUN_001028ee","FUN_0010240e",
+		"FUN_001026e6","FUN_00102782","FUN_001028ee","FUN_0010226e",
+		"FUN_00102136","FUN_0010226e","FUN_0010233e","FUN_001023da",
+		"FUN_0010230a","FUN_001021d2","FUN_00102956"]
+
+# Find ada print function:
+fm = currentProgram.getFunctionManager()
+functions = fm.getFunctions(True)
+for f in functions:
+	protostring = f.getSignature().getPrototypeString()
+	if protostring == "undefined ada__text_io__put__4(void)":
+		FUN = f
+		break
+
+# Find function details:
+
+FUNENTRY = FUN.getEntryPoint()
+FUNCALLERS = FUN.getCallingFunctions(monitor)
+print("Calls to ada__text_io__put__4")
+print(FUNCALLERS)
+
+CALLERS = []
+
+for f in functions:
+	protostring = str(f.getSignature().getPrototypeString())
+	for fc in FUNCALLERS:
+		name = str(fc)
+		if protostring.find(name) >= 0:
+			CALLERS.append(f)
+
+charlist = "0"
+
+# Find calls to ada print function:
+import ghidra.app.decompiler as decomp
+
+## get the decompiler interface
+iface = decomp.DecompInterface()
+
+for c in CALLERS:
+	## decompile the function
+	iface.openProgram(c.getProgram())
+	d = iface.decompileFunction(c, 5, monitor)
+
+	## get the C code as string
+	if not d.decompileCompleted():
+    		print(d.getErrorMessage())
+	else:
+    		code = d.getDecompiledFunction()
+    		ccode = code.getC()
+    		mstart = ccode.find("ada__text_io__put__4")
+		ccode = ccode[mstart+21:]
+		if ccode[0] == "&":
+			ccode = ccode[5:]
+			mend = ccode.find(");")
+			ccode = ccode[:mend]
+			mend = ccode.find(",")
+			ccode = ccode[:mend]
+			ccodehex = "0x"+ccode
+			ccodeint = int(ccodehex,16)
+			addr = toAddr(ccodeint)
+			dat = getUndefinedDataAt(addr)
+			charlist += str(dat)[-1]
+			print("Function {} called ada.text.io.put with data pointer &DAT_{} (character {}).".format(c,ccode,str(dat)[-1]))
+
+flag = ""
+
+for f in FUNLIST:
+	i = 0
+	for c in CALLERS:
+		protostring = str(c.getSignature().getPrototypeString())
+		if protostring.find(f) >= 0:
+			flag += charlist[i]
+		i += 1
+
+print("flag is {}".format(flag))
+~~~
+
+This can be executed in Ghidra with the output:
+
+~~~
+NewScript1.py> Running...
+Calls to ada__text_io__put__4
+[FUN_001028ba, FUN_00102886, FUN_001025e2, FUN_001026e6, FUN_00102616, FUN_0010264a, FUN_001023a6, FUN_00102782, FUN_0010267e, FUN_001024de, FUN_00102206, FUN_0010233e, FUN_001028ee, FUN_0010223a, FUN_0010240e, FUN_001027ea, FUN_001023da, FUN_001022d6, FUN_001026b2, FUN_001025ae, FUN_0010281e, FUN_0010226e, FUN_00102852, FUN_0010271a, FUN_001027b6, FUN_0010219e, FUN_00102102, FUN_00102476, FUN_001024aa, FUN_00102136, FUN_0010230a, FUN_0010216a, FUN_0010257a, FUN_00102512, FUN_00102956, FUN_00102442, FUN_001022a2, FUN_0010274e, FUN_001021d2, FUN_00102922, FUN_00102372, FUN_00102546]
+Function FUN_00102136 called ada.text.io.put with data pointer &DAT_00102cc0 (character 1).
+Function FUN_0010216a called ada.text.io.put with data pointer &DAT_00102cc1 (character 2).
+Function FUN_0010219e called ada.text.io.put with data pointer &DAT_00102cc2 (character 3).
+Function FUN_001021d2 called ada.text.io.put with data pointer &DAT_00102cc3 (character 4).
+Function FUN_00102206 called ada.text.io.put with data pointer &DAT_00102cc4 (character 5).
+Function FUN_0010223a called ada.text.io.put with data pointer &DAT_00102cc5 (character 6).
+Function FUN_0010226e called ada.text.io.put with data pointer &DAT_00102cc6 (character 7).
+Function FUN_001022a2 called ada.text.io.put with data pointer &DAT_00102cc7 (character 8).
+Function FUN_001022d6 called ada.text.io.put with data pointer &DAT_00102cc8 (character 9).
+Function FUN_0010230a called ada.text.io.put with data pointer &DAT_00102cc9 (character a).
+Function FUN_0010233e called ada.text.io.put with data pointer &DAT_00102cca (character b).
+Function FUN_00102372 called ada.text.io.put with data pointer &DAT_00102ccb (character c).
+Function FUN_001023a6 called ada.text.io.put with data pointer &DAT_00102ccc (character d).
+Function FUN_001023da called ada.text.io.put with data pointer &DAT_00102ccd (character e).
+Function FUN_0010240e called ada.text.io.put with data pointer &DAT_00102cce (character f).
+Function FUN_00102442 called ada.text.io.put with data pointer &DAT_00102ccf (character g).
+Function FUN_00102476 called ada.text.io.put with data pointer &DAT_00102cd0 (character h).
+Function FUN_001024aa called ada.text.io.put with data pointer &DAT_00102cd1 (character i).
+Function FUN_001024de called ada.text.io.put with data pointer &DAT_00102cd2 (character j).
+Function FUN_00102512 called ada.text.io.put with data pointer &DAT_00102cd3 (character k).
+Function FUN_00102546 called ada.text.io.put with data pointer &DAT_00102cd4 (character l).
+Function FUN_0010257a called ada.text.io.put with data pointer &DAT_00102cd5 (character m).
+Function FUN_001025ae called ada.text.io.put with data pointer &DAT_00102cd6 (character n).
+Function FUN_001025e2 called ada.text.io.put with data pointer &DAT_00102cd7 (character o).
+Function FUN_00102616 called ada.text.io.put with data pointer &DAT_00102cd8 (character p).
+Function FUN_0010264a called ada.text.io.put with data pointer &DAT_00102cd9 (character q).
+Function FUN_0010267e called ada.text.io.put with data pointer &DAT_00102cda (character r).
+Function FUN_001026b2 called ada.text.io.put with data pointer &DAT_00102cdb (character s).
+Function FUN_001026e6 called ada.text.io.put with data pointer &DAT_00102cdc (character t).
+Function FUN_0010271a called ada.text.io.put with data pointer &DAT_00102cdd (character u).
+Function FUN_0010274e called ada.text.io.put with data pointer &DAT_00102cde (character v).
+Function FUN_00102782 called ada.text.io.put with data pointer &DAT_00102cdf (character w).
+Function FUN_001027b6 called ada.text.io.put with data pointer &DAT_00102ce0 (character x).
+Function FUN_001027ea called ada.text.io.put with data pointer &DAT_00102ce1 (character y).
+Function FUN_0010281e called ada.text.io.put with data pointer &DAT_00102ce2 (character z).
+Function FUN_00102852 called ada.text.io.put with data pointer &DAT_00102ce3 (character C).
+Function FUN_00102886 called ada.text.io.put with data pointer &DAT_00102ce4 (character T).
+Function FUN_001028ba called ada.text.io.put with data pointer &DAT_00102ce5 (character F).
+Function FUN_001028ee called ada.text.io.put with data pointer &DAT_00102ce6 (character _).
+Function FUN_00102922 called ada.text.io.put with data pointer &DAT_00102ce7 (character {).
+Function FUN_00102956 called ada.text.io.put with data pointer &DAT_00102ce8 (character }).
+flag is picoCTF{d15a5m_ftw_717bea4}
+NewScript1.py> Finished!
+~~~
+	
 </details>
 
 ### Answer
@@ -5654,7 +5913,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{d15a5m_ftw_717bea4}
 ~~~
 
 </details>
