@@ -37,7 +37,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Hurry up! Wait! (2021)](#hurry-up-wait) ✓
 - [gogo (2021)](#gogo) ✓
 - [ARMssembly 3 (2021)](#armssembly-3) ✓
-- [Let's get dynamic (2021)](#lets-get-dynamic)
+- [Let's get dynamic (2021)](#lets-get-dynamic) ✓
 - [Easy as GDB (2021)](#easy-as-gdb)
 - [ARMssembly 4 (2021)](#armssembly-4) ✓
 - [Powershelly (2021)](#powershelly)
@@ -6470,8 +6470,160 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+Looking at the source, we can see the following registers:
 
+| Register | Size   | Type                |
+|----------|--------|---------------------|
+| %ax      | 16 bit | Accumulator         |
+| %dl      |  8 bit | Data                |
+| %eax     | 32 bit | Accumulator         |
+| %edx     | 32 bit | Data                |
+| %edi     | 32 bit | Destination         |
+| %esi     | 32 bit | Source              |
+| %fs      | 16 bit | Segment             |
+| %rax     | 64-bit | Accumulator         |
+| %rbp     | 64-bit | Base Pointer        |
+| %rbx     | 64-bit | Base                |
+| %rcx     | 64-bit | Counter             |
+| %rdi     | 64-bit | Destination         |
+| %rdx     | 64-bit | Data                |
+| %rip     | 64-bit | Instruction Pointer |
+| %rsi     | 64-bit | Source              |
+| %rsp     | 64-bit | Stack Pointer       |
+
+There is a call to memory compare, which is likely where the flag is compared to another register.  We can see this compares the 64-bit source and destination registers:
+
+~~~nasm
+movq	%rcx, %rsi
+movq	%rax, %rdi
+call	memcmp@PLT
+~~~
+
+This will be a good point to break the program. We can compile this with extended gdb debugging symbols:
+
+~~~shell
+$ gcc -ggdb3 -static -o chall.o chall.S
+~~~
+
+We can now open in gdb and add the required breakpoint:
+
+~~~shell
+$ gdb chall.o 
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from chall.o...
+(gdb) break memcmp
+Breakpoint 1 at gnu-indirect-function resolver at 0x422a00
+~~~
+
+When we run with a user input, "test" we will get to the breakpoint:
+
+~~~
+(gdb) r
+Starting program: chall.o 
+test
+
+Breakpoint 1, 0x000000000042ae60 in __memcmp_avx2_movbe ()
+~~~
+
+Looking at the first 8 Bytes of each register, we can see rdi is the user input register and rsi is the flag register:
+
+~~~
+(gdb) x /8c $rdi
+0x7fffffffd560:	116 't'	101 'e'	115 's'	116 't'	10 '\n'	0 '\000'	0 '\000'	0 '\000'
+(gdb) x /8c $rsi
+0x7fffffffd520:	112 'p'	105 'i'	99 'c'	111 'o'	67 'C'	84 'T'	70 'F'	123 '{'
+~~~
+
+We can print the rsi register in gdb:
+
+~~~
+(gdb) printf "%s\n", $rsi
+picoCTF{dyn4�
+~~~
+
+This appears to only give the start of the flag, we need a bit more information.  Working backwards through the assembly we can start to understand where this variable comes from:
+
+~~~nasm
+	movq	%rcx, %rsi
+	movq	%rax, %rdi
+	call	memcmp@PLT
+~~~
+
+This shows the counter is moved to rsi and the accumulator is moved to rdi before memcmp.  We can print the counter value:
+
+~~~
+(gdb) printf "%s\n", $rcx
+picoCTF{dyn4
+~~~
+
+We can see the value in rcx is incomplete.  The address to rcx is given by leaq:
+
+~~~nasm
+	leaq	-272(%rbp), %rcx
+~~~
+
+We can again print the rbp-272 memory address:
+
+~~~nasm
+(gdb) printf "%s\n", $rbp-272
+picoCTF{dyn4
+~~~
+
+This memory address is populated in a loop, L3, called in L2:
+
+~~~nasm
+	movl	-276(%rbp), %eax
+	movq	%rax, %rbx
+	leaq	-144(%rbp), %rax
+	movq	%rax, %rdi
+	call	strlen@PLT
+	cmpq	%rax, %rbx
+	jb	.L3
+~~~
+
+We can add 1 to the rax registry to see if it provides more of the flag:
+
+~~~nasm
+	movl	-276(%rbp), %eax
+	movq	%rax, %rbx
+	leaq	-144(%rbp), %rax
+	movq	%rax, %rdi
+	call	strlen@PLT
+	add 	$1, %rax
+	cmpq	%rax, %rbx
+	jb	.L3
+~~~
+
+Compiling and running with the same break point gives us:
+
+~~~
+(gdb) printf "%s\n", $rsi
+picoCTF{dyn4m
+~~~
+
+We have found another letter!  We can add 50 more, recompile and run again:
+
+~~~
+(gdb) printf "%s\n", $rsi
+picoCTF{dyn4m1c_4n4ly1s_1s_5up3r_us3ful_9266fa82}"a '&%$C}
+~~~
+
+We have exceeded the flag and might cause some issues with the registries, but we have the flag contained in rsi.
+	
 </details>
 
 ### Answer
@@ -6481,7 +6633,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{dyn4m1c_4n4ly1s_1s_5up3r_us3ful_9266fa82}
 ~~~
 
 </details>
