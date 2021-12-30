@@ -36,10 +36,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [ARMssembly 2 (2021)](#armssembly-2) ✓
 - [Hurry up! Wait! (2021)](#hurry-up-wait) ✓
 - [gogo (2021)](#gogo) ✓
-- [ARMssembly 3 (2021)](#armssembly-3)
+- [ARMssembly 3 (2021)](#armssembly-3) ✓
 - [Let's get dynamic (2021)](#lets-get-dynamic)
 - [Easy as GDB (2021)](#easy-as-gdb)
-- [ARMssembly 4 (2021)](#armssembly-4)
+- [ARMssembly 4 (2021)](#armssembly-4) ✓
 - [Powershelly (2021)](#powershelly)
 - [Rolling My Own (2021)](#rolling-my-own)
 - [Checkpass (2021)](#checkpass)
@@ -6278,103 +6278,27 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-This is a convoluted assembly code.  We can start with func1:
+This is a convoluted arm assembly code. We can attempt to compile and run it rather than decode it;  we need qemu and aarch64 version of gcc:
 
-~~~nasm
-func1:
-	stp	x29, x30, [sp, -48]!
-	add	x29, sp, 0
-	str	w0, [x29, 28]
-	str	wzr, [x29, 44]
-	b	.L2
+~~~shell
+$ sudo apt install gcc-aarch64-linux-gnu qemu-user
 ~~~
 
-This generates the stack and assigns input stack+28 and 0 to stack + 44, then branches to L2, our stack:
+Compiling, we use aarch64 gcc with gdb flag for debugging:
 
-~~~
-stack + 28 = input
-stack + 44 = 0
-~~~
-
-Pseudocode:
-
-~~~
-input = 3634247936
-Var1 = 0
-funcL2()
+~~~shell
+$ aarch64-linux-gnu-gcc -ggdb3 -static -o chall_3.o chall_3.S
 ~~~
 
-branch L2:
+We can attempt to run in qemu with linked libraries to aarch64 gnu:
 
-~~~nasm
-.L2:
-	ldr	w0, [x29, 28]
-	cmp	w0, 0
-	bne	.L4
-	ldr	w0, [x29, 44]
-	ldp	x29, x30, [sp], 48
-	ret
-	.size	func1, .-func1
-	.align	2
-	.global	func2
-	.type	func2, %function
+~~~shell
+$ qemu-aarch64 -L /usr/aarch64-linux-gnu ./chall_3.o 3634247936
+Result: 39
 ~~~
 
-This loads value at stack+28 (input value) and compares to 0.  While this is not true, this branches to L4. When true howeber, w0 is set to value at stack+44 and the function returns.  Our Pseudocode now:
-
-~~~
-input = 3634247936
-Var1 = 0
-While (input != Var1):
-	L4()
-~~~
-
-The L4 branch can now be reviewed:
-
-~~~nasm
-.L4:
-	ldr	w0, [x29, 28]
-	and	w0, w0, 1
-	cmp	w0, 0
-	beq	.L3
-	ldr	w0, [x29, 44]
-	bl	func2
-	str	w0, [x29, 44]
-~~~
-
-This assigns the value at stack+28 to w0. This completes and and operation on w0 and 1 (returns 0 if w0 is 0 and 1 if w0 is not). This is compared to 0 and we branch to L3 if it is. If w0!=0 w0 is assigned the value in stack+44 and we branch to function 2, upon return the value of w0 is stored in stack+44.
-
-Our pseudocode now:
-
-~~~
-input = 3634247936
-Var1 = 0
-While (input != Var1):
-	if(input == 0):
-	 	L3()
-	else:
-		func2()
-~~~
-
-L3 provides a right shift by 1 to the input:
-
-~~~nasm
-.L3:
-	ldr	w0, [x29, 28]
-	lsr	w0, w0, 1
-	str	w0, [x29, 28]
-~~~
-
-~~~
-input = 3634247936
-Var1 = 0
-While (input != Var1):
-	if(input == 0):
-	 	input >> 1
-	else:
-		func2()
-~~~
-
+This gives us the flag, which we need to convert into 32 bit hex.
+	
 </details>
 
 ### Answer
@@ -6384,7 +6308,7 @@ While (input != Var1):
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{00000027}
 ~~~
 
 </details>
@@ -6824,7 +6748,20 @@ main:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution 1
+Like ARMssembly3, we will just compile and run this assembly.  We can compile as before with aarch64-linux-gnu-gcc:
+
+~~~shell
+$ aarch64-linux-gnu-gcc -ggdb3 -static -o chall_4.o chall_4.S
+~~~
+
+Running this with the input parameter 1215610622:
+
+~~~shell
+$ qemu-aarch64 -L /usr/aarch64-linux-gnu ./chall_4.o 1215610622
+Result: 1215610737
+~~~
+
+This is the (dec) flag that can be written in 32 bit hex.
 
 </details>
 
@@ -6835,7 +6772,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{4874bf71}
 ~~~
 
 </details>
