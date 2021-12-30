@@ -4,7 +4,6 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ## Contents
 
-- [messy-malloc (2019)](#messy-malloc)
 - [seed-sPRiNG (2019)](#seed-spring)
 - [sice_cream (2019)](#sice-cream)
 - [zero_to_hero (2019)](#zero-to-hero)
@@ -21,7 +20,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [The Office (2021)](#the-office)
 - [Turboflan (2021)](#turboflan)
 - [Bizz Fuzz (2021)](#bizz-fuzz)
-- [clutter-overflow (2021)](#clutter-overflow)
+- [cutter-overflow (2021)](#cutter-overflow)
 - [fermat-strings (2021)](#fermat-strings)
 - [SaaS (2021)](#saas)
 - [homework (2021)](#homework)
@@ -34,14 +33,154 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ---
 
-## Guessing Game 1
+## seed sPRiNG
 
-- Author: madStacks
-- 250 Points
+- Author: John Hammond
+- 350 Points
 
 ### Description
 
-I made a simple game to show off my programming skills. See if you can beat it! vuln vuln.c Makefile nc jupiter.challenges.picoctf.org 28953
+The most revolutionary game is finally available: [seed sPRiNG](https://jupiter.challenges.picoctf.org/static/d14dfdcce1c354fcf646e1b7faaab89a/seed_spring) is open right now! seed_spring. Connect to it with nc jupiter.challenges.picoctf.org 34558.
+
+### Hints
+
+1. How is that program deciding what the height is?
+2. You and the program should sync up!
+
+### Attachments
+
+1. [seed_spring](https://jupiter.challenges.picoctf.org/static/d14dfdcce1c354fcf646e1b7faaab89a/seed_spring)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## sice cream
+
+- Author: Samuel
+- 500 Points
+
+### Description
+
+Just pwn this [program](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/sice_cream) and get a flag. Connect with nc jupiter.challenges.picoctf.org 39673. [libc.so.6](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/libc.so.6) [ld-2.23.so](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/ld-2.23.so).
+
+### Hints
+
+1. Make sure to both files are in the same directory as the executable, and set LD_PRELOAD to the path of libc.so.6
+
+### Attachments
+
+1. [program](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/sice_cream)
+2. [libc.so.6](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/libc.so.6)
+3. [ld-2.23.so](https://jupiter.challenges.picoctf.org/static/4e1ec7c33a9e2ee08204289db0cd66f7/ld-2.23.so)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## zero to hero
+
+- Author: Claude
+- 500 Points
+
+### Description
+
+Now you're really cooking. Can you pwn [this](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/zero_to_hero) service?. Connect with nc jupiter.challenges.picoctf.org 22056. [libc.so.6](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/libc.so.6) [ld-2.29.so](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/ld-2.29.so).
+
+### Hints
+
+1. Make sure to both files are in the same directory as the executable, and set LD_PRELOAD to the path of libc.so.6
+
+### Attachments
+
+1. [zero_to_hero](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/zero_to_hero)
+2. [libc.so.6](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/libc.so.6)
+3. [ld-2.29.so](https://jupiter.challenges.picoctf.org/static/47665fca2626cb9919a1fd221c6a5ccb/ld-2.29.so)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## guessing game 1
+
+- Author: madStacks
+-  Points
+
+### Description
+
+I made a simple game to show off my programming skills. See if you can beat it! [vuln](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/vuln) [vuln.c](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/vuln.c) [Makefile](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/Makefile) nc jupiter.challenges.picoctf.org 28953
 
 ### Hints
 
@@ -50,82 +189,60 @@ I made a simple game to show off my programming skills. See if you can beat it! 
 
 ### Attachments
 
-[vuln](./resources/picoctf/picogym/attachments/binary-exploitation/guessing-game-1/vuln)
+1. [vuln](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/vuln)
+2. [vuln.c](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/vuln.c)
+3. [Makefile](https://jupiter.challenges.picoctf.org/static/3087c07bcba6f4ca29aa2dffab66c19f/Makefile)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## stonks
+
+- Author: madStacks
+- 20 Points
+
+### Description
+
+I decided to try something noone else has before. I made a bot to automatically trade stonks for me using AI and machine learning. I wouldn't believe you if you told me it's unsecure! [vuln.c](https://mercury.picoctf.net/static/f9d545499faf6f436853685ad21dcb33/vuln.c) nc mercury.picoctf.net 33411
+
+### Hints
+
+1. Okay, maybe I'd believe you if you find my API key.
+
+### Attachments
+
+1. [vuln.c](https://mercury.picoctf.net/static/f9d545499faf6f436853685ad21dcb33/vuln.c)
 
 <details>
 
 <summary markdown="span">vuln.c</summary>
 
-~~~c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#define BUFSIZE 100
-long increment(long in) {
-	return in + 1;
-}
-long get_random() {
-	return rand() % BUFSIZE;
-}
-int do_stuff() {
-	long ans = get_random();
-	ans = increment(ans);
-	int res = 0;
-	printf("What number would you like to guess?\n");
-	char guess[BUFSIZE];
-	fgets(guess, BUFSIZE, stdin);
-	long g = atol(guess);
-	if (!g) {
-		printf("That's not a valid number!\n");
-	} else {
-		if (g == ans) {
-			printf("Congrats! You win! Your prize is this print statement!\n\n");
-			res = 1;
-		} else {
-			printf("Nope!\n\n");
-		}
-	}
-	return res;
-}
-void win() {
-	char winner[BUFSIZE];
-	printf("New winner!\nName? ");
-	fgets(winner, 360, stdin);
-	printf("Congrats %s\n\n", winner);
-}
-int main(int argc, char **argv){
-	setvbuf(stdout, NULL, _IONBF, 0);
-	// Set the gid to the effective gid
-	// this prevents /bin/sh from dropping the privileges
-	gid_t gid = getegid();
-	setresgid(gid, gid, gid);
-	int res;
-	printf("Welcome to my guessing game!\n\n");
-	while (1) {
-		res = do_stuff();
-		if (res) {
-			win();
-		}
-	}
-	return 0;
-}
-~~~
-
-</details>
-
-<details>
-
-<summary markdown="span">Makefile</summary>
-
-~~~
-all:
-	gcc -m64 -fno-stack-protector -O0 -no-pie -static -o vuln vuln.c
-
-clean:
-	rm vuln
-~~~
+attachment
 
 </details>
 
@@ -157,102 +274,24 @@ picoCTF{}
 
 ---
 
-## Guessing Game 2
+## cache me outside
 
 - Author: madStacks
-- 300 points
+- 70 Points
 
 ### Description
 
-It's the Return of your favorite game! vuln vuln.c Makefile nc jupiter.challenges.picoctf.org 13610
+While being super relevant with my meme references, I wrote a program to see how much you understand heap allocations. nc mercury.picoctf.net 36605 [heapedit](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/heapedit) [Makefile](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/Makefile) [libc.so.6](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/libc.so.6)
 
 ### Hints
 
-1. No longer a static binary, but maybe this will help https://libc.blukat.me/
-2. Check out the other differences in the Makefile as well.
+1. It may be helpful to read a little bit on GLIBC's tcache.
 
 ### Attachments
 
-[vuln](./resources/picoctf/picogym/attachments/binary-exploitation/guessing-game-2/vuln)
-
-<details>
-
-<summary markdown="span">vuln.c</summary>
-
-~~~c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#define BUFSIZE 512
-long get_random() {
-	return rand;
-}
-int get_version() {
-	return 2;
-}
-int do_stuff() {
-	long ans = (get_random() % 4096) + 1;
-	int res = 0;
-	printf("What number would you like to guess?\n");
-	char guess[BUFSIZE];
-	fgets(guess, BUFSIZE, stdin);
-	long g = atol(guess);
-	if (!g) {
-		printf("That's not a valid number!\n");
-	} else {
-		if (g == ans) {
-			printf("Congrats! You win! Your prize is this print statement!\n\n");
-			res = 1;
-		} else {
-			printf("Nope!\n\n");
-		}
-	}
-	return res;
-}
-void win() {
-	char winner[BUFSIZE];
-	printf("New winner!\nName? ");
-	gets(winner);
-	printf("Congrats: ");
-	printf(winner);
-	printf("\n\n");
-}
-int main(int argc, char **argv){
-	setvbuf(stdout, NULL, _IONBF, 0);
-	// Set the gid to the effective gid
-	// this prevents /bin/sh from dropping the privileges
-	gid_t gid = getegid();
-	setresgid(gid, gid, gid);
-	int res;
-	printf("Welcome to my guessing game!\n");
-	printf("Version: %x\n\n", get_version());
-	while (1) {
-		res = do_stuff();
-		if (res) {
-			win();
-		}
-	}
-	return 0;
-}
-~~~
-
-</details>
-
-<details>
-
-<summary markdown="span">Makefile</summary>
-
-~~~
-all:
-	gcc -m32 -no-pie -Wl,-z,relro,-z,now -o vuln vuln.c
-
-clean:
-	rm vuln
-~~~
-
-</details>
+1. [heapedit](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/heapedit)
+2. [Makefile](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/Makefile)
+3. [libc.so.6](https://mercury.picoctf.net/static/482492895851479e0da770f2892e2677/libc.so.6)
 
 ### Solutions
 
@@ -260,7 +299,7 @@ clean:
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+solution details
 
 </details>
 
@@ -282,145 +321,24 @@ picoCTF{}
 
 ---
 
-## messy-malloc
+## heres a libc
 
-- Author: Sanjay C.
-- 300 points
+- Author: madStacks
+- 90 Points
 
 ### Description
 
-Can you take advantage of misused malloc calls to leak the secret through this [service](https://jupiter.challenges.picoctf.org/static/dc29193cdec351ca7dbb3e931eee6a83/auth) and get the flag? Connect with nc jupiter.challenges.picoctf.org 1541. Source.
+I am once again asking for you to pwn this binary [vuln](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/vuln) [libc.so.6](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/libc.so.6) [Makefile](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/Makefile) nc mercury.picoctf.net 37289
 
 ### Hints
 
-1. If only the program used calloc to zero out the memory...
+1. PWNTools has a lot of useful features for getting offsets.
 
 ### Attachments
 
-[auth](./resources/picoctf/picogym/attachments/binary-exploitation/messy-malloc/auth)
-
-<details>
-
-<summary markdown="span">auth.c</summary>
-
-~~~c
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#define LINE_MAX 256
-#define ACCESS_CODE_LEN 16
-#define FLAG_SIZE 64
-struct user {
-  char *username;
-  char access_code[ACCESS_CODE_LEN];
-  char *files;
-};
-struct user anon_user;
-struct user *u;
-void print_flag() {
-  char flag[FLAG_SIZE];
-  FILE *f = fopen("flag.txt", "r");
-  if (f == NULL) {
-    printf("Please make sure flag.txt exists\n");
-    exit(0);
-  }
-  if ((fgets(flag, FLAG_SIZE, f)) == NULL){
-    puts("Couldn't read flag file.");
-    exit(1);
-  };
-  unsigned long ac1 = ((unsigned long *)u->access_code)[0];
-  unsigned long ac2 = ((unsigned long *)u->access_code)[1];
-  if (ac1 != 0x4343415f544f4f52 || ac2 != 0x45444f435f535345) {
-    fprintf(stdout, "Incorrect Access Code: \"");
-    for (int i = 0; i < ACCESS_CODE_LEN; i++) {
-      putchar(u->access_code[i]);
-    }
-    fprintf(stdout, "\"\n");
-    return;
-  } 
-  puts(flag);
-  fclose(f);
-}
-void menu() {
-  puts("Commands:");
-  puts("\tlogin - login as a user");
-  puts("\tprint-flag - print the flag");
-  puts("\tlogout - log out");
-  puts("\tquit - exit the program");
-}
-const char *get_username(struct user *u) {
-  if (u->username == NULL) {
-    return "anon";
-  }
-  else {
-    return u->username;
-  }
-}
-int login() {
-  u = malloc(sizeof(struct user));
-  int username_len;
-  puts("Please enter the length of your username");
-  scanf("%d", &username_len);
-  getc(stdin);
-  char *username = malloc(username_len+1);
-  u->username = username;
-  puts("Please enter your username");
-  if (fgets(username, username_len, stdin) == NULL) {
-    puts("fgets failed");
-    exit(-1);
-  }
-  char *end;
-  if ((end=strchr(username, '\n')) != NULL) {
-    end[0] = '\0';
-  }
-  return 0; 
-}
-int logout() {
-  char *user = u->username;
-  if (u == &anon_user) {
-    return -1;
-  }
-  else {
-    free(u);
-    free(user);
-    u = &anon_user;
-  }
-  return 0;
-}
-int main(int argc, char **argv) {
-  setbuf(stdout, NULL);
-  char buf[LINE_MAX];
-  memset(anon_user.access_code, 0, ACCESS_CODE_LEN);
-  anon_user.username = NULL;
-  u = &anon_user;
-  menu();
-  while(1) {
-    puts("\nEnter your command:");
-    fprintf(stdout, "[%s]> ", get_username(u));
-    if(fgets(buf, LINE_MAX, stdin) == NULL)
-      break;
-    if (!strncmp(buf, "login", 5)){
-      login();
-    }
-    else if(!strncmp(buf, "print-flag", 10)){
-      print_flag();
-    }
-    else if(!strncmp(buf, "logout", 6)){
-      logout();
-    }
-    else if(!strncmp(buf, "quit", 4)){
-      return 0;
-    }
-    else{
-      puts("Invalid option");
-      menu();
-    }
-  }
-}
-~~~
-
-</details>
+1. [vuln](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/vuln)
+2. [libc.so.6](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/libc.so.6)
+3. [Makefile](https://mercury.picoctf.net/static/797527dce806a5d1e7a59e6146aa4713/Makefile)
 
 ### Solutions
 
@@ -428,7 +346,7 @@ int main(int argc, char **argv) {
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+solution details
 
 </details>
 
@@ -450,23 +368,24 @@ picoCTF{}
 
 ---
 
-## seed-sPRiNG
+## unsubscriptions are free
 
-- Author: John Hammond
-- 350 points
+- Author: thelshell
+- 100 Points
 
 ### Description
 
-The most revolutionary game is finally available: seed sPRiNG is open right now! seed_spring. Connect to it with nc jupiter.challenges.picoctf.org 34558.
+Check out my new video-game and spaghetti-eating streaming channel on Twixer! [program](https://mercury.picoctf.net/static/95f0b63e520ae2beece2ca11235808f8/vuln) and get a flag. [source](https://mercury.picoctf.net/static/95f0b63e520ae2beece2ca11235808f8/vuln.c) nc mercury.picoctf.net 58574
 
 ### Hints
 
-1. How is that program deciding what the height is?
-2. You and the program should sync up!
+1. [http://homes.sice.indiana.edu/yh33/Teaching/I433-2016/lec13-HeapAttacks.pdf](http://homes.sice.indiana.edu/yh33/Teaching/I433-2016/lec13-HeapAttacks.pdf)
 
 ### Attachments
 
-[seed_spring](./resources/picoctf/picogym/attachments/binary-exploitation/seed-spring/seed_spring)
+1. [vuln](https://mercury.picoctf.net/static/95f0b63e520ae2beece2ca11235808f8/vuln)
+2. [vuln.c](https://mercury.picoctf.net/static/95f0b63e520ae2beece2ca11235808f8/vuln.c)
+3. [lec13-HeapAttacks.pdf](http://homes.sice.indiana.edu/yh33/Teaching/I433-2016/lec13-HeapAttacks.pdf)
 
 ### Solutions
 
@@ -474,7 +393,7 @@ The most revolutionary game is finally available: seed sPRiNG is open right now!
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+solution details
 
 </details>
 
@@ -496,26 +415,22 @@ picoCTF{}
 
 ---
 
-## sice-cream
+## filtered shellcode
 
-- Author: Samuel
-- 500 points
+- Author: madStacks
+- 160 Points
 
 ### Description
 
-Just pwn this program and get a flag. Connect with nc jupiter.challenges.picoctf.org 39673. libc.so.6 ld-2.23.so.
+A program that just runs the code you give it? That seems kinda boring... [fun](https://mercury.picoctf.net/static/0bfc0f68ad29f38974f990c78e45977e/fun) nc mercury.picoctf.net 40525
 
 ### Hints
 
-1. Make sure to both files are in the same directory as the executable, and set LD_PRELOAD to the path of libc.so.6
+1. Take a look at the calling convention and see how you might be able to setup all the registers
 
 ### Attachments
 
-[sice_cream](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/sice_cream)
-
-[libc.so.6](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/libc.so.6)
-
-[ld-2.23.so](./resources/picoctf/picogym/attachments/binary-exploitation/sice_cream/ld-2.23.so)
+1. [fun](https://mercury.picoctf.net/static/0bfc0f68ad29f38974f990c78e45977e/fun)
 
 ### Solutions
 
@@ -523,7 +438,7 @@ Just pwn this program and get a flag. Connect with nc jupiter.challenges.picoctf
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+solution details
 
 </details>
 
@@ -545,26 +460,25 @@ picoCTF{}
 
 ---
 
-## zero-to-hero
+## kit engine
 
-- Author: Claude
-- 500 points
+- Author: wparks
+- 200 Points
 
 ### Description
 
-Now you're really cooking. Can you pwn this service?. Connect with nc jupiter.challenges.picoctf.org 22056. libc.so.6 ld-2.29.so
+Start your engines!! [d8](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/d8) [source.tar.gz](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/source.tar.gz) [server.py](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/server.py) Connect at mercury.picoctf.net 11433
 
 ### Hints
 
-1. Make sure to both files are in the same directory as the executable, and set LD_PRELOAD to the path of libc.so.6
+1. Having a good foundation may be helpful later
+2. Make sure your shellcode works for the situation.
 
 ### Attachments
 
-[zero_to_hero](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/zero_to_hero)
-
-[libc.so.6](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/libc.so.6)
-
-[ld-2.29.so](./resources/picoctf/picogym/attachments/binary-exploitation/zero-to-hero/ld-2.29.so)
+1. [d8](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/d8)
+2. [source.tar.gz](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/source.tar.gz)
+3. [server.py](https://mercury.picoctf.net/static/9ed7e29037f1cb272de5dfe15e08d206/server.py)
 
 ### Solutions
 
@@ -572,7 +486,523 @@ Now you're really cooking. Can you pwn this service?. Connect with nc jupiter.ch
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## stonk market
+
+- Author: madStacks
+- 250 Points
+
+### Description
+
+I've learned my lesson, no more reading my API key into memory. Now there's no useful information you can leak! [vuln](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/vuln) [vuln.c](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/vuln.c) [Makefile](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/Makefile) nc mercury.picoctf.net 43206
+
+### Hints
+
+None
+
+### Attachments
+
+1. [vuln](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/vuln)
+2. [vuln.c](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/vuln.c)
+3. [Makefile](https://mercury.picoctf.net/static/ad92b664c3b96d717872dd4fbd05941c/Makefile)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## download horsepower
+
+- Author: wparks
+- 350 Points
+
+### Description
+
+Gotta go fast [d8](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/d8) [source.tar.gz](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/source.tar.gz) [server.py](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/server.py) Connect at mercury.picoctf.net 35453
+
+### Hints
+
+1. Learn how things are represented in memory
+2. Try to make sure your exploit is resilient to differing offsets between objects
+3. The V8 codebase changes often! Make sure you're accounting for any changes
+
+### Attachments
+
+1. [d8](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/d8)
+2. [source.tar.gz](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/source.tar.gz)
+3. [server.py](https://mercury.picoctf.net/static/83fc2beebc010843d1e1a4e4d57f269c/server.py)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## the office
+
+- Author: madStacks
+- 400 Points
+
+### Description
+
+I'm tired of having to secure my data on the heap, so I decided to implement my own version of malloc with canaries. It's 10x more secure and only 100x slower! [the_office](https://mercury.picoctf.net/static/4b045306f3898f0a36fa6946297ad595/the_office) nc mercury.picoctf.net 23342
+
+### Hints
+
+1. The heapcheck function contains a lot of useful debugging info. See if you can get it to work.
+
+### Attachments
+
+1. [the_office](https://mercury.picoctf.net/static/4b045306f3898f0a36fa6946297ad595/the_office)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## turboflan
+
+- Author: wparks
+- 450 Points
+
+### Description
+
+A Radiant Gourmet Flan told our young Turboflan hero to stop rushing and slow down. Has he listened? [d8](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/d8) [source.tar.gz](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/source.tar.gz) [server.py](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/server.py) Connect at mercury.picoctf.net 17183
+
+### Hints
+
+1. There are a bunch of public writeups on v8 exploitation. Find the relevent ones
+2. There likely are many ways to solve this problem.
+
+### Attachments
+
+1. [d8](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/d8)
+2. [source.tar.gz](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/source.tar.gz)
+3. [server.py](https://mercury.picoctf.net/static/e6d4c47ff770cf1be585f204b5fc1cde/server.py)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## bizz fuzz
+
+- Author: madStacks
+- 500 Points
+
+### Description
+
+FizzBuzz was too easy, so I made something a little bit harder... There's a buffer overflow in this problem, good luck finding it! [vuln](https://mercury.picoctf.net/static/fa43ea7aff97aff61bbf7b403560adf6/vuln) nc mercury.picoctf.net 25546
+
+### Hints
+
+1. What functions are imported? Where are they used? And what do these strings mean?
+2. Woah, some of these functions seem similar, can you figure them out one group at a time?
+3. If fancy new dissassemblers take too long, there's always objdump!
+4. Have you heard of binary instrumentation before? It might keep you from running in circles. No promises.
+5. ANGR is another great framework.
+
+### Attachments
+
+1. [vuln](https://mercury.picoctf.net/static/fa43ea7aff97aff61bbf7b403560adf6/vuln)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## clutter overflow
+
+- Author: notdeghost
+- 150 Points
+
+### Description
+
+Clutter, clutter everywhere and not a byte to use. nc mars.picoctf.net 31890
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [chall.c](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/clutter-overflow/chall.c)
+2. [chall](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/clutter-overflow/chall)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## fermat strings
+
+- Author: 
+-  Points
+
+### Description
+
+Fermat's last theorem solver as a service. nc mars.picoctf.net 31929
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [chall.c](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/fermat-strings/chall.c)
+2. [Dockerfile](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/fermat-strings/Dockerfile)
+3. [chall](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/fermat-strings/chall)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## saas
+
+- Author: notdeghost
+- 350 Points
+
+### Description
+
+Shellcode as a Service runs any assembly code you give it! For extra safety, you're not allowed to do a lot... nc mars.picoctf.net 31021
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [chall.c](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/saas/chall.c)
+2. [Dockerfile](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/saas/Dockerfile)
+3. [chall](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/saas/chall)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## homework
+
+- Author: TPA
+- 400 Points
+
+### Description
+
+"time to do some homework!" nc mars.picoctf.net 31689
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [homework](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/homework/homework)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## lockdown horses
+
+- Author: KFB
+- 450 Points
+
+### Description
+
+Here at Moar Horse Industries, we believe, especially during these troubling times, that everyone should be able to make a horse say whatever they want. We were tired of people getting shells everywhere, so now it should be impossible! Can you still find a way to rope yourself out of this one? Flag is in the current directory. [seccomp-tools](https://github.com/david942j/seccomp-tools) might be helpful. nc mars.picoctf.net 31809
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [seccomp-tools](https://github.com/david942j/seccomp-tools)
+2. [horse](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/lockdown-horses/horse)
+3. [Dockerfile](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/lockdown-horses/Dockerfile)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## vr school
+
+- Author: 
+-  Points
+
+### Description
+
+Join my online school! Don't get lost in the virtual functions.. nc mars.picoctf.net 31638
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [Dockerfile](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/vr-school/Dockerfile)
+2. [chall](https://artifacts.picoctf.net/picoMini+by+redpwn/Binary+Exploitation/vr-school/chall)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
 
 </details>
 
