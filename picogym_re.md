@@ -17,10 +17,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [asm3 (2019)](#asm3) ✓
 - [asm4 (2019)](#asm4) ✓
 - [droids0 (2019)](#droids0) ✓
-- [droids1 (2019)](#droids1)
-- [droids2 (2019)](#droids2)
-- [droids3 (2019)](#droids3)
-- [droids4 (2019)](#droids4)
+- [droids1 (2019)](#droids1) ✓
+- [droids2 (2019)](#droids2) ✓
+- [droids3 (2019)](#droids3) ✓
+- [droids4 (2019)](#droids4) ✓
 - [revese_cipher (2019)](#reverse-cipher) ✓
 - [Need For Speed (2019)](#need-for-speed) ✓
 - [B1ll_Gat35 (2019)](#b1ll-gat35)
@@ -2668,8 +2668,261 @@ Find the pass, get the flag. Check out this file.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+Using apktool, we can decompile the apk file:
 
+~~~shell
+$ apktool d one.apk 
+I: Using Apktool 2.4.0-dirty on one.apk
+I: Loading resource table...
+I: Decoding AndroidManifest.xml with resources...
+I: Loading resource table from file: /home/derek/.local/share/apktool/framework/1.apk
+I: Regular manifest package...
+I: Decoding file-resources...
+I: Decoding values */* XMLs...
+I: Baksmaling classes.dex...
+I: Copying assets and libs...
+I: Copying unknown files...
+I: Copying original files...
+~~~
+
+This produces a directory, "one" with the apk source code. Using git we can search for pico:
+
+~~~shell
+$ grep -r "pico" one
+~~~
+
+This shows a directory one/smali/com/hellocmu/picoctf with non-standard libraries:
+
+~~~shell
+$ cd one/smali/com/hellocmu/picoctf/
+$ ls
+ BuildConfig.smali     MainActivity.smali  'R$attr.smali'  'R$color.smali'  'R$drawable.smali'  'R$integer.smali'  'R$mipmap.smali'  'R$styleable.smali'   R.smali
+ FlagstaffHill.smali  'R$anim.smali'       'R$bool.smali'  'R$dimen.smali'  'R$id.smali'        'R$layout.smali'   'R$string.smali'  'R$style.smali'
+~~~
+
+"MainActivity.smali" appears to be the main component of the program:
+
+~~~java
+.class public Lcom/hellocmu/picoctf/MainActivity;
+.super Landroidx/appcompat/app/AppCompatActivity;
+.source "MainActivity.java"
+
+
+# instance fields
+.field button:Landroid/widget/Button;
+
+.field ctx:Landroid/content/Context;
+
+.field text_bottom:Landroid/widget/TextView;
+
+.field text_input:Landroid/widget/EditText;
+
+.field text_top:Landroid/widget/TextView;
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .line 14
+    invoke-direct {p0}, Landroidx/appcompat/app/AppCompatActivity;-><init>()V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public buttonClick(Landroid/view/View;)V
+    .locals 3
+    .param p1, "view"    # Landroid/view/View;
+
+    .line 38
+    iget-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->text_input:Landroid/widget/EditText;
+
+    invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 39
+    .local v0, "content":Ljava/lang/String;
+    iget-object v1, p0, Lcom/hellocmu/picoctf/MainActivity;->text_bottom:Landroid/widget/TextView;
+
+    iget-object v2, p0, Lcom/hellocmu/picoctf/MainActivity;->ctx:Landroid/content/Context;
+
+    invoke-static {v0, v2}, Lcom/hellocmu/picoctf/FlagstaffHill;->getFlag(Ljava/lang/String;Landroid/content/Context;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 40
+    return-void
+.end method
+
+.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 2
+    .param p1, "savedInstanceState"    # Landroid/os/Bundle;
+
+    .line 25
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;->onCreate(Landroid/os/Bundle;)V
+
+    .line 26
+    const v0, 0x7f09001c
+
+    invoke-virtual {p0, v0}, Lcom/hellocmu/picoctf/MainActivity;->setContentView(I)V
+
+    .line 28
+    const v0, 0x7f07008a
+
+    invoke-virtual {p0, v0}, Lcom/hellocmu/picoctf/MainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/widget/TextView;
+
+    iput-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->text_top:Landroid/widget/TextView;
+
+    .line 29
+    const v0, 0x7f070088
+
+    invoke-virtual {p0, v0}, Lcom/hellocmu/picoctf/MainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/widget/TextView;
+
+    iput-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->text_bottom:Landroid/widget/TextView;
+
+    .line 30
+    const v0, 0x7f070089
+
+    invoke-virtual {p0, v0}, Lcom/hellocmu/picoctf/MainActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/widget/EditText;
+
+    iput-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->text_input:Landroid/widget/EditText;
+
+    .line 31
+    invoke-virtual {p0}, Lcom/hellocmu/picoctf/MainActivity;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->ctx:Landroid/content/Context;
+
+    .line 33
+    const-string v0, "hellojni"
+
+    invoke-static {v0}, Ljava/lang/System;->loadLibrary(Ljava/lang/String;)V
+
+    .line 34
+    iget-object v0, p0, Lcom/hellocmu/picoctf/MainActivity;->text_top:Landroid/widget/TextView;
+
+    const v1, 0x7f0b002c
+
+    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setText(I)V
+
+    .line 35
+    return-void
+.end method
+~~~
+
+This script includes the line:
+
+~~~java
+invoke-static {v0, v2}, Lcom/hellocmu/picoctf/FlagstaffHill;->getFlag(Ljava/lang/String;Landroid/content/Context;)Ljava/lang/String;
+~~~
+
+which we can assume will retrieve the flag (getFlag()).  We can open the FlagstaffHill smali file:
+
+~~~java
+.class public Lcom/hellocmu/picoctf/FlagstaffHill;
+.super Ljava/lang/Object;
+.source "FlagstaffHill.java"
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .line 6
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
+
+.method public static native fenugreek(Ljava/lang/String;)Ljava/lang/String;
+.end method
+
+.method public static getFlag(Ljava/lang/String;Landroid/content/Context;)Ljava/lang/String;
+    .locals 2
+    .param p0, "input"    # Ljava/lang/String;
+    .param p1, "ctx"    # Landroid/content/Context;
+
+    .line 11
+    const v0, 0x7f0b002f
+
+    invoke-virtual {p1, v0}, Landroid/content/Context;->getString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 12
+    .local v0, "password":Ljava/lang/String;
+    invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_0
+
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->fenugreek(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v1
+
+    return-object v1
+
+    .line 13
+    :cond_0
+    const-string v1, "NOPE"
+
+    return-object v1
+.end method
+~~~
+
+This loads a variable, v0, with a constant from memory:
+
+~~~java
+const v0, 0x7f0b002f
+~~~
+
+We can search for this address in the smali files:
+
+~~~shell
+$ grep -iFr "0x7f0b002f"
+FlagstaffHill.smali:    const v0, 0x7f0b002f
+R$string.smali:.field public static final password:I = 0x7f0b002f
+~~~
+
+This stores the string value password into the memory of flag.  We can search for this value using grep:
+
+~~~shell
+one$ grep -r "password"
+smali/com/hellocmu/picoctf/FlagstaffHill.smali:    .local v0, "password":Ljava/lang/String;
+smali/com/hellocmu/picoctf/R$string.smali:.field public static final password:I = 0x7f0b002f
+smali/androidx/core/view/accessibility/AccessibilityNodeInfoCompat.smali:    .param p1, "password"    # Z
+smali/androidx/core/view/accessibility/AccessibilityNodeInfoCompat.smali:    const-string v2, "; password: "
+res/values/strings.xml:    <string name="password">opossum</string>
+res/values/public.xml:    <public type="string" name="password" id="0x7f0b002f" />
+~~~
+
+We see the password is "opossum".
+	
+We can create a virtual android machine in virtualbox as described [here](https://www.howtogeek.com/164570/HOW-TO-INSTALL-ANDROID-IN-VIRTUALBOX/).  Entering the password, "opossum", gives us the flag.
+	
 </details>
 
 ### Answer
@@ -2679,7 +2932,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{pining.for.the.fjords}
 ~~~
 
 </details>
@@ -2715,7 +2968,242 @@ Find the pass, get the flag. Check out this file.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+As before, we can decompile using apktool and find the directory "two/smali/com/hellocmu/picoctf":
+
+~~~shell
+two/smali/com/hellocmu/picoctf$ ls
+ BuildConfig.smali     MainActivity.smali  'R$attr.smali'  'R$color.smali'  'R$drawable.smali'  'R$integer.smali'  'R$mipmap.smali'  'R$styleable.smali'   R.smali
+ FlagstaffHill.smali  'R$anim.smali'       'R$bool.smali'  'R$dimen.smali'  'R$id.smali'        'R$layout.smali'   'R$string.smali'  'R$style.smali'
+~~~
+
+As before, the password is retrieved from FlagstaffHill.smali:
+
+~~~java
+.class public Lcom/hellocmu/picoctf/FlagstaffHill;
+.super Ljava/lang/Object;
+.source "FlagstaffHill.java"
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .line 6
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
+
+.method public static getFlag(Ljava/lang/String;Landroid/content/Context;)Ljava/lang/String;
+    .locals 10
+    .param p0, "input"    # Ljava/lang/String;
+    .param p1, "ctx"    # Landroid/content/Context;
+
+    .line 11
+    const/4 v0, 0x6
+
+    new-array v0, v0, [Ljava/lang/String;
+
+    .line 12
+    .local v0, "witches":[Ljava/lang/String;
+    const/4 v1, 0x0
+
+    const-string v2, "weatherwax"
+
+    aput-object v2, v0, v1
+
+    .line 13
+    const/4 v1, 0x1
+
+    const-string v2, "ogg"
+
+    aput-object v2, v0, v1
+
+    .line 14
+    const/4 v1, 0x2
+
+    const-string v2, "garlick"
+
+    aput-object v2, v0, v1
+
+    .line 15
+    const/4 v1, 0x3
+
+    const-string v2, "nitt"
+
+    aput-object v2, v0, v1
+
+    .line 16
+    const/4 v1, 0x4
+
+    const-string v2, "aching"
+
+    aput-object v2, v0, v1
+
+    .line 17
+    const/4 v1, 0x5
+
+    const-string v2, "dismass"
+
+    aput-object v2, v0, v1
+
+    .line 19
+    const/4 v1, 0x3
+
+    .line 20
+    .local v1, "first":I
+    sub-int v2, v1, v1
+
+    .line 21
+    .local v2, "second":I
+    div-int v3, v1, v1
+
+    add-int/2addr v3, v2
+
+    .line 22
+    .local v3, "third":I
+    add-int v4, v3, v3
+
+    sub-int/2addr v4, v2
+
+    .line 23
+    .local v4, "fourth":I
+    add-int v5, v1, v4
+
+    .line 24
+    .local v5, "fifth":I
+    add-int v6, v5, v2
+
+    sub-int/2addr v6, v3
+
+    .line 26
+    .local v6, "sixth":I
+    aget-object v7, v0, v5
+
+    .line 27
+    const-string v8, ""
+
+    invoke-virtual {v8, v7}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    const-string v8, "."
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    aget-object v9, v0, v3
+
+    invoke-virtual {v7, v9}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    aget-object v9, v0, v2
+
+    .line 28
+    invoke-virtual {v7, v9}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    aget-object v9, v0, v6
+
+    invoke-virtual {v7, v9}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    aget-object v9, v0, v1
+
+    .line 29
+    invoke-virtual {v7, v9}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    aget-object v8, v0, v4
+
+    invoke-virtual {v7, v8}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    .line 32
+    .local v7, "password":Ljava/lang/String;
+    invoke-virtual {p0, v7}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_0
+
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->sesame(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v8
+
+    return-object v8
+
+    .line 33
+    :cond_0
+    const-string v8, "NOPE"
+
+    return-object v8
+.end method
+
+.method public static native sesame(Ljava/lang/String;)Ljava/lang/String;
+.end method
+~~~
+
+This appears to be manipulating a series of strings to generate the password.  Using jadx we can get a more legible java script:
+
+~~~java
+package com.hellocmu.picoctf;
+
+import android.content.Context;
+/* loaded from: classes.dex */
+public class FlagstaffHill {
+    public static native String sesame(String str);
+
+    public static String getFlag(String input, Context ctx) {
+        String[] witches = {"weatherwax", "ogg", "garlick", "nitt", "aching", "dismass"};
+        int second = 3 - 3;
+        int third = (3 / 3) + second;
+        int fourth = (third + third) - second;
+        int fifth = 3 + fourth;
+        if (input.equals("".concat(witches[fifth]).concat(".").concat(witches[third]).concat(".").concat(witches[second]).concat(".").concat(witches[(fifth + second) - third]).concat(".").concat(witches[3]).concat(".").concat(witches[fourth]))) {
+            return sesame(input);
+        }
+        return "NOPE";
+    }
+}
+~~~
+
+We can simply solve this by hand:
+
+~~~
+second = 0
+third = 1
+fourth = 2
+fifth = 5
+fifth+second-third = 4
+input = "dismass.ogg.weatherwax.aching.nitt.garlick"
+~~~
+
+The password is "dismass.ogg.weatherwax.aching.nitt.garlick"
+
+We can enter this into the app on our android emulator and retrieve the flag.
 
 </details>
 
@@ -2726,7 +3214,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{what.is.your.favourite.colour}
 ~~~
 
 </details>
@@ -2762,7 +3250,135 @@ Find the pass, get the flag. Check out this file.
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+Using jadx we will decompile three.apk:
+
+~~~shell
+$ ~/jadx-1.3.1/bin/jadx three.apk 
+INFO  - loading ...
+INFO  - processing ...
+INFO  - doneress: 793 of 804 (98%)
+~~~
+
+Reviewing FlagstaffHill.java:
+
+~~~java
+package com.hellocmu.picoctf;
+
+import android.content.Context;
+/* loaded from: classes.dex */
+public class FlagstaffHill {
+    public static native String cilantro(String str);
+
+    public static String nope(String input) {
+        return "don't wanna";
+    }
+
+    public static String yep(String input) {
+        return cilantro(input);
+    }
+
+    public static String getFlag(String input, Context ctx) {
+        return nope(input);
+    }
+}
+~~~
+
+We see the getFlag invokes a nope() function - which returns a string output "don't wanna".  We can see another function, yep() that is not called but likely returns the flag.  We need to change this apk to call the correct function in getFlag.
+	
+We can decompile the apk using apktool:
+
+~~~shell
+$ apktool d three.apk --no-res
+I: Using Apktool 2.4.0-dirty on three.apk
+I: Copying raw resources...
+I: Baksmaling classes.dex...
+I: Copying assets and libs...
+I: Copying unknown files...
+I: Copying original files...
+~~~
+
+The FlagstaffHill.smali file:
+
+~~~java
+.class public Lcom/hellocmu/picoctf/FlagstaffHill;
+.super Ljava/lang/Object;
+.source "FlagstaffHill.java"
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .line 6
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
+
+.method public static native cilantro(Ljava/lang/String;)Ljava/lang/String;
+.end method
+
+.method public static getFlag(Ljava/lang/String;Landroid/content/Context;)Ljava/lang/String;
+    .locals 1
+    .param p0, "input"    # Ljava/lang/String;
+    .param p1, "ctx"    # Landroid/content/Context;
+
+    .line 19
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->nope(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 20
+    .local v0, "flag":Ljava/lang/String;
+    return-object v0
+.end method
+
+.method public static nope(Ljava/lang/String;)Ljava/lang/String;
+    .locals 1
+    .param p0, "input"    # Ljava/lang/String;
+
+    .line 11
+    const-string v0, "don\'t wanna"
+
+    return-object v0
+.end method
+
+.method public static yep(Ljava/lang/String;)Ljava/lang/String;
+    .locals 1
+    .param p0, "input"    # Ljava/lang/String;
+
+    .line 15
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->cilantro(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+~~~
+
+We can change the following line:
+
+~~~java
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->nope(Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->yep(Ljava/lang/String;)Ljava/lang/String;
+~~~
+
+This can be rebuilt using apktool:
+
+~~~shell
+$ apktool b three -o three_new.apk
+I: Using Apktool 2.4.0-dirty
+I: Checking whether sources has changed...
+I: Smaling smali folder into classes.dex...
+I: Checking whether resources has changed...
+I: Copying raw resources...
+I: Copying libs... (/lib)
+I: Building apk file...
+I: Copying unknown files/dir...
+I: Built apk...
+~~~
+
+After [signing this apk](https://github.com/patrickfav/uber-apk-signer), we can install it in our emulated android and test it with any text input to retrieve the flag.
 
 </details>
 
@@ -2773,7 +3389,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{tis.but.a.scratch}
 ~~~
 
 </details>
@@ -2807,8 +3423,124 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+As before, we can decompile using jadx and find the FlagstaffHill java file:
 
+~~~java
+package com.hellocmu.picoctf;
+
+import android.content.Context;
+/* loaded from: classes.dex */
+public class FlagstaffHill {
+    public static native String cardamom(String str);
+
+    public static String getFlag(String input, Context ctx) {
+        StringBuilder ace = new StringBuilder("aaa");
+        StringBuilder jack = new StringBuilder("aaa");
+        StringBuilder queen = new StringBuilder("aaa");
+        StringBuilder king = new StringBuilder("aaa");
+        ace.setCharAt(0, (char) (ace.charAt(0) + 4));
+        ace.setCharAt(1, (char) (ace.charAt(1) + 19));
+        ace.setCharAt(2, (char) (ace.charAt(2) + 18));
+        jack.setCharAt(0, (char) (jack.charAt(0) + 7));
+        jack.setCharAt(1, (char) (jack.charAt(1) + 0));
+        jack.setCharAt(2, (char) (jack.charAt(2) + 1));
+        queen.setCharAt(0, (char) (queen.charAt(0) + 0));
+        queen.setCharAt(1, (char) (queen.charAt(1) + 11));
+        queen.setCharAt(2, (char) (queen.charAt(2) + 15));
+        king.setCharAt(0, (char) (king.charAt(0) + 14));
+        king.setCharAt(1, (char) (king.charAt(1) + 20));
+        king.setCharAt(2, (char) (king.charAt(2) + 15));
+        if (input.equals("".concat(queen.toString()).concat(jack.toString()).concat(ace.toString()).concat(king.toString()))) {
+            return "call it";
+        }
+        return "NOPE";
+    }
+}
+~~~
+
+This can be solved by hand to give "alphabetsoup".  We also have a subroutine, cardamom which is not called. Instead, on succesful entry of the password, the program returns "call it".  We can fix this in the smali source.  First we decompile with apktool:
+
+~~~shell
+$ apktool d four.apk --no-res
+I: Using Apktool 2.4.0-dirty on four.apk
+I: Copying raw resources...
+I: Baksmaling classes.dex...
+I: Copying assets and libs...
+I: Copying unknown files...
+I: Copying original files...
+~~~
+
+In FlagstaffHill.smali, we change the lines:
+
+~~~java
+    if-eqz v5, :cond_0
+
+    const-string v5, "call it"
+
+    return-object v5
+~~~
+
+to:
+
+~~~java
+    if-eqz v5, :cond_0
+
+    invoke-static {p0}, Lcom/hellocmu/picoctf/FlagstaffHill;->cardamom(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+~~~
+
+Save and recompile:
+
+~~~shell
+$ apktool b four -o four_new.apk
+I: Using Apktool 2.4.0-dirty
+I: Checking whether sources has changed...
+I: Smaling smali folder into classes.dex...
+I: Checking whether resources has changed...
+I: Copying raw resources...
+I: Copying libs... (/lib)
+I: Building apk file...
+I: Copying unknown files/dir...
+I: Built apk...
+~~~
+
+Sign the file:
+
+~~~shell
+$ java -jar uber-apk-signer-1.2.1.jar --apks four_new.apk 
+source:
+	/home/derek/Downloads
+zipalign location: BUILT_IN 
+	/tmp/uapksigner-7083807322056887138/linux-zipalign-29_0_27347050175473273457.tmp
+keystore:
+	[0] 161a0018 /tmp/temp_11192996028706548253_debug.keystore (DEBUG_EMBEDDED)
+
+01. four_new.apk
+
+	SIGN
+	file: /home/derek/Downloads/four_new.apk (1.49 MiB)
+	checksum: 13c5a739dbd15e31804aa699d493a58acdcace4b34d0e76a9869420cf4b3d5d1 (sha256)
+	- zipalign success
+	- sign success
+
+	VERIFY
+	file: /home/derek/Downloads/four_new-aligned-debugSigned.apk (1.52 MiB)
+	checksum: 69976eae532fccc1abf19bd5b186aaa8fa87a208850b50722a1451953c83972c (sha256)
+	- zipalign verified
+	- signature verified [v1, v2, v3] 
+		Subject: CN=Android Debug, OU=Android, O=US, L=US, ST=US, C=US
+		SHA256: 1e08a903aef9c3a721510b64ec764d01d3d094eb954161b62544ea8f187b5953 / SHA256withRSA
+		Expires: Thu Mar 10 20:10:05 GMT 2044
+
+[Thu Dec 30 18:43:28 GMT 2021][v1.2.1]
+Successfully processed 1 APKs and 0 errors in 0.27 seconds.
+~~~
+
+And run it in our emulator with the password "alphabetsoup" to return the flag.
+	
 </details>
 
 ### Answer
@@ -2818,7 +3550,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{not.particularly.silly}
 ~~~
 
 </details>
