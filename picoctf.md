@@ -165,28 +165,43 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
-- [Glory of the Garden](./picogym_f.md#glory-of-the-garden)
-- [So Meta](./picogym_f.md#so-meta)
-- [extensions](./picogym_f.md#extensions)
-- [shark on wire 1](./picogym_f.md#shark-on-wire-1)
-- [What Lies Within](./picogym_f.md#what-lies-within)
-- [Pitter, Patter, Platters](./picogym_f.md#pitter-patter-platters)
-- [c0rrupt](./picogym_f.md#c0rrupt)
-- [WhitePages](./picogym_f.md#whitepages)
-- [m00nwalk](./picogym_f.md#m00nwalk)
-- [like1000](./picogym_f.md#like1000)
-- [shark on wire 2](./picogym_f.md#shark-on-wire-2)
-- [m00nwalk2](./picogym_f.md#m00nwalk2)
-- [Investigative Reversing 0](./picogym_f.md#investigative-reversing-0)
-- [WebNet0](./picogym_f.md#webnet0)
-- [Investigative Reversing 1](./picogym_f.md#investigative-reversing-1)
-- [Investigative Reversing 2](./picogym_f.md#investigative-reversing-2)
-- [Investigative Reversing 3](./picogym_f.md#investigative-reversing-3)
-- [Investigative Reversing 4](./picogym_f.md#investigative-reversing-4)
-- [investigation_encoded_1](./picogym_f.md#investigation-encoded-1)
-- [WebNet1](./picogym_f.md#webnet1)
-- [investigation_encoded_2](./picogym_f.md#investigation-encoded-2)
-- [B1g_Mac](./picogym_f.md#b1g-mac)
+- [Glory of the Garden (2019)](./picogym_f.md#glory-of-the-garden) ✓
+- [So Meta (2019)](./picogym_f.md#so-meta) ✓
+- [extensions (2019)](./picogym_f.md#extensions) ✓
+- [shark on wire 1 (2019)](./picogym_f.md#shark-on-wire-1) ✓
+- [What Lies Within (2019)](./picogym_f.md#what-lies-within) ✓
+- [c0rrupt (2019)](./picogym_f.md#c0rrupt) ✓
+- [WhitePages (2019)](./picogym_f.md#whitepages) ✓
+- [m00nwalk (2019)](./picogym_f.md#m00nwalk) ✓
+- [like1000 (2019)](./picogym_f.md#like1000) ✓
+- [shark on wire 2 (2019)](./picogym_f.md#shark-on-wire-2) ✓
+- [m00nwalk2 (2019)](./picogym_f.md#m00nwalk2) ✓
+- [Investigative Reversing 0 (2019)](./picogym_f.md#investigative-reversing-0) ✓
+- [WebNet0 (2019)](./picogym_f.md#webnet0) ✓
+- [Investigative Reversing 1 (2019)](./picogym_f.md#investigative-reversing-1) ✓
+- [Investigative Reversing 2 (2019)](./picogym_f.md#investigative-reversing-2) ✓
+- [Investigative Reversing 3 (2019)](./picogym_f.md#investigative-reversing-3) ✓
+- [Investigative Reversing 4 (2019)](./picogym_f.md#investigative-reversing-4) ✓
+- [investigation_encoded_1 (2019)](./picogym_f.md#investigation-encoded-1)
+- [WebNet1 (2019)](./picogym_f.md#webnet1) ✓
+- [investigation_encoded_2 (2019)](./picogym_f.md#investigation-encoded-2)
+- [B1g_Mac (2019)](./picogym_f.md#b1g-mac)
+- [Pitter, Patter, Platters (2020)](./picogym_f.md#pitter-patter-platters) ✓
+- [Information (2021)](./picogym_f.md#information) ✓
+- [Matryoshka doll (2021)](./picogym_f.md#matryoshka-doll) ✓
+- [tunn3l v1s10n (2021)](./picogym_f.md#tunn3l-v1s10n) ✓
+- [Wireshark doo dooo do doo (2021)](./picogym_f.md#wireshark-doo-dooo-do-doo) ✓
+- [MacroHard WeakEdge (2021)](./picogym_f.md#macrohard-weakedge) ✓
+- [Trivial Flag Transfer Protocol (2021)](./picogym_f.md#trivial-flag-transfer-protocol) ✓
+- [Wireshark twoo twooo two twoo (2021)](./picogym_f.md#wireshark-twoo-twooo-two-twoo) ✓
+- [Disk, disk, sleuth! (2021)](./picogym_f.md#disk-disk-sleuth) ✓
+- [Milkslap (2021)](./picogym_f.md#milkslap) ✓
+- [Disk,disk, sleauth II (2021)](./picogym_f.md#disk-disk-sleuth-ii) ✓
+- [Surfing the Waves (2021)](./picogym_f.md#surfing-the-waves) ✓
+- [Very very very Hidden (2021)](./picogym_f.md#very-very-very-hidden) ✓
+- [Advanced-potion-making (2021)](./picogym_f.md#advanced-potion-making) ✓
+- [Scrambled-bytes (2021)](./picogym_f.md#scrambled-bytes) ✓
+- [WPA-ing Out](./picogym_f.md#wpa-ing-out) ✓
 
 ---
 
