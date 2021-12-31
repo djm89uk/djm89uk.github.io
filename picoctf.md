@@ -240,17 +240,35 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
-- [Guessing Game 1](./picogym_be.md#guessing-game-1)
-- [Guessing Game 2](./picogym_be.md#guessing-game-2)
-- [messy-malloc](./picogym_be.md#messy-malloc)
-- [seed-sPRiNG](./picogym_be.md#seed-spring)
-- [sice_cream](./picogym_be.md#sice-cream)
-- [zero_to_hero](./picogym_be.md#zero-to-hero)
+- [seed-sPRiNG (2019)](./picogym_be.md#seed-spring)
+- [sice_cream (2019)](./picogym_be.md#sice-cream)
+- [zero_to_hero (2019)](./picogym_be.md#zero-to-hero)
+- [Guessing Game 1 (2020)](./picogym_be.md#guessing-game-1)
+- [Guessing Game 2 (2020)](./picogym_be.md#guessing-game-2)
+- [Stonks (2021)](./picogym_be.md#stonks)
+- [Cache Me Outside (2021)](./picogym_be.md#cache-me-outside)
+- [Here's a LIBC (2021)](./picogym_be.md#heres-a-libc)
+- [Unsubscriptions Are Free (2021)](./picogym_be.md#unsubscriptions-are-free)
+- [filtered-shellcode (2021)](./picogym_be.md#filtered-shellcode)
+- [Kit Engine (2021)](./picogym_be.md#kit-engine)
+- [Stonk Market (2021)](./picogym_be.md#stonk-market)
+- [Download Horsepower (2021)](./picogym_be.md#download-horsepower)
+- [The Office (2021)](./picogym_be.md#the-office)
+- [Turboflan (2021)](./picogym_be.md#turboflan)
+- [Bizz Fuzz (2021)](./picogym_be.md#bizz-fuzz)
+- [cutter-overflow (2021)](./picogym_be.md#cutter-overflow)
+- [fermat-strings (2021)](./picogym_be.md#fermat-strings)
+- [SaaS (2021)](./picogym_be.md#saas)
+- [homework (2021)](./picogym_be.md#homework)
+- [lockdown-horses (2021)](./picogym_be.md#lockdown-horses)
+- [vr-school (2021)](./picogym_be.md#vr-school)
 
 ---
 
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+This page was last updated Dec 21.
 
 # [djm89uk homepage](./index.md)
