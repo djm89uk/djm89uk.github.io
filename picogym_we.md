@@ -37,6 +37,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [login (2021)](#login) ✓
 - [caas (2021)](#caas) ✓
 - [notepad (2021)](#notepad)
+- [JAuth (2021)](#jauth)
 
 
 ---
@@ -5367,7 +5368,6 @@ picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}
 
 ---
 
-
 ## notepad
 
 - Author: ginkoid
@@ -5406,7 +5406,52 @@ picoCTF{}
 ### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
+## JAuth
 
+- Author: Geoffrey Njogu
+- 300 Points
+
+### Description
+
+Most web application developers use third party components without testing their security. Some of the past affected companies are:
+
+    Equifax (a US credit bureau organization) - breach due to unpatched Apache Struts web framework CVE-2017-5638
+    Mossack Fonesca (Panama Papers law firm) breach - unpatched version of Drupal CMS used
+    VerticalScope (internet media company) - outdated version of vBulletin forum software used
+
+Can you identify the components and exploit the vulnerable one? The website is running here. Can you become an admin? You can login as test with the password Test123! to get started.
+
+### Hints
+
+1. Use the web browser tools to check out the JWT cookie.
+2. The JWT should always have two (2) . separators.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 Last updated Dec 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
