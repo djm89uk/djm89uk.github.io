@@ -20,19 +20,39 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
-- [Insp3ct0r](./picogym_we.md#insp3ct0r)
-- [logon](./picogym_we.md#logon)
-- [where are the robots](./picogym_we.md#where-are-the-robots)
-- [dont-use-client-side](./picogym_we.md#dont-use-client-side)
-- [Web Gauntlet](./picogym_we.md#web-gauntlet)
-- [picobrowser](./picogym_we.md#picobrowser)
-- [Client-side-again](./picogym_we.md#client-side-again)
-- [Irish-Name-Repo 1](./picogym_we.md#irish-name-repo-1)
-- [Irish-Name-Repo 2](./picogym_we.md#irish-name-repo-2)
-- [Irish-Name-Repo 3](./picogym_we.md#irish-name-repo-3)
-- [JaWT Scratchpad](./picogym_we.md#jawt-scratchpad)
-- [Java Script Kiddie](./picogym_we.md#java-script-kiddie)
-- [Java Script Kiddie 2](./picogym_we.md#java-script-kiddie-2)
+- [Insp3ct0r (2019)](./picogym_we.md#insp3ct0r) ✓
+- [logon (2019)](./picogym_we.md#logon) ✓
+- [where are the robots (2019)](./picogym_we.md#where-are-the-robots) ✓
+- [dont-use-client-side (2019)](./picogym_we.md#dont-use-client-side) ✓
+- [picobrowser (2019)](./picogym_we.md#picobrowser) ✓
+- [Client-side-again (2019)](./picogym_we.md#client-side-again) ✓
+- [Irish-Name-Repo 1 (2019)](./picogym_we.md#irish-name-repo-1) ✓
+- [Irish-Name-Repo 2 (2019)](./picogym_we.md#irish-name-repo-2) ✓
+- [Irish-Name-Repo 3 (2019)](./picogym_we.md#irish-name-repo-3) ✓
+- [JaWT Scratchpad (2019)](./picogym_we.md#jawt-scratchpad) ✓
+- [Java Script Kiddie (2019)](./picogym_we.md#java-script-kiddie) ✓
+- [Java Script Kiddie 2 (2019)](./picogym_we.md#java-script-kiddie-2) ✓
+- [Web Gauntlet (2020)](./picogym_we.md#web-gauntlet) ✓
+- [GET aHEAD (2021)](./picogym_we.md#get-ahead) ✓
+- [Cookies (2021)](./picogym_we.md#cookies) ✓
+- [Scavenger Hunt (2021)](./picogym_we.md#scavenger-hunt) ✓
+- [Some Assembly Required 1 (2021)](./picogym_we.md#some-assembly-required-1) ✓
+- [More Cookies (2021)](./picogym_we.md#more-cookies) ✓
+- [It is my Birthday (2021)](./picogym_we.md#it-is-my-birthday) ✓
+- [Who are you? (2021)](./picogym_we.md#who-are-you) ✓
+- [Some Assembly Required 2 (2021)](./picogym_we.md#some-assembly-required-2) ✓
+- [Super Serial (2021)](./picogym_we.md#super-serial) ✓
+- [Most Cookies (2021)](./picogym_we.md#most-cookies) ✓
+- [Some Assembly Required 3 (2021)](./picogym_we.md#some-assembly-required-3) ✓
+- [Web Gauntlet 2 (2021)](./picogym_we.md#web-gauntlet-2) ✓
+- [Some Assembly Required 4 (2021)](./picogym_we.md#some-assembly-required-4)
+- [X marks the spot (2021)](./picogym_we.md#x-marks-the-spot) ✓
+- [Web Gauntlet 3 (2021)](./picogym_we.md#web-gauntlet-3) ✓
+- [Bithug (2021)](./picogym_we.md#bithug)
+- [login (2021)](./picogym_we.md#login) ✓
+- [caas (2021)](./picogym_we.md#caas) ✓
+- [notepad (2021)](./picogym_we.md#notepad)
+- [JAuth (2021)](./picogym_we.md#jauth)
 
 ---
 
