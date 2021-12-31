@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Web Exploitation
+# [PicoCTF](./picoctf.md) PicoGym Web Exploitation [29/33]
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
