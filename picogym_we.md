@@ -4237,8 +4237,8 @@ s.close()
 COOKIE = s.cookies.get_dict()
 
 # extract data:
-C_NAME = 'session'
-C_DATA = "eyJ2ZXJ5X2F1dGgiOiJibGFuayJ9.Yc7_gQ.6Lt-JMj2LM4gJD23SepPn9YHS4A"
+C_NAME = list(COOKIE.items())[0][0]
+C_DATA = list(COOKIE.items())[0][1]
 
 USER = {'very_auth':'admin'}
 KEYS = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
