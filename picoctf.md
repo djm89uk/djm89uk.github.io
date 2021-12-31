@@ -111,28 +111,49 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
-- [vault-door-training](./picogym_re.md#vault-door-training)
-- [vault-door-1](./picogym_re.md#vault-door-1)
-- [vault-door-3](./picogym_re.md#vault-door-3)
-- [vault-door-4](./picogym_re.md#vault-door-4)
-- [vault-door-5](./picogym_re.md#vault-door-5)
-- [vault-door-6](./picogym_re.md#vault-door-6)
-- [vault-door-7](./picogym_re.md#vault-door-7)
-- [vault-door-8](./picogym_re.md#vault-door-8)
-- [asm1](./picogym_re.md#asm1)
-- [asm2](./picogym_re.md#asm2)
-- [asm3](./picogym_re.md#asm3)
-- [asm4](./picogym_re.md#asm4)
-- [OTP Implementation](./picogym_re.md#otp-implementation)
-- [droids0](./picogym_re.md#droids0)
-- [droids1](./picogym_re.md#droids1)
-- [droids2](./picogym_re.md#droids2)
-- [droids3](./picogym_re.md#droids3)
-- [droids4](./picogym_re.md#droids4)
-- [revese_cipher](./picogym_re.md#reverse-cipher)
-- [Need For Speed](./picogym_re.md#need-for-speed)
-- [B1ll_Gat35](./picogym_re.md#b1ll-gat35)
-- [Forky](./picogym_re.md#forky)
+- [vault-door-training (2019)](./picogym_re.md#vault-door-training) ✓
+- [vault-door-1 (2019)](./picogym_re.md#vault-door-1) ✓
+- [vault-door-3 (2019)](./picogym_re.md#vault-door-3) ✓
+- [vault-door-4 (2019)](./picogym_re.md#vault-door-4) ✓
+- [vault-door-5 (2019)](./picogym_re.md#vault-door-5) ✓
+- [vault-door-6 (2019)](./picogym_re.md#vault-door-6) ✓
+- [vault-door-7 (2019)](./picogym_re.md#vault-door-7) ✓
+- [vault-door-8 (2019)](./picogym_re.md#vault-door-8) ✓
+- [asm1 (2019)](./picogym_re.md#asm1) ✓
+- [asm2 (2019)](./picogym_re.md#asm2) ✓
+- [asm3 (2019)](./picogym_re.md#asm3) ✓
+- [asm4 (2019)](./picogym_re.md#asm4) ✓
+- [droids0 (2019)](./picogym_re.md#droids0) ✓
+- [droids1 (2019)](./picogym_re.md#droids1) ✓
+- [droids2 (2019)](./picogym_re.md#droids2) ✓
+- [droids3 (2019)](./picogym_re.md#droids3) ✓
+- [droids4 (2019)](./picogym_re.md#droids4) ✓
+- [revese_cipher (2019)](./picogym_re.md#reverse-cipher) ✓
+- [Need For Speed (2019)](./picogym_re.md#need-for-speed) ✓
+- [B1ll_Gat35 (2019)](./picogym_re.md#b1ll-gat35)
+- [Forky (2019)](./picogym_re.md#forky) ✓
+- [OTP Implementation (2020)](./picogym_re.md#otp-implementation) ✓
+- [Transformation (2021)](./picogym_re.md#transformation) ✓
+- [Keygenme-py (2021)](./picogym_re.md#keygneme-py) ✓
+- [crackme-py (2021)](./picogym_re.md#crackme-py) ✓
+- [ARMssembly 0 (2021)](./picogym_re.md#armssembly-0) ✓
+- [speeds and feeds (2021)](./picogym_re.md#speeds-and-feeds) ✓
+- [Shop (2021)](./picogym_re.md#shop) ✓
+- [ARMssembly 1 (2021)](./picogym_re.md#armssembly-1) ✓
+- [ARMssembly 2 (2021)](./picogym_re.md#armssembly-2) ✓
+- [Hurry up! Wait! (2021)](./picogym_re.md#hurry-up-wait) ✓
+- [gogo (2021)](./picogym_re.md#gogo) ✓
+- [ARMssembly 3 (2021)](./picogym_re.md#armssembly-3) ✓
+- [Let's get dynamic (2021)](./picogym_re.md#lets-get-dynamic) ✓
+- [Easy as GDB (2021)](./picogym_re.md#easy-as-gdb)
+- [ARMssembly 4 (2021)](./picogym_re.md#armssembly-4) ✓
+- [Powershelly (2021)](./picogym_re.md#powershelly)
+- [Rolling My Own (2021)](./picogym_re.md#rolling-my-own)
+- [Checkpass (2021)](./picogym_re.md#checkpass)
+- [not crypto (2021)](./picogym_re.md#not-crypto)
+- [breadth (2021)](./picogym_re.md#breadth)
+- [riscy business (2021)](./picogym_re.md#riscy-business)
+- [MATRIX (2021)](./picogym_re.md#matrix)
 
 ---
 
