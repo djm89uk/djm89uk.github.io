@@ -64,21 +64,42 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
-- [The Numbers](./picogym_c.md#the-numbers)
-- [caesar](./picogym_c.md#caesar)
-- [Easy1](./picogym_c.md#easy1)
-- [13](./picogym_c.md#thirteen)
-- [la cifra de](./picogym_c.md#la-cifra-de)
-- [rsa pop quiz](./picogym_c.md#rsa-pop-quiz)
-- [Tapping](./picogym_c.md#tapping)
-- [Mr-Worldwide](./picogym_c.md#mr-worldwide)
-- [Flags](./picogym_c.md#flags)
-- [waves over lambda](./picogym_c.md#waves-over-lambda)
-- [miniRSA](./picogym_c.md#minirsa)
-- [b00tl3gRSA2](./picogym_c.md#b00tl3grsa2)
-- [AES-ABC](./picogym_c.md#aes-abc)
-- [b00tl3gRSA3](./picogym_c.md#b00tl3grsa3)
-- [john_pollard](./picogym_c.md#john-pollard)
+- [The Numbers (2019)](./picogym_c.md#the-numbers) ✓
+- [caesar (2019)](./picogym_c.md#caesar) ✓
+- [Easy1 (2019)](./picogym_c.md#easy1) ✓
+- [13 (2019)](./picogym_c.md#thirteen) ✓
+- [la cifra de (2019)](./picogym_c.md#la-cifra-de) ✓
+- [rsa pop quiz (2019)](./picogym_c.md#rsa-pop-quiz) ✓
+- [Tapping (2019)](./picogym_c.md#tapping) ✓
+- [Mr-Worldwide (2019)](./picogym_c.md#mr-worldwide) ✓
+- [Flags (2019)](./picogym_c.md#flags) ✓
+- [waves over lambda (2019)](./picogym_c.md#waves-over-lambda) ✓
+- [miniRSA (2019)](./picogym_c.md#minirsa) ✓
+- [b00tl3gRSA2 (2019)](./picogym_c.md#b00tl3grsa2) ✓
+- [AES-ABC (2019)](./picogym_c.md#aes-abc) ✓
+- [b00tl3gRSA3 (2019)](./picogym_c.md#b00tl3grsa3) ✓
+- [john_pollard (2019)](./picogym_c.md#john-pollard) ✓
+- [Mod 26 (2021)](./picogym_c.md#mod26) ✓
+- [Mind your Ps and Qs (2021)](./picogym_c.md#mind-your-ps-and-qs) ✓
+- [Easy Peasy (2021)](./picogym_c.md#easy-peasy) ✓
+- [New Caesar (2021)](./picogym_c.md#new-caesar) ✓
+- [Mini RSA (2021)](./picogym_c.md#mini-rsa) ✓
+- [Dachshund Attacks (2021)](./picogym_c.md#dachshund-attacks) ✓
+- [No Padding, No Problem (2021)](./picogym_c.md#no-padding-no-problem) ✓
+- [Pixelated (2021)](./picogym_c.md#pixelated) ✓
+- [Play Nice (2021)](./picogym_c.md#play-nice) ✓
+- [Double DES (2021)](./picogym_c.md#double-des)
+- [Compress and Attack (2021)](./picogym_c.md#compress-and-attack)
+- [Scrambled: RSA (2021)](./picogym_c.md#scrambled-rsa)
+- [It's Not My Fault 1 (2021)](./picogym_c.md#its-not-my-fault-1)
+- [New Vignere (2021)](./picogym_c.md#new-vignere)
+- [Clouds (2021)](./picogym_c.md#clouds)
+- [Spelling-Quiz (2021)](./picogym_c.md#spelling-quiz) ✓
+- [XtraORdinary (2021)](./picogym_c.md#xtraordinary)
+- [Triple-Secure (2021)](./picogym_c.md#triple-secure)
+- [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team)
+- [Corrupt-key-1 (2021)](./picogym_c.md#corrupt-key-1)
+- [Corrupt-key-2 (2021)](./picogym_c.md#corrupt-key-2)
 
 ---
 
