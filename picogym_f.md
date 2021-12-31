@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Forensics
+# [PicoCTF](./picoctf.md) PicoGym Forensics [34/37]
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
