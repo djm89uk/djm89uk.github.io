@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Forensics [35/37]
+# [PicoCTF](./picoctf.md) PicoGym Forensics [36/37]
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -23,7 +23,7 @@
 - [Investigative Reversing 4 (2019)](#investigative-reversing-4) ✓
 - [investigation_encoded_1 (2019)](#investigation-encoded-1) ✓
 - [WebNet1 (2019)](#webnet1) ✓
-- [investigation_encoded_2 (2019)](#investigation-encoded-2)
+- [investigation_encoded_2 (2019)](#investigation-encoded-2) ✓
 - [B1g_Mac (2019)](#b1g-mac)
 - [Pitter, Patter, Platters (2020)](#pitter-patter-platters) ✓
 - [Information (2021)](#information) ✓
@@ -2905,7 +2905,374 @@ We have recovered a binary and 1 file: image01. See what you can make of it. NOT
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+Similar to investigation encoded 2, we get a binary "mystery" and an output file:
+	
+~~~shell
+mystery: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=b3214ef986bc85652feb1040e5970f356b56dd71, not stripped
+output:  Non-ISO extended-ASCII text, with no line terminators
+~~~
+
+Decompiling in Ghidra, we can see a main function:
+
+~~~c
+undefined8 main(void)
+
+{
+  long lVar1;
+  size_t sVar2;
+  undefined4 local_18;
+  int local_14;
+  FILE *local_10;
+  
+  badChars = '\0';
+  local_10 = fopen("flag.txt","r");
+  if (local_10 == (FILE *)0x0) {
+    fwrite("Error: file ./flag.txt not found\n",1,0x21,stderr);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  flag_size = 0;
+  fseek(local_10,0,2);
+  lVar1 = ftell(local_10);
+  flag_size = (int)lVar1;
+  fseek(local_10,0,0);
+  login();
+  if (0xfffe < flag_size) {
+    fwrite("Error, file bigger than 65535\n",1,0x1e,stderr);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  flag = malloc((long)flag_size);
+  sVar2 = fread(flag,1,(long)flag_size,local_10);
+  local_14 = (int)sVar2;
+  if (local_14 < 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_18 = 0;
+  flag_index = &local_18;
+  output = fopen("output","w");
+  buffChar = 0;
+  remain = 7;
+  fclose(local_10);
+  encode();
+  fclose(output);
+  if (badChars == '\x01') {
+    fwrite("Invalid Characters in flag.txt\n./output is corrupted\n",1,0x35,stderr);
+  }
+  else {
+    fwrite("I\'m Done, check file ./output\n",1,0x1e,stderr);
+  }
+  return 0;
+}
+~~~
+	
+The first part of this program imports the flag.txt file, creates a file handle, handles errors in the flag (missing file or missing content (size < 1) or excessively large (>65535)) and loads variables with the file contents and flag size, we can rewrite in pseudo-code removing the error handling:
+
+~~~
+main():
+  flag_file = open(flag.txt)
+  flag_size = size(flag_file)
+  login()
+  flag = int(read(flag_file))
+  flag_index = 0;
+  output_file = open(output);
+  buffchar = 0
+  remain = 7
+  close(flag_file)
+  encode()
+  close(output_file)
+  return 0;
+}
+~~~
+
+As can be seen, two external functions are called: login() and encode().  The login() function likely stops the execution of the file without authentication.  We will look at encode():
+
+~~~c
+
+void encode(void)
+
+{
+  byte bVar1;
+  uint uVar2;
+  int iVar3;
+  int local_10;
+  char local_9;
+  
+  while (*flag_index < flag_size) {
+    uVar2 = lower(*(byte *)(*flag_index + flag));
+    local_9 = (char)uVar2;
+    if (local_9 == ' ') {
+      local_9 = -0x7b;
+    }
+    else if (('/' < local_9) && (local_9 < ':')) {
+      local_9 = local_9 + 'K';
+    }
+    local_9 = local_9 + -0x61;
+    if ((local_9 < '\0') || ('$' < local_9)) {
+      badChars = 1;
+    }
+    if (local_9 != '$') {
+      iVar3 = (local_9 + 0x12) % 0x24;
+      bVar1 = (byte)(iVar3 >> 0x1f);
+      local_9 = ((byte)iVar3 ^ bVar1) - bVar1;
+    }
+    iVar3 = *(int *)(indexTable + (long)(local_9 + 1) * 4);
+    for (local_10 = *(int *)(indexTable + (long)(int)local_9 * 4); local_10 < iVar3;
+        local_10 = local_10 + 1) {
+      uVar2 = getValue(local_10);
+      save((byte)uVar2);
+    }
+    *flag_index = *flag_index + 1;
+  }
+  while (remain != 7) {
+    save(0);
+  }
+  return;
+}
+~~~
+
+This function iterates through the flag, changes all characters to lower case and replaces certain non alphanumeric characters before calling external functions getValue() and save().  We can rewrite in pseudo-code removing the error checking:
+										   
+~~~
+encode():
+  while(flag_index < flag_size):
+    flagint = lower(flag[flag_index])
+    if flagint == 32:
+      flagint = -123
+    elif 47 < flagint < 58:
+      flagint = flagint + 75
+    flagint = flagint - 97
+    if flagint != 36:
+      A = (flagint + 18)%36
+      B = A >> 31
+      flagint = (A^B)-B
+    C = indexTable[(flagint+1)*4]
+    D = indexTable[flagint*4]
+    for (i = D, i < C, i++):
+      E = getValue(i)
+      save(E)
+    flag_index++
+  while (remain != 7):
+    save(0)
+  return
+~~~
+		     
+As can be seen, the encode function iterates through the flag object and generates a related integer which is used to look up a value from indexTable which is used to call the function getValue:
+		     
+~~~c
+uint getValue(int param_1)
+
+{
+  byte bVar1;
+  int iVar2;
+  
+  iVar2 = param_1;
+  if (param_1 < 0) {
+    iVar2 = param_1 + 7;
+  }
+  bVar1 = (byte)(param_1 >> 0x37);
+  return (int)(uint)(byte)secret[iVar2 >> 3] >>
+         (7 - (((char)param_1 + (bVar1 >> 5) & 7) - (bVar1 >> 5)) & 0x1f) & 1;
+}
+~~~
+
+Again, this can be simplified:
+
+~~~
+getValue(X):
+  Y = X
+  if X < 0:
+    Y = X+7
+  A = X >> 55
+  B = Y >> 3
+  C = 7 - (X + (A>>5)&7-(A>>5))&31
+  D = secret[B]>>(C&1)
+  return D
+~~~
+
+We also have a "secret" global variable.  The two global variables can be found in Ghidra:
+
+1. indexTable:
+
+~~~
+[0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x12, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x3c, 0x00, 0x00, 0x00,
+ 0x52, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x78, 0x00, 0x00, 0x00, 0x8e, 0x00, 0x00, 0x00, 0x9e, 0x00, 0x00, 0x00,
+ 0xb4, 0x00, 0x00, 0x00, 0xc8, 0x00, 0x00, 0x00, 0xda, 0x00, 0x00, 0x00, 0xea, 0x00, 0x00, 0x00, 0xfc, 0x00, 0x00, 0x00,
+ 0x0e, 0x01, 0x00, 0x00, 0x1e, 0x01, 0x00, 0x00, 0x34, 0x01, 0x00, 0x00, 0x48, 0x01, 0x00, 0x00, 0x5a, 0x01, 0x00, 0x00,
+ 0x6a, 0x01, 0x00, 0x00, 0x78, 0x01, 0x00, 0x00, 0x80, 0x01, 0x00, 0x00, 0x8c, 0x01, 0x00, 0x00, 0x9a, 0x01, 0x00, 0x00,
+ 0xaa, 0x01, 0x00, 0x00, 0xbc, 0x01, 0x00, 0x00, 0xc8, 0x01, 0x00, 0x00, 0xd6, 0x01, 0x00, 0x00, 0xe0, 0x01, 0x00, 0x00, 
+ 0xea, 0x01, 0x00, 0x00, 0xf0, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x0a, 0x02, 0x00, 0x00, 0x16, 0x02, 0x00, 0x00,
+ 0x22, 0x02, 0x00, 0x00, 0x30, 0x02, 0x00, 0x00, 0x34, 0x02, 0x00, 0x00]
+~~~
+
+2. secret:
+	
+~~~
+[0x8b, 0xaa, 0x2e, 0xee, 0xe8, 0xbb, 0xae, 0x8e, 0xbb, 0xae, 
+ 0x3a, 0xee, 0x8e, 0xee, 0xa8, 0xee, 0xae, 0xe3, 0xaa, 0xe3,
+ 0xae, 0xbb, 0x8b, 0xae, 0xb8, 0xea, 0xae, 0x2e, 0xba, 0x2e,
+ 0xae, 0x8a, 0xee, 0xa3, 0xab, 0xa3, 0xbb, 0xbb, 0x8b, 0xbb,
+ 0xb8, 0xae, 0xee, 0x2a, 0xee, 0x2e, 0x2a, 0xb8, 0xaa, 0x8e, 
+ 0xaa, 0x3b, 0xaa, 0x3b, 0xba, 0x8e, 0xa8, 0xeb, 0xa3, 0xa8,
+ 0xaa, 0x28, 0xbb, 0xb8, 0xae, 0x2a, 0xe2, 0xee, 0x3a, 0xb8, 
+ 0x00]
+~~~
+
+This challenge includes numerical characters in the encoding scheme.  We can adapt our previous python code to solve:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jan  2 11:36:14 2022
+
+@author: derek
+"""
+
+indexTable = [0x00000000, 0x00000004, 0x00000012, 0x00000028,
+              0x0000003c, 0x00000052, 0x00000064, 0x00000078,
+              0x0000008e, 0x0000009e, 0x000000b4, 0x000000c8,
+              0x000000da, 0x000000ea, 0x000000fc, 0x0000010e,
+              0x0000011e, 0x00000134, 0x00000148, 0x0000015a,
+              0x0000016a, 0x00000178, 0x00000180, 0x0000018c,
+              0x0000019a, 0x000001aa, 0x000001bc, 0x000001c8,
+              0x000001d6, 0x000001e0, 0x000001ea, 0x000001f0,
+              0x00000200, 0x0000020a, 0x00000216, 0x00000222,
+              0x00000230, 0x00000234]
+
+secret = [0x8b, 0xaa, 0x2e, 0xee, 0xe8, 0xbb, 0xae, 0x8e, 0xbb, 0xae, 
+          0x3a, 0xee, 0x8e, 0xee, 0xa8, 0xee, 0xae, 0xe3, 0xaa, 0xe3,
+          0xae, 0xbb, 0x8b, 0xae, 0xb8, 0xea, 0xae, 0x2e, 0xba, 0x2e,
+          0xae, 0x8a, 0xee, 0xa3, 0xab, 0xa3, 0xbb, 0xbb, 0x8b, 0xbb,
+          0xb8, 0xae, 0xee, 0x2a, 0xee, 0x2e, 0x2a, 0xb8, 0xaa, 0x8e, 
+          0xaa, 0x3b, 0xaa, 0x3b, 0xba, 0x8e, 0xa8, 0xeb, 0xa3, 0xa8,
+          0xaa, 0x28, 0xbb, 0xb8, 0xae, 0x2a, 0xe2, 0xee, 0x3a, 0xb8, 
+          0x00]
+
+def getValue(a):
+    b = int(a)
+    if (a<0):
+        b = int(a+7)
+    c = a >> 55
+    secret_buff = secret[ b >> 3 ]
+    shift = 7 - ( a + ( c >> 5 ) & 7 - ( c >> 5 )) & 31
+    d = secret_buff >> shift &1
+    return d
+
+def encode_char(letter):
+    output = ""
+    letter = letter.lower()
+    letter = letter.encode()
+    letter = ord(letter)
+    if letter == 32:
+        letter = -132
+    elif 47 < letter < 58:
+        letter += 75
+    letter = letter - 97
+    if letter != 36:
+        a = (letter+18)%36
+        b = a >> 31
+        letter = (a^b)-b
+    index1 = (letter+1)
+    index2 = letter
+    c = indexTable[index1]
+    d = indexTable[index2]
+    while d < c:
+        e = getValue(d)
+        output += str(e)
+        d += 1
+    return output
+    
+def encode_flag(flag):
+    output = ""
+    for i in range(8-len(flag)%8):
+        output += str(0)
+    for letter in flag:
+        output += encode_char(letter)
+    return output
+
+def dictionary():
+    abc = "abcdefghijklmnopqrstuvwxyz0123456789"
+    abc_dict = []
+    for i in range(len(abc)):
+        enc_letter = encode_char(abc[i])
+        abc_dict.append(enc_letter)
+        print("{} encoded is {}".format(abc[i],enc_letter))
+    return abc_dict
+
+def decode_flag(enc_flag):
+    abc = "abcdefghijklmnopqrstuvwxyz0123456789"
+    d = dictionary()
+    for i in range(len(d)):
+        d[i] = d[i][::-1]
+    enc_flag = enc_flag[::-1]
+    solution_letters = [""]
+    solution_binary = [""]
+    done = 0
+    while done == 0:
+        new_solution_letters = []
+        new_solution_binary = []
+        for i in range(len(solution_letters)):
+            for j in range(len(abc)):
+                binattempt = solution_binary[i]+d[j]
+                letattempt = solution_letters[i]+abc[j]
+                if binattempt == enc_flag[:len(binattempt)]:
+                    new_solution_binary.append(binattempt)
+                    new_solution_letters.append(letattempt)
+                    if (len(enc_flag)-len(binattempt)) < 8:
+                        if(len(enc_flag)-len(binattempt)) == 0:
+                            answer = letattempt[::-1]
+                            done = 1
+                        elif int(enc_flag[len(binattempt):])==0:
+                            answer = letattempt[::-1]
+                            done = 1
+        solution_letters = new_solution_letters
+        solution_binary = new_solution_binary
+    return answer
+    
+if __name__ == "__main__":
+    #testflag = "testCTFthisIsAteSt"
+    #testout = encode_flag(testflag)
+    #findflag = decode_flag(testout)
+    #print(testflag)
+    #print(testout)
+    #print(findflag)
+    
+    file = open("output","rb")
+    encflag = file.read()
+    file.close()
+    encflag_bin = ""
+    for i in range(len(encflag)):
+        buff = encflag[i]
+        a = buff >> 7
+        encflag_bin += str(a)
+        buff = buff - (a << 7)
+        a = buff >> 6
+        encflag_bin += str(a)
+        buff = buff - (a << 6)
+        a = buff >> 5
+        encflag_bin += str(a)
+        buff = buff - (a << 5)
+        a = buff >> 4
+        encflag_bin += str(a)
+        buff = buff - (a << 4)
+        a = buff >> 3
+        encflag_bin += str(a)
+        buff = buff - (a << 3)
+        a = buff >> 2
+        encflag_bin += str(a)
+        buff = buff - (a << 2)
+        a = buff >> 1
+        encflag_bin += str(a)
+        buff = buff - (a << 1)
+        encflag_bin += str(buff)
+        
+    flag = decode_flag(encflag_bin)
+    print("flag is: "+flag)
+~~~
+
+This returns the flag.
 
 </details>
 
@@ -2916,7 +3283,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+t1m3f1i35000000000008eb3f829
 ~~~
 
 </details>
