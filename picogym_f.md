@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Forensics [34/37]
+# [PicoCTF](./picoctf.md) PicoGym Forensics [35/37]
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -21,7 +21,7 @@
 - [Investigative Reversing 2 (2019)](#investigative-reversing-2) ✓
 - [Investigative Reversing 3 (2019)](#investigative-reversing-3) ✓
 - [Investigative Reversing 4 (2019)](#investigative-reversing-4) ✓
-- [investigation_encoded_1 (2019)](#investigation-encoded-1)
+- [investigation_encoded_1 (2019)](#investigation-encoded-1) ✓
 - [WebNet1 (2019)](#webnet1) ✓
 - [investigation_encoded_2 (2019)](#investigation-encoded-2)
 - [B1g_Mac (2019)](#b1g-mac)
@@ -2595,6 +2595,168 @@ void encode(void)
 ~~~
 	
 encode() iterates through the flag using flag_index. The characters at each index are read and converted to lower-case and if the character is " " it is substituted for "{".  Two variables, i and iVar3 are calculated using a variable "matrix". This provides the iteration limits for the while loop in which the value i is given to flag int and sent to another subroutine, "save()".
+	
+We can import the matrix and secret into python and generate output codes for the alphabet.  This can be used to iterate backwards to solve the flag, since the output may have null characters appended at the beginning:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jan  2 11:36:14 2022
+
+@author: derek
+"""
+
+matrix = [ 8,           0,       0,      0,   0, 201326592,  786432, 3072, 
+          12,   134217728,  524288,   2048,   8, 234881024,  917504, 3584, 
+          14,   335544320, 1310720,   5120,  20, 167772160,  655360, 2560, 
+          10,   570425344, 2228224,   8704,  34,  67108864,  262144, 1024, 
+           4,   738197504, 2883584,  11264,  44, 201326592,  786432, 3072, 
+          12,   805306368, 3145728,  12288,  48, 201326592,  786432, 3072, 
+          12,  1006632960, 3932160,  15360,  60, 167772160,  655360, 2560, 
+          10,  1207959552, 4718592,  18432,  72, 100663296,  393216, 1536, 
+           6,  1375731712, 5373952,  20992,  82, 268435456, 1048576, 4096, 
+          16,  1476395008, 5767168,  22528,  88, 201326592,  786432, 3072, 
+          12,  1744830464, 6815744,  26624, 104, 201326592,  786432, 3072, 
+          12,  1946157056, 7602176,  29696, 116, 167772160,  655360, 2560, 
+          10, -2147483648, 8388608,  32768, 128, 134217728,  524288, 2048, 
+           8, -1979711488, 9043968,  35328, 138, 234881024,  917504, 3584, 
+          14, -1845493760, 9568256,  37376, 146, 234881024,  917504, 3584, 
+          14, -1610612736, 10485760, 40960, 160, 268435456, 1048576, 4096, 
+          16, -1375731712, 11403264, 44544, 174, 167772160,  655360, 2560, 
+          10, -1107296256, 12451840, 48640, 190, 134217728,  524288, 2048, 
+           8,  -939524096, 13107200, 51200, 200, 100663296,  393216, 1536, 
+           6,  -805306368, 13631488, 53248, 208, 167772160,  655360, 2560, 
+          10,  -704643072, 14024704, 54784, 214, 201326592,  786432, 3072, 
+          12,  -536870912, 14680064, 57344, 224, 201326592,  786432, 3072, 
+          12,  -335544320, 15466496, 60416, 236, 234881024,  917504, 3584, 
+          14,  -134217728, 16252928, 63488, 248, 268435456, 1048576, 4096, 
+          16,   100663296, 17170432, 67072, 262, 234881025,  917504, 3584, 
+          14,   369098752, 18219008, 71168, 278,  67108865,  262144, 1024, 
+           4,   603979776, 19136512, 74752, 292,         1,       0,    0]
+
+secret = [0xb8, 0xea, 0x8e, 0xba, 0x3a, 0x88, 0xae, 0x8e, 0xe8, 0xaa,
+          0x28, 0xbb, 0xb8, 0xeb, 0x8b, 0xa8, 0xee, 0x3a, 0x3b, 0xb8,
+          0xbb, 0xa3, 0xba, 0xe2, 0xe8, 0xa8, 0xe2, 0xb8, 0xab, 0x8b,
+          0xb8, 0xea, 0xe3, 0xae, 0xe3, 0xba, 0x80]
+
+def getValue(a):
+    b = int(a)
+    if (a<0):
+        b = int(a+7)
+    c = a>>0x37
+    secret_buff = secret[b>>3]
+    shift = 7-((a+(c>>5)&7)-(c>>5))&0x1f
+    d = (secret_buff >> shift)&1
+    return d
+
+def encode_char(letter):
+    output = ""
+    if letter == " ":
+        letter = "{"
+    letter = letter.lower()
+    letter = letter.encode()
+    letter = ord(letter)
+    index1 = (letter-0x61)*8 + 4
+    index2 = (letter-0x61)*8
+    a = matrix[index1]
+    b1 = matrix[index2]
+    b = a + b1
+    while a < b:
+        c = getValue(a)
+        output += str(c)
+        a += 1
+    return output
+    
+def encode_flag(flag):
+    output = ""
+    for i in range(8-len(flag)%8):
+        output += str(0)
+    for letter in flag:
+        output += encode_char(letter)
+    return output
+
+def dictionary():
+    abc = "abcdefghijklmnopqrstuvwxyz"
+    abc_dict = []
+    for i in range(len(abc)):
+        enc_letter = encode_char(abc[i])
+        abc_dict.append(enc_letter)
+        print("{} encoded is {}".format(abc[i],enc_letter))
+    return abc_dict
+
+def decode_flag(enc_flag):
+    abc = "abcdefghijklmnopqrstuvwxyz"
+    d = dictionary()
+    for i in range(len(d)):
+        d[i] = d[i][::-1]
+    enc_flag = enc_flag[::-1]
+    solution_letters = [""]
+    solution_binary = [""]
+    done = 0
+    while done == 0:
+        new_solution_letters = []
+        new_solution_binary = []
+        for i in range(len(solution_letters)):
+            for j in range(len(abc)):
+                binattempt = solution_binary[i]+d[j]
+                letattempt = solution_letters[i]+abc[j]
+                if binattempt == enc_flag[:len(binattempt)]:
+                    new_solution_binary.append(binattempt)
+                    new_solution_letters.append(letattempt)
+                    if (len(enc_flag)-len(binattempt)) < 8:
+                        if(len(enc_flag)-len(binattempt)) == 0:
+                            answer = letattempt[::-1]
+                            done = 1
+                        elif int(enc_flag[len(binattempt):])==0:
+                            answer = letattempt[::-1]
+                            done = 1
+        solution_letters = new_solution_letters
+        solution_binary = new_solution_binary
+    return answer
+    
+if __name__ == "__main__":
+    #testflag = "testCTFthisIsAteSt"
+    #testout = encode_flag(testflag)
+    #findflag = decode_flag(testout)
+    #print(testflag)
+    #print(testout)
+    #print(findflag)
+    
+    file = open("output","rb")
+    encflag = file.read()
+    file.close()
+    encflag_bin = ""
+    for i in range(len(encflag)):
+        buff = encflag[i]
+        a = buff >> 7
+        encflag_bin += str(a)
+        buff = buff - (a << 7)
+        a = buff >> 6
+        encflag_bin += str(a)
+        buff = buff - (a << 6)
+        a = buff >> 5
+        encflag_bin += str(a)
+        buff = buff - (a << 5)
+        a = buff >> 4
+        encflag_bin += str(a)
+        buff = buff - (a << 4)
+        a = buff >> 3
+        encflag_bin += str(a)
+        buff = buff - (a << 3)
+        a = buff >> 2
+        encflag_bin += str(a)
+        buff = buff - (a << 2)
+        a = buff >> 1
+        encflag_bin += str(a)
+        buff = buff - (a << 1)
+        encflag_bin += str(buff)
+        
+    flag = decode_flag(encflag_bin)
+    print("flag is: "+flag)
+~~~
+
+This provides the flag.
 
 </details>
 
@@ -2605,7 +2767,7 @@ encode() iterates through the flag using flag_index. The characters at each inde
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+encodedyizvbdqluv
 ~~~
 
 </details>
