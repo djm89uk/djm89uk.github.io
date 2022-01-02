@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Forensics [36/37]
+# [PicoCTF](./picoctf.md) PicoGym Forensics [37/37]
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -24,7 +24,7 @@
 - [investigation_encoded_1 (2019)](#investigation-encoded-1) ✓
 - [WebNet1 (2019)](#webnet1) ✓
 - [investigation_encoded_2 (2019)](#investigation-encoded-2) ✓
-- [B1g_Mac (2019)](#b1g-mac)
+- [B1g_Mac (2019)](#b1g-mac) ✓
 - [Pitter, Patter, Platters (2020)](#pitter-patter-platters) ✓
 - [Information (2021)](#information) ✓
 - [Matryoshka doll (2021)](#matryoshka-doll) ✓
@@ -3316,7 +3316,258 @@ None
 
 <summary markdown="span">Solution 1</summary>
 
-Solution here
+We are given a zip file with no hints or description:
+
+~~~shell
+$ file b1g_mac.zip 
+b1g_mac.zip: Zip archive data, at least v2.0 to extract
+~~~
+
+We can extract the directory:
+
+~~~shell
+$ unzip b1g_mac.zip 
+Archive:  b1g_mac.zip
+  inflating: main.exe                
+   creating: test/
+  inflating: test/Item01 - Copy.bmp  
+  inflating: test/Item01.bmp         
+  inflating: test/Item02 - Copy.bmp  
+  inflating: test/Item02.bmp         
+  inflating: test/Item03 - Copy.bmp  
+  inflating: test/Item03.bmp         
+  inflating: test/Item04 - Copy.bmp  
+  inflating: test/Item04.bmp         
+  inflating: test/Item05 - Copy.bmp  
+  inflating: test/Item05.bmp         
+  inflating: test/Item06 - Copy.bmp  
+  inflating: test/Item06.bmp         
+  inflating: test/Item07 - Copy.bmp  
+  inflating: test/Item07.bmp         
+  inflating: test/Item08 - Copy.bmp  
+  inflating: test/Item08.bmp         
+  inflating: test/ItemTest - Copy.bmp  
+  inflating: test/ItemTest.bmp     
+~~~
+
+We are given a main.exe executable and a directory "test":
+
+~~~shell
+$ file *
+main.exe: PE32 executable (console) Intel 80386, for MS Windows
+test:     directory
+~~~
+
+In the test directory, we have 19 bitmaps:
+
+~~~shell
+$ file *
+Item01.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item01 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item02.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item02 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item03.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item03 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item04.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item04 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item05.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item05 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item06.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item06 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item07.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item07 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item08.bmp:          PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+Item08 - Copy.bmp:   PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+ItemTest.bmp:        PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+ItemTest - Copy.bmp: PC bitmap, Windows 3.x format, 432 x 293 x 8, image size 126576, cbSize 127654, bits offset 1078
+~~~
+
+The main.exe can be decompiled in Ghidra,  we get the main program:
+
+~~~c
+int __cdecl _main(int _Argc,char **_Argv,char **_Env)
+
+{
+  undefined4 local_60;
+  undefined local_5a [50];
+  undefined4 local_28;
+  undefined4 local_24;
+  undefined4 local_20;
+  size_t local_1c;
+  FILE *local_18;
+  int local_14;
+  
+  __main();
+  _isOver = 0;
+  local_28 = 0x65742f2e;
+  local_24 = 0x7473;
+  local_20 = 0;
+  _folderName = &local_28;
+  local_14 = 0;
+  _pLevel = 0;
+  local_18 = _fopen("flag.txt","r");
+  if (local_18 == (FILE *)0x0) {
+    _puts("No flag found, please make sure this is run on the server");
+  }
+  local_1c = _fread(local_5a,1,0x12,local_18);
+  if ((int)local_1c < 1) {
+                    /* WARNING: Subroutine does not return */
+    _exit(0);
+  }
+  _flag = local_5a;
+  _flag_size = 0x12;
+  local_60 = 0;
+  _flag_index = &local_60;
+  _puts("Work is done!");
+  _listdir(local_14,_folderName);
+  _puts("Wait for 5 seconds to exit.");
+  sleep(5);
+  return 2;
+}
+~~~
+		
+We can see the program opens the flag.txt file, loads a flag object and calls a function "listdir":
+		
+~~~
+main(argc,argv,env):
+  main()
+  flag_file = open(flag.txt)
+  flag = read(flag_file,18)
+  flag_size = 18
+  flag_index = 0
+  listdir()
+  return
+~~~
+		
+listdir:
+
+~~~c
+void __cdecl _listdir(int param_1,undefined4 param_2)
+
+{
+  int iVar1;
+  BOOL BVar2;
+  char local_958 [2048];
+  _WIN32_FIND_DATAA local_158;
+  HANDLE local_18;
+  undefined local_11;
+  int local_10;
+  
+  local_18 = (HANDLE)0x0;
+  _sprintf(local_958,"%s\\*.*",param_2);
+  local_18 = FindFirstFileA(local_958,&local_158);
+  if (local_18 == (HANDLE)0xffffffff) {
+    _printf("Path not found: [%s]\n",param_2);
+  }
+  else {
+    local_10 = 1;
+    local_11 = true;
+    while ((bool)local_11 != false) {
+      iVar1 = _strcmp(local_158.cFileName,".");
+      if ((iVar1 != 0) && (iVar1 = _strcmp(local_158.cFileName,".."), iVar1 != 0)) {
+        _sprintf(local_958,"%s\\%s",param_2,local_158.cFileName);
+        if ((local_158.dwFileAttributes & 0x10) == 0) {
+          if (local_10 == 1) {
+            if (param_1 == 0) {
+              _hideInFile(local_958);
+            }
+            else if (param_1 == 1) {
+              _decodeBytes(local_958);
+            }
+          }
+          local_10 = 1 - local_10;
+        }
+        else {
+          _printf("Folder: %s\n",local_958);
+          _listdir(param_1,local_958);
+        }
+      }
+      if (_isOver != '\0') break;
+      BVar2 = FindNextFileA(local_18,&local_158);
+      local_11 = BVar2 != 0;
+    }
+    FindClose(local_18);
+  }
+  return;
+}
+~~~
+		
+This iterates through the directory and calls "hideInFile" - likely how the flag is stored in the test directory:
+
+~~~c
+
+void __cdecl _hideInFile(LPCSTR param_1)
+
+{
+  BOOL BVar1;
+  _FILETIME local_2c;
+  _FILETIME local_24;
+  _FILETIME local_1c;
+  char local_12;
+  char local_11;
+  HANDLE local_10;
+  
+  local_10 = CreateFileA(param_1,0x100,0,(LPSECURITY_ATTRIBUTES)0x0,3,0,(HANDLE)0x0);
+  _DoNotUpdateLastAccessTime(local_10);
+  if (local_10 == (HANDLE)0xffffffff) {
+    _printf("Error:INVALID_HANDLED_VALUE");
+  }
+  else {
+    BVar1 = GetFileTime(local_10,&local_1c,&local_24,&local_2c);
+    if (BVar1 == 0) {
+      _printf("Error: C-GFT-01");
+    }
+    else {
+      local_11 = *(char *)(*_flag_index + _flag);
+      *_flag_index = *_flag_index + 1;
+      local_12 = *(char *)(*_flag_index + _flag);
+      *_flag_index = *_flag_index + 1;
+      _encodeBytes(local_11,local_12,&local_2c.dwLowDateTime);
+      if (0 < _pLevel) {
+        local_11 = *(char *)(*_flag_index + _flag);
+        *_flag_index = *_flag_index + 1;
+        local_12 = *(char *)(*_flag_index + _flag);
+        *_flag_index = *_flag_index + 1;
+        _encodeBytes(local_11,local_12,&local_1c.dwLowDateTime);
+      }
+      if (_pLevel == 2) {
+        local_11 = *(char *)(*_flag_index + _flag);
+        *_flag_index = *_flag_index + 1;
+        local_12 = *(char *)(*_flag_index + _flag);
+        *_flag_index = *_flag_index + 1;
+        _encodeBytes(local_11,local_12,&local_24.dwLowDateTime);
+      }
+      BVar1 = SetFileTime(local_10,&local_1c,&local_24,&local_2c);
+      if (BVar1 == 0) {
+        _printf("Error: C-SFT-01");
+      }
+      else {
+        if (_flag_size <= *_flag_index) {
+          _isOver = 1;
+        }
+        CloseHandle(local_10);
+      }
+    }
+  }
+  return;
+}
+~~~
+
+This shows that two bytes of the flag are stored in the file timesignature within the local directory.  The lowdatetime metadata can be extracted with WMI.
+
+We get:
+
+| File                  | LowDateTime Dec    | LowDateTime Hex | Hex Pair 1 | Hex Pair 2 | Letter 1 | Letter 2 |
+|-----------------------|--------------------|-----------------|------------|------------|----------|----------|
+| Item01\ -\ Copy.bmp   | 131980296080027753 | 1D4E36149337069 | 70         | 69         | p        | i        | 
+| Item02\ -\ Copy.bmp   | 131980296340005743 | 1D4E36158B2636F | 63         | 6f         | c        | o        | 
+| Item03\ -\ Copy.bmp   | 131980296509997908 | 1D4E36162D44354 | 43         | 54         | C        | T        | 
+| Item04\ -\ Copy.bmp   | 131980296730003067 | 1D4E3616FF1467B | 46         | 7b         | F        | {        | 
+| Item05\ -\ Copy.bmp   | 131980296889978164 | 1D4E361797A4D34 | 4d         | 34         | M        | 4        | 
+| Item06\ -\ Copy.bmp   | 131980298579960660 | 1D4E361DE356354 | 63         | 54         | c        | T        | 
+| Item07\ -\ Copy.bmp   | 131980298870024557 | 1D4E361EF7F696D | 69         | 6d         | i        | m        | 
+| Item08\ -\ Copy.bmp   | 131980299550012213 | 1D4E36218073335 | 33         | 35         | 3        | 5        | 
+| ItemTest\ -\ Copy.bmp | 131980329319997821 | 1D4E3690675217D | 21         | 7d         | !        | }        | 
 
 </details>
 
@@ -3327,7 +3578,7 @@ Solution here
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{M4cTim35!}
 ~~~
 
 </details>
@@ -5568,6 +5819,6 @@ picoCTF{mickeymouse}
 
 ---
 	
-Page last updated Dec 2021.
+Page last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
