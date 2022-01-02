@@ -6,7 +6,7 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 - [PicoGym Web Exploitation](./picogym_we.md)
 - [PicoGym Cryptography](./picogym_c.md)
 - [PicoGym Reverse Engineering](./picogym_re.md)
-- [PicoGym Forensics](./picogym_f.md)
+- [PicoGym Forensics](./picogym_f.md) ✓
 - [PicoGym General Skills](./picogym_gs.md) ✓
 - [PicoGym Binary Exploitation](./picogym_be.md)
 
@@ -182,10 +182,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Investigative Reversing 2 (2019)](./picogym_f.md#investigative-reversing-2) ✓
 - [Investigative Reversing 3 (2019)](./picogym_f.md#investigative-reversing-3) ✓
 - [Investigative Reversing 4 (2019)](./picogym_f.md#investigative-reversing-4) ✓
-- [investigation_encoded_1 (2019)](./picogym_f.md#investigation-encoded-1)
+- [investigation_encoded_1 (2019)](./picogym_f.md#investigation-encoded-1) ✓
 - [WebNet1 (2019)](./picogym_f.md#webnet1) ✓
-- [investigation_encoded_2 (2019)](./picogym_f.md#investigation-encoded-2)
-- [B1g_Mac (2019)](./picogym_f.md#b1g-mac)
+- [investigation_encoded_2 (2019)](./picogym_f.md#investigation-encoded-2) ✓
+- [B1g_Mac (2019)](./picogym_f.md#b1g-mac) ✓
 - [Pitter, Patter, Platters (2020)](./picogym_f.md#pitter-patter-platters) ✓
 - [Information (2021)](./picogym_f.md#information) ✓
 - [Matryoshka doll (2021)](./picogym_f.md#matryoshka-doll) ✓
@@ -269,6 +269,6 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ---
 
-This page was last updated Dec 21.
+This page was last updated Jan 22.
 
 # [djm89uk homepage](./index.md)
