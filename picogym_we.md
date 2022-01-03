@@ -6867,11 +6867,108 @@ This note-taking site seems a bit off. [notepad.mars.picoctf.net](notepad.mars.p
 
 None
 
+### Attachments
+
+1. [notepad.tar](https://artifacts.picoctf.net/picoMini+by+redpwn/Web+Exploitation/notepad/notepad.tar)
+	
 ### Solutions
 
 <details>
 
 <summary markdown="span">Solution 1</summary>
+
+We are given the notpad tar file and can unpack it using tar:
+
+~~~shell
+$ tar -xf notepad.tar 
+~~~
+
+The following files are in the immediate directory:
+	
+~~~shell
+$ file *
+app.py:      Python script, ASCII text executable
+Dockerfile:  ASCII text
+notepad.tar: POSIX tar archive (GNU)
+static:      directory
+templates:   directory
+~~~
+
+The directory static is empty and templates includes the webpages used for the challenge.
+	
+Inspecting the dockerfile we see:
+
+~~~
+FROM python:3.9.2-slim-buster
+
+RUN pip install flask gunicorn --no-cache-dir
+
+WORKDIR /app
+COPY app.py flag.txt ./
+COPY templates templates
+RUN mkdir /app/static && \
+    chmod -R 775 . && \
+    chmod 1773 static templates/errors && \
+    mv flag.txt flag-$(cat /proc/sys/kernel/random/uuid).txt
+
+CMD ["gunicorn", "-w16", "-t5", "--graceful-timeout", "0", "-unobody", "-gnogroup", "-b0.0.0.0", "app:app"]
+~~~
+	
+1. FROM python:3.9.2-slim-buster, is a docker command to create an image from the Python base image slim-buster. 
+2. RUN pip install flask gunicorn --no-cache-dir installs flask and Python's Green Unicorn web server.
+3. WORKDIR /app sets the working directory to /app.
+4. COPY app.py flag.txt ./ copies the app.py script and flag.txt file to the current working directory.
+5. COPY templates templates, copies the directory templates to the current working directory (/app)
+6. RUN mkdir /app/static creates a new directory, static in our current working directory.
+7. chmod -R 775 . resursively changes the files and directories in the current working directory to 775 (user, group RWX permissions, other RX permissions).
+8. chmod 1773 static templates/errors changes the permissions for subdirectories static and templates/errors sto 1773 (user, group RWX permission, other WX permissions).
+9. mv flag.txt flag-$(cat /proc/sys/kernel/random/uuid).txt moves the flag to a newfile with "random" filename containing a 16-Byte hex string.
+10. CMD ["gunicorn","-w16", "-t5", "--graceful-timeout", "0", "-unobody", "-gnogroup", "-b0.0.0.0", "app:app"]  runs the green unicorn Python Web Server with WGSI app, app:app. It uses 16 workers (-w16), sets timeout to 5 seconds, sets the time for graceful workers to restart to 0, sets worker processes to run as user "nobody" and group "nogroup and binds to socket 0.0.0.0:8000.
+
+The python script for the website can be found in app.py:
+
+~~~py
+from werkzeug.urls import url_fix
+from secrets import token_urlsafe
+from flask import Flask, request, render_template, redirect, url_for
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html", error=request.args.get("error"))
+
+@app.route("/new", methods=["POST"])
+def create():
+    content = request.form.get("content", "")
+    if "_" in content or "/" in content:
+        return redirect(url_for("index", error="bad_content"))
+    if len(content) > 512:
+        return redirect(url_for("index", error="long_content", len=len(content)))
+    name = f"static/{url_fix(test)}"#)}-{token_urlsafe(8)}.html"
+    with open(name, "w") as f:
+        f.write(content)
+    return redirect(name)
+~~~
+
+What we can see is the form input on the website (content) is filtered to remove "_" and "/" characters, limited to 512 characters in length and then used to generate a unique webpage which the user is redirected to.
+
+~~~py
+name = f"static/{url_fix(test)}"#)}-{token_urlsafe(8)}.html"
+~~~
+
+token_urlsafe{8} generates an 8-character url safe token to append to the page name.  url_fix is a function to remove undesirable characters from the input.  One of the benefits of this library is it will correct "\" to "/" allowing us to bypass the first part of the filter.
+	
+Using an inject:
+
+~~~
+..\templates\errors\
+~~~
+
+navigates us to a webpage /templates/errors/-Jb39Ej3JYP8.html which is a Jinja error template.  We need to identify a suitable Server Side Template Injection [SSTI](https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/) to exploit Jinja and Flask.
+
+	
+
 
 </details>
 
