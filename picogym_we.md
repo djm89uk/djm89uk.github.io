@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Web Exploitation [29/33]
+# [PicoCTF](./picoctf.md) PicoGym Web Exploitation [30/33]
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
@@ -30,7 +30,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Most Cookies (2021)](#most-cookies) ✓
 - [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
 - [Web Gauntlet 2 (2021)](#web-gauntlet-2) ✓
-- [Some Assembly Required 4 (2021)](#some-assembly-required-4)
+- [Some Assembly Required 4 (2021)](#some-assembly-required-4) ✓
 - [X marks the spot (2021)](#x-marks-the-spot) ✓
 - [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
 - [Bithug (2021)](#bithug)
@@ -4843,17 +4843,1358 @@ $ file ZoRd23o0wd
 ZoRd23o0wd: WebAssembly (wasm) binary module version 0x1 (MVP)
 ~~~
 	
-We will come back to this.  The next part of the javascript is a function that takes an integer input and returns the corresponding array element:
+We can decompile this using wasm-decompile:
 
-~~~js
-const fn1 = function(fn1in1, fn1in2) {
-    fn1in1 = fn1in1 - 0xac;
-    let element = array[fn1in1];
-    return element;
-};
+~~~shell
+$ wasm-decompile ZoRd23o0wd -o SAR4.dcmp
 ~~~
 
+Inspecting the SAR4.dcmp:
+
+~~~
+export memory memory(initial: 2, max: 0);
+
+global g_a:int = 66864;
+export global input:int = 1072;
+global dso_handle:int = 1024;
+global data_end:int = 1328;
+global global_base:int = 1024;
+global heap_base:int = 66864;
+global memory_base:int = 0;
+global table_base:int = 1;
+
+table T_a:funcref(min: 1, max: 1);
+
+data d_a(offset: 1024) = 
+  "\18j|a\118i7F[#\06fJV:\0d\1c\12/dd\11Vu\0fn\1b\068\07E\10/o?\13\02+\09"
+  "^\00\00";
+
+function wasm_call_ctors() {
+}
+
+export function strcmp(a:int, b:int):int {
+  var c:int = g_a;
+  var d:int = 32;
+  var e:int = c - d;
+  e[6]:int = a;
+  e[5]:int = b;
+  var f:int = e[6]:int;
+  e[4]:int = f;
+  var g:int = e[5]:int;
+  e[3]:int = g;
+  loop L_b {
+    var h:ubyte_ptr = e[4]:int;
+    var i:int = 1;
+    var j:int = h + i;
+    e[4]:int = j;
+    var k:int = h[0];
+    e[11]:byte = k;
+    var l:ubyte_ptr = e[3]:int;
+    var m:int = 1;
+    var n:int = l + m;
+    e[3]:int = n;
+    var o:int = l[0];
+    e[10]:byte = o;
+    var p:int = e[11]:ubyte;
+    var q:int = 255;
+    var r:int = p & q;
+    if (r) goto B_c;
+    var s:int = e[11]:ubyte;
+    var t:int = 255;
+    var u:int = s & t;
+    var v:int = e[10]:ubyte;
+    var w:int = 255;
+    var x:int = v & w;
+    var y:int = u - x;
+    e[7]:int = y;
+    goto B_a;
+    label B_c:
+    var z:int = e[11]:ubyte;
+    var aa:int = 255;
+    var ba:int = z & aa;
+    var ca:int = e[10]:ubyte;
+    var da:int = 255;
+    var ea:int = ca & da;
+    var fa:int = ba;
+    var ga:int = ea;
+    var ha:int = fa == ga;
+    var ia:int = 1;
+    var ja:int = ha & ia;
+    if (ja) continue L_b;
+  }
+  var ka:int = e[11]:ubyte;
+  var la:int = 255;
+  var ma:int = ka & la;
+  var na:int = e[10]:ubyte;
+  var oa:int = 255;
+  var pa:int = na & oa;
+  var qa:int = ma - pa;
+  e[7]:int = qa;
+  label B_a:
+  var ra:int = e[7]:int;
+  return ra;
+}
+
+export function check_flag():int {
+  var a:int = g_a;
+  var b:int = 16;
+  var c:int = a - b;
+  g_a = c;
+  var d:int = 0;
+  c[3]:int = d;
+  loop L_b {
+    var e:ubyte_ptr = c[3]:int;
+    var f:int = e[1072];
+    var g:int = 24;
+    var h:int = f << g;
+    var i:int = h >> g;
+    if (eqz(i)) goto B_a;
+    var j:int = 0;
+    var k:int = c[3]:int;
+    var l:int = k[1072]:ubyte;
+    var m:int = 24;
+    var n:int = l << m;
+    var o:int = n >> m;
+    var p:int = 20;
+    var q:int = o ^ p;
+    k[1072]:byte = q;
+    var r:int = c[3]:int;
+    var s:int = r;
+    var t:int = j;
+    var u:int = s > t;
+    var v:int = 1;
+    var w:int = u & v;
+    if (eqz(w)) goto B_c;
+    var x:int = c[3]:int;
+    var y:int = 1;
+    var z:ubyte_ptr = x - y;
+    var aa:int = z[1072];
+    var ba:int = 24;
+    var ca:int = aa << ba;
+    var da:int = ca >> ba;
+    var ea:int = c[3]:int;
+    var fa:int = ea[1072]:ubyte;
+    var ga:int = 24;
+    var ha:int = fa << ga;
+    var ia:int = ha >> ga;
+    var ja:int = ia ^ da;
+    ea[1072]:byte = ja;
+    label B_c:
+    var ka:int = 2;
+    var la:int = c[3]:int;
+    var ma:int = la;
+    var na:int = ka;
+    var oa:int = ma > na;
+    var pa:int = 1;
+    var qa:int = oa & pa;
+    if (eqz(qa)) goto B_d;
+    var ra:int = c[3]:int;
+    var sa:int = 3;
+    var ta:ubyte_ptr = ra - sa;
+    var ua:int = ta[1072];
+    var va:int = 24;
+    var wa:int = ua << va;
+    var xa:int = wa >> va;
+    var ya:int = c[3]:int;
+    var za:int = ya[1072]:ubyte;
+    var ab:int = 24;
+    var bb:int = za << ab;
+    var cb:int = bb >> ab;
+    var db:int = cb ^ xa;
+    ya[1072]:byte = db;
+    label B_d:
+    var eb:int = c[3]:int;
+    var fb:int = 10;
+    var gb:int = eb % fb;
+    var hb:int = c[3]:int;
+    var ib:int = hb[1072]:ubyte;
+    var jb:int = 24;
+    var kb:int = ib << jb;
+    var lb:int = kb >> jb;
+    var mb:int = lb ^ gb;
+    hb[1072]:byte = mb;
+    var nb:int = c[3]:int;
+    var ob:int = 2;
+    var pb:int = nb % ob;
+    if (pb) goto B_f;
+    var qb:int = c[3]:int;
+    var rb:int = qb[1072]:ubyte;
+    var sb:int = 24;
+    var tb:int = rb << sb;
+    var ub:int = tb >> sb;
+    var vb:int = 9;
+    var wb:int = ub ^ vb;
+    qb[1072]:byte = wb;
+    goto B_e;
+    label B_f:
+    var xb:int = c[3]:int;
+    var yb:int = xb[1072]:ubyte;
+    var zb:int = 24;
+    var ac:int = yb << zb;
+    var bc:int = ac >> zb;
+    var cc:int = 8;
+    var dc:int = bc ^ cc;
+    xb[1072]:byte = dc;
+    label B_e:
+    var ec:int = c[3]:int;
+    var fc:int = 3;
+    var gc:int = ec % fc;
+    if (gc) goto B_h;
+    var hc:int = c[3]:int;
+    var ic:int = hc[1072]:ubyte;
+    var jc:int = 24;
+    var kc:int = ic << jc;
+    var lc:int = kc >> jc;
+    var mc:int = 7;
+    var nc:int = lc ^ mc;
+    hc[1072]:byte = nc;
+    goto B_g;
+    label B_h:
+    var oc:int = 1;
+    var pc:int = c[3]:int;
+    var qc:int = 3;
+    var rc:int = pc % qc;
+    var sc:int = rc;
+    var tc:int = oc;
+    var uc:int = sc == tc;
+    var vc:int = 1;
+    var wc:int = uc & vc;
+    if (eqz(wc)) goto B_j;
+    var xc:int = c[3]:int;
+    var yc:int = xc[1072]:ubyte;
+    var zc:int = 24;
+    var ad:int = yc << zc;
+    var bd:int = ad >> zc;
+    var cd:int = 6;
+    var dd:int = bd ^ cd;
+    xc[1072]:byte = dd;
+    goto B_i;
+    label B_j:
+    var ed:int = c[3]:int;
+    var fd:int = ed[1072]:ubyte;
+    var gd:int = 24;
+    var hd:int = fd << gd;
+    var id:int = hd >> gd;
+    var jd:int = 5;
+    var kd:int = id ^ jd;
+    ed[1072]:byte = kd;
+    label B_i:
+    label B_g:
+    var ld:int = c[3]:int;
+    var md:int = 1;
+    var nd:int = ld + md;
+    c[3]:int = nd;
+    continue L_b;
+  }
+  label B_a:
+  var od:int = 0;
+  c[1]:int = od;
+  loop L_l {
+    var pd:int = c[1]:int;
+    var qd:int = c[3]:int;
+    var rd:int = pd;
+    var sd:int = qd;
+    var td:int = rd < sd;
+    var ud:int = 1;
+    var vd:int = td & ud;
+    if (eqz(vd)) goto B_k;
+    var wd:int = c[1]:int;
+    var xd:int = 2;
+    var yd:int = wd % xd;
+    if (yd) goto B_m;
+    var zd:int = c[1]:int;
+    var ae:int = 1;
+    var be:int = zd + ae;
+    var ce:int = c[3]:int;
+    var de:int = be;
+    var ee:int = ce;
+    var fe:int = de < ee;
+    var ge:int = 1;
+    var he:int = fe & ge;
+    if (eqz(he)) goto B_m;
+    var ie:ubyte_ptr = c[1]:int;
+    var je:int = ie[1072];
+    c[11]:byte = je;
+    var ke:int = c[1]:int;
+    var le:int = 1;
+    var me:ubyte_ptr = ke + le;
+    var ne:int = me[1072];
+    var oe:byte_ptr = c[1]:int;
+    oe[1072] = ne;
+    var pe:int = c[11]:ubyte;
+    var qe:int = c[1]:int;
+    var re:int = 1;
+    var se:byte_ptr = qe + re;
+    se[1072] = pe;
+    label B_m:
+    var te:int = c[1]:int;
+    var ue:int = 1;
+    var ve:int = te + ue;
+    c[1]:int = ve;
+    continue L_l;
+  }
+  label B_k:
+  var we:int = 0;
+  var xe:int = 1072;
+  var ye:int = 1024;
+  var ze:int = strcmp(ye, xe);
+  var af:int = ze;
+  var bf:int = we;
+  var cf:int = af != bf;
+  var df:int = -1;
+  var ef:int = cf ^ df;
+  var ff:int = 1;
+  var gf:int = ef & ff;
+  var hf:int = 16;
+  var if:int = c + hf;
+  g_a = if;
+  return gf;
+}
+
+function copy(a:int, b:int) {
+  var c:int = g_a;
+  var d:int = 16;
+  var e:int_ptr = c - d;
+  e[3] = a;
+  e[2] = b;
+  var f:int = e[3];
+  var g:byte_ptr = e[2];
+  g[1072] = f;
+}
+~~~
+
+We can see functions: strcmp, checkflag and copy.  The checkflag function:
+
+~~~
+export function check_flag():int {
+  var a:int = g_a;
+  var b:int = 16;
+  var c:int = a - b;
+  g_a = c;
+  var d:int = 0;
+  c[3]:int = d;
+  loop L_b {
+    var e:ubyte_ptr = c[3]:int;
+    var f:int = e[1072];
+    var g:int = 24;
+    var h:int = f << g;
+    var i:int = h >> g;
+    if (eqz(i)) goto B_a;
+    var j:int = 0;
+    var k:int = c[3]:int;
+    var l:int = k[1072]:ubyte;
+    var m:int = 24;
+    var n:int = l << m;
+    var o:int = n >> m;
+    var p:int = 20;
+    var q:int = o ^ p;
+    k[1072]:byte = q;
+    var r:int = c[3]:int;
+    var s:int = r;
+    var t:int = j;
+    var u:int = s > t;
+    var v:int = 1;
+    var w:int = u & v;
+    if (eqz(w)) goto B_c;
+    var x:int = c[3]:int;
+    var y:int = 1;
+    var z:ubyte_ptr = x - y;
+    var aa:int = z[1072];
+    var ba:int = 24;
+    var ca:int = aa << ba;
+    var da:int = ca >> ba;
+    var ea:int = c[3]:int;
+    var fa:int = ea[1072]:ubyte;
+    var ga:int = 24;
+    var ha:int = fa << ga;
+    var ia:int = ha >> ga;
+    var ja:int = ia ^ da;
+    ea[1072]:byte = ja;
+    label B_c:
+    var ka:int = 2;
+    var la:int = c[3]:int;
+    var ma:int = la;
+    var na:int = ka;
+    var oa:int = ma > na;
+    var pa:int = 1;
+    var qa:int = oa & pa;
+    if (eqz(qa)) goto B_d;
+    var ra:int = c[3]:int;
+    var sa:int = 3;
+    var ta:ubyte_ptr = ra - sa;
+    var ua:int = ta[1072];
+    var va:int = 24;
+    var wa:int = ua << va;
+    var xa:int = wa >> va;
+    var ya:int = c[3]:int;
+    var za:int = ya[1072]:ubyte;
+    var ab:int = 24;
+    var bb:int = za << ab;
+    var cb:int = bb >> ab;
+    var db:int = cb ^ xa;
+    ya[1072]:byte = db;
+    label B_d:
+    var eb:int = c[3]:int;
+    var fb:int = 10;
+    var gb:int = eb % fb;
+    var hb:int = c[3]:int;
+    var ib:int = hb[1072]:ubyte;
+    var jb:int = 24;
+    var kb:int = ib << jb;
+    var lb:int = kb >> jb;
+    var mb:int = lb ^ gb;
+    hb[1072]:byte = mb;
+    var nb:int = c[3]:int;
+    var ob:int = 2;
+    var pb:int = nb % ob;
+    if (pb) goto B_f;
+    var qb:int = c[3]:int;
+    var rb:int = qb[1072]:ubyte;
+    var sb:int = 24;
+    var tb:int = rb << sb;
+    var ub:int = tb >> sb;
+    var vb:int = 9;
+    var wb:int = ub ^ vb;
+    qb[1072]:byte = wb;
+    goto B_e;
+    label B_f:
+    var xb:int = c[3]:int;
+    var yb:int = xb[1072]:ubyte;
+    var zb:int = 24;
+    var ac:int = yb << zb;
+    var bc:int = ac >> zb;
+    var cc:int = 8;
+    var dc:int = bc ^ cc;
+    xb[1072]:byte = dc;
+    label B_e:
+    var ec:int = c[3]:int;
+    var fc:int = 3;
+    var gc:int = ec % fc;
+    if (gc) goto B_h;
+    var hc:int = c[3]:int;
+    var ic:int = hc[1072]:ubyte;
+    var jc:int = 24;
+    var kc:int = ic << jc;
+    var lc:int = kc >> jc;
+    var mc:int = 7;
+    var nc:int = lc ^ mc;
+    hc[1072]:byte = nc;
+    goto B_g;
+    label B_h:
+    var oc:int = 1;
+    var pc:int = c[3]:int;
+    var qc:int = 3;
+    var rc:int = pc % qc;
+    var sc:int = rc;
+    var tc:int = oc;
+    var uc:int = sc == tc;
+    var vc:int = 1;
+    var wc:int = uc & vc;
+    if (eqz(wc)) goto B_j;
+    var xc:int = c[3]:int;
+    var yc:int = xc[1072]:ubyte;
+    var zc:int = 24;
+    var ad:int = yc << zc;
+    var bd:int = ad >> zc;
+    var cd:int = 6;
+    var dd:int = bd ^ cd;
+    xc[1072]:byte = dd;
+    goto B_i;
+    label B_j:
+    var ed:int = c[3]:int;
+    var fd:int = ed[1072]:ubyte;
+    var gd:int = 24;
+    var hd:int = fd << gd;
+    var id:int = hd >> gd;
+    var jd:int = 5;
+    var kd:int = id ^ jd;
+    ed[1072]:byte = kd;
+    label B_i:
+    label B_g:
+    var ld:int = c[3]:int;
+    var md:int = 1;
+    var nd:int = ld + md;
+    c[3]:int = nd;
+    continue L_b;
+  }
+  label B_a:
+  var od:int = 0;
+  c[1]:int = od;
+  loop L_l {
+    var pd:int = c[1]:int;
+    var qd:int = c[3]:int;
+    var rd:int = pd;
+    var sd:int = qd;
+    var td:int = rd < sd;
+    var ud:int = 1;
+    var vd:int = td & ud;
+    if (eqz(vd)) goto B_k;
+    var wd:int = c[1]:int;
+    var xd:int = 2;
+    var yd:int = wd % xd;
+    if (yd) goto B_m;
+    var zd:int = c[1]:int;
+    var ae:int = 1;
+    var be:int = zd + ae;
+    var ce:int = c[3]:int;
+    var de:int = be;
+    var ee:int = ce;
+    var fe:int = de < ee;
+    var ge:int = 1;
+    var he:int = fe & ge;
+    if (eqz(he)) goto B_m;
+    var ie:ubyte_ptr = c[1]:int;
+    var je:int = ie[1072];
+    c[11]:byte = je;
+    var ke:int = c[1]:int;
+    var le:int = 1;
+    var me:ubyte_ptr = ke + le;
+    var ne:int = me[1072];
+    var oe:byte_ptr = c[1]:int;
+    oe[1072] = ne;
+    var pe:int = c[11]:ubyte;
+    var qe:int = c[1]:int;
+    var re:int = 1;
+    var se:byte_ptr = qe + re;
+    se[1072] = pe;
+    label B_m:
+    var te:int = c[1]:int;
+    var ue:int = 1;
+    var ve:int = te + ue;
+    c[1]:int = ve;
+    continue L_l;
+  }
+  label B_k:
+  var we:int = 0;
+  var xe:int = 1072;
+  var ye:int = 1024;
+  var ze:int = strcmp(ye, xe);
+  var af:int = ze;
+  var bf:int = we;
+  var cf:int = af != bf;
+  var df:int = -1;
+  var ef:int = cf ^ df;
+  var ff:int = 1;
+  var gf:int = ef & ff;
+  var hf:int = 16;
+  var if:int = c + hf;
+  g_a = if;
+  return gf;
+}
+~~~
+
+There are several subroutines: B_c, B_d, B_f, B_e, B_h, B_j, B_i, B_g, B_a, B_m, B_k.  We can look at the subroutine B_d:
+
+~~~
+    label B_d:
+    var eb:int = c[3]:int;
+    var fb:int = 10;
+    var gb:int = eb % fb;
+    var hb:int = c[3]:int;
+    var ib:int = hb[1072]:ubyte;
+    var jb:int = 24;
+    var kb:int = ib << jb;
+    var lb:int = kb >> jb;
+    var mb:int = lb ^ gb;
+    hb[1072]:byte = mb;
+    var nb:int = c[3]:int;
+    var ob:int = 2;
+    var pb:int = nb % ob;
+    if (pb) goto B_f;
+    var qb:int = c[3]:int;
+    var rb:int = qb[1072]:ubyte;
+    var sb:int = 24;
+    var tb:int = rb << sb;
+    var ub:int = tb >> sb;
+    var vb:int = 9;
+    var wb:int = ub ^ vb;
+    qb[1072]:byte = wb;
+    goto B_e;
+~~~
+
+This can be translated literally into Python:
+
+~~~py
+def B_d(a,b):
+    fb = 10
+    gb = a%fb
+    ib = b
+    jb = 24
+    kb = ib << jb
+    lb = kb >> jb
+    mb = lb ^ gb
+    nb = a
+    ob = 2
+    pb = nb % ob
+    if (pb):
+        return (B_f(a,b))
+    else:
+        qb = b
+        rb = qb
+        sb = 24
+        tb = rb << sb
+        ub = tb >> sb
+        vb = 9
+        wb = ub ^ vb
+        return wb
+~~~
+
+Re-writing, we get a much simpler function:
+
+~~~py
+def B_d(a,b):
+    b = b ^ ( a % 10 )
+    if (a%2):
+	out = B_f(a,b)
+    else:
+	out = b ^ 9
+    return out
+~~~
 	
+we can complete this for all of the necessary subroutines:
+
+~~~py
+def B_c(a, b):
+    if (a > 2) & 1 == 0:
+        b = B_d(a, b)
+    else:
+        b = b ^ flag[a - 3]
+        b = B_d(a, b)
+    return b
+
+def B_d(a, b):
+    b = b ^ ( a % 10 )
+    if a % 2:
+        b = B_f(a, b)
+    else:
+        b = B_e(a, b^9 )
+    return b
+
+def B_e(a, b):
+    if a % 3:
+        b = B_h(a, b)
+    else:
+	b = b^7
+        b = B_g(a, b)
+    return b
+
+def B_f(a, b):
+    b = b ^ 8
+    b = B_e(a, b)
+    return b
+
+def B_g(a, b):
+    return b
+
+def B_h(a, b):
+    rc = a % 3
+    uc = rc == 1
+    if uc & 1 == 0:
+        b = B_j(a, b)
+        return b
+    else:
+        b = b ^ 6
+        b = B_i(a, b)
+    return b
+
+def B_i(a, b):
+    return b
+	
+def B_j(a, b):
+    return B_g(a, b ^ 5)
+
+def B_m(a, b):
+    return b
+~~~
+
+The check flag function can be reviewed:
+
+~~~
+static u32 check_flag(void) {
+  u32 l0 = 0, l1 = 0, l2 = 0, l3 = 0, l4 = 0, l5 = 0, l6 = 0, l7 = 0, 
+      l8 = 0, l9 = 0, l10 = 0, l11 = 0, l12 = 0, l13 = 0, l14 = 0, l15 = 0, 
+      l16 = 0, l17 = 0, l18 = 0, l19 = 0, l20 = 0, l21 = 0, l22 = 0, l23 = 0, 
+      l24 = 0, l25 = 0, l26 = 0, l27 = 0, l28 = 0, l29 = 0, l30 = 0, l31 = 0, 
+      l32 = 0, l33 = 0, l34 = 0, l35 = 0, l36 = 0, l37 = 0, l38 = 0, l39 = 0, 
+      l40 = 0, l41 = 0, l42 = 0, l43 = 0, l44 = 0, l45 = 0, l46 = 0, l47 = 0, 
+      l48 = 0, l49 = 0, l50 = 0, l51 = 0, l52 = 0, l53 = 0, l54 = 0, l55 = 0, 
+      l56 = 0, l57 = 0, l58 = 0, l59 = 0, l60 = 0, l61 = 0, l62 = 0, l63 = 0, 
+      l64 = 0, l65 = 0, l66 = 0, l67 = 0, l68 = 0, l69 = 0, l70 = 0, l71 = 0, 
+      l72 = 0, l73 = 0, l74 = 0, l75 = 0, l76 = 0, l77 = 0, l78 = 0, l79 = 0, 
+      l80 = 0, l81 = 0, l82 = 0, l83 = 0, l84 = 0, l85 = 0, l86 = 0, l87 = 0, 
+      l88 = 0, l89 = 0, l90 = 0, l91 = 0, l92 = 0, l93 = 0, l94 = 0, l95 = 0, 
+      l96 = 0, l97 = 0, l98 = 0, l99 = 0, l100 = 0, l101 = 0, l102 = 0, l103 = 0, 
+      l104 = 0, l105 = 0, l106 = 0, l107 = 0, l108 = 0, l109 = 0, l110 = 0, l111 = 0, 
+      l112 = 0, l113 = 0, l114 = 0, l115 = 0, l116 = 0, l117 = 0, l118 = 0, l119 = 0, 
+      l120 = 0, l121 = 0, l122 = 0, l123 = 0, l124 = 0, l125 = 0, l126 = 0, l127 = 0, 
+      l128 = 0, l129 = 0, l130 = 0, l131 = 0, l132 = 0, l133 = 0, l134 = 0, l135 = 0, 
+      l136 = 0, l137 = 0, l138 = 0, l139 = 0, l140 = 0, l141 = 0, l142 = 0, l143 = 0, 
+      l144 = 0, l145 = 0, l146 = 0, l147 = 0, l148 = 0, l149 = 0, l150 = 0, l151 = 0, 
+      l152 = 0, l153 = 0, l154 = 0, l155 = 0, l156 = 0, l157 = 0, l158 = 0, l159 = 0, 
+      l160 = 0, l161 = 0, l162 = 0, l163 = 0, l164 = 0;
+  FUNC_PROLOGUE;
+  u32 i0, i1;
+  i0 = g0;
+  l0 = i0;
+  i0 = 16u;
+  l1 = i0;
+  i0 = l0;
+  i1 = l1;
+  i0 -= i1;
+  l2 = i0;
+  i0 = l2;
+  g0 = i0;
+  i0 = 0u;
+  l3 = i0;
+  i0 = l2;
+  i1 = l3;
+  i32_store((&memory), (u64)(i0 + 12), i1);
+  L1: 
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l4 = i0;
+    i0 = l4;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l5 = i0;
+    i0 = 24u;
+    l6 = i0;
+    i0 = l5;
+    i1 = l6;
+    i0 <<= (i1 & 31);
+    l7 = i0;
+    i0 = l7;
+    i1 = l6;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l8 = i0;
+    i0 = l8;
+    i0 = !(i0);
+    if (i0) {goto B0;}
+    i0 = 0u;
+    l9 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l10 = i0;
+    i0 = l10;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l11 = i0;
+    i0 = 24u;
+    l12 = i0;
+    i0 = l11;
+    i1 = l12;
+    i0 <<= (i1 & 31);
+    l13 = i0;
+    i0 = l13;
+    i1 = l12;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l14 = i0;
+    i0 = 20u;
+    l15 = i0;
+    i0 = l14;
+    i1 = l15;
+    i0 ^= i1;
+    l16 = i0;
+    i0 = l10;
+    i1 = l16;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l17 = i0;
+    i0 = l17;
+    l18 = i0;
+    i0 = l9;
+    l19 = i0;
+    i0 = l18;
+    i1 = l19;
+    i0 = (u32)((s32)i0 > (s32)i1);
+    l20 = i0;
+    i0 = 1u;
+    l21 = i0;
+    i0 = l20;
+    i1 = l21;
+    i0 &= i1;
+    l22 = i0;
+    i0 = l22;
+    i0 = !(i0);
+    if (i0) {goto B2;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l23 = i0;
+    i0 = 1u;
+    l24 = i0;
+    i0 = l23;
+    i1 = l24;
+    i0 -= i1;
+    l25 = i0;
+    i0 = l25;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l26 = i0;
+    i0 = 24u;
+    l27 = i0;
+    i0 = l26;
+    i1 = l27;
+    i0 <<= (i1 & 31);
+    l28 = i0;
+    i0 = l28;
+    i1 = l27;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l29 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l30 = i0;
+    i0 = l30;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l31 = i0;
+    i0 = 24u;
+    l32 = i0;
+    i0 = l31;
+    i1 = l32;
+    i0 <<= (i1 & 31);
+    l33 = i0;
+    i0 = l33;
+    i1 = l32;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l34 = i0;
+    i0 = l34;
+    i1 = l29;
+    i0 ^= i1;
+    l35 = i0;
+    i0 = l30;
+    i1 = l35;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    B2:;
+    i0 = 2u;
+    l36 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l37 = i0;
+    i0 = l37;
+    l38 = i0;
+    i0 = l36;
+    l39 = i0;
+    i0 = l38;
+    i1 = l39;
+    i0 = (u32)((s32)i0 > (s32)i1);
+    l40 = i0;
+    i0 = 1u;
+    l41 = i0;
+    i0 = l40;
+    i1 = l41;
+    i0 &= i1;
+    l42 = i0;
+    i0 = l42;
+    i0 = !(i0);
+    if (i0) {goto B3;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l43 = i0;
+    i0 = 3u;
+    l44 = i0;
+    i0 = l43;
+    i1 = l44;
+    i0 -= i1;
+    l45 = i0;
+    i0 = l45;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l46 = i0;
+    i0 = 24u;
+    l47 = i0;
+    i0 = l46;
+    i1 = l47;
+    i0 <<= (i1 & 31);
+    l48 = i0;
+    i0 = l48;
+    i1 = l47;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l49 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l50 = i0;
+    i0 = l50;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l51 = i0;
+    i0 = 24u;
+    l52 = i0;
+    i0 = l51;
+    i1 = l52;
+    i0 <<= (i1 & 31);
+    l53 = i0;
+    i0 = l53;
+    i1 = l52;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l54 = i0;
+    i0 = l54;
+    i1 = l49;
+    i0 ^= i1;
+    l55 = i0;
+    i0 = l50;
+    i1 = l55;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    B3:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l56 = i0;
+    i0 = 10u;
+    l57 = i0;
+    i0 = l56;
+    i1 = l57;
+    i0 = I32_REM_S(i0, i1);
+    l58 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l59 = i0;
+    i0 = l59;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l60 = i0;
+    i0 = 24u;
+    l61 = i0;
+    i0 = l60;
+    i1 = l61;
+    i0 <<= (i1 & 31);
+    l62 = i0;
+    i0 = l62;
+    i1 = l61;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l63 = i0;
+    i0 = l63;
+    i1 = l58;
+    i0 ^= i1;
+    l64 = i0;
+    i0 = l59;
+    i1 = l64;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l65 = i0;
+    i0 = 2u;
+    l66 = i0;
+    i0 = l65;
+    i1 = l66;
+    i0 = I32_REM_S(i0, i1);
+    l67 = i0;
+    i0 = l67;
+    if (i0) {goto B5;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l68 = i0;
+    i0 = l68;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l69 = i0;
+    i0 = 24u;
+    l70 = i0;
+    i0 = l69;
+    i1 = l70;
+    i0 <<= (i1 & 31);
+    l71 = i0;
+    i0 = l71;
+    i1 = l70;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l72 = i0;
+    i0 = 9u;
+    l73 = i0;
+    i0 = l72;
+    i1 = l73;
+    i0 ^= i1;
+    l74 = i0;
+    i0 = l68;
+    i1 = l74;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    goto B4;
+    B5:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l75 = i0;
+    i0 = l75;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l76 = i0;
+    i0 = 24u;
+    l77 = i0;
+    i0 = l76;
+    i1 = l77;
+    i0 <<= (i1 & 31);
+    l78 = i0;
+    i0 = l78;
+    i1 = l77;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l79 = i0;
+    i0 = 8u;
+    l80 = i0;
+    i0 = l79;
+    i1 = l80;
+    i0 ^= i1;
+    l81 = i0;
+    i0 = l75;
+    i1 = l81;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    B4:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l82 = i0;
+    i0 = 3u;
+    l83 = i0;
+    i0 = l82;
+    i1 = l83;
+    i0 = I32_REM_S(i0, i1);
+    l84 = i0;
+    i0 = l84;
+    if (i0) {goto B7;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l85 = i0;
+    i0 = l85;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l86 = i0;
+    i0 = 24u;
+    l87 = i0;
+    i0 = l86;
+    i1 = l87;
+    i0 <<= (i1 & 31);
+    l88 = i0;
+    i0 = l88;
+    i1 = l87;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l89 = i0;
+    i0 = 7u;
+    l90 = i0;
+    i0 = l89;
+    i1 = l90;
+    i0 ^= i1;
+    l91 = i0;
+    i0 = l85;
+    i1 = l91;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    goto B6;
+    B7:;
+    i0 = 1u;
+    l92 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l93 = i0;
+    i0 = 3u;
+    l94 = i0;
+    i0 = l93;
+    i1 = l94;
+    i0 = I32_REM_S(i0, i1);
+    l95 = i0;
+    i0 = l95;
+    l96 = i0;
+    i0 = l92;
+    l97 = i0;
+    i0 = l96;
+    i1 = l97;
+    i0 = i0 == i1;
+    l98 = i0;
+    i0 = 1u;
+    l99 = i0;
+    i0 = l98;
+    i1 = l99;
+    i0 &= i1;
+    l100 = i0;
+    i0 = l100;
+    i0 = !(i0);
+    if (i0) {goto B9;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l101 = i0;
+    i0 = l101;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l102 = i0;
+    i0 = 24u;
+    l103 = i0;
+    i0 = l102;
+    i1 = l103;
+    i0 <<= (i1 & 31);
+    l104 = i0;
+    i0 = l104;
+    i1 = l103;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l105 = i0;
+    i0 = 6u;
+    l106 = i0;
+    i0 = l105;
+    i1 = l106;
+    i0 ^= i1;
+    l107 = i0;
+    i0 = l101;
+    i1 = l107;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    goto B8;
+    B9:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l108 = i0;
+    i0 = l108;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l109 = i0;
+    i0 = 24u;
+    l110 = i0;
+    i0 = l109;
+    i1 = l110;
+    i0 <<= (i1 & 31);
+    l111 = i0;
+    i0 = l111;
+    i1 = l110;
+    i0 = (u32)((s32)i0 >> (i1 & 31));
+    l112 = i0;
+    i0 = 5u;
+    l113 = i0;
+    i0 = l112;
+    i1 = l113;
+    i0 ^= i1;
+    l114 = i0;
+    i0 = l108;
+    i1 = l114;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    B8:;
+    B6:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l115 = i0;
+    i0 = 1u;
+    l116 = i0;
+    i0 = l115;
+    i1 = l116;
+    i0 += i1;
+    l117 = i0;
+    i0 = l2;
+    i1 = l117;
+    i32_store((&memory), (u64)(i0 + 12), i1);
+    goto L1;
+  B0:;
+  i0 = 0u;
+  l118 = i0;
+  i0 = l2;
+  i1 = l118;
+  i32_store((&memory), (u64)(i0 + 4), i1);
+  L11: 
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l119 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l120 = i0;
+    i0 = l119;
+    l121 = i0;
+    i0 = l120;
+    l122 = i0;
+    i0 = l121;
+    i1 = l122;
+    i0 = (u32)((s32)i0 < (s32)i1);
+    l123 = i0;
+    i0 = 1u;
+    l124 = i0;
+    i0 = l123;
+    i1 = l124;
+    i0 &= i1;
+    l125 = i0;
+    i0 = l125;
+    i0 = !(i0);
+    if (i0) {goto B10;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l126 = i0;
+    i0 = 2u;
+    l127 = i0;
+    i0 = l126;
+    i1 = l127;
+    i0 = I32_REM_S(i0, i1);
+    l128 = i0;
+    i0 = l128;
+    if (i0) {goto B12;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l129 = i0;
+    i0 = 1u;
+    l130 = i0;
+    i0 = l129;
+    i1 = l130;
+    i0 += i1;
+    l131 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 12));
+    l132 = i0;
+    i0 = l131;
+    l133 = i0;
+    i0 = l132;
+    l134 = i0;
+    i0 = l133;
+    i1 = l134;
+    i0 = (u32)((s32)i0 < (s32)i1);
+    l135 = i0;
+    i0 = 1u;
+    l136 = i0;
+    i0 = l135;
+    i1 = l136;
+    i0 &= i1;
+    l137 = i0;
+    i0 = l137;
+    i0 = !(i0);
+    if (i0) {goto B12;}
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l138 = i0;
+    i0 = l138;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l139 = i0;
+    i0 = l2;
+    i1 = l139;
+    i32_store8((&memory), (u64)(i0 + 11), i1);
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l140 = i0;
+    i0 = 1u;
+    l141 = i0;
+    i0 = l140;
+    i1 = l141;
+    i0 += i1;
+    l142 = i0;
+    i0 = l142;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 1072));
+    l143 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l144 = i0;
+    i0 = l144;
+    i1 = l143;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    i0 = l2;
+    i0 = i32_load8_u((&memory), (u64)(i0 + 11));
+    l145 = i0;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l146 = i0;
+    i0 = 1u;
+    l147 = i0;
+    i0 = l146;
+    i1 = l147;
+    i0 += i1;
+    l148 = i0;
+    i0 = l148;
+    i1 = l145;
+    i32_store8((&memory), (u64)(i0 + 1072), i1);
+    B12:;
+    i0 = l2;
+    i0 = i32_load((&memory), (u64)(i0 + 4));
+    l149 = i0;
+    i0 = 1u;
+    l150 = i0;
+    i0 = l149;
+    i1 = l150;
+    i0 += i1;
+    l151 = i0;
+    i0 = l2;
+    i1 = l151;
+    i32_store((&memory), (u64)(i0 + 4), i1);
+    goto L11;
+  B10:;
+  i0 = 0u;
+  l152 = i0;
+  i0 = 1072u;
+  l153 = i0;
+  i0 = 1024u;
+  l154 = i0;
+  i0 = l154;
+  i1 = l153;
+  i0 = strcmp_0(i0, i1);
+  l155 = i0;
+  i0 = l155;
+  l156 = i0;
+  i0 = l152;
+  l157 = i0;
+  i0 = l156;
+  i1 = l157;
+  i0 = i0 != i1;
+  l158 = i0;
+  i0 = 4294967295u;
+  l159 = i0;
+  i0 = l158;
+  i1 = l159;
+  i0 ^= i1;
+  l160 = i0;
+  i0 = 1u;
+  l161 = i0;
+  i0 = l160;
+  i1 = l161;
+  i0 &= i1;
+  l162 = i0;
+  i0 = 16u;
+  l163 = i0;
+  i0 = l2;
+  i1 = l163;
+  i0 += i1;
+  l164 = i0;
+  i0 = l164;
+  g0 = i0;
+  i0 = l162;
+  goto Bfunc;
+  Bfunc:;
+  FUNC_EPILOGUE;
+  return i0;
+}
+~~~
+
+Again, we can reinterperet in python:
+
+~~~py
+def check_flag():
+    out = flag
+    for a, b in enumerate(out):
+        b = b ^ 20
+        u = a > 0
+        if u & 1 == 0:
+            b = B_c(a, b)
+            out[a] = b
+        b = b ^ out[a-1]
+        b = B_c(a, b)
+        out[a] = b
+    
+    for a, b in enumerate(out):
+        if a % 2:
+            b = B_m(a, b)
+            out[a] = b
+        buffer = b
+        b = out[a + 1]
+        out[a + 1] = buffer
+        b = B_m(a, b)
+        out[a] = b
+    
+    return out
+~~~
+	
+We can simplify the Python version of this code:
+
+~~~py
+def check_flag(flag):
+    for pos, letter in enumerate(flag):
+        letter = letter^20
+        if pos > 0:
+            letter = letter^flag[pos - 1]
+        if pos > 2:
+            letter = letter^flag[pos - 3]
+        letter = letter^(pos % 10)
+        if pos % 2:
+            letter = letter ^ 8
+        else:
+            letter = letter ^ 9
+        if pos % 3:
+            if(pos%3)==1:
+                letter = letter^6
+            else:
+                letter = letter^5
+        else:
+            letter = letter^7
+        flag[pos] = letter
+    
+    for pos, letter in enumerate(flag):
+        if not pos % 2:
+            buffer = letter
+            letter = flag[pos + 1]
+            flag[pos + 1] = buffer
+        flag[pos] = letter
+    return flag
+~~~
+
+This can be inverted to retrieve the flag.
+
 </details>
 
 ### Answer
@@ -4863,7 +6204,7 @@ const fn1 = function(fn1in1, fn1in2) {
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{382f73c815f2c599d3af057a4b7ca3e2}
 ~~~
 
 </details>
