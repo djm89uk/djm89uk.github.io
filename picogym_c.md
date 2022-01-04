@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [25/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [26/36]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -29,7 +29,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
 - [Pixelated (2021)](#pixelated) ✓
 - [Play Nice (2021)](#play-nice) ✓
-- [Double DES (2021)](#double-des)
+- [Double DES (2021)](#double-des) ✓
 - [Compress and Attack (2021)](#compress-and-attack)
 - [Scrambled: RSA (2021)](#scrambled-rsa)
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
@@ -2476,8 +2476,230 @@ while True:
         print("Invalid input.")
 ~~~
 
+We can start our python solution by retrieving the CT flag and encrypting a test string:
 
+~~~py
+import socket
+import time
 
+URL = "mercury.picoctf.net"
+PORT = 29980
+PT_TEST = "123456"
+
+def load_flag():
+    global CT_FLAG, PT_TEST, CT_TEST
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL,PORT))
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    CT_FLAG = recvbuff[18:-38]
+    print("Encrypted Flag: \n{}\n".format(CT_FLAG))
+    s.send((PT_TEST+"\n").encode())
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    s.close()
+    CT_TEST = recvbuff[:-38]
+    print("Test string: \n{}\n".format(PT_TEST))
+    print("Encrypted Test string: \n{}\n".format(CT_TEST))
+    
+    
+if __name__ == "__main__":
+    load_flag()
+~~~
+	
+This provides a PT and CT test and the CT flag:
+
+~~~
+Encrypted Flag: 
+7ab0bbc231e8335e773294578e4d49261ddfbf5d71775c03e3da32aef2e3fdb84b9026af70b4f02d
+
+Test string: 
+123456
+
+Encrypted Test string: 
+ad611a15c759418a
+~~~
+
+The encryption script generates a random key of length up to 6 and pads it with 2 spaces:
+
+~~~py
+def pad(msg):
+    block_len = 8
+    over = len(msg) % block_len
+    pad = block_len - over
+    return (msg + " " * pad).encode()
+
+def generate_key():
+    return pad("".join(random.choice(string.digits) for _ in range(6)))
+~~~
+
+We can generate a KEYLIST of all possible keys:
+
+~~~py
+def pad(msg):
+    block_len = 8
+    over = len(msg) % block_len
+    pad = block_len - over
+    return (msg + " " * pad).encode()
+
+def key_dict():
+    global KEYLIST
+    KEYLIST = []
+    for i in range(1000000):
+        keystr = f"{i:06}"
+        KEYLIST.append(pad(keystr))
+
+if __name__ == "__main__":
+    key_dict()
+~~~
+	
+Using our test string, we can find both encryption keys using the keylist.  The plaintext string will be encrypted with all keys in keylist and the ciphertext string will be decoded by iterating through the keylist until a matching message is found:
+	
+~~~py
+def find_keys(pt_string,ct_string):
+    key_dict()
+    msg = pad(binascii.unhexlify(pt_string).decode())
+    ct_array = []
+    print("Generating CT strings:")
+    for i in range(len(KEYLIST)):
+        cipher = DES.new(KEYLIST[i], DES.MODE_ECB)
+        enc_msg = cipher.encrypt(msg)
+        ct_array.append(enc_msg)
+    print("All CT strings generated.\n")
+    enc_msg = binascii.unhexlify(ct_string)
+    print("Generating PT strings:")
+    for i in range(len(KEYLIST)):
+        cipher = DES.new(KEYLIST[i], DES.MODE_ECB)
+        pt_msg = cipher.decrypt(enc_msg)
+        if pt_msg in ct_array:
+            print("Keys found!")
+            key2 = KEYLIST[i]
+            key1 = KEYLIST[ct_array.index(pt_msg)]
+            break
+    print("KEY1 = {}\n".format(key1))
+    print("KEY2 = {}\n".format(key2))
+    return key1, key2
+~~~
+
+Once both keys are found, we can decrypt the flag using these keys:
+
+~~~py
+def double_decrypt(key1, key2, ct_string):
+    cipher1 = DES.new(key1,DES.MODE_ECB)
+    cipher2 = DES.new(key2,DES.MODE_ECB)
+    enc_msg = binascii.unhexlify(ct_string)
+    pt_buff = cipher2.decrypt(enc_msg)
+    pt_msg = cipher1.decrypt(pt_buff)
+    return pt_msg.decode()
+~~~
+
+Our complete python solution:
+	
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import socket
+import time
+from Crypto.Cipher import DES
+import binascii
+
+URL = "mercury.picoctf.net"
+PORT = 29980
+PT_TEST = "123456"
+
+def load_flag():
+    global CT_FLAG, PT_TEST, CT_TEST
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL,PORT))
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    CT_FLAG = recvbuff[18:-38]
+    print("Encrypted Flag: \n{}\n".format(CT_FLAG))
+    s.send((PT_TEST+"\n").encode())
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    s.close()
+    CT_TEST = recvbuff[:-38]
+    print("Test string: \n{}\n".format(PT_TEST))
+    print("Encrypted Test string: \n{}\n".format(CT_TEST))
+
+def pad(msg):
+    block_len = 8
+    over = len(msg) % block_len
+    pad = block_len - over
+    return (msg + " " * pad).encode()
+
+def key_dict():
+    global KEYLIST
+    KEYLIST = []
+    for i in range(1000000):
+        keystr = f"{i:06}"
+        KEYLIST.append(pad(keystr))
+    
+def find_keys(pt_string,ct_string):
+    key_dict()
+    msg = pad(binascii.unhexlify(pt_string).decode())
+    ct_array = []
+    print("Generating CT strings:")
+    for i in range(len(KEYLIST)):
+        cipher = DES.new(KEYLIST[i], DES.MODE_ECB)
+        enc_msg = cipher.encrypt(msg)
+        ct_array.append(enc_msg)
+    print("All CT strings generated.\n")
+    enc_msg = binascii.unhexlify(ct_string)
+    print("Generating PT strings:")
+    for i in range(len(KEYLIST)):
+        cipher = DES.new(KEYLIST[i], DES.MODE_ECB)
+        pt_msg = cipher.decrypt(enc_msg)
+        if pt_msg in ct_array:
+            print("Keys found!")
+            key2 = KEYLIST[i]
+            key1 = KEYLIST[ct_array.index(pt_msg)]
+            break
+    print("KEY1 = {}\n".format(key1))
+    print("KEY2 = {}\n".format(key2))
+    return key1, key2
+
+def double_decrypt(key1, key2, ct_string):
+    cipher1 = DES.new(key1,DES.MODE_ECB)
+    cipher2 = DES.new(key2,DES.MODE_ECB)
+    enc_msg = binascii.unhexlify(ct_string)
+    pt_buff = cipher2.decrypt(enc_msg)
+    pt_msg = cipher1.decrypt(pt_buff)
+    return pt_msg.decode()
+
+if __name__ == "__main__":
+    load_flag()
+    k1, k2 = find_keys(PT_TEST, CT_TEST)
+    flag = double_decrypt(k1,k2,CT_FLAG)
+    print("Flag = {}".format(flag))
+~~~
+
+This provides the following output:
+
+~~~
+Encrypted Flag: 
+5ff2c69ec4167ca5de8d06944c66c60f229496a7184c0db70a75829a5f0b10406ee2b45bf0089215
+
+Test string: 
+123456
+
+Encrypted Test string: 
+4488dffb358d8a31
+
+Generating CT strings:
+All CT strings generated.
+
+Generating PT strings:
+Keys found!
+KEY1 = b'240662  '
+
+KEY2 = b'404262  '
+
+Flag = 45d6631b0c4d52b801a0fa7f6d3bda3c
+~~~
+	
 </details>
 
 ### Answer
@@ -2487,7 +2709,7 @@ while True:
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+45d6631b0c4d52b801a0fa7f6d3bda3c
 ~~~
 
 </details>
