@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [26/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [27/36]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -30,7 +30,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Pixelated (2021)](#pixelated) ✓
 - [Play Nice (2021)](#play-nice) ✓
 - [Double DES (2021)](#double-des) ✓
-- [Compress and Attack (2021)](#compress-and-attack)
+- [Compress and Attack (2021)](#compress-and-attack) ✓
 - [Scrambled: RSA (2021)](#scrambled-rsa)
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
 - [New Vignere (2021)](#new-vignere)
@@ -2743,6 +2743,194 @@ Your goal is to find the flag. compress_and_attack.py nc mercury.picoctf.net 298
 
 <summary markdown="span">Solution 1</summary>
 
+We are given the file [compress_and_attack.py](https://mercury.picoctf.net/static/04d2020011483caf8c9d8fb9fa54d4f5/compress_and_attack.py):
+	
+~~~py
+#!/usr/bin/python3 -u
+
+import zlib
+from random import randint
+import os
+from Crypto.Cipher import Salsa20
+
+flag = open("./flag").read()
+
+
+def compress(text):
+    return zlib.compress(bytes(text.encode("utf-8")))
+
+def encrypt(plaintext):
+    secret = os.urandom(32)
+    cipher = Salsa20.new(key=secret)
+    return cipher.nonce + cipher.encrypt(plaintext)
+
+def main():
+    while True:
+        usr_input = input("Enter your text to be encrypted: ")
+        compressed_text = compress(flag + usr_input)
+        encrypted = encrypt(compressed_text)
+        
+        nonce = encrypted[:8]
+        encrypted_text =  encrypted[8:]
+        print(nonce)
+        print(encrypted_text)
+        print(len(encrypted_text))
+
+if __name__ == '__main__':
+    main()
+~~~
+
+This script takes a user text string and appends it to the flag.  This is compressed using zlib.compress and encrypted using Salsa20 with a random 32-byte unsigned integer key.  The code then assigns the first 8 characters to the variable nonce and the remaining characters to the variable encrypted_text which are both printed.
+	
+We can retrieve the nonce, encrypted text and encrypted text length in Python; note: since the response is a string of bytes, we need to correct for hex and ascii characters:
+
+~~~py
+import socket
+import time
+import binascii
+
+URL = "mercury.picoctf.net"
+PORT = 29858
+PT_TEST = "aaaaaaaaaaaaaaaaaaaa"
+
+def str2bytes(messy_string):
+    output_string = ""
+    messy_array = messy_string.split("\\x")
+    for i in range(len(messy_array)):
+        if len(messy_array[i])>=2:
+            hexletters = messy_array[i][0:2]
+            output_string += hexletters
+            if len(messy_array[i])>=3:
+                letters = messy_array[i][2:]
+                hexletters = binascii.hexlify(letters.encode()).decode()
+                output_string += hexletters
+        else:
+            letters = messy_array[i]
+            hexletters = binascii.hexlify(letters.encode()).decode()
+            output_string += hexletters
+    output_bytes = binascii.unhexlify(output_string)
+    return output_bytes
+
+def load_flag():
+    global CT_MSG
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL,PORT))
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    s.send((PT_TEST+"\n").encode())
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    print(recvbuff+"\n")
+    recvbuff = recvbuff.splitlines()
+    noncebuff = recvbuff[0][2:-1]
+    nonce = str2bytes(noncebuff)
+    enc_text_buff = recvbuff[1][2:-1]
+    enc_text = str2bytes(enc_text_buff)
+    enc_text_len = int(recvbuff[2])
+    s.close()
+    return nonce, enc_text, enc_text_len
+
+if __name__ == "__main__":
+    a, b, c = load_flag()
+    print("nonce = {}\n".format(a))
+    print("enc_text = {}\n".format(b))
+    print("enc_text_length = {}".format(c))
+~~~
+
+This provides the following output:
+
+~~~
+b'\xe02\x91\x95\x0b\x0c\xd9\x91'
+b"\xd7!I\xd8s\x05Wx\xc6\x95E\xf0?\x98kp\xe1'\xe1\xefq`\xe1\xb4\xf2(\xb2\xb5Ttmx\xa310\x8fW\xaaS\xda_\xb5|0\x07~\x82"
+47
+Enter your text to be encrypted: 
+
+nonce = b'\xe02\x91\x95\x0b\x0c\xd9\x91'
+
+enc_text = b"\xd7!I\xd8s\x05Wx\xc6\x95E\xf0?\x98kp\xe1'\xe1\xefq`\xe1\xb4\xf2(\xb2\xb5Ttmx\xa310\x8fW\xaaS\xda_\xb5|0\x07~\x82"
+
+enc_text_length = 47
+~~~
+
+The [Salsa20](https://en.wikipedia.org/wiki/Salsa20) stream cipher enables us to determine the approximate length of the plaintext input from the cipher text output. The use of the zlib compression enables us to attempt to find repeatable characters that will not increase the length of the ciphertext response. 
+
+We can test this with netcat:
+
+~~~shell
+$ nc mercury.picoctf.net 29858
+Enter your text to be encrypted: picoCTFa
+b'\xf2\xfe\x8e\x18\xde\xa8K\xbc'
+b"o\n\xbb\x0c\x81\xed\xd4\xe9\xfa\xaf'e\xccs\xbd\xed\xf2\xc1BmR\x1f\xde\xb2R0W\xcc$\x99\x83\x8e\x90k\xe9\x13\x19\xbd\xf8I\xc1!\xbcgf\xa7\xa8\x92\x81"
+49
+Enter your text to be encrypted: picoCTFb
+b'\x83M\x0fz\xc3gcP'
+b'\r\x89\xfe\x07E\xa6\t\xa8\xc7\xfb\x8f)\xb4\xa3\x024\x8f\x93\x05\x01\xaf\xec\xa0W\xdaf\x1e\x98Y\xaa\xa4\xf8\x8c\xd6\xe3\t\x16:z\x93\x96eb\x83\xb5O\xdb\xf7q'
+49
+Enter your text to be encrypted: picoCTF{
+b'\xf4\xdc\xcf~\x9a\xa3\x97\x13'
+b'\xa6\xed\xd4C\xbfS7a\'\xe9\xd5\xd2\xb6\x16\x12\x8d\x1f\xef\xe2\xe1\x85=\xca\xfa\xd20\x97\x1e\xa3\xdb\xc7>\xc4&\xdaE\xbe3K\x89\xc7\x96ec\xcff"K'
+48
+~~~
+
+With the correct flag characters, the encrypted response will not increase in length.  Using python, we can write a code that iterates through the allowed characters and appends correct characters to a flag string:
+
+~~~py
+import socket
+import time
+
+URL = "mercury.picoctf.net"
+PORT = 29858
+FLAG = "picoCTF{"
+alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_{}"
+
+def reconnect(s):
+    if(s):
+        s.close()
+    time.sleep(5)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL, PORT))
+    time.sleep(1)
+    s.recv(1000).decode()
+    return s
+
+def find_flag():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL, PORT))
+    time.sleep(1)
+    recvbuff = s.recv(1000).decode()
+    global FLAG
+    while(FLAG[:-1]!="}"):
+        try:
+            s.send((FLAG+"\n").encode())
+            time.sleep(0.5)
+            recvbuff = s.recv(1000).decode()
+            recvbuff = recvbuff.splitlines()
+            reflen = int(recvbuff[2])
+        except:
+            s = reconnect(s)
+        for letter in alphabet:
+            test = FLAG + letter
+            try:
+                s.send((test+"\n").encode())
+                time.sleep(0.5)
+                recvbuff = s.recv(1000).decode()
+                recvbuff = recvbuff.splitlines()
+                testlen = int(recvbuff[2])
+                if testlen == reflen:
+                    FLAG += letter
+                    print(FLAG)
+                    break
+            except:
+                s = reconnect(s)
+    return FLAG
+
+if __name__ == "__main__":
+    flag = find_flag()
+    print(flag)
+~~~
+
+This provides the flag.
+
 </details>
 
 ### Answer
@@ -2752,7 +2940,7 @@ Your goal is to find the flag. compress_and_attack.py nc mercury.picoctf.net 298
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{sheriff_you_solved_the_crime}
 ~~~
 
 </details>
