@@ -2720,6 +2720,224 @@ Flag = 45d6631b0c4d52b801a0fa7f6d3bda3c
 
 ---
 	
+## Compress and Attack
+
+- Author: Jake Beley
+- 130 points
+
+### Description
+
+Your goal is to find the flag. compress_and_attack.py nc mercury.picoctf.net 29858
+
+### Hints
+
+1. The flag only contains uppercase and lowercase letters, underscores, and braces (curly brackets)
+
+### Attachments
+
+1. [compress_and_attack.py](https://mercury.picoctf.net/static/04d2020011483caf8c9d8fb9fa54d4f5/compress_and_attack.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Scrambled RSA
+
+- Author: Sara
+- 140 points
+
+### Description
+
+Hmmm I wonder if you have learned your lesson... Let's see if you understand RSA and how the encryption works. Connect with nc mercury.picoctf.net 58251.
+
+### Hints
+
+1. Look at the ciphertext, anything fishy, maybe a little bit long?
+2. What happens if you encrypt the same input multiple times?
+3. Is RSA deterministic, why would outputs vary?
+
+### Attachments
+
+1. []()
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Its Not My Fault 1
+
+- Author: rkm0959
+- 300 points
+
+### Description
+
+What do you mean RSA with CRT has an attack that's not a fault attack? Connect with nc mercury.picoctf.net 10055. not_my_fault.py
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [not_my_fault.py](https://mercury.picoctf.net/static/409ca1fa5f6a8277796504778c074f03/not_my_fault.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## New Vignere
+
+- Author: madStacks
+- 300 points
+
+### Description
+
+Another slight twist on a classic, see if you can recover the flag. (Wrap with picoCTF{}) ilnipdjheipnenhhedionepegiejmleoehejfcnimdgehimnepedhhfbafmcgdek new_vignere.py
+
+### Hints
+
+1. [https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher#Cryptanalysis](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher#Cryptanalysis)
+
+### Attachments
+
+1. [new_vignere.py](https://mercury.picoctf.net/static/d86ead586609c44b84b04e08966a4d35/new_vignere.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Clouds
+
+- Author: madStacks
+- 500 points
+
+### Description
+
+Cloud watching is a lot of fun! There are so many different shapes you see in them, and so many different types. They even inspired me to dig up an old cipher I once found to store notes about them. See if you can decrypt them! nc mercury.picoctf.net 10304 clouds.py
+The flag for this challenge does not include the standard picoCTF{} wrapper.
+
+### Hints
+
+1. Have you heard of differential cryptanalysis?
+
+### Attachments
+
+1. [clouds.py](https://mercury.picoctf.net/static/0628a018490772c4cf32356734fad366/clouds.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 ## spelling-quiz
 
 - Author: BrownieInMotion
@@ -2824,7 +3042,227 @@ picoCTF{perhaps_the_dog_jumped_over_was_just_tired}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-	
+
+## XtraORdinary
+
+- Author: Boolean
+- 150 points
+
+### Description
+
+Check out my new, never-before-seen method of encryption! I totally invented it myself. I added so many for loops that I don't even know what it does. It's extraordinarily secure!
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [output.txt](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/xtraordinary/output.txt)
+2. [encrypt.py](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/xtraordinary/encrypt.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## triple-secure
+
+- Author: Boolean
+- 150 points
+
+### Description
+
+To get the flag, you must break RSA not once, but three times!
+
+### Hints
+
+None. 
+
+### Attachments
+
+1. [public-key.txt](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/triple-secure/public-key.txt)
+2. [encrypt.py](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/triple-secure/encrypt.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## college-rowing-team
+
+- Author: Boolean
+- 250 points
+
+### Description
+
+I just joined my college's rowing team! To make a good first impression, I started sending my teammates positive automated messages every day. I even send them flags from time to time!
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [encrypted-messages.txt](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/college-rowing-team/encrypted-messages.txt)
+2. [encrypt.py](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/college-rowing-team/encrypt.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## corrupt-key-1
+
+- Author: Tux
+- 350 points
+
+### Description
+
+How to fix corrupted key???
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [private.key](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/corrupt-key-1/private.key)
+2. [msg.enc](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/corrupt-key-1/msg.enc)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## corrupt-key-2
+
+- Author: Tux
+- 500 points
+
+### Description
+
+Key corrupted again...
+
+### Hints
+
+None.
+
+### Attachments
+
+1. [private.key](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/corrupt-key-2/private.key)
+2. [msg.enc](https://artifacts.picoctf.net/picoMini+by+redpwn/Cryptography/corrupt-key-2/msg.enc)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 Page last updated Jan 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
