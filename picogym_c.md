@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [27/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [28/36]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -31,7 +31,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Play Nice (2021)](#play-nice) ✓
 - [Double DES (2021)](#double-des) ✓
 - [Compress and Attack (2021)](#compress-and-attack) ✓
-- [Scrambled: RSA (2021)](#scrambled-rsa)
+- [Scrambled: RSA (2021)](#scrambled-rsa) ✓
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
@@ -2968,13 +2968,205 @@ Hmmm I wonder if you have learned your lesson... Let's see if you understand RSA
 
 ### Attachments
 
-1. []()
+None.
  
 ### Solutions
 
 <details>
 
 <summary markdown="span">Solution 1</summary>
+
+When connecting to the server, we are given the encrypted flag and a prompt to encypt any text value.  The encrypted flag is very large but we notice the encrypted response from the server appears to grow linearly with the string length.  Using python, we can find the relationship between the plaintext string and ciphertext string lengths:
+
+~~~py
+import socket
+import time
+
+URL = "mercury.picoctf.net"
+PORT = 58251
+FLAG = "picoCTF{"
+alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_{}"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((URL, PORT))
+time.sleep(1)
+recvbuff = s.recv(100000000).decode()
+time.sleep(1)
+for i in range(1,5,1):
+    s.send(("a"*i+"\n").encode())
+    time.sleep(1)
+    recvbuff = s.recv(100000).decode()
+    recvbuff = recvbuff[13:-38]
+    enc_len = len(recvbuff)
+    print("a"*i+" encrypted has ct length: "+str(enc_len))
+s.close()
+~~~
+
+This provides the response:
+
+~~~
+a encrypted has ct length: 308
+aa encrypted has ct length: 616
+aaa encrypted has ct length: 924
+aaaa encrypted has ct length: 1233
+~~~
+
+It seems the ciphertext is 308 times the length of the plaintext.  Running a similar script, we can find the total pt flag length:
+
+~~~py
+import socket
+import time
+
+URL = "mercury.picoctf.net"
+PORT = 58251
+FLAG = "picoCTF{"
+alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_{}"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((URL, PORT))
+time.sleep(1)
+recvbuff = s.recv(10000000000).decode()
+recvbuff = recvbuff.splitlines()
+ctflaglen = len(recvbuff[0][3:])
+ptflaglen = int(ctflaglen/308)
+print("CT Flag Length = {}".format(ctflaglen))
+print("PT Flag Length = {}".format(ptflaglen))
+time.sleep(1)
+for i in range(1,5,1):
+    s.send(("a"*i+"\n").encode())
+    time.sleep(1)
+    recvbuff = s.recv(100000).decode()
+    recvbuff = recvbuff[13:-38]
+    enc_len = len(recvbuff)
+    print("a"*i+" encrypted has ct length: "+str(enc_len))
+s.close()
+~~~
+
+This shows us the flag is 26 characters long. Using the hints, we can see that individual characters when encrypted provide a single ciphertext, however when the string is more than 1 character long, we find the ciphertext changes:
+
+~~~shell
+I will encrypt whatever you give me: a
+Here you go: 93173283230164554261622370285013636516433899330798519414933760030978723854653511573596456735831042000643840882479843089871583208430072334681656027571332694482359363802225623135712599097419127600856555591086730333960617869699671545840669917723905644766111621169008833808566715172392600058868783983577994658103
+I will encrypt whatever you give me: a
+Here you go: 93173283230164554261622370285013636516433899330798519414933760030978723854653511573596456735831042000643840882479843089871583208430072334681656027571332694482359363802225623135712599097419127600856555591086730333960617869699671545840669917723905644766111621169008833808566715172392600058868783983577994658103
+I will encrypt whatever you give me: ab
+Here you go: 93173283230164554261622370285013636516433899330798519414933760030978723854653511573596456735831042000643840882479843089871583208430072334681656027571332694482359363802225623135712599097419127600856555591086730333960617869699671545840669917723905644766111621169008833808566715172392600058868783983577994658103103183667509717853616779950348597809579007053737505176656774350801600521708433029837337268137167287738142659942293004245748056777996393736220304496789681540572796924270472060872888015830277847340115536848315916238995925655773134745996522851474425146755949714769528033583054608627688943835872117081048801319427
+I will encrypt whatever you give me: ab
+Here you go: 93173283230164554261622370285013636516433899330798519414933760030978723854653511573596456735831042000643840882479843089871583208430072334681656027571332694482359363802225623135712599097419127600856555591086730333960617869699671545840669917723905644766111621169008833808566715172392600058868783983577994658103103183667509717853616779950348597809579007053737505176656774350801600521708433029837337268137167287738142659942293004245748056777996393736220304496789681540572796924270472060872888015830277847340115536848315916238995925655773134745996522851474425146755949714769528033583054608627688943835872117081048801319427
+~~~
+
+using the characters pico; we can assign the strings to variables p, i, c, o, pi, pic and pico, in Python we find that pi contains p and another variable but does not contain i:
+
+~~~
+p in pi
+Out[370]: True
+
+i in pi
+Out[371]: False
+~~~
+
+When remove p from pi, we get a variable we can assign to i2 which is in variable pic.
+	
+~~~py
+i2 = "".join(pi.split(p))
+i2 in pi
+Out[375]: True
+
+i2 in pic
+Out[376]: True
+
+p in pic
+Out[377]: True
+~~~
+	
+Using this logic, we can iterate through the encrypted flag to find the flag:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import socket
+import time
+import string
+
+URL = "mercury.picoctf.net"
+PORT = 58251
+FLAG = "picoCTF{"
+alphabet = string.printable
+
+def reconnect(s):
+    print("reconnecting:")
+    global CTFLAG
+    if(s):
+        s.close()
+        print("session closed")
+    time.sleep(10)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL, PORT))
+    print("reconnected")
+    time.sleep(1)
+    recvbuff = s.recv(10000000000).decode()
+    recvbuff = recvbuff.splitlines()
+    CTFLAG = recvbuff[0][6:]
+    print("CT Flag loaded")
+    print("CTFLAG length = {}".format(len(CTFLAG)))
+    s = load_flag(s)
+    return s
+
+def load_flag(s):
+    global letter_CT, CTFLAG
+    letter_CT = []
+    buffer = ""
+    for letter in FLAG:
+        buffer += letter
+        s.send((buffer+"\n").encode())
+        time.sleep(1)
+        newct = s.recv(10000000000).decode()[13:-38]
+        if len(letter_CT)==0:
+            letter_CT.append(newct)
+            CTFLAG = "".join(CTFLAG.split(newct))
+            print("CTFLAG length = {}".format(len(CTFLAG)))
+        else:
+            for i in range(len(letter_CT)):
+                newct = "".join(newct.split(letter_CT[i]))
+            letter_CT.append(newct)
+            CTFLAG = "".join(CTFLAG.split(newct))
+            print("CTFLAG length = {}".format(len(CTFLAG)))
+    print("flag loaded")
+    print(FLAG)
+    return s
+
+def find_flag(s):
+    global FLAG, letter_CT, CTFLAG
+    while FLAG[-1]!="}":
+        try:
+            for letter in alphabet:
+                newstr = FLAG + letter
+                s.send((newstr+"\n").encode())
+                time.sleep(1)
+                newct = s.recv(10000000000).decode()[13:-38]
+                for i in range(len(letter_CT)):
+                    newct = "".join(newct.split(letter_CT[i]))
+                if newct in CTFLAG:
+                    CTFLAG = "".join(CTFLAG.split(newct))
+                    FLAG += letter
+                    letter_CT.append(newct)
+                    print("flag = {}".format(FLAG))
+                    print("CTFLAG length = {}".format(len(CTFLAG)))
+                    break
+        except:
+            s = reconnect(s)
+    return FLAG
+
+if __name__ == "__main__":
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((URL, PORT))
+    s = reconnect(s)
+    flag = find_flag(s)
+    print("flag found: {}".format(flag))
+~~~
+
+This returns the flag
 
 </details>
 
@@ -2985,7 +3177,7 @@ Hmmm I wonder if you have learned your lesson... Let's see if you understand RSA
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{bad_1d3a5_1314164}
 ~~~
 
 </details>
