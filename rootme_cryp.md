@@ -48,7 +48,7 @@ Break encryption algorithms.
 42. [RSA - Corrupted key 2](#rsa-corrupted-key-2)
 43. [RSA - Corrupted key 3](#rsa-corrupted-key-3)
 44. [RSA - Multiple recipients](#rsa-multiple-recipients)
-45. [AES - Fault attack #1](#aes-fault-attack-#1)
+45. [AES - Fault attack #1](#aes-fault-attack-1)
 46. [Enigma Machine](#enigma-machine)
 47. [ECDHE](#ecdhe)
 48. [RSA - Lee cooper](#rsa-lee-cooper)
@@ -57,7 +57,7 @@ Break encryption algorithms.
 51. [White-Box Cryptography](#white-box-cryptography)
 52. [AES - Weaker variant](#aes-weaker-variant)
 53. [Hash - SHA-3](#hash-sha-3)
-54. [AES - Fault attack #2](#aes-fault-attack-#2)
+54. [AES - Fault attack #2](#aes-fault-attack-2)
 55. [AES-PMAC](#aes-pmac)
 56. [ECDSA - Implementation error](#ecdsa-implementation-error)
 
