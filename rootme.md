@@ -23,7 +23,31 @@ Root-Me is a non-profit organization which goal is to promote the spread of know
 
 ## [Root-Me App - Script](./rootme_ascr.md)
 
-LIST
+- [Bash - System 1](./rootme_ascr#bash-system-1)
+- [sudo - weak configuration](./rootme_ascr#sudo-weak-configuration)
+- [Bash - System 2](./rootme_ascr#bash-system-2)
+- [LaTeX - Input](./rootme_ascr#latex-input)
+- [Powershell - Command Injection](./rootme_ascr#powershell-command-injection)
+- [Bash - unquoted expression injection](./rootme_ascr#bash-unquoted-expression-injection)
+- [Perl - Command injection](./rootme_ascr#perl-command-injection)
+- [Powershell - SecureString](./rootme_ascr#powershell-securestring)
+- [Bash - cron](./rootme_ascr#bash-cron)
+- [LaTeX - Command execution](./rootme_ascr#latex-command-execution)
+- [Python - input()](./rootme_ascr#python-input)
+- [Bash - quoted expression injection](./rootme_ascr#bash-quoted-expression)
+- [Bash - race condition](./rootme_ascr#bash-race-condition)
+- [Powershell - Basic jail](./rootme_ascr#powershell-basic-jail)
+- [Python - pickle](./rootme_ascr#python-pickle)
+- [Shared Objects hijacking](./rootme_ascr#shared-objects-hijacking)
+- [SSH - Agent Hijacking](./rootme_ascr#ssh-agent-hijacking)
+- [Python - format string](./rootme_ascr#python-format-string)
+- [Python - PyJail](./rootme_ascr#python-pyjail-1)
+- [PHP - Jail](./rootme_ascr#php-jail)
+- [Python - PyJail](./rootme_ascr#python-pyjail-2)
+- [Python - Jail - Exec](./rootme_ascr#python-jail-exec)
+- [Javascript - Jail](./rootme_ascr#javascript-jail)
+- [Python - Jail - Garbage collector](./rootme_ascr#python-jail-garbage-collector)
+- [Bash - Restricted shells ](./rootme_ascr#bash-restricted-shells)
 
 ---
 
