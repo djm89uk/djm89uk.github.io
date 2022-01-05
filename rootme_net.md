@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [3/25]
+# [Root-Me](./rootme.md) Root-Me Networks [4/25]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -7,7 +7,7 @@ Investigate captured traffic, network services and perform packet analysis.
 1. [FTP - authentication](#ftp-authentication) 🗸
 2. [TELNET - authentication](#telnet-authentication) 🗸
 3. [ETHERNET - frame](#ethernet-frame) 🗸
-4. [Twitter authentication](#twitter-authentication)
+4. [Twitter authentication](#twitter-authentication) 🗸
 5. [Bluetooth - Unknown file](#bluetooth-unknown-file)
 6. [CISCO - password](#cisco-password)
 7. [DNS - zone transfert](#dns-zone-transfert)
@@ -645,6 +645,203 @@ The answer for this challenge is password.
 
 ~~~
 password
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Bluetooth Unknown File
+
+- Author: Neptune
+- Date: 01 March 2019
+- Points: 15
+- Level: 2
+
+### Statement
+
+Your friend working at NSA recovered an unreadable file from a hacker’s computer. The only thing he knows is that it comes from a communication between a computer and a phone.
+
+The answer is the sha-1 hash of the concatenation of the MAC address (uppercase) and the name of the phone.
+
+Example:
+
+~~~
+AB:CD:EF:12:34:56myPhone -> 023cc433c380c2618ed961000a681f1d4c44f8f1
+~~~
+
+### Related Resources
+
+1. [Bluetooth](https://en.wikipedia.org/wiki/Bluetooth).
+2. [fte.com - BT Snoop File Format](https://repository.root-me.org/R%C3%A9seau/EN%20-%20fte.com%20-%20BT%20Snoop%20File%20Format.pdf?_gl=1*n23i83*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMTYzNS4w).
+
+### Attachments
+
+1. [ch18.bin](http://challenge01.root-me.org/reseau/ch18/ch18.bin) 1.4 kB.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Reviewing the fte.com pdf, we can deconstruct the file in python, however lets first see if tshark recognises the file:
+
+~~~shell
+$ tshark -r ch18.bin
+    1   0.000000   controller → host         HCI_EVT 13 Rcvd Connect Request   
+    2   0.000995   controller → host         HCI_EVT 7 Rcvd Command Status (Accept Connection Request)   
+    3   0.151001   controller → host         HCI_EVT 14 Rcvd Connect Complete   
+    4   0.151927   controller → host         HCI_EVT 7 Rcvd Command Status (Read Remote Supported Features)   
+    5   0.158944   controller → host         HCI_EVT 14 Rcvd Read Remote Supported Features   
+    6   0.160013   controller → host         HCI_EVT 7 Rcvd Command Status (Read Remote Extended Features)   
+    7   0.165028   controller → host         HCI_EVT 16 Rcvd Read Remote Extended Features Complete   
+    8   0.166012   controller → host         HCI_EVT 7 Rcvd Command Status (Remote Name Request)   
+    9   0.184990   controller → host         HCI_EVT 258 Rcvd Remote Name Request Complete   
+   10   0.187930   controller → host         HCI_EVT 13 Rcvd Command Complete (IO Capability Request Reply)   
+   11   3.518018   controller → host         HCI_EVT 13 Rcvd Command Complete (User Confirmation Request Reply)   
+   12   4.557935   controller → host         HCI_EVT 7 Rcvd Encryption Change   
+   13   9.704002   controller → host         HCI_EVT 7 Rcvd Disconnect Complete   
+   14  16.677023   controller → host         HCI_EVT 13 Rcvd Connect Request   
+   15  16.678020   controller → host         HCI_EVT 7 Rcvd Command Status (Accept Connection Request)   
+   16  16.827024   controller → host         HCI_EVT 14 Rcvd Connect Complete   
+   17  16.827935   controller → host         HCI_EVT 7 Rcvd Command Status (Read Remote Supported Features)   
+   18  16.838025   controller → host         HCI_EVT 14 Rcvd Read Remote Supported Features   
+   19  16.839019   controller → host         HCI_EVT 7 Rcvd Command Status (Read Remote Extended Features)   
+   20  16.847014   controller → host         HCI_EVT 16 Rcvd Read Remote Extended Features Complete   
+   21  16.848003   controller → host         HCI_EVT 7 Rcvd Command Status (Remote Name Request)   
+   22  16.866918   controller → host         HCI_EVT 258 Rcvd Remote Name Request Complete   
+   23  16.983007   controller → host         HCI_EVT 13 Rcvd Command Complete (Link Key Request Reply)   
+   24  17.037004   controller → host         HCI_EVT 7 Rcvd Encryption Change   
+   25  17.066004   controller → host         HCI_EVT 7 Rcvd Command Complete (Set AFH Host Channel Classification)   
+   26  22.301026   controller → host         HCI_EVT 7 Rcvd Command Complete (Set AFH Host Channel Classification)   
+   27  22.607029   controller → host         HCI_EVT 7 Rcvd Disconnect Complete 
+~~~
+
+Indeed, we get a 27-packet "HCI_EVT" capture. We need to find the MAC address and hostname of the tranmitter.  We can use the fields specified in the [bthci_evt filter reference](https://www.wireshark.org/docs/dfref/b/bthci_evt.html) using tshark with strings:
+
+~~~shell
+$ tshark -r ch18.bin -T fields -e bthci_evt.remote_name -e bthci_evt.bd_addr | strings | uniq 
+	0c:b3:19:b9:4f:c6
+GT-S7390G	0c:b3:19:b9:4f:c6
+	0c:b3:19:b9:4f:c6
+GT-S7390G	0c:b3:19:b9:4f:c6
+	0c:b3:19:b9:4f:c6
+~~~
+
+We have:
+ 
+- MAC address = 0c:b3:19:b9:4f:c6
+- hostname = GT-S7390G
+
+We can calculate the hash as required for this challenge in python:
+
+~~~py
+import hashlib
+ 
+MAC = "0c:b3:19:b9:4f:c6"
+Name = "GT-S7390G"
+raw = (MAC+Name).upper().encode()
+
+hash_obj = hashlib.sha1(raw)
+ 
+hexa_value = hash_obj.hexdigest()
+ 
+print(hexa_value)
+~~~
+
+This returns c1d0349c153ed96fe2fadf44e880aef9e69c122b which is the challenge solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+c1d0349c153ed96fe2fadf44e880aef9e69c122b
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## CISCO password
+
+- Author: Thanat0s
+- Date: 10 July 2013
+- Points: 15
+- Level: 2
+
+### Statement
+
+Find the "Enable" password.
+
+### Related Resources
+
+1. [Cisco passwords](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords.pdf?_gl=1*aax98p*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMzUyNy4w).
+2. [Cisco passwords and encryption facts](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords%20encryption%20facts.pdf?_gl=1*aax98p*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMzUyNy4w).
+
+### Attachments
+
+1. [ch15.txt](http://challenge01.root-me.org/reseau/ch15/ch15.txt) 1.3 kB.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+This cisco config file details several users and passwords.  The challenge asks for the "enable" password.  Enable is a command used to configure a cisco device.  We have the following password hashes:
+
+1. username hub password 7 025017705B3907344E 
+2. username admin privilege 15 password 7 10181A325528130F010D24
+3. username guest password 7 124F163C42340B112F3830
+4. interface: line con0 password 7 144101205C3B29242A3B3C3927
+5. enable secret 5 $1$p8Y6$MCdRLBzuGlfOs9S.hXOp0.
+ 
+We can decypt the password 7s using [ciscot7](https://github.com/theevilbit/ciscot7):
+
+~~~shell
+$ python3 ciscot7.py -d -p 025017705B3907344E
+Decrypted password: 6sK0_hub
+$ python3 ciscot7.py -d -p 124F163C42340B112F3830
+Decrypted password: 6sK0_guest
+$ python3 ciscot7.py -d -p 144101205C3B29242A3B3C3927
+Decrypted password: 6sK0_console
+~~~
+
+We now have the PT password 7 solutions:
+
+| user    | Password hash              | Password PT  |
+|---------|----------------------------|--------------|
+| hub     | 025017705B3907344E         | 6sK0_hub     |
+| guest   | 124F163C42340B112F3830     | 6sK0_guest   |
+| console | 144101205C3B29242A3B3C3927 | 6sK0_console |
+| admin   | 10181A325528130F010D24     | 6sK0_admin   |
+ 
+The type 5 password can be decrypted using hashcat
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+
 ~~~
 
 </details>
