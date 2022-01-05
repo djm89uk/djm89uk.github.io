@@ -419,7 +419,30 @@ Root-Me is a non-profit organization which goal is to promote the spread of know
 
 ## [Root-Me Steganography](./rootme_steg.md)
 
-LIST
+1. [Gunnm](./rootme_steg.md#gunnm)
+2. [Squared](./rootme_steg.md#squared)
+3. [Dot and next line](./rootme_steg.md#dot-and-next-line)
+4. [Steganomobile](./rootme_steg.md#steganomobile)
+5. [Twitter Secret Messages](./rootme_steg.md#twitter-secret-messages)
+6. [Some noise](./rootme_steg.md#some-noise)
+7. [George and Alfred](./rootme_steg.md#george-and-alfred)
+8. [Poem from Space](./rootme_steg.md#poem-from-space)
+9. [Yellow dots](./rootme_steg.md#yellow-dots)
+10. [Audio stegano](./rootme_steg.md#audio-stegano)
+11. [Mimic - Dummy sight](./rootme_steg.md#mimic-dummy-sight)
+12. [We need to go deeper](./rootme_steg.md#we-need-to-go-deeper)
+13. [APNG - Just A PNG](./rootme_steg.md#apng-just-a-png)
+14. [Base Jumper](./rootme_steg.md#base-jumper)
+15. [ELF x64 - Duality](./rootme_steg.md#elf-x64-duality)
+16. [Hide and seek](./rootme_steg.md#hide-and-seek)
+17. [PDF Object](./rootme_steg.md#pdf-object)
+18. [Angecryption](./rootme_steg.md#angecryption)
+19. [Kitty spy](./rootme_steg.md#kitty-spy)
+20. [LSB - Uncle Scrooge](./rootme_steg.md#lsb-uncle-scrooge)
+21. [Pixel Indicator Technique](./rootme_steg.md#pixel-indicator-technique)
+22. [Pixel Value Differencing](./rootme_steg.md#pixel-value-differencing)
+23. [Crypt-art](./rootme_steg.md#crypt-art)
+
 
 ---
 
