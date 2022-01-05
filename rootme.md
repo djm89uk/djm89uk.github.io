@@ -1,6 +1,6 @@
 # [Root-Me](./rootme.md)
 
-Root-Me is a non-profit organization which goal is to promote the spread of knowledge related to hacking and information security. They host over 400 challenges across 11 sub-disciplines.
+[Root-Me](https://www.root-me.org/en/Challenges/) is a non-profit organization which goal is to promote the spread of knowledge related to hacking and information security. They host over 400 challenges across 11 sub-disciplines.
 
 ## Contents
 - [Root-Me App - Script](./rootme_ascr.md)
