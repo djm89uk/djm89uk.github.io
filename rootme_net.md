@@ -32,7 +32,7 @@ Investigate captured traffic, network services and perform packet analysis.
 
 ---
 
-### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
 
@@ -81,7 +81,7 @@ Detail here
 
 ---
 
-### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
 
