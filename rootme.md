@@ -78,7 +78,7 @@ Root-Me is a non-profit organization which goal is to promote the spread of know
 19. [PE32 - Advanced stack buffer overflow](./rootme_asys.md#pe32-advanced-stack-buffer-overflow)
 20. [ELF ARM - Basic ROP](./rootme_asys.md#elf-arm-basic-rop)
 21. [ELF MIPS - Basic ROP](./rootme_asys.md#elf-mips-basic-rop)
-22. [ELF x86 - Stack buffer overflow - C++ vtables](./rootme_asys.md#elf-x86-stack-buffer-overflow-c-vtables)
+22. [ELF x86 - Stack buffer overflow - C++ vtables](./rootme_asys.md#elf-x86-stack-buffer-overflow-cpp-vtables)
 23. [PE32+ Format string bug](./rootme_asys.md#pe32-format-string-bug)
 24. [ELF x64 - Logic bug](./rootme_asys.md#elf-x64-logic-bug)
 25. [ELF x86 - Bug Hunting - Several issues](./rootme_asys.md#elf-x86-bug-hunting-several-issues)
