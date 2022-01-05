@@ -10,8 +10,8 @@ picoCTF provides a practice CTF environment called picoGym to allow individuals 
 - [PicoGym Web Exploitation](./picogym_we.md)
 - [PicoGym Cryptography](./picogym_c.md)
 - [PicoGym Reverse Engineering](./picogym_re.md)
-- [PicoGym Forensics](./picogym_f.md)
-- [PicoGym General Skills](./picogym_gs.md)
+- [PicoGym Forensics](./picogym_f.md) ✓
+- [PicoGym General Skills](./picogym_gs.md) ✓
 - [PicoGym Binary Exploitation](./picogym_be.md)
 
 # [Root-Me](./rootme.md)
