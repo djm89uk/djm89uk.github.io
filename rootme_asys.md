@@ -1,10 +1,10 @@
 # [Root-Me](./rootme.md) Root-Me App - System Challenges [0/83]
 
-Exploit environment weaknesses, configuration mistakes and vulnerability patterns in scripts and systems. 
+These challenges will help you understand applicative vulnerabilities. 
 
 ## Contents
 
-- [ELF x86 - Stack buffer overflow basic 1]elf-x86-stack-buffer-overflow-basic-1)
+- [ELF x86 - Stack buffer overflow basic 1](#elf-x86-stack-buffer-overflow-basic-1)
 - [ELF x86 - Stack buffer overflow basic 2](#elf-x86-stack-buffer-overflow-basic-2)
 - [PE32 - Stack buffer overflow basic](#pe32-stack-buffer-overflow-basic)
 - [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1)
