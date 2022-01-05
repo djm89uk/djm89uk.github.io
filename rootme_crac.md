@@ -7,7 +7,7 @@ Reverse binaries and crack executables.
 1. [ELF x86 - 0 protection](#elf-x86-0-protection)
 2. [ELF x86 - Basic](#elf-x86-basic)
 3. [PE x86 - 0 protection](#pe-x86-0-protection)
-4. [ELF C++ - 0 protection](#elf-c++-0-protection)
+4. [ELF C++ - 0 protection](#elf-cpp-0-protection)
 5. [PE DotNet - 0 protection](#pe-dotnet-0-protection)
 6. [ELF MIPS - Basic Crackme](#elf-mips-basic-crackme)
 7. [ELF x64 - Golang basic](#elf-x64-golang-basic)
