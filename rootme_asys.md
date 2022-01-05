@@ -25,7 +25,7 @@ These challenges will help you understand applicative vulnerabilities.
 19. [PE32 - Advanced stack buffer overflow](#pe32-advanced-stack-buffer-overflow)
 20. [ELF ARM - Basic ROP](#elf-arm-basic-rop)
 21. [ELF MIPS - Basic ROP](#elf-mips-basic-rop)
-22. [ELF x86 - Stack buffer overflow - C++ vtables](#elf-x86-stack-buffer-overflow-c-vtables)
+22. [ELF x86 - Stack buffer overflow - C++ vtables](#elf-x86-stack-buffer-overflow-cpp-vtables)
 23. [PE32+ Format string bug](#pe32-format-string-bug)
 24. [ELF x64 - Logic bug](#elf-x64-logic-bug)
 25. [ELF x86 - Bug Hunting - Several issues](#elf-x86-bug-hunting-several-issues)
@@ -84,7 +84,7 @@ These challenges will help you understand applicative vulnerabilities.
 78. [WinKern x64 - Advanced stack buffer overflow - ROP](#winkern-x64-advanced-stack-buffer-overflow-rop)
 79. [WinKern x64 - Use After Free](#winkern-x64-use-after-free)
 80. [ELF x64 - Remote Heap buffer overflow 2](#elf-x64-remote-heap-buffer-overflow-2)
-81. [ELF x64 - Advanced Heap Exploitation - Heap Leakless & Fortified](#elf-x64-advanced-heap-exploitation-heap-leakless-&-fortified)
+81. [ELF x64 - Advanced Heap Exploitation - Heap Leakless & Fortified](#elf-x64-advanced-heap-exploitation-heap-leakless-fortified)
 82. [ELF x64 - Blind ROP](#elf-x64-blind-rop)
 83. [ELF x64 - Browser exploit - BitString](#elf-x64-browser-exploit-bitstring)
 
