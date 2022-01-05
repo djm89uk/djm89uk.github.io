@@ -830,7 +830,11 @@ We now have the PT password 7 solutions:
 | console | 144101205C3B29242A3B3C3927 | 6sK0_console |
 | admin   | 10181A325528130F010D24     | 6sK0_admin   |
  
-The type 5 password can be decrypted using hashcat
+We can check a "guessed" password using md5 hash in python:
+
+~~~py
+
+~~~
 
 </details>
 
