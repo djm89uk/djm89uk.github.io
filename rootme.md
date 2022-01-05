@@ -452,7 +452,35 @@ Root-Me is a non-profit organization which goal is to promote the spread of know
 
 ## [Root-Me Web - Client](./rootme_wcli.md)
 
-LIST
+1. [HTML - disabled buttons](./rootme_wcli.md#html-disabled-buttons)
+2. [Javascript - Authentication](./rootme_wcli.md#javascript-authentication)
+3. [Javascript - Source](./rootme_wcli.md#javascript-source)
+4. [Javascript - Authentication 2](./rootme_wcli.md#javascript-authentication-2)
+5. [Javascript - Obfuscation 1](./rootme_wcli.md#javascript-obfuscation-1)
+6. [Javascript - Obfuscation 2](./rootme_wcli.md#javascript-obfuscation-2)
+7. [Javascript - Native code](./rootme_wcli.md#javascript-native-code)
+8. [Javascript - Webpack](./rootme_wcli.md#javascript-webpack)
+9. [Javascript - Obfuscation 3](./rootme_wcli.md#javascript-obfuscation-3)
+10. [Web Socket - 0 protection](./rootme_wcli.md#web-socket-0-protection)
+11. [XSS - Stored 1](./rootme_wcli.md#xss-stored-1)
+12. [CSP Bypass - Inline code](./rootme_wcli.md#csp-bypass-inline-code)
+13. [CSRF - 0 protection](./rootme_wcli.md#csrf-0-protection)
+14. [XSS DOM Based - Introduction](./rootme_wcli.md#xss-dom-based-introduction)
+15. [Flash - Authentication](./rootme_wcli.md#flash-authentication)
+16. [XSS DOM Based - AngularJS](./rootme_wcli.md#xss-dom-based-angularjs)
+17. [XSS DOM Based - Eval](./rootme_wcli.md#xss-dom-based-eval)
+18. [CSP Bypass - Dangling markup](./rootme_wcli.md#csp-bypass-dangling-markup)
+19. [CSP Bypass - JSONP](./rootme_wcli.md#csp-bypass-jsonp)
+20. [CSRF - token bypass](./rootme_wcli.md#csrf-token-bypass)
+21. [XSS - Reflected](./rootme_wcli.md#xss-reflected)
+22. [CSP Bypass - Dangling markup 2](./rootme_wcli.md#csp-bypass-dangling-markup-2)
+23. [Javascript - Obfuscation 4](./rootme_wcli.md#javascript-obfuscation-4)
+24. [XSS - Stored 2](./rootme_wcli.md#xss-stored-2)
+25. [XSS DOM Based - Filters Bypass](./rootme_wcli.md#xss-dom-based-filters-bypass)
+26. [HTTP Response Splitting](./rootme_wcli.md#http-response-splitting)
+27. [Javascript - Obfuscation 5](./rootme_wcli.md#javascript-obfuscation-5)
+28. [XSS - Stored - filter bypass](./rootme_wcli.md#xss-stored-filter-bypass)
+29. [XSS - DOM Based](./rootme_wcli.md#xss-dom-based)
 
 ---
 
