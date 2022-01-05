@@ -560,6 +560,101 @@ confi:dential
 
 ---
 
+
+## Twitter Authentication
+
+- Author: g0uZ
+- Date: 30 August 2010
+- Points: 15
+- Level: 2
+
+### Statement
+
+A twitter authentication session has been captured, you have to retrieve the password.
+
+### Attachments
+
+1. [ch3.pcap](http://challenge01.root-me.org/reseau/ch3/ch3.pcap) 558 B.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We have been given a packet capture file, [ch3.pcap](http://challenge01.root-me.org/reseau/ch3/ch3.pcap).  We find a single packet has been captured:
+
+~~~shell
+$ tshark -r ch3.pcap
+    1   0.000000 128.222.228.85 → 128.121.146.100 HTTP 518 GET /statuses/replies.xml HTTP/1.1  55872 80 
+~~~
+
+This is a HTTP GET request so we know it it an ip tcp packet.  We can extract the tcp payload using tshark:
+
+~~~shell
+$ tshark -r ch3.pcap -T fields -e tcp.payload > payload.txt
+~~~
+
+This gives us the packet data in hex within payload.txt:
+
+~~~
+474554202f73746174757365732f7265706c6965732e786d6c20485454502f312e310d0a557365722d4167656e743a2043464e6574776f726b2f3333300d0a436f6f6b69653a205f747769747465725f736573733d4241683743446f4a64584e6c636a413642326c6b4969566d5a4751324f4463354d544d774d5746684f5446694d5745785a4456695a6d51774d47457a25323530414f574e6b4d79494b5a6d78686332684a517a6f6e51574e30615739755132397564484a766247786c636a6f36526d7868633267364f6b5a7359584e6f25323530415347467a61487341426a6f4b5148567a5a5752374141253235334425323533442d2d656131326537626330393064303532303263643765336639373263326234343134613937663635370d0a4163636570743a202a2f2a0d0a4163636570742d4c616e67756167653a20656e2d75730d0a4163636570742d456e636f64696e673a20677a69702c206465666c6174650d0a417574686f72697a6174696f6e3a2042617369632064584e6c636e526c633351366347467a63336476636d513d0d0a436f6e6e656374696f6e3a206b6565702d616c6976650d0a486f73743a20747769747465722e636f6d0d0a0d0a
+~~~
+
+We can use python to convert this into ASCII:
+ 
+~~~py
+import binascii
+
+payload_HEX = "474554202f73746174757365732f7265706c6965732e786d6c20485454502f312e310d0a557365722d4167656e743a2043464e6574776f726b2f3333300d0a436f6f6b69653a205f747769747465725f736573733d4241683743446f4a64584e6c636a413642326c6b4969566d5a4751324f4463354d544d774d5746684f5446694d5745785a4456695a6d51774d47457a25323530414f574e6b4d79494b5a6d78686332684a517a6f6e51574e30615739755132397564484a766247786c636a6f36526d7868633267364f6b5a7359584e6f25323530415347467a61487341426a6f4b5148567a5a5752374141253235334425323533442d2d656131326537626330393064303532303263643765336639373263326234343134613937663635370d0a4163636570743a202a2f2a0d0a4163636570742d4c616e67756167653a20656e2d75730d0a4163636570742d456e636f64696e673a20677a69702c206465666c6174650d0a417574686f72697a6174696f6e3a2042617369632064584e6c636e526c633351366347467a63336476636d513d0d0a436f6e6e656374696f6e3a206b6565702d616c6976650d0a486f73743a20747769747465722e636f6d0d0a0d0a"
+payload_ASCII = binascii.unhexlify(payload_HEX)
+print(payload_ASCII)
+~~~
+
+This gives us the ASCII payload data:
+
+~~~
+GET /statuses/replies.xml HTTP/1.1\r\nUser-Agent: CFNetwork/330\r\nCookie: _twitter_sess=BAh7CDoJdXNlcjA6B2lkIiVmZGQ2ODc5MTMwMWFhOTFiMWExZDViZmQwMGEz%250AOWNkMyIKZmxhc2hJQzonQWN0aW9uQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNo%250ASGFzaHsABjoKQHVzZWR7AA%253D%253D--ea12e7bc090d05202cd7e3f972c2b4414a97f657\r\nAccept: */*\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, deflate\r\nAuthorization: Basic dXNlcnRlc3Q6cGFzc3dvcmQ=\r\nConnection: keep-alive\r\nHost: twitter.com\r\n\r\n
+~~~
+
+We can see an authorization field with base64 encoded text.  This can be decoded in python:
+
+~~~py
+import base64 as b64
+
+word_b64 = "dXNlcnRlc3Q6cGFzc3dvcmQ="
+word_ASCII = b64.b64decode(word_b64).decode()
+print(word_ASCII)
+~~~
+
+This gives us the ASCII string:
+
+~~~
+usertest:password
+~~~
+
+The answer for this challenge is password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+password
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
