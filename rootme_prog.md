@@ -10,7 +10,7 @@ There are two types of challenges here:
 
 1. [IRC - Go back to college](#irc-go-back-to-college)
 2. [IRC - Encoded string](#irc-encoded-string)
-3. [IRC - The Roman’s wheel](#irc-the-roman’s-wheel)
+3. [IRC - The Roman’s wheel](#irc-the-romans-wheel)
 4. [IRC - Uncompress me](#irc-uncompress-me)
 5. [CAPTCHA me if you can](#captcha-me-if-you-can)
 6. [Ethereum - Tutoreum](#ethereum-tutoreum)
