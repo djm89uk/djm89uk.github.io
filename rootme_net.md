@@ -13,7 +13,7 @@ Investigate captured traffic, network services and perform packet analysis.
 7. [DNS - zone transfert](#dns-zone-transfert) 🗸
 8. [IP - Time To Live](#ip-time-to-live) 🗸
 9. [LDAP - null bind](#ldap-null-bind) 🗸
-10. [POP - APOP](#pop-apop)
+10. [POP - APOP](#pop-apop) 🗸
 11. [RF - AM Transmission](#rf-am-transmission)
 12. [RF - FM Transmission](#rf-fm-transmission)
 13. [SIP - authentication](#sip-authentication)
@@ -1205,6 +1205,74 @@ Which provides the email address.
 
 ~~~
 sabu@anonops.org
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## POP APOP
+
+- Author: lutzenfried
+- Date: 11 November 2020
+- Points: 15
+- Level: 2
+
+### Statement
+
+Find the user password in this network frame.
+
+### Related Resources
+
+1. [RFC 1939](https://repository.root-me.org/RFC/EN%20-%20rfc1939.txt).
+
+### Attachments
+
+1. [ch23.zip](http://challenge01.root-me.org/reseau/ch23/ch23.zip) 175 kB.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We are given a zip file with a packet capture file, ch23.pcapng. As described in the challenge and the reference, this relates to a [Post Office Protocol](https://en.wikipedia.org/wiki/Post_Office_Protocol) conversation.  We can extract the POP packets using tshark:
+
+~~~shell
+$ tshark -r ch23.pcapng -w ch23_pop.pcap pop
+~~~
+
+This reduces our packet capture from 212.1 KiB to 1.2 KiB.  We can review the packets in tshark:
+
+~~~shell
+$ tshark -r ch23_pop.pcap
+    1   0.000000 167.114.129.140 → 192.168.0.112 POP 149 S: +OK Hello little hackers. <1755.1.5f403625.BcWGgpKzUPRC8vscWn0wuA==@vps-7e2f5a72> 110 43188  ac:d9:f1:17:5b:f7 
+    2  36.331587 192.168.0.112 → 167.114.129.140 POP 112 C: APOP bsmith 4ddd4137b84ff2db7291b568289717f0 43188 110  e8:71:b1:d9:4d:55 
+    3  36.386548 167.114.129.140 → 192.168.0.112 POP 84 S: +OK Logged in. 110 43188  ac:d9:f1:17:5b:f7 
+    4  39.587835 192.168.0.112 → 167.114.129.140 POP 72 C: LIST 43188 110  e8:71:b1:d9:4d:55 
+    5  39.619931 167.114.129.140 → 192.168.0.112 POP 100 S: +OK 2 messages: 110 43188  ac:d9:f1:17:5b:f7 
+    6  45.435223 192.168.0.112 → 167.114.129.140 POP 74 C: RETR 1 43188 110  e8:71:b1:d9:4d:55 
+    7  45.465047 167.114.129.140 → 192.168.0.112 POP 92 S: +OK 6 octets 110 43188  ac:d9:f1:17:5b:f7 
+    8  46.862121 192.168.0.112 → 167.114.129.140 POP 72 C: quit 43188 110  e8:71:b1:d9:4d:55 
+    9  46.895866 167.114.129.140 → 192.168.0.112 POP 84 S: +OK Logging out. 110 43188  ac:d9:f1:17:5b:f7 
+~~~
+
+We can see an APOP response with what appears to be a username bsmith and a hex string, 4ddd4137b84ff2db7291b568289717f0.  As detailed in the RFC, this is an MD5 hash of the user password.  We can try to unhash it using an [online hashing/unhashing website](https://md5hashing.net).  This is succesful and we get 100%popprincess
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+100%popprincess
 ~~~
 
 </details>
