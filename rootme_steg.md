@@ -34,26 +34,20 @@ The art of hiding information in a document.
 
 ---
 
-## ChallengeName
+## Gunnm
 
-- Author: name
-- X Points
+- Author: g0uZ
+- Date: 07 October 2006
+- Points: 5
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
-
-### Hints
-
-1. Hint 1
-
-### Connection Details
-
-1. Detail 1
+For the beginning : an image
 
 ### Attachments
 
-1. Attachment 1
+1. [ch1.png](http://challenge01.root-me.org/steganographie/ch1/ch1.png)
 
 ### Solutions
 
