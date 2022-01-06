@@ -10,9 +10,9 @@ Investigate captured traffic, network services and perform packet analysis.
 4. [Twitter authentication](#twitter-authentication) 🗸
 5. [Bluetooth - Unknown file](#bluetooth-unknown-file) 🗸
 6. [CISCO - password](#cisco-password) 🗸
-7. [DNS - zone transfert](#dns-zone-transfert)
-8. [IP - Time To Live](#ip-time-to-live)
-9. [LDAP - null bind](#ldap-null-bind)
+7. [DNS - zone transfert](#dns-zone-transfert) 🗸
+8. [IP - Time To Live](#ip-time-to-live) 🗸
+9. [LDAP - null bind](#ldap-null-bind) 🗸
 10. [POP - APOP](#pop-apop)
 11. [RF - AM Transmission](#rf-am-transmission)
 12. [RF - FM Transmission](#rf-fm-transmission)
@@ -49,7 +49,7 @@ An authenticated file exchange achieved through FTP. Recover the password used b
 
 ### Related Resources
 
-1. [RFC 959](https://repository.root-me.org/RFC/EN%20-%20rfc959.txt?_gl=1*5ifr48*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQwNzQ1MC4w).
+1. [RFC 959](https://repository.root-me.org/RFC/EN%20-%20rfc959.txt).
 
 ### Attachments
 
@@ -246,7 +246,7 @@ Find the user password in this TELNET session capture.
 
 ### Related Resources
 
-1. [RFC 854](https://repository.root-me.org/RFC/EN%20-%20rfc854.txt?_gl=1*1760t9h*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQwODc5My4w).
+1. [RFC 854](https://repository.root-me.org/RFC/EN%20-%20rfc854.txt).
 
 ### Attachments
 
@@ -481,8 +481,8 @@ Find the (supposed to be) confidential data in this ethernet frame.
 
 ### Related Resources
 
-1. [RFC 1024](https://repository.root-me.org/RFC/EN%20-%20rfc1042.txt?_gl=1*1bf0fpg*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQwOTQyMS4w).
-2. [HTTP Basic Authentication and Digest Authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20HTTP%20basic%20authentication%20and%20digest%20authentication.pdf?_gl=1*1bf0fpg*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQwOTQyMS4w)
+1. [RFC 1024](https://repository.root-me.org/RFC/EN%20-%20rfc1042.txt).
+2. [HTTP Basic Authentication and Digest Authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20HTTP%20basic%20authentication%20and%20digest%20authentication.pdf)
 
 ### Attachments
 
@@ -677,7 +677,7 @@ AB:CD:EF:12:34:56myPhone -> 023cc433c380c2618ed961000a681f1d4c44f8f1
 ### Related Resources
 
 1. [Bluetooth](https://en.wikipedia.org/wiki/Bluetooth).
-2. [fte.com - BT Snoop File Format](https://repository.root-me.org/R%C3%A9seau/EN%20-%20fte.com%20-%20BT%20Snoop%20File%20Format.pdf?_gl=1*n23i83*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMTYzNS4w).
+2. [fte.com - BT Snoop File Format](https://repository.root-me.org/R%C3%A9seau/EN%20-%20fte.com%20-%20BT%20Snoop%20File%20Format.pdf).
 
 ### Attachments
 
@@ -789,8 +789,8 @@ Find the "Enable" password.
 
 ### Related Resources
 
-1. [Cisco passwords](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords.pdf?_gl=1*aax98p*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMzUyNy4w).
-2. [Cisco passwords and encryption facts](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords%20encryption%20facts.pdf?_gl=1*aax98p*_ga*MTI1ODExMDYzNC4xNjQxMzc5NDAz*_ga_SRYSKX09J7*MTY0MTQwNjA2MS40LjEuMTY0MTQxMzUyNy4w).
+1. [Cisco passwords](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords.pdf).
+2. [Cisco passwords and encryption facts](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Cisco%20passwords%20encryption%20facts.pdf).
 
 ### Attachments
 
@@ -842,6 +842,369 @@ Following the above password formats, we can check if 6sK0_enable is the solutio
 
 ~~~
 6sK0_enable
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## DNS zone transfert
+
+- Author: g0uZ
+- Date: 20 May 2013
+- Points: 15
+- Level: 2
+
+### Statement
+
+A not really dutiful administrator has set up a DNS service for the "ch11.challenge01.root-me.org" domain...
+
+### Connection Details
+
+- Host: challenge01.root-me.org
+- Protocol: DNS
+- Port: 54011
+
+### Related Resources
+
+1. [RFC 1035](https://repository.root-me.org/RFC/EN%20-%20rfc1035.txt).
+2. [RFC 5936](https://repository.root-me.org/RFC/EN%20-%20rfc5936.txt).
+3. [RFC 1034](https://repository.root-me.org/RFC/EN%20-%20rfc1034.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+This is a zone transfer attack.  We can use dig to download the DNS zone data:
+
+~~~shell
+$ dig axfr @challenge01.root-me.org -p 54011 ch11.challenge01.root-me.org
+
+; <<>> DiG 9.16.1-Ubuntu <<>> axfr @challenge01.root-me.org -p 54011 ch11.challenge01.root-me.org
+; (2 servers found)
+;; global options: +cmd
+ch11.challenge01.root-me.org. 604800 IN	SOA	ch11.challenge01.root-me.org. root.ch11.challenge01.root-me.org. 2 604800 86400 2419200 604800
+ch11.challenge01.root-me.org. 604800 IN	TXT	"DNS transfer secret key : CBkFRwfNMMtRjHY"
+ch11.challenge01.root-me.org. 604800 IN	NS	ch11.challenge01.root-me.org.
+ch11.challenge01.root-me.org. 604800 IN	A	127.0.0.1
+challenge01.ch11.challenge01.root-me.org. 604800 IN A 192.168.27.101
+ch11.challenge01.root-me.org. 604800 IN	SOA	ch11.challenge01.root-me.org. root.ch11.challenge01.root-me.org. 2 604800 86400 2419200 604800
+;; Query time: 27 msec
+;; SERVER: 212.129.38.224#54011(212.129.38.224)
+;; WHEN: Thu Jan 06 13:05:42 GMT 2022
+;; XFR size: 6 records (messages 1, bytes 274)
+~~~
+	
+We specify the dns server @challenge01.root-me.org, the port -p 54011 the domain ch11.challenge01.root-me.org and use the acfr response to retrieve the zone data.  We can see the secret key is provided from the DNS TXT:
+
+~~~
+ch11.challenge01.root-me.org. 604800 IN	TXT	"DNS transfer secret key : CBkFRwfNMMtRjHY"
+~~~
+
+This gives us the solution to the challenge.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+CBkFRwfNMMtRjHY
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## IP Time to Live
+
+- Author: g0uZ
+- Date: 01 September 2010
+- Points: 15
+- Level: 2
+
+### Statement
+
+Find the TTL used to reach the targeted host in this ICMP exchange.
+
+### Resources
+
+1. [RFC 793](https://repository.root-me.org/RFC/EN%20-%20rfc793.txt).
+2. [RFC 1035](https://repository.root-me.org/RFC/EN%20-%20rfc1035.txt).
+
+### Attachments
+
+1. [ch7.pcap](http://challenge01.root-me.org/reseau/ch7/ch7.pcap).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This is a simple challenge to find the TTL for the ICMP target.  [traceroute](https://en.wikipedia.org/wiki/Traceroute) works by increasing the TTL by 1 for each transmission and recording the TTL exceeded response from the intermediary hosts.  From our packet capture we can see the traceroute command increasing the TTL flag by 1 for each response until the TTL exceeded response is not returned:
+
+~~~shell
+$ tshark -r ch7.pcap 
+    1   0.000000 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=768/3, ttl=1   64 AmbitMic_aa:af:80 
+    2   3.364382 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=1024/4, ttl=1   64 AmbitMic_aa:af:80 
+    3   6.368126 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=1280/5, ttl=1   64 AmbitMic_aa:af:80 
+    4   9.371704 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=1536/6, ttl=2   64 AmbitMic_aa:af:80 
+    5   9.393904 12.244.25.161 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+    6   9.394103 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=1792/7, ttl=2   64 AmbitMic_aa:af:80 
+    7   9.407045 12.244.25.161 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+    8   9.407187 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=2048/8, ttl=2   64 AmbitMic_aa:af:80 
+    9   9.433282 12.244.25.161 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   10  15.040775 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=2304/9, ttl=3   64 AmbitMic_aa:af:80 
+   11  15.063530 12.244.67.17 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   12  15.066158 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=2560/10, ttl=3   64 AmbitMic_aa:af:80 
+   13  15.076118 12.244.67.17 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   14  15.076262 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=2816/11, ttl=3   64 AmbitMic_aa:af:80 
+   15  15.098114 12.244.67.17 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   16  20.819234 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=3072/12, ttl=4   64 AmbitMic_aa:af:80 
+   17  20.832207 12.244.72.210 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   18  20.832403 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=3328/13, ttl=4   64 AmbitMic_aa:af:80 
+   19  20.853357 12.244.72.210 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   20  20.853611 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=3584/14, ttl=4   64 AmbitMic_aa:af:80 
+   21  20.869107 12.244.72.210 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   22  26.399007 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=3840/15, ttl=5   64 AmbitMic_aa:af:80 
+   23  26.419143 12.122.2.250 → 24.6.126.218 ICMP 134 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   24  26.419435 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=4096/16, ttl=5   64 AmbitMic_aa:af:80 
+   25  26.439858 12.122.2.250 → 24.6.126.218 ICMP 134 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   26  26.439996 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=4352/17, ttl=5   64 AmbitMic_aa:af:80 
+   27  26.461652 12.122.2.250 → 24.6.126.218 ICMP 134 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   28  27.472452 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=4608/18, ttl=6   64 AmbitMic_aa:af:80 
+   29  27.497676 12.123.28.129 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   30  27.498027 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=4864/19, ttl=6   64 AmbitMic_aa:af:80 
+   31  27.528548 12.123.28.129 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   32  27.528748 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=5120/20, ttl=6   64 AmbitMic_aa:af:80 
+   33  27.560144 12.123.28.129 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   34  28.622120 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=5376/21, ttl=7   64 AmbitMic_aa:af:80 
+   35  28.653204 129.250.9.109 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   36  28.653466 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=5632/22, ttl=7   64 AmbitMic_aa:af:80 
+   37  28.673285 129.250.9.109 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   38  28.673425 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=5888/23, ttl=7   64 AmbitMic_aa:af:80 
+   39  28.708714 129.250.9.109 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   40  34.285156 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=6144/24, ttl=8   64 AmbitMic_aa:af:80 
+   41  34.307675 129.250.2.112 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   42  34.307988 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=6400/25, ttl=8   64 AmbitMic_aa:af:80 
+   43  34.329477 129.250.2.112 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   44  34.329820 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=6656/26, ttl=8   64 AmbitMic_aa:af:80 
+   45  34.365728 129.250.2.112 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   46  35.759869 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=6912/27, ttl=9   64 AmbitMic_aa:af:80 
+   47  35.822520 129.250.4.197 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   48  35.822858 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=7168/28, ttl=9   64 AmbitMic_aa:af:80 
+   49  35.876630 129.250.4.197 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   50  35.876783 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=7424/29, ttl=9   64 AmbitMic_aa:af:80 
+   51  35.926870 129.250.4.197 → 24.6.126.218 ICMP 182 Time-to-live exceeded (Time to live exceeded in transit)   64 Cadant_22:89:c2 
+   52  36.959693 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=7680/30, ttl=10   64 AmbitMic_aa:af:80 
+   53  37.038390 129.250.5.35 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   54  37.038719 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=7936/31, ttl=10   64 AmbitMic_aa:af:80 
+   55  37.118674 129.250.5.35 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   56  37.119738 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=8192/32, ttl=10   64 AmbitMic_aa:af:80 
+   57  37.199696 129.250.5.35 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   58  38.205514 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=8448/33, ttl=11   64 AmbitMic_aa:af:80 
+   59  38.290346 129.250.27.187 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   60  38.290703 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=8704/34, ttl=11   64 AmbitMic_aa:af:80 
+   61  38.385020 129.250.27.187 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   62  38.410403 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=8960/35, ttl=11   64 AmbitMic_aa:af:80 
+   63  38.493348 129.250.27.187 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   64  44.552267 24.6.126.218 → 216.148.227.68 ICMP 70 Destination unreachable (Port unreachable) 53 3637  AmbitMic_aa:af:80 
+   65  44.790695 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=9216/36, ttl=12   64 AmbitMic_aa:af:80 
+   66  44.870689 204.2.121.162 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   67  44.874186 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=9472/37, ttl=12   64 AmbitMic_aa:af:80 
+   68  44.969505 204.2.121.162 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   69  44.973782 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=9728/38, ttl=12   64 AmbitMic_aa:af:80 
+   70  45.077511 204.2.121.162 → 24.6.126.218 ICMP 70 Time-to-live exceeded (Time to live exceeded in transit)    Cadant_22:89:c2 
+   71  49.252888 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=9984/39, ttl=13   64 AmbitMic_aa:af:80 
+   72  49.345998 198.173.244.32 → 24.6.126.218 ICMP 106 Echo (ping) reply    id=0x0200, seq=9984/39, ttl=51 (request in 71)   64 Cadant_22:89:c2 
+   73  49.346312 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=10240/40, ttl=13   64 AmbitMic_aa:af:80 
+   74  49.424540 198.173.244.32 → 24.6.126.218 ICMP 106 Echo (ping) reply    id=0x0200, seq=10240/40, ttl=51 (request in 73)   64 Cadant_22:89:c2 
+   75  49.425163 24.6.126.218 → 198.173.244.32 ICMP 106 Echo (ping) request  id=0x0200, seq=10496/41, ttl=13   64 AmbitMic_aa:af:80 
+   76  49.503822 198.173.244.32 → 24.6.126.218 ICMP 106 Echo (ping) reply    id=0x0200, seq=10496/41, ttl=51 (request in 75)   64 Cadant_22:89:c2 
+~~~
+
+We can see the TTL exceeded response stops at 13.  There are 13 hosts between the traceroute transmitter and the target.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+13
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## LDAP null bind
+
+- Author: g0uZ
+- Date: 26 May 2013
+- Points: 15
+- Level: 2
+
+### Statement
+
+It seems that one of the anonymous created a new branch in the LDAP directory, somewhere in:
+
+~~~
+dc=challenge01,dc=root-me,dc=org
+~~~
+
+Get access to its data and get his email adress.
+
+### Connection Details
+
+- Host: challenge01.root-me.org
+- Protocol: TCP
+- Port: 54013
+
+### Resources
+
+1. [RFC 4512](https://repository.root-me.org/RFC/EN%20-%20rfc4512.txt).
+2. [RFC 4513](https://repository.root-me.org/RFC/EN%20-%20rfc4513.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The [Lightweight Directory Access Protocol](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) is a protocol for maintaining directory  services across a network.  It is often used for distributing user data across a network.  We can use [ldap3](https://ldap3.readthedocs.io/en/latest/) to query the ldap server for this challenge:
+	
+~~~py
+import ldap3
+
+HOST = "challenge01.root-me.org"
+PORT = 54013
+
+svr = ldap3.Server(HOST, port=PORT, get_info = ldap3.ALL)
+con = ldap3.Connection(svr)
+con.bind()
+print("-"*30+"\n")
+print("LDAP Server Information:\n")
+print("-"*30+"\n")
+print(svr.info)
+print("-"*30+"\n")
+~~~
+
+This provides the LDAP server details:
+
+~~~
+------------------------------
+
+LDAP Server Information:
+
+------------------------------
+
+DSA info (from DSE):
+  Supported LDAP versions: 3
+  Naming contexts: 
+    dc=challenge01,dc=root-me,dc=org
+  Supported controls: 
+    1.2.826.0.1.3344810.2.3 - Matched Values - Control - RFC3876
+    1.2.840.113556.1.4.319 - LDAP Simple Paged Results - Control - RFC2696
+    1.3.6.1.1.12 - Assertion - Control - RFC4528
+    1.3.6.1.1.13.1 - LDAP Pre-read - Control - RFC4527
+    1.3.6.1.1.13.2 - LDAP Post-read - Control - RFC4527
+    1.3.6.1.1.22 - LDAP Don't Use Copy - Control - RFC6171
+    1.3.6.1.4.1.4203.1.10.1 - Subentries - Control - RFC3672
+    2.16.840.1.113730.3.4.18 - Proxy Authorization Control - Control - RFC6171
+    2.16.840.1.113730.3.4.2 - ManageDsaIT - Control - RFC3296
+  Supported extensions: 
+    1.3.6.1.1.8 - Cancel Operation - Extension - RFC3909
+    1.3.6.1.4.1.4203.1.11.1 - Modify Password - Extension - RFC3062
+    1.3.6.1.4.1.4203.1.11.3 - Who am I - Extension - RFC4532
+  Supported features: 
+    1.3.6.1.1.14 - Modify-Increment - Feature - RFC4525
+    1.3.6.1.4.1.4203.1.5.1 - All Op Attrs - Feature - RFC3673
+    1.3.6.1.4.1.4203.1.5.2 - OC AD Lists - Feature - RFC4529
+    1.3.6.1.4.1.4203.1.5.3 - True/False filters - Feature - RFC4526
+    1.3.6.1.4.1.4203.1.5.4 - Language Tag Options - Feature - RFC3866
+    1.3.6.1.4.1.4203.1.5.5 - language Range Options - Feature - RFC3866
+  Supported SASL mechanisms: 
+    DIGEST-MD5, NTLM, CRAM-MD5
+  Schema entry: 
+    cn=Subschema
+Other:
+  objectClass: 
+    top
+    OpenLDAProotDSE
+  structuralObjectClass: 
+OpenLDAProotDSE
+  configContext: 
+    cn=config
+  entryDN: 
+
+
+------------------------------
+~~~
+
+we can see 3 Domain Component names that match the challenge statement.  We can copy the LDAP schema using ldap3:
+
+~~~py
+f = open("ldap_schema.txt","w")
+f.write(str(svr.schema))
+f.close()
+~~~
+
+This provides a large schema for this challenge, within which we can find the attributes "*mail" for which we are looking for the anonymous user.  We can find 3 mail attributes, mail, otherMailbox and janetMailbox.  These are found in object classes inetOrgPerson and pilotPerson which are classes within the top/person/organizationalPerson and top/person superior object classes respectively.
+	
+From the challenge, we can see the user is "one of the anonymous".  We can try searching the ldap server within the organizationalUnit.  We set our search to base ou=anonymous,dc=challenge01,dc=root-me,dc=org; filter to objectClass=inetOrgPerson, scope to SUBTREE and our attribute to mail:
+
+~~~py
+base = "ou=anonymous,dc=challenge01,dc=root-me,dc=org"
+filt = "(&(objectClass=inetOrgPerson))"
+scope= "SUBTREE"
+attr = "mail"
+users = con.search(search_base = base,search_filter=filt,search_scope=scope,attributes=attr)
+if users:
+    print(con.entries)
+~~~
+
+This returns the email address of all inetOrgPerson objects in the anonymous organizationalUnit, we get:
+
+~~~
+[DN: uid=sabu,ou=anonymous,dc=challenge01,dc=root-me,dc=org - STATUS: Read - READ TIME: 2022-01-06T15:22:49.999820
+    mail: sabu@anonops.org
+]
+~~~
+
+Which provides the email address.
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+sabu@anonops.org
 ~~~
 
 </details>
