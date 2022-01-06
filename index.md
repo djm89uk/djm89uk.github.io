@@ -1,9 +1,10 @@
 # DJM89UK
+
 This is a homepage to record my progression of CTF and programming challenges.
 
 # [PicoCTF](./picoctf.md)
 
-[picoCTF](https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at [Carnegie Mellon University.](https://cmu.edu/).
+[picoCTF](https://picoctf.org/) is a free computer security game with original educational content built on a capture-the-flag framework created by security and privacy experts at [Carnegie Mellon University](https://cmu.edu/).
 
 picoCTF provides a practice CTF environment called picoGym to allow individuals to work on their CTF skills outside of a formal CTF event.
 
@@ -31,4 +32,5 @@ picoCTF provides a practice CTF environment called picoGym to allow individuals 
 - [Root-Me Web - Server](./rootme_wser.md)
 
 # [Project Euler]
+
 [Project Euler](https://projecteuler.net/) is a challenge site hosting over 700 mathematical challenges that can be solved by hand, using numerical programming or by brute force.
