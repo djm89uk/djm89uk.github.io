@@ -1283,6 +1283,104 @@ We can see an APOP response with what appears to be a username bsmith and a hex 
 
 ---
 
+## RF AM Transmission
+
+- Author: Podalirius
+- Date: 28 January 2021
+- Points: 15
+- Level: 2
+
+### Statement
+
+You have joined a team of radio frequency analysts. For your first mission, they ask you to decode this transmission.
+
+### Related Resources
+
+1. [GNU Radio Guided Tutorial](https://repository.root-me.org/R%C3%A9seau/EN%20-%20GNU%20Radio%20Guided%20Tutorial%20-%20gnuradio-org%20-%202020.pdf).
+2. [Using GNU Radio for Analog Communications](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Using%20GNU%20Radio%20forAnalog%20Communications%20-%20Derek%20Kozel%20Hackspace%20Brussels%20-%202019.pdf).
+
+### Attachments
+
+1. [ch24.zip](http://challenge01.root-me.org/reseau/ch24/ch24.zip) 2.0 MB.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We are given a zip file with a raw binary file, am_capture.raw.  Reviewing the challenge details, we can see this is an AM demodulation challenge.  We use the raw file as a signal source and demodulate using the AM demodulation block in GNU Radio.  We can set sample rate to 32kHz, decimation to 2, audio lims to 4kHz and 8kHz and output the signal to the audio output block.  When running, we can playback the answer from the audio.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+rf_4m_tr4nsm1ss10n
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## RF FM Transmission
+
+- Author: Podalirius
+- Date: 28 January 2021
+- Points: 20
+- Level: 2
+
+### Statement
+
+For your second mission in the radio frequency analyst team, you have to decode this FM transmission.
+
+The file you are working with is a complex IQ file, recorded at 8Msps.
+
+### Related Resources
+
+1. [GNU Radio Guided Tutorial](https://repository.root-me.org/R%C3%A9seau/EN%20-%20GNU%20Radio%20Guided%20Tutorial%20-%20gnuradio-org%20-%202020.pdf).
+2. [Using GNU Radio for Analog Communications](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Using%20GNU%20Radio%20forAnalog%20Communications%20-%20Derek%20Kozel%20Hackspace%20Brussels%20-%202019.pdf).
+
+### Attachments
+
+1. [ch25.zip](http://challenge01.root-me.org/reseau/ch25/ch25.zip) 286 MB.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We are given a zip file with a raw binary file, capture.raw.  Reviewing the challenge details, we can see this is an AM demodulation challenge.  We use the raw file as a signal source and demodulate using the AM demodulation block in GNU Radio.  We can set sample rate to 32kHz, decimation to 2, audio lims to 4kHz and 8kHz and output the signal to the audio output block.  When running, we can playback the answer from the audio.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+rf_4m_tr4nsm1ss10n
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
