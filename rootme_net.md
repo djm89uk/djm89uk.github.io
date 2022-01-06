@@ -9,7 +9,7 @@ Investigate captured traffic, network services and perform packet analysis.
 3. [ETHERNET - frame](#ethernet-frame) 🗸
 4. [Twitter authentication](#twitter-authentication) 🗸
 5. [Bluetooth - Unknown file](#bluetooth-unknown-file) 🗸
-6. [CISCO - password](#cisco-password)
+6. [CISCO - password](#cisco-password) 🗸
 7. [DNS - zone transfert](#dns-zone-transfert)
 8. [IP - Time To Live](#ip-time-to-live)
 9. [LDAP - null bind](#ldap-null-bind)
@@ -830,11 +830,7 @@ We now have the PT password 7 solutions:
 | console | 144101205C3B29242A3B3C3927 | 6sK0_console |
 | admin   | 10181A325528130F010D24     | 6sK0_admin   |
  
-We can check a "guessed" password using md5 hash in python:
-
-~~~py
-
-~~~
+Following the above password formats, we can check if 6sK0_enable is the solution.  This is correct.
 
 </details>
 
@@ -845,7 +841,7 @@ We can check a "guessed" password using md5 hash in python:
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+6sK0_enable
 ~~~
 
 </details>
