@@ -1785,8 +1785,6 @@ print(enc)
 We can reverse the encryption python code:
 	
 ~~~py
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import string
 
 LOWERCASE_OFFSET = ord("a")
@@ -1843,7 +1841,7 @@ for a in ALPHABET:
         b16dec += unshift(c, a)
     flag = b16_decode(b16dec)
     if is_ascii(flag) and " " not in flag:
-        print("Flag: picoCTF{%s}"%flag)
+        print("Flag: picoCTF{}".format(flag))
 ~~~
 
 This returns the flag.
