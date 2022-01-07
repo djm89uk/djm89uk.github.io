@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [0/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [8/56]
 
 Break encryption algorithms.
 
