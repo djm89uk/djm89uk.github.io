@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Steganography [5/23]
+# [Root-Me](./rootme.md) Root-Me Steganography [9/23]
 
 The art of hiding information in a document. 
 
