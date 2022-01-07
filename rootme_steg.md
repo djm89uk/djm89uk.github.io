@@ -11,8 +11,8 @@ The art of hiding information in a document.
 5. [Twitter Secret Messages](#twitter-secret-messages) 🗸
 6. [Some noise](#some-noise) 🗸
 7. [George and Alfred](#george-and-alfred) 🗸
-8. [Poem from Space](#poem-from-space)
-9. [Yellow dots](#yellow-dots)
+8. [Poem from Space](#poem-from-space) 🗸
+9. [Yellow dots](#yellow-dots) 🗸
 10. [Audio stegano](#audio-stegano)
 11. [Mimic - Dummy sight](#mimic-dummy-sight)
 12. [We need to go deeper](#we-need-to-go-deeper)
@@ -583,6 +583,215 @@ The answer is This Night, in french: Cette Nuit
 
 ~~~
 Cette Nuit
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Poem From Space
+
+- Author: Cryptanalyse
+- Date: 15 July 2020
+- Points: 15
+- Level: 2
+
+### Statement
+
+Deeply understand the meaning of this famous poem to validate this challenge.
+
+### Attachments
+
+1. [ch19.txt](http://challenge01.oot-me.org/steganographie/ch19/ch19.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We are given a poem:
+
+~~~
+The Charge of the Light Brigade    	 	  	 
+Lord Alfred Tennyson 
+1854 	
+      			 	
+Half a league, half a league,	    
+Half a league onward, 	
+All in the valley of Death       
+Rode the six hundred.	    
+"Forward, the Light Brigade! 	
+Charge for the guns!" he said:      	 	
+Into the valley of Death	    
+Rode the six hundred. 	
+"Forward, the Light Brigade!"      	  			
+Was there a man dismayed?	  	 
+Not though the soldier knew 	
+Some one had blundered:      		   
+Their's not to make reply,	    
+Their's not to reason why, 	
+Their's but to do and die:      	 		 
+Into the valley of Death	    
+Rode the six hundred. 	
+      	  	  
+Cannon to right of them,	  	 
+Cannon to left of them, 	
+Cannon in front of them      	   	
+Volleyed and thundered;	    
+Stormed at with shot and shell, 	
+Boldly they rode and well,      		 			
+Into the jaws of Death,	  	 
+Into the mouth of Hell 	
+Rode the six hundred.      	    		
+	    
+Flashed all their sabres bare, 	
+Flashed as they turned in air      	     	
+Sabring the gunners there,	  	 
+Charging an army, while 	
+All the world wondered:      	 		  
+Plunged in the battery-smoke	    
+Right through the line they broke; 	
+Cossack and Russian      		  
+Reeled from the sabre-stroke	  	 
+Shattered and sundered. 	
+Then they rode back, but not,      			 	
+Not the six hundred.	    
+ 	
+Cannon to right of them,      				  
+Cannon to left of them,	  	 
+Cannon behind them 	
+Volleyed and thundered;      	 				
+Stormed at with shot and shell,	    
+While horse and hero fell, 	
+They that had fought so well      		    
+Came through the jaws of Death	  	 
+Back from the mouth of Hell, 	
+All that was left of them,      	  	 	 
+Left of six hundred.	    
+ 	
+When can their glory fade?      			  		
+O the wild charge they made!	  	 
+All the world wondered. 	
+Honour the charge they made!  
+Honour the Light Brigade,
+Noble six hundred!
+~~~
+
+Using the whitespace online compiler at [Try it online](https://tio.run/#whitespace) we can take the trailing whitespace characters and get the password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+RootMe{Wh1t3_Sp4c3}
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Yellow Dots
+
+- Author: LetMeR00t
+- Date: 29 September 2019
+- Points: 15
+- Level: 2
+
+### Statement
+
+You attend an interview for a forensic investigator job and they give you a challenge to solve as quickly as possible (having the Internet).
+They ask you to find the date of printing as well as the serial number of the printer in this document.
+You remain dubitative and accept the challenge.
+
+The answer is in the form:
+hh:mm dd/mm/yyyy SSSSSSSS
+with
+ hh: the hour of the event
+ mm: the minutes of the event
+ dd: the day of the event
+ MM: the month of the event
+ yyyy: the year of the event
+ SSSSSSSS: the serial number
+
+### Resources
+
+1. [Yellow Dots of Mystery](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20Yellow%20Dots%20of%20Mystery%20-%20Is%20Your%20Printer%20Spying%20on%20You%20-%20Instructables.pdf).
+
+### Attachments
+
+1. [ch18.png](http://challenge01.root-me.org/steganographie/ch18/ch18.png).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Following the guide, we can find the dots on the page on the right.  Using this [decoding guide from EFF.org](https://www.eff.org/files/filenode/printers/ccc.pdf) we can identify it is a Xerox style encoding which can be read:
+
+~~~
+    RP |  time   | date  | UNK | SEP | Serial  | UNK 
+     1 | 1 2 3 4 | 1 2 3 |  1  |  1  | 1 2 3 4 |  1 
+    ------------------------------------------------
+CP | 1   0 1 1 1   0 1 1    1     0    1 0 1 0    1
+64 | 1   0 0 0 0   0 0 0    0     0    0 0 1 0    0
+32 | 1   0 0 0 0   0 0 0    0     0    0 0 0 0    0
+16 | 1   0 0 0 0   1 0 0    0     0    1 1 1 0    0
+ 8 | 0   0 0 0 1   1 0 1    0     0    1 1 1 0    0
+ 4 | 0   1 0 0 0   0 1 1    0     0    1 1 1 1    0
+ 2 | 0   0 0 0 1   1 1 1    0     0    1 0 0 1    0
+ 1 | 1   1 0 0 1   1 1 0    0     0    0 1 0 0    0
+
+time:
+    1 = 5
+    2 = 0
+    3 = 0
+    4 = 11
+date:
+    1 = 27
+    2 = 7
+    3 = 14
+UNK:
+    1 = 0
+SEP:
+    1 = 0
+Serial:
+    1 = 30
+    2 = 29
+    3 = 92
+    4 = 6
+
+Date = 27/7/2014
+Serial = 6922930
+Time = 11:05
+
+password = 11:05 27/07/2014 06922930
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+11:05 27/07/2014 06922930
 ~~~
 
 </details>
