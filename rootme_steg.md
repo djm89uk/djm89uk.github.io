@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Steganography [9/23]
+# [Root-Me](./rootme.md) Root-Me Steganography [10/23]
 
 The art of hiding information in a document. 
 
@@ -13,7 +13,7 @@ The art of hiding information in a document.
 7. [George and Alfred](#george-and-alfred) 🗸
 8. [Poem from Space](#poem-from-space) 🗸
 9. [Yellow dots](#yellow-dots) 🗸
-10. [Audio stegano](#audio-stegano)
+10. [Audio stegano](#audio-stegano) 🗸
 11. [Mimic - Dummy sight](#mimic-dummy-sight)
 12. [We need to go deeper](#we-need-to-go-deeper)
 13. [APNG - Just A PNG](#apng-just-a-png)
@@ -792,6 +792,70 @@ password = 11:05 27/07/2014 06922930
 
 ~~~
 11:05 27/07/2014 06922930
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Audio Stegano
+
+- Author: stickmen
+- Date: 2 October 2011
+- Points: 20
+- Level: 2
+
+### Statement
+
+Interesting mix.
+
+### Attachments
+
+1. [ch7.wav](http://challenge01.root-me.org/steganographie/ch7/ch7.wav).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and play this wav file with ffmpeg.  This displays a waterfall frequency plot of the audio file as it is played.  We can see the password in this plot:
+
+~~~shell
+$ ffplay ch7.wav
+ffplay version 4.2.4-1ubuntu0.1 Copyright (c) 2003-2020 the FFmpeg developers
+  built with gcc 9 (Ubuntu 9.3.0-10ubuntu2)
+  configuration: --prefix=/usr --extra-version=1ubuntu0.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-nvenc --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
+  libavutil      56. 31.100 / 56. 31.100
+  libavcodec     58. 54.100 / 58. 54.100
+  libavformat    58. 29.100 / 58. 29.100
+  libavdevice    58.  8.100 / 58.  8.100
+  libavfilter     7. 57.100 /  7. 57.100
+  libavresample   4.  0.  0 /  4.  0.  0
+  libswscale      5.  5.100 /  5.  5.100
+  libswresample   3.  5.100 /  3.  5.100
+  libpostproc    55.  5.100 / 55.  5.100
+Input #0, wav, from 'ch7.wav':=    0KB vq=    0KB sq=    0B f=0/0   
+  Duration: 00:00:04.99, bitrate: 705 kb/s
+    Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 22050 Hz, 2 channels, s16, 705 kb/s
+^Z32.08 M-A:  0.000 fd=   0 aq=    0KB vq=    0KB sq=    0B f=0/0   
+[3]+  Stopped                 ffplay ch7.wav
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+secret-password
 ~~~
 
 </details>
