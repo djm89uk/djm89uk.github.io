@@ -754,6 +754,83 @@ a7c9d5a37201c08c5b7b156173bea5ec2063edf9
 
 ---
 
+## Shift Cipher
+
+- Author: m31z0nyx
+- Date: 16 February 2011
+- Points: 10
+- Level: 1
+
+### Statement
+
+Index : keep on turning.
+
+### Attachments
+
+1. [ch7.bin](http://challenge01.root-me.org/cryptanalyse/ch7/ch7.bin).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We are given a data file ch7.bin:
+ 
+~~~shell
+$ file ch7.bin 
+ch7.bin: data
+~~~
+
+We can import this in Python and examine, it appears to be a binary file of Bytes which conform to the ASCII table.  We can write a shift cipher for ASCII that identified viable ASCII character solutions:
+
+~~~py
+filename = "ch7.bin"
+file = open(filename,"r+b")
+data_bin = file.read()[:-1]
+file.close()
+import string
+
+alphabet = string.ascii_letters + string.digits + string.punctuation + " \n"
+
+idx = 0
+for i in range(128):
+    data_ascii = "" 
+    newbin = []
+    for j in range(len(data_bin)):
+        newbin.append((data_bin[j]+1)%128)
+    data_bin = bytearray(newbin)
+    idx += 1
+    try:
+        data_ascii = data_bin.decode()
+        if set(data_ascii).issubset(alphabet):
+            print("Shift + {} ASCII code found: {}".format(idx,data_ascii))
+    except:
+        continue
+~~~
+
+This provides the solution
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Yolaihu
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
