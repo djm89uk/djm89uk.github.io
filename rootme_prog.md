@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Programming [4/18]
+# [Root-Me](./rootme.md) Root-Me Programming [5/18]
 
 Automate tasks and build shellcodes.
 
@@ -12,7 +12,7 @@ There are two types of challenges here:
 2. [IRC - Encoded string](#irc-encoded-string) 🗸
 3. [IRC - The Roman’s wheel](#irc-the-romans-wheel) 🗸
 4. [IRC - Uncompress me](#irc-uncompress-me) 🗸
-5. [CAPTCHA me if you can](#captcha-me-if-you-can)
+5. [CAPTCHA me if you can](#captcha-me-if-you-can) 🗸
 6. [Ethereum - Tutoreum](#ethereum-tutoreum)
 7. [Arithmetic progression](#arithmetic-progression)
 8. [ELF x64 - Shellcoding - Sheep warmup](#elf-x64-shellcoding-sheep-warmup)
@@ -516,6 +516,122 @@ irc.close()
 
 ~~~
 tumasp0wned
+~~~
+
+</details>
+
+---
+
+### [Programming](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## CAPTCHA me if you can
+
+- Author: koma
+- Date: 23 March 2012
+- Points: 20
+- Level: 1
+
+### Statement
+
+Break the CAPTCHA in less than 3 seconds.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/programmation/ch8/)
+
+
+### Resources
+
+1. [Perl](https://repository.root-me.org/Programmation/Perl/)
+2. [Python](https://repository.root-me.org/Programmation/Python/)
+3. [PHP](https://repository.root-me.org/Programmation/PHP/)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we can see a CAPTCH and a form to submit the CAPTCHA.  This is generated in base64:
+
+~~~html
+<html>
+
+<head></head>
+
+<body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <p>Trop tard...<br>Rat&eacute;, retente ta chance.<br></p><br/><img src="data:image/png;base64,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" /><br><br>
+    <form action="" method="POST"><input type="text" name="cametu" /><input type="submit" value="Try" /></form>
+</body>
+
+</html>
+~~~
+
+We can use the Python [requests](https://docs.python-requests.org/en/latest/) library to GET and POST data to and from the webserver, and the Python [pytesseract](https://pypi.org/project/pytesseract/) library to solve th captcha.  Playing around with pytesseract, it has relatively low accuracy, so we must put this in a loop.  Our Python code:
+
+~~~py
+import base64 as b64
+import requests
+import pytesseract
+from PIL import Image
+
+URL = "http://challenge01.root-me.org/programmation/ch8/"
+fail_text1 = "Rat&eacute;, retente ta chance."
+fail_text2 = "Failed, Try again."
+splitstr1 = "png;base64,"
+splitstr2 = "\" /><br><br>"
+solstr1 = "le flag est "
+solstr2 = "\n</p></p><br/></body></html>"
+imagefile = "image.png"
+alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+session = requests.Session()
+
+while True:
+    x = session.get(URL)
+    imageb64 = x.text.split(splitstr1)[1].split(splitstr2)[0]
+    imagebin = b64.b64decode(imageb64)
+    image_bytes = bytearray(imagebin)
+    
+    f = open(imagefile,"w+b")
+    f.write(image_bytes)
+    f.close()
+    
+    img = Image.open(imagefile)
+    captcha = pytesseract.image_to_string(img)
+    
+    captcha_text = ""
+    for i in range(len(captcha)):
+        if captcha[i]in alphabet:
+            captcha_text += captcha[i]
+    
+    payload = {"cametu": captcha_text,}
+    x = session.post(URL,data=payload)
+    
+    if fail_text1 in x.text or fail_text2 in x.text:
+        print("pytesseract has failed to solve CAPTCHA: {}".format(captcha_text))         
+    else:
+        print("Solved!! pytesseract has solved CAPTCHA: {}".format(captcha_text))
+        soln = x.text.split(solstr1)[1].split(solstr2)[0]
+        print("Flag = {}".format(soln))
+        break
+~~~
+
+Returns the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+dtePZJgVAfaU
 ~~~
 
 </details>
