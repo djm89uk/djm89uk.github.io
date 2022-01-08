@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Realist [0/43]
+# [Root-Me](./rootme.md) Root-Me Realist [1/43]
 
 You will end up in environments full of diverse and varied themes. These challenges will help you understand the operation, including authentication methods, and target vulnerabilities to exploit target in realistic scenarios.
 
@@ -57,26 +57,28 @@ The challenges are complete web sites with multiple security vulnerabilities, wi
 
 ---
 
-## ChallengeName
+## It happens sometimes
 
-- Author: name
-- X Points
+- Author: na5sim
+- Date: 3 March 2017
+- Points: 10
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+Find a vulnerabilty in this service and exploit it.
 
-### Hints
+The flag is on the index.php file.
 
-1. Hint 1
+### Links
 
-### Connection Details
+1. [challenge site](http://challenge01.root-me.org/realiste/ch3/).
 
-1. Detail 1
+### Resources
 
-### Attachments
-
-1. Attachment 1
+1. [OWASP testing guide v2](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v2.pdf).
+2. [OWASP testing guide v3](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v3.pdf).
+3. [OWASP testing guide v4](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v4.pdf).
 
 ### Solutions
 
@@ -84,7 +86,85 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+Visiting the site, we can see the following html:
+
+~~~html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+  <head>
+    <title>WebGallery 1.0
+    </title>
+    <link href="format.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
+      <!--
+      .Style9 {
+        font-size: medium;
+        font-family: "Comic Sans MS";
+      }
+      .Style10 {
+        font-family: "Comic Sans MS"}
+      .Style11 {
+        font-size: medium}
+      .Style12 {
+        font-size: small}
+      .Style13 {
+        color: #FFFFFF
+      }
+      -->
+    </style>
+  </head>
+  <body>
+    <div id="site">
+      <div id="header">
+      </div>
+      <div id="contenu">
+        <div id="left">
+          <div id="bloc">
+            <h3>Welcome on WebGallery 1.0
+            </h3>
+            <p class="Style12">On 11/11/1960 we decided to start coding a revolutionary program, a program that would meet everyone's needs. WebGallery 1.0 is a program that classifies your photos by date. So cool, isn't it? It is on sale for 50 easy payments of $500. The purchase page will soon be open.
+            </p>
+            <p class="Style12">Last November, we suffered a hack, so we had to close all our systems, the hacker had deleted all our files. So we always work on our site, there is nothing special about it.
+            </p>
+          </div>
+        </div>
+        <div id="right">
+          <div id="menu">
+            <ul>
+              <li>
+                <a href="#">Home
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="footer">
+        <p>&copy;2010 root-me.org, All rights reserved
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+~~~
+
+Nothing very fancy, however after a short while we can find /admin as a password protected subsite.  This does not let us access the page without first logging on.  We can use BURP to intercept and change from GET to PUT which gives us the admin page.
+
+~~~html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Admin section</title>
+</head>
+<body>
+    <h1>Mot de passe / password : 0010110111101001</h1>
+</body>
+</html>
+~~~
+
+This has the challenge solution.
 
 </details>
 
@@ -95,7 +175,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+0010110111101001
 ~~~
 
 </details>
