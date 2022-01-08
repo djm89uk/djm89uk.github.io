@@ -12,8 +12,8 @@ Break encryption algorithms.
 6. [Hash - Message Digest 5](#hash-message-digest-5) 🗸
 7. [Hash - NT](#hash-nt) 🗸
 8. [Hash - SHA-2](#hash-sha-2) 🗸
-9. [Shift cipher](#shift-cipher)
-10. [CISCO - Salted Password](#ciscO-salted-password)
+9. [Shift cipher](#shift-cipher) 🗸
+10. [CISCO - Salted Password](#cisco-salted-password) 🗸
 11. [Pixel Madness](#pixel-madness)
 12. [ELF64 - PID encryption](#elf64-pid-encryption)
 13. [File - PKZIP](#file-pkzip)
@@ -821,6 +821,145 @@ This provides the solution
 
 ~~~
 Yolaihu
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## CISCO Salted Password
+
+- Author: Tidusrose
+- Date: 13 July 2021
+- Points: 10
+- Level: 1
+
+### Statement
+
+Your company’s network administrator forgot his administration passwords. He does however have a backup of his startup-config file. Use it to recover his passwords!
+
+The flag is the concatenation of the "enable" and "administrator" passwords.
+
+Good luck!
+
+### Attachments
+
+1. [ch53.txt](http://challenge01.root-me.org/cryptanalyse/ch53/ch53.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We are given a cisco config file:
+
+~~~
+{!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R1
+!
+enable secret 5 $1$mERr$A419.HL58lq743wXS4kSM1
+!
+ip cef
+no ipv6 cef
+!
+username administrator secret 5 $1$mERr$yhf7f2RnC74CxKANvoekD.
+!
+license udi pid CISCO2911/K9 sn FTX1524V4VG-
+!
+no ip domain-lookup
+!
+spanning-tree mode pvst
+!
+interface GigabitEthernet0/0
+ ip address 10.0.0.254 255.255.255.0
+ no ip proxy-arp
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 11.0.0.1 255.255.255.252
+ no ip proxy-arp
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router bgp 1
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ no synchronization
+ neighbor 11.0.0.2 remote-as 2
+ network 10.0.0.0 mask 255.255.255.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+no cdp run
+!
+line con 0
+ login local
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+}
+~~~
+
+We can see two password hashes that we require to find for this challenge:
+
+~~~
+enable secret 5 $1$mERr$A419.HL58lq743wXS4kSM1
+username administrator secret 5 $1$mERr$yhf7f2RnC74CxKANvoekD.
+~~~
+
+We can use hashcat to find these with the rockyou.txt wordlist:
+
+~~~shell
+$ hashcat -m 500 -a 0 -o cracked.txt hash rockyou.txt
+~~~
+
+This produces the file cracked.txt with:
+
+~~~
+$1$mERr$A419.HL58lq743wXS4kSM1:dolphinsforever
+$1$mERr$yhf7f2RnC74CxKANvoekD.:P@ssw0rd!1
+~~~
+
+We can concatenate and we have the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+dolphinsforeverP@ssw0rd!1
 ~~~
 
 </details>
