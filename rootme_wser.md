@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [7/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [8/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -13,7 +13,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 5. [Weak password](#weak-password) 🗸
 6. [PHP - Command injection](#php-command-injection) 🗸
 7. [Backup file](#backup-file) 🗸
-8. [HTTP - Directory indexing](#http-directory-indexing)
+8. [HTTP - Directory indexing](#http-directory-indexing) 🗸
 9. [HTTP - Headers](#http-headers)
 10. [HTTP - POST](#http-post)
 11. [HTTP - Improper redirect](#http-improper-redirect)
@@ -805,6 +805,108 @@ We can now login to the website with the username and password specified and get
 
 ~~~
 OCCY9AcNm1tj
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Directory Indexing
+
+- Author: g0uZ
+- Date: 27 Feruary 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+None.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch4/).
+
+### Resources
+
+1. [RFC 2616](https://repository.root-me.org/RFC/EN%20-%20rfc2616.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <!-- include("admin/pass.html") -->
+  </body>
+</html>
+~~~
+
+We see reference to a file admin/pass.html.  Visiting this site we see it is a red herring:
+
+~~~html
+<html>
+  <head>
+    <title>HTTP directory indexing
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <center>
+      <br/>
+      <br/>
+      J'ai bien l'impression que tu t'es fait avoir / Got rick rolled ? ;)
+      <br/>
+      T'inqui&egrave;te tu n'es pas le dernier / You're not the last  :p
+      <br/>
+      <br/>
+      Cherche BIEN / Just search
+      <br/>
+      <br/>
+    </center>
+  </body>
+</html>
+~~~
+
+Visiting the URL http://challenge01.root-me.org/web-serveur/ch4/admin/ we see the site directory:
+
+~~~
+/web-serveur/ch4/admin/
+File Name  ↓ 		File Size  ↓ 	Date  ↓ 
+Parent directory/	-				-
+backup/				-				2021-Dec-10 21:35
+pass.html			346 B			2021-Dec-10 21:35
+~~~
+
+We can navigate to backup/admin.txt and find:
+
+~~~
+Password / Mot de passe : LINUX
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+LINUX
 ~~~
 
 </details>
