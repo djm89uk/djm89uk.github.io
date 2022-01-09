@@ -15,7 +15,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 7. [Backup file](#backup-file) 🗸
 8. [HTTP - Directory indexing](#http-directory-indexing) 🗸
 9. [HTTP - Headers](#http-headers) 🗸
-10. [HTTP - POST](#http-post)
+10. [HTTP - POST](#http-post) 🗸
 11. [HTTP - Improper redirect](#http-improper-redirect)
 12. [HTTP - Verb tampering](#http-verb-tampering)
 13. [Install files](#install-files)
@@ -1003,6 +1003,126 @@ We get a different html response which includes the challenge solution:
 
 ~~~
 HeadersMayBeUseful
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP Post
+
+- Author: Th1b4ud
+- Date: 14 August 2018
+- Points: 15
+- Level: 2
+
+### Statement
+
+Find a way to beat the top score!
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch56/).
+
+### Resources
+
+1. [POST_(HTTP)](https://en.wikipedia.org/wiki/POST_(HTTP))
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTTP Basics
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>RandGame
+    </h1>
+    <h2>Human vs. Machine
+    </h2>
+    <hr>
+    <p>Here is my new game. It's not totally finished but I'm sure nobody can beat me! ;)
+    </p>
+    <ul>
+      <li>Rules: click on the button to hope to generate a great score
+      </li>
+      <li>Score to beat: 
+        <strong>999999
+        </strong>
+      </li>
+    </ul>
+    <form action="" method="post" onsubmit="document.getElementsByName('score')[0].value = Math.floor(Math.random() * 1000001)">
+      <input type="hidden" name="score" value="-1" />
+      <input type="submit" name="generate" value="Give a try!">
+    </form>
+  </body>
+</html>
+
+~~~
+
+We can edit the form using Firefox web tools to:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTTP Basics
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>RandGame
+    </h1>
+    <h2>Human vs. Machine
+    </h2>
+    <hr>
+    <p>Here is my new game. It's not totally finished but I'm sure nobody can beat me! ;)
+    </p>
+    <ul>
+      <li>Rules: click on the button to hope to generate a great score
+      </li>
+      <li>Score to beat: 
+        <strong>999999
+        </strong>
+      </li>
+    </ul>
+    <form action="" method="post" onsubmit="document.getElementsByName('score')[0].value = 1000001)">
+      <input type="hidden" name="score" value="1000001" />
+      <input type="submit" name="generate" value="Give a try!">
+    </form>
+  </body>
+</html>
+~~~
+
+Submitting the form, we get the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+H7tp_h4s_N0_s3Cr37S_F0r_y0U
 ~~~
 
 </details>
