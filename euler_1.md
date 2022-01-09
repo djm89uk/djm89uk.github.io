@@ -63,7 +63,7 @@ These are the first 50 challenges from the site.
 
 ---
 
-## Multiples of 3 or 5
+## Multiple of 3 or 5
 
 - Problem 1
 
@@ -219,6 +219,209 @@ The sum of all the even fibonacci numbers below 4,000,000 is: 4613732.
 
 ---
 
+## Largest Prime Factor
+
+- Problem 3
+
+### Description
+
+The prime factors of 13195 are 5, 7, 13 and 29.
+
+What is the largest prime factor of the number 600851475143 ?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Brute Force</summary>
+
+~~~py
+import numpy as np
+print("Project Euler. Problem 3: Largest Prime Factor.")
+N = 600851475143
+maxFactor = np.sqrt(N)
+while N % 2 == 0:
+    bigFactor = 2
+    N = N/2
+f = 3
+while N > 1 and f < maxFactor:
+    if N%f==0:
+        N = N/f
+        bigFactor = f
+        while N%f ==0:
+            N = N/f
+        maxFactor = np.sqrt(N)
+    f += 2
+bigFactor = max(int(N),int(bigFactor))
+print("maximum factor = {}".format(bigFactor))        
+~~~
+
+~~~shell
+$ python3 003_BF.py 
+Project Euler. Problem 3: Largest Prime Factor.
+maximum factor = 6857
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+6857
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Largest Prime Factor
+
+- Problem 3
+
+### Description
+
+The prime factors of 13195 are 5, 7, 13 and 29.
+
+What is the largest prime factor of the number 600851475143 ?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Brute Force</summary>
+
+~~~py
+import numpy as np
+print("Project Euler. Problem 3: Largest Prime Factor.")
+N = 600851475143
+maxFactor = np.sqrt(N)
+while N % 2 == 0:
+    bigFactor = 2
+    N = N/2
+f = 3
+while N > 1 and f < maxFactor:
+    if N%f==0:
+        N = N/f
+        bigFactor = f
+        while N%f ==0:
+            N = N/f
+        maxFactor = np.sqrt(N)
+    f += 2
+bigFactor = max(int(N),int(bigFactor))
+print("maximum factor = {}".format(bigFactor))        
+~~~
+
+~~~shell
+$ python3 003_BF.py 
+Project Euler. Problem 3: Largest Prime Factor.
+maximum factor = 6857
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+6857
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Largest palindromic product
+
+- Problem 4
+
+### Description
+
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Brute Force</summary>
+
+~~~py
+print("Project Euler. Problem 4: Largest Palindrome Product.")
+
+done = 0
+solution = 0
+
+for i in range(10):
+    for j in range(10):
+        for k in range(10):
+            a = str(9-i)
+            b = str(9-j)
+            c = str(9-k)
+            dec_str = a+b+c+c+b+a
+            NUM = int(dec_str)
+            for l in range(999):
+                x = 999-l
+                if NUM%x==0:
+                    y = int(NUM/x)
+                    if y>99 and y < 1000:
+                        solution = NUM
+                        done = 1
+                        break
+                if NUM/x < 100:
+                    break
+                        
+        if done == 1:
+            break
+    if done == 1:
+        break
+
+print("The largest palindromic number = {}.".format(solution))       
+~~~
+
+~~~shell
+$ python3 004_BF.py 
+Project Euler. Problem 4: Largest Palindrome Product.
+The largest palindromic number = 906609.
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+906609
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
 This page was last updated Jan 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
