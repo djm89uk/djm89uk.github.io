@@ -337,7 +337,7 @@ We suspect that this tweet hides a rendezvous point. Help us to find it.
 
 ~~~
 Choose a job you love, and you will never have to work a day in your life.
-~~~                 
+~~~
 
 The validation password is the meeting place (in lower case).
 
