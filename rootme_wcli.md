@@ -10,8 +10,8 @@ Client-side technologies implemented in the web browser.
 4. [Javascript - Authentication 2](#javascript-authentication-2) 🗸
 5. [Javascript - Obfuscation 1](#javascript-obfuscation-1) 🗸
 6. [Javascript - Obfuscation 2](#javascript-obfuscation-2) 🗸
-7. [Javascript - Native code](#javascript-native-code)
-8. [Javascript - Webpack](#javascript-webpack)
+7. [Javascript - Native code](#javascript-native-code) 🗸
+8. [Javascript - Webpack](#javascript-webpack) 🗸
 9. [Javascript - Obfuscation 3](#javascript-obfuscation-3)
 10. [Web Socket - 0 protection](#web-socket-0-protection)
 11. [XSS - Stored 1](#xss-stored-1)
@@ -555,6 +555,258 @@ This returns the challenge solution.
 
 ~~~
 hDufjdki156
+~~~
+
+</details>
+
+---
+
+### [Web - Client](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Javascript Native Code
+
+- Author: g0uZ
+- Date: 13 March 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+No Clue.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-client/ch16/ch16.html).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page with some strange embedded script:
+
+~~~html
+<html>
+  <head>
+    <title>Plop
+    </title>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <script>
+      É=-~-~[],ó=-~É,Ë=É<<É,þ=Ë+~[];
+      Ì=(ó-ó)[Û=(''+{
+      }
+                )[É+ó]+(''+{
+      }
+                       )[ó-É]+([].ó+'')[ó-É]+(!!''+'')[ó]+({
+      }
+                                                           +'')[ó+ó]+(!''+'')[ó-É]+(!''+'')[É]+(''+{
+      }
+                                                                                               )[É+ó]+({
+      }
+                                                                                                       +'')[ó+ó]+(''+{
+      }
+                                                                                                                 )[ó-É]+(!''+'')[ó-É]][Û];
+      Ì(Ì((!''+'')[ó-É]+(!''+'')[ó]+(!''+'')[ó-ó]+(!''+'')[É]+((!''+''))[ó-É]+([].$+'')[ó-É]+'\''+''+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(þ)+(É+ó)+'\\'+(ó-É)+(ó+ó)+(ó-ó)+'\\'+(ó-É)+(ó+ó)+(É)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(ó-É)+(É+ó)+(É+ó)+'\\'+(ó-É)+(ó+ó)+(ó-ó)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(É+ó)+(ó-ó)+'\\'+(É+É)+(þ)+'\\'+(ó-É)+(ó-ó)+(É+ó)+'\\'+(ó-É)+(É+ó)+(ó+ó)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(ó-É)+(ó+ó)+(É)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(ó-É)+(þ)+(É)+'\\'+(É+É)+(ó-ó)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(É+É)+(ó-ó)+'\\'+(ó-É)+(É+ó)+(É+ó)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(É+É)+(ó-ó)+'\\'+(ó-É)+(É+É)+(É+É)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(É+É)+(ó-ó)+'\\'+(ó-É)+(ó+ó)+(ó-ó)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(ó-É)+(ó+ó)+(ó)+'\\'+(ó-É)+(ó+ó)+(ó)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(É+É)+(þ)+'\\'+(É+ó)+(ó-É)+'\\'+(þ)+(ó)+'\\'+(ó-É)+(É+ó)+(ó-É)+'\\'+(ó-É)+(É+É)+(ó+ó)+'\\'+(É+ó)+(ó-ó)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(þ)+(É+ó)+'\\'+(þ)+(É+ó)+'\\'+(É+É)+(þ)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(ó+ó)+(ó-É)+'\\'+(ó+ó)+(É)+'\\'+(ó+ó)+(ó)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(É+É)+(þ)+'\\'+(É+ó)+(ó-É)+'\\'+(ó-É)+(þ)+(ó)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(ó-É)+(ó+ó)+(É)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(É+ó)+(ó-ó)+'\\'+(É+É)+(þ)+'\\'+(ó-É)+(É+É)+(É)+'\\'+(ó-É)+(ó+ó)+(É)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(ó-É)+(ó+ó)+(ó+ó)+'\\'+(ó-É)+(É+ó)+(þ)+'\\'+(É+É)+(þ)+'\\'+(É+ó)+(ó-É)+'\\'+(þ)+(ó)+'\\'+(ó-É)+(þ)+(É+ó)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(ó-É)+(ó+ó)+(ó)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(ó-É)+(þ)+(ó)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(ó-É)+(É+É)+(É+ó)+'\\'+(ó-É)+(ó+ó)+(É)+'\\'+(ó-É)+(ó+ó)+(É+É)+'\\'+(É+ó)+(ó-ó)+'\\'+(É+É)+(þ)+'\\'+(ó-É)+(É+É)+(ó+ó)+'\\'+(ó-É)+(É+É)+(ó-É)+'\\'+(ó-É)+(É+ó)+(ó-É)+'\\'+(ó-É)+(É+ó)+(É+É)+'\\'+(É+ó)+(ó+ó)+'\\'+(É+ó)+(ó+ó)+'\\'+(É+ó)+(ó+ó)+'\\'+(É+É)+(þ)+'\\'+(É+ó)+(ó-É)+'\\'+(þ)+(ó)+'\\'+(ó-É)+(þ)+(É+ó)+'\'')())()
+    </script>
+  </body>
+</html>
+
+~~~
+
+The script appears to be native code JavaScript.  We can use an [online unobfuscator](https://www.dcode.fr/javascript-unobfuscator) to try to recover the readable syntax.:
+
+~~~js
+function anonymous( ) { a=prompt('Entrez le mot de passe');if(a=='toto123lol'){alert('bravo');}else{alert('fail...');} }
+~~~
+
+Refreshing the page and entering the password toto123lol, we get the challenge passphrase.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+toto123lol
+~~~
+
+</details>
+
+---
+
+### [Web - Client](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Javascript Webpack
+
+- Author: CanardMandarin
+- Date: 11 August 2020
+- Points: 15
+- Level: 2
+
+### Statement
+
+Find the password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-client/ch27/).
+
+### Resources
+
+1. [Webpackjs - Devtool](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Webpackjs%20-%20Devtool.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page with some imported JavaScript:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>Javascript - Webpack
+    </title>
+    <link href=./static/css/app.f213bed71a5d27ded35fdf00a1963840.css rel=stylesheet>
+  </head>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <div id=app>
+    </div>
+    <script type=text/javascript src=./static/js/manifest.2ae2e69a05c33dfc65f8.js>
+    </script>
+    <script type=text/javascript src=./static/js/vendor.458c9f5863b8f28e5570.js>
+    </script>
+    <script type=text/javascript src=./static/js/app.a92c5074dafac0cb6365.js>
+    </script>
+  </body>
+</html>
+~~~
+
+We can see js files: manifest, vendor, app which are generated by webpack bundling.  Visiting /static/js/ we find the map files
+
+~~~
+ /web-client/ch27/static/js/
+File Name  ↓ 							File Size  ↓ 	Date  ↓ 
+Parent directory/						-				-
+app.a92c5074dafac0cb6365.js				3.6 KiB			2021-Dec-10 19:12
+app.a92c5074dafac0cb6365.js.map			24.9 KiB		2021-Dec-10 19:12
+manifest.2ae2e69a05c33dfc65f8.js		857 B			2021-Dec-10 19:12
+manifest.2ae2e69a05c33dfc65f8.js.map	4.9 KiB			2021-Dec-10 19:12
+vendor.458c9f5863b8f28e5570.js			118.4 KiB		2021-Dec-10 19:12
+vendor.458c9f5863b8f28e5570.js.map		598.5 KiB		2021-Dec-10 19:12
+~~~
+
+We can download these to a folder on our local machine:
+
+~~~shell
+$ mkdir rm_webpack && cd rm_webpack
+$ echo -e "app.a92c5074dafac0cb6365.js \napp.a92c5074dafac0cb6365.js.map \nmanifest.2ae2e69a05c33dfc65f8.js \nmanifest.2ae2e69a05c33dfc65f8.js.map \nvendor.458c9f5863b8f28e5570.js \nvendor.458c9f5863b8f28e5570.js.map" > webpack_files.txt
+$ wget -i webpack_files.txt -B http://challenge01.root-me.org/web-client/ch27/static/js/
+$ mkdir app manifest vendor
+~~~
+
+We can now unpack using shuji installed using npm:
+
+~~~shell
+$ shuji vendor*.map -o vendor
+$ shuji app*.map -o app
+$ shuji manifest*.map -o manifest
+~~~
+
+In the app source files, we find a file "YouWillNotFindThisBecauseItIsHidden.vue" but there is not much in this file:
+
+
+~~~html
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('main',[_c('div',{staticClass:"home-page"},[_c('div',{staticClass:"block"},[_c('h1',[_vm._v("This a mandarin duck ! ")]),_vm._v(" "),_c('p',{staticClass:"intro"},[_vm._v("It is a mandarin duck !!!!! As you can see, it is much more beautiful than a normal duck.")]),_vm._v(" "),_c('h2',[_vm._v("DO NOT EAT THIS ONE !")])]),_vm._v(" "),_c('div',{staticClass:"block"},[_c('img',{attrs:{"src":"/static/duck-mandarin.png"}})])])])}]
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+export default esExports
+
+
+//////////////////
+// WEBPACK FOOTER
+// ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4b9752b8","hasScoped":true,"transformToRequire":{"video":["src","poster"],"source":"src","img":"src","image":"xlink:href"},"buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./src/components/YouWillNotFindThisRouteBecauseItIsHidden.vue
+// module id = null
+// module chunks = 
+~~~
+
+We can use chromium's inbuilt developer toolbox to unpack the webpack and read the original vue file:
+
+~~~html
+<template>
+    <main>
+        <div class="home-page">
+            <div class="block">
+                <h1>This a mandarin duck ! </h1>
+                <p class="intro">It is a mandarin duck !!!!! As you can see, it is much more beautiful than a normal duck.</p>
+                <h2>DO NOT EAT THIS ONE !</h2>
+            </div>
+            <div class="block">
+                <img src="/static/duck-mandarin.png" />
+            </div>
+        </div>
+    </main>
+</template>
+
+<script>
+export default {
+  name: 'Duck',
+  data () {
+    return {
+        // Did you know that comment are readable by the end user ?
+        // Well, this because I build the application with the source maps enabled !!!
+
+        // So please, disable source map when you build for production
+
+        // Here is your flag : BecauseSourceMapsAreGreatForDebuggingButNotForProduction
+
+        'msg': 'Quack quack !! :).'
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
+
+
+
+// WEBPACK FOOTER //
+// src/components/YouWillNotFindThisRouteBecauseItIsHidden.vue
+~~~
+
+This gives us the challenge solution
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+BecauseSourceMapsAreGreatForDebuggingButNotForProduction
 ~~~
 
 </details>
