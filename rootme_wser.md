@@ -18,7 +18,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 10. [HTTP - POST](#http-post) 🗸
 11. [HTTP - Improper redirect](#http-improper-redirect) 🗸
 12. [HTTP - Verb tampering](#http-verb-tampering) 🗸
-13. [Install files](#install-files)
+13. [Install files](#install-files) 🗸
 14. [CRLF](#crlf)
 15. [File upload - Double extensions](#file-upload-double-extensions)
 16. [File upload - MIME type](#file-upload-mime-type)
@@ -1299,6 +1299,116 @@ This gives us the password.
 
 ~~~
 a23e$dme96d3saez$$prap
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Install files
+
+- Author: g0uZ
+- Date: 7 October 2006
+- Points: 15
+- Level: 2
+
+### Statement
+
+None.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch6/).
+
+### Resources
+
+1. [OWASP testing guide v2](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v2.pdf).
+2. [OWASP testing guide v3](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v3.pdf).
+3. [OWASP testing guide v4](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v4.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we get an empty webpage:
+
+~~~html
+<!--  /web-serveur/ch6/phpbb -->
+~~~
+
+We can visit the /phpbb site:
+
+~~~html
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+  </head>
+ <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe></body>
+</html>
+~~~
+
+[PHPBB](https://www.phpbb.com/) is a bulletin board software package that can be deployed on webservers.  We can find the [installation guide](https://www.phpbb.com/community/docs/INSTALL.html) which provides details of the various directories:
+
+~~~
+phpbb/store
+phpbb/cache
+phpbb/files
+phpbb/images
+phpbb/install
+~~~
+
+Following the helpful challenge name, we can visit /phpbb/install and get a webpage:
+
+~~~html
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+
+Bravo, vous venez de decouvrir une des nombreuses failles de phpBB.<br>
+<br>
+Cette faille est en fait un oubli du Webmaster qui aurait du enlever<br>
+ces dossiers. Ils contiennent les pages d'installations du forum phpbb.<br>
+Ce genre de chose n'existe plus car les développeurs mettent en place des<br>
+systèmes de vérification pour faciliter la tâche aux plus têtes en l'air<br>
+Ce qu'il faut comprendre par contre c'est qu'on découvre souvent beaucoup de choses<br>
+en trifouillant des URL...<br> 
+Grâce à elles, vous pouvez remettre à zéro le forum, et changer tous les passwords<br>
+administrateur, étant donné que vous reinitialisez le forum.<br>
+Vous avez donc ensuite un contrôle total du forum !!<br>
+<br>
+Le mot de passe pour valider est : karambar<br>
+<br>
+Bon courage !
+
+</body>
+
+</html>
+~~~
+
+This gives us the challenge solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+karambar
 ~~~
 
 </details>
