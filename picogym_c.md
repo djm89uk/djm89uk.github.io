@@ -20,7 +20,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [AES-ABC (2019)](#aes-abc) ✓
 - [b00tl3gRSA3 (2019)](#b00tl3grsa3) ✓
 - [john_pollard (2019)](#john-pollard) ✓
-- [Mod 26 (2021)](#mod26) ✓
+- [Mod 26 (2021)](#mod-26) ✓
 - [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
 - [Easy Peasy (2021)](#easy-peasy) ✓
 - [New Caesar (2021)](#new-caesar) ✓
