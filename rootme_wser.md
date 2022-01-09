@@ -815,7 +815,7 @@ OCCY9AcNm1tj
 
 ---
 
-## Directory Indexing
+## HTTP Directory Indexing
 
 - Author: g0uZ
 - Date: 27 February 2011
