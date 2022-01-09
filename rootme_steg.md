@@ -336,11 +336,10 @@ cellphone
 We suspect that this tweet hides a rendezvous point. Help us to find it.
 
 ~~~
-Ｃhｏose  a  jοｂ  yоu lονｅ,  and  you  ｗіｌl  ｎeｖｅｒ  have tο ｗｏrk  a  day  in  yοur lіfｅ．      
+Choose a job you love, and you will never have to work a day in your life.
 ~~~                 
 
 The validation password is the meeting place (in lower case).
-
 
 ### Attachments
 
@@ -374,7 +373,7 @@ grand central terminal
 
 ---
 
-## Some noise
+## Some Noise
 
 - Author: Hackira
 - Date: 7 October 2006
