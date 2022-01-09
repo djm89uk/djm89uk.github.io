@@ -63,7 +63,7 @@ These are the first 50 challenges from the site.
 
 ---
 
-## Multiple of 3 or 5
+## Multiples of 3 or 5
 
 - Problem 1
 
