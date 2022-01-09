@@ -6,7 +6,7 @@ The challenges are complete web sites with multiple security vulnerabilities, wi
 
 ## Contents
 
-1. [It happens, sometimes ](#it-happens-sometimes)
+1. [It happens, sometimes ](#it-happens-sometimes) 🗸
 2. [P0wn3d ](#p0wn3d)
 3. [The h@ckers l4b ](#the-h@ckers-l4b)
 4. [Neonazi inside ](#neonazi-inside)
