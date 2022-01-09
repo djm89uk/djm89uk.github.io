@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50
+# [Project Euler](./euler.md) Challenges 1-50 (4/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -209,70 +209,6 @@ The sum of all the even fibonacci numbers below 4,000,000 is: 4613732.
 
 ~~~
 4,613,732
-~~~
-
-</details>
-
----
-
-### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
-
----
-
-## Largest Prime Factor
-
-- Problem 3
-
-### Description
-
-The prime factors of 13195 are 5, 7, 13 and 29.
-
-What is the largest prime factor of the number 600851475143 ?
-
-### Solutions
-
-<details>
-
-<summary markdown="span">Brute Force</summary>
-
-~~~py
-import numpy as np
-print("Project Euler. Problem 3: Largest Prime Factor.")
-N = 600851475143
-maxFactor = np.sqrt(N)
-while N % 2 == 0:
-    bigFactor = 2
-    N = N/2
-f = 3
-while N > 1 and f < maxFactor:
-    if N%f==0:
-        N = N/f
-        bigFactor = f
-        while N%f ==0:
-            N = N/f
-        maxFactor = np.sqrt(N)
-    f += 2
-bigFactor = max(int(N),int(bigFactor))
-print("maximum factor = {}".format(bigFactor))        
-~~~
-
-~~~shell
-$ python3 003_BF.py 
-Project Euler. Problem 3: Largest Prime Factor.
-maximum factor = 6857
-~~~
-
-</details>
-
-
-### Answer
-
-<details>
-
-<summary markdown="span">Answer</summary>
-
-~~~
-6857
 ~~~
 
 </details>
