@@ -688,6 +688,133 @@ S3rv1ceP1n9Sup3rS3cure
 
 ---
 
+## Backup File
+
+- Author: g0uZ
+- Date: 27 Feruary 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+No clue.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch11/).
+
+### Resources
+
+1. [OWASP testing guide v2](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v2.pdf).
+2. [OWASP testing guide v3](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v3.pdf).
+3. [OWASP testing guide v4](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v4.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page with a form:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>Authentication v 0.00
+    </h1>
+    <h3>Error : no such user/password
+      </h2>
+    <br />
+    <form action="" method="post">
+      Login&nbsp;
+      <br/>
+      <input type="text" name="username" />
+      <br/>
+      <br/>
+      Password&nbsp;
+      <br/>
+      <input type="password" name="password" />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <input type="submit" value="connect" />
+      <br/>
+      <br/>
+    </form>
+  </body>
+</html>
+
+~~~
+
+Inspecting the sources, we see a file (index).  This is likely a php file so we can navigate to /index.php.  We get the website, so we now know the site uses PHP. Assuming the file has been mistakenly left on the server, we can look for index.php~ which will be a remnant from a make command when not run with the clean flag.  We try index.php and find:
+
+~~~html
+<?php
+
+$username="ch11";
+$password="OCCY9AcNm1tj";
+
+
+echo '
+      <html>
+      <body>
+	<h1>Authentication v 0.00</h1>
+';
+
+if ($_POST["username"]!="" && $_POST["password"]!=""){
+    if ($_POST["username"]==$user && $_POST["password"]==$password)
+    {
+      print("<h2>Welcome back {$row['username']} !</h2>");
+      print("<h3>Your informations :</h3><p>- username : $row[username]</p><br />");
+      print("To validate the challenge use this password</b>");
+    } else {
+      print("<h3>Error : no such user/password</h2><br />");
+
+    }
+}
+
+echo '
+	<form action="" method="post">
+	  Login&nbsp;<br/>
+	  <input type="text" name="username" /><br/><br/>
+	  Password&nbsp;<br/>
+	  <input type="password" name="password" /><br/><br/>
+	  <br/><br/>
+	  <input type="submit" value="connect" /><br/><br/>
+	</form>
+      </body>
+      </html>
+';
+
+?> 
+~~~
+
+We can now login to the website with the username and password specified and get a message telling us the password is the challenge solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+OCCY9AcNm1tj
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
