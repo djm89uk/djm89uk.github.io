@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [14/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [15/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -241,7 +241,7 @@ Visiting the website, we find a html page which we can format using an [online b
 </html>
 ~~~
 
-Assuming the LAN is a private IP address, we can send a curl request with a cutom IP 192.168.0.2:
+Assuming the LAN is a private IP address, we can send a curl request with a custom IP 192.168.0.2:
 
 ~~~shell
 $ curl --header "X-Forwarded-For: 192.168.0.1" http://challenge01.root-me.org/web-serveur/ch68/
@@ -594,7 +594,7 @@ admin
 
 ### Statement
 
-Find a vulnerabilty in this service and exploit it.
+Find a vulnerability in this service and exploit it.
 
 The flag is on the index.php file.
 
@@ -691,7 +691,7 @@ S3rv1ceP1n9Sup3rS3cure
 ## Backup File
 
 - Author: g0uZ
-- Date: 27 Feruary 2011
+- Date: 27 February 2011
 - Points: 15
 - Level: 2
 
@@ -1355,7 +1355,7 @@ We can visit the /phpbb site:
 </html>
 ~~~
 
-[PHPBB](https://www.phpbb.com/) is a bulletin board software package that can be deployed on webservers.  We can find the [installation guide](https://www.phpbb.com/community/docs/INSTALL.html) which provides details of the various directories:
+[PHPBB](https://www.phpbb.com/) is a bulletin board software package that can be deployed on web servers.  We can find the [installation guide](https://www.phpbb.com/community/docs/INSTALL.html) which provides details of the various directories:
 
 ~~~
 phpbb/store
@@ -1493,7 +1493,7 @@ rFSP&G0p&5uAg1%
 
 ### Statement
 
-Your goal is to hack this photo galery by uploading PHP code.
+Your goal is to hack this photo gallery by uploading PHP code.
 Retrieve the validation password in the file .passwd at the root of the application.
 
 ### Links
