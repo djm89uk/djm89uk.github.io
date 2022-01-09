@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [0/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [7/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -12,7 +12,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 4. [HTTP - User-agent](#http-user-agent) 🗸
 5. [Weak password](#weak-password) 🗸
 6. [PHP - Command injection](#php-command-injection) 🗸
-7. [Backup file](#backup-file)
+7. [Backup file](#backup-file) 🗸
 8. [HTTP - Directory indexing](#http-directory-indexing)
 9. [HTTP - Headers](#http-headers)
 10. [HTTP - POST](#http-post)
