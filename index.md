@@ -31,6 +31,6 @@ picoCTF provides a practice CTF environment called picoGym to allow individuals 
 - [Root-Me Web - Client](./rootme_wcli.md)
 - [Root-Me Web - Server](./rootme_wser.md)
 
-# [Project Euler]
+# [Project Euler](./euler_1.md)
 
 [Project Euler](https://projecteuler.net/) is a challenge site hosting over 700 mathematical challenges that can be solved by hand, using numerical programming or by brute force.
