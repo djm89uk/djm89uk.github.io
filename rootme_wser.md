@@ -19,7 +19,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 11. [HTTP - Improper redirect](#http-improper-redirect) 🗸
 12. [HTTP - Verb tampering](#http-verb-tampering) 🗸
 13. [Install files](#install-files) 🗸
-14. [CRLF](#crlf)
+14. [CRLF](#crlf) 🗸
 15. [File upload - Double extensions](#file-upload-double-extensions)
 16. [File upload - MIME type](#file-upload-mime-type)
 17. [HTTP - Cookies](#http-cookies)
@@ -1409,6 +1409,71 @@ This gives us the challenge solution.
 
 ~~~
 karambar
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## crlf
+
+- Author: g0uZ
+- Date: 31 July 2011
+- Points: 20
+- Level: 2
+
+### Statement
+
+Inject false data in the journalisation log.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch14/).
+
+### Resources
+
+1. [RFC 2616](https://repository.root-me.org/RFC/EN%20-%20rfc2616.txt).
+2. [HTTP request smuggling](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20HTTP%20request%20smuggling.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We find a login page with an authentication log that is reflected in the URL.  For example, entering user = admin, password = admin, we get the URL:
+
+~~~
+ch14/?username=admin&password=admin
+~~~
+
+Following the title, we can inject carriage returns and line feeds using URL encoded characters: 
+
+~~~
+\r = %0D 
+\n = %0A
+~~~
+
+We can use these to inject an authentication message which returns the flag:
+
+~~~
+ch14/?username=admin%20authenticated.%0D%0Atest&password=test
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+rFSP&G0p&5uAg1%
 ~~~
 
 </details>
