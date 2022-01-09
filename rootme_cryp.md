@@ -518,7 +518,7 @@ admin!!
 
 ---
 
-## Hash MD5
+## Hash Message Digest 5
 
 - Author: g0uZ
 - Date: 31 January 2010
