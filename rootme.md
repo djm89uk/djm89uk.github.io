@@ -488,23 +488,23 @@
 
 ---
 
-## [Root-Me Web - Server](./rootme_wser.md)
+## [Root-Me Web - Server](./rootme_wser.md) (15/74)
 
-1. [HTML - Source code](./rootme_wser.md#html-source-code)
-2. [HTTP - IP restriction bypass](./rootme_wser.md#http-ip-restriction-bypass)
-3. [HTTP - Open redirect](./rootme_wser.md#http-open-redirect)
-4. [HTTP - User-agent](./rootme_wser.md#http-user-agent)
-5. [Weak password](./rootme_wser.md#weak-password)
-6. [PHP - Command injection](./rootme_wser.md#php-command-injection)
-7. [Backup file](./rootme_wser.md#backup-file)
-8. [HTTP - Directory indexing](./rootme_wser.md#http-directory-indexing)
-9. [HTTP - Headers](./rootme_wser.md#http-headers)
-10. [HTTP - POST](./rootme_wser.md#http-post)
-11. [HTTP - Improper redirect](./rootme_wser.md#http-improper-redirect)
-12. [HTTP - Verb tampering](./rootme_wser.md#http-verb-tampering)
-13. [Install files](./rootme_wser.md#install-files)
-14. [CRLF](./rootme_wser.md#crlf)
-15. [File upload - Double extensions](./rootme_wser.md#file-upload-double-extensions)
+1. [HTML - Source code](./rootme_wser.md#html-source-code) 🗸
+2. [HTTP - IP restriction bypass](./rootme_wser.md#http-ip-restriction-bypass) 🗸
+3. [HTTP - Open redirect](./rootme_wser.md#http-open-redirect) 🗸
+4. [HTTP - User-agent](./rootme_wser.md#http-user-agent) 🗸
+5. [Weak password](./rootme_wser.md#weak-password) 🗸
+6. [PHP - Command injection](./rootme_wser.md#php-command-injection) 🗸
+7. [Backup file](./rootme_wser.md#backup-file) 🗸
+8. [HTTP - Directory indexing](./rootme_wser.md#http-directory-indexing) 🗸
+9. [HTTP - Headers](./rootme_wser.md#http-headers) 🗸
+10. [HTTP - POST](./rootme_wser.md#http-post) 🗸
+11. [HTTP - Improper redirect](./rootme_wser.md#http-improper-redirect) 🗸
+12. [HTTP - Verb tampering](./rootme_wser.md#http-verb-tampering) 🗸
+13. [Install files](./rootme_wser.md#install-files) 🗸
+14. [CRLF](./rootme_wser.md#crlf) 🗸
+15. [File upload - Double extensions](./rootme_wser.md#file-upload-double-extensions) 🗸
 16. [File upload - MIME type](./rootme_wser.md#file-upload-mime-type)
 17. [HTTP - Cookies](./rootme_wser.md#http-cookies)
 18. [Insecure Code Management](./rootme_wser.md#insecure-code-management)
