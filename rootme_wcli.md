@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Client [6/29]
+# [Root-Me](./rootme.md) Root-Me Web Client [9/29]
 
 Client-side technologies implemented in the web browser.
 
@@ -12,7 +12,7 @@ Client-side technologies implemented in the web browser.
 6. [Javascript - Obfuscation 2](#javascript-obfuscation-2) 🗸
 7. [Javascript - Native code](#javascript-native-code) 🗸
 8. [Javascript - Webpack](#javascript-webpack) 🗸
-9. [Javascript - Obfuscation 3](#javascript-obfuscation-3)
+9. [Javascript - Obfuscation 3](#javascript-obfuscation-3) 🗸
 10. [Web Socket - 0 protection](#web-socket-0-protection)
 11. [XSS - Stored 1](#xss-stored-1)
 12. [CSP Bypass - Inline code](#csp-bypass-inline-code)
