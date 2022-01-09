@@ -817,7 +817,7 @@ BecauseSourceMapsAreGreatForDebuggingButNotForProduction
 
 ---
 
-## Javascript Webpack
+## Javascript Obfuscation 3
 
 - Author: Hel0ck
 - Date: 4 Februrary 2011
