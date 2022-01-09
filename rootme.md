@@ -21,7 +21,7 @@
 
 ---
 
-## [Root-Me App - Script](./rootme_ascr.md)
+## [Root-Me App - Script](./rootme_ascr.md) (0/25)
 
 1. [Bash - System 1](./rootme_ascr#bash-system-1)
 2. [sudo - weak configuration](./rootme_ascr#sudo-weak-configuration)
@@ -55,7 +55,7 @@
 
 ---
 
-## [Root-Me App - System](./rootme_asys.md)
+## [Root-Me App - System](./rootme_asys.md) (0/83)
 
 1. [ELF x86 - Stack buffer overflow basic 1](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-1)
 2. [ELF x86 - Stack buffer overflow basic 2](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-2)
@@ -147,7 +147,7 @@
 
 ---
 
-## [Root-Me Cracking](./rootme_crac.md)
+## [Root-Me Cracking](./rootme_crac.md) (0/46)
 
 1. [ELF x86 - 0 protection](./rootme_crac.md#elf-x86-0-protection)
 2. [ELF x86 - Basic](./rootme_crac.md#elf-x86-basic)
@@ -202,19 +202,19 @@
 
 ---
 
-## [Root-Me Cryptanalysis](./rootme_cryp.md)
+## [Root-Me Cryptanalysis](./rootme_cryp.md) (11/56)
 
-1. [Encoding - ASCII](./rootme_cryp.md#encoding-ascii)
-2. [Encoding - UU](./rootme_cryp.md#encoding-uu)
-3. [Hash - DCC](./rootme_cryp.md#hash-dcc)
-4. [Hash - DCC2](./rootme_cryp.md#hash-dcc2)
-5. [Hash - LM](./rootme_cryp.md#hash-lm)
-6. [Hash - Message Digest 5](./rootme_cryp.md#hash-message-digest-5)
-7. [Hash - NT](./rootme_cryp.md#hash-nt)
-8. [Hash - SHA-2](./rootme_cryp.md#hash-sha-2)
-9. [Shift cipher](./rootme_cryp.md#shift-cipher)
-10. [CISCO - Salted Password](./rootme_cryp.md#ciscO-salted-password)
-11. [Pixel Madness](./rootme_cryp.md#pixel-madness)
+1. [Encoding - ASCII](./rootme_cryp.md#encoding-ascii) 🗸
+2. [Encoding - UU](./rootme_cryp.md#encoding-uu) 🗸
+3. [Hash - DCC](./rootme_cryp.md#hash-dcc) 🗸
+4. [Hash - DCC2](./rootme_cryp.md#hash-dcc2) 🗸
+5. [Hash - LM](./rootme_cryp.md#hash-lm) 🗸
+6. [Hash - Message Digest 5](./rootme_cryp.md#hash-message-digest-5) 🗸
+7. [Hash - NT](./rootme_cryp.md#hash-nt) 🗸
+8. [Hash - SHA-2](./rootme_cryp.md#hash-sha-2) 🗸
+9. [Shift cipher](./rootme_cryp.md#shift-cipher) 🗸
+10. [CISCO - Salted Password](./rootme_cryp.md#ciscO-salted-password) 🗸
+11. [Pixel Madness](./rootme_cryp.md#pixel-madness) 🗸
 12. [ELF64 - PID encryption](./rootme_cryp.md#elf64-pid-encryption)
 13. [File - PKZIP](./rootme_cryp.md#file-pkzip)
 14. [Monoalphabetic substitution - Caesar](./rootme_cryp.md#monoalphabetic-substitution-caesar)
@@ -267,7 +267,7 @@
 
 ---
 
-## [Root-Me Forensic](./rootme_for.md)
+## [Root-Me Forensic](./rootme_for.md) (0/28)
 
 1. [Command & Control - level 2](./rootme_for.md#command-control-level-2)
 2. [Logs analysis - web attack](./rootme_for.md#logs-analysis-web-attack)
@@ -304,19 +304,19 @@
 
 ---
 
-## [Root-Me Network](./rootme_net.md)
+## [Root-Me Network](./rootme_net.md) (11/25)
 
-1. [FTP - authentication](./rootme_net.md#ftp-authentication)
-2. [TELNET - authentication](./rootme_net.md#telnet-authentication)
-3. [ETHERNET - frame](./rootme_net.md#ethernet-frame)
-4. [Twitter authentication](./rootme_net.md#twitter-authentication)
-5. [Bluetooth - Unknown file](./rootme_net.md#bluetooth-unknown-file)
-6. [CISCO - password](./rootme_net.md#cisco-password)
-7. [DNS - zone transfert](./rootme_net.md#dns-zone-transfert)
-8. [IP - Time To Live](./rootme_net.md#ip-time-to-live)
-9. [LDAP - null bind](./rootme_net.md#ldap-null-bind)
-10. [POP - APOP](./rootme_net.md#pop-apop)
-11. [RF - AM Transmission](./rootme_net.md#rf-am-transmission)
+1. [FTP - authentication](./rootme_net.md#ftp-authentication) 🗸
+2. [TELNET - authentication](./rootme_net.md#telnet-authentication) 🗸
+3. [ETHERNET - frame](./rootme_net.md#ethernet-frame) 🗸
+4. [Twitter authentication](./rootme_net.md#twitter-authentication) 🗸
+5. [Bluetooth - Unknown file](./rootme_net.md#bluetooth-unknown-file) 🗸
+6. [CISCO - password](./rootme_net.md#cisco-password) 🗸
+7. [DNS - zone transfert](./rootme_net.md#dns-zone-transfert) 🗸
+8. [IP - Time To Live](./rootme_net.md#ip-time-to-live) 🗸
+9. [LDAP - null bind](./rootme_net.md#ldap-null-bind) 🗸
+10. [POP - APOP](./rootme_net.md#pop-apop) 🗸
+11. [RF - AM Transmission](./rootme_net.md#rf-am-transmission) 🗸
 12. [RF - FM Transmission](./rootme_net.md#rf-fm-transmission)
 13. [SIP - authentication](./rootme_net.md#sip-authentication)
 14. [ETHERNET - Patched transmission](./rootme_net.md#ethernet-patched-transmission)
@@ -338,13 +338,13 @@
 
 ---
 
-## [Root-Me Programming](./rootme_prog.md)
+## [Root-Me Programming](./rootme_prog.md) (5/18)
 
-1. [IRC - Go back to college](./rootme_prog.md#irc-go-back-to-college)
-2. [IRC - Encoded string](./rootme_prog.md#irc-encoded-string)
-3. [IRC - The Roman’s wheel](./rootme_prog.md#irc-the-romans-wheel)
-4. [IRC - Uncompress me](./rootme_prog.md#irc-uncompress-me)
-5. [CAPTCHA me if you can](./rootme_prog.md#captcha-me-if-you-can)
+1. [IRC - Go back to college](./rootme_prog.md#irc-go-back-to-college) 🗸
+2. [IRC - Encoded string](./rootme_prog.md#irc-encoded-string) 🗸
+3. [IRC - The Roman’s wheel](./rootme_prog.md#irc-the-romans-wheel) 🗸
+4. [IRC - Uncompress me](./rootme_prog.md#irc-uncompress-me) 🗸
+5. [CAPTCHA me if you can](./rootme_prog.md#captcha-me-if-you-can) 🗸
 6. [Ethereum - Tutoreum](./rootme_prog.md#ethereum-tutoreum)
 7. [Arithmetic progression](./rootme_prog.md#arithmetic-progression)
 8. [ELF x64 - Shellcoding - Sheep warmup](./rootme_prog.md#elf-x64-shellcoding-sheep-warmup)
@@ -365,9 +365,9 @@
 
 ---
 
-## [Root-Me Realist](./rootme_real.md)
+## [Root-Me Realist](./rootme_real.md) (1/43)
 
-1. [It happens, sometimes ](./rootme_real.md#it-happens-sometimes)
+1. [It happens, sometimes ](./rootme_real.md#it-happens-sometimes) 🗸
 2. [P0wn3d ](./rootme_real.md#p0wn3d)
 3. [The h@ckers l4b ](./rootme_real.md#the-h@ckers-l4b)
 4. [Neonazi inside ](./rootme_real.md#neonazi-inside)
@@ -417,18 +417,18 @@
 
 ---
 
-## [Root-Me Steganography](./rootme_steg.md)
+## [Root-Me Steganography](./rootme_steg.md) (10/23)
 
-1. [Gunnm](./rootme_steg.md#gunnm)
-2. [Squared](./rootme_steg.md#squared)
-3. [Dot and next line](./rootme_steg.md#dot-and-next-line)
-4. [Steganomobile](./rootme_steg.md#steganomobile)
-5. [Twitter Secret Messages](./rootme_steg.md#twitter-secret-messages)
-6. [Some noise](./rootme_steg.md#some-noise)
-7. [George and Alfred](./rootme_steg.md#george-and-alfred)
-8. [Poem from Space](./rootme_steg.md#poem-from-space)
-9. [Yellow dots](./rootme_steg.md#yellow-dots)
-10. [Audio stegano](./rootme_steg.md#audio-stegano)
+1. [Gunnm](./rootme_steg.md#gunnm) 🗸
+2. [Squared](./rootme_steg.md#squared) 🗸
+3. [Dot and next line](./rootme_steg.md#dot-and-next-line) 🗸
+4. [Steganomobile](./rootme_steg.md#steganomobile) 🗸
+5. [Twitter Secret Messages](./rootme_steg.md#twitter-secret-messages) 🗸
+6. [Some noise](./rootme_steg.md#some-noise) 🗸
+7. [George and Alfred](./rootme_steg.md#george-and-alfred) 🗸
+8. [Poem from Space](./rootme_steg.md#poem-from-space) 🗸
+9. [Yellow dots](./rootme_steg.md#yellow-dots) 🗸
+10. [Audio stegano](./rootme_steg.md#audio-stegano) 🗸
 11. [Mimic - Dummy sight](./rootme_steg.md#mimic-dummy-sight)
 12. [We need to go deeper](./rootme_steg.md#we-need-to-go-deeper)
 13. [APNG - Just A PNG](./rootme_steg.md#apng-just-a-png)
@@ -450,17 +450,17 @@
 
 ---
 
-## [Root-Me Web - Client](./rootme_wcli.md)
+## [Root-Me Web - Client](./rootme_wcli.md) (9/29)
 
-1. [HTML - disabled buttons](./rootme_wcli.md#html-disabled-buttons)
-2. [Javascript - Authentication](./rootme_wcli.md#javascript-authentication)
-3. [Javascript - Source](./rootme_wcli.md#javascript-source)
-4. [Javascript - Authentication 2](./rootme_wcli.md#javascript-authentication-2)
-5. [Javascript - Obfuscation 1](./rootme_wcli.md#javascript-obfuscation-1)
-6. [Javascript - Obfuscation 2](./rootme_wcli.md#javascript-obfuscation-2)
-7. [Javascript - Native code](./rootme_wcli.md#javascript-native-code)
-8. [Javascript - Webpack](./rootme_wcli.md#javascript-webpack)
-9. [Javascript - Obfuscation 3](./rootme_wcli.md#javascript-obfuscation-3)
+1. [HTML - disabled buttons](./rootme_wcli.md#html-disabled-buttons) 🗸
+2. [Javascript - Authentication](./rootme_wcli.md#javascript-authentication) 🗸
+3. [Javascript - Source](./rootme_wcli.md#javascript-source) 🗸
+4. [Javascript - Authentication 2](./rootme_wcli.md#javascript-authentication-2) 🗸
+5. [Javascript - Obfuscation 1](./rootme_wcli.md#javascript-obfuscation-1) 🗸
+6. [Javascript - Obfuscation 2](./rootme_wcli.md#javascript-obfuscation-2) 🗸
+7. [Javascript - Native code](./rootme_wcli.md#javascript-native-code) 🗸
+8. [Javascript - Webpack](./rootme_wcli.md#javascript-webpack) 🗸
+9. [Javascript - Obfuscation 3](./rootme_wcli.md#javascript-obfuscation-3) 🗸
 10. [Web Socket - 0 protection](./rootme_wcli.md#web-socket-0-protection)
 11. [XSS - Stored 1](./rootme_wcli.md#xss-stored-1)
 12. [CSP Bypass - Inline code](./rootme_wcli.md#csp-bypass-inline-code)
