@@ -6,10 +6,10 @@ These are the first 50 challenges from the site.
 
 ## Contents
 
-1. [Multiples of 3 or 5](#multiples-of-3-or-5) 
-2. [Even Fibonacci numbers](#even-fibonacci-numbers) 
-3. [Largest prime factor](#largest-prime-factor) 
-4. [Largest palindrome product](#largest-palindrome-product) 
+1. [Multiples of 3 or 5](#multiples-of-3-or-5) 🗸
+2. [Even Fibonacci numbers](#even-fibonacci-numbers) 🗸
+3. [Largest prime factor](#largest-prime-factor) 🗸
+4. [Largest palindrome product](#largest-palindrome-product) 🗸
 5. [Smallest multiple](#smallest-multiple) 
 6. [Sum square difference](#sum-square-difference) 
 7. [10001st prime](#10001st-prime) 
@@ -347,7 +347,7 @@ maximum factor = 6857
 
 ---
 
-## Largest palindromic product
+## Largest palindrome product
 
 - Problem 4
 
