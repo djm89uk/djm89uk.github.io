@@ -221,6 +221,45 @@ picoCTF{}
 
 ---
 
+## guessing game 2
+
+- Author:
+-  Points
+
+### Description
+
+### Hints
+
+### Attachments
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+solution details
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 ## stonks
 
 - Author: madStacks
@@ -895,7 +934,7 @@ picoCTF{}
 
 ---
 
-## clutter overflow
+## cutter overflow
 
 - Author: notdeghost
 - 150 Points
