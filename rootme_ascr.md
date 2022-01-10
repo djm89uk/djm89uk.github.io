@@ -1,11 +1,11 @@
-# [Root-Me](./rootme.md) Root-Me App - Script Challenges [0/25]
+# [Root-Me](./rootme.md) Root-Me App - Script Challenges [2/25]
 
 Exploit environment weaknesses, configuration mistakes and vulnerability patterns in scripts and systems. 
 
 ## Contents
 
-1. [Bash - System 1](#bash-system-1)
-2. [sudo - weak configuration](#sudo-weak-configuration)
+1. [Bash - System 1](#bash-system-1) 🗸
+2. [sudo - weak configuration](#sudo-weak-configuration) 🗸
 3. [Bash - System 2](#bash-system-2)
 4. [LaTeX - Input](#latex-input)
 5. [Powershell - Command Injection](#powershell-command-injection)
