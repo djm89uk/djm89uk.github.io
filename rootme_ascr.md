@@ -38,24 +38,41 @@ Exploit environment weaknesses, configuration mistakes and vulnerability pattern
 
 ## Bash System 1
 
-- Author: name
-- X Points
+- Author: Lu33Y
+- Date: 08 February 2012
+- Points: 5
+- Level: 1
 
 ### Description
 
-Description Here
+Source Code:
 
-### Hints
+~~~c
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-1. Hint 1
+int main(void)
+{
+  setreuid(geteuid(), geteuid());
+  system("ls /challenge/app-script/ch11/.passwd");
+  return 0;
+}
+~~~
 
-### Connection Details
+### Connection
 
-1. Detail 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH access: ssh -p 2222 app-script-ch11@challenge02.root-me.org     WebSSH
+- Username: app-script-ch11
+- Password: app-script-ch11
 
-### Attachments
+### Resources
 
-1. Attachment 1
+1. [Dangers of SUID Shell Scripts](https://repository.root-me.org/Administration/Unix/EN%20-%20Dangers%20of%20SUID%20Shell%20Scripts.pdf).
+2. [SUID Priviledged Programs](https://repository.root-me.org/Administration/Unix/EN%20-%20SUID%20Privileged%20Programs.pdf).
 
 ### Solutions
 
@@ -63,8 +80,25 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+We can connect to the challenge server:
+  
+~~~shell
+$ ssh -p 2222 app-script-ch11@challenge02.root-me.org
+~~~
+  
+Once connected, we can look for the flag:
+  
+~~~shell
+app-script-ch11@challenge02:~$ ls
+ch11  ch11.c  Makefile
+app-script-ch11@challenge02:~$ pwd
+/challenge/app-script/ch11
+app-script-ch11@challenge02:~$ strings .passwd
+strings: .passwd: Permission denied
+~~~
 
+We obviously need to more clever. We can see from the c source code that the program calls the ls program without the complete path to the binary (/bin/ls).  We can simply copy the cat binary to the temporary directory:
+  
 </details>
 
 ### Answer
