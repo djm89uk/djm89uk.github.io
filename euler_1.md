@@ -244,11 +244,11 @@ while N % 2 == 0:
     bigFactor = 2
     N = N/2
 f = 3
-while N > 1 and f < maxFactor:
-    if N%f==0:
+while np.greater(N,1) and np.less(f,maxFactor):
+    if N % f == 0:
         N = N/f
         bigFactor = f
-        while N%f ==0:
+        while N % f ==0:
             N = N/f
         maxFactor = np.sqrt(N)
     f += 2
@@ -263,7 +263,6 @@ maximum factor = 6857
 ~~~
 
 </details>
-
 
 ### Answer
 
@@ -358,6 +357,74 @@ The largest palindromic number = 906609.
 ### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
 
 ---
+
+## Smallest Multiple
+
+- Problem 5
+
+### Description
+
+2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+
+What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Brute Force</summary>
+
+We can simplify the integers as below:
+	
+| Int | Prime Factors | Is Prime |
+|-----|---------------|----------|
+|  2  | 2             | Y        |
+|  3  | 3             | Y        |
+|  4  | 2*2           | N        |
+|  5  | 5             | Y        |
+|  6  | 2*3           | N        |
+|  7  | 7             | Y        |
+|  8  | 2*2*2         | N        |
+|  9  | 3*3           | N        |
+| 10  | 2*5           | N        |
+| 11  | 11            | Y        |
+| 12  | 2*2*3         | N        |
+| 13  | 13            | Y        |
+| 14  | 2*7           | N        |
+| 15  | 3*5           | N        |
+| 16  | 2*2*2*2       | N        |
+| 17  | 17            | Y        |
+| 18  | 2*3*3         | N        |
+| 19  | 19            | Y        |
+| 20  | 2*2*5         | N        |
+
+The solution will be a product of primes with minimum power of the maximum in the table above:
+	
+~~~
+2*2*2*2 * 3*3 * 5 * 7 * 11 * 13 * 17 * 19 = 232792560
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+232792560
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+	
 This page was last updated Jan 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
