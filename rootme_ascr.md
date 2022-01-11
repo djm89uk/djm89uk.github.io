@@ -60,12 +60,12 @@ int main(void)
 }
 ~~~
 
-### Connection
+### Connection Details
 
 - Host: challenge02.root-me.org
 - Protocol: SSH
 - Port: 2222
-- SSH access: ssh -p 2222 app-script-ch11@challenge02.root-me.org     WebSSH
+- SSH access: ssh -p 2222 app-script-ch11@challenge02.root-me.org
 - Username: app-script-ch11
 - Password: app-script-ch11
 
@@ -136,12 +136,12 @@ app-script-ch11@challenge02:~$ PATH=/var/tmp:$PATH ./ch11
 
 Wishing to simplify the task by not modifying rights, the administrator has not thought about the side effects ...
 
-### Connection
+### Connection Details
 
 - Host: challenge02.root-me.org
 - Protocol: SSH
 - Port: 2222
-- SSH access: ssh -p 2222 app-script-ch1@challenge02.root-me.org     WebSSH
+- SSH access: ssh -p 2222 app-script-ch1@challenge02.root-me.org
 - Username: app-script-ch1
 - Password: app-script-ch1
 
@@ -210,24 +210,40 @@ b3_c4r3ful_w1th_sud0
 
 ## bash system 2
 
-- Author: name
-- X Points
+- Author: Lu33Y
+- Date: 8 February 2012
+- Points: 10
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+Source Code
 
-### Hints
-
-1. Hint 1
+~~~c
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+     
+int main(){
+  setreuid(geteuid(), geteuid());
+  system("ls -lA /challenge/app-script/ch12/.passwd");
+  return 0;
+}
+~~~
 
 ### Connection Details
 
-1. Detail 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH access: ssh -p 2222 app-script-ch12@challenge02.root-me.org
+- Username: app-script-ch12
+- Password: app-script-ch12
 
-### Attachments
+### Resources
 
-1. Attachment 1
+1. [section-7.html](http://www.faqs.org/faqs/unix-faq/faq/part4/section-7.html)
 
 ### Solutions
 
