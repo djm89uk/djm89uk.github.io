@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (4/50)
+# [Project Euler](./euler.md) Challenges 1-50 (6/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -10,8 +10,8 @@ These are the first 50 challenges from the site.
 2. [Even Fibonacci numbers](#even-fibonacci-numbers) 🗸
 3. [Largest prime factor](#largest-prime-factor) 🗸
 4. [Largest palindrome product](#largest-palindrome-product) 🗸
-5. [Smallest multiple](#smallest-multiple) 
-6. [Sum square difference](#sum-square-difference) 
+5. [Smallest multiple](#smallest-multiple) 🗸
+6. [Sum square difference](#sum-square-difference) 🗸
 7. [10001st prime](#10001st-prime) 
 8. [Largest product in a series](#largest-product-in-a-series) 
 9. [Special Pythagorean triplet](#special-pythagorean-triplet) 
@@ -425,7 +425,7 @@ The solution will be a product of primes with minimum power of the maximum in th
 
 ---
 
-## Smallest Multiple
+## Sum Square Difference
 
 - Problem 6
 
