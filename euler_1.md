@@ -372,7 +372,7 @@ What is the smallest positive number that is evenly divisible by all of the numb
 
 <details>
 
-<summary markdown="span">Brute Force</summary>
+<summary markdown="span">By Hand</summary>
 
 We can simplify the integers as below:
 	
@@ -424,7 +424,124 @@ The solution will be a product of primes with minimum power of the maximum in th
 ### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
 
 ---
+
+## Smallest Multiple
+
+- Problem 6
+
+### Description
+
+The sum of the squares of the first ten natural numbers is:
+
+~~~
+1**2 + 2**2 + 3**2 + ... + 10**2 = 385
+~~~
+
+The square of the sum of the first ten natural numbers is,
+
+~~~
+(1+2+3+...+10)**2 = 3025
+~~~
+
+Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is
+
+~~~
+3025 - 385 = 2640
+~~~
+
+Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">By Hand</summary>
+
+We can rewite the problem as:
 	
+~~~
+(sum(i))**2 - sum(i**2)  where i is in range 1 - 100
+~~~
+
+The first part of the equation can be simplified where:
+	
+~~~
+sum(i) = n(n+1)/2
+sum(i)**2 = n**2(n+1)**2/2
+	  = n**2(n**2+2n+2)/2
+	  = n**4/2 + n**3 + n**2
+~~~
+
+The second part can be written as a cubic equation:
+
+~~~
+sum(i**2) = a * n**3 + b * n**2 + c * n + d = f(n)
+~~~
+
+We can solve for the first few numbers:
+	
+~~~
+f(0) = 0  -> d = 0
+f(1) = 1  ->   a +   b +  c = 1
+f(2) = 5  ->  8a +  4b + 2c = 5
+f(3) = 14 -> 27a +  9b + 3c = 14
+f(4) = 30 -> 64a + 16b + 4c = 30
+~~~
+	
+We can solve this:
+
+~~~
+2a + 2b + 2c = 2
+6a + 2b = 3
+
+3a + 3b + 3c + 3d = 3
+24a + 6b = 11
+
+18a + 6b = 9
+6a = 2
+
+a = 1/3
+b = 1/2
+c = 1/6
+d = 0
+~~~
+
+We can use this formula to calculate the second part of the equation:
+
+~~~
+sum(i**2) = n**3/3 + n**2/2 + n/6
+~~~
+	
+We can now solve for n=100:
+
+~~~
+sum(1-100)**2 = (100(100+1)/2)**2 = (10100/2)**2 = 5050**2  = 25502500
+sum(1**2 ... 100**2 = 100**3/3 + 100**2/2 + 100/6 = 333,333+1/3 + 5000 + 16 + 2/3  = 338350
+
+sum(1-100)**2 - sum(1**2-100**2) = 25502500 - 338350 = 25164150
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+25164150
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
 This page was last updated Jan 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
