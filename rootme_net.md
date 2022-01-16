@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [11/25]
+# [Root-Me](./rootme.md) Root-Me Networks [12/25]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -15,7 +15,7 @@ Investigate captured traffic, network services and perform packet analysis.
 9. [LDAP - null bind](#ldap-null-bind) 🗸
 10. [POP - APOP](#pop-apop) 🗸
 11. [RF - AM Transmission](#rf-am-transmission) 🗸
-12. [RF - FM Transmission](#rf-fm-transmission)
+12. [RF - FM Transmission](#rf-fm-transmission) 🗸
 13. [SIP - authentication](#sip-authentication)
 14. [ETHERNET - Patched transmission](#ethernet-patched-transmission)
 15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication)
@@ -1359,7 +1359,17 @@ The file you are working with is a complex IQ file, recorded at 8Msps.
 
 <summary markdown="span">Solution</summary>
 
-We are given a zip file with a raw binary file, capture.raw.  Reviewing the challenge details, we can see this is an AM demodulation challenge.  We use the raw file as a signal source and demodulate using the AM demodulation block in GNU Radio.  We can set sample rate to 32kHz, decimation to 2, audio lims to 4kHz and 8kHz and output the signal to the audio output block.  When running, we can playback the answer from the audio.
+We are given a zip file with a raw binary file, capture.raw.  Reviewing the challenge details, we can see this is an FM demodulation challenge.  This file can be imported into gqrx to enable playback.  The following settings are used:
+	
+- Demodulation: Wideband FM (Mono)
+- Frequency: 98.5 MHz
+- Squelch: -50dB
+- Filter Width: Normal
+- Filter Shape: Normal
+- Input Rate: 8,000,000
+- Decimation: None
+- Sample Rate: 8 Msps
+- Audio rate: 48 kHz
 
 </details>
 
@@ -1370,7 +1380,94 @@ We are given a zip file with a raw binary file, capture.raw.  Reviewing the chal
 <summary markdown="span">Answer</summary>
 
 ~~~
-rf_4m_tr4nsm1ss10n
+rf_fr3qu3ncy_m0dul4t10n
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SIP authentication
+
+- Author: g0uZ
+- Date: 30 August 2010
+- Points: 20
+- Level: 2
+
+### Statement
+
+Find the password used to authenticate on the SIP infrastructure.
+
+### Related Resources
+
+1. [Blackhat USA 06 Hacking VOIP exposed](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Blackhat%20USA%2006%20Hacking%20VOIP%20exposed.pdf).
+
+### Attachments
+
+1. [ch4.txt](http://challenge01.root-me.org/reseau/ch4/ch4.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be retrived using wget:
+
+~~~shell
+$ wget http://challenge01.root-me.org/reseau/ch4/ch4.txt
+--2022-01-16 12:08:23--  http://challenge01.root-me.org/reseau/ch4/ch4.txt
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 325 [text/plain]
+Saving to: ‘ch4.txt’
+
+ch4.txt                                                     100%[=========================================================================================================================================>]     325  --.-KB/s    in 0s      
+
+2022-01-16 12:08:23 (111 MB/s) - ‘ch4.txt’ saved [325/325]
+
+$ file ch4.txt 
+ch4.txt: ASCII text
+~~~
+
+Opening the file:
+
+~~~
+172.25.105.3"172.25.105.40"555"asterisk"REGISTER"sip:172.25.105.40"4787f7ce""""PLAIN"1234
+172.25.105.3"172.25.105.40"555"asterisk"INVITE"sip:1000@172.25.105.40"70fbfdae""""MD5"aa533f6efa2b2abac675c1ee6cbde327
+172.25.105.3"172.25.105.40"555"asterisk"BYE"sip:1000@172.25.105.40"70fbfdae""""MD5"0b306e9db1f819dd824acf3227b60e07
+~~~
+
+This is a SIP authentication file with REGISTER, INVITE and BYE SIP signals.  This can be cracked using John the ripper and SIPCrack:
+
+~~~shell
+$ mkfifo myfifofile
+$ john --incremental --stdout=6 > myfifofile & sipcrack -p 10000000 -w myfifofile ch4.txt
+~~~
+
+This conducts a bruteforce incremental attack on the hashed passwords and uses SIPCrack to handle the file structure.  We get the following result:
+
+~~~
+172.25.105.3"172.25.105.40"555"asterisk"REGISTER"sip:172.25.105.40"4787f7ce""""PLAIN"1234
+172.25.105.3"172.25.105.40"555"asterisk"INVITE"sip:1000@172.25.105.40"70fbfdae""""PLAIN"1234
+172.25.105.3"172.25.105.40"555"asterisk"BYE"sip:1000@172.25.105.40"70fbfdae""""PLAIN"1234
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+1234
 ~~~
 
 </details>
