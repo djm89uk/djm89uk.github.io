@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [14/25]
+# [Root-Me](./rootme.md) Root-Me Networks [15/25]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -18,7 +18,7 @@ Investigate captured traffic, network services and perform packet analysis.
 12. [RF - FM Transmission](#rf-fm-transmission) 🗸
 13. [SIP - authentication](#sip-authentication) 🗸
 14. [ETHERNET - Patched transmission](#ethernet-patched-transmission) 🗸
-15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication)
+15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication) 🗸
 16. [HTTP - DNS Rebinding](#http-dns-rebinding)
 17. [RF - Key Fixed Code](#rf-key-fixed-code)
 18. [SSL - HTTP exchange](#ssl-http-exchange)
@@ -1726,7 +1726,192 @@ f9f781003afadab00b81
 ### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-	
+
+
+## Global System Traffic for Mobile communication
+
+- Author: koma
+- Date: 25 April 2012
+- Points: 25
+- Level: 3
+
+### Statement
+
+You have been asked to check the network traffic file enclosed. Report your findings to your caller, even if it seems the trace was truncated.
+
+### Attachments
+
+1. [ch9.pcap](http://challenge01.root-me.org/reseau/ch9/ch9.pcap).
+
+### Resources
+
+1. [RFC 5724](https://repository.root-me.org/RFC/EN%20-%20rfc5724.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be retrived using wget:
+
+~~~shell
+$ wget http://challenge01.root-me.org/reseau/ch9/ch9.pcap
+--2022-01-16 14:18:42--  http://challenge01.root-me.org/reseau/ch9/ch9.pcap
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 5048 (4.9K) [application/octet-stream]
+Saving to: ‘ch9.pcap’
+
+ch9.pcap                                                    100%[=========================================================================================================================================>]   4.93K  --.-KB/s    in 0.001s  
+
+2022-01-16 14:18:42 (6.09 MB/s) - ‘ch9.pcap’ saved [5048/5048]
+~~~
+
+We can view the capture summary in tshark:
+
+~~~shell
+$ tshark -r ch9.pcap 
+    1   0.000000        Modem → Unknown      ISI 31    7   
+    2   3.498586        Modem → Unknown      ISI 31    7   
+    3   9.383344        Modem → Unknown      ISI 31    7   
+    4  11.733345        Modem → Unknown      ISI 31    7   
+    5  14.085749        Modem → Unknown      ISI 31    7   
+    6  15.267878        Modem → Unknown      ISI 31    7   
+    7  17.621701        Modem → Unknown      ISI 31    7   
+    8  19.971151        Modem → Unknown      ISI 31    7   
+    9  23.501105        Modem → Unknown      ISI 31    7   
+   10  25.860294        Modem → Unknown      ISI 31    7   
+   11  28.214163        Modem → Unknown      ISI 31    7   
+   12  30.567952        Modem → Unknown      ISI 31    7   
+   13  31.744911        Modem → Unknown      ISI 31    7   
+   14  36.448190        Modem → Unknown      ISI 31    7   
+   15  45.868098        Modem → Unknown      ISI 31    7   
+   16  52.929706        Modem → Unknown      ISI 31    7   
+   17  58.814398        Modem → Unknown      ISI 31    7   
+   18  63.522069        Modem → Unknown      ISI 31    7   
+   19  67.052868        Modem → Unknown      ISI 31    7   
+   20  68.229840        Modem → Unknown      ISI 31    7   
+   21  69.406789        Modem → Unknown      ISI 31    7   
+   22  70.583045        Modem → Unknown      ISI 31    7   
+   23  77.645309        Modem → Unknown      ISI 31    7   
+   24  78.822146        Modem → Unknown      ISI 31    7   
+   25  81.176113        Modem → Unknown      ISI 31    7   
+   26  83.529929        Modem → Unknown      ISI 31    7   
+   27  85.879464        Modem → Unknown      ISI 31    7   
+   28  87.055466        Modem → Unknown      ISI 31    7   
+   29  89.414577        Modem → Unknown      ISI 31    7   
+   30  92.945404        Modem → Unknown      ISI 31    7   
+   31  94.122374        Modem → Unknown      ISI 31    7   
+   32  96.471695        Modem → Unknown      ISI 31    7   
+   33 103.537790        Modem → Unknown      ISI 31    7   
+   34 107.068588        Modem → Unknown      ISI 31    7   
+   35 109.422386        Modem → Unknown      ISI 31    7   
+   36 111.776276        Modem → Unknown      ISI 31    7   
+   37 115.737035      Unknown → Modem        ISI 30    6   
+   38 115.747382        Modem → Unknown      ISI 41    17   
+   39 115.747836      Unknown → Modem        ISI 32    8   
+   40 115.750607        Modem → Unknown      ISI 41    17   
+   41 115.750958      Unknown → Modem        ISI 32    8   
+   42 115.753651        Modem → Unknown      ISI 41    17   
+   43 115.754149      Unknown → Modem        ISI 30    6   
+   44 115.756600        Modem → Unknown      ISI 31    7   
+   45 116.480202        Modem → Unknown      ISI 31    7   
+   46 118.837866        Modem → Unknown      ISI 31    7   
+   47 120.019345        Modem → Unknown      ISI 31    7   
+   48 121.191836        Modem → Unknown      ISI 31    7   
+   49 122.368719        Modem → Unknown      ISI 31    7   
+   50 123.545275        Modem → Unknown      ISI 31    7   
+   51 125.901035        Modem → Unknown      ISI 31    7   
+   52 127.076217        Modem → Unknown      ISI 31    7   
+   53 136.491751        Modem → Unknown      ISI 31    7   
+   54 137.668723        Modem → Unknown      ISI 31    7   
+   55 138.845654        Modem → Unknown      ISI 31    7   
+   56 140.022570        Modem → Unknown      ISI 31    7   
+   57 142.376499        Modem → Unknown      ISI 31    7   
+   58 143.553437        Modem → Unknown      ISI 31    7   
+   59 144.732358        Modem → Unknown      ISI 31    7   
+   60 145.907247        Modem → Unknown      ISI 31    7   
+   61 149.438121        Modem → Unknown      ISI 31    7   
+   62 155.324860        Modem → Unknown      ISI 31    7   
+   63 160.029812        Modem → Unknown      ISI 31    7   
+   64 161.206752        Modem → Unknown      ISI 31    7   
+   65 167.092809        Modem → Unknown      ISI 31    7   
+   66 176.503638        Modem → Unknown      ISI 31    7   
+   67 184.746050        Modem → Unknown      ISI 31    7   
+   68 187.099848        Modem → Unknown      ISI 31    7   
+   69 189.453592        Modem → Unknown      ISI 31    7   
+   70 191.806959        Modem → Unknown      ISI 31    7   
+   71 196.515342        Modem → Unknown      ISI 31    7   
+   72 197.692203        Modem → Unknown      ISI 31    7   
+   73 201.223327        Modem → Unknown      ISI 31    7   
+   74 208.284658        Modem → Unknown      ISI 31    7   
+   75 210.638598        Modem → Unknown      ISI 31    7   
+   76 211.815127        Modem → Unknown      ISI 31    7   
+   77 212.992090        Modem → Unknown      ISI 31    7   
+   78 214.169255        Modem → Unknown      ISI 31    7   
+   79 216.523162        Modem → Unknown      ISI 31    7   
+   80 218.877042        Modem → Unknown      ISI 31    7   
+   81 220.053338        Modem → Unknown      ISI 31    7   
+   82 223.584721        Modem → Unknown      ISI 31    7   
+   83 227.115560        Modem → Unknown      ISI 32    8   
+   84 227.122030        Modem → Unknown      ISI 31    7   
+   85 227.839941        Modem → Unknown      ISI 31    7   
+   86 230.664583        Modem → Unknown      ISI 31    7   
+   87 230.766381        Modem → Unknown      ISI 126    72   
+   88 230.820201      Unknown → Modem        ISI 35    11   
+   89 230.822655        Modem → Unknown      ISI 35    11   
+   90 231.135551        Modem → Unknown      ISI 31    7   
+   91 231.785911        Modem → Unknown      ISI 32    8   
+   92 231.792340        Modem → Unknown      ISI 31    7   
+   93 231.792517        Modem → Unknown      ISI 32    8   
+   94 231.833350      Unknown → Modem        ISI 30    6   
+   95 231.836878        Modem → Unknown      ISI 41    17   
+   96 231.837612      Unknown → Modem        ISI 32    8   
+   97 231.839362        Modem → Unknown      ISI 41    17   
+   98 231.840025      Unknown → Modem        ISI 32    8   
+   99 231.841295        Modem → Unknown      ISI 41    17   
+  100 231.842338      Unknown → Modem        ISI 30    6   
+  101 231.844230        Modem → Unknown      ISI 31    7   
+  102 234.177142        Modem → Unknown      ISI 31    7   
+  103 237.708011        Modem → Unknown      ISI 31    7   
+  104 241.238448        Modem → Unknown      ISI 31    7  
+~~~
+
+This shows 104 "intelligent service interface" packets containing data between 6 and 72 Bytes long.  We can open the pcap in wireshark and copy the hexstream for the largest packet.  In python, this can be used to retrieve the message:
+
+~~~py
+from PDUUSSDConverter import converter as con
+
+a = 0x000003340001a00020202020202000f5a00001006900006700ff9c0402030201ffff0b5a0791233010210068040b917120336603f800002140206165028047c7f79b0c52bfc52c101d5d0699d9e133283d0785e764f87b6da7956bb7f82d2c8b
+a = hex(a)[2:]
+
+b = len(a)%7*"0"+a
+text = con.pdu_to_text(b)
+print(text)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+asdpokv4e57q7a2
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
