@@ -592,7 +592,76 @@ While being super relevant with my meme references, I wrote a program to see how
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+The headpedit executable can be decompiled in ghidra:
+	
+~~~c
+undefined8 main(void)
+
+{
+  long in_FS_OFFSET;
+  undefined local_a9;
+  int local_a8;
+  int local_a4;
+  undefined8 *local_a0;
+  undefined8 *local_98;
+  FILE *local_90;
+  undefined8 *local_88;
+  void *local_80;
+  undefined8 local_78;
+  undefined8 local_70;
+  undefined8 local_68;
+  undefined local_60;
+  char local_58 [72];
+  long local_10;
+  
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  setbuf(stdout,(char *)0x0);
+  local_90 = fopen("flag.txt","r");
+  fgets(local_58,0x40,local_90);
+  local_78 = 0x2073692073696874;
+  local_70 = 0x6d6f646e61722061;
+  local_68 = 0x2e676e6972747320;
+  local_60 = 0;
+  local_a0 = (undefined8 *)0x0;
+  for (local_a4 = 0; local_a4 < 7; local_a4 = local_a4 + 1) {
+    local_98 = (undefined8 *)malloc(0x80);
+    if (local_a0 == (undefined8 *)0x0) {
+      local_a0 = local_98;
+    }
+    *local_98 = 0x73746172676e6f43;
+    local_98[1] = 0x662072756f592021;
+    local_98[2] = 0x203a73692067616c;
+    *(undefined *)(local_98 + 3) = 0;
+    strcat((char *)local_98,local_58);
+  }
+  local_88 = (undefined8 *)malloc(0x80);
+  *local_88 = 0x5420217972726f53;
+  local_88[1] = 0x276e6f7720736968;
+  local_88[2] = 0x7920706c65682074;
+  *(undefined4 *)(local_88 + 3) = 0x203a756f;
+  *(undefined *)((long)local_88 + 0x1c) = 0;
+  strcat((char *)local_88,(char *)&local_78);
+  free(local_98);
+  free(local_88);
+  local_a8 = 0;
+  local_a9 = 0;
+  puts("You may edit one byte in the program.");
+  printf("Address: ");
+  __isoc99_scanf(&DAT_00400b48,&local_a8);
+  printf("Value: ");
+  __isoc99_scanf(&DAT_00400b53,&local_a9);
+  *(undefined *)((long)local_a8 + (long)local_a0) = local_a9;
+  local_80 = malloc(0x80);
+  puts((char *)((long)local_80 + 0x10));
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+~~~
+				  
+This shows the program is manipulating memory addresses.  There is a prompt to change 1 byte of memory to try and print the flag.
 
 </details>
 
