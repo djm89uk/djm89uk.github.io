@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [12/25]
+# [Root-Me](./rootme.md) Root-Me Networks [14/25]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -16,8 +16,8 @@ Investigate captured traffic, network services and perform packet analysis.
 10. [POP - APOP](#pop-apop) 🗸
 11. [RF - AM Transmission](#rf-am-transmission) 🗸
 12. [RF - FM Transmission](#rf-fm-transmission) 🗸
-13. [SIP - authentication](#sip-authentication)
-14. [ETHERNET - Patched transmission](#ethernet-patched-transmission)
+13. [SIP - authentication](#sip-authentication) 🗸
+14. [ETHERNET - Patched transmission](#ethernet-patched-transmission) 🗸
 15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication)
 16. [HTTP - DNS Rebinding](#http-dns-rebinding)
 17. [RF - Key Fixed Code](#rf-key-fixed-code)
@@ -1478,6 +1478,255 @@ This conducts a bruteforce incremental attack on the hashed passwords and uses S
 
 ---
 
+## ETHERNET Patched transmission
+
+- Author: Thanat0s
+- Date: 31 May 2013
+- Points: 25
+- Level: 3
+
+### Statement
+
+These frames have been altered upon interception, find the lost information.
+
+Password’s format is 10 bytes in hexadecimal notation (i.e. 20 characters)
+
+### Attachments
+
+1. [ch14.txt](http://challenge01.root-me.org/reseau/ch14/ch14.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be retrived using wget:
+
+~~~shell
+$ wget http://challenge01.root-me.org/reseau/ch14/ch14.txt
+--2022-01-16 12:39:43--  http://challenge01.root-me.org/reseau/ch14/ch14.txt
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1925 (1.9K) [text/plain]
+Saving to: ‘ch14.txt’
+
+ch14.txt                                                    100%[=========================================================================================================================================>]   1.88K  --.-KB/s    in 0s      
+
+2022-01-16 12:39:43 (6.09 MB/s) - ‘ch14.txt’ saved [1925/1925]
+
+$ file ch14.txt 
+ch14.txt: ASCII text
+~~~
+
+Opening the file:
+
+~~~
+>>> INGRESS >>>
+        0x0000:  0050 569e 7bf9 0050 569e 7bfb 8100 0185  
+        0x0010:  86dd 6000 0000 0040 3a40 2002 c000 0203  
+        0x0020:  0000 0000 0000 0000 7331 2002 c000 0203  
+        0x0030:  0000 0000 0000 0000 dead 8000 0af0 0792  
+        0x0040:  0001 146d a451 0000 0000 d020 0300 0000  
+        0x0050:  0000 2d4d 452e 4f52 4720 524f 4f54 2d4d  
+        0x0060:  452e 4f52 4720 524f 4f54 2d4d 452e 4f52  
+        0x0070:  4720 524f 4f54 2d4d 452e
+
+
+>>> INGRESS >>>
+        0x0000:  0050 569e 7bf7 0050 569e 7bf9 8100 0186  
+        0x0010:  86dd 6000 0000 0040 3a40 2002 c000 0203  
+        0x0020:  0000 0000 0000 0000 b00b 2002 c000 0203  
+        0x0030:  0000 0000 0000 0000 fada 8000 0af0 0792  
+        0x0040:  0001 146d a451 0000 0000 d020 0300 0000  
+        0x0050:  0000 2d4d 452e 4f52 4720 524f 4f54 2d4d  
+        0x0060:  452e 4f52 4720 524f 4f54 2d4d 452e 4f52  
+        0x0070:  4720 524f 4f54 2d4d 452e
+
+
+>>> INGRESS >>>
+        0x0000:  0050 569e 7bfe 0050 569e 7bf7 8100 0186  
+        0x0010:  86dd 6000 0000 0040 3a40 2002 c000 0203  
+        0x0020:  0000 0000 0000 0000 7331 2002 c000 0203  
+        0x0030:  0000 0000 0000 0000 b00b 8000 c760 0795  
+        0x0040:  0001 906d a451 0000 0000 8fac 0b00 0000  
+        0x0050:  0000 2d4d 452e 4f52 4720 524f 4f54 2d4d  
+        0x0060:  452e 4f52 4720 524f 4f54 2d4d 452e 4f52  
+        0x0070:  4720 524f 4f54 2d4d 452e                 
+                
+<<< EGRESS <<<
+        0x0000:  0050 569e 7b?? 0050 569e 7b?? ???? 0186  
+        0x0010:  86dd 6000 0000 0040 ??40 2002 c000 0203  
+        0x0020:  0000 0000 0000 0000 ???? 2002 c000 0203  
+        0x0030:  0000 0000 0000 0000 ???? ??00 09f0 0792 
+        0x0040:  0001 146d a451 0000 0000 d020 0300 0000  
+        0x0050:  0000 2d4d 452e 4f52 4720 524f 4f54 2d4d  
+        0x0060:  452e 4f52 4720 524f 4f54 2d4d 452e 4f52  
+        0x0070:  4720 524f 4f54 2d4d 452e 
+~~~
+
+These can be concatenated into hex strings:
+
+~~~
+0050569e7bf90050569e7bfb8100018586dd6000000000403a402002c0000203000000000000000073312002c00002030000000000000000dead80000af007920001146da45100000000d0200300000000002d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e
+0050569e7bf70050569e7bf98100018686dd6000000000403a402002c00002030000000000000000b00b2002c00002030000000000000000fada80000af007920001146da45100000000d0200300000000002d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e
+0050569e7bfe0050569e7bf78100018686dd6000000000403a402002c0000203000000000000000073312002c00002030000000000000000b00b8000c76007950001906da451000000008fac0b00000000002d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e
+0050569e7b??0050569e7b??????018686dd600000000040??402002c00002030000000000000000????2002c00002030000000000000000??????0009f007920001146da45100000000d0200300000000002d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e4f524720524f4f542d4d452e
+~~~
+
+The first component of each of these captures is the Ethernet header:
+
+~~~
+00 50 56 9e 7b f9 00 50 56 9e 7b fb 81 00
+~~~
+
+This can be deconstructed to fields:
+
+~~~
+Destination = (00:50:56:9E:7B:F9)
+Source = (00:50:56:9E:7B:FB)
+Type = 0x8100 (802.1Q VLAN)
+~~~
+
+The next part of the packet is the VLAN fields:
+
+~~~
+01 85 86 DD
+~~~
+
+This can be deconstructed:
+
+~~~
+VLAN ID = (0x0185) = 389
+Type = (0x86DD) = IPv6
+~~~
+
+The IPv6 header:
+
+~~~
+60 00 00 00 00 40 3A 40 20 02 C0 00 02 03 00 00 00 00 00 00 00 00 73 31 20 02 C0 00 02 03 00 00 00 00 00 00 00 00 DE AD
+
+~~~
+
+This can be deconstructed:
+
+~~~
+IP Version = (0x60) = v6
+Traffic Class = (0x00) = DSCP CS0
+FLow Label = (0x0000) = 0
+Payload Length = (0x0040) = 64
+Next Header = (0x3A) = ICMPv6
+Hop Limit = (0x40) = 64
+Src Address = (2002:C000:0203:0000:0000:0000:0000:7331) = (2002:C000:203::7331)
+Dst Address = (2002:C000:0203:0000:0000:0000:0000:DEAD) = (2002:C000:203::DEAD)
+~~~
+
+The ICMPv6 header:
+
+~~~
+80 00 0A F0 07 92 00 01
+~~~
+
+This can be deconstructed:
+
+~~~
+Type: (0x80) = Ping request (128)
+Code: (0x00) = 0
+Checksum: (0x0AF0)
+ID: (0x0792)
+Sequence: (0x0001) = 1
+~~~
+
+Two further field blocks (8B each) can  be seen but these are not identified:
+
+~~~
+90 6d a4 51 00 00 00 00
+8f ac 0b 00 00 00 00 00
+~~~
+
+All 4 packets can be deconstructed:
+
+| Packet  | 1                   | 2                   | 3                   | 4                   | Fix    |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+| MAC Dst | 00:50:56:9E:7B:F9   | 00:50:56:9E:7B:F7   | 00:50:56:9E:7B:FE   | 00:50:56:9E:7B:??   | tbc    |
+| MAC Src | 00:50:56:9E:7B:FB   | 00:50:56:9E:7B:F9   | 00:50:56:9E:7B:F7   | 00:50:56:9E:7B:??   | tbc    |
+| Type    | 802.1Q VLAN         | 802.1Q VLAN         | 802.1Q VLAN         | ?? ??               | 0x8100 |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+| VLAN ID | 389                 | 390                 | 390                 | 390                 |        |
+| Type    | IPv6                | IPv6                | IPv6                | IPv6                |        |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+| IP Vers | IPv6                | IPv6                | IPv6                | IPv6                |        |
+| Class   | DSCP C0             | DSCP C0             | DSCP C0             | DSCP C0             |        |
+| Label   | 0                   | 0                   | 0                   | 0                   |        |
+| Len     | 64                  | 64                  | 64                  | 64                  |        |
+| Type    | ICMPv6              | ICMPv6              | ICMPv6              | 0x??                | 0x3A   |
+| Hop Lmt | 64                  | 64                  | 64                  | 64                  |        |
+| Src Add | 2002:C000:203::7331 | 2002:C000:203::B00B | 2002:C000:203::7331 | 2002:C000:203::???? | tbc    |
+| Dst Add | 2002:C000:203::DEAD | 2002:C000:203::FADA | 2002:C000:203::B00B | 2002:C000:203::???? | tbc    |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+| Type    | Ping Request        | Ping Request        | Ping Request        | 0x??                | 0x81   |
+| Code    | 0                   | 0                   | 0                   | 0                   |        |
+| Chksm   | 0x0AF0              | 0x0AF0              | 0xC760              | 0x09F0              |        |
+| ID      | 0x0792              | 0x0792              | 0x0795              | 0x0792              |        |
+| Seq     | 1                   | 1                   | 1                   | 1                   |        |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+| Block 1 | 0x146da45100000000  | 0x146da45100000000  | 0x906da45100000000  | 0x146da45100000000  |        |
+| Block 2 | 0xd020030000000000  | 0xd020030000000000  | 0x8fac0b0000000000  | 0xd020030000000000  |        |
+|---------|---------------------|---------------------|---------------------|---------------------|--------|
+
+We can see it is an egress packet so is a ping reply (0x81).  It must be a reply for one of the ping requests originating within the same VLAN so is not a response to packet 1.
+
+Block 1 and Block 2 match frame 2 so the src and destination fields are likely the destination and source from frame 2:
+
+| Packet  | 2                   | 4                   | Solution |
+|---------|---------------------|---------------------|----------|
+| MAC Dst | 00:50:56:9E:7B:F7   | 00:50:56:9E:7B:F9   | f9       |
+| MAC Src | 00:50:56:9E:7B:F9   | 00:50:56:9E:7B:F7   | f7       |
+| Type    | 802.1Q VLAN         | 802.1Q VLAN         | 8100     |
+|---------|---------------------|---------------------|----------|
+| VLAN ID | 390                 | 390                 |          |
+| Type    | IPv6                | IPv6                |          |
+|---------|---------------------|---------------------|----------|
+| IP Vers | IPv6                | IPv6                |          |
+| Class   | DSCP C0             | DSCP C0             |          |
+| Label   | 0                   | 0                   |          |
+| Len     | 64                  | 64                  |          |
+| Type    | ICMPv6              | ICMPv6              | 3A       |
+| Hop Lmt | 64                  | 64                  |          |
+| Src Add | 2002:C000:203::B00B | 2002:C000:203::FADA | fada     |
+| Dst Add | 2002:C000:203::FADA | 2002:C000:203::B00B | b00b     |
+|---------|---------------------|---------------------|----------|
+| Type    | Ping Request        | Ping Reply          | 0x81     |
+| Code    | 0                   | 0                   |          |
+| Chksm   | 0x0AF0              | 0x09F0              |          |
+| ID      | 0x0792              | 0x0792              |          |
+| Seq     | 1                   | 1                   |          |
+|---------|---------------------|---------------------|----------|
+| Block 1 | 0x146da45100000000  | 0x146da45100000000  |          |
+| Block 2 | 0xd020030000000000  | 0xd020030000000000  |          |
+|---------|---------------------|---------------------|----------|
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+f9f781003afadab00b81
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
