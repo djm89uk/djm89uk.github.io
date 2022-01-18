@@ -12,7 +12,7 @@ These are the first 50 challenges from the site.
 4. [Largest palindrome product](#largest-palindrome-product) 🗸
 5. [Smallest multiple](#smallest-multiple) 🗸
 6. [Sum square difference](#sum-square-difference) 🗸
-7. [10001st prime](#10001st-prime) 
+7. [10001st prime](#10001st-prime) 🗸
 8. [Largest product in a series](#largest-product-in-a-series) 
 9. [Special Pythagorean triplet](#special-pythagorean-triplet) 
 10. [Summation of primes](#summation-of-primes) 
@@ -532,6 +532,74 @@ sum(1-100)**2 - sum(1**2-100**2) = 25502500 - 338350 = 25164150
 
 ~~~
 25164150
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## 10001st prime
+
+- Problem 7
+
+### Description
+
+By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+
+What is the 10 001st prime number?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">By Hand</summary>
+
+We can write a simple Python prime sieve and solver:
+	
+~~~py
+import numpy as np
+def isprime(n):
+    if n<2:
+        return False
+    elif n==2:
+        return True
+    else:
+        lim = int(np.ceil(np.sqrt(n)))
+        for i in range(2,lim+1):
+            if n%i==0:
+                return False
+        return True
+
+def findNprime(N):
+   cand = 3
+   pcount = 1
+   while pcount < N:
+       if isprime(cand):
+           pcount += 1
+           prime = cand
+       cand += 2
+   return prime
+
+if __name__ == "__main__":
+    N = findNprime(10001)
+    print(N)
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+104743
 ~~~
 
 </details>
