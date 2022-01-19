@@ -105,16 +105,6 @@ These challenges will help you understand applicative vulnerabilities.
 
 Environment configuration:
 
-|----|----|
-| PIE       | Position Independent Executable    | x |
-| ReIRO     | Read Only Relocations              | x |
-| NX        | Non-Executable Stack               | x |
-| Heap exec | Non-Executable Heap                | x |
-| ASLR      | Address Space Layout Randomization | x |
-| SF        | Source Fortification               | x |
-| SRC       | Source code access                 | 🗸 |
-|----|----|
-
 <details>
 
 <summary markdown="span">Source Code</summary>
