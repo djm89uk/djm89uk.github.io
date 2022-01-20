@@ -5,7 +5,7 @@ These challenges will help you understand applicative vulnerabilities.
 ## Contents
 
 1. [ELF x86 - Stack buffer overflow basic 1](#elf-x86-stack-buffer-overflow-basic-1) 🗸
-2. [ELF x86 - Stack buffer overflow basic 2](#elf-x86-stack-buffer-overflow-basic-2)
+2. [ELF x86 - Stack buffer overflow basic 2](#elf-x86-stack-buffer-overflow-basic-2) 🗸
 3. [PE32 - Stack buffer overflow basic](#pe32-stack-buffer-overflow-basic)
 4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1)
 5. [ELF x64 - Stack buffer overflow - basic](#elf-x64-stack-buffer-overflow-basic)
