@@ -1,12 +1,12 @@
-# [Root-Me](./rootme.md) Root-Me Cracking [0/46]
+# [Root-Me](./rootme.md) Root-Me Cracking [3/46]
 
 Reverse binaries and crack executables. 
 
 ## Contents
 
-1. [ELF x86 - 0 protection](#elf-x86-0-protection)
-2. [ELF x86 - Basic](#elf-x86-basic)
-3. [PE x86 - 0 protection](#pe-x86-0-protection)
+1. [ELF x86 - 0 protection](#elf-x86-0-protection) 🗸
+2. [ELF x86 - Basic](#elf-x86-basic) 🗸
+3. [PE x86 - 0 protection](#pe-x86-0-protection) 🗸
 4. [ELF C++ - 0 protection](#elf-cpp-0-protection)
 5. [PE DotNet - 0 protection](#pe-dotnet-0-protection)
 6. [ELF MIPS - Basic Crackme](#elf-mips-basic-crackme)
