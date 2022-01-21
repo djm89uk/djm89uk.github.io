@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me App - Script Challenges [2/25]
+# [Root-Me](./rootme.md) Root-Me App - Script Challenges [3/25]
 
 Exploit environment weaknesses, configuration mistakes and vulnerability patterns in scripts and systems. 
 
