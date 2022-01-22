@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [23/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [24/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -29,7 +29,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 21. [File upload - Null byte](#file-upload-null-byte) 🗸
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret) 🗸
 23. [JWT - Revoked token](#jwt-revoked-token) 🗸
-24. [PHP - assert()](#php-assert)
+24. [PHP - assert()](#php-assert) 🗸
 25. [PHP - Filters](#php-filters)
 26. [PHP - register globals](#php-register-globals)
 27. [PHP - Remote Xdebug](#php-remote-xdebug)
