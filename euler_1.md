@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (8/50)
+# [Project Euler](./euler.md) Challenges 1-50 (10/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -14,8 +14,8 @@ These are the first 50 challenges from the site.
 6. [Sum square difference](#sum-square-difference) 🗸
 7. [10001st prime](#10001st-prime) 🗸
 8. [Largest product in a series](#largest-product-in-a-series) 🗸
-9. [Special Pythagorean triplet](#special-pythagorean-triplet) 
-10. [Summation of primes](#summation-of-primes) 
+9. [Special Pythagorean triplet](#special-pythagorean-triplet) 🗸
+10. [Summation of primes](#summation-of-primes) 🗸
 11. [Largest product in a grid](#largest-product-in-a-grid) 
 12. [Highly divisible triangular number](#highly-divisible-triangular-number) 
 13. [Large sum](#large-sum) 
@@ -610,7 +610,6 @@ if __name__ == "__main__":
 
 ---
 
-
 ## Largest product in a series
 
 - Problem 8
@@ -650,7 +649,7 @@ Find the thirteen adjacent digits in the 1000-digit number that have the greates
 
 <summary markdown="span">Python</summary>
 
-We can write a simple Python code to solve:
+We can write a simple Python code to solve.  An efficient code is included to filter the integer string by splitting all continuous strings without "0" and removing strings less than 13 characters in length.
 	
 ~~~py
 import time
@@ -700,6 +699,156 @@ print("Solution = {}".format(maxP))
 
 ~~~
 23514624000
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Special Pythagorean triplet
+
+- Problem 9
+
+### Description
+
+A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+
+~~~
+a**2 + b**2 = c**2
+~~~
+
+For example:
+
+~~~
+3**2 + 4**2 = 9 + 16 = 25 = 5**2.
+~~~
+
+There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+Find the product abc.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+We can use Euclid's formula to solve:
+	
+~~~
+a = m**2 - n**2
+b = 2mn
+c = m**2 + n**2
+~~~
+
+In python, our Euclidian Pythagorean Triplet solver:
+
+~~~py
+import time
+
+t0 = time.time()
+m = 2
+end = False
+
+for m in range(2,30):
+    for n in range(1,m):
+        if m%2!=0 and n%2!=0:
+            continue
+        else:
+            a = m**2-n**2
+            b = 2*m*n
+            c = m**2+n**2
+            if (a%1!=0) or (b%1!=0) or (c%1!=0):
+                continue
+            elif a+b+c==1000:
+                print("a = {}\nb = {}\nc = {}".format(a,b,c))
+                end = True
+                break
+    if end == True:
+        break
+t1 = time.time()
+print("abc = {}".format(a*b*c))
+print("Solution time = {} s".format(t1-t0))
+~~~ 
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+31875000
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Summation of Primes
+
+- Problem 10
+
+### Description
+
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+Find the sum of all the primes below two million.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+We can use a prime sieve to find all primes below 2 million and summate them:
+	
+~~~py
+import time
+import numpy as np
+
+t0 = time.time()
+integers = list(np.arange(0,int(2E6)))
+isprime = np.ones(len(integers))
+isprime[0] = 0
+isprime[1] = 0
+psum = 0
+
+for i in range(len(integers)):
+    if isprime[i]:
+        prime = integers[i]
+        psum += prime
+        factor = 2*prime
+        while factor < 2E6:
+            isprime[factor] = 0
+            factor += prime
+
+t1 = time.time()
+print("prime sum = {}".format(psum))
+print("Solution time = {} s".format(t1-t0))
+~~~ 
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+142913828922
 ~~~
 
 </details>
