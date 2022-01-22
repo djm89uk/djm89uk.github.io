@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [19/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [21/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -26,7 +26,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 18. [Insecure Code Management](#insecure-code-management) 🗸
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction) 🗸
 20. [Directory traversal](#directory-traversal) 🗸
-21. [File upload - Null byte](#file-upload-null-byte)
+21. [File upload - Null byte](#file-upload-null-byte) 🗸
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret)
 23. [JWT - Revoked token](#jwt-revoked-token)
 24. [PHP - assert()](#php-assert)
@@ -2145,6 +2145,68 @@ We can see the password.txt file; opening this gives us the solution.
 
 ~~~
 kcb$!Bx@v4Gs9Ez 
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## File upload Null byte
+
+- Author: g0uZ
+- Date: 26 December 2012
+- Points: 25
+- Level: 3
+
+### Statement
+
+Your goal is to hack this photo galery by uploading PHP code.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch22/).
+
+### Resources
+
+1. [Secure file upload in PHP web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Secure%20file%20upload%20in%20PHP%20web%20applications.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can visit the website and see a gallery upload form.  We can write a test php file and upload:
+
+~~~php
+<?php
+  echo("Where is the flag?")
+?>
+~~~
+
+Uploading the php we get a Wrong file type! message.  Adding a .jpg to the filename, we can upload but get an error Wrong file name!.
+
+As hinted at in the challenge, we can put a null byte into the filename to bypass this check; whereistheflag.php%00.jpg.
+
+Uploading, we are succesful and get a URL of our file: ./galerie/upload/efc75820c86baf40292f4e959f5c4c1f/wherestheflag.php%00.jpg
+
+This page returns a 400 error, however removing the null byte and jpg, we can get the php code (./galerie/upload/efc75820c86baf40292f4e959f5c4c1f/wherestheflag.php), which provides the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+YPNchi2NmTwygr2dgCCF
 ~~~
 
 </details>
