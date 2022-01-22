@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [16/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [17/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -22,7 +22,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 14. [CRLF](#crlf) 🗸
 15. [File upload - Double extensions](#file-upload-double-extensions) 🗸
 16. [File upload - MIME type](#file-upload-mime-type) 🗸
-17. [HTTP - Cookies](#http-cookies)
+17. [HTTP - Cookies](#http-cookies) 🗸
 18. [Insecure Code Management](#insecure-code-management)
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction)
 20. [Directory traversal](#directory-traversal)
