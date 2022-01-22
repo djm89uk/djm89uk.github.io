@@ -11,7 +11,7 @@ The Bandit wargame is aimed at absolute beginners. It will teach the basics need
 4. [Level 4](#level-4) 🗸
 5. [Level 5](#level-5) 🗸
 6. [Level 6](#level-6) 🗸
-7. [Level 7](#level-7)
+7. [Level 7](#level-7) 🗸
 8. [Level 8](#level-8)
 9. [Level 9](#level-9)
 10. [Level 10](#level-10)
