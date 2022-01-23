@@ -12,15 +12,15 @@ The Bandit wargame is aimed at absolute beginners. It will teach the basics need
 5. [Level 5](#level-5) 🗸
 6. [Level 6](#level-6) 🗸
 7. [Level 7](#level-7) 🗸
-8. [Level 8](#level-8)
-9. [Level 9](#level-9)
-10. [Level 10](#level-10)
-11. [Level 11](#level-11)
-12. [Level 12](#level-12)
-13. [Level 13](#level-13)
-14. [Level 14](#level-14)
-15. [Level 15](#level-15)
-16. [Level 16](#level-16)
+8. [Level 8](#level-8) 🗸
+9. [Level 9](#level-9) 🗸
+10. [Level 10](#level-10) 🗸
+11. [Level 11](#level-11) 🗸
+12. [Level 12](#level-12) 🗸
+13. [Level 13](#level-13) 🗸
+14. [Level 14](#level-14) 🗸
+15. [Level 15](#level-15) 🗸
+16. [Level 16](#level-16) 🗸
 17. [Level 17](#level-17)
 18. [Level 18](#level-18)
 19. [Level 19](#level-19)
