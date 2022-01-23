@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [14/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [15/56]
 
 Break encryption algorithms.
 
@@ -18,7 +18,7 @@ Break encryption algorithms.
 12. [ELF64 - PID encryption](#elf64-pid-encryption) 🗸
 13. [File - PKZIP](#file-pkzip) 🗸
 14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar) 🗸
-15. [Known plaintext - XOR](#known-plaintext-xOr)
+15. [Known plaintext - XOR](#known-plaintext-xOr) 🗸
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](#file-insecure-storage-1)
 18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère)
@@ -1327,6 +1327,87 @@ We can build the password as detailed in the challenge statement.
 
 ~~~
 ujqcsddessxsffes
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Known plaintext XOR
+
+- Author: Ryscrow
+- Date: 03 February 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+This BMP picture was mistakenly encrypted. Can you recover it ?
+
+### Links
+
+1. [ch3.bmp](http://challenge01.root-me.org/cryptanalyse/ch3/ch3.bmp).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The bitmap binary has been manipulated by what appears to be XOR.  Reviewing the header in hex, the incorrect header bytes can be seen:
+
+~~~
+24 2C 9A E3 62 6E 66 61 6C 6C 53 6E 66 61 44 6C...
+~~~
+
+The standard bmp header can be found [online](https://en.wikipedia.org/wiki/BMP_file_format).  With this the correct Byte values can be identified:
+
+~~~
+42 4D F6 8F 07 00 (00) (00) (00) (00) (00) (00) ...
+~~~
+
+The bytes marked (00) are likely to be 00 but may be different dependent on the application that generated the original bitmap.  Using this we can XOR the bytes to identify the key:
+
+~~~
+66 61 6C 6C 65 6E 66 61 6C 6C 53 6E 66 61 44 6C...
+~~~
+
+It would appear that the key is simply: 66 61 6C 6C 65 6E.  The file can be opened in python, manipulated and written to a new file:
+
+~~~py
+file = open("ch3.bmp",'rb')
+filebytes = bytearray(file.read())
+file.close()
+
+keybytes = bytearray([0x66, 0x61, 0x6C, 0x6c, 0x65, 0x6e])
+
+newbytes = bytearray([])
+
+for i in range(len(filebytes)):
+    cb = filebytes[i]
+    kb = keybytes[i%len(keybytes)]
+    newbytes.append(cb^kb)
+
+newfile = open("ch3_fixed.bmp","wb")
+newfile.write(newbytes)
+~~~
+
+The new bitmap has the password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ICONOCLASTE
 ~~~
 
 </details>
