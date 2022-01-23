@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [12/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [14/56]
 
 Break encryption algorithms.
 
@@ -16,8 +16,8 @@ Break encryption algorithms.
 10. [CISCO - Salted Password](#cisco-salted-password) 🗸
 11. [Pixel Madness](#pixel-madness) 🗸
 12. [ELF64 - PID encryption](#elf64-pid-encryption) 🗸
-13. [File - PKZIP](#file-pkzip)
-14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar)
+13. [File - PKZIP](#file-pkzip) 🗸
+14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar) 🗸
 15. [Known plaintext - XOR](#known-plaintext-xOr)
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](#file-insecure-storage-1)
@@ -1070,7 +1070,6 @@ SOLUTION
 
 ---
 
-
 ## ELF64 PID encryption
 
 - Author: Lu33Y
@@ -1199,7 +1198,6 @@ bash-5.0$ cat ~/.passwd
 
 ---
 
-
 ## File PKZIP
 
 - Author: g0uZ
@@ -1273,6 +1271,62 @@ The password is 14535 unzipping, the readme.txt file can be inflated and read wi
 
 ~~~
 14535
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Monoalphabetic substitution Caesar
+
+- Author: Arod
+- Date: 22 October 2011
+- Points: 15
+- Level: 2
+
+### Statement
+
+We just caught the messenger of the Emperor. He transmitted a coded message to his son. This could be an important message. You’ve to decrypt it ! To validate, you must enter the concatenation of the first letters of each line followed by the concatenation of the last letters of each line (for example : tfhqdlhfpkmeokgq).
+
+### Links
+
+1. [ch10.txt](http://challenge01.root-me.org/cryptanalyse/ch10/ch10.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The cipher can be brute-force solved using [and online shift cipher tool](https://www.dcode.fr/shift-cipher).  This gives us the most likely solution:
+
+~~~
+un deux trois
+j'irai dans les bois
+quatre cinq six
+cueillir des cerises
+sept huit neuf
+dans un panier neuf
+dix onze douze
+elles seront toutes rouges
+~~~
+
+We can build the password as detailed in the challenge statement.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ujqcsddessxsffes
 ~~~
 
 </details>
