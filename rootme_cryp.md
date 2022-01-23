@@ -1070,6 +1070,135 @@ SOLUTION
 
 ---
 
+
+## ELF64 PID encryption
+
+- Author: Lu33Y
+- Date: 08 February 2012
+- Points: 15
+- Level: 2
+
+### Statement
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <crypt.h>
+#include <sys/types.h>
+#include <unistd.h>
+ 
+int main (int argc, char *argv[]) {
+    char pid[16];
+    char *args[] = { "/bin/bash", "-p", 0 };
+ 
+    snprintf(pid, sizeof(pid), "%i", getpid());
+    if (argc != 2)
+        return 0;
+ 
+    printf("%s=%s",argv[1], crypt(pid, "$1$awesome"));
+ 
+    if (strcmp(argv[1], crypt(pid, "$1$awesome")) == 0) {
+        printf("WIN!\n");
+        execve(args[0], &args[0], NULL);
+ 
+    } else {
+        printf("Fail... :/\n");
+    }
+    return 0;
+}
+~~~
+
+</details>
+
+### Connection Information
+
+- Host: challenge01.root-me.org
+- Protocol: SSH
+- Port: 2221
+- SSH Access: ssh -p 2221 cryptanalyse-ch21@challenge01.root-me.org
+- Username: cryptanalyse-ch21
+- Password: cryptanalyse-ch21
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reviewing the source code, we can see the user input is compared to the encrypted process id salted with "$1$awesome".  We can run this binary and record the hash:
+
+~~~shell
+cryptanalyse-ch21@challenge01:~$ ./ch21 1
+1=$1$awesome$VY.ZX3OokFeKMv6unhPzB.Fail... :/
+~~~
+
+This gives us:
+
+~~~
+id  : 1
+salt: awesome
+enc : VY.ZX3OokFeKMv6unhPzB.
+~~~
+
+As detailed in the [crypt.h man page](https://man7.org/linux/man-pages/man3/crypt.3.html), the id defines the algorithm (MD5 in this case).  We can write a decrypt function:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <crypt.h>
+#include <sys/types.h>
+#include <unistd.h>
+ 
+int main()
+{
+  char pid[16];
+  snprintf(pid, sizeof(pid), "%i", getpid());
+  execl("/challenge/cryptanalyse/ch21/ch21", "ch21", crypt(pid, "$1$awesome"), NULL);
+}
+~~~
+
+This can be saved as /tmp/ch21decrypt.c and compiled using:
+
+~~~shell
+cryptanalyse-ch21@challenge01:/tmp$ gcc ch21decrypt.c -o ch21decrypt -lcrypt
+cryptanalyse-ch21@challenge01:/tmp$ chmod +x ch21decrypt
+~~~
+
+Running the script gives us access to bash, from which we can retrieve the flag:
+
+~~~shell
+cryptanalyse-ch21@challenge01:/tmp$ ./ch21decrypt
+$1$awesome$DdGvBy31TxzSQB83u6VOc.=$1$awesome$DdGvBy31TxzSQB83u6VOc.WIN!
+bash-5.0$ cat ~/.passwd
+-/q2/a9d6e31D
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+-/q2/a9d6e31D
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
