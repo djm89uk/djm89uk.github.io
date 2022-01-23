@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [11/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [12/56]
 
 Break encryption algorithms.
 
@@ -15,7 +15,7 @@ Break encryption algorithms.
 9. [Shift cipher](#shift-cipher) 🗸
 10. [CISCO - Salted Password](#cisco-salted-password) 🗸
 11. [Pixel Madness](#pixel-madness) 🗸
-12. [ELF64 - PID encryption](#elf64-pid-encryption)
+12. [ELF64 - PID encryption](#elf64-pid-encryption) 🗸
 13. [File - PKZIP](#file-pkzip)
 14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar)
 15. [Known plaintext - XOR](#known-plaintext-xOr)
@@ -1199,6 +1199,90 @@ bash-5.0$ cat ~/.passwd
 
 ---
 
+
+## File PKZIP
+
+- Author: g0uZ
+- Date: 30 August 2010
+- Points: 15
+- Level: 2
+
+### Statement
+
+None
+
+### Links
+
+1. [ch5.zip](http://challenge01.root-me.org/cryptanalyse/ch5/ch5.zip).
+
+### Resources
+
+1. [Cracking PKZIP file password](https://repository.root-me.org/Cryptographie/EN%20-%20Cracking%20PKZIP%20file's%20password.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be retrieved and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/cryptanalyse/ch5/ch5.zip
+$ file ch5.zip 
+ch5.zip: Zip archive data, at least v2.0 to extract
+~~~
+
+Attempting to unzip the archive returns a prompt for the password of the readme.txt file contained:
+
+~~~shell
+$ unzip ch5.zip 
+Archive:  ch5.zip
+[ch5.zip] readme.txt password: 
+   skipping: readme.txt              incorrect password
+~~~
+
+The file hash can be extracted using zip2john:
+
+~~~shell
+$ john-the-ripper.zip2john ch5.zip > ch5.hash
+Created directory: /home/derek/snap/john-the-ripper/459/.john
+ver 2.0 efh 5455 efh 7855 ch5.zip/readme.txt PKZIP Encr: 2b chk, TS_chk, cmplen=99, decmplen=111, crc=EE166206
+
+$ cat ch5.hash 
+ch5.zip/readme.txt:$pkzip2$1*2*2*0*63*6f*ee166206*0*3d*8*63*ee16*005c*4cd0f9313784d20fdf0eb52e155682a0444ecadc04d2b2e34778b8aeec2dc025e79e6d9b2f6b3e6ee1c9269a50ff858f75f90c16f8cbe1980fd46747f1b2dbd47b92199a57b3c52f9ffeeb50bcdad0e38c88e3308051f32fde0158941432ab2e3b8c1e*$/pkzip2$:readme.txt:ch5.zip::ch5.zip
+~~~
+
+This shows the hash uses pkzip2.  This hashfile can be used directly with john to retrieve the password:
+
+~~~shell
+$ john ch5.hash  --show
+ch5.zip/readme.txt:14535:readme.txt:ch5.zip::ch5.zip
+~~~
+
+The password is 14535 unzipping, the readme.txt file can be inflated and read with cat.
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+14535
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
