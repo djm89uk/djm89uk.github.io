@@ -2,6 +2,12 @@
 
 [Root-Me](https://www.root-me.org/en/Challenges/) is a non-profit organization which goal is to promote the spread of knowledge related to hacking and information security. They host over 400 challenges across 11 sub-disciplines.
 
+## Statistics
+
+1. Score: 1400
+2. Challenges: 97
+3. Ranking 6516
+
 ## Contents
 - [Root-Me App - Script](./rootme_ascr.md)
 - [Root-Me App - System](./rootme_asys.md)
@@ -21,11 +27,11 @@
 
 ---
 
-## [Root-Me App - Script](./rootme_ascr.md) (0/25)
+## [Root-Me App - Script](./rootme_ascr.md) (3/25)
 
-1. [Bash - System 1](./rootme_ascr#bash-system-1)
-2. [sudo - weak configuration](./rootme_ascr#sudo-weak-configuration)
-3. [Bash - System 2](./rootme_ascr#bash-system-2)
+1. [Bash - System 1](./rootme_ascr#bash-system-1) 🗸
+2. [sudo - weak configuration](./rootme_ascr#sudo-weak-configuration) 🗸
+3. [Bash - System 2](./rootme_ascr#bash-system-2) 🗸
 4. [LaTeX - Input](./rootme_ascr#latex-input)
 5. [Powershell - Command Injection](./rootme_ascr#powershell-command-injection)
 6. [Bash - unquoted expression injection](./rootme_ascr#bash-unquoted-expression-injection)
@@ -55,10 +61,10 @@
 
 ---
 
-## [Root-Me App - System](./rootme_asys.md) (0/83)
+## [Root-Me App - System](./rootme_asys.md) (2/83)
 
-1. [ELF x86 - Stack buffer overflow basic 1](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-1)
-2. [ELF x86 - Stack buffer overflow basic 2](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-2)
+1. [ELF x86 - Stack buffer overflow basic 1](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-1) 🗸
+2. [ELF x86 - Stack buffer overflow basic 2](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-2) 🗸
 3. [PE32 - Stack buffer overflow basic](./rootme_asys.md#pe32-stack-buffer-overflow-basic)
 4. [ELF x86 - Format string bug basic 1](./rootme_asys.md#elf-x86-format-string-bug-basic-1)
 5. [ELF x64 - Stack buffer overflow - basic](./rootme_asys.md#elf-x64-stack-buffer-overflow-basic)
@@ -147,11 +153,11 @@
 
 ---
 
-## [Root-Me Cracking](./rootme_crac.md) (0/46)
+## [Root-Me Cracking](./rootme_crac.md) (3/46)
 
-1. [ELF x86 - 0 protection](./rootme_crac.md#elf-x86-0-protection)
-2. [ELF x86 - Basic](./rootme_crac.md#elf-x86-basic)
-3. [PE x86 - 0 protection](./rootme_crac.md#pe-x86-0-protection)
+1. [ELF x86 - 0 protection](./rootme_crac.md#elf-x86-0-protection) 🗸
+2. [ELF x86 - Basic](./rootme_crac.md#elf-x86-basic) 🗸
+3. [PE x86 - 0 protection](./rootme_crac.md#pe-x86-0-protection) 🗸
 4. [ELF C++ - 0 protection](./rootme_crac.md#elf-cpp-0-protection)
 5. [PE DotNet - 0 protection](./rootme_crac.md#pe-dotnet-0-protection)
 6. [ELF MIPS - Basic Crackme](./rootme_crac.md#elf-mips-basic-crackme)
@@ -202,7 +208,7 @@
 
 ---
 
-## [Root-Me Cryptanalysis](./rootme_cryp.md) (11/56)
+## [Root-Me Cryptanalysis](./rootme_cryp.md) (15/56)
 
 1. [Encoding - ASCII](./rootme_cryp.md#encoding-ascii) 🗸
 2. [Encoding - UU](./rootme_cryp.md#encoding-uu) 🗸
@@ -215,10 +221,10 @@
 9. [Shift cipher](./rootme_cryp.md#shift-cipher) 🗸
 10. [CISCO - Salted Password](./rootme_cryp.md#ciscO-salted-password) 🗸
 11. [Pixel Madness](./rootme_cryp.md#pixel-madness) 🗸
-12. [ELF64 - PID encryption](./rootme_cryp.md#elf64-pid-encryption)
-13. [File - PKZIP](./rootme_cryp.md#file-pkzip)
-14. [Monoalphabetic substitution - Caesar](./rootme_cryp.md#monoalphabetic-substitution-caesar)
-15. [Known plaintext - XOR](./rootme_cryp.md#known-plaintext-xOr)
+12. [ELF64 - PID encryption](./rootme_cryp.md#elf64-pid-encryption) 🗸
+13. [File - PKZIP](./rootme_cryp.md#file-pkzip) 🗸
+14. [Monoalphabetic substitution - Caesar](./rootme_cryp.md#monoalphabetic-substitution-caesar) 🗸
+15. [Known plaintext - XOR](./rootme_cryp.md#known-plaintext-xOr) 🗸
 16. [Code - Pseudo Random Number Generator](./rootme_cryp.md#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](./rootme_cryp.md#file-insecure-storage-1)
 18. [Polyalphabetic substitution - Vigenère](./rootme_cryp.md#polyalphabetic-substitution-vigenère)
@@ -267,17 +273,17 @@
 
 ---
 
-## [Root-Me Forensic](./rootme_for.md) (0/28)
+## [Root-Me Forensic](./rootme_for.md) (9/28)
 
-1. [Command & Control - level 2](./rootme_for.md#command-control-level-2)
-2. [Logs analysis - web attack](./rootme_for.md#logs-analysis-web-attack)
-3. [Command & Control - level 5](./rootme_for.md#command-control-level-5)
-4. [Find the cat](./rootme_for.md#find-the-cat)
-5. [Ugly Duckling](./rootme_for.md#ugly-duckling)
-6. [Active Directory - GPO](./rootme_for.md#active-directory-gpo)
-7. [Command & Control - level 3](./rootme_for.md#command-control-level-3)
+1. [Command & Control - level 2](./rootme_for.md#command-control-level-2) 🗸
+2. [Logs analysis - web attack](./rootme_for.md#logs-analysis-web-attack) 🗸
+3. [Command & Control - level 5](./rootme_for.md#command-control-level-5) 🗸
+4. [Find the cat](./rootme_for.md#find-the-cat) 🗸
+5. [Ugly Duckling](./rootme_for.md#ugly-duckling) 🗸
+6. [Active Directory - GPO](./rootme_for.md#active-directory-gpo) 🗸
+7. [Command & Control - level 3](./rootme_for.md#command-control-level-3) 🗸
 8. [DNS exfiltration](./rootme_for.md#dns-exfiltration)
-9. [Command & Control - level 4](./rootme_for.md#command-control-level-4)
+9. [Command & Control - level 4](./rootme_for.md#command-control-level-4) 🗸
 10. [Job interview](./rootme_for.md#job-interview)
 11. [Homemade keylogger](./rootme_for.md#homemade-keylogger)
 12. [macOS - Keychain](./rootme_for.md#macos-keychain)
@@ -288,7 +294,7 @@
 17. [Multi-devices](./rootme_for.md#multi-devices)
 18. [Root My Droid](./rootme_for.md#root-my-droid)
 19. [Rootkit - Cold case](./rootme_for.md#rootkit-cold-case)
-20. [Command & Control - level 6](./rootme_for.md#command-control-level-6)
+20. [Command & Control - level 6](./rootme_for.md#command-control-level-6) 🗸
 21. [Find me](./rootme_for.md#find-me)
 22. [Second job interview](./rootme_for.md#second-job-interview)
 23. [Find me again](./rootme_for.md#find-me-again)
@@ -304,7 +310,7 @@
 
 ---
 
-## [Root-Me Network](./rootme_net.md) (11/25)
+## [Root-Me Network](./rootme_net.md) (15/25)
 
 1. [FTP - authentication](./rootme_net.md#ftp-authentication) 🗸
 2. [TELNET - authentication](./rootme_net.md#telnet-authentication) 🗸
@@ -317,10 +323,10 @@
 9. [LDAP - null bind](./rootme_net.md#ldap-null-bind) 🗸
 10. [POP - APOP](./rootme_net.md#pop-apop) 🗸
 11. [RF - AM Transmission](./rootme_net.md#rf-am-transmission) 🗸
-12. [RF - FM Transmission](./rootme_net.md#rf-fm-transmission)
-13. [SIP - authentication](./rootme_net.md#sip-authentication)
-14. [ETHERNET - Patched transmission](./rootme_net.md#ethernet-patched-transmission)
-15. [Global System Traffic for Mobile communication](./rootme_net.md#global-system-traffic-for-mobile-communication)
+12. [RF - FM Transmission](./rootme_net.md#rf-fm-transmission) 🗸
+13. [SIP - authentication](./rootme_net.md#sip-authentication) 🗸
+14. [ETHERNET - Patched transmission](./rootme_net.md#ethernet-patched-transmission) 🗸
+15. [Global System Traffic for Mobile communication](./rootme_net.md#global-system-traffic-for-mobile-communication) 🗸
 16. [HTTP - DNS Rebinding](./rootme_net.md#http-dns-rebinding)
 17. [RF - Key Fixed Code](./rootme_net.md#rf-key-fixed-code)
 18. [SSL - HTTP exchange](./rootme_net.md#ssl-http-exchange)
@@ -488,7 +494,7 @@
 
 ---
 
-## [Root-Me Web - Server](./rootme_wser.md) (15/74)
+## [Root-Me Web - Server](./rootme_wser.md) (25/74)
 
 1. [HTML - Source code](./rootme_wser.md#html-source-code) 🗸
 2. [HTTP - IP restriction bypass](./rootme_wser.md#http-ip-restriction-bypass) 🗸
@@ -505,16 +511,16 @@
 13. [Install files](./rootme_wser.md#install-files) 🗸
 14. [CRLF](./rootme_wser.md#crlf) 🗸
 15. [File upload - Double extensions](./rootme_wser.md#file-upload-double-extensions) 🗸
-16. [File upload - MIME type](./rootme_wser.md#file-upload-mime-type)
-17. [HTTP - Cookies](./rootme_wser.md#http-cookies)
-18. [Insecure Code Management](./rootme_wser.md#insecure-code-management)
-19. [JSON Web Token (JWT) - Introduction](./rootme_wser.md#json-web-token-jwt-introduction)
-20. [Directory traversal](./rootme_wser.md#directory-traversal)
-21. [File upload - Null byte](./rootme_wser.md#file-upload-null-byte)
-22. [JSON Web Token (JWT) - Weak secret](./rootme_wser.md#json-web-token-jwt-weak-secret)
-23. [JWT - Revoked token](./rootme_wser.md#jwt-revoked-token)
-24. [PHP - assert()](./rootme_wser.md#php-assert)
-25. [PHP - Filters](./rootme_wser.md#php-filters)
+16. [File upload - MIME type](./rootme_wser.md#file-upload-mime-type) 🗸
+17. [HTTP - Cookies](./rootme_wser.md#http-cookies) 🗸
+18. [Insecure Code Management](./rootme_wser.md#insecure-code-management) 🗸
+19. [JSON Web Token (JWT) - Introduction](./rootme_wser.md#json-web-token-jwt-introduction) 🗸
+20. [Directory traversal](./rootme_wser.md#directory-traversal) 🗸
+21. [File upload - Null byte](./rootme_wser.md#file-upload-null-byte) 🗸
+22. [JSON Web Token (JWT) - Weak secret](./rootme_wser.md#json-web-token-jwt-weak-secret) 🗸
+23. [JWT - Revoked token](./rootme_wser.md#jwt-revoked-token) 🗸
+24. [PHP - assert()](./rootme_wser.md#php-assert) 🗸
+25. [PHP - Filters](./rootme_wser.md#php-filters) 🗸
 26. [PHP - register globals](./rootme_wser.md#php-register-globals)
 27. [PHP - Remote Xdebug](./rootme_wser.md#php-remote-xdebug)
 28. [Python - Server-side Template Injection Introduction](./rootme_wser.md#python-server-side-template-injection-introduction)
