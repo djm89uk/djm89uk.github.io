@@ -9,7 +9,7 @@ Train digital investigation skills by analyzing memory dumps, log files, network
 3. [Command & Control - level 5](#command-and-control-level-5) 🗸
 4. [Find the cat](#find-the-cat) 🗸
 5. [Ugly Duckling](#ugly-duckling) 🗸
-6. [Active Directory - GPO](#active-directory-gpo)
+6. [Active Directory - GPO](#active-directory-gpo) 🗸
 7. [Command & Control - level 3](#command-and-control-level-3) 🗸
 8. [DNS exfiltration](#dns-exfiltration)
 9. [Command & Control - level 4](#command-and-control-level-4) 🗸
@@ -705,6 +705,137 @@ This executable can be decompiled in Ghidra and the flag can be found as a strin
 
 ~~~
 RubberDuckyFail3D
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Active Directory GPO
+
+- Author: N1lux
+- Date: 17 June 2015
+- Points: 30
+- Level: 3
+
+### Statement
+
+During a security audit, the network traffic during the boot sequence of a workstation enrolled in an Active Directory was recorded. Analyze this capture and find the administrator’s password.
+
+### Link
+
+1. [ch12.pcap](http://challenge01.root-me.org/forensic/ch12/ch12.pcap)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge archive can be downloaded and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch12/ch12.pcap
+--2022-01-29 19:01:44--  http://challenge01.root-me.org/forensic/ch12/ch12.pcap
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 171915 (168K) [application/octet-stream]
+Saving to: ‘ch12.pcap’
+
+ch12.pcap                                                   100%[=========================================================================================================================================>] 167.89K   382KB/s    in 0.4s    
+
+2022-01-29 19:01:44 (382 KB/s) - ‘ch12.pcap’ saved [171915/171915]
+$ file ch12.pcap 
+ch12.pcap: pcap capture file, microsecond ts (little-endian) - version 2.4 (Ethernet, capture length 65535)
+~~~
+
+The challenge details the pcap has cpatured the AD initialisation.  The SMB encapsulated objects can be exported using tshark:
+
+~~~shell
+$ tshark -r ch12.pcap --export-objects "smb,./"
+$ ls
+ %5cnilux.me%5cPolicies%5c{1A3EE4C4-70BE-49B8-B0B0-33C8EEBD3598}%5cgpt.ini                                                     %5csrvsvc
+'%5cnilux.me%5cPolicies%5c{1A3EE4C4-70BE-49B8-B0B0-33C8EEBD3598}%5cMachine%5cMicrosoft%5cWindows NT%5cSecEdit%5cGptTmpl.inf'   
+ %5cnilux.me%5cPolicies%5c{31B2F340-016D-11D2-945F-00C04FB984F9}%5cgpt.ini                                                     
+'%5cnilux.me%5cPolicies%5c{31B2F340-016D-11D2-945F-00C04FB984F9}%5cMachine%5cMicrosoft%5cWindows NT%5cSecEdit%5cGptTmpl.inf'   
+ %5cnilux.me%5cPolicies%5c{F60A1B1E-75E4-46B7-BB73-281F9340A2B7}%5cgpt.ini                                                     
+ %5cnilux.me%5cPolicies%5c{F60A1B1E-75E4-46B7-BB73-281F9340A2B7}%5cMachine%5cPreferences%5cGroups%5cGroups.xml
+~~~
+
+The files can be searched for a password string:
+
+~~~shell
+$ grep "password" %5*
+%5cnilux.me%5cPolicies%5c{F60A1B1E-75E4-46B7-BB73-281F9340A2B7}%5cMachine%5cPreferences%5cGroups%5cGroups.xml:<Groups clsid="{3125E937-EB16-4b4c-9934-544FC6D24D26}"><User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="Helpdesk" image="2" changed="2015-05-06 05:50:08" uid="{43F9FF29-C120-48B6-8333-9402C927BE09}"><Properties action="U" newName="" fullName="" description="" cpassword="PsmtscOuXqUMW6KQzJR8RWxCuVNmBvRaDElCKH+FU+w" changeLogon="1" noChange="0" neverExpires="0" acctDisabled="0" userName="Helpdesk"/></User><User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="Administrateur" image="2" changed="2015-05-05 14:19:53" uid="{5E34317F-8726-4F7C-BF8B-91B2E52FB3F7}" userContext="0" removePolicy="0"><Properties action="U" newName="" fullName="Admin Local" description="" cpassword="LjFWQMzS3GWDeav7+0Q0oSoOM43VwD30YZDVaItj8e0" changeLogon="0" noChange="0" neverExpires="1" acctDisabled="0" subAuthority="" userName="Administrateur"/></User>
+~~~
+
+Reviewing the xml file, we can see the password hashes:
+
+~~~xml
+<Groups clsid="{3125E937-EB16-4b4c-9934-544FC6D24D26}">
+<User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="Helpdesk" image="2" changed="2015-05-06 05:50:08" uid="{43F9FF29-C120-48B6-8333-9402C927BE09}">
+<Properties action="U" newName="" fullName="" description="" cpassword="PsmtscOuXqUMW6KQzJR8RWxCuVNmBvRaDElCKH+FU+w" changeLogon="1" noChange="0" neverExpires="0" acctDisabled="0" userName="Helpdesk"/>
+</User>
+<User clsid="{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}" name="Administrateur" image="2" changed="2015-05-05 14:19:53" uid="{5E34317F-8726-4F7C-BF8B-91B2E52FB3F7}" userContext="0" removePolicy="0">
+<Properties action="U" newName="" fullName="Admin Local" description="" cpassword="LjFWQMzS3GWDeav7+0Q0oSoOM43VwD30YZDVaItj8e0" changeLogon="0" noChange="0" neverExpires="1" acctDisabled="0" subAuthority="" userName="Administrateur"/>
+</User>
+</Groups>
+~~~
+
+Two password hashes are found encoded in base64:
+
+~~~
+Administrateur:LjFWQMzS3GWDeav7+0Q0oSoOM43VwD30YZDVaItj8e0
+Helpdesk:PsmtscOuXqUMW6KQzJR8RWxCuVNmBvRaDElCKH+FU+w
+~~~
+
+These can be converted to hex using an [online tool](https://base64.guru/converter/decode/hex):
+
+~~~
+2e315640ccd2dc658379abfbfb4434a12a0e338dd5c03df46190d5688b63f1ed
+3ec9adb1c3ae5ea50c5ba290cc947c456c42b9536606f45a0c4942287f8553ec
+~~~
+
+This key is encrypted using AES256.  The default Microsoft GPPREF AES key can be found [online](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be).
+
+~~~shell
+4e9906e8fcb66cc9faf49310620ffee8f496e806cc057990209b09a433b66c1b
+~~~
+
+The key and CT password can be decrypted in python:
+
+~~~py
+from Crypto.Cipher import AES
+import binascii
+
+ct = 0x2e315640ccd2dc658379abfbfb4434a12a0e338dd5c03df46190d5688b63f1ed
+ky = 0x4e9906e8fcb66cc9faf49310620ffee8f496e806cc057990209b09a433b66c1b
+cthex = binascii.unhexlify(hex(ct)[2:])
+kyhex = binascii.unhexlify(hex(ky)[2:])
+iv = ("\x00"*16).encode()
+
+dec_alg = AES.new(kyhex, AES.MODE_CBC, iv)
+pt = dec_alg.decrypt(cthex).decode()
+pt = "".join(pt.split("\x00"))
+pt = "".join(pt.split("\n"))
+print(pt)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+TuM@sTrouv3
 ~~~
 
 </details>
