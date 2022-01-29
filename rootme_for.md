@@ -7,7 +7,7 @@ Train digital investigation skills by analyzing memory dumps, log files, network
 1. [Command & Control - level 2](#command-and-control-level-2) 🗸
 2. [Logs analysis - web attack](#logs-analysis-web-attack) 🗸
 3. [Command & Control - level 5](#command-and-control-level-5) 🗸
-4. [Find the cat](#find-the-cat)
+4. [Find the cat](#find-the-cat) 🗸
 5. [Ugly Duckling](#ugly-duckling)
 6. [Active Directory - GPO](#active-directory-gpo)
 7. [Command & Control - level 3](#command-and-control-level-3) 🗸
@@ -422,6 +422,179 @@ passw0rd
 
 ---
 
+
+## Find the cat
+
+- Author: Thanat0s
+- Date: 28 July 2013
+- Points: 25
+- Level: 3
+
+### Statement
+
+The president’s cat was kidnapped by separatists. A suspect carrying a USB key has been arrested. Berthier, once again you have to save the Republic! Analyze this key and find out in which city the cat is retained!
+
+The md5sum of the archive is edf2f1aaef605c308561888079e7f7f7. Input the city name in lowercase.
+
+### Resources
+
+1. [Data sanitization and recovery](https://repository.root-me.org/Forensic/EN%20-%20Data%20sanitization%20and%20recovery.pdf).
+
+### Link
+
+1. [ch9.gz](http://challenge01.root-me.org/forensic/ch9/ch9.gz)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge archive can be downloaded, inflated and reviewed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/forensic/ch9/ch9.gz
+--2022-01-29 17:46:33--  http://challenge01.root-me.org/forensic/ch9/ch9.gz
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12314757 (12M) [application/octet-stream]
+Saving to: ‘ch9.gz’
+
+ch9.gz                                                      100%[=========================================================================================================================================>]  11.74M  5.80MB/s    in 2.0s    
+
+2022-01-29 17:46:35 (5.80 MB/s) - ‘ch9.gz’ saved [12314757/12314757]
+$ gzip -d ch9.gz 
+$ file ch9 
+ch9: DOS/MBR boot sector; partition 1 : ID=0xb, start-CHS (0x0,32,33), end-CHS (0x10,81,1), startsector 2048, 260096 sectors, extended partition table (last)
+~~~
+
+The partition image can be mounted:
+
+~~~shell
+$ sudo mkdir /mnt/tmp
+$ fdisk -l ch9
+Disk ch9: 128 MiB, 134217728 bytes, 262144 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xc5ce543f
+
+Device Boot Start    End Sectors  Size Id Type
+ch9p1        2048 262143  260096  127M  b W95 FAT32
+$ sudo mount -o ro,loop,offset=1048576 ch9 /mnt/tmp
+~~~
+
+The disk can be unmounted and files recovered:
+
+~~~shell
+$ sudo umount ch9
+$ sudo testdisk ch9
+~~~
+
+A lostfile can be found in /Files/revendications.odt.  Opening this shows an image of the cat.  This can be saved locally and exiftool can be used to recover the gps coordinates:
+
+~~~shell
+$ exiftool cat.jpg 
+ExifTool Version Number         : 11.88
+File Name                       : cat.jpg
+Directory                       : .
+File Size                       : 2.2 MB
+File Modification Date/Time     : 2022:01:29 18:23:14+00:00
+File Access Date/Time           : 2022:01:29 18:23:14+00:00
+File Inode Change Date/Time     : 2022:01:29 18:23:14+00:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Make                            : Apple
+Camera Model Name               : iPhone 4S
+Orientation                     : Horizontal (normal)
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Software                        : 6.1.2
+Modify Date                     : 2013:03:11 11:47:07
+Y Cb Cr Positioning             : Centered
+Exposure Time                   : 1/20
+F Number                        : 2.4
+Exposure Program                : Program AE
+ISO                             : 160
+Exif Version                    : 0221
+Date/Time Original              : 2013:03:11 11:47:07
+Create Date                     : 2013:03:11 11:47:07
+Components Configuration        : Y, Cb, Cr, -
+Shutter Speed Value             : 1/20
+Aperture Value                  : 2.4
+Brightness Value                : 1.477742947
+Metering Mode                   : Multi-segment
+Flash                           : Off, Did not fire
+Focal Length                    : 4.3 mm
+Subject Area                    : 1631 1223 881 881
+Flashpix Version                : 0100
+Color Space                     : sRGB
+Exif Image Width                : 3264
+Exif Image Height               : 2448
+Sensing Method                  : One-chip color area
+Exposure Mode                   : Auto
+White Balance                   : Auto
+Focal Length In 35mm Format     : 35 mm
+Scene Capture Type              : Standard
+GPS Latitude Ref                : North
+GPS Longitude Ref               : East
+GPS Altitude Ref                : Above Sea Level
+GPS Time Stamp                  : 07:46:50.85
+GPS Img Direction Ref           : True North
+GPS Img Direction               : 247.3508772
+Compression                     : JPEG (old-style)
+Thumbnail Offset                : 902
+Thumbnail Length                : 8207
+Image Width                     : 3264
+Image Height                    : 2448
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Aperture                        : 2.4
+Image Size                      : 3264x2448
+Megapixels                      : 8.0
+Scale Factor To 35 mm Equivalent: 8.2
+Shutter Speed                   : 1/20
+Thumbnail Image                 : (Binary data 8207 bytes, use -b option to extract)
+GPS Altitude                    : 16.7 m Above Sea Level
+GPS Latitude                    : 47 deg 36' 16.15" N
+GPS Longitude                   : 7 deg 24' 52.48" E
+Circle Of Confusion             : 0.004 mm
+Field Of View                   : 54.4 deg
+Focal Length                    : 4.3 mm (35 mm equivalent: 35.0 mm)
+GPS Position                    : 47 deg 36' 16.15" N, 7 deg 24' 52.48" E
+Hyperfocal Distance             : 2.08 m
+Light Value                     : 6.2
+~~~
+
+This can be entered into google maps to find the city.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+helfrantzkirch
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## Command and Control level 3
 
