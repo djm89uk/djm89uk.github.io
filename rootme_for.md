@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Forensics [8/28]
+# [Root-Me](./rootme.md) Root-Me Forensics [9/28]
 
 Train digital investigation skills by analyzing memory dumps, log files, network captures...
 
