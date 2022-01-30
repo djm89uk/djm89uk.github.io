@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Programming [7/18]
+# [Root-Me](./rootme.md) Root-Me Programming [8/18]
 
 Automate tasks and build shellcodes.
 
@@ -21,7 +21,7 @@ There are two types of challenges here:
 11. [ARM - Shellcoding - Egg hunter](#arm-shellcoding-egg-hunter)
 12. [Ethereum - NotSoPriv8](#ethereum-notsopriv8)
 13. [ELF x64 - Shellcoding - Polymorphism](#elf-x64-shellcoding-polymorphism)
-14. [Quick Response Code](#quick-response-code)
+14. [Quick Response Code](#quick-response-code) 🗸
 15. [WinKern x64 - shellcoding : token stealing](#winkern-x64-shellcoding-token-stealing)
 16. [Ethereum - BadStack](#ethereum-badstack)
 17. [ELF x64 - Sandbox shellcoding](#elf-x64-sandbox-shellcoding)
