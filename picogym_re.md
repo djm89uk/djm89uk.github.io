@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [34/43]
+# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [35/43]
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
@@ -43,7 +43,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Powershelly (2021)](#powershelly)
 - [Rolling My Own (2021)](#rolling-my-own)
 - [Checkpass (2021)](#checkpass)
-- [not crypto (2021)](#not-crypto)
+- [not crypto (2021)](#not-crypto) ✓
 - [breadth (2021)](#breadth)
 - [riscy business (2021)](#riscy-business)
 - [MATRIX (2021)](#matrix)
@@ -8237,10 +8237,70 @@ None
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-Solution 1
+The binary can be decompiled in ghidra, we find a series of functions that manipulate strings (assuming either the flag or the user input).  One particular string is of interest:
 
+~~~
+0x00102057; "s_Yep,_that's_it!"
+~~~
+
+This is called in FUN_00101070 subfunction LAB_00101385:
+	
+~~~c
+LAB_00101385:
+    lVar30 = (long)iVar24;
+    iVar24 = iVar24 + 1;
+    *local_1e8 = *local_1e8 ^ local_98[lVar30];
+    local_1e8 = local_1e8 + 1;
+    if (local_48 == local_1e8) {
+      iVar24 = memcmp(local_88,local_198,0x40);
+      if (iVar24 == 0) {
+        puts("Yep, that\'s it!");
+      }
+      else {
+        iVar24 = 1;
+        puts("Nope, come back later");
+      }
+      if (local_40 == *(long *)(in_FS_OFFSET + 0x28)) {
+        return iVar24;
+      }
+                    /* WARNING: Subroutine does not return */
+      __stack_chk_fail();
+    }
+  } while( true );
+}
+~~~
+
+We can see a memcmp in this subfunction.  This compares the user input (local_198) to a variable (local_88) which is a 16 byte string.  The ghidra memory stack reference is rdi.  Loading in gdb we can put a breakpoint at this memcmp:
+	
+~~~shell
+$ gdb not-crypto
+(gdb) b memcmp
+Breakpoint 1 at 0x1060
+~~~
+	
+Running with a nonsense input, we hit the breakpoint:
+	
+~~~shell
+(gdb) r
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /home/derek/Downloads/not-crypto 
+I heard you wanted to bargain for a flag... whatcha got?
+dsksbvfkljbcxzm,vnzbcxkvjadhfb x bnm,bhfxbcmznbxkjbdfchz hcfsdbhmzxncb,jmbh zd,đħ »¢zfd
+
+Breakpoint 1, __memcmp_avx2_movbe () at ../sysdeps/x86_64/multiarch/memcmp-avx2-movbe.S:59
+59	../sysdeps/x86_64/multiarch/memcmp-avx2-movbe.S: No such file or directory.
+~~~
+
+We can now print the rdi buffer to get the flag
+
+~~~
+(gdb) x/s $rdi
+0x7fffffffd600:	"picoCTF{...
+~~~
+	
 </details>
 
 ### Answer
@@ -8250,7 +8310,7 @@ Solution 1
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{c0mp1l3r_0pt1m1z4t10n_15_pur3_w1z4rdry_but_n0_pr0bl3m?}
 ~~~
 
 </details>
