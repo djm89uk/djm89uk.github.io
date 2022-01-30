@@ -888,6 +888,167 @@ D3c0d1ng_1s_R34LLY_h4rd_f0r_hum4ns!!!
 
 ---
 
+
+## Quick Response Code
+
+- Author: koma
+- Date: 8 March 2012
+- Points: 40
+- Level: 3
+
+### Statement
+
+Decode the image and submit the flag in less than 6 seconds.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/programmation/ch7/).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Visiting the site, we see a base64 generated png.  This can be imported into Python and saved locally:
+
+~~~py
+import requests
+import base64 as b64
+from PIL import Image, ImageOps
+import io
+
+URL = "http://challenge01.root-me.org/programmation/ch7/"
+
+r = requests.get(URL)
+cookie = r.cookies
+data = r.text
+imageb64 = data.split("image/png;base64,")[1].split("\" /><br/>")[0]
+imagebin = b64.b64decode(imageb64)
+
+stream = io.BytesIO(imagebin)
+img = Image.open(stream)
+img.save("QR.png")
+~~~
+
+Reviewing the png, we see it is a QR code missing the alignment corners.  We can resample and crop the image to an integer multiple of 29 (the QR blocksize) using PIL:
+
+~~~py
+w,h = img.size
+print("original image is {} px wide and {} px high.".format(w,h))
+img = img.resize((297,297))
+w,h = img.size
+print("rescaled image is {} px wide and {} px high.".format(w,h))
+img = img.crop((18,18,279,279))
+w,h = img.size
+print("cropped image is {} px wide and {} px high.".format(w,h))
+~~~
+
+This gives us an image without a white border with exact number of pixels per block.  To add the alignment corners, we can write a subfunction:
+
+~~~py
+import numpy as np
+
+def addQRPositioning(image,size):
+    w,h = img.size
+    d = size
+    if d not in [21,25,29]:
+        print("error: unrecognised WR module size")
+        return 0
+    blocksize = (w//d)
+    newimg = Image.new('RGB', (w,w),"white")
+    newpixels = newimg.load()
+    oldpixels = img.load()
+    for i in range(0,w,blocksize):
+        for j in range(0,w,blocksize):
+            lsum = 0
+            for k in range(9):
+                for l in range(9):
+                    lsum += oldpixels[i+k,j+l][0]
+                    lsum += oldpixels[i+k,j+l][1]
+                    lsum += oldpixels[i+k,j+l][2]
+            lave = lsum/243
+            wt = int(np.round(lave/255))
+            if wt==0:
+                for k in range(9):
+                    for l in range(9):
+                        newpixels[i+k,j+l] = (0,0,0)
+    print("Image has been resampled")
+    for i in range(0,9*7):
+        for j in range(0,9):
+            newpixels[i,j] = (0,0,0)
+            newpixels[j,i] = (0,0,0)
+            newpixels[i,j+54] = (0,0,0)
+            newpixels[j+54,i] = (0,0,0)
+            newpixels[w-i-1,j] = (0,0,0)
+            newpixels[w-j-1,i] = (0,0,0)
+            newpixels[w-i-1,j+54] = (0,0,0)
+            newpixels[w-(j+54)-1,i] = (0,0,0)
+            newpixels[i,w-j-1] = (0,0,0)
+            newpixels[j,w-i-1] = (0,0,0)
+            newpixels[i,w-(j+54)-1] = (0,0,0)
+            newpixels[j+54,w-i-1] = (0,0,0)
+    for i in range(18,45):
+        for j in range(18,45):
+            newpixels[i,j] = (0,0,0)
+            newpixels[j,i] = (0,0,0)
+            newpixels[w-i-1,j] = (0,0,0)
+            newpixels[w-j-1,i] = (0,0,0)
+            newpixels[i,w-j-1] = (0,0,0)
+            newpixels[j,w-i-1] = (0,0,0)
+    print("Alignment features have been added")
+    return newimg
+~~~
+
+This generates a new image with pixel colours either (0,0,0) or (255,255,255) based on the average of each block.  The corners are appended to add the alignment blocks.  We can call this function to fix the QR and further add a white border:
+
+~~~py
+newqr = addQRPositioning(img,29)
+newqr = ImageOps.expand(newqr,border=18,fill='white')
+newqr.save("QR_fixed.png")
+~~~
+
+Using pyzbar we can decode the QR code:
+
+~~~py
+from pyzbar.pyzbar import decode
+
+decocdeQR = decode(Image.open("QR_fixed.png"))
+key = decocdeQR[0].data.decode("ascii").split("The key is ")[-1]
+print(key)
+~~~
+
+This can be sent as a POST request to the challenge site:
+
+~~~py
+data = {'metu':key}
+r = requests.post(URL,data=data,cookies=cookie)
+flag = r.text.split("le flag est ")[1].split("/p")[0]
+print("The flag is {}".format(flag))
+~~~
+
+Which provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+POHeyZ6pMvgn
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
