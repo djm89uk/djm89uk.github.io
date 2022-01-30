@@ -7398,10 +7398,125 @@ The flag has got to be checked somewhere... File: brute
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
-Solution 1
+The file brute can be decomiled in ghidra.  We find a 512 byte buffer for user input to variable "pcVar1" requesting the flag.  This is then overwritten with the output from FUN_001082b, an additional two functions are called and the result is either positive (flag is correct) or negative (flag is incorrect), the below is commented
+	
+~~~c
+...
+char *input; 				// Initialise character array pointer
+size_t sVar2; 				// Initialise unsigned integer
+int iVar3; 				// Initialise Integer
+  
+input = (char *)calloc(0x200,1); 	// Allocate 512 bytes memory for input
+printf("input the flag: "); 		// print
+fgets(input,0x200,stdin); 		// user input stored to 512B memory address
+sVar2 = strnlen(&DAT_00012008,0x200); 	// Store string length from DAT_00012008 up to 512B in variable sVar2
+input = FUN_0001082b(input,sVar2); 	// Call FUN_0001082b and update input
+FUN_000107c2((int)input,sVar2,1); 	// Call FUN_000107c2
+iVar3 = FUN_000108c4(input,sVar2); 	// Call FUN_000108c4 and return input to iVar3
+if (iVar3 == 1) {
+  puts("Correct!"); 			// print
+}
+else {
+  puts("Incorrect."); 			// print
+}
+...
+~~~
+	
 
+The strlen command identifies the string length for DAT00012008, this can be found in the ghidra decompilation:
+
+~~~
+DAT_00023008 = 7a 2e 6e 61 1d 65 16 7c 6d 43 6f 36 32 62 12 16 43 34 40 3e 58 01 58 3f 62 3f 53 30 6e 17
+strlen(DAT_00023008) = 30
+~~~
+
+We can rewrite the above in python:
+
+~~~py
+FLAG = "picoCTF{?????????????????????}"
+OTHER = 0x7a2e6e611d65167c6d436f36326212164334403e5801583f623f53306e17
+
+input = FLAG
+sVar2 = 30
+input = FUN_0001082b(input,30)
+FUN_000107c2(int(input),30,1)
+if (FUN_000108c4(input,sVar2):
+	print("Correct")
+~~~
+
+Working our way through, we can inspect FUN_0001082b:
+
+~~~c
+char * FUN_0001082b(char *param_1,uint param_2)
+
+{
+  uint __n;
+  char *__dest;
+  uint local_1c;
+
+  __n = (param_2 & 0xfffffffc) + 4;
+  __dest = (char *)malloc((param_2 & 0xfffffffc) + 5);
+  strncpy(__dest,param_1,__n);
+  for (local_1c = 0xabcf00d; local_1c < 0xdeadbeef; local_1c = local_1c + 0x1fab4d) {
+    FUN_000106bd((int)__dest,__n,local_1c);
+  }
+  return __dest;
+}
+~~~
+						   
+Again, rewriting in python:
+						  
+~~~py
+def fn_1082b(str1,int1):
+  n = (int1 & 0xfffffffc) + 4
+  dest = str1[:n]
+  for i in range(0xabcf00d,0xdeadbeef,0x1fab4d):
+    fn_106bd(int(dest),n,i)
+  return dest
+~~~
+
+The next function can be decompiled:
+
+~~~c
+void FUN_000106bd(int param_1,uint param_2,undefined4 param_3)
+
+{
+  int in_GS_OFFSET;
+  uint local_18;
+  byte local_14 [4];
+  int local_10;
+  
+  local_10 = *(int *)(in_GS_OFFSET + 0x14);
+  local_14[0] = (byte)((uint)param_3 >> 0x18);
+  local_14[1] = (char)((uint)param_3 >> 0x10);
+  local_14[2] = (char)((uint)param_3 >> 8);
+  local_14[3] = (char)param_3;
+  for (local_18 = 0; local_18 < param_2; local_18 = local_18 + 1) {
+    *(byte *)(local_18 + param_1) = *(byte *)(local_18 + param_1) ^ local_14[local_18 & 3];
+  }
+  if (local_10 != *(int *)(in_GS_OFFSET + 0x14)) {
+    FUN_00010b20();
+  }
+  return;
+}
+~~~
+
+And rewritten in python:
+
+~~~py
+def fn_106bd(input1, int2, int3):
+  x = []
+  x.append(int3 >> 0x18)
+  x.append(int3 >> 0x10)
+  x.append(int3 >> 8
+  x.append(int3)
+  for i in range(int2):
+     input1[i] = input1[i]^x[i&3]
+  return input
+~~~
+			 
 </details>
 
 ### Answer
