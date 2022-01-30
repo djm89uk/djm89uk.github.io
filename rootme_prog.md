@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Programming [5/18]
+# [Root-Me](./rootme.md) Root-Me Programming [6/18]
 
 Automate tasks and build shellcodes.
 
@@ -14,7 +14,7 @@ There are two types of challenges here:
 4. [IRC - Uncompress me](#irc-uncompress-me) 🗸
 5. [CAPTCHA me if you can](#captcha-me-if-you-can) 🗸
 6. [Ethereum - Tutoreum](#ethereum-tutoreum)
-7. [Arithmetic progression](#arithmetic-progression)
+7. [Arithmetic progression](#arithmetic-progression) 🗸
 8. [ELF x64 - Shellcoding - Sheep warmup](#elf-x64-shellcoding-sheep-warmup)
 9. [Ethereum - Takeover](#ethereum-takeover)
 10. [Various encodings](#various-encodings)
@@ -632,6 +632,91 @@ Returns the flag.
 
 ~~~
 dtePZJgVAfaU
+~~~
+
+</details>
+
+---
+
+### [Programming](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## Arithmetic Progression
+
+- Author: Baco
+- Date: 04 February 2011
+- Points: 20
+- Level: 2
+
+### Statement
+
+You have 2 seconds to send the result of an arithmetic progression back.  Who said impossible?
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/programmation/ch1/)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we can see a html formatted arithmetic equation we have to solve:
+
+~~~html
+<html>
+
+<body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>U<sub>n+1</sub> = [ 45 + U<sub>n</sub> ] + [ n * 45 ]<br /> U
+    <sub>0</sub> = -569
+    <br />You must find U<sub>746358</sub><br /><br />You have only 2 seconds to send the result with the HTTP GET method (at http://challenge01.root-me.org/programmation/ch1/ep1_v.php?result=...)</body>
+
+</html>
+~~~
+
+We can isolate the arithmetic equation from a requests response and submit the answer with the associated cookie using Python:
+
+~~~py
+import requests as req
+
+Q_URL = "http://challenge01.root-me.org/programmation/ch1/"
+A_URL = "http://challenge01.root-me.org/programmation/ch1/ep1_v.php?result="
+
+response = req.get(Q_URL)
+cookie = response.cookies
+response = response.text
+response = response.split("iframe>")[1].split("<br /><br />")[0]
+
+N0 = int(response.split("<sub>0</sub> = ")[1].split("<br />")[0])
+X = int(response.split("<sub>")[-1].split("</sub>")[0])
+A = int(response.split(" = [ ")[1].split(" ")[0])
+B = int(response.split("n * ")[1].split(" ")[0])
+
+U = N0
+for i in range(X):
+    U = (A+U)+(i*B)
+
+print(U)
+
+response = req.get(A_URL+str(U), cookies=cookie).text
+print(response)
+~~~
+
+Returns the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+lFablYE9P1
 ~~~
 
 </details>
