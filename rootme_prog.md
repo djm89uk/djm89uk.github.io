@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Programming [6/18]
+# [Root-Me](./rootme.md) Root-Me Programming [7/18]
 
 Automate tasks and build shellcodes.
 
@@ -17,7 +17,7 @@ There are two types of challenges here:
 7. [Arithmetic progression](#arithmetic-progression) 🗸
 8. [ELF x64 - Shellcoding - Sheep warmup](#elf-x64-shellcoding-sheep-warmup)
 9. [Ethereum - Takeover](#ethereum-takeover)
-10. [Various encodings](#various-encodings)
+10. [Various encodings](#various-encodings) 🗸
 11. [ARM - Shellcoding - Egg hunter](#arm-shellcoding-egg-hunter)
 12. [Ethereum - NotSoPriv8](#ethereum-notsopriv8)
 13. [ELF x64 - Shellcoding - Polymorphism](#elf-x64-shellcoding-polymorphism)
