@@ -727,6 +727,167 @@ lFablYE9P1
 
 ---
 
+
+## Various Encodings
+
+- Author: BlackRaven, Ruulian
+- Date: 12 August 2021
+- Points: 30
+- Level: 3
+
+### Statement
+
+This service sends you encoded messages. Decode them all to get the flag!
+
+### Connection Information
+
+- Host: challenge01.root-me.org
+- Protocol: TCP
+- Port: 52017
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This is a simple decoding exercise that can be solved with a few helpful python libraries:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jan 30 13:21:06 2022
+
+@author: derek
+"""
+import socket
+import base64 as b64
+import binascii
+
+URL = "challenge01.root-me.org"
+PORT = 52017
+MORSE={"A" : ".-","B" : "-...","C" : "-.-.","D" : "-..","E" : ".","F" : "..-.","G" : "--.","H" : "....","I" : "..","J" : ".---","K" : "-.-","L" : ".-..","M" : "--","N" : "-.","O" : "---","P" : ".--.","Q" : "--.-","R" : ".-.","S" : "...","T" : "-","U" : "..-","V" : "...-","W" : ".--","X" : "-..-","Y" : "-.--","Z" : "--.."}
+invMORSE = dict((v,k) for (k,v) in MORSE.items())
+
+def dataString(data):
+    ds = data.decode()
+    ds = ds.split("please: '")[1]
+    ds = ds.split("'\n")[0]
+    return ds
+
+def morsetoascii(datastring):
+    morsearr = datastring.split("/")
+    asciitext = ""
+    for unit in morsearr:
+        asciitext += invMORSE.get(unit)
+    return asciitext.lower()
+
+def decodeData(datastring):
+    print("decoding {}".format(datastring))
+    try:
+        asciistr = b64.b64decode(datastring).decode()
+        print("base64 encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr.lower()
+    except:
+        print("not base64")
+        pass
+    try:
+        asciistr = binascii.unhexlify(datastring.encode()).decode()
+        print("hexadecimal encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not hexadecimal")
+        pass
+    try:
+        asciistr = morsetoascii(datastring)
+        print("Morse Code found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not Morse")
+        pass
+    try:
+        asciistr = b64.b32decode(datastring).decode()
+        print("base32 encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not base32")
+        pass
+    try:
+        asciistr = b64.b16decode(datastring).decode()
+        print("base16 encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not base16")
+        pass
+    try:
+        asciistr = b64.a85decode(datastring).decode()
+        print("ASCII85 encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not ASCII85")
+        pass
+    try:
+        asciistr = b64.b32hexdecode(datastring).decode()
+        print("Base32 Hexadecimal encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not Base 32 Hexadecimal")
+        pass
+    try:
+        asciistr = b64.b85decode(datastring).decode()
+        print("Base85 encoding found!")
+        print("ASCII = {}".format(asciistr))
+        return asciistr
+    except:
+        print("not Base 85")
+        pass
+    return 0
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect((URL,PORT))
+
+while True:
+    data = s.recv(1024)
+    print(data.decode())
+    if "flag" in data.decode():
+        break
+    ds = dataString(data)
+    asciistr = decodeData(ds)
+    if asciistr==0:
+        print("No solution found")
+        break
+    s.send(asciistr.encode()+b"\n")
+s.close()
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+D3c0d1ng_1s_R34LLY_h4rd_f0r_hum4ns!!!
+~~~
+
+</details>
+
+---
+
+### [Programming](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
