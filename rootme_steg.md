@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Steganography [10/23]
+# [Root-Me](./rootme.md) Root-Me Steganography [11/23]
 
 The art of hiding information in a document. 
 
@@ -15,7 +15,7 @@ The art of hiding information in a document.
 9. [Yellow dots](#yellow-dots) 🗸
 10. [Audio stegano](#audio-stegano) 🗸
 11. [Mimic - Dummy sight](#mimic-dummy-sight)
-12. [We need to go deeper](#we-need-to-go-deeper)
+12. [We need to go deeper](#we-need-to-go-deeper) 🗸
 13. [APNG - Just A PNG](#apng-just-a-png)
 14. [Base Jumper](#base-jumper)
 15. [ELF x64 - Duality](#elf-x64-duality)
