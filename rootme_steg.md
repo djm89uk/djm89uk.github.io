@@ -865,6 +865,132 @@ secret-password
 
 ---
 
+## We need to go deeper
+
+- Author: whoami
+- Date: 12 August 2015
+- Points: 20
+- Level: 2
+
+### Statement
+
+Thumbnails 😉
+
+### Attachments
+
+1. [ch10.jpg](http://challenge01.root-me.org/steganographie/ch10/ch10.jpg).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge jpg can be downloaded.  Using strings we do not find anything other than "We need to go deeper":
+
+~~~shell
+$ strings ch10.jpg | uniq | sort
+...
+We need to go deeper
+...
+yoyoyoyoyoyioyoyoyoyoyoyl
+~~~
+
+Looking at the file we can see the file is a jpeg and it is 126KB in size:
+
+~~~shell
+$ file ch10.jpg 
+ch10.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=4, xresolution=62, yresolution=70, resolutionunit=2], progressive, precision 8, 1360x716, components 3
+$ ls -lh ch10.jpg 
+-rw-rw-r-- 1 user user 126K Jan 31 20:59 ch10.jpg
+
+~~~
+
+Inspecting the image with exiftool we see a large image size (0.974 Megapixels):
+
+~~~shell
+$ exiftool ch10.jpg 
+ExifTool Version Number         : 11.88
+File Name                       : ch10.jpg
+Directory                       : .
+File Size                       : 126 kB
+File Modification Date/Time     : 2022:01:31 20:59:01+00:00
+File Access Date/Time           : 2022:01:31 20:59:01+00:00
+File Inode Change Date/Time     : 2022:01:31 20:59:01+00:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Big-endian (Motorola, MM)
+X Resolution                    : 96
+Y Resolution                    : 96
+Resolution Unit                 : inches
+Y Cb Cr Positioning             : Centered
+Compression                     : JPEG (old-style)
+Thumbnail Offset                : 202
+Thumbnail Length                : 41506
+Image Width                     : 1360
+Image Height                    : 716
+Encoding Process                : Progressive DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 1360x716
+Megapixels                      : 0.974
+Thumbnail Image                 : (Binary data 41506 bytes, use -b option to extract)
+~~~
+
+This does not reflect the file size.  We can investigate with binwalk:
+
+~~~shell
+$ binwalk ch10.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+202           0xCA            JPEG image data, JFIF standard 1.01
+232           0xE8            TIFF image data, big-endian, offset of first image directory: 8
+404           0x194           JPEG image data, JFIF standard 1.01
+~~~
+
+We appear to have multiple images within the file!  We can extract these with binwalk:
+
+~~~shell
+$ binwalk --dd='.*' ch10.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+202           0xCA            JPEG image data, JFIF standard 1.01
+232           0xE8            TIFF image data, big-endian, offset of first image directory: 8
+404           0x194           JPEG image data, JFIF standard 1.01
+~~~
+
+Opening the last jpg (194) we find the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+B33r1sG00d!
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
