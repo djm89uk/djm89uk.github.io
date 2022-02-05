@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [31/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [32/36]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -32,7 +32,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Double DES (2021)](#double-des) ✓
 - [Compress and Attack (2021)](#compress-and-attack) ✓
 - [Scrambled: RSA (2021)](#scrambled-rsa) ✓
-- [It's Not My Fault 1 (2021)](#its-not-my-fault-1)
+- [It's Not My Fault 1 (2021)](#its-not-my-fault-1) ✓
 - [New Vignere (2021)](#new-vignere)
 - [Clouds (2021)](#clouds)
 - [Spelling-Quiz (2021)](#spelling-quiz) ✓
@@ -3207,8 +3207,135 @@ None.
 
 <details>
 
-<summary markdown="span">Solution 1</summary>
+<summary markdown="span">Solution</summary>
 
+The source code can be reviewed to see that there are several levels to this problem.  First, the user is required to generate an md5 hash of a string in which the start of the pt ascii conforms to a random string and the end of the hash conforms to another random string:
+	
+~~~py
+vals1 = "".join([random.choice(string.digits) for _ in range(5)])
+vals2 = "".join([random.choice(string.hexdigits.lower()) for _ in range(6)])
+user_input = input("Enter a string that starts with \"{}\" (no quotes) which creates an md5 hash that ends in these six hex digits: {}\n".format(vals1, vals2))
+user_hash = hashlib.md5(user_input.encode()).hexdigest()
+~~~
+	
+This can be solved iteratively in Python:
+
+~~~py
+def md5Solver(start,hashend):
+    print("Solving md5 hash")
+    end = 0
+    while True:
+        pt_str = start + str(end)
+        newhash = hashlib.md5(pt_str.encode()).hexdigest()
+        if newhash[-6:]==hashend:
+            print("Solution String = {}".format(pt_str))
+            print("MD5 Hash = {}".format(newhash))
+            return(pt_str)
+        end += 1
+~~~
+
+After this the python code sends returns the public key.  This provides the exploit; both n and e are significantly large, the private key component d will be relatively small.  We can brute-force the private key in Python using the multiprocessing library to reduce the execution time.  This generates the prime numbers p and q which we require to solve the challenge:
+	
+~~~py
+def dp_test(d_p, e, n, m):
+    p = gmpy2.gcd(m - pow(m, e * d_p, n), n)
+    if p > 1:
+        q = n // p
+        return True, (p,q)
+    return False
+
+def rsaSolver(e,n,maxd):
+    m = random.randint(1000,100000)
+    _dp_test = partial(dp_test,e=e,n=n,m=m)
+    numP = mp.cpu_count()
+    pool = mp.Pool(numP)
+    for ret in pool.imap(_dp_test,range(maxd),chunksize=1000):
+        if ret[0]:
+            return ret[1]
+~~~
+
+The primes are added and returned to the challenge server to get the flag.  The complete python code is:
+	
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import socket
+import time
+import hashlib
+import random
+from functools import partial
+import multiprocessing as mp
+import gmpy2
+from Crypto.Util.number import inverse, getPrime, bytes_to_long, GCD
+
+def md5Solver(start,hashend):
+    print("Solving md5 hash")
+    end = 0
+    while True:
+        pt_str = start + str(end)
+        newhash = hashlib.md5(pt_str.encode()).hexdigest()
+        if newhash[-6:]==hashend:
+            print("Solution String = {}".format(pt_str))
+            print("MD5 Hash = {}".format(newhash))
+            return(pt_str)
+        end += 1
+
+def dp_test(d_p, e, n, m):
+    p = gmpy2.gcd(m - pow(m, e * d_p, n), n)
+    if p > 1:
+        q = n // p
+        return True, (p,q)
+    return False, (0,0)
+
+def rsaSolver(e,n,maxd):
+    m = random.randint(1000,100000)
+    _dp_test = partial(dp_test,e=e,n=n,m=m)
+    numP = mp.cpu_count()
+    pool = mp.Pool(numP)
+    for ret in pool.imap(_dp_test,range(maxd),chunksize=1000):
+        if ret[0]:
+            return ret[1]
+    
+host = "mercury.picoctf.net"
+port = 10055
+bits = 20
+maxr = 1<<bits
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
+time.sleep(1)
+
+recvbuff1 = s.recv(1000).decode()
+start = recvbuff1.split('\"')[1]
+hashend = recvbuff1.split('digits: ')[1].split("\n")[0]
+
+print("Solution string must start {}".format(start))
+print("MD5 hash must end {}".format(hashend))
+
+pt_str = md5Solver(start,hashend)
+s.send((pt_str+"\n").encode())
+time.sleep(2)
+recvbuff2 = s.recv(100000).decode()
+
+n = int(recvbuff2.split("\n")[0].split(" : ")[1])
+e = int(recvbuff2.split("\n")[1].split(" : ")[1])
+
+print("n = {}".format(n))
+print("e = {}".format(e))
+
+# Exploit small d; initial value m<n:
+p, q = rsaSolver(e, n, maxr)
+print("p = {}".format(p))
+print("q = {}".format(q))
+ans = p+q
+s.send((str(ans)+"\n").encode())
+time.sleep(2)
+recvbuff3 = s.recv(1000).decode()
+print(recvbuff3)
+s.close()
+~~~
+	
 </details>
 
 ### Answer
@@ -3218,7 +3345,7 @@ None.
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{1_c4n'7_b3l13v3_17'5_n07_f4ul7_4774ck!!!}
 ~~~
 
 </details>
