@@ -4,7 +4,6 @@ Record of development plan and training options.
 
 ## Networking
 
-|-----------|--------|----------|------|
 | Course    | Level  | Provider | Cost |
 |-----------|--------|----------|------|
 | Network+  | NQF L3 | CompTIA  | £    |
@@ -13,7 +12,6 @@ Record of development plan and training options.
 
 ## System Administration
 
-|-----------|--------|-----------|------|
 | Course    | Level  | Provider  | Cost |
 |-----------|--------|-----------|------|
 | Linux+    | NQF L3 | CompTIA   | £    |
@@ -26,7 +24,6 @@ Record of development plan and training options.
 
 ## System Security
 
-|-----------|--------|----------|------|
 | Course    | Level  | Provider | Cost |
 |-----------|--------|----------|------|
 | Security+ | NQF L3 | CompTIA  | £    |
@@ -34,7 +31,6 @@ Record of development plan and training options.
 
 ## Project Management
 
-|-----------|--------|----------|------|
 | Course    | Level  | Provider | Cost |
 |-----------|--------|----------|------|
 | Project+  | NQF L3 | CompTIA  | £    |
