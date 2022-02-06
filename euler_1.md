@@ -1223,7 +1223,7 @@ print("Execution time = {}s".format(t1-t0))
 
 ---
 
-## Largest Collatz Sequence
+## Longest Collatz Sequence
 	
 - Problem 14
 
