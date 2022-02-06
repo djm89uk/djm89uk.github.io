@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (12/50)
+# [Project Euler](./euler.md) Challenges 1-50 (13/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -19,7 +19,7 @@ These are the first 50 challenges from the site.
 11. [Largest product in a grid](#largest-product-in-a-grid) 🗸
 12. [Highly divisible triangular number](#highly-divisible-triangular-number) 
 13. [Large sum](#large-sum) 🗸
-14. [Longest Collatz sequence](#longest-collatz-sequence) 
+14. [Longest Collatz sequence](#longest-collatz-sequence) 🗸
 15. [Lattice paths](#lattice-paths) 
 16. [Power digit sum](#power-digit-sum) 
 17. [Number letter counts](#number-letter-counts) 
@@ -1222,7 +1222,88 @@ print("Execution time = {}s".format(t1-t0))
 ### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
 
 ---
+
+## Largest Collatz Sequence
 	
+- Problem 14
+
+### Description
+
+The following iterative sequence is defined for the set of positive integers:
+
+~~~
+n → n/2 (n is even)
+n → 3n + 1 (n is odd)
+~~~
+
+Using the rule above and starting with 13, we generate the following sequence:
+
+~~~
+13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+~~~
+
+It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+
+Which starting number, under one million, produces the longest chain?
+
+NOTE: Once the chain starts the terms are allowed to go above one million.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+We can write an efficient algorithm in Python using memoization:
+	
+~~~py
+import numpy as np
+import time
+
+t0 = time.time()
+memo = {}                               # initialize the memo dictionary
+def collatz_seq(n):
+    if not n in memo:                   # check if already computed
+        if n == 1:                      # if not compute it
+            memo[n] = 1                 # cache it
+        elif n % 2 == 0:
+            memo[n] = collatz_seq(n // 2) + 1
+        else:
+            memo[n] = collatz_seq(3*n + 1) + 1
+    return memo[n]  
+
+for i in range(1,int(1E6)):
+    collatz_seq(i)
+    
+max_value = max(memo, key=memo.get)
+t1 = time.time()
+
+    
+print("Longest Collatz Sequence starting below 1 million starts at {} with length {}.".format(max_value,memo.get(max_value)))
+print("Execution time = {}s.".format(t1-t0))
+~~~ 
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+837799
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
 This page was last updated Jan 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
