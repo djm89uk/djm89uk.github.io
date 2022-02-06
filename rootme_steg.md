@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Steganography [11/23]
+# [Root-Me](./rootme.md) Root-Me Steganography [12/23]
 
 The art of hiding information in a document. 
 
@@ -16,7 +16,7 @@ The art of hiding information in a document.
 10. [Audio stegano](#audio-stegano) 🗸
 11. [Mimic - Dummy sight](#mimic-dummy-sight)
 12. [We need to go deeper](#we-need-to-go-deeper) 🗸
-13. [APNG - Just A PNG](#apng-just-a-png)
+13. [APNG - Just A PNG](#apng-just-a-png) 🗸
 14. [Base Jumper](#base-jumper)
 15. [ELF x64 - Duality](#elf-x64-duality)
 16. [Hide and seek](#hide-and-seek)
@@ -981,6 +981,128 @@ Opening the last jpg (194) we find the flag.
 
 ~~~
 B33r1sG00d!
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+
+## APNG Just A PNG
+
+- Author: exti0p, AnthoLaMalice
+- Date: 22 November 2021
+- Points: 25
+- Level: 3
+
+### Statement
+
+Your joking colleague challenges you to find the message hidden in this animation.
+
+### Attachments
+
+1. [ch21.apng](http://challenge01.root-me.org/steganographie/ch21/ch21.apng).
+
+### Related Resources
+
+1. [APNG_Specification](https://wiki.mozilla.org/APNG_Specification).
+2. [Animated_Portable_Network_Graphics](https://fr.wikipedia.org/wiki/Animated_Portable_Network_Graphics).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Using apngdis, the animated png can be disassembled:
+
+~~~shell
+$ apngdis ch21.apng 
+
+APNG Disassembler 2.9
+
+Reading 'ch21.apng'...
+extracting frame 1 of 13
+extracting frame 2 of 13
+extracting frame 3 of 13
+extracting frame 4 of 13
+extracting frame 5 of 13
+extracting frame 6 of 13
+extracting frame 7 of 13
+extracting frame 8 of 13
+extracting frame 9 of 13
+extracting frame 10 of 13
+extracting frame 11 of 13
+extracting frame 12 of 13
+extracting frame 13 of 13
+all done
+~~~
+
+This returns 13 png files and 13 text files.  Each text file has a different delay value:
+
+~~~shell
+$ strings *.txt
+delay=70/10
+delay=76/10
+delay=65/10
+delay=71/10
+delay=58/10
+delay=80/10
+delay=51/10
+delay=80/10
+delay=111/10
+delay=70/10
+delay=82/10
+delay=111/10
+delay=71/10
+~~~
+
+These values can be appended to an array in python:
+
+~~~py
+import os
+
+txtarr = []
+indx = []
+
+for filename in os.listdir("./"):
+    if ".txt" in filename:
+        indx.append(filename.split("frame")[1].split(".t")[0])
+        f = open(filename)
+        txtarr.append(f.read())
+
+chrarr = []
+for val in txtarr:
+    chrarr.append(val.split("=")[1].split("/10")[0])
+
+indx, chrarr = (list(t) for t in zip(*sorted(zip(indx, chrarr))))
+~~~
+
+These sorted values can be decoded into ascii:
+
+~~~py
+solution = ""
+for val in chrarr:
+    solution += chr(int(val))
+    
+print(solution)
+~~~
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+P3PoFRoG
 ~~~
 
 </details>
