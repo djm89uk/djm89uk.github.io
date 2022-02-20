@@ -16,7 +16,7 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 
 ---
 
-## [PicoGym Web Exploitation](./picogym_we.md)
+## [PicoGym Web Exploitation](./picogym_we.md) (30/33)
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
@@ -60,7 +60,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ---
 
-## [PicoGym Cryptography](./picogym_c.md)
+## [PicoGym Cryptography](./picogym_c.md) (33/36)
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -88,16 +88,16 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [No Padding, No Problem (2021)](./picogym_c.md#no-padding-no-problem) ✓
 - [Pixelated (2021)](./picogym_c.md#pixelated) ✓
 - [Play Nice (2021)](./picogym_c.md#play-nice) ✓
-- [Double DES (2021)](./picogym_c.md#double-des)
-- [Compress and Attack (2021)](./picogym_c.md#compress-and-attack)
-- [Scrambled: RSA (2021)](./picogym_c.md#scrambled-rsa)
-- [It's Not My Fault 1 (2021)](./picogym_c.md#its-not-my-fault-1)
-- [New Vignere (2021)](./picogym_c.md#new-vignere)
+- [Double DES (2021)](./picogym_c.md#double-des) ✓
+- [Compress and Attack (2021)](./picogym_c.md#compress-and-attack) ✓
+- [Scrambled: RSA (2021)](./picogym_c.md#scrambled-rsa) ✓
+- [It's Not My Fault 1 (2021)](./picogym_c.md#its-not-my-fault-1) ✓
+- [New Vignere (2021)](./picogym_c.md#new-vignere) ✓
 - [Clouds (2021)](./picogym_c.md#clouds)
 - [Spelling-Quiz (2021)](./picogym_c.md#spelling-quiz) ✓
-- [XtraORdinary (2021)](./picogym_c.md#xtraordinary)
-- [Triple-Secure (2021)](./picogym_c.md#triple-secure)
-- [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team)
+- [XtraORdinary (2021)](./picogym_c.md#xtraordinary) ✓
+- [Triple-Secure (2021)](./picogym_c.md#triple-secure) ✓
+- [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team) ✓
 - [Corrupt-key-1 (2021)](./picogym_c.md#corrupt-key-1)
 - [Corrupt-key-2 (2021)](./picogym_c.md#corrupt-key-2)
 
@@ -107,7 +107,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ---
 
-## [PicoGym Reverse Engineering](./picogym_re.md)
+## [PicoGym Reverse Engineering](./picogym_re.md) (35/43)
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
@@ -150,7 +150,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Powershelly (2021)](./picogym_re.md#powershelly)
 - [Rolling My Own (2021)](./picogym_re.md#rolling-my-own)
 - [Checkpass (2021)](./picogym_re.md#checkpass)
-- [not crypto (2021)](./picogym_re.md#not-crypto)
+- [not crypto (2021)](./picogym_re.md#not-crypto) ✓
 - [breadth (2021)](./picogym_re.md#breadth)
 - [riscy business (2021)](./picogym_re.md#riscy-business)
 - [MATRIX (2021)](./picogym_re.md#matrix)
@@ -161,7 +161,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-## [PicoGym Forensics](./picogym_f.md)
+## [PicoGym Forensics](./picogym_f.md) (37/37)
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -208,7 +208,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-## [PicoGym General Skills](./picogym_gs.md)
+## [PicoGym General Skills](./picogym_gs.md) (19/19)
 
 - [2Warm (2019)](./picogym_gs#two-warm) ✓
 - [Warmed Up (2019)](./picogym_gs#warmed-up) ✓
@@ -236,16 +236,16 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-## [PicoGym Binary Exploitation](./picogym_be.md)
+## [PicoGym Binary Exploitation](./picogym_be.md) (3/22)
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
 - [seed-sPRiNG (2019)](./picogym_be.md#seed-spring)
 - [sice_cream (2019)](./picogym_be.md#sice-cream)
 - [zero_to_hero (2019)](./picogym_be.md#zero-to-hero)
-- [Guessing Game 1 (2020)](./picogym_be.md#guessing-game-1)
+- [Guessing Game 1 (2020)](./picogym_be.md#guessing-game-1) ✓
 - [Guessing Game 2 (2020)](./picogym_be.md#guessing-game-2)
-- [Stonks (2021)](./picogym_be.md#stonks)
+- [Stonks (2021)](./picogym_be.md#stonks) ✓
 - [Cache Me Outside (2021)](./picogym_be.md#cache-me-outside)
 - [Here's a LIBC (2021)](./picogym_be.md#heres-a-libc)
 - [Unsubscriptions Are Free (2021)](./picogym_be.md#unsubscriptions-are-free)
@@ -256,7 +256,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [The Office (2021)](./picogym_be.md#the-office)
 - [Turboflan (2021)](./picogym_be.md#turboflan)
 - [Bizz Fuzz (2021)](./picogym_be.md#bizz-fuzz)
-- [cutter-overflow (2021)](./picogym_be.md#cutter-overflow)
+- [cutter-overflow (2021)](./picogym_be.md#cutter-overflow) ✓
 - [fermat-strings (2021)](./picogym_be.md#fermat-strings)
 - [SaaS (2021)](./picogym_be.md#saas)
 - [homework (2021)](./picogym_be.md#homework)
