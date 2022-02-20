@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [32/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [33/36]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -33,7 +33,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Compress and Attack (2021)](#compress-and-attack) ✓
 - [Scrambled: RSA (2021)](#scrambled-rsa) ✓
 - [It's Not My Fault 1 (2021)](#its-not-my-fault-1) ✓
-- [New Vignere (2021)](#new-vignere)
+- [New Vignere (2021)](#new-vignere) ✓
 - [Clouds (2021)](#clouds)
 - [Spelling-Quiz (2021)](#spelling-quiz) ✓
 - [XtraORdinary (2021)](#xtraordinary) ✓
@@ -3379,6 +3379,132 @@ Another slight twist on a classic, see if you can recover the flag. (Wrap with p
 
 <summary markdown="span">Solution 1</summary>
 
+This challenge can be solved by reverse engineering the Python source code to decrypt and encrypt a string using an unknown key:
+	
+~~~py
+import string
+
+LOWERCASE_OFFSET = ord("a")
+ALPHABET = string.ascii_lowercase[:16]
+
+def b16_encode(plain):
+	enc = ""
+	for c in plain:
+		binary = "{0:08b}".format(ord(c))
+		enc += ALPHABET[int(binary[:4], 2)]
+		enc += ALPHABET[int(binary[4:], 2)]
+	return enc
+
+def shift(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 + t2) % len(ALPHABET)]
+
+def b16_decode(encoded):
+    pln = ""
+    for i in range(0,len(encoded),2):
+        idx1 = ALPHABET.index(encoded[i])
+        idx2 = ALPHABET.index(encoded[i+1])
+        bin1 = "{0:04b}".format(idx1)
+        bin2 = "{0:04b}".format(idx2)
+        pln += chr(int(bin1+bin2,2))
+    return pln
+
+def unshift(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 - t2) % len(ALPHABET)]
+
+def encrypt_string(string,key):
+    assert all([k in ALPHABET for k in key]) and len(key) < 15
+    assert all([c in "abcdef0123456789" for c in string])
+    print("flag = {}".format(string))
+    b16 = b16_encode(string)
+    print("b16string = {}".format(b16))
+    enc = ""
+    for i, c in enumerate(b16):
+         enc += shift(c, key[i % len(key)])
+    print("Encrypted string = {}".format(enc))
+    return(enc)
+
+def decrypt_string(string,key):
+    print("Encrypted string = {}".format(string))
+    b16 = ""
+    for i in range(len(string)):
+        b16 += unshift(string[i], key[i%len(key)])
+    print("b16string = {}".format(b16))
+    dec = b16_decode(b16)
+    print("flag = {}".format(dec))
+    return(dec)
+~~~
+							      
+To find the key, we can identify all valid chars have b16 encoding starting with "d" or "g"; we can use a simple for loop to find the key length:
+							     
+~~~py
+enc_flag_pairs = chr_pairs(enc_flag)
+b16_flag_alph = b16_encode(flg_alph)
+key = []
+for i in range(len(enc_flag_pairs)):
+    keyidx = unshift(enc_flag_pairs[i][0],"d")
+    keyidx += unshift(enc_flag_pairs[i][0],"g")
+    key.append(keyidx)
+keylen = list(range(1,16))
+for i in range(1,16):
+    for j in range(len(key)):
+        a = key[j][0]
+        b = key[j][1]
+        if a in key[j%i] or b in key[j%i]:
+            continue
+        else:
+            keylen.pop(keylen.index(i))
+            break
+~~~
+							      
+This identifies the key has length 9;  we can then use a simple brute-force iteration to identify possibel key characters, generate an iteration across all variants and solve for a functional key:
+
+~~~py
+keyops = []
+for l in keylen:
+    key = []
+    for i in range(0,l):
+        keyx = ""
+        for a in ALPHABET:
+            win = 1
+            for j in range(len(enc_flag)//l):
+                enc = enc_flag[j*l+i]
+                if unshift(enc,a) in b16_flag_alph:
+                    continue
+                else:
+                    win = 0
+                    break
+            if win == 1:
+                keyx += a
+        key.append(keyx)
+    keyops.append(key)
+goodkeys = []
+for key in keyops:
+    keydict = [""]
+    for keyx in key:
+        keylist = []
+        for keys in keydict:
+            for c in keyx:
+                keylist.append(keys+c)
+        keydict = keylist
+    for keys in keydict:
+        try:
+            assert all([k in ALPHABET for k in keys]) and len(keys) < 15
+            dec = ""
+            for i, c in enumerate(enc_flag):
+                 dec += unshift(c, keys[i % len(keys)])
+            f2 = b16_decode(dec)
+            assert all([c in "abcdef0123456789" for c in f2])
+            goodkeys.append(keys)
+        except:
+            continue
+~~~
+
+This returns the only valid key, "cjkbjbdbb"  which can be used with the encrypted flag and reverse-engineered decryption algorithm to solve the challenge.
+	
 </details>
 
 ### Answer
@@ -3388,7 +3514,7 @@ Another slight twist on a classic, see if you can recover the flag. (Wrap with p
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{b7bf6c4d2e3c7715489723f360f8d128}
 ~~~
 
 </details>
