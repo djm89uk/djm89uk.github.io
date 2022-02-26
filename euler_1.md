@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (16/50)
+# [Project Euler](./euler.md) Challenges 1-50 (18/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -22,8 +22,8 @@ These are the first 50 challenges from the site.
 14. [Longest Collatz sequence](#longest-collatz-sequence) 🗸
 15. [Lattice paths](#lattice-paths) 🗸
 16. [Power digit sum](#power-digit-sum) 🗸
-17. [Number letter counts](#number-letter-counts) 
-18. [Maximum path sum I](#maximum-path-sum-i) 
+17. [Number letter counts](#number-letter-counts) 🗸
+18. [Maximum path sum I](#maximum-path-sum-i) 🗸
 19. [Counting Sundays](#counting-sundays) 
 20. [Factorial digit sum](#factorial-digit-sum) 
 21. [Amicable numbers](#amicable-numbers) 
@@ -1535,6 +1535,155 @@ This provides the answer in 4e-5
 
 ~~~
 1366
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Number letter counts
+
+- Problem 17
+
+### Description
+
+If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+
+NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+This can be implemented in python with the library num2words:
+	
+~~~py
+import time
+from num2words import num2words as n2w
+
+t0 = time.time()
+L = 0
+for i in range(1,1001):
+    word = "".join("".join(n2w(i,lang='en_GB').split(" ")).split("-"))
+    L += len(word)
+
+t1 = time.time()
+print("Total character count = {}".format(L))
+print("execution time = {} s".format(t1-t0))
+~~~
+
+This provides the answer in 0.02 seconds
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+21124
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Number letter counts
+
+- Problem 17
+
+### Description
+
+
+
+By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
+
+~~~
+3
+7 4
+2 4 6
+8 5 9 3
+~~~
+
+That is, 3 + 7 + 4 + 9 = 23.
+
+Find the maximum total from top to bottom of the triangle below:
+
+~~~
+75
+95 64
+17 47 82
+18 35 87 10
+20 04 82 47 65
+19 01 23 75 03 34
+88 02 77 73 07 63 67
+99 65 04 28 06 16 70 92
+41 41 26 56 83 40 80 70 33
+41 48 72 33 47 32 37 16 94 29
+53 71 44 65 25 43 91 52 97 51 14
+70 11 33 28 77 73 17 78 39 68 17 57
+91 71 52 38 17 14 91 43 58 50 27 29 48
+63 66 04 68 89 53 67 30 73 16 69 87 40 31
+04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
+~~~
+
+NOTE: As there are only 16384 routes, it is possible to solve this problem by trying every route. However, Problem 67, is the same challenge with a triangle containing one-hundred rows; it cannot be solved by brute force, and requires a clever method! ;o)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+This can be implemented in python by iterating through the rows of the triangle:
+	
+~~~py
+import time
+
+T = [[75],[95, 64],[17, 47, 82],[18, 35, 87, 10],[20, 4, 82, 47, 65],[19, 1, 23, 75, 3, 34],[88, 2, 77, 73, 7, 63, 67],[99, 65, 4, 28, 6, 16, 70, 92],[41, 41, 26, 56, 83, 40, 80, 70, 33],[41, 48, 72, 33, 47, 32, 37, 16, 94, 29],[53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14],[70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57],[91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48],[63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],[4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23]]
+t0 = time.time()
+for i in range(1,len(T)):
+    T[i][0] += T[i-1][0]
+    T[i][-1] += T[i-1][-1]
+    if len(T[i])>2:
+        for j in range(1,len(T[i])-1):
+            T[i][j] += max(T[i-1][j-1],T[i-1][j])
+            
+M = max(T[-1])
+
+t1 = time.time()
+print("Maximum sum = {}".format(M))
+print("execution time = {} s".format(t1-t0))
+~~~
+
+This provides the answer in 30E-6 seconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+1074
 ~~~
 
 </details>
