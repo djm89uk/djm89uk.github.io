@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (15/50)
+# [Project Euler](./euler.md) Challenges 1-50 (16/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -21,7 +21,7 @@ These are the first 50 challenges from the site.
 13. [Large sum](#large-sum) 🗸
 14. [Longest Collatz sequence](#longest-collatz-sequence) 🗸
 15. [Lattice paths](#lattice-paths) 🗸
-16. [Power digit sum](#power-digit-sum) 
+16. [Power digit sum](#power-digit-sum) 🗸
 17. [Number letter counts](#number-letter-counts) 
 18. [Maximum path sum I](#maximum-path-sum-i) 
 19. [Counting Sundays](#counting-sundays) 
@@ -1473,6 +1473,73 @@ This provides the answer in 2e-6 seconds.
 
 ---
 
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Power digit sum
+
+- Problem 16
+
+### Description
+
+~~~
+2^15 = 32768
+~~~
+
+The sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+
+What is the sum of the digits of the number 
+
+~~~
+2^1000?
+~~~
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+This can be implemented simply in Python:
+	
+~~~py
+import time
+
+t0 = time.time()
+
+x = 2**1000
+y = str(x)
+ans = 0
+for c in y:
+    ans += int(c)
+t1 = time.time()
+
+print("2^1000 = {}".format(x))
+print("Sum of all digits = {}".format(ans))
+print("execution time = {} s".format(t1-t0))
+~~~
+
+This provides the answer in 4e-5
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+1366
+~~~
+
+</details>
+
+	
 This page was last updated Feb 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
