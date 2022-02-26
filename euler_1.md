@@ -1473,12 +1473,6 @@ This provides the answer in 2e-6 seconds.
 
 ---
 
----
-
-### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
-
----
-
 ## Power digit sum
 
 - Problem 16
@@ -1688,6 +1682,11 @@ This provides the answer in 30E-6 seconds.
 
 </details>
 
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
 	
 This page was last updated Feb 22.
 	
