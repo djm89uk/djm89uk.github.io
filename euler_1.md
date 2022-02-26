@@ -1603,7 +1603,7 @@ This provides the answer in 0.02 seconds
 
 ---
 
-## Number letter counts
+## Maximum path sum I
 
 - Problem 17
 
