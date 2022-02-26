@@ -20,7 +20,7 @@ These are the first 50 challenges from the site.
 12. [Highly divisible triangular number](#highly-divisible-triangular-number) 🗸
 13. [Large sum](#large-sum) 🗸
 14. [Longest Collatz sequence](#longest-collatz-sequence) 🗸
-15. [Lattice paths](#lattice-paths) 
+15. [Lattice paths](#lattice-paths) 🗸
 16. [Power digit sum](#power-digit-sum) 
 17. [Number letter counts](#number-letter-counts) 
 18. [Maximum path sum I](#maximum-path-sum-i) 
@@ -1415,6 +1415,64 @@ print("Execution time = {}s.".format(t1-t0))
 
 ---
 
-This page was last updated Jan 22.
+## Lattice paths
+
+- Problem 15
+
+### Description
+
+Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+
+How many such routes are there through a 20×20 grid?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+This is a simple combinatorics questions where the number of paths can be found from the binomial coefficient of the lattice dimensions:
+	
+~~~py
+import time
+import math
+
+def lattice_paths(n,m):
+    p = math.comb(n+m,n)
+    return p
+
+if __name__ == "__main__":
+    t0 = time.time()
+    ans = lattice_paths(20,20)
+    t1 = time.time()
+    print("Number of paths for {}x{} grid = {}".format(20,20,ans))
+    print("Solution took {} s".format(t1-t0))
+~~~
+
+This provides the answer in 2e-6 seconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+137846528820
+~~~
+
+</details>
+
+	
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+This page was last updated Feb 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
