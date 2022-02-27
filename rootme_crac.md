@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cracking [3/46]
+# [Root-Me](./rootme.md) Root-Me Cracking [10/46]
 
 Reverse binaries and crack executables. 
 
@@ -7,12 +7,12 @@ Reverse binaries and crack executables.
 1. [ELF x86 - 0 protection](#elf-x86-0-protection) 🗸
 2. [ELF x86 - Basic](#elf-x86-basic) 🗸
 3. [PE x86 - 0 protection](#pe-x86-0-protection) 🗸
-4. [ELF C++ - 0 protection](#elf-cpp-0-protection)
-5. [PE DotNet - 0 protection](#pe-dotnet-0-protection)
-6. [ELF MIPS - Basic Crackme](#elf-mips-basic-crackme)
-7. [ELF x64 - Golang basic](#elf-x64-golang-basic)
-8. [ELF x86 - Fake Instructions](#elf-x86-fake-instructions)
-9. [ELF x86 - Ptrace](#elf-x86-ptrace)
+4. [ELF C++ - 0 protection](#elf-cpp-0-protection) 🗸
+5. [PE DotNet - 0 protection](#pe-dotnet-0-protection) 🗸
+6. [ELF MIPS - Basic Crackme](#elf-mips-basic-crackme) 🗸
+7. [ELF x64 - Golang basic](#elf-x64-golang-basic) 🗸
+8. [ELF x86 - Fake Instructions](#elf-x86-fake-instructions) 🗸
+9. [ELF x86 - Ptrace](#elf-x86-ptrace) 🗸
 10. [WASM - Introduction](#wasm-introduction)
 11. [ELF ARM - Basic Crackme](#elf-arm-basic-crackme)
 12. [ELF x64 - Basic KeygenMe](#elf-x64-basic-keygenme)
@@ -23,7 +23,7 @@ Reverse binaries and crack executables.
 17. [Lua - Bytecode](#lua-bytecode)
 18. [MachO x64 - keygenme or not](#macho-x64-keygenme-or-not)
 19. [ELF ARM - crackme 1337](#elf-arm-crackme-1337)
-20. [ELF x86 - CrackPass](#elf-x86-crackpass)
+20. [ELF x86 - CrackPass](#elf-x86-crackpass) 🗸
 21. [ELF x86 - ExploitMe](#elf-x86-exploitme)
 22. [ELF x86 - Random Crackme](#elf-x86-random-crackme)
 23. [GB - Basic GameBoy crackme](#gb-basic-gameboy-crackme)
