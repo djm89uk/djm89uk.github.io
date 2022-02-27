@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (18/50)
+# [Project Euler](./euler.md) Challenges 1-50 (23/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -24,11 +24,11 @@ These are the first 50 challenges from the site.
 16. [Power digit sum](#power-digit-sum) 🗸
 17. [Number letter counts](#number-letter-counts) 🗸
 18. [Maximum path sum I](#maximum-path-sum-i) 🗸
-19. [Counting Sundays](#counting-sundays) 
-20. [Factorial digit sum](#factorial-digit-sum) 
-21. [Amicable numbers](#amicable-numbers) 
-22. [Names scores](#names-scores) 
-23. [Non-abundant sums](#non-abundant-sums) 
+19. [Counting Sundays](#counting-sundays) 🗸
+20. [Factorial digit sum](#factorial-digit-sum) 🗸
+21. [Amicable numbers](#amicable-numbers) 🗸
+22. [Names scores](#names-scores) 🗸
+23. [Non-abundant sums](#non-abundant-sums) 🗸
 24. [Lexicographic permutations](#lexicographic-permutations) 
 25. [1000-digit Fibonacci number](#1000-digit-fibonacci-number) 
 26. [Reciprocal cycles](#reciprocal-cycles) 
@@ -1687,6 +1687,384 @@ This provides the answer in 30E-6 seconds.
 ### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
 
 ---
+	
+
+## Counting Sundays
+
+- Problem 19
+
+### Description
+
+You are given the following information, but you may prefer to do some research for yourself.
+
+- 1 Jan 1900 was a Monday.
+- Thirty days has September,
+- April, June and November.
+- All the rest have thirty-one,
+- Saving February alone,
+- Which has twenty-eight, rain or shine.
+- And on leap years, twenty-nine.
+- A leap year occurs on any year evenly divisible by 4, but not on a century unless it is divisible by 400.
+
+How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+This could be solved using simple algebra, however Python has a library, datetime that can solve this simply:
+	
+~~~py
+import time
+from datetime import datetime as dt
+
+t0 = time.time()
+count= 0
+for i in range(1901,2001):
+    for j in range(1,13):
+        x = dt(i,j,1,12,00,00,00)
+        if x.weekday() == 6:
+            count += 1
+            
+t1 = time.time()
+
+print("Total number of Sundays = {}".format(count))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 0.3 milliseconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+171
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Factorial digit sum
+
+- Problem 20
+
+### Description
+
+n! means n × (n − 1) × ... × 3 × 2 × 1
+
+For example, 10! = 10 × 9 × ... × 3 × 2 × 1 = 3628800,
+and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+
+Find the sum of the digits in the number 100!
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+Two solutions in Python are provided, using math library and a simplified for loop:
+	
+~~~py
+import time
+import math
+t0 = time.time()
+total1 = 0
+x = str(math.factorial(100))
+for char in x:
+    total1 += int(char)
+t1 = time.time()
+prod = 1
+for i in range(0,100):
+    if i%10 != 0:
+        prod *= i
+total2 = 0
+x = str(math.factorial(100))
+for char in x:
+    total2 += int(char)
+t2 = time.time()
+
+print("Method 1 using math library:")
+print("Total = {}".format(total1))
+print("execution time = {} seconds.".format(t1-t0))
+
+print("Method 2 using for loop:")
+print("Total = {}".format(total2))
+print("execution time = {} seconds.".format(t2-t1))
+~~~
+
+This provides the answer in 24E-6 seconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+648
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Amicable Numbers
+
+- Problem 21
+
+### Description
+
+Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
+If d(a) = b and d(b) = a, where a ≠ b, then a and b are an amicable pair and each of a and b are called amicable numbers.
+
+For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+
+Evaluate the sum of all the amicable numbers under 10000.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple solution can be written in Python:
+	
+~~~py
+import time
+import numpy as np
+
+def d_n(n):
+    divisors = [1]
+    for i in range(2,n//2,2):
+        if i in divisors:
+            continue
+        elif n%i == 0:
+            divisors.append(i)
+            divisors.append(n//i)
+    divs = list(set(divisors))
+    total = np.sum(divs)
+    return total
+    
+def amicable(n):
+    d = d_n(n)
+    if d_n(d)==n:
+        return d
+    else:
+        return 0
+    
+t0 = time.time()
+a_list = []
+for i in range(2,10000,2):
+    d = amicable(i)
+    if d in a_list:
+        continue
+    elif d!=0 and d!=i:
+        a_list.append(i)
+        a_list.append(d)
+a_list = list(set(a_list))
+total = np.sum(a_list)
+t1 = time.time()
+
+print("Total = {}".format(total))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 7 seconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+31626
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Names scores
+
+- Problem 22
+
+### Description
+
+Using names.txt (right click and 'Save Link/Target As...'), a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.
+
+For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would obtain a score of 938 × 53 = 49714.
+
+What is the total of all the name scores in the file?
+
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple solution can be written in Python:
+	
+~~~py
+import time
+
+t0 = time.time()
+
+file = "names.txt"
+names_file = open(file,"r")
+names_raw = names_file.read().split("\"")
+names_ascii = "".join(names_raw).split(",")
+names_ascii.sort()
+names_value = []
+i = 1
+totalval = 0
+for name in names_ascii:
+    val = 0
+    for char in name:
+        val += ord(char)-64
+    names_value.append(val)
+    totalval += val*i
+    i += 1
+
+t1 = time.time()
+
+print("Total = {}".format(totalval))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 4 milliseconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+871198282
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Non abundant sums
+
+- Problem 23
+
+### Description
+
+A perfect number is a number for which the sum of its proper divisors is exactly equal to the number. For example, the sum of the proper divisors of 28 would be 1 + 2 + 4 + 7 + 14 = 28, which means that 28 is a perfect number.
+
+A number n is called deficient if the sum of its proper divisors is less than n and it is called abundant if this sum exceeds n.
+
+As 12 is the smallest abundant number, 1 + 2 + 3 + 4 + 6 = 16, the smallest number that can be written as the sum of two abundant numbers is 24. By mathematical analysis, it can be shown that all integers greater than 28123 can be written as the sum of two abundant numbers. However, this upper limit cannot be reduced any further by analysis even though it is known that the greatest number that cannot be expressed as the sum of two abundant numbers is less than this limit.
+
+Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple solution can be written in Python:
+	
+~~~py
+import time
+import numpy as np
+
+def is_abundant(n):
+    total = 1
+    for i in range(2,int(np.sqrt(n))+1):
+        if n/i==i:
+            total += i
+        elif n%i == 0:
+            total += i + n//i
+    if total > n:
+        return 1
+    else:
+        return 0
+
+t0 = time.time()
+
+a_numbers = [12]
+integers = list(range(1,28123+1))
+integers.pop(integers.index(24))
+
+for i in range(13,28123-12+1):
+    if is_abundant(i):
+        a_numbers.append(i)
+        for num in a_numbers:
+            newsum = num+i
+            if newsum in integers:
+                integers.pop(integers.index(newsum))
+total = np.sum(integers)
+t1 = time.time()
+
+print("Total = {}".format(total))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 10 minutes.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+4179871
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
 	
 This page was last updated Feb 22.
 	
