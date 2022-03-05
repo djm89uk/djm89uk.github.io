@@ -29,8 +29,8 @@ These are the first 50 challenges from the site.
 21. [Amicable numbers](#amicable-numbers) 🗸
 22. [Names scores](#names-scores) 🗸
 23. [Non-abundant sums](#non-abundant-sums) 🗸
-24. [Lexicographic permutations](#lexicographic-permutations) 
-25. [1000-digit Fibonacci number](#1000-digit-fibonacci-number) 
+24. [Lexicographic permutations](#lexicographic-permutations) 🗸
+25. [1000-digit Fibonacci number](#1000-digit-fibonacci-number) 🗸
 26. [Reciprocal cycles](#reciprocal-cycles) 
 27. [Quadratic primes](#quadratic-primes) 
 28. [Number spiral diagonals](#number-spiral-diagonals) 
@@ -2065,7 +2065,148 @@ This provides the answer in 10 minutes.
 
 ---
 
+## Lexicographic Permutations
+
+- Problem 24
+
+### Description
+
+
+A permutation is an ordered arrangement of objects. For example, 3124 is one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations are listed numerically or alphabetically, we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are:
+
+012   021   102   120   201   210
+
+What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+Each integer changes with the factorial of the index (e.g. the 10th index will change every 9! iterations).  We can write a simple python code to solve:
 	
+~~~py
+import math
+import time
+
+t0 = time.time()
+integers = list(range(0,10))
+r = 999999
+string = ""
+for i in range(9,-1,-1):
+    a = int(r//math.factorial(i))
+    r -= a*math.factorial(i)
+    x = integers.pop(a)
+    string += str(x)
+t1 = time.time()
+
+print("1 millionth lexicographic number = {}".format(string))
+print("execution time = {} s.".format(t1-t0))
+~~~
+
+This provides the answer in 10 nanoseconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+2783915460
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## 1000 digital Fibonacci number
+
+- Problem 25
+
+### Description
+
+The Fibonacci sequence is defined by the recurrence relation:
+
+    Fn = Fn−1 + Fn−2, where F1 = 1 and F2 = 1.
+
+Hence the first 12 terms will be:
+
+    F1 = 1
+    F2 = 1
+    F3 = 2
+    F4 = 3
+    F5 = 5
+    F6 = 8
+    F7 = 13
+    F8 = 21
+    F9 = 34
+    F10 = 55
+    F11 = 89
+    F12 = 144
+
+The 12th term, F12, is the first term to contain three digits.
+
+What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple python code to solve:
+	
+~~~py
+import time
+
+t0 = time.time()
+a = 1
+b = 1
+l = 1
+i = 2
+while l != 1000:
+    c = a + b
+    l = len(str(c))
+    a = b
+    b = c
+    i += 1
+t1= time.time()
+print("i = {}".format(i))
+print("execution time = {} seconds.",format(t1-t0))
+~~~
+
+This provides the answer in 22 milliseconds.
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+4782
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
 This page was last updated Feb 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
