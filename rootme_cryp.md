@@ -20,7 +20,7 @@ Break encryption algorithms.
 14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar) 🗸
 15. [Known plaintext - XOR](#known-plaintext-xOr) 🗸
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
-17. [File - Insecure storage 1](#file-insecure-storage-1)
+17. [File - Insecure storage 1](#file-insecure-storage-1) 🗸
 18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère) 🗸
 19. [System - Android lock pattern](#system-android-lock-pattern)
 20. [Transposition - Rail Fence](#transposition-rail-fence)
@@ -1417,7 +1417,53 @@ ICONOCLASTE
 ### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
- 
+
+## File Insecure storage 1
+
+- Author: g0uZ
+- Date: 6 February 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+Retrieve the user’s password.
+
+### Links
+
+1. [ch20.tgz](http://challenge01.root-me.org/cryptanalyse/ch20/ch20.tgz).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Extracting the tgz archive, we find a firefox profile.  Using dumpzilla, we can extract the password:
+
+~~~shell
+$ python dumpzilla.py ffdir/.mozilla/firefox/o0s0xxhl.default/ --Passwords
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+F1rstP4sSw0rD
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## Polyalphabetic substitution Vigenere
 
