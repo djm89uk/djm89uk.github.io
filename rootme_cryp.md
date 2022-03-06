@@ -21,7 +21,7 @@ Break encryption algorithms.
 15. [Known plaintext - XOR](#known-plaintext-xOr) 🗸
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](#file-insecure-storage-1) 🗸
-18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère) 🗸
+18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenere) 🗸
 19. [System - Android lock pattern](#system-android-lock-pattern) 🗸
 20. [Transposition - Rail Fence](#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
