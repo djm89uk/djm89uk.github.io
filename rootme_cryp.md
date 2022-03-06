@@ -21,7 +21,7 @@ Break encryption algorithms.
 15. [Known plaintext - XOR](#known-plaintext-xOr) 🗸
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](#file-insecure-storage-1)
-18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère)
+18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère) 🗸
 19. [System - Android lock pattern](#system-android-lock-pattern)
 20. [Transposition - Rail Fence](#transposition-rail-fence)
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
@@ -1408,6 +1408,219 @@ The new bitmap has the password.
 
 ~~~
 ICONOCLASTE
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
+
+## Polyalphabetic substitution Vigenere
+
+- Author: Arod
+- Date: 26 October 2011
+- Points: 20
+- Level: 2
+
+### Statement
+
+We need your expert opinion on this document. This is an old letter and it appears that it is important for the pirates that we are searching for. Your mission is to decipher the text and give us the full name of the author (example : "John Doe").
+
+### Links
+
+1. [ch11.txt](http://challenge01.root-me.org/cryptanalyse/ch11/ch11.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The text file contains a vignere ciphertext:
+
+~~~
+Moi Tepdsi Fhrujrlhf
+
+Nu egxex g'vla jmmg ifvgkvq ehcclkk'lgm, p'xgk ihvfshm rrgz pqw whiighyj. "Wptbutsi: Gr nwccxzgqrg tfixai bshk qibti urshfdtamcyr,
+"Tfixzxmxvhb u'nu 'lmgxxf' riyie pr iwitaesi q'nbv uhrcyr"...
+
+Loktuie kblgvl, asgw yxg dxtie.
+
+Qnbg rold hshl, rrgz zaxex djrjlapbzwv xu xdsvl dzxji qx ihhix wvajve
+hvvoragethzjbi pi 1950, hg xfny tqrfx o ixnedhrk zv fvrpi qxfiblvq prl mvne h'gr utqbxy? 
+Rq zbng vmlw hshl xrfhme hrfoewl gq uhb z'rohmf jnbh rzpv, cyrezvl msdgrl z'rohmqrg fcuxsi?
+Vi fnwj nu lmgxxf, vgavqd qtbj fvr ysaws...
+Cx tmqr rlh lg tszhr jiz vvqyiavs rolg x'iphzv... Cl wgmf izll hwfypbslq xyq pn izlihvf hrl olmyie iayoemz, pqw phbexymqw dn'wcl t'ebtexbexux yi ytgjxux...
+
+Vi fnwj tb gapyxuv hb eg plvsv. C'hm qgbnhv elw bvbysjllydw rqdcbxyqv chii eh ugmaswvfl jamf vcdflrf vrwizkl yzi skotmpsz. 
+Nr e'oz vvqbvvl. "Bfg Tqq Hhuczl, qi zi cxio ihw ysamfvk tsz xetjrbs. Nq p'nb trba hmrf fo kxai"
+Eegtbv zvweif. Bz c't jidxnbbvflrf gbiwv. Mvye prl avflw.
+
+V'ev yozm brq hrvclolvfi nnxfnyh'tyv. C'oz mysgzr nb fkkmzegxii.
+Taxqrql iex tmzygx, q'vla gasy. Vo wtpx oi dns ax cigb. Fb ço wtpx grr xfixbv, o'ifm drkji cyr cs dx zyuw ceoeml.
+Tmw ctftx xy'up ax a'rbti bef...
+Gw gtygq uh'bz jx zizx zxbrvl tmv zhw...
+Eb wedgr ji'ze wizwr jiv cl wgmf iskba jupbnl...
+Eb wedgr ji'ze u'euqr ioj xuwqmtgsi xa ug'my gs uxcvmmg ioj xavq pn...
+Loktuie kblgvl. Asgx px el'bs jmmg v'sjm qsgie. Mcll sie qrfsj.
+
+Xa exsel q'vla edvvos... lgl tavgx g'vla sgzrkhv lbv xi zhbux...
+Zi bvrvwgbaezx n mfrolve pn ewxgl xqprivfgpugi phadx ki x'lrkczgl hmrf esj olmzif w'ie tjgds, hgs zfwyxwvhb velgfvbgwhnl iex rgjfrli,
+Ar exqyxygti hg fvybkq e y'bbthttqxrgqv jbsfmqbsegl... yz wrkjvny iex gkclol.
+
+Zayf ocll yibigxn hnl rayf lcdflw fshl drklmxw... 
+Bg o vml rayekw r eh tqxvms tnppxiex rv uvyrjr iclk iini n e'sthsi cyngr fg hzmmg yozf k'yz wgxob...
+Elw rvnzavgaw pi iboewl ugi y'hb ehbw m pnbgjx lxmmrgh gkl-qmguxg vm zezw thûh.
+Fg h ifi qhazgl tmv qxg jtkmcyrl cl bnravr ioi wlw mtnmvzjbie.
+Prl gvnsw cyv tjrblrf hrl qyhzie e ahij twtdiawfv mysgzrksem kie iyxjvl csxsamozklw, yevl qvne gu wbgh thtqq hrl ufnaxqw qtbj el hqwfxfk.
+
+V'lwf rbmfv fvrpi ztwemlrmrg... Es dhuhq hr e'scxjxdsa xh ux s'mzxrkfliaigv, yt pvtbxq hh uolw. Usgw hmwcbzszw hg gvkcmoi qxxr xemexngh, Jtuw belxf tx xyu tbnfitpx qxex pfg tedgux gz vl r'qxnbh gtz pm tehdiblxq hr zzfnaszw ckcwbaigvf, xh mhbw zshl ogilpqd pkwdbuixw.
+Ahij xetxsehbj... xa zayf gcll htbiyxn tkpqurreg.
+Ehbw dipasivoszw yt qfgueuwftbtx... lx hshl bfnz ebtresq vymymaxzj. 
+Gvye ikbgkhuw eeal qfnsigv qx dvtb, wmrf gokbvrmpvms, jtuw pstfs ixsmsmrnl... vm csgw ahij twtqprs qibtmziyl.
+Jfnz garfmflbzil hrl pffiie eghazjbie, zbng wbuezgrs zvl nyqvexg,
+Mhbw zi cnbzlzil tnl zvl wefvbgg ux se yesbo rne vuguxg rovgmxf,
+Ocll hweeflwexg if xebqyxg, zayf foebwyxim xh ehbw yiamsq xu iewnroem ki zshl trbyi ovbbfv jbi o'ifm dfny raxex dihwvq fvxb vmyi, qx ahij lvqyif xbthyi pif vfzfprqpf.
+
+Hiz, cl wgmf nb tkpqurre. Afg jvuqr xgk vlpgm qx zr vbvusfbhv.
+Fvr ovvfs vla gqphb rv cbkqv yxg xxuw bee vs hn'ppe trggvga if hvls, gtz wqpbg zvny ebtnksevl.
+Qar pkwdx lwf hr ocll zydtnlgvk, xyqpdns tavwq uhx jfnz rq qr ioiwvrziexn atteuw.
+
+Wx glbz yz lnvyvk, lx oipb sjm tsz qngwwxzxq.
+Zbng ghbzqd nkfvmlv oig bbubcmpy, ztwj ovye rr iclold bef mcll usgw nkfvmlv...
+Mtexg khbx, zshl gfftie xbng cxz qqqrl.
+~~~
+
+This can be solved using an online solver such as [guballa](https://www.guballa.de/vigenere-solver)
+
+~~~
+The Hacker Manifesto
+
+Un autre s'est fait prendre aujourd'hui, c'est partout dans les journaux. "Scandale: Un adolescent arrete pour crime informatique,
+"Arrestation d'un 'hacker' apres le piratage d'une banque"...
+
+Satanes gosses, tous les memes.
+
+Mais avez vous, dans votre psychologie en trois piece et votre profil
+technocratique de 1950, un jour pense a regarder le monde derriere les yeux d'un hacker? 
+Ne vous etes vous jamais demande ce qui l'avait fait agir, quelles forces l'avaient modele?
+Je suis un hacker, entrez dans mon monde...
+Le mien est un monde qui commence avec l'ecole... Je suis plus astucieux que la plupart des autres enfants, les conneries qu'ils m'apprennent me lassent...
+
+Je suis au college ou au lycee. J'ai ecoute les professeurs expliquer pour la quinzieme fois comment reduire une fraction. 
+Je l'ai compris. "Non Mme Dubois, je ne peux pas montrer mon travail. Je l'ai fait dans ma tete"
+Satane gosses. Il l'a certainement copie. Tous les memes.
+
+J'ai fait une decouverte aujourd'hui. J'ai trouve un ordinateur.
+Attends une minute, c'est cool. Ca fait ce que je veux. Si ça fait une erreur, c'est parce que je me suis plante.
+Pas parce qu'il ne m'aime pas...
+Ni parce qu'il se sent menace par moi...
+Ni parce qu'il pense que je suis petit filoux...
+Ni parce qu'il n'aime pas enseigner et qu'il ne devrait pas etre la...
+Satanes gosses. Tout ce qu'il fait c'est jouer. Tous les memes.
+
+Et alors c'est arrive... une porte s'est ouverte sur le monde...
+Se precipitant a travers la ligne telephonique comme de l'heroine dans les veines d'un accro, une impulsion electronique est envoyee,
+On recherche un refuge a l'incompetence quotidienne... un serveur est trouve.
+
+Vous vous repetez que nous sommes tous pareils... 
+On a ete nourri a la petite cuillere de bouffe pour bebe a l'ecole quand on avait faim d'un steak...
+Les fragments de viande que l'on nous a laisse etaient pre-maches et sans goût.
+On a ete domine par des sadiques ou ignore par des apathiques.
+Les seuls qui avaient des choses a nous apprendre trouverent des eleves volontaires, mais ceux ci sont comme des gouttes dans le dessert.
+
+C'est notre monde maintenant... Le monde de l'electron et de l'interrupteur, la beaute du baud. Nous utilisons un service deja existant, Sans payer ce qui pourrait etre bon marche si ce n'etait pas la propriete de gloutons profiteurs, et vous nous appelez criminels.
+Nous explorons... et vous nous appelez criminels.
+Nous recherchons la connaissance... et vous nous appelez criminels. 
+Nous existons sans couleur de peau, sans nationalite, sans dogme religieux... et vous nous appelez criminels.
+Vous construisez des bombes atomiques, vous financez les guerres,
+Vous ne punissez pas les patrons de la mafia aux riches avocats,
+Vous assassinez et trichez, vous manipulez et nous mentez en essayant de nous faire croire que c'est pour notre propre bien etre, et nous sommes encore des criminels.
+
+Oui, je suis un criminel. Mon crime est celui de la curiosite.
+Mon crime est celui de juger les gens par ce qu'ils pensent et dise, pas selon leur apparence.
+Mon crime est de vous surpasser, quelque chose que vous ne me pardonnerez jamais.
+
+Je suis un hacker, et ceci est mon manifeste.
+Vous pouvez arreter cet individu, mais vous ne pouvez pas tous nous arreter...
+Apres tout, nous sommes tous les memes.
+~~~
+
+The key is thementor.  Translating to English we get:
+
+~~~
+The Hacker Manifesto
+
+Another one got caught today, it's all over the papers. "Scandal: A teenager arrested for computer crime,
+“Hacker arrested after bank hack”...
+
+Damn kids, all the same.
+
+But have you, in your three-piece psychology and your profile
+technocratic era of 1950, one day thought of looking at the world behind the eyes of a hacker?
+Have you ever wondered what made him act, what forces shaped him?
+I am a hacker, enter my world...
+Mine is a world that starts with school... I'm smarter than most other kids, the bullshit they teach me tires me...
+
+I am in college or high school. I listened to the teachers explain for the fifteenth time how to reduce a fraction.
+I understood it. "No Mrs. Dubois, I can't show my work. I did it in my head"
+Damn kids. He certainly copied it. All The same.
+
+I made a discovery today. I found a computer.
+Wait a minute, that's cool. It does what I want. If it makes an error, it's because I messed up.
+Not because he doesn't love me...
+Nor because he feels threatened by me...
+Or because he thinks I'm a little trickster...
+Or because he doesn't like to teach and he shouldn't be there...
+Damn kids. All he does is play. All The same.
+
+And then it happened... a door opened to the world...
+Rushing through the phone line like heroin through an addict's veins, an electronic pulse is sent,
+We are looking for a refuge from the daily incompetence... a waiter is found.
+
+You tell yourself that we are all the same...
+We were spoon-fed baby food at school when we were hungry for a steak...
+The meat fragments we were left with were pre-chewed and tasteless.
+We have been dominated by sadists or ignored by apathetic people.
+The only ones who had things to teach us found volunteer students, but these are like drops in the dessert.
+
+It's our world now... The world of electrons and switches, the beauty of baud. We are using an existing service, Without paying what might be cheap if it wasn't owned by profiteering gluttons, and you call us criminals.
+We explore... and you call us criminals.
+We seek knowledge... and you call us criminals.
+We exist without skin color, without nationality, without religious dogma... and you call us criminals.
+You build atomic bombs, you fund wars,
+You don't punish mafia bosses to wealthy lawyers,
+You murder and cheat, you manipulate and lie to us trying to make us believe it is for our own good, and we are still criminals.
+
+Yes, I am a criminal. My crime is that of curiosity.
+My crime is to judge people by what they think and say, not by how they look.
+My crime is to outdo you, something you will never forgive me for.
+
+I'm a hacker, and this is my manifesto.
+You can stop this individual, but you can't stop all of us...
+After all, we are all the same. 
+More about this source text
+Source text required for additional translation information
+Send feedback
+Side panels
+~~~
+
+A quick google shows this is the manifesto of Loyd Blankenship, a.k.a. "The Mentor".
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Loyd Blankenship
 ~~~
 
 </details>
