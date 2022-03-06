@@ -23,7 +23,7 @@ Break encryption algorithms.
 17. [File - Insecure storage 1](#file-insecure-storage-1) 🗸
 18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère) 🗸
 19. [System - Android lock pattern](#system-android-lock-pattern)
-20. [Transposition - Rail Fence](#transposition-rail-fence)
+20. [Transposition - Rail Fence](#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
 22. [AES - ECB](#aes-ecb)
 23. [LFSR - Known plaintext](#lfsr-known-plaintext)
@@ -1667,6 +1667,60 @@ A quick google shows this is the manifesto of Loyd Blankenship, a.k.a. "The Ment
 
 ~~~
 Loyd Blankenship
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
+
+## Transposition Rail Fence
+
+- Author: YellowS4
+- Date: 6 April 2014
+- Points: 20
+- Level: 2
+
+### Statement
+
+USA, American Civil War, August 3, 1862. You are on patrol around the camp when you see an enemy rider. Once you intercepted him, you discover that he carries a message but nobody at the camp manages to uncipher it. You are the only hope to find the hidden information. It could be crucial !
+
+### Links
+
+1. [ch19.txt](http://challenge01.root-me.org/cryptanalyse/ch19/ch19.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The ciphertext is described as a rail fence cipher:
+
+~~~
+Wnb.r.ietoeh Fo"lKutrts"znl cc hi ee ekOtggsnkidy hini cna neea civo lh
+~~~
+
+Using an online [rail-fence transposition cipher solver](https://www.boxentriq.com/code-breaking/rail-fence-cipher), we can iterate through and find the solution with rails=8 and offset=0:
+
+~~~
+Will invade Kentucky on October the eighth. signal is "Frozen chicken".
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Frozen chicken
 ~~~
 
 </details>
