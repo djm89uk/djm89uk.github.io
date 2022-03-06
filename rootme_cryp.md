@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [18/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [19/56]
 
 Break encryption algorithms.
 
@@ -22,7 +22,7 @@ Break encryption algorithms.
 16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
 17. [File - Insecure storage 1](#file-insecure-storage-1) 🗸
 18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenère) 🗸
-19. [System - Android lock pattern](#system-android-lock-pattern)
+19. [System - Android lock pattern](#system-android-lock-pattern) 🗸
 20. [Transposition - Rail Fence](#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
 22. [AES - ECB](#aes-ecb)
@@ -1676,7 +1676,91 @@ Loyd Blankenship
 ### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
- 
+
+## System Android Lock Pattern
+
+- Author: Silentd
+- Date: 23 December 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+Having doubts about the loyalty of your wife, you’ve decided to read SMS, mail, etc in her smarpthone. Unfortunately it is locked by schema. In spite you still manage to retrieve system files.
+
+You need to find this test scheme to unlock smartphone.
+
+NB : validation password is a number (archive sha256 is 525daa911d4dddb7f3f4b4ec24bff594c4a1994b2e9558ee10329144a6657f98)
+
+### Links
+
+1. [ch17.tbz](http://challenge01.root-me.org/cryptanalyse/ch17/ch17.tbz2).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Decompiling, we can find the gesture.key in android/data/system
+
+~~~shell
+/android/data/system$ ls
+batterystats.bin      dropbox      gesture.key  locksettings.db      locksettings.db-wal  packages.xml         sync      uiderrors.txt  users
+called_pre_boots.dat  entropy.dat  inputmethod  locksettings.db-shm  packages.list        registered_services  throttle  usagestats
+~~~
+
+The key can be read in hex:
+
+~~~shell
+$ cat gesture.key | xxd -ps
+2c3422d33fb9dd9cde87657408e48f4e635713cb
+~~~
+
+This can be cracked using hashlib in Python:
+
+~~~py
+import itertools
+from hashlib import sha1
+from binascii import hexlify
+
+def sha1_crack(gesture_hash):
+    gesture_chars = ["\x00","\x01","\x02","\x03","\x04","\x05","\x06","\x07","\x08","\x09"]
+    print ("hash = {}".format(gesture_hash))
+    for i in range(2, 10):
+        permutations = itertools.permutations(gesture_chars, i)
+        perm_list = map(''.join, permutations)
+        for j in perm_list:
+            sha_hash = sha1(j.encode('utf-8')).hexdigest()
+            if gesture_hash == sha_hash:
+                p = hexlify(j.encode('utf-8')).decode('utf-8')
+                pt = ''.join([p[o] for o in range(1, len(p), 2)])
+                print ("gesture = {}".format(pt))
+
+if __name__ == "__main__":
+    hashed = "2c3422d33fb9dd9cde87657408e48f4e635713cb"
+    sha1_crack(hashed)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+145263780
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## Transposition Rail Fence
 
