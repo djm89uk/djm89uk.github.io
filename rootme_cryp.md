@@ -27,7 +27,7 @@ Break encryption algorithms.
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
 22. [AES - ECB](#aes-ecb)
 23. [LFSR - Known plaintext](#lfsr-known-plaintext)
-24. [RSA - Factorisation](#rsa-factorisation)
+24. [RSA - Factorisation](#rsa-factorisation) 🗸
 25. [RSA - Decipher Oracle](#rsa-decipher-pracle)
 26. [Service - Timing attack](#service-timing-attack)
 27. [Monoalphabetic substitution - Polybe](#monoalphabetic-substitution-polybe)
@@ -1814,7 +1814,125 @@ Frozen chicken
 ### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
- 
+
+
+## RSA Factorisation
+
+- Author: HacKSpider
+- Date: 12 September 2010
+- Points: 25
+- Level: 3
+
+### Statement
+
+The validation password was encrypted using this public key.
+
+ciphertext :
+
+~~~
+e8oQDihsmkvjT3sZe+EE8lwNvBEsFegYF6+OOFOiR6gMtMZxxba/bIgLUD8pV3yEf0gOOfHuB5bC3vQmo7bE4PcIKfpFGZBA
+~~~
+
+### Links
+
+1. [ch6.zip](http://challenge01.root-me.org/cryptanalyse/ch6/ch6.zip).
+
+### Resources
+
+1. [Cryptanalysis of short RSA secret exponents](https://repository.root-me.org/Cryptographie/Asym%C3%A9trique/EN%20-%20Cryptanalysis%20of%20short%20RSA%20secret%20exponents.pdf).
+2. [DROWN: Breaking TLS using SSLv2](https://repository.root-me.org/Cryptographie/Asym%C3%A9trique/EN%20-%20DROWN:%20Breaking%20TLS%20using%20SSLv2.pdf).
+3. [Chosen siphertext attacks against protocols based on the RSA encryption standard](https://repository.root-me.org/Cryptographie/Asym%C3%A9trique/EN%20-%20Chosen%20ciphertext%20attacks%20against%20protocols%20based%20on%20the%20RSA%20encryption%20standard%20-%20Daniel%20Bleichenbacher.pdf).
+4. [Continued Fractions - RSA](https://repository.root-me.org/Cryptographie/Asym%C3%A9trique/EN%20-%20Continued%20Fractions%20-%20RSA.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Extracting the archive, a public key file is retrieved, pubkey.pem.  Using openssl, the modulus and exponent can be extracted:
+
+~~~shell
+$ openssl rsa -pubin -inform PEM -text -noout < pubkey.pem 
+RSA Public-Key: (576 bit)
+Modulus:
+    00:c2:cb:b2:4f:db:f9:23:b6:12:68:e3:f1:1a:38:
+    96:de:45:74:b3:ba:58:73:0c:bd:65:29:38:86:4e:
+    22:23:ee:eb:70:4a:17:cf:d0:8d:16:b4:68:91:a6:
+    14:74:75:99:39:c6:e4:9a:af:e7:f2:59:55:48:c7:
+    4c:1d:7f:b8:d2:4c:d1:5c:b2:3b:4c:d0:a3
+Exponent: 65537 (0x10001)
+~~~
+
+This is a 576 bit RSA for which the primes p and q can be found [online](https://mathworld.wolfram.com/news/2003-12-05/rsa/).  Using Python a simple solver can be written:
+
+~~~py
+from Crypto.PublicKey import RSA
+from Crypto.Util.number import inverse
+import base64 as b64
+import binascii
+
+ct_b64 = "e8oQDihsmkvjT3sZe+EE8lwNvBEsFegYF6+OOFOiR6gMtMZxxba/bIgLUD8pV3yEf0gOOfHuB5bC3vQmo7bE4PcIKfpFGZBA"
+
+asciikey = """-----BEGIN PUBLIC KEY-----
+MGQwDQYJKoZIhvcNAQEBBQADUwAwUAJJAMLLsk/b+SO2Emjj8Ro4lt5FdLO6WHMM
+vWUpOIZOIiPu63BKF8/QjRa0aJGmFHR1mTnG5Jqv5/JZVUjHTB1/uNJM0VyyO0zQ
+owIDAQAB
+-----END PUBLIC KEY-----"""
+
+n = int(RSA.importKey(asciikey).n)
+e = int(65537)
+
+# found online at https://mathworld.wolfram.com/news/2003-12-05/rsa/:
+p = 398075086424064937397125500550386491199064362342526708406385189575946388957261768583317
+q = 472772146107435302536223071973048224632914695302097116459852171130520711256363590397527
+
+m = (p-1)*(q-1)
+
+d = inverse(e,m)
+
+ct_B = b64.b64decode(ct_b64.encode())
+ct_dec = int(binascii.hexlify(ct_B),16)
+
+pt_dec = pow(ct_dec,d,n)
+pt_hex = hex(pt_dec)[2:].strip("L")
+if len(pt_hex)%2!=0:
+    pt_hex = "0"+pt_hex
+
+pt_B = binascii.unhexlify(pt_hex)
+pt_ascii = ""
+
+for char in pt_B:
+    if (char >31) and (char<127):
+        pt_ascii += chr(char)
+    else:
+        pt_ascii += " "
+
+print(pt_ascii)
+~~~
+
+This returns a long string including the original PT message.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+up2l6DnaIhZgxA
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
