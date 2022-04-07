@@ -38,7 +38,18 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [caas (2021)](#caas) ✓
 - [notepad (2021)](#notepad)
 - [JAuth (2021)](#jauth)
-
+- [Includes (2022)](#includes) ✓
+- [Inspect HTML (2022)](#inspect-html) ✓
+- [Local Authority (2022)](#local-authority) ✓
+- [Search Source (2022)](#search-source) ✓
+- [Forbidden Paths (2022)](#forbidden-paths) ✓
+- [Power Cookie (2022)](#power-cookie) ✓
+- [Roboto Sans (2022)](#roboto-sans) ✓
+- [Secrets (2022)](#secrets)
+- [SQL Direct (2022)](#sql-direct)
+- [SQLiLite (2022)](#sqlilite)
+- [Live Art (2022)](#live-art)
+- [Noted (2022)](#noted)
 
 ---
 
@@ -6967,9 +6978,6 @@ Using an inject:
 
 navigates us to a webpage /templates/errors/-Jb39Ej3JYP8.html which is a Jinja error template.  We need to identify a suitable Server Side Template Injection [SSTI](https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/) to exploit Jinja and Flask.
 
-	
-
-
 </details>
 
 ### Answer
@@ -7009,6 +7017,759 @@ Can you identify the components and exploit the vulnerable one? The website is r
 
 1. Use the web browser tools to check out the JWT cookie.
 2. The JWT should always have two (2) . separators.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Includes
+
+- Author: Lt 'Syreal' Jones
+- 100 Points
+
+### Description
+
+Can you get the flag? Go to this [website](http://saturn.picoctf.net:52895/) and see what you can discover.
+
+### Hints
+
+1. Is there more code than what the inspector initially shows?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we can see two external files imported to the website:
+	
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>On Includes</title>
+  </head>
+  <body>
+    <script src="script.js"></script>
+  
+    <h1>On Includes</h1>
+    <p>Many programming languages and other computer files have a directive, 
+       often called include (sometimes copy or import), that causes the 
+       contents of a second file to be inserted into the original file. These 
+       included files are called copybooks or header files. They are often used
+       to define the physical layout of program data, pieces of procedural code
+       and/or forward declarations while promoting encapsulation and the reuse
+       of code.</p>
+    <br>
+    <p> Source: Wikipedia on Include directive </p>
+    <button type="button" onclick="greetings();">Say hello</button>
+  </body>
+</html>
+~~~
+
+The first part of the flag can be retrieved from the stylesheet style.css:
+
+~~~html
+body {
+  background-color: lightblue;
+}
+
+/*  picoCTF{1nclu51v17y_1of2_  */
+~~~
+
+The second part of the flag can be found in the javascript file script.js:
+
+~~~js
+function greetings()
+{
+  alert("This code is in a separate file!");
+}
+
+//  f7w_2of2_f4593d9d}
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{1nclu51v17y_1of2_f7w_2of2_f4593d9d}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Inspect HTML
+
+- Author: Lt 'Syreal' Jones
+- 100 Points
+
+### Description
+
+Can you get the flag? Go to this [website](https://saturn.picoctf.net:59430/) and see what you can discover.
+
+### Hints
+
+1. What is the web inspector in web browsers?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Viewing the webpage source we can find the flag:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>On Histiaeus</title>
+  </head>
+  <body>
+    <h1>On Histiaeus</h1>
+    <p>However, according to Herodotus, Histiaeus was unhappy having to stay in
+       Susa, and made plans to return to his position as King of Miletus by 
+       instigating a revolt in Ionia. In 499 BC, he shaved the head of his 
+       most trusted slave, tattooed a message on his head, and then waited for 
+       his hair to grow back. The slave was then sent to Aristagoras, who was 
+       instructed to shave the slave's head again and read the message, which 
+       told him to revolt against the Persians.</p>
+    <br>
+    <p> Source: Wikipedia on Histiaeus </p>
+	<!--picoCTF{1n5p3t0r_0f_h7ml_dd513514}-->
+  </body>
+</html>
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{1n5p3t0r_0f_h7ml_dd513514}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Local Authority
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you get the flag? Go to this website and see what you can discover.
+
+### Hints
+
+1. How is the password checked on this website?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Viewing the webpage source code, we can see a login form with a php script, login.php:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Secure Customer Portal</title>
+  </head>
+  <body>
+
+    <h1>Secure Customer Portal</h1>
+    
+   <p>Only letters and numbers allowed for username and password.</p>
+    
+    <form role="form" action="login.php" method="post">
+      <input type="text" name="username" placeholder="Username" required 
+       autofocus></br>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" name="login">Login</button>
+    </form>
+  </body>
+</html>
+~~~
+
+The php script includes the form filter limiting inputs to alphanumeric characters and a call to an external function, filter:
+	
+~~~php
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Page</title>
+  </head>
+  <body>
+    <script src="secure.js"></script>
+    
+    <p id='msg'></p>
+    
+    <form hidden action="admin.php" method="post" id="hiddenAdminForm">
+      <input type="text" name="hash" required id="adminFormHash">
+    </form>
+    
+    <script type="text/javascript">
+      function filter(string) {
+        filterPassed = true;
+        for (let i =0; i < string.length; i++){
+          cc = string.charCodeAt(i);
+          
+          if ( (cc >= 48 && cc <= 57) ||
+               (cc >= 65 && cc <= 90) ||
+               (cc >= 97 && cc <= 122) )
+          {
+            filterPassed = true;     
+          }
+          else
+          {
+            return false;
+          }
+        }
+        
+        return true;
+      }
+    
+      window.username = "";
+      window.password = "";
+      
+      usernameFilterPassed = filter(window.username);
+      passwordFilterPassed = filter(window.password);
+      
+      if ( usernameFilterPassed && passwordFilterPassed ) {
+      
+        loggedIn = checkPassword(window.username, window.password);
+        
+        if(loggedIn)
+        {
+          document.getElementById('msg').innerHTML = "Log In Successful";
+          document.getElementById('adminFormHash').value = "2196812e91c29df34f5e217cfd639881";
+          document.getElementById('hiddenAdminForm').submit();
+        }
+        else
+        {
+          document.getElementById('msg').innerHTML = "Log In Failed";
+        }
+      }
+      else {
+        document.getElementById('msg').innerHTML = "Illegal character in username or password."
+      }
+    </script>
+    
+  </body>
+</html>
+~~~
+	   
+The php form refers to the checkPassword routine in secure.js:
+	   
+~~~js
+function checkPassword(username, password)
+{
+  if( username === 'admin' && password === 'strongPassword098765' )
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+~~~
+
+We can log in with the username: admin and the password: strongPassword098765. Logging into the website, we can retrieve the flag.
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{j5_15_7r4n5p4r3n7_6309e949}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Search Source
+
+- Author: Mubarak Mikail
+- 100 Points
+
+### Description
+
+The developer of this website mistakenly left an important artifact in the website source, can you find it? The website is [here](http://saturn.picoctf.net:56488/).
+
+### Hints
+
+1. How could you mirror the website on your local machine so you could use more powerful tools for searching?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The website contents can be downloaded using wget:
+
+~~~shell
+$ wget -mkEpnp http://saturn.picoctf.net:56488
+~~~
+
+The directory can be searched for the flag using grep:
+	
+~~~shell
+$ grep -r "picoCTF{" ../
+../delete/saturn.picoctf.net:56488/css/style.css:/** banner_main picoCTF{1nsp3ti0n_0f_w3bpag3s_227d64bd} **/
+~~~
+
+This returns the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{1nsp3ti0n_0f_w3bpag3s_227d64bd}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Forbidden Paths
+
+- Author: LT 'syreal' Jones
+- 200 Points
+
+### Description
+
+Can you get the flag? Here's the [website](http://saturn.picoctf.net:53295/). We know that the website files live in /usr/share/nginx/html/ and the flag is at /flag.txt but the website is filtering absolute file paths. Can you get past the filter to read the flag?
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+As detailed in the description, the website files are in the directory /usr/share/nginx/html/.  We can find the flag in /flag.txt by traversing the directory hierarchy in the form.  Submitting "../../../../flag.txt" provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{7h3_p47h_70_5ucc355_26b22ab3}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Power Cookie
+
+- Author: LT 'syreal' Jones
+- 200 Points
+
+### Description
+
+Can you get the flag? Go to this [website](http://saturn.picoctf.net:64271/) and see what you can discover.
+
+### Hints
+
+1. Do you know how to modify cookies?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website, we can visit check.php and see a cookie is generated "isAdmin" which is set to false.  Setting the cookie to True, we can submit a requests and get the flag. 
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{gr4d3_A_c00k13_dcb9f091}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Roboto Sans
+
+- Author: Mubarak Mikail
+- 200 Points
+
+### Description
+
+The flag is somewhere on this web application not necessarily on the website. Find it. Check [this](http://saturn.picoctf.net:65442/) out.
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge title suggests the flag may be in robots.txt; We can retrieve this using wget:
+
+~~~shell
+$ wget http://saturn.picoctf.net:65442/robots.txt
+~~~
+
+This provides the following content:
+
+~~~
+User-agent *
+Disallow: /cgi-bin/
+Think you have seen your flag or want to keep looking.
+
+ZmxhZzEudHh0;anMvbXlmaW
+anMvbXlmaWxlLnR4dA==
+svssshjweuiwl;oiho.bsvdaslejg
+Disallow: /wp-admin/
+~~~
+
+Decoding these base64 strings using an [online tool]() we find references to additional website files:
+
+~~~
+ZmxhZzEudHh0 -> flag1.txt
+anMvbXlmaWxlLnR4dA== -> js/myfile.txt
+svssshjweuiwl;oiho.bsvdaslejg -> ,z谖/u%z8
+~~~
+
+Visiting http://saturn.picoctf.net:65442/js/myfile.txt, we find the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{Who_D03sN7_L1k5_90B0T5_a4f5cc70}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Secrets
+
+- Author: Geoffrey Njogu
+- 200 Points
+
+### Description
+
+We have several pages hidden. Can you find the one with the flag? The website is running [here](http://saturn.picoctf.net:54925/).
+
+### Hints
+
+1. folders folders folders.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## SQL Direct
+
+- Author: Mubarak Mikail / LT 'syreal' Jones
+- 200 Points
+
+### Description
+
+Connect to this PostgreSQL server and find the flag!
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## SQLiLite
+
+- Author: Mubarak Mikail
+- 300 Points
+
+### Description
+
+Can you login to this website?
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Live Art
+
+- Author: zwad3
+- 500 Points
+
+### Description
+
+There's nothing quite as fun as drawing for an audience. So sign up for LiveArt today and show the world what you can do.
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## noted
+
+- Author: ehhthing
+- 500 Points
+
+### Description
+
+I made a nice web app that lets you take notes. I'm pretty sure I've followed all the best practices so its definitely secure right? Note that the headless browser used for the "report" feature does not have access to the internet.
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+	
+## Title
+
+- Author: 
+- X Points
+
+### Description
+
+Description
+
+### Hints
+
+1. Hint 1
+2. Hint 2
 
 ### Solutions
 
