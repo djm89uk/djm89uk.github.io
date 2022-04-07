@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [33/36]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [33/50]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -41,6 +41,20 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [College-Rowing-Team (2021)](#college-rowing-team) ✓
 - [Corrupt-key-1 (2021)](#corrupt-key-1)
 - [Corrupt-key-2 (2021)](#corrupt-key-2)
+- [basic-mod1 (2022)](#basic-mod1)
+- [basic-mod2 (2022)](#basic-mod2)
+- [credstuff (2022)](#credstuff)
+- [morse-code (2022)](#morse-code)
+- [rail-fence (2022)](#rail-fence)
+- [substitution0 (2022)](#substitution0)
+- [substitution1 (2022)](#substitution1)
+- [substitution2 (2022)](#substitution2)
+- [transposition-trial (2022)](#transposition-trial)
+- [Vigenere (2022)](#vigenere)
+- [Very Smooth (2022)](#very-smooth)
+- [Sequences (2022)](#sequences)
+- [Sum-O-Primes (2022)](#sum-o-primes)
+- [NSA Backdoor (2022)](#nsa-backdoor)
 
 ---
 
@@ -4124,6 +4138,616 @@ picoCTF{}
 
 ---
 
+## basic mod1
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+We found this weird message being passed around on the servers, we think we have a working decrpytion scheme. Download the message [here](https://artifacts.picoctf.net/c/397/message.txt). Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. picoCTF{decrypted_message})
+
+### Hints
+
+1. Do you know what mod 37 means?
+2. mod 37 means modulo 37. It gives the remainder of a number after being divided by 37.
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/397/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+
+## basic mod2
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+A new modular challenge! Download the message [here](https://artifacts.picoctf.net/c/503/message.txt). Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. picoCTF{decrypted_message})
+
+### Hints
+
+1. Do you know what the modular inverse is?
+2. The inverse modulo z of x is the number, y that when multiplied by x is 1 modulo z
+3. It's recommended to use a tool to find the modular inverses
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/503/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## credstuff
+
+- Author: Will Hong / LT 'syreal' Jones
+- 100 points
+
+### Description
+
+We found a leak of a blackmarket website's login credentials. Can you find the password of the user cultiris and successfully decrypt it? Download the leak [here](https://artifacts.picoctf.net/c/534/leak.tar). The first user in usernames.txt corresponds to the first password in passwords.txt. The second user corresponds to the second password, and so on.
+
+### Hints
+
+1. Maybe other passwords will have hints about the leak?
+
+### Attachments
+
+1. [leak.tar](https://artifacts.picoctf.net/c/534/leak.tar)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## morse code
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+Morse code is well known. Can you decrypt this? Download the file [here](https://artifacts.picoctf.net/c/235/morse_chal.wav). Wrap your answer with picoCTF{}, put underscores in place of pauses, and use all lowercase.
+
+### Hints
+
+1. Audacity is a really good program to analyze morse code audio.
+
+### Attachments
+
+1. [morse_chal.wav](https://artifacts.picoctf.net/c/235/morse_chal.wav)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## rail fence
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+A type of transposition cipher is the rail fence cipher, which is described [here](https://en.wikipedia.org/wiki/Rail_fence_cipher). Here is one such cipher encrypted using the rail fence with 4 rails. Can you decrypt it? Download the message [here](https://artifacts.picoctf.net/c/276/message.txt). Put the decoded message in the picoCTF flag format, picoCTF{decoded_message}.
+
+### Hints
+
+1. Once you've understood how the cipher works, it's best to draw it out yourself on paper
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/276/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## substitution0
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+A message has come in but it seems to be all scrambled. Luckily it seems to have the key at the beginning. Can you crack this substitution cipher? Download the message [here](https://artifacts.picoctf.net/c/383/message.txt).
+
+### Hints
+
+1. Try a frequency attack. An online tool might help.
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/383/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## substitution1
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+A second message has come in the mail, and it seems almost identical to the first one. Maybe the same thing will work again. Download the message [here](https://artifacts.picoctf.net/c/418/message.txt).
+
+### Hints
+
+1. Try a frequency attack
+2. Do the punctuation and the individual words help you make any substitutions?
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/418/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## substitution2
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+It seems that another encrypted message has been intercepted. The encryptor seems to have learned their lesson though and now there isn't any punctuation! Can you still crack the cipher? Download the message [here](https://artifacts.picoctf.net/c/111/message.txt).
+
+### Hints
+
+1. Try refining your frequency attack, maybe analyzing groups of letters would improve your results?
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/111/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## transposition trial
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+Our data got corrupted on the way here. Luckily, nothing got replaced, but every block of 3 got scrambled around! The first word seems to be three letters long, maybe you can use that to recover the rest of the message. Download the corrupted message [here](https://artifacts.picoctf.net/c/460/message.txt).
+
+### Hints
+
+1. Split the message up into blocks of 3 and see how the first block is scrambled
+
+### Attachments
+
+1. [message.txt](https://artifacts.picoctf.net/c/460/message.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Vigenere
+
+- Author: Mubarak Mikail
+- 100 points
+
+### Description
+
+Can you decrypt this message? Decrypt this [message](https://artifacts.picoctf.net/c/531/cipher.txt) using this key "CYLAB".
+
+### Hints
+
+1. [https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher)
+
+### Attachments
+
+1. [cipher.txt](https://artifacts.picoctf.net/c/531/cipher.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Very Smooth
+
+- Author: Joshua Inscoe
+- 300 points
+
+### Description
+
+Forget safe primes... Here, we like to live life dangerously... >:)
+
+### Hints
+
+1. Don't look at me... Go ask Mr. Pollard if you need a hint!
+
+### Attachments
+
+1. [gen.py](https://artifacts.picoctf.net/c/133/gen.py)
+2. [output.txt](https://artifacts.picoctf.net/c/133/output.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Sequences
+
+- Author: Anish Singhani
+- 400 points
+
+### Description
+
+I wrote this linear recurrence function, can you figure out how to make it run fast enough and get the flag? Download the code here [sequences.py](https://artifacts.picoctf.net/c/510/sequences.py) Note that even an efficient solution might take several seconds to run. If your solution is taking several minutes, then you may need to reconsider your approach.
+
+### Hints
+
+1. Google "matrix diagonalization". Can you figure out how to apply it to this function?
+
+### Attachments
+
+1. [sequences.py](https://artifacts.picoctf.net/c/510/sequences.py)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Sum O Primes
+
+- Author: Joshua Inscoe
+- 400 points
+
+### Description
+
+We have so much faith in RSA we give you not just the product of the primes, but their sum as well!
+
+### Hints
+
+1. I love squares :)
+
+### Attachments
+
+1. [gen.py](https://artifacts.picoctf.net/c/182/gen.py)
+2. [output.txt](https://artifacts.picoctf.net/c/182/output.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## NSA Backdoor
+
+- Author: Joshua Inscoe
+- 500 points
+
+### Description
+
+I heard someone has been sneakily installing backdoors in open-source implementations of Diffie-Hellman... I wonder who it could be... ;)
+
+### Hints
+
+1. Look for Mr. Wong's whitepaper... His work has helped so many cats!
+
+### Attachments
+
+1. [gen.py](https://artifacts.picoctf.net/c/261/gen.py)
+2. [output.txt](https://artifacts.picoctf.net/c/261/output.txt)
+ 
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{}
+~~~
+
+</details>
+
+---
+
+### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
 Page last updated Jan 2021.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
