@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [37/50]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [43/50]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -45,12 +45,12 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [basic-mod2 (2022)](#basic-mod2) ✓
 - [credstuff (2022)](#credstuff) ✓
 - [morse-code (2022)](#morse-code) ✓
-- [rail-fence (2022)](#rail-fence)
-- [substitution0 (2022)](#substitution0)
-- [substitution1 (2022)](#substitution1)
-- [substitution2 (2022)](#substitution2)
-- [transposition-trial (2022)](#transposition-trial)
-- [Vigenere (2022)](#vigenere)
+- [rail-fence (2022)](#rail-fence) ✓
+- [substitution0 (2022)](#substitution0) ✓
+- [substitution1 (2022)](#substitution1) ✓
+- [substitution2 (2022)](#substitution2) ✓
+- [transposition-trial (2022)](#transposition-trial) ✓
+- [Vigenere (2022)](#vigenere) ✓
 - [Very Smooth (2022)](#very-smooth)
 - [Sequences (2022)](#sequences)
 - [Sum-O-Primes (2022)](#sum-o-primes)
@@ -4378,6 +4378,18 @@ A type of transposition cipher is the rail fence cipher, which is described [her
 
 <summary markdown="span">Solution 1</summary>
 
+Downloading the ciphertext message, we have:
+
+~~~
+Ta _7N6D54hlg:W3D_H3C31N__510ef sHR053F38N43D28 i33___N2
+~~~
+
+Using an [online cipher](https://www.boxentriq.com/code-breaking/rail-fence-cipher) the plaintext can be found:
+
+~~~
+The flag is: WH3R3_D035_7H3_F3NC3_8361N_4ND_3ND_55228140
+~~~
+
 </details>
 
 ### Answer
@@ -4387,7 +4399,7 @@ A type of transposition cipher is the rail fence cipher, which is described [her
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{WH3R3_D035_7H3_F3NC3_8361N_4ND_3ND_55228140}
 ~~~
 
 </details>
@@ -4421,6 +4433,40 @@ A message has come in but it seems to be all scrambled. Luckily it seems to have
 
 <summary markdown="span">Solution 1</summary>
 
+The message can be downloaded and viewed:
+
+~~~
+PAQZTNDSRYWFEXGJKCVLBUHOMI 
+
+Stctbjgx Ftdcpxz pcgvt, hrls p dcput pxz vlpltfm prc, pxz acgbdsl et lst attlft
+ncge p dfpvv qpvt rx hsrqs rl hpv txqfgvtz. Rl hpv p atpblrnbf vqpcpaptbv, pxz, pl
+lspl lret, bxwxghx lg xplbcpfrvlv—gn qgbcvt p dctpl jcrit rx p vqrtxlrnrq jgrxl
+gn urth. Lstct htct lhg cgbxz afpqw vjglv xtpc gxt tolcterlm gn lst apqw, pxz p
+fgxd gxt xtpc lst glstc. Lst vqpftv htct toqttzrxdfm spcz pxz dfgvvm, hrls pff lst
+pjjtpcpxqt gn abcxrvstz dgfz. Lst htrdsl gn lst rxvtql hpv utcm ctepcwpaft, pxz,
+lpwrxd pff lsrxdv rxlg qgxvrztcplrgx, R qgbfz spczfm afpet Ybjrltc ngc srv gjrxrgx
+ctvjtqlrxd rl.
+
+Lst nfpd rv: jrqgQLN{5BA5717B710X_3U0FB710X_PP1QQ2A7}
+~~~
+
+Using an [online decoder](https://www.guballa.de/substitution-solver) the plaintext can be found:
+
+~~~
+ABCDEFGHIJKLMNOPQRSTUVWXYZ 
+
+Hereupon Legrand arose, with a grave and stately air, and brought me the beetle
+from a glass case in which it was enclosed. It was a beautiful scarabaeus, and, at
+that time, unknown to naturalists—of course a great prize in a scientific point
+of view. There were two round black spots near one extremity of the back, and a
+long one near the other. The scales were exceedingly hard and glossy, with all the
+appearance of burnished gold. The weight of the insect was very remarkable, and,
+taking all things into consideration, I could hardly blame Jupiter for his opinion
+respecting it.
+
+The flag is: picoCTF{5UB5717U710N_3V0LU710N_AA1CC2B7}
+~~~
+	
 </details>
 
 ### Answer
@@ -4430,7 +4476,7 @@ A message has come in but it seems to be all scrambled. Luckily it seems to have
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{5UB5717U710N_3V0LU710N_AA1CC2B7}
 ~~~
 
 </details>
@@ -4465,6 +4511,20 @@ A second message has come in the mail, and it seems almost identical to the firs
 
 <summary markdown="span">Solution 1</summary>
 
+Again the ciphertext can be downloaded:
+
+~~~
+WILh (hjpai lpa wrtikan ijn lbrc) ran r ietn pl wpgtkina hnwkazie wpgtnizizpu. Wpuinhiruih ran tanhnuiny szij r hni pl wjrbbnucnh sjzwj inhi ijnza wanrizdzie, inwjuzwrb (ruy cppcbzuc) hfzbbh, ruy tapobng-hpbdzuc rozbzie. Wjrbbnucnh khkrbbe wpdna r ukgona pl wrincpaznh, ruy sjnu hpbdny, nrwj eznbyh r hiazuc (wrbbny r lbrc) sjzwj zh hkogziiny ip ru pubzun hwpazuc hnadzwn. WILh ran r canri sre ip bnrau r szyn raare pl wpgtkina hnwkazie hfzbbh zu r hrln, bncrb nudzapugnui, ruy ran jphiny ruy tbreny oe grue hnwkazie capkth rapkuy ijn spaby lpa lku ruy tarwizwn. Lpa ijzh tapobng, ijn lbrc zh: tzwpWIL{LA3VK3UWE_4774WF5_4A3_W001_O810YY84}
+~~~
+
+Using an [online decoder](https://www.guballa.de/substitution-solver) the plaintext can be found:
+
+~~~
+CTFs (short for capture the flag) are a type of computer security competition. Contestants are presented with a set of challenges which test their creativity, technical (and googling) skills, and problem-solving ability. Challenges usually cover a number of categories, and when solved, each yields a string (called a flag) which is submitted to an online scoring service. CTFs are a great way to learn a wide array of computer security skills in a safe, legal environment, and are hosted and played by many security groups around the world for fun and practice. For this problem, the flag is: picoCTF{FR3JU3NCY_4774CK5_4R3_C001_B810DD84}
+~~~
+
+There is an obvious error in the solution where J jas been mistakenly substituted in lieu of Q.
+
 </details>
 
 ### Answer
@@ -4474,7 +4534,7 @@ A second message has come in the mail, and it seems almost identical to the firs
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{FR3QU3NCY_4774CK5_4R3_C001_B810DD84}
 ~~~
 
 </details>
@@ -4508,6 +4568,18 @@ It seems that another encrypted message has been intercepted. The encryptor seem
 
 <summary markdown="span">Solution 1</summary>
 
+The ciphertext message can be downloaded:
+
+~~~
+voxfxxtnuvuxjxfrycvoxfdxyyxuvraynuoxgonwousoccyscqmkvxfuxskfnvhscqmxvnvncpunpsykgnpwshaxfmrvfncvrpgkushaxfsoryyxpwxvoxuxscqmxvnvncpubcskumfnqrfnyhcpuhuvxqurgqnpnuvfrvncpbkpgrqxpvryudonsorfxjxfhkuxbkyrpgqrfexvrayxuenyyuocdxjxfdxaxynxjxvoxmfcmxfmkfmcuxcbronwousoccyscqmkvxfuxskfnvhscqmxvnvncpnupcvcpyhvcvxrsojrykrayxuenyyuakvryucvcwxvuvkgxpvunpvxfxuvxgnprpgxtsnvxgrackvscqmkvxfusnxpsxgxbxpunjxscqmxvnvncpurfxcbvxpyracfnckurbbrnfurpgscqxgcdpvcfkppnpwsoxseynuvurpgxtxskvnpwscpbnwusfnmvucbbxpuxcpvoxcvoxforpgnuoxrjnyhbcskuxgcpxtmycfrvncprpgnqmfcjnurvncprpgcbvxporuxyxqxpvucbmyrhdxaxynxjxrscqmxvnvncpvcksonpwcpvoxcbbxpunjxxyxqxpvucbscqmkvxfuxskfnvhnuvoxfxbcfxraxvvxfjxonsyxbcfvxsoxjrpwxynuqvcuvkgxpvunprqxfnsrponwousoccyubkfvoxfdxaxynxjxvorvrpkpgxfuvrpgnpwcbcbbxpunjxvxsopnzkxunuxuuxpvnrybcfqckpvnpwrpxbbxsvnjxgxbxpuxrpgvorvvoxvccyurpgscpbnwkfrvncpbcskuxpsckpvxfxgnpgxbxpunjxscqmxvnvncpugcxupcvyxrguvkgxpvuvcepcdvoxnfxpxqhruxbbxsvnjxyhruvxrsonpwvoxqvcrsvnjxyhvonpeynexrprvvrsexfmnscsvbnurpcbbxpunjxyhcfnxpvxgonwousoccyscqmkvxfuxskfnvhscqmxvnvncpvorvuxxeuvcwxpxfrvxnpvxfxuvnpscqmkvxfusnxpsxrqcpwonwousoccyxfuvxrsonpwvoxqxpckworackvscqmkvxfuxskfnvhvcmnzkxvoxnfskfncunvhqcvnjrvnpwvoxqvcxtmycfxcpvoxnfcdprpgxpraynpwvoxqvcaxvvxfgxbxpgvoxnfqrsonpxuvoxbyrwnumnscSVB{P6F4Q_4P41H515_15_73G10K5_B302B3A6}
+~~~
+
+Using an [online decoder](https://www.guballa.de/substitution-solver) the plaintext can be found:
+
+~~~
+thereexistseveralotherwellestablishedhighschoolcomputersecuritycompetitionsincludingcyberpatriotanduscyberchallengethesecompetitionsfocusprimarilyonsystemsadministrationfundamentalswhichareveryusefulandmarketableskillshoweverwebelievetheproperpurposeofahighschoolcomputersecuritycompetitionisnotonlytoteachvaluableskillsbutalsotogetstudentsinterestedinandexcitedaboutcomputersciencedefensivecompetitionsareoftenlaboriousaffairsandcomedowntorunningchecklistsandexecutingconfigscriptsoffenseontheotherhandisheavilyfocusedonexplorationandimprovisationandoftenhaselementsofplaywebelieveacompetitiontouchingontheoffensiveelementsofcomputersecurityisthereforeabettervehiclefortechevangelismtostudentsinamericanhighschoolsfurtherwebelievethatanunderstandingofoffensivetechniquesisessentialformountinganeffectivedefenseandthatthetoolsandconfigurationfocusencounteredindefensivecompetitionsdoesnotleadstudentstoknowtheirenemyaseffectivelyasteachingthemtoactivelythinklikeanattackerpicoctfisanoffensivelyorientedhighschoolcomputersecuritycompetitionthatseekstogenerateinterestincomputerscienceamonghighschoolersteachingthemenoughaboutcomputersecuritytopiquetheircuriositymotivatingthemtoexploreontheirownandenablingthemtobetterdefendtheirmachinestheflagispicoCTF{N6R4M_4N41Y515_15_73D10U5_F302F3B6}
+~~~
+
 </details>
 
 ### Answer
@@ -4517,7 +4589,7 @@ It seems that another encrypted message has been intercepted. The encryptor seem
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{N6R4M_4N41Y515_15_73D10U5_F302F3B6}
 ~~~
 
 </details>
@@ -4551,6 +4623,28 @@ Our data got corrupted on the way here. Luckily, nothing got replaced, but every
 
 <summary markdown="span">Solution 1</summary>
 
+The ciphertext can be downloaded:
+
+~~~
+heTfl g as iicpCTo{7F4NRP051N5_16_35P3X51N3_VCDE4CE4}7
+~~~
+
+This can be solved with a simple Python script:
+
+~~~py
+ct = "heTfl g as iicpCTo{7F4NRP051N5_16_35P3X51N3_VCDE4CE4}7"
+pt = ""
+x = len(ct)//3
+
+for i in range(x):
+    a = ct[3*i]
+    a += ct[3*i+1]
+    a = ct[3*i+2]+a
+    pt += a
+
+print(pt)
+~~~
+
 </details>
 
 ### Answer
@@ -4560,7 +4654,7 @@ Our data got corrupted on the way here. Luckily, nothing got replaced, but every
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{7R4N5P051N6_15_3XP3N51V3_ECDE4C74}
 ~~~
 
 </details>
@@ -4594,6 +4688,14 @@ Can you decrypt this message? Decrypt this [message](https://artifacts.picoctf.n
 
 <summary markdown="span">Solution 1</summary>
 
+The ciphertext can be downloaded:
+
+~~~
+rgnoDVD{O0NU_WQ3_G1G3O3T3_A1AH3S_e481bf5f}
+~~~
+
+This can be solved using an [online Vigenere decoding tool](https://www.boxentriq.com/code-breaking/vigenere-cipher):
+
 </details>
 
 ### Answer
@@ -4603,7 +4705,7 @@ Can you decrypt this message? Decrypt this [message](https://artifacts.picoctf.n
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{D0NT_US3_V1G3N3R3_C1PH3R_c481du5f}
 ~~~
 
 </details>
