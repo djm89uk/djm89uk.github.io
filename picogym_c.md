@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [33/50]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [37/50]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -41,10 +41,10 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [College-Rowing-Team (2021)](#college-rowing-team) ✓
 - [Corrupt-key-1 (2021)](#corrupt-key-1)
 - [Corrupt-key-2 (2021)](#corrupt-key-2)
-- [basic-mod1 (2022)](#basic-mod1)
-- [basic-mod2 (2022)](#basic-mod2)
-- [credstuff (2022)](#credstuff)
-- [morse-code (2022)](#morse-code)
+- [basic-mod1 (2022)](#basic-mod1) ✓
+- [basic-mod2 (2022)](#basic-mod2) ✓
+- [credstuff (2022)](#credstuff) ✓
+- [morse-code (2022)](#morse-code) ✓
 - [rail-fence (2022)](#rail-fence)
 - [substitution0 (2022)](#substitution0)
 - [substitution1 (2022)](#substitution1)
@@ -4162,6 +4162,25 @@ We found this weird message being passed around on the servers, we think we have
 
 <summary markdown="span">Solution 1</summary>
 
+The message can be downloaded and reviewed:
+	
+~~~
+128 63 131 198 262 110 309 73 276 285 316 161 151 73 219 150 145 217 103 226 41 255 
+~~~
+
+As detailed in the challenge, the message can be decrypted using python:
+
+~~~py
+CT = (128, 63, 131, 198, 262, 110, 309, 73, 276, 285, 316, 161, 151, 73, 219, 150, 145, 217, 103, 226, 41, 255)
+DIC = ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","_")
+PT = ""
+
+for num in CT:
+    PT += DIC[num%37]
+
+print("Flag is: picoCTF{"+PT+"}")
+~~~
+
 </details>
 
 ### Answer
@@ -4171,7 +4190,7 @@ We found this weird message being passed around on the servers, we think we have
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{R0UND_N_R0UND_8C863EE7}
 ~~~
 
 </details>
@@ -4181,7 +4200,6 @@ picoCTF{}
 ### [Cryptography](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-
 
 ## basic mod2
 
@@ -4208,6 +4226,25 @@ A new modular challenge! Download the message [here](https://artifacts.picoctf.n
 
 <summary markdown="span">Solution 1</summary>
 
+The message can be downloaded and viewed:
+
+~~~
+350 372 192 354 139 337 67 311 392 338 241 414 180 277 379 294 128 117 250 404 336 350 386 
+~~~
+
+Again, this can be solved with a simple algorithm in Python:
+
+~~~py
+CT = (350, 372, 192, 354, 139, 337, 67, 311, 392, 338, 241, 414, 180, 277, 379, 294, 128, 117, 250, 404, 336, 350, 386)
+DIC = (" ","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9","_")
+PT = ""
+
+for num in CT:
+    PT += DIC[pow(num,-1,41)]
+
+print("Flag is: picoCTF{"+PT+"}")
+~~~
+
 </details>
 
 ### Answer
@@ -4217,7 +4254,7 @@ A new modular challenge! Download the message [here](https://artifacts.picoctf.n
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{1NV3R53LY_H4RD_F6747912}
 ~~~
 
 </details>
@@ -4251,6 +4288,8 @@ We found a leak of a blackmarket website's login credentials. Can you find the p
 
 <summary markdown="span">Solution 1</summary>
 
+Downloading the tar file, we find two text files, the username "cultiris" corresponds to the password "cvpbPGS{P7e1S_54I35_71Z3}".  This is a simple linear substitution cipher.
+	
 </details>
 
 ### Answer
@@ -4260,7 +4299,7 @@ We found a leak of a blackmarket website's login credentials. Can you find the p
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{C7r1F_54V35_71M3}
 ~~~
 
 </details>
@@ -4294,6 +4333,8 @@ Morse code is well known. Can you decrypt this? Download the file [here](https:/
 
 <summary markdown="span">Solution 1</summary>
 
+The audio file can be uploaded to a [morse code solver](https://morsecode.world/international/decoder/audio-decoder-adaptive.html) providing the flag.
+	
 </details>
 
 ### Answer
@@ -4303,7 +4344,7 @@ Morse code is well known. Can you decrypt this? Download the file [here](https:/
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{wh47_h47h_90d_w20u9h7}
 ~~~
 
 </details>
