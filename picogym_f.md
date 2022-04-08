@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Forensics [37/37]
+# [PicoCTF](./picoctf.md) PicoGym Forensics [50/50]
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -41,6 +41,19 @@
 - [Advanced-potion-making (2021)](#advanced-potion-making) ✓
 - [Scrambled-bytes (2021)](#scrambled-bytes) ✓
 - [WPA-ing Out](#wpa-ing-out) ✓
+- [Enhance! (2022)](#enhance) ✓
+- [File Types (2022)](#file-types) ✓
+- [Lookey Here (2022)](#lookey-here) ✓
+- [Packets Primer (2022)](#packets-primer) ✓
+- [Redaction Gone Wrong  (2022)](#redaction-gone-wrong) ✓
+- [Sleuthkit Intro (2022)](#sleuthkit-intro) ✓
+- [Sleuthkit Apprentice (2022)](#sleuthkit-apprentice) ✓
+- [Eavesdrop (2022)](#eavesdrop) ✓
+- [Operation Oni (2022)](#operation-oni) ✓
+- [St3g0 (2022)](#st3g0) ✓
+- [Operation Orchid (2022)](#operation-orchid) ✓
+- [Sidechannel (2022)](#sidechannel) ✓
+- [Torrent Analyze (2022)](#torrent-analyze) ✓
 
 ---
 
@@ -5809,6 +5822,1739 @@ The password is the flag.
 
 ~~~
 picoCTF{mickeymouse}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Enhance
+
+- Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+
+Download this image file and find the flag.
+
+### Hints
+
+None.
+
+### Attachments
+
+- [drawing.flag.svg](https://artifacts.picoctf.net/c/140/drawing.flag.svg)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using strings, the ascii components of the binary can be read:
+
+~~~shell
+$ strings drawing.flag.svg 
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="drawing.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.69833333"
+     inkscape:cx="400"
+     inkscape:cy="538.41159"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1872"
+     inkscape:window-height="1016"
+     inkscape:window-x="48"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <ellipse
+       id="path3713"
+       cx="106.2122"
+       cy="134.47203"
+       rx="102.05357"
+       ry="99.029755"
+       style="stroke-width:0.26458332" />
+    <circle
+       style="fill:#ffffff;stroke-width:0.26458332"
+       id="path3717"
+       cx="107.59055"
+       cy="132.30211"
+       r="3.3341289" />
+    <ellipse
+       style="fill:#000000;stroke-width:0.26458332"
+       id="path3719"
+       cx="107.45217"
+       cy="132.10078"
+       rx="0.027842503"
+       ry="0.031820003" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:0.00352781px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332;"
+       x="107.43014"
+       y="132.08501"
+       id="text3723"><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.08501"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3748">p </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.08942"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3754">i </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.09383"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3756">c </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.09824"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3758">o </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.10265"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3760">C </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.10706"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3762">T </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.11147"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3764">F { 3 n h 4 n </tspan><tspan
+         sodipodi:role="line"
+         x="107.43014"
+         y="132.11588"
+         style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;"
+         id="tspan3752">c 3 d _ 5 8 b d 3 4 2 0 }</tspan></text>
+  </g>
+</svg>
+~~~
+
+This shows the flag split across multiple tspan fields.
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{3nh4nc3d_58bd3420}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## File Types
+
+- Author: Geoffrey Njogu
+- 100 points
+
+### Description
+
+This file was found among some files marked confidential but my pdf reader cannot read it, maybe yours can. You can download the file from [here](https://artifacts.picoctf.net/c/327/Flag.pdf).
+
+### Hints
+
+1. Remember that some file types can contain and nest other files.
+
+### Attachments
+
+- [Flag.pdf](https://artifacts.picoctf.net/c/327/Flag.pdf)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using cat, we can view the contents of the file and see it is a bash file:
+
+~~~shell
+$ cat Flag.pdf 
+#!/bin/sh
+# This is a shell archive (produced by GNU sharutils 4.15.2).
+# To extract the files from this archive, save it to some FILE, remove
+# everything before the '#!/bin/sh' line above, then type 'sh FILE'.
+#
+lock_dir=_sh00047
+# Made on 2022-03-15 06:50 UTC by <root@0dc4bcba500b>.
+# Source directory was '/app'.
+#
+# Existing files will *not* be overwritten, unless '-c' is specified.
+#
+# This shar contains:
+# length mode       name
+# ------ ---------- ------------------------------------------
+#   1092 -rw-r--r-- flag
+#
+...
+~~~
+
+The file can be renamed and run in linux:
+
+~~~shell
+$ cp Flag.pdf Flag.sh
+$ chmod +x Flag.sh 
+$ ./Flag.sh 
+x - created lock directory _sh00047.
+x - extracting flag (text)
+x - removed lock directory _sh00047.
+~~~
+
+This generates a new file in the directory, flag; which we can see is an archive:
+
+~~~shell
+$ ls
+flag  Flag.pdf  Flag.sh
+$ file flag
+flag: current ar archive
+~~~
+
+The contents of this archive can be extracted using the ar tool in Linux.  We first rename the archive to avoid overwriting the file during extract:
+
+~~~shell
+$ mv flag flag_ar
+$ ar xv flag_ar
+x - flag
+$ ls
+flag  flag_ar  Flag.pdf  Flag.sh
+$ file flag
+flag: cpio archive
+~~~
+
+We work our way through the multiple levels of compression:
+
+~~~shell
+$ mv flag flag_cpio
+$ cpio -iv < flag_cpio
+flag
+2 blocks
+$ ls
+flag  flag_ar  flag_cpio  Flag.pdf  Flag.sh
+$ file flag
+flag: bzip2 compressed data, block size = 900k
+$ mv flag flag.bz2
+$ bunzip2 flag.bz2
+$ ls
+flag  flag_ar  flag_cpio  Flag.pdf  Flag.sh
+$ file flag
+flag: gzip compressed data, was "flag", last modified: Tue Mar 15 06:50:46 2022, from Unix, original size modulo 2^32 330
+$ mv flag flag.gz
+$ gzip -d flag.gz
+$ ls
+flag  flag_ar  flag_cpio  Flag.pdf  Flag.sh
+$ file flag
+flag: lzip compressed data, version: 1
+$ mv flag flag.lz
+$ lzip -d flag.lz
+$ ls
+flag  flag_ar  flag_cpio  Flag.pdf  Flag.sh
+$ file flag
+flag: LZ4 compressed data (v1.4+)
+$ mv flag flag.lz4
+$ unlz4 flag.lz4
+Decoding file flag 
+flag.lz4             : decoded 266 bytes 
+$ ls
+flag  flag_ar  flag_cpio  flag.lz4  Flag.pdf  Flag.sh
+$ file flag
+flag: LZMA compressed data, non-streamed, size 255
+$ mv flag flag.lzma
+$ xz --decompress flag.lzma
+$ ls
+flag  flag_ar  flag_cpio  flag.lz4  Flag.pdf  Flag.sh
+$ file flag
+flag: lzop compressed data - version 1.040, LZO1X-1, os: Unix
+$ mv flag flag.lzop
+$ lzop -d flag.lzop
+$ ls
+flag  flag_ar  flag_cpio  flag.lz4  flag.lzop  Flag.pdf  Flag.sh
+$ file flag
+flag: lzip compressed data, version: 1
+$ mv flag flag.lzip
+$ lzip -d flag.lzip
+$ ls
+flag_ar  flag_cpio  flag.lz4  flag.lzip.out  flag.lzop  Flag.pdf  Flag.sh
+$ file flag.lzip.out
+flag.lzip.out: XZ compressed data
+$ mv flag.lzip.out flag.xz
+$ xz -d flag.xz
+$ ls
+flag  flag_ar  flag_cpio  flag.lz4  flag.lzop  Flag.pdf  Flag.sh
+$ file flag
+flag: ASCII text
+$ cat flag
+7069636f4354467b66316c656e406d335f6d406e3170756c407431306e5f
+6630725f3062326375723137795f35613833373565307d0a
+~~~
+
+This hex string can be converted to ascii using an [online tool](https://www.rapidtables.com/convert/number/hex-to-ascii.html) to provide the flag.
+
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{f1len@m3_m@n1pul@t10n_f0r_0b2cur17y_5a8375e0}
+
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Lookey here
+
+- Author: LT 'syreal' Jones / Mubarak Mikail
+- 100 points
+
+### Description
+
+Attackers have hidden information in a very large mass of data in the past, maybe they are still doing it. Download the data [here](https://artifacts.picoctf.net/c/298/anthem.flag.txt).
+
+### Hints
+
+1. Download the file and search for the flag based on the known prefix.
+
+### Attachments
+
+- [anthem.flag.txt](https://artifacts.picoctf.net/c/298/anthem.flag.txt)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using basic linux cat and grep tools, the flag can be found:
+
+~~~shell
+$ cat anthem.flag.txt | grep pico
+      we think that the men of picoCTF{gr3p_15_@w3s0m3_429334b2}
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{gr3p_15_@w3s0m3_429334b2}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Packets Primer
+
+- Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+
+Download the packet capture file and use packet analysis software to find the flag.
+
+### Hints
+
+1. Wireshark, if you can install and use it, is probably the most beginner friendly packet analysis software product.
+
+### Attachments
+
+- [network-dump.flag.pcap](https://artifacts.picoctf.net/c/203/network-dump.flag.pcap)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using tshark, the flag can be extracted from the data fields of the captured packets:
+
+~~~shell
+$ tshark -r network-dump.flag.pcap -T fields -e data.text
+
+
+
+p i c o C T F { p 4 c k 3 7 _ 5 h 4 r k _ 7 d 3 2 b 1 d e }\n
+
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{p4ck37_5h4rk_7d32b1de}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Redaction gone wrong
+
+- Author: Mubarak Mikail
+- 100 points
+
+### Description
+
+Now you DON’T see me. This [report](https://artifacts.picoctf.net/c/264/Financial_Report_for_ABC_Labs.pdf) has some critical data in it, some of which have been redacted correctly, while some were not. Can you find an important key that was not redacted properly?
+
+### Hints
+
+1. How can you be sure of the redaction?
+
+### Attachments
+
+- [Financial_Report_for_ABC_Labs.pdf](https://artifacts.picoctf.net/c/264/Financial_Report_for_ABC_Labs.pdf)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Opening the file, the text can be read directly from the redacted blocks.  This includes the flag:
+
+~~~
+Financial Report for ABC Labs, Kigali, Rwanda for the year 2021.
+Breakdown - Just painted over in MS word.
+Cost Benefit Analysis
+Credit Debit
+This is not the flag, keep looking
+Expenses from the
+picoCTF{C4n_Y0u_S33_m3_fully}
+Redacted document.
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{C4n_Y0u_S33_m3_fully}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Sleuthkit Intro
+
+- Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+
+Download the disk image and use mmls on it to find the size of the Linux partition. Connect to the remote checker service to check your answer and get the flag. Note: if you are using the webshell, download and extract the disk image into /tmp not your home directory.
+
+- [Download disk image](https://artifacts.picoctf.net/c/114/disk.img.gz)
+- Access checker program: nc saturn.picoctf.net 52279
+
+### Hints
+
+None.
+
+### Attachments
+
+- [disk.img.gz](https://artifacts.picoctf.net/c/114/disk.img.gz)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The disk image can be decompressed and reviewed using mmls:
+
+~~~shell
+$ ls
+disk.img.gz
+$ file disk.img.gz 
+disk.img.gz: gzip compressed data, was "disk.img", last modified: Tue Sep 21 19:34:53 2021, from Unix, original size modulo 2^32 104857600
+$ gunzip disk.img.gz 
+$ ls
+disk.img
+$ file disk.img 
+disk.img: DOS/MBR boot sector; partition 1 : ID=0x83, active, start-CHS (0x0,32,33), end-CHS (0xc,190,50), startsector 2048, 202752 sectors
+$ mmls disk.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000204799   0000202752   Linux (0x83)
+~~~
+
+Connecting to the challenge server, we can enter the Linux sector size (202752) to get the flag:
+
+~~~shell
+$ nc saturn.picoctf.net 52279
+What is the size of the Linux partition in the given disk image?
+Length in sectors: 202752
+202752
+Great work!
+picoCTF{mm15_f7w!}
+exit
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{mm15_f7w!}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Sleuthkit Apprentice
+
+- Author: LT 'syreal' Jones
+- 200 points
+
+### Description
+
+Download this disk image and find the flag. Note: if you are using the webshell, download and extract the disk image into /tmp not your home directory.
+
+- [Download compressed disk image](https://artifacts.picoctf.net/c/334/disk.flag.img.gz)
+
+### Hints
+
+None.
+
+### Attachments
+
+- [disk.flag.img.gz](https://artifacts.picoctf.net/c/334/disk.flag.img.gz)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The disk image can be decompressed and reviewed using mmls:
+
+~~~shell
+$ ls
+disk.flag.img.gz
+$ gunzip disk.flag.img.gz 
+$ ls
+disk.flag.img
+$ mmls disk.flag.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000206847   0000204800   Linux (0x83)
+003:  000:001   0000206848   0000360447   0000153600   Linux Swap / Solaris x86 (0x82)
+004:  000:002   0000360448   0000614399   0000253952   Linux (0x83)
+~~~
+
+We can mount the image in linux using kpartx:
+
+~~~shell
+$ sudo mkdir /mnt/tmp/
+$ sudo mkdir /mnt/tmp/lo1
+$ sudo mkdir /mnt/tmp/lo2
+$ sudo kpartx -a -v disk.flag.img 
+add map loop29p1 (253:0): 0 204800 linear 7:29 2048
+add map loop29p2 (253:1): 0 153600 linear 7:29 206848
+add map loop29p3 (253:2): 0 253952 linear 7:29 360448
+$ sudo mount /dev/mapper/loop29p1 /mnt/tmp/lo1
+$ sudo mount /dev/mapper/loop29p3 /mnt/tmp/lo2
+~~~
+
+To simplify the search for the flag, all empty files and directories in the mounted image can be deleted:
+
+~~~shell
+$ sudo find /mnt/tmp -empty -type f -delete
+$ sudo find /mnt/tmp -empty -type d -delete
+~~~
+
+Using find, we can look for the flag:
+
+~~~shell
+$ sudo find /mnt/tmp -name "*flag*" -print
+/mnt/tmp/lo2/root/my_folder/flag.uni.txt
+$ sudo cat /mnt/tmp/lo2/root/my_folder/flag.uni.txt
+picoCTF{by73_5urf3r_42028120}
+~~~
+
+To clean up:
+
+~~~shell
+$ sudo umount /mnt/tmp/*
+$ sudo rmdir /mnt/tmp/lo*
+$ sudo rmdir /mnt/tmp
+$ sudo kpartx -d -v disk.flag.img
+del devmap : loop29p1
+del devmap : loop29p2
+del devmap : loop29p3
+loop deleted : /dev/loop29
+$ rm disk.flag.img
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{by73_5urf3r_42028120}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Eavesdrop
+
+- Author: LT 'syreal' Jones
+- 300 points
+
+### Description
+
+Download this packet capture and find the flag.
+
+### Hints
+
+1. All we know is that this packet capture includes a chat conversation and a file transfer.
+
+### Attachments
+
+- [capture.flag.pcap](https://artifacts.picoctf.net/c/362/capture.flag.pcap)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using tshark, we can see the data content of the capture that includes the chat conversation:
+
+~~~shell
+$ tshark -r capture.flag.pcap -T fields -e data.text | sed -z 's/\n/ /g' 
+           Hey, how do you decrypt this file again?\n  You're serious?\n  Yeah, I'm serious\n  *sigh* openssl des3 -d -salt -in file.des3 -out file.txt -k supersecretpassword123\n      Ok, great, thanks.\n  Let's use Discord next time, it's more secure.\n  C'mon, no one knows we use this program like this!\n  Whatever.\n  Hey.\n  Yeah?\n  Could you transfer the file to me again?\n            Oh great. Ok, over 9002?\n    Yeah, listening.\n     Salted__��,�_5*�1W\rcl��g�&HbZ�H�T��������  Sent it\n     Got it.\n        You're unbelievable\n
+~~~
+
+We can see the password for the des3 file is "supersecretpassword123".  The file can be exported from wireshark and we can use openssl to decrypt the file to get the flag:
+
+~~~shell
+$ openssl des3 -d -salt -in file.des3 -out file.txt -k supersecretpassword123
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+$ ls
+capture.flag.pcap  file.des3  file.txt
+$ cat file.txt
+picoCTF{nc_73115_411_77b05957}
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{nc_73115_411_77b05957}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Operation Oni
+
+- Author: LT 'syreal' Jones
+- 300 points
+
+### Description
+
+Download this disk image, find the key and log into the remote machine. Note: if you are using the webshell, download and extract the disk image into /tmp not your home directory.
+
+### Hints
+
+None.
+
+### Attachments
+
+- disk.img.gz
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The disk image can be extracted and inspected:
+
+~~~shell
+$ ls
+disk.img.gz
+$ gunzip disk.img.gz 
+$ file disk.img 
+disk.img: DOS/MBR boot sector; partition 1 : ID=0x83, active, start-CHS (0x0,32,33), end-CHS (0xc,223,19), startsector 2048, 204800 sectors; partition 2 : ID=0x83, start-CHS (0xc,223,20), end-CHS (0x1d,81,52), startsector 206848, 264192 sectors
+$ mmls disk.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000206847   0000204800   Linux (0x83)
+003:  000:001   0000206848   0000471039   0000264192   Linux (0x83)
+~~~
+
+The linux partition can be mounted, cleaned and the ssh key can be found:
+
+~~~shell
+$ sudo mkdir /mnt/tmp
+$ sudo kpartx -a -v disk.img 
+add map loop29p1 (253:0): 0 204800 linear 7:29 2048
+add map loop29p2 (253:1): 0 264192 linear 7:29 206848
+$ sudo mount /dev/mapper/loop29p2 /mnt/tmp
+$ sudo find /mnt/tmp -empty -type f -delete
+$ sudo find /mnt/tmp -empty -type d -delete
+$ ls /mnt/tmp
+bin  etc  lib  root  sbin  usr  var
+$ sudo find /mnt/tmp -name "*id_*" -print
+/mnt/tmp/root/.ssh/id_ed25519.pub
+/mnt/tmp/root/.ssh/id_ed25519
+/mnt/tmp/lib/modules/5.10.61-0-virt/kernel/drivers/scsi/raid_class.ko
+$ sudo cp /mnt/tmp/root/.ssh/id_ed25519 ~/Downloads/key_file
+$ sudo umount /mnt/tmp
+$ sudo rmdir /mnt/tmp
+$ sudo kpartx -d -v disk.img 
+del devmap : loop29p1
+del devmap : loop29p2
+loop deleted : /dev/loop29
+$ rm disk.img 
+~~~
+
+We can now connect to the remote machine:
+
+~~~shell
+$ ssh -i key_file -p 53146 ctf-player@saturn.picoctf.net
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.13.0-1017-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+ctf-player@challenge:~$ ls
+flag.txt
+ctf-player@challenge:~$ cat flag.txt 
+picoCTF{k3y_5l3u7h_af277f77}ctf-player@challenge:~$ exit
+logout
+Connection to saturn.picoctf.net closed.
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{k3y_5l3u7h_af277f77}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## St3g0
+
+- Author: LT 'syreal' Jones (ft. djrobin17)
+- 300 points
+
+### Description
+
+Download this image and find the flag.
+
+### Hints
+
+1. We know the end sequence of the message will be $t3g0.
+
+### Attachments
+
+- [pico.flag.png](https://artifacts.picoctf.net/c/425/pico.flag.png)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using zsteg the flag can be recovered:
+
+~~~shell
+$ zsteg pico.flag.png 
+b1,r,lsb,xy         .. text: "~__B>wR?G@"
+b1,g,lsb,xy         .. file: dBase III DBT, version number 0, next free block index 3549684369
+b1,g,msb,xy         .. file: dBase III DBT, version number 0, next free block index 3418965897
+b1,b,lsb,xy         .. file: dBase III DBT, version number 0, next free block index 2623130757
+b1,rgb,lsb,xy       .. text: "picoCTF{7h3r3_15_n0_5p00n_87ef5b0b}$t3g0"
+b1,abgr,lsb,xy      .. text: "E2A5q4E%uSA"
+b2,b,lsb,xy         .. text: "AAPAAQTAAA"
+b2,b,msb,xy         .. text: "HWUUUUUU"
+b3,r,lsb,xy         .. file: gfxboot compiled html help file
+b3,b,msb,xy         .. file: StarOffice Gallery theme @\002 H\200\004H\002\004H\200$H\022\004H\200\004\010, 0 objects
+b4,r,lsb,xy         .. file: Targa image data (16-273) 65536 x 4097 x 1 +4352 +4369 - 1-bit alpha - right "\021\020\001\001\021\021\001\001\021\021\001"
+b4,g,lsb,xy         .. file: 0420 Alliant virtual executable not stripped
+b4,b,lsb,xy         .. file: Targa image data - Map 272 x 17 x 16 +257 +272 - 1-bit alpha "\020\001\021\001\021\020\020\001\020\001\020\001"
+b4,bgr,lsb,xy       .. file: Targa image data - Map 273 x 272 x 16 +1 +4113 - 1-bit alpha "\020\001\001\001"
+b4,rgba,lsb,xy      .. file: Novell LANalyzer capture file
+b4,rgba,msb,xy      .. file: Applesoft BASIC program data, first line number 8
+b4,abgr,lsb,xy      .. file: Novell LANalyzer capture file
+
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{7h3r3_15_n0_5p00n_87ef5b0b}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Operation Orchid
+
+- Author: LT 'syreal' Jones (ft. djrobin17)
+- 400 points
+
+### Description
+
+Download this disk image and find the flag. Note: if you are using the webshell, download and extract the disk image into /tmp not your home directory.
+
+### Hints
+
+None.
+
+### Attachments
+
+- [disk.flag.img.gz](https://artifacts.picoctf.net/c/240/disk.flag.img.gz)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The disk image can be extracted and inspected:
+
+~~~shell
+$ ls
+disk.flag.img.gz
+$ gunzip disk.flag.img.gz 
+$ mmls disk.flag.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000206847   0000204800   Linux (0x83)
+003:  000:001   0000206848   0000411647   0000204800   Linux Swap / Solaris x86 (0x82)
+004:  000:002   0000411648   0000819199   0000407552   Linux (0x83)
+~~~
+
+The linux partition can be mounted, cleaned and the encrypted flag file can be found:
+
+~~~shell
+$ sudo mkdir /mnt/tmp
+$ sudo kpartx -a -v disk.flag.img 
+add map loop29p1 (253:0): 0 204800 linear 7:29 2048
+add map loop29p2 (253:1): 0 204800 linear 7:29 206848
+add map loop29p3 (253:2): 0 407552 linear 7:29 411648
+$ sudo mount /dev/mapper/loop29p3 /mnt/tmp
+$ ls /mnt/tmp
+bin  boot  dev  etc  home  lib  lost+found  media  mnt  opt  proc  root  run  sbin  srv  swap  sys  tmp  usr  var
+$ sudo find /mnt/tmp -empty -type f -delete
+$ sudo find /mnt/tmp -empty -type d -delete
+$ ls /mnt/tmp
+bin  etc  lib  root  sbin  usr  var
+$ sudo find /mnt/tmp -name "*flag*" -print
+/mnt/tmp/root/flag.txt.enc
+$ sudo cp /mnt/tmp/root/flag.txt.enc ~/Downloads/flag.enc
+$ sudo chown user flag.enc
+~~~
+
+This is found in the root directory, the bash history can be reviewed to see if there is a recent operation on this file that might help decrypt it:
+
+~~~shell
+$ sudo ls -a /mnt/tmp/root
+.  ..  .ash_history  flag.txt.enc
+$ sudo cat /mnt/tmp/root/.ash_history
+touch flag.txt
+nano flag.txt 
+apk get nano
+apk --help
+apk add nano
+nano flag.txt 
+openssl
+openssl aes256 -salt -in flag.txt -out flag.txt.enc -k unbreakablepassword1234567
+shred -u flag.txt
+ls -al
+halt
+~~~
+
+Using the openssl aes256 encryption password, we can attempt to recover the flag:
+
+~~~shell
+$ openssl aes256 -d -in flag.enc -k unbreakablepassword1234567 > flag_out.txt
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+139691943691584:error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:../crypto/evp/evp_enc.c:610:
+$ cat flag_out.txt 
+picoCTF{h4un71ng_p457_17237fce}
+~~~
+
+The flag is recovered.  We can now clean up:
+
+~~~shell
+$ sudo umount /mnt/tmp
+$ sudo rmdir /mnt/tmp
+$ sudo kpartx -d -v disk.flag.img
+del devmap : loop29p1
+del devmap : loop29p2
+del devmap : loop29p3
+loop deleted : /dev/loop29
+$ rm -r *
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{h4un71ng_p457_17237fce}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## SideChannel
+
+- Author: Anish Singhani
+- 400 points
+
+### Description
+
+There's something fishy about this PIN-code checker, can you figure out the PIN and get the flag? Download the PIN checker program here [pin_checker](https://artifacts.picoctf.net/c/147/pin_checker) Once you've figured out the PIN (and gotten the checker program to accept it), connect to the master server using nc saturn.picoctf.net 53639 and provide it the PIN to get your flag.
+
+### Hints
+
+1. Read about "timing-based side-channel attacks."
+2. Attempting to reverse-engineer or exploit the binary won't help you, you can figure out the PIN just by interacting with it and measuring certain properties about it.
+3. Don't run your attacks against the master server, it is secured against them. The PIN code you get from the pin_checker binary is the same as the one for the master server.
+
+### Attachments
+
+- [pin_checker](https://artifacts.picoctf.net/c/147/pin_checker)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Running the pin checker, we see the program provides 2 rejection statements:
+
+~~~shell
+$ ./pin_checker 
+Please enter your 8-digit PIN code:
+00000000
+8
+Checking PIN...
+Access denied.
+$ ./pin_checker 
+Please enter your 8-digit PIN code:
+0
+1
+Incorrect length.
+~~~
+
+After trying several random pins, it can be seen that the execution time increases with specific integers at specific locations in the pin.  Assuming this is due to a correct number placement, this can be exploited in Python using a time-based side channel attack:
+
+~~~py
+import subprocess
+import time
+
+badstr = "Access denied"
+
+pin = ["0"]*8
+
+for i in range(len(pin)):
+    xt = 0
+    dig = "0"
+    for j in range(10):
+        pin[i] = str(j)
+        s = ("".join(pin)+"\n").encode()
+        t0 = time.time()
+        a = subprocess.Popen(["./pin_checker"], stdin = subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        a.stdin.write(s)
+        outputlog, errorlog = a.communicate()
+        t1 = time.time()
+        print("current pin = "+"".join(pin))
+        dt = t1-t0
+        if dt>xt:
+            xt = dt
+            dig = str(j)
+        if badstr not in outputlog.decode():
+            print("PIN is {}".format(s.decode()))
+            break
+    pin[i] = dig
+~~~
+
+This finds the pin index solution that has the longest response and iterates across all 8 characters.  It provides a solution:
+
+~~~
+PIN is 48390513
+
+Total execution time = 37.96782946586609
+~~~
+
+This can be confirmed locally:
+
+~~~shell
+$ ./pin_checker 
+Please enter your 8-digit PIN code:
+48390513
+8
+Checking PIN...
+Access granted. You may use your PIN to log into the master server.
+~~~
+
+Connecting to the webserver, we are given the flag:
+
+~~~shell
+$ nc saturn.picoctf.net 53639
+Verifying that you are a human...
+Please enter the master PIN code:
+48390513
+Password correct. Here's your flag:
+picoCTF{t1m1ng_4tt4ck_0431e830}
+
+exit
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{t1m1ng_4tt4ck_0431e830}
+~~~
+
+</details>
+
+---
+
+### [Forensics](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Torrent Analyze
+
+- Author: Mubarak Mikail
+- 400 points
+
+### Description
+
+SOS, someone is torrenting on our network. One of your colleagues has been using torrent to download some files on the company’s network. Can you identify the file(s) that were downloaded? The file name will be the flag, like picoCTF{filename}. [Captured traffic](https://artifacts.picoctf.net/c/206/torrent.pcap).
+
+### Hints
+
+1. Download and open the file with a packet analyzer like Wireshark.
+2. You may want to enable BitTorrent protocol (BT-DHT, etc.) on Wireshark. Analyze -> Enabled Protocols
+3. Try to understand peers, leechers and seeds. Article
+4. The file name ends with .iso
+
+### Attachments
+
+- [torrent.pcap](https://artifacts.picoctf.net/c/206/torrent.pcap)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Loading the pcap in tshark we can see there is a significant number of packets associated with torrent conversations.
+
+As described in the challenge, we are looking for files downloaded over torrent.  We can filter all torrent traffic:
+
+~~~shell
+$ tshark -r torrent.pcap -Y "bt-dht"
+    1 0.000000000 79.252.29.145 → 192.168.73.132 BT-DHT 143 BitTorrent DHT Protocol 6889 51413     
+    2 0.000123837 192.168.73.132 → 79.252.29.145 BT-DHT 308 BitTorrent DHT Protocol reply=8 nodes  51413 6889     
+   35 3.718824097 192.168.73.132 → 151.225.247.46 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+   37 3.718968245 192.168.73.132 → 187.60.223.123 BT-DHT 308 BitTorrent DHT Protocol reply=8 nodes  51413 52226     
+   79 4.864344025 5.189.157.90 → 192.168.73.132 BT-DHT 139 BitTorrent DHT Protocol 12023 51413     
+   80 4.864638481 192.168.73.132 → 5.189.157.90 BT-DHT 327 BitTorrent DHT Protocol reply=8 nodes  51413 12023     
+  145 5.929073654 192.168.73.132 → 176.9.71.124 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  156 6.043222052 192.168.73.132 → 176.9.71.124 BT-uTP 62 uTorrent Transport Protocol Type: State 51413 51413     
+  158 6.055061265 176.9.71.124 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  163 6.121902138 192.168.73.132 → 188.143.71.5 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  166 6.175180959 192.168.73.132 → 78.139.200.211 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  168 6.247034261 188.143.71.5 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  169 6.255228518 192.168.73.132 → 188.143.71.5 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  171 6.255531459 192.168.73.132 → 185.205.109.41 BT-DHT 100 BitTorrent DHT Protocol 51413 51412     
+  173 6.291562163 192.168.73.132 → 78.139.200.211 BT-uTP 62 uTorrent Transport Protocol Type: State 51413 51413     
+  174 6.296537631 192.168.73.132 → 176.9.71.124 BT-uTP 262 uTorrent Transport Protocol Type: Data 51413 51413     
+  187 6.358520127 78.139.200.211 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  190 6.397679722 185.205.109.41 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51412 51413     
+  194 6.404213182 192.168.73.132 → 185.205.109.41 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51412     
+  215 6.612900968 192.168.73.132 → 51.174.215.38 BT-DHT 100 BitTorrent DHT Protocol 51413 6971     
+  218 6.639841538 192.168.73.132 → 47.53.234.11 BT-DHT 100 BitTorrent DHT Protocol 51413 54497     
+  221 6.708481818 192.168.73.132 → 78.134.14.242 BT-DHT 100 BitTorrent DHT Protocol 51413 49160     
+  222 6.749265964 192.168.73.132 → 47.53.234.11 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 54497     
+  223 6.749413243 192.168.73.132 → 51.174.215.38 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6971     
+  224 6.755343040 47.53.234.11 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 54497 51413     
+  225 6.755978659 51.174.215.38 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 6971 51413     
+  226 6.797190959 192.168.73.132 → 188.143.71.5 BT-uTP 276 uTorrent Transport Protocol Type: Data 51413 51413     
+  227 6.797347389 192.168.73.132 → 78.139.200.211 BT-uTP 276 uTorrent Transport Protocol Type: Data 51413 51413     
+  228 6.797425820 192.168.73.132 → 185.205.109.41 BT-DHT 276 BitTorrent DHT Protocol[Malformed Packet] 51413 51412     
+  248 6.815375702 192.168.73.132 → 78.134.14.242 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 49160     
+  252 6.864135727 78.134.14.242 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 49160 51413     
+  254 6.864416598 192.168.73.132 → 158.69.251.205 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+  258 6.889466703 158.69.251.205 → 192.168.73.132 BT-DHT 100 BitTorrent DHT Protocol 6881 51413     
+  270 7.035595298 185.205.109.41 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51412 51413     
+  281 7.296692757 192.168.73.132 → 47.53.234.11 BT-DHT 297 BitTorrent DHT Protocol[Malformed Packet] 51413 54497     
+  282 7.296749688 192.168.73.132 → 51.174.215.38 BT-DHT 297 BitTorrent DHT Protocol[Malformed Packet] 51413 6971     
+  283 7.296772241 192.168.73.132 → 78.134.14.242 BT-uTP 297 uTorrent Transport Protocol Type: Data 51413 49160     
+  313 7.519829991 192.168.73.132 → 79.146.67.82 BT-DHT 100 BitTorrent DHT Protocol 51413 6882     
+  316 7.538783637 47.53.234.11 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 54497 51413     
+  322 7.566775900 51.174.215.38 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 6971 51413     
+  324 7.641722187 192.168.73.132 → 79.146.67.82 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6882     
+  329 7.660144554 79.146.67.82 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 6882 51413     
+  330 7.660322641 192.168.73.132 → 94.21.242.135 BT-DHT 100 BitTorrent DHT Protocol 51413 50655     
+  332 7.681928837 95.146.167.87 → 192.168.73.132 BT-DHT 265 BitTorrent DHT Protocol 16981 51413     
+  333 7.682072594 192.168.73.132 → 95.146.167.87 BT-DHT 91 BitTorrent DHT Protocol 51413 16981     
+  337 7.765640714 192.168.73.132 → 80.243.101.96 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  338 7.777585673 192.168.73.132 → 94.21.242.135 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50655     
+  339 7.777589944 79.146.67.82 → 192.168.73.132 BT-DHT 158 BitTorrent DHT Protocol[Malformed Packet] 6882 51413     
+  341 7.787801070 94.21.242.135 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 50655 51413     
+  358 7.875178958 192.168.73.132 → 80.243.101.96 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  366 7.942022675 192.168.73.132 → 79.146.67.82 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6882     
+  367 7.951491289 80.243.101.96 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  369 7.965222050 192.168.73.132 → 58.32.67.104 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  373 8.087467448 192.168.73.132 → 58.32.67.104 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  382 8.238744778 58.32.67.104 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  385 8.295217852 192.168.73.132 → 94.21.242.135 BT-uTP 340 uTorrent Transport Protocol Type: Data 51413 50655     
+  387 8.295454628 192.168.73.132 → 58.32.67.104 BT-uTP 347 uTorrent Transport Protocol Type: Data 51413 51413     
+  388 8.295529311 192.168.73.132 → 80.243.101.96 BT-DHT 340 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  417 8.519644514 80.243.101.96 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  429 8.605862029 186.105.1.103 → 192.168.73.132 BT-DHT 146 BitTorrent DHT Protocol 6881 51413     
+  430 8.606025004 192.168.73.132 → 186.105.1.103 BT-DHT 325 BitTorrent DHT Protocol reply=8 nodes  51413 6881     
+  436 8.771325275 191.37.246.111 → 192.168.73.132 BT-DHT 146 BitTorrent DHT Protocol 60817 51413     
+  437 8.771712131 192.168.73.132 → 191.37.246.111 BT-DHT 325 BitTorrent DHT Protocol reply=8 nodes  51413 60817     
+  461 8.843776438 51.174.215.38 → 192.168.73.132 BT-uTP 448 uTorrent Transport Protocol Type: Data 6971 51413     
+  477 8.963575817 192.168.73.132 → 71.135.217.90 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  480 8.984349794 80.243.101.96 → 192.168.73.132 BT-DHT 239 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  481 8.993153065 185.205.109.41 → 192.168.73.132 BT-DHT 190 BitTorrent DHT Protocol[Malformed Packet] 51412 51413     
+  487 9.041009726 71.135.217.90 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  490 9.064865980 192.168.73.132 → 71.135.217.90 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  496 9.109796684 192.168.73.132 → 185.205.109.41 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51412     
+  497 9.109857873 192.168.73.132 → 80.243.101.96 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  500 9.301493384 192.168.73.132 → 71.135.217.90 BT-uTP 362 uTorrent Transport Protocol Type: Data 51413 51413     
+  523 9.435696790 192.168.73.132 → 188.242.126.69 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+  544 9.572480383 188.242.126.69 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+  545 9.575805553 192.168.73.132 → 188.242.126.69 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  558 9.803191229 192.168.73.132 → 188.242.126.69 BT-uTP 376 uTorrent Transport Protocol Type: Data 51413 51413     
+  585 9.874695209 47.53.234.11 → 192.168.73.132 BT-uTP 371 uTorrent Transport Protocol Type: Data 54497 51413     
+  631 10.105222985 192.168.73.132 → 104.173.116.244 BT-DHT 100 BitTorrent DHT Protocol 51413 62581     
+  722 10.802491841 192.168.73.132 → 79.146.67.82 BT-DHT 190 BitTorrent DHT Protocol[Malformed Packet] 51413 6882     
+  777 10.937024205 79.146.67.82 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 6882 51413     
+  784 10.946304920 192.168.73.132 → 94.19.206.85 BT-DHT 100 BitTorrent DHT Protocol 51413 50974     
+  789 10.991652717 185.205.109.41 → 192.168.73.132 BT-DHT 67 BitTorrent DHT Protocol[Malformed Packet] 51412 51413     
+  796 11.037151777 192.168.73.132 → 93.57.247.235 BT-DHT 100 BitTorrent DHT Protocol 51413 60900     
+  799 11.067656027 192.168.73.132 → 94.19.206.85 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50974     
+  805 11.087357045 94.19.206.85 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 50974 51413     
+  810 11.142446250 192.168.73.132 → 185.205.109.41 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51412     
+  812 11.142600582 192.168.73.132 → 93.57.247.235 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 60900     
+  814 11.167543502 93.57.247.235 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 60900 51413     
+  818 11.208568356 94.19.206.85 → 192.168.73.132 BT-DHT 328 BitTorrent DHT Protocol[Malformed Packet] 50974 51413     
+  821 11.257521348 192.168.73.132 → 86.59.144.16 BT-DHT 100 BitTorrent DHT Protocol 51413 64194     
+  824 11.269598861 93.57.247.235 → 192.168.73.132 BT-DHT 293 BitTorrent DHT Protocol[Malformed Packet] 60900 51413     
+  858 11.357191656 192.168.73.132 → 94.19.206.85 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50974     
+  866 11.386079478 192.168.73.132 → 86.59.144.16 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 64194     
+  867 11.386198844 192.168.73.132 → 93.57.247.235 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 60900     
+  869 11.392239753 86.59.144.16 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 64194 51413     
+  894 11.493923965 80.243.101.96 → 192.168.73.132 BT-DHT 67 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  898 11.525266454 86.59.144.16 → 192.168.73.132 BT-DHT 272 BitTorrent DHT Protocol[Malformed Packet] 64194 51413     
+  907 11.564784472 192.168.73.132 → 77.108.222.246 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+  909 11.570646414 192.168.73.132 → 93.41.123.45 BT-DHT 100 BitTorrent DHT Protocol 51413 25372     
+  912 11.604881092 192.168.73.132 → 94.215.186.125 BT-DHT 100 BitTorrent DHT Protocol 51413 18476     
+  914 11.621521969 192.168.73.132 → 90.163.0.193 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+  915 11.635103353 192.168.73.132 → 80.243.101.96 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+  916 11.635157499 192.168.73.132 → 86.59.144.16 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 64194     
+  921 11.650002308 192.168.73.132 → 64.137.166.8 BT-DHT 100 BitTorrent DHT Protocol 51413 37164     
+  924 11.678232023 64.137.166.8 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 37164 51413     
+  927 11.703896173 192.168.73.132 → 77.108.222.246 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+  930 11.716339536 192.168.73.132 → 206.45.13.100 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+  931 11.722010839 94.215.186.125 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 18476 51413     
+  932 11.728131186 77.108.222.246 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 6881 51413     
+  934 11.751437673 206.45.13.100 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 6881 51413     
+  936 11.762205248 192.168.73.132 → 91.122.52.237 BT-DHT 100 BitTorrent DHT Protocol 51413 41421     
+  937 11.762264180 192.168.73.132 → 64.137.166.8 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 37164     
+  939 11.762311020 192.168.73.132 → 94.215.186.125 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 18476     
+  941 11.788957115 64.137.166.8 → 192.168.73.132 BT-DHT 158 BitTorrent DHT Protocol[Malformed Packet] 37164 51413     
+  967 11.816764584 192.168.73.132 → 206.45.13.100 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+  979 11.867350469 77.108.222.246 → 192.168.73.132 BT-DHT 342 BitTorrent DHT Protocol[Malformed Packet] 6881 51413     
+  980 11.873592448 192.168.73.132 → 91.122.52.237 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 41421     
+  981 11.882202204 94.215.186.125 → 192.168.73.132 BT-uTP 279 uTorrent Transport Protocol Type: Data 18476 51413     
+  998 11.953394109 192.168.73.132 → 64.137.166.8 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 37164     
+ 1011 12.001175413 192.168.73.132 → 77.108.222.246 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 1013 12.030529793 91.122.52.237 → 192.168.73.132 BT-uTP 151 uTorrent Transport Protocol Type: Data 41421 51413     
+ 1028 12.176954340 192.168.73.132 → 37.44.103.128 BT-DHT 100 BitTorrent DHT Protocol 51413 21650     
+ 1030 12.182047623 192.168.73.132 → 188.6.7.124  BT-DHT 100 BitTorrent DHT Protocol 51413 50402     
+ 1033 12.299445023 192.168.73.132 → 37.44.103.128 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 21650     
+ 1034 12.299606277 192.168.73.132 → 188.6.7.124  BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50402     
+ 1038 12.304689899 192.168.73.132 → 206.45.13.100 BT-uTP 558 uTorrent Transport Protocol Type: Data 51413 6881     
+ 1057 12.315756452  188.6.7.124 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 50402 51413     
+ 1063 12.339819550 37.44.103.128 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 21650 51413     
+ 1080 12.433541080  188.6.7.124 → 192.168.73.132 BT-DHT 172 BitTorrent DHT Protocol[Malformed Packet] 50402 51413     
+ 1085 12.446820180 37.44.103.128 → 192.168.73.132 BT-DHT 363 BitTorrent DHT Protocol[Malformed Packet] 21650 51413     
+ 1091 12.452493241 192.168.73.132 → 84.251.198.103 BT-DHT 100 BitTorrent DHT Protocol 51413 10028     
+ 1099 12.492069056 192.168.73.132 → 160.2.177.68 BT-DHT 100 BitTorrent DHT Protocol 51413 42696     
+ 1101 12.498062974 192.168.73.132 → 91.132.136.51 BT-DHT 100 BitTorrent DHT Protocol 51413 25818     
+ 1104 12.558615990 192.168.73.132 → 84.251.198.103 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 10028     
+ 1105 12.558663140 192.168.73.132 → 37.44.103.128 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 21650     
+ 1106 12.558685587 192.168.73.132 → 188.6.7.124  BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50402     
+ 1113 12.587115785 84.251.198.103 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 10028 51413     
+ 1115 12.591596060 192.168.73.132 → 160.2.177.68 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 42696     
+ 1117 12.598002731 160.2.177.68 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 42696 51413     
+ 1120 12.630993477 192.168.73.132 → 77.85.205.111 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+ 1121 12.666430609 192.168.73.132 → 91.132.136.51 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 25818     
+ 1123 12.691891570 84.251.198.103 → 192.168.73.132 BT-uTP 272 uTorrent Transport Protocol Type: Data 10028 51413     
+ 1125 12.699788515 160.2.177.68 → 192.168.73.132 BT-uTP 193 uTorrent Transport Protocol Type: Data 42696 51413     
+ 1129 12.732260482 192.168.73.132 → 77.85.205.111 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 1130 12.751497329 91.132.136.51 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 25818 51413     
+ 1135 12.804164964 192.168.73.132 → 86.59.144.16 BT-DHT 366 BitTorrent DHT Protocol[Malformed Packet] 51413 64194     
+ 1136 12.804323075 192.168.73.132 → 94.19.206.85 BT-uTP 331 uTorrent Transport Protocol Type: Data 51413 50974     
+ 1137 12.804403904 192.168.73.132 → 93.57.247.235 BT-uTP 331 uTorrent Transport Protocol Type: Data 51413 60900     
+ 1166 12.851610956 192.168.73.132 → 82.235.49.147 BT-DHT 100 BitTorrent DHT Protocol 51413 16881     
+ 1168 12.872697697 77.85.205.111 → 192.168.73.132 BT-uTP 391 uTorrent Transport Protocol Type: Data 6881 51413     
+ 1171 12.879765756 192.168.73.132 → 5.135.186.3  BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+ 1179 12.923187524 91.132.136.51 → 192.168.73.132 BT-DHT 215 BitTorrent DHT Protocol[Malformed Packet] 25818 51413     
+ 1187 12.942919124 86.59.144.16 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 64194 51413     
+ 1197 12.956871621 192.168.73.132 → 46.234.155.66 BT-DHT 100 BitTorrent DHT Protocol 51413 39042     
+ 1199 12.969660294  5.135.186.3 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+ 1203 12.985586807 192.168.73.132 → 82.235.49.147 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 16881     
+ 1205 12.985676887 192.168.73.132 → 5.135.186.3  BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+ 1208 12.997146137 82.235.49.147 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 16881 51413     
+ 1212 13.031737579 192.168.73.132 → 172.93.101.97 BT-DHT 100 BitTorrent DHT Protocol 51413 27350     
+ 1214 13.049380204 192.168.73.132 → 91.132.136.51 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 25818     
+ 1218 13.062444560 172.93.101.97 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 27350 51413     
+ 1220 13.089164092 192.168.73.132 → 46.234.155.66 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 39042     
+ 1223 13.149388570 46.234.155.66 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 39042 51413     
+ 1226 13.149449542 82.235.49.147 → 192.168.73.132 BT-DHT 165 BitTorrent DHT Protocol[Malformed Packet] 16881 51413     
+ 1228 13.160297387 192.168.73.132 → 172.93.101.97 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 27350     
+ 1230 13.193650235 172.93.101.97 → 192.168.73.132 BT-DHT 369 BitTorrent DHT Protocol[Malformed Packet] 27350 51413     
+ 1233 13.211964106 46.234.155.66 → 192.168.73.132 BT-uTP 370 uTorrent Transport Protocol Type: Data 39042 51413     
+ 1235 13.266790391 192.168.73.132 → 82.235.49.147 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 16881     
+ 1238 13.306178060 192.168.73.132 → 64.137.166.8 BT-uTP 474 uTorrent Transport Protocol Type: Data 51413 37164     
+ 1243 13.306330172 192.168.73.132 → 37.44.103.128 BT-DHT 509 BitTorrent DHT Protocol[Malformed Packet] 51413 21650     
+ 1245 13.306368685 192.168.73.132 → 188.6.7.124  BT-DHT 509 BitTorrent DHT Protocol[Malformed Packet] 51413 50402     
+ 1255 13.306657462 192.168.73.132 → 185.205.109.41 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51412     
+ 1256 13.306697629 192.168.73.132 → 79.146.67.82 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6882     
+ 1260 13.319632610 192.168.73.132 → 172.93.101.97 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 27350     
+ 1287 13.434796654 185.205.109.41 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51412 51413     
+ 1293 13.441857040 79.146.67.82 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 6882 51413     
+ 1295 13.444343220  188.6.7.124 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 50402 51413     
+ 1296 13.444382202  188.6.7.124 → 192.168.73.132 BT-DHT 112 BitTorrent DHT Protocol[Malformed Packet] 50402 51413     
+ 1300 13.454637758 37.44.103.128 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 21650 51413     
+ 1303 13.456401759  188.6.7.124 → 192.168.73.132 BT-DHT 590 BitTorrent DHT Protocol[Malformed Packet] 50402 51413     
+ 1304 13.456410812  188.6.7.124 → 192.168.73.132 BT-uTP 1514 uTorrent Transport Protocol Type: Data 50402 51413     
+ 1312 13.471726890 37.44.103.128 → 192.168.73.132 BT-DHT 112 BitTorrent DHT Protocol[Malformed Packet] 21650 51413     
+ 1316 13.481446956 37.44.103.128 → 192.168.73.132 BT-DHT 590 BitTorrent DHT Protocol[Malformed Packet] 21650 51413     
+ 1317 13.481496167 37.44.103.128 → 192.168.73.132 BT-uTP 590 uTorrent Transport Protocol Type: Data 21650 51413     
+ 1325 13.483656195 192.168.73.132 → 176.114.244.93 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+ 1332 13.499021680 192.168.73.132 → 172.93.101.162 BT-DHT 100 BitTorrent DHT Protocol 51413 9146     
+ 1333 13.512852544 172.93.101.162 → 192.168.73.132 BT-uTP 590 uTorrent Transport Protocol Type: Data 9146 51413     
+ 1335 13.518276468 54.247.69.34 → 192.168.73.132 BT-DHT 100 BitTorrent DHT Protocol 33024 51413     
+ 1336 13.518307317 54.247.69.34 → 192.168.73.132 BT-DHT 100 BitTorrent DHT Protocol 32656 51413     
+ 1337 13.518309173 54.247.69.34 → 192.168.73.132 BT-DHT 165 BitTorrent DHT Protocol 30283 51413     
+ 1338 13.518310166 54.247.69.34 → 192.168.73.132 BT-DHT 100 BitTorrent DHT Protocol 33640 51413     
+ 1339 13.518407416 192.168.73.132 → 54.247.69.34 BT-DHT 91 BitTorrent DHT Protocol 51413 33024     
+ 1340 13.518455910 192.168.73.132 → 54.247.69.34 BT-DHT 91 BitTorrent DHT Protocol 51413 32656     
+ 1341 13.518483924 192.168.73.132 → 54.247.69.34 BT-DHT 306 BitTorrent DHT Protocol reply=8 nodes  51413 30283     
+ 1342 13.518516576 192.168.73.132 → 54.247.69.34 BT-DHT 91 BitTorrent DHT Protocol 51413 33640     
+ 1369 13.588466356 192.168.73.132 → 176.114.244.93 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 1374 13.611396191 176.114.244.93 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 6881 51413     
+ 1403 13.686737268 192.168.73.132 → 209.169.85.88 BT-DHT 100 BitTorrent DHT Protocol 51413 54765     
+ 1447 13.731584310 176.114.244.93 → 192.168.73.132 BT-DHT 256 BitTorrent DHT Protocol[Malformed Packet] 6881 51413     
+ 1449 13.743637938 209.169.85.88 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 54765 51413     
+ 1454 13.762269186 192.168.73.132 → 96.44.144.114 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+ 1456 13.766779968 192.168.73.132 → 91.152.239.46 BT-DHT 100 BitTorrent DHT Protocol 51413 65453     
+ 1470 13.802873179 192.168.73.132 → 80.243.101.96 BT-DHT 135 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+ 1476 13.803277976 192.168.73.132 → 82.235.49.147 BT-uTP 448 uTorrent Transport Protocol Type: Data 51413 16881     
+ 1478 13.803417923 192.168.73.132 → 86.59.144.16 BT-DHT 135 BitTorrent DHT Protocol[Malformed Packet] 51413 64194     
+ 1483 13.803630995 192.168.73.132 → 77.108.222.246 BT-DHT 399 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 1486 13.803818839 192.168.73.132 → 5.135.186.3  BT-uTP 448 uTorrent Transport Protocol Type: Data 51413 51413     
+ 1492 13.804163054 192.168.73.132 → 172.93.101.97 BT-uTP 448 uTorrent Transport Protocol Type: Data 51413 27350     
+ 1509 13.822614157 192.168.73.132 → 209.169.85.88 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 54765     
+ 1586 13.885983599 209.169.85.88 → 192.168.73.132 BT-uTP 165 uTorrent Transport Protocol Type: Data 54765 51413     
+ 1587 13.891232052 212.96.69.84 → 192.168.73.132 BT-DHT 146 BitTorrent DHT Protocol 42291 51413     
+ 1589 13.891554924 192.168.73.132 → 212.96.69.84 BT-DHT 325 BitTorrent DHT Protocol reply=8 nodes  51413 42291     
+ 1603 13.899095199 192.168.73.132 → 91.152.239.46 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 65453     
+ 1604 13.899223324 192.168.73.132 → 176.114.244.93 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 1605 13.899706232 91.152.239.46 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 65453 51413     
+ 1621 13.948557455 86.59.144.16 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 64194 51413     
+ 1622 13.948581544 86.59.144.16 → 192.168.73.132 BT-uTP 590 uTorrent Transport Protocol Type: Data 64194 51413     
+ 1642 14.016439658 77.108.222.246 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 6881 51413     
+ 1644 14.016451188 77.108.222.246 → 192.168.73.132 BT-uTP 107 uTorrent Transport Protocol Type: Data 6881 51413     
+ 1718 14.035172436 91.152.239.46 → 192.168.73.132 BT-DHT 172 BitTorrent DHT Protocol[Malformed Packet] 65453 51413     
+ 1721 14.035185453 80.243.101.96 → 192.168.73.132 BT-uTP 1444 uTorrent Transport Protocol Type: Data 51413 51413     
+ 1739 14.037012941 192.168.73.132 → 37.148.145.12 BT-DHT 100 BitTorrent DHT Protocol 51413 18167     
+ 1777 14.152842105 192.168.73.132 → 37.148.145.12 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 18167     
+ 1779 14.153067701 192.168.73.132 → 91.152.239.46 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 65453     
+ 1843 14.180549828 37.148.145.12 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 18167 51413     
+ 1867 14.234778242 192.168.73.132 → 144.76.78.198 BT-DHT 100 BitTorrent DHT Protocol 51413 53415     
+ 1924 14.300252200 37.148.145.12 → 192.168.73.132 BT-uTP 165 uTorrent Transport Protocol Type: Data 18167 51413     
+ 1969 14.361076380 144.76.78.198 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 53415 51413     
+ 1991 14.381778708 192.168.73.132 → 144.76.78.198 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 53415     
+ 2173 14.478297420 192.168.73.132 → 173.88.171.180 BT-DHT 100 BitTorrent DHT Protocol 51413 41992     
+ 2196 14.500946353 192.168.73.132 → 176.63.21.177 BT-DHT 100 BitTorrent DHT Protocol 51413 38955     
+ 2197 14.508362219 144.76.78.198 → 192.168.73.132 BT-uTP 172 uTorrent Transport Protocol Type: Data 53415 51413     
+ 2267 14.531850725 192.168.73.132 → 104.254.90.235 BT-DHT 100 BitTorrent DHT Protocol 51413 58467     
+ 2355 14.588961537 104.254.90.235 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 58467 51413     
+ 2357 14.598136788 192.168.73.132 → 173.88.171.180 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 41992     
+ 2547 14.671712656 173.88.171.180 → 192.168.73.132 BT-uTP 215 uTorrent Transport Protocol Type: Data 41992 51413     
+ 2553 14.679902151 192.168.73.132 → 104.254.90.235 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 58467     
+ 2573 14.720365282 192.168.73.132 → 77.123.11.140 BT-DHT 100 BitTorrent DHT Protocol 51413 13797     
+ 2607 14.731311575 104.254.90.235 → 192.168.73.132 BT-uTP 268 uTorrent Transport Protocol Type: Data 58467 51413     
+ 2894 14.842332952 192.168.73.132 → 77.123.11.140 BT-uTP 62 uTorrent Transport Protocol Type: State 51413 13797     
+ 3057 14.920998168 192.168.73.132 → 82.253.50.47 BT-DHT 100 BitTorrent DHT Protocol 51413 36957     
+ 3407 15.035981797 192.168.73.132 → 82.253.50.47 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 36957     
+ 3499 15.161592412 192.168.73.132 → 51.235.34.19 BT-DHT 100 BitTorrent DHT Protocol 51413 6881     
+ 3670 15.227541655 192.168.73.132 → 62.42.97.136 BT-DHT 100 BitTorrent DHT Protocol 51413 40441     
+ 3676 15.281366335 192.168.73.132 → 51.235.34.19 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 3965 15.342023504 192.168.73.132 → 62.42.97.136 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 40441     
+ 3968 15.356497014 51.235.34.19 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 6881 51413     
+ 3999 15.367739447 114.35.63.17 → 192.168.73.132 BT-DHT 157 BitTorrent DHT Protocol 9502 51413     
+ 4000 15.367844831 192.168.73.132 → 114.35.63.17 BT-DHT 325 BitTorrent DHT Protocol reply=8 nodes  51413 9502     
+ 4320 15.446620279 62.42.97.136 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 40441 51413     
+ 4754 15.588924718 51.235.34.19 → 192.168.73.132 BT-DHT 552 BitTorrent DHT Protocol[Malformed Packet] 6881 51413     
+ 5030 15.638155410 62.42.97.136 → 192.168.73.132 BT-uTP 286 uTorrent Transport Protocol Type: Data 40441 51413     
+ 5300 15.708108034 192.168.73.132 → 51.235.34.19 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 6881     
+ 5336 15.713470577 192.168.73.132 → 136.35.186.94 BT-DHT 100 BitTorrent DHT Protocol 51413 61434     
+ 5386 15.727170172 82.253.50.47 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 36957 51413     
+ 5414 15.735493097 82.253.50.47 → 192.168.73.132 BT-uTP 165 uTorrent Transport Protocol Type: Data 36957 51413     
+ 5545 15.761359060 136.35.186.94 → 192.168.73.132 BT-DHT 110 BitTorrent DHT Protocol 61434 51413     
+ 5862 15.803150645 192.168.73.132 → 91.132.136.51 BT-DHT 448 BitTorrent DHT Protocol[Malformed Packet] 51413 25818     
+ 5870 15.803347093 192.168.73.132 → 176.114.244.93 BT-uTP 443 uTorrent Transport Protocol Type: Data 51413 6881     
+ 5873 15.803464449 192.168.73.132 → 91.152.239.46 BT-uTP 443 uTorrent Transport Protocol Type: Data 51413 65453     
+ 5888 15.803636652 192.168.73.132 → 51.235.34.19 BT-uTP 443 uTorrent Transport Protocol Type: Data 51413 6881     
+ 6016 15.841807775 192.168.73.132 → 136.35.186.94 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 61434     
+ 7143 16.052886222 91.132.136.51 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 25818 51413     
+ 7162 16.057477597 91.132.136.51 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol[Malformed Packet] 25818 51413     
+ 7462 16.106820019 192.168.73.132 → 105.98.42.105 BT-DHT 100 BitTorrent DHT Protocol 51413 54859     
+ 7940 16.178860928 192.168.73.132 → 91.132.136.51 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 25818     
+ 8397 16.250137227 192.168.73.132 → 105.98.42.105 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 54859     
+10874 16.509341354 91.132.136.51 → 192.168.73.132 BT-DHT 78 BitTorrent DHT Protocol[Malformed Packet] 25818 51413     
+12066 16.609652128 192.168.73.132 → 91.132.136.51 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 25818     
+15123 16.886298413 105.98.42.105 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 54859 51413     
+15124 16.886421563 192.168.73.132 → 185.12.227.197 BT-DHT 136 BitTorrent DHT Protocol 51413 3763     
+16239 17.008801142 105.98.42.105 → 192.168.73.132 BT-uTP 552 uTorrent Transport Protocol Type: Data 54859 51413     
+25176 17.802930095 192.168.73.132 → 136.35.186.94 BT-uTP 524 uTorrent Transport Protocol Type: Data 51413 61434     
+32500 18.376719182 192.168.73.132 → 188.232.10.112 BT-DHT 100 BitTorrent DHT Protocol 51413 51413     
+33965 18.526578703 192.168.73.132 → 188.232.10.112 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+36047 18.777347266 5.189.157.90 → 192.168.73.132 BT-DHT 139 BitTorrent DHT Protocol 12057 51413     
+36060 18.777685557 192.168.73.132 → 5.189.157.90 BT-DHT 327 BitTorrent DHT Protocol reply=8 nodes  51413 12057     
+36377 18.802297541 192.168.73.132 → 188.232.10.112 BT-uTP 961 uTorrent Transport Protocol Type: Data 51413 51413     
+41639 19.266624310 188.232.10.112 → 192.168.73.132 BT-DHT 91 BitTorrent DHT Protocol 51413 51413     
+41920 19.287101929 188.232.10.112 → 192.168.73.132 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+47877 19.922378992 192.168.73.132 → 138.197.143.248 BT-DHT 100 BitTorrent DHT Protocol 51413 50367     
+49008 20.075652758 192.168.73.132 → 138.197.143.248 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 50367     
+49408 20.195734842 138.197.143.248 → 192.168.73.132 BT-DHT 122 BitTorrent DHT Protocol 50367 51413     
+50087 20.197595478 138.197.143.248 → 192.168.73.132 BT-DHT 165 BitTorrent DHT Protocol[Malformed Packet] 50367 51413     
+50461 20.302260834 192.168.73.132 → 138.197.143.248 BT-uTP 713 uTorrent Transport Protocol Type: Data 51413 50367     
+50464 20.316964911 188.232.10.112 → 192.168.73.132 BT-DHT 427 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+50703 20.439517762 192.168.73.132 → 188.232.10.112 BT-DHT 62 BitTorrent DHT Protocol[Malformed Packet] 51413 51413     
+51080 20.689763723 192.168.73.132 → 107.181.231.146 BT-DHT 139 BitTorrent DHT Protocol 51413 2169     
+51081 20.689807803 192.168.73.132 → 159.89.144.30 BT-DHT 139 BitTorrent DHT Protocol 51413 6881     
+51082 20.689828638 192.168.73.132 → 18.190.61.127 BT-DHT 139 BitTorrent DHT Protocol 51413 6881     
+51178 20.747917305 107.181.231.146 → 192.168.73.132 BT-DHT 111 BitTorrent DHT Protocol reply=0 nodes  2169 51413     
+51179 20.748056557 192.168.73.132 → 77.183.44.118 BT-DHT 139 BitTorrent DHT Protocol 51413 6881     
+51211 20.776208734 159.89.144.30 → 192.168.73.132 BT-DHT 111 BitTorrent DHT Protocol reply=0 nodes  6881 51413     
+51212 20.776335262 192.168.73.132 → 181.114.168.101 BT-DHT 139 BitTorrent DHT Protocol 51413 38355     
+51463 20.883206268 77.183.44.118 → 192.168.73.132 BT-DHT 354 BitTorrent DHT Protocol reply=8 nodes  6881 51413     
+51464 20.883349377 192.168.73.132 → 37.187.123.154 BT-DHT 139 BitTorrent DHT Protocol 51413 51413     
+51518 20.909311232 181.114.168.101 → 192.168.73.132 BT-DHT 361 BitTorrent DHT Protocol reply=8 nodes  38355 51413     
+51519 20.909443842 192.168.73.132 → 5.167.155.85 BT-DHT 139 BitTorrent DHT Protocol 51413 44256     
+51678 20.971741280 37.187.123.154 → 192.168.73.132 BT-DHT 327 BitTorrent DHT Protocol reply=8 nodes  51413 51413     
+51679 20.971791283 192.168.73.132 → 92.30.74.80  BT-DHT 139 BitTorrent DHT Protocol 51413 50231     
+51881 21.067374281  92.30.74.80 → 192.168.73.132 BT-DHT 379 BitTorrent DHT Protocol reply=8 nodes reply=1 peers  50231 51413     
+51883 21.067610254 192.168.73.132 → 141.98.252.166 BT-DHT 139 BitTorrent DHT Protocol 51413 32532     
+51885 21.068390653 5.167.155.85 → 192.168.73.132 BT-DHT 361 BitTorrent DHT Protocol reply=8 nodes  44256 51413     
+51886 21.068618951 192.168.73.132 → 178.45.34.11 BT-DHT 139 BitTorrent DHT Protocol 51413 11459     
+52100 21.163989351 141.98.252.166 → 192.168.73.132 BT-DHT 500 BitTorrent DHT Protocol reply=8 nodes reply=17 peers  32532 51413     
+52103 21.164086531 192.168.73.132 → 5.53.229.134 BT-DHT 139 BitTorrent DHT Protocol 51413 33424     
+52297 21.238307577 178.45.34.11 → 192.168.73.132 BT-DHT 372 BitTorrent DHT Protocol reply=8 nodes reply=1 peers  11459 51413     
+52298 21.238385537 192.168.73.132 → 185.137.175.94 BT-DHT 139 BitTorrent DHT Protocol 51413 51413     
+52442 21.318528675 5.53.229.134 → 192.168.73.132 BT-DHT 349 BitTorrent DHT Protocol reply=8 nodes  33424 51413     
+52443 21.318654412 192.168.73.132 → 79.6.179.56  BT-DHT 139 BitTorrent DHT Protocol 51413 6889     
+52495 21.354587495 185.137.175.94 → 192.168.73.132 BT-DHT 327 BitTorrent DHT Protocol reply=8 nodes  51413 51413     
+52497 21.354794488 192.168.73.132 → 75.81.99.69  BT-DHT 139 BitTorrent DHT Protocol 51413 50321     
+52727 21.448674974  75.81.99.69 → 192.168.73.132 BT-DHT 380 BitTorrent DHT Protocol reply=8 nodes reply=2 peers  50321 51413     
+52728 21.448765976 192.168.73.132 → 73.141.191.74 BT-DHT 139 BitTorrent DHT Protocol 51413 50321     
+52748 21.457573966  79.6.179.56 → 192.168.73.132 BT-DHT 370 BitTorrent DHT Protocol reply=8 nodes reply=2 peers  6889 51413     
+52750 21.457673439 192.168.73.132 → 185.21.216.144 BT-DHT 139 BitTorrent DHT Protocol 51413 59332     
+52997 21.558654923 73.141.191.74 → 192.168.73.132 BT-DHT 354 BitTorrent DHT Protocol reply=8 nodes  50321 51413     
+53000 21.558744338 192.168.73.132 → 185.21.216.144 BT-DHT 139 BitTorrent DHT Protocol 51413 58029     
+53003 21.559401518 185.21.216.144 → 192.168.73.132 BT-DHT 412 BitTorrent DHT Protocol reply=8 nodes reply=6 peers  59332 51413     
+53004 21.559485284 192.168.73.132 → 93.183.220.117 BT-DHT 139 BitTorrent DHT Protocol 51413 36868     
+53120 21.606706709 18.190.61.127 → 192.168.73.132 BT-DHT 120 BitTorrent DHT Protocol reply=0 nodes  6881 51413     
+53121 21.606834813 192.168.73.132 → 203.63.191.254 BT-DHT 139 BitTorrent DHT Protocol 51413 6881     
+53286 21.661200551 185.21.216.144 → 192.168.73.132 BT-DHT 460 BitTorrent DHT Protocol reply=8 nodes reply=12 peers  58029 51413     
+53293 21.661333748 192.168.73.132 → 83.251.164.175 BT-DHT 139 BitTorrent DHT Protocol 51413 11640     
+53437 21.708716956 93.183.220.117 → 192.168.73.132 BT-DHT 452 BitTorrent DHT Protocol reply=8 nodes reply=11 peers  36868 51413     
+53443 21.708851452 192.168.73.132 → 222.117.54.145 BT-DHT 139 BitTorrent DHT Protocol 51413 51413     
+53681 21.801507666 83.251.164.175 → 192.168.73.132 BT-DHT 587 BitTorrent DHT Protocol reply=8 nodes reply=27 peers  11640 51413     
+53682 21.801628138 192.168.73.132 → 61.147.59.154 BT-DHT 139 BitTorrent DHT Protocol 51413 51413     
+53922 21.857492339 203.63.191.254 → 192.168.73.132 BT-DHT 506 BitTorrent DHT Protocol reply=8 nodes reply=19 peers  6881 51413     
+53929 21.857749151 192.168.73.132 → 87.74.225.9  BT-DHT 139 BitTorrent DHT Protocol 51413 63405     
+54075 21.921514230 222.117.54.145 → 192.168.73.132 BT-DHT 633 BitTorrent DHT Protocol reply=8 nodes reply=37 peers  51413 51413     
+54076 21.921602048 192.168.73.132 → 157.45.224.155 BT-DHT 139 BitTorrent DHT Protocol 51413 49640     
+54261 21.968371300  87.74.225.9 → 192.168.73.132 BT-DHT 764 BitTorrent DHT Protocol reply=8 nodes reply=50 peers  63405 51413     
+54266 21.968537279 192.168.73.132 → 39.50.21.72  BT-DHT 139 BitTorrent DHT Protocol 51413 6881     
+54522 22.161979304 61.147.59.154 → 192.168.73.132 BT-DHT 433 BitTorrent DHT Protocol reply=8 nodes reply=12 peers  51413 51413     
+54647 22.163300442 192.168.73.132 → 139.210.21.72 BT-DHT 139 BitTorrent DHT Protocol 51413 16316     
+56119 22.753127510  39.50.21.72 → 192.168.73.132 BT-DHT 812 BitTorrent DHT Protocol reply=8 nodes reply=56 peers  6881 51413     
+56120 22.753261489 192.168.73.132 → 179.198.206.25 BT-DHT 139 BitTorrent DHT Protocol 51413 25311     
+56913 22.997520568 179.198.206.25 → 192.168.73.132 BT-DHT 1051 BitTorrent DHT Protocol reply=8 nodes reply=85 peers  25311 51413     
+56914 22.997661846 192.168.73.132 → 153.225.15.139 BT-DHT 139 BitTorrent DHT Protocol 51413 8999     
+57427 23.187652619 153.225.15.139 → 192.168.73.132 BT-DHT 1164 BitTorrent DHT Protocol reply=8 nodes reply=100 peers  8999 51413     
+57448 23.188867642 192.168.73.132 → 177.51.65.1  BT-DHT 139 BitTorrent DHT Protocol 51413 29794     
+57857 23.306470659 192.168.73.132 → 188.232.10.112 BT-uTP 279 uTorrent Transport Protocol Type: Data 51413 51413 
+~~~
+
+This provides the torrent packet details.  We can identify the unique strings using tshark and sort:
+
+~~~shell
+$ tshark -r torrent.pcap -Y "bt-dht" -T fields -e bt-dht.bencoded.string | sort --unique
+
+a,id,078e187bd1d82033f572e8294f9e0453a668cbc8,info_hash,078e18df4efe53eb39d3425e91d1e9f4777d85ac,q,get_peers,t,7c56,v,4c540102,y,q
+a,id,0a8c3892819b5045dacc9b1174bbf1047219c684,info_hash,17c0c2c3b7825ba4fbe2f8c8055e000421def12c,noseed,q,get_peers,t,dbb2,v,4c540100,y,q
+a,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,info_hash,e2467cbf021192c241367b892230dc1e05c0580e,q,get_peers,t,6770c723,y,q
+a,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,q,ping,t,706e0000,y,q
+a,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,target,17c19b483ab389824c227ab03832b8e9b603ee90,q,find_node,t,666e0000,y,q
+a,id,17c1fb5e7e0ffdb4890fd88121f2634d9889a778,target,17c1fb5e7e0ffdb4890fd88121f2634d9889a778,q,find_node,t,f4a4,v,4c540010,y,q
+a,id,320614d6ae529049f1f1bbe9ebb3a6db3c870ce1,implied_port,info_hash,17c1e42e811a83f12c697c21bed9c72b5cb3000d,name,Zoo (2017) 720p WEB-DL x264 ESubs - MkvHub.Com,port,seed,token,cfd76f718b52c968,q,announce_peer,t,ce300000,v,5554b206,y,q
+a,id,7af66b61085da78cd4ad2771f2a2a65b79fe1c06,info_hash,7af6be54c2ed4dcb8d17bf599516b97bb66c0bfd,q,get_peers,t,165d,v,4c540101,y,q
+a,id,99a047b561fc2b3e22dedcc23a7a237fcbd6c47b,info_hash,17d62de1495d4404f6fb385bdfd7ead5c897ea22,q,get_peers,t,ce83d90f,y,q
+a,id,c8e1fb9368b62f6c04838748c83a8ce01ced7cbb,info_hash,17c02f9957ea8604bc5a04ad3b56766a092b5556,q,get_peers,t,94f3c30f,y,q
+a,id,e29d2ea7482421b50f55b44da26352f28666ce57,info_hash,d59b1ce3bf41f1d282c1923544629062948afadd,q,get_peers,t,27e1,v,4c540102,y,q
+ip,80ed85aee7f5,r,id,00f1ab55c3903f5c4ae598ddcd858d2f57a9523c,p,t,706e0000,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,05200df5f5eaadb1116381a973f5eb0d9f8a26e9,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,0619137438100cbac1bed58df4be31a54e9394de,p,t,706e0000,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,0c0a4825bf5ed3f71538d325ba026be05d57eedc,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,0f10f63493adea40cf58360cd388944f1a7683bc,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,171a04fc9d9ad42ec9fbac7ef27a505c8b49dca9,p,t,706e0000,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,1b4ac796447b59a5318c6074f2c94e142c62b7dc,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,1cf9ac7a395b00abbbb60996b9fa92729ae21b42,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,1ec76ebfdcf75f197fe654cfa28d8afd22932806,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,204e022eb7c7e5ccf3367c24ea921bcd5dc578f1,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,24c7233933aaa3fee76c87a532e220071a23322f,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,46db14bdae6ad1dccafa5906ed01aa09ca5b12a0,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,48255126de65a14f4516333c9ea58a2038770546,p,t,706e0000,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,4a75c93a7eb32c07155435c5dc934b7f380fa242,p,t,706e0000,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,4dbbfd0123c1df025de659289ac296081bdf2946,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,667d3cf525b1a4d09c26dc489abeebf7f63ca6a3,nodes,p,token,a903909b,t,6770c723,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,7aa06ce86d7ea3539382394b655d82f3661d86a3,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,836636032e8201b51fee20af2af54b66ca504aed,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,8d21f6006d4fa894ca4f016a3fe55ec4876084a0,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,a19a40367bb1670e3fcf9411b52c2099f910116a,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,b1ae07a6430914d4df613af267c60b11634a566e,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,bbc004d6ae529049f1f1bbe9ebb3a6db3c870ce1,nodes,token,97fad5fffb5d828f9ec3002267d0f98d05f82d47,t,6770c723,v,5554ad2c,y,r
+ip,80ed85aee7f5,r,id,c00e9357ea7701d14abf51f8dc52fbf8da81264c,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,c1e255aa5b5845a2c01fdf7bb408e6b93bf4df02,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,d484cd1a73a8dbc0af6af0cda55858d6dc0b1367,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,e155f549f1f1bbe9ebb3a6db3c870c3e99245e52,nodes,token,19d2d5d2d2cdbfb8246883eda972c0aff03afa5d,values,t,6770c723,v,5554b206,y,r
+ip,80ed85aee7f5,r,id,e2428828524334f3bda896727347dc480ac51a89,nodes,token,1b323e34,values,t,6770c723,v,4c540010,y,r
+ip,80ed85aee7f5,r,id,e242dae8b395ff2e19253a04cb9a558df7cc5794,nodes,p,token,1591c0e1,values,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e244568cef3e8600fa3c06896284492c1ad4f2f6,nodes,p,token,0bfee00f,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e2461b0c5b5d49185eb71c00ae237b22497d10cb,nodes,token,f95b0ffe,values,t,6770c723,v,4c540010,y,r
+ip,80ed85aee7f5,r,id,e246221c31f5932989b43cb58afeba72f2295221,nodes,token,612c678177dd2a439968a7812a3052f4260b034f,values,t,6770c723,v,5554b1c1,y,r
+ip,80ed85aee7f5,r,id,e24656c990918a7a6c97141268d2efb658eeb01a,nodes,p,token,b957bcb4,values,t,6770c723,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,e2465e11f159b59d6b8320c8e97c01914c37654f,nodes,p,token,721d158c,values,t,6770c723,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,e24661bb0d9bd62331576669bed6b35b948843e5,nodes,token,7c95592a8a89bbdd165aeefd79f9b4fcd27ce56a,values,t,6770c723,v,5554b1b8,y,r
+ip,80ed85aee7f5,r,id,e2466d6bb1b564012061fe9ac6b21195314338d7,nodes,p,token,327cea0a,values,t,6770c723,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,e246cc7d830e257d7353ead1cdcd7736433460d2,nodes,p,token,b7ac83c7,values,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e247531663e5f30a8ecea78e30540d6107adb1bb,nodes,p,token,c0a86037,values,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e2475632ede1aca2245697c2e93b8ec3f563991b,nodes,p,token,cb9d003e,values,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e2ac0ff637727dee7e10db7c400f122b5163b929,nodes,p,token,3820880a,values,t,6770c723,v,4c540100,y,r
+ip,80ed85aee7f5,r,id,e354d3a4d2b960e721c161fc4649a461a3c74617,nodes,p,token,e738ce89,values,t,6770c723,v,4c540101,y,r
+ip,80ed85aee7f5,r,id,ea36476d10cfcc9c8997170d7f1b9d8535dfdfbe,nodes,token,9f2e87158fa1bceded694d44d6f90a2839742564,t,6770c723,v,5554b206,y,r
+ip,80ed85aee7f5,r,id,ed6bf1c82dbf7747fd739c537b830067e2b37400,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,ef5d3be36ac7115fa4ea0fcbc6d674c6bc1f15a5,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,f15a11f1a82134b8ac8562b1163ada6cdcf6059c,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,fa5986cb46b729580a7f249df502a96e475c3c49,p,t,706e0000,v,4c540102,y,r
+ip,80ed85aee7f5,r,id,ff9e0fa58b94ba97a28db99b64c9f9567e63bb12,p,t,706e0000,v,4c540102,y,r
+r,id,172c139ffaa5441d8ffee06882fadf697500a349,t,706e0000,v,6c740d60,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,t,2b5f,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,t,f4a4,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,00e95899a8515551,t,27e1,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,69dda0bbdf3298fe,t,7c56,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,9765b359d9039b0e,t,ce83d90f,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,b2ef20b457102370,t,94f3c30f,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,c7a4851980b17b17,t,dbb2,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,token,f5b9c053626f64f4,t,165d,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,t,r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,nodes,t
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,t,306b308a,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,t,316b308a,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,t,326b308a,y,r
+r,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,t,ce300000,y,r
+r,id,21ee73ca32f939d1201597b8eabe2bab8b4de500,t,706e0000,y,r
+r,id,276c9ab34f1cc36a3d50eda2d3b313eeeaeb62f5,t,706e0000,y,r
+r,id,3264eaf8fa9dacfdce1c17142e4c406e05c00794,t,706e0000,y,r
+r,id,5a0f14936a244aa0a264fb5cc119e1cc901c3abd,t,706e0000,y,r
+r,id,67e66631c1ce415cf9b4a63c8163b197a9c3429f,t,706e0000,y,r
+r,id,7245d77fbcd991d7d1be77563e31e7dc7ad986f1,t,706e0000,y,r
+r,id,7b4a27233cb595d0352caea1deb1bf2e26f50f26,ip,t,706e0000,v,55546216,y,r
+r,id,81572047c83a9cdde0f73a5311218c763c469192,t,706e0000,y,r
+r,id,8de5979647307221f353bf4ec0b22ac501554988,t,706e0000,y,r
+r,id,9b94c257e2628b4651769920a3045ef60beb2c0c,t,706e0000,y,r
+r,id,b29d3d64b7bbba0aba790a153361acfbcac212a0,t,706e0000,y,r
+r,id,bc3fe09494682c851daf634a5f76db5ed387041a,t,706e0000,y,r
+r,id,c9a8c785e344510760f97754936e81eb6a8d25f3,t,706e0000,y,r
+r,id,d23bec7eb1221b6d461d61e55ede0c3b191f8d9d,t,706e0000,y,r
+r,id,e201187e24371030829459046e6656b4fecd9a67,nodes,token,9b3a5113ad3df492,t,6770c723,y,r
+r,id,e21e7622109d856967adc9c0c85b2ab3980559e9,nodes,token,ca159822bb15e0a3d976a55325cd972cfdfa20ec,t,6770c723,v,55544b30,y,r
+r,id,e246343af69cdb5427498f4b330d95aeee635fea,nodes,token,57d67c22a4a4d34a,values,t,6770c723,y,r
+r,id,e2464e11deb97ffd721d64ae9ea3a961d9e3c385,nodes,token,6c70906437fa0103,values,t,6770c723,y,r
+r,id,e2467cbf021192c241360021b4d995348cb3ae12,nodes,token,e246,t,6770c723,y,r
+r,id,e2467cbf021192c2413635eb211cf1ba2ae528bb,nodes,token,e246,t,6770c723,y,r
+r,id,e2467cbf021192c2413698c7de89f6dd5d090a62,nodes,token,e246,t,6770c723,v,4c540101,y,r
+r,id,eed2305ba027ec18379a2a7dabb15945886520ec,nodes,token,f9caf8a3b3ce01f1,t,6770c723,y,r
+t,306b308a,y,q,q,ping,a,id,e8d4a8566283e426c2e01f131c702332ca58e2d5
+t,316b308a,y,q,q,ping,a,id,97ec09cbbece6c426ae638e896c2302d5f0795e8
+t,326b308a,y,q,q,ping,a,id,5964b1c947ca1ba3a460a2e11079cbb19afdb9db
+t,b9d937a013fbbe8ccb1b8d9b7b078eb6f250c12a,y,q,q,find_node,a,want,n4,id,2c731d3a24542f6f6e0914a658884265ba2916b0,target,b9d937a013fbbe8ccb1b8d9b7b078eb6f250c12a
+~~~
+
+Some of these packets have an info_hash field that will provide the hash of the transmitted file, these can be isolated using grep:
+
+~~~shell
+$ tshark -r torrent.pcap -Y "bt-dht" -T fields -e bt-dht.bencoded.string | sort --unique | grep info_hash
+a,id,078e187bd1d82033f572e8294f9e0453a668cbc8,info_hash,078e18df4efe53eb39d3425e91d1e9f4777d85ac,q,get_peers,t,7c56,v,4c540102,y,q
+a,id,0a8c3892819b5045dacc9b1174bbf1047219c684,info_hash,17c0c2c3b7825ba4fbe2f8c8055e000421def12c,noseed,q,get_peers,t,dbb2,v,4c540100,y,q
+a,id,17c1ec414b95fc775d7dddcb686693b7863ac1aa,info_hash,e2467cbf021192c241367b892230dc1e05c0580e,q,get_peers,t,6770c723,y,q
+a,id,320614d6ae529049f1f1bbe9ebb3a6db3c870ce1,implied_port,info_hash,17c1e42e811a83f12c697c21bed9c72b5cb3000d,name,Zoo (2017) 720p WEB-DL x264 ESubs - MkvHub.Com,port,seed,token,cfd76f718b52c968,q,announce_peer,t,ce300000,v,5554b206,y,q
+a,id,7af66b61085da78cd4ad2771f2a2a65b79fe1c06,info_hash,7af6be54c2ed4dcb8d17bf599516b97bb66c0bfd,q,get_peers,t,165d,v,4c540101,y,q
+a,id,99a047b561fc2b3e22dedcc23a7a237fcbd6c47b,info_hash,17d62de1495d4404f6fb385bdfd7ead5c897ea22,q,get_peers,t,ce83d90f,y,q
+a,id,c8e1fb9368b62f6c04838748c83a8ce01ced7cbb,info_hash,17c02f9957ea8604bc5a04ad3b56766a092b5556,q,get_peers,t,94f3c30f,y,q
+a,id,e29d2ea7482421b50f55b44da26352f28666ce57,info_hash,d59b1ce3bf41f1d282c1923544629062948afadd,q,get_peers,t,27e1,v,4c540102,y,q
+~~~
+
+We now have the following file hashes:
+
+~~~
+078e18df4efe53eb39d3425e91d1e9f4777d85ac
+17c02f9957ea8604bc5a04ad3b56766a092b5556
+17c0c2c3b7825ba4fbe2f8c8055e000421def12c
+17c1e42e811a83f12c697c21bed9c72b5cb3000d
+17d62de1495d4404f6fb385bdfd7ead5c897ea22
+7af6be54c2ed4dcb8d17bf599516b97bb66c0bfd
+d59b1ce3bf41f1d282c1923544629062948afadd
+e2467cbf021192c241367b892230dc1e05c0580e
+~~~
+
+
+| hash                                     | file                                    | Type  |
+|------------------------------------------|-----------------------------------------|-------|
+| 078e18df4efe53eb39d3425e91d1e9f4777d85ac | UNK                                     | UNK   |
+| 17c02f9957ea8604bc5a04ad3b56766a092b5556 | UNK                                     | UNK   |
+| 17c0c2c3b7825ba4fbe2f8c8055e000421def12c | UNK                                     | UNK   |
+| 17c1e42e811a83f12c697c21bed9c72b5cb3000d | Zoo (2017) 720p WEB-DL x264 700MB ESubs | Video |
+| 17d62de1495d4404f6fb385bdfd7ead5c897ea22 | Awakened.2013.1080p.BluRay.X264-...     | Video |
+| 7af6be54c2ed4dcb8d17bf599516b97bb66c0bfd | UNK                                     | UNK   |
+| d59b1ce3bf41f1d282c1923544629062948afadd | UNK                                     | UNK   |
+| e2467cbf021192c241367b892230dc1e05c0580e | ubuntu-19.10-desktop-amd64.iso          | iso   | 
+
+We have found the iso we are looking for.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{ubuntu-19.10-desktop-amd64.iso}
 ~~~
 
 </details>
