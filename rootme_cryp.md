@@ -30,7 +30,7 @@ Break encryption algorithms.
 24. [RSA - Factorisation](#rsa-factorisation) 🗸
 25. [RSA - Decipher Oracle](#rsa-decipher-pracle)
 26. [Service - Timing attack](#service-timing-attack)
-27. [Monoalphabetic substitution - Polybe](#monoalphabetic-substitution-polybe)
+27. [Monoalphabetic substitution - Polybe](#monoalphabetic-substitution-polybe) 🗸
 28. [Twisted secret](#twisted-secret)
 29. [Initialisation Vector](#initialisation-vector)
 30. [GEDEFU](#gedefu)
@@ -1815,7 +1815,6 @@ Frozen chicken
 
 ---
 
-
 ## RSA Factorisation
 
 - Author: HacKSpider
@@ -1933,6 +1932,1016 @@ up2l6DnaIhZgxA
 
 ---
 
+## Monoalphabetic substitution Polybe
+
+- Author: koma
+- Date: 6 December 2011
+- Points: 25
+- Level: 3
+
+### Statement
+
+A strange person contact you after purchasing a parchment of weird origin ... He count on your quick wit to decrypt this message ! You will need to deploy all your cryptanalyse’s faculties.
+ 
+### Links
+
+1. [ch12.txt](http://challenge01.root-me.org/cryptanalyse/ch12/ch12.txt).
+
+### Resources
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Downloading the ciphertext, we see a strange code:
+
+~~~
+b3a3d1 c2b1e3d4d3d1 a4e5c5b1e3c2a3d1 b3a4b4e1e3b1a3d1 e3e5 b3a4b1e1d1 b2e5b4e3d2d4 d1a3b4c3c4a3d4a1
+d1a4c4d2d3a3d1 b3a4d4d1d2d3a3b1a3d1 d1a3c4a4d4 c4a3d1 c4a4d2d1 d3a3 b3a3a1a1a3 d4e3a1e5b1a3 c1e5d2 d3a3a1b1e5d2a1
+c1e5d2 b1e3e1e1a3c4c4a3 a1a4e5a1a3d1 b3b2a4d1a3d1 e3e5 d4a3e3d4a1 d3a4d4a1 a3c4c4a3 c4a3d1 e3 a1d2b1a3a3d1
+d2c4d1 d1a4d4a1 c3d2a3d4 e2b1a3c4a3d1 b3a4b4b4a3d4a1 b1d2a3d4 d3 d2b4b4a4b1a1a3c4 a3e5a1d2c4 e1e5 d1a4b1a1d2b1
+d3a3 d4a4d1 b4a4b1a1a3c4c4a3d1 b4e3d2d4d1  c4a3d1 d1a3e1a1 e2e3b4a3e5d1a3d1 b4a3b1c5a3d2c4c4a3d1 d3e5
+b4a4d4d3a3 a3a1 b3a3 c1e5 e3 e1e5 c3e3a1d2b1 d3a3 e1c4e5d1 e1b1a4d3d2c2d2a3e5b5 a3d4b3a4b1a3 c4e3 c5e3d4d2a1a3
+d3a3d1 e3c2a3d1 d1e5d2c5e3d4a1d1 a1a4e5a1 b3a3c4e3 e5d4 a2a4e5b1 a4d4 c4a3 c5a3b1b1e3 b3a4e5b3b2a3 e3e5 d4d2c5a3e3e5
+d3e5 d1a4c4 a4e5d2 b1d2a3d4 d4 a3d1a1 e2e3d2a1 e1a4e5b1 d3e5b1a3b1 a1a4e5a2a4e5b1d1 e1b1a3d1c1e5a3
+b1d2a3d4 e1a4e5b1 d3e5b1a3b1 c4a4d4c2a1a3b4e1d1 b3b2e3c1e5a3 b3b2a4d1a3 e3 d1a4d4 b3a4a1a3 e2b1e3c2d2c4a3 a3a1
+d1d2 c4a3 b4a4d3a3 d3a3 d3a3d1a1b1e5b3a1d2a4d4 c5e3b1d2a3 e3e5 d3a3b4a3e5b1e3d4a1 a1a4e5a1 b3a3 c1e5d2
+b3a4b4b4a3d4b3a3 d3a4d2a1 e2d2d4d2b1
+
+c4 e5d4d2c5a3b1d1 e3e5d1d1d2 d1a3c4a4d4 c1e5a3c4c1e5a3d1e5d4d1 a3d1a1
+b3a4d4d3e3b4d4a3 e3 e1a3b1d2b1 a3a1 b3a3 c3a3c4 a3d4d1a3b4c3c4a3 c1e5d2 a3b4c3b1e3d1d1a3 a1a4e5a1 b3a3
+c1e5d2 a3d1a1 d3d2a3e5 b3a4b4b4a3 a1a4e5a1 b3a3 c1e5d2 a3d1a1 b2a4b4b4a3 e5d4 a2a4e5b1 d1 d2c4 a3d1a1
+e1a3b1b4d2d1 d3a3 c4a3 b3b1a4d2b1a3 e5d4 a2a4e5b1 e2e3a1e3c4 c4a3 c5d2a3d4d3b1e3 d3d2d1d1a4e5d3b1a3 a3a1 b1a3e1c4a4d4c2a3b1
+d3e3d4d1 c4e3 d4e5d2a1 d3e5 e1b1a3b4d2a3b1 b3b2e3a4d1 a4d1a4d4d1 b4e3d2d4a1a3d4e3d4a1 d4a4e5d1
+c4e3b4a3d4a1a3b1 d1e5b1 d3a3d1 b4a4b1a1d1 d2d4d3d2c5d2d3e5a3c4c4a3d1  a4d1a4d4d1 c2a3b4d2b1 d1e5b1 c4e3 b3a3d4d3b1a3
+d3a3 b3e3b1a1b2e3c2a3 d3a3 d4e5b4e3d4b3a3 d3a3 b3a4b1d2d4a1b2a3 d3a3 a1a4e5a1a3 c5d2c4c4a3 e1b1a3b3d2e1d2a1a3a3
+a3d4b3a4b1a3 d3a3 e1c4e5d1 b2e3e5a1 d1 d2c4 d1a3 e1a3e5a1 c1e5e3d4d3 c4 e5d4d2c5a3b1d1 c1e5d2
+d4 e3 e1e3d1 a4e5 a1a4b4c3a3b1 d3a4d2a1 e1a3b1d2b1 b3a4b4b4a3 a3c4c4a3d1  a4d1a4d4d1 d4a4e5d1 e1c4e3d2d4d3b1a3
+c1e5a3 c4a3d1 d3a3d1a1d2d4d1 c1e5d2 b3a4d4d1a4b4b4a3b1a4d4a1 b3a3a1a1a3 b1e5d2d4a3 d3a4d4a1 c4e3 e1a3d4d1a3a3
+e2e3d2a1 e2b1a3b4d2b1 d4a3 d4a4e5d1 e3d2a3d4a1 e1e3d1 d1a3e5c4d1 a3e1e3b1c2d4a3d1
+
+c1e5a3c4 a3a1b1a3 e3d1d1a3a5 d1e5e1a3b1c3a3 e3d1d1a3a5 a3e2e2b1a3d4a3 d3e3d4d1 d1a3d1 e1b1a3a1a3d4a1d2a4d4d1
+c5a4e5d3b1e3d2a1 d1a4e5d1 c4 a3b4e1d2b1a3 d3a3 b3a3a1a1a3 c4a4d2 d3a3 c4e3 d4e3a1e5b1a3 c1e5d2 b1e3b4a3d4a3
+a1a4e5a1 e3 c4e3 b4a3b4a3 e2d2d4 c1e5 d2c4 d5 a3e5a1 a3b5b3a3e1a1d2a4d4 e1a4e5b1 c4e5d2 a3a1 c4a3d1
+d1d2a3d4d1 a3a1 c1e5a3 d3e3d4d1 c4 d2d4a3c5d2a1e3c3c4a3 d4e3e5e2b1e3c2a3 d3e5 c2b1e3d4d3 a1a4e5a1 e5d4a3
+d1a3e5c4a3 e2e3b4d2c4c4a3 e2e5a1 d1e3e5c5a3a3
+
+b3 a3d1a1 d3a4d4b3 e5d4a3 e1e5d2d1d1e3d4a1a3 b3a4d4d1a4c4e3a1d2a4d4
+d3a3 d1a4d4c2a3b1 c1e5 d2c4 d4a3 d4a4e5d1 e3b1b1d2c5a3 c1e5a3 b3a3 c1e5 a4d4a1 d1a4e5e2e2a3b1a1 e3c5e3d4a1 d4a4e5d1
+a3a1 b3a3 c1e5a3 d1a4e5e2e2b1d2b1a4d4a1 e3e1b1a3d1 d4a4e5d1 a1a4e5d1 c4a3d1 b2a4b4b4a3d1 a3a1 c4e3 d4e3a1e5b1a3
+b3a3 b4a3 d1a3b4c3c4a3 a3d4 b1a3d4d3e3d4a1 c2a3d4a3b1e3c4 c4a3 e1c4e5d1 b3b1e5a3c4 d3a3 d1a3d1 b4e3e5b5
+e3 c5a4e5c4e5 c1e5a3 d1a4d4 e5d4d2c5a3b1d1e3c4d2a1a3 a3d4 e3d3a4e5b3a1 c4e3 b1d2c2e5a3e5b1
+
+c5a4e5d1 a1b1a4e5c5a3b1a3a5 a3d4b3a4b1a3 e5d4 d1a3d4d1d2c3c4a3 e3c4c4a3c2a3b4a3d4a1 d3e3d4d1 c4e3 e1a3d4d1a3a3
+c1e5a3 c5a4a1b1a3 d3a4e5c4a3e5b1 a3d1a1 d1e3d4d1 e2b1e5d2a1 e1a4e5b1 c4 a4c3a2a3a1 d3a3 c5a4d1 b1a3c2b1a3a1d1
+b3a4b4b4a3 e1a4e5b1 c5a4e5d1 a3a1 c5a4e5d1 d4a3 c5a4e5d3b1a3a5 e1c4e5d1 e1b1a4c4a4d4c2a3b1 b3a3 c1e5d2
+a3d1a1 d2d4e5a1d2c4a3 b3a3b1a1a3d1 d1d2 c4 e3e2e2c4d2b3a1d2a4d4 e1a3e5a1 a3d4 b1d2a3d4 d4a4e5d1 e1b1a4e2d2a1a3b1 a2a3
+d4 b2a3d1d2a1a3 e1e3d1  a1a4e5a1 b3a3 c1e5a3 b4a3d1 b4e3c4b2a3e5b1d1 b4 a4d4a1 c4e3d2d1d1a3 d3a3 c4e3b1b4a3d1
+a2a3 c4a3d1 b1a3e1e3d4d3b1e3d2 d1e5b1 c4a3 c5a4a1b1a3 a2 a3d4 b1a3a1b1a4e5c5a3b1e3d2 a3d4b3a4b1a3 d3e3d4d1 b3a3d1
+d5a3e5b5 a3e1e5d2d1a3d1 e1e3b1 a1e3d4a1 d3a3 e1c4a3e5b1d1 c5a3b1d1a3d1 d1e5b1 b4a3d1 b4e3e5b5 d3a4b4a3d1a1d2c1e5a3d1
+e1a4e5b1 e1a3e5 c1e5 d2c4d1 c5a4e5d1 e1e5d2d1d1a3d4a1 a3a1b1a3 d3a3 c1e5a3c4c1e5a3 e3c5e3d4a1e3c2a3
+
+b1a3d3a4e5c3c4a4d4d1 e5d4d2d1d1a4d4d1 d4a4d1 e1c4e3d2d4a1a3d1 a2a3 e1b1a3d4d3d1 a3d4 b4e3d2d4 a1a4e5d1
+c5a4d1 c2b1d2a3e2d1  a4 e2a4b1a1e5d4a3 d1d2 d2d4d2c1e5a3 e3e5 a2e5c2a3b4a3d4a1 d3a3 a1a4e5d1 a1e5
+d1a3b4c3c4e3d2d1 a2e5d1c1e5 d2b3d2 e3c5a4d2b1 b1a3d1e1a3b3a1a3 e5d4 b2a4b4b4a3 c1e5d2 c2b1e3b3a3 e3 a1a3d1
+e2e3c5a3e5b1d1 a3a1e3d2a1 a3d4 e3d1d1a3a5 b2e3e5a1a3 c5a3d4a3b1e3a1d2a4d4 e1a4e5b1 a2a4e5d2b1 d3 e5d4a3 d2b4b4e5d4d2a1a3
+e1b1a3d1c1e5a3 d1e3d4d1 a3b5a3b4e1c4a3 e1a4e5b1 c5a4d2b1 d1a4d4 c3a4d4b2a3e5b1 e3 c4 e3c3b1d2
+d3a3 c4 a3d4c5d2a3 b4e3d2d1 c5a4d2b3d2 c1e5a3 a1e5 c4e5d2 d2d4e2c4d2c2a3d1 c4e3 e1c4e5d1 c2b1e3d4d3a3 d3a4e5c4a3e5b1
+c1e5a3 d1e3e5e2 c4e3 e1a3b1a1a3 d3a3 b3a3d1e3b1 d2c4 e1a4e5c5e3d2a1 b1a3d1d1a3d4a1d2b1 e3e1b1a3d1 e3c5a4d2b1
+c3d2a3d4 d1a4d4d3a3 a1a4e5a1a3d1 c4a3d1 e1e3b1a1d2a3d1 d3a3 d1a4d4 e3b4a3 a1e5 e3d1 b3a4b4e1b1d2d1 c1e5 e5d4a3
+d1a3e5c4a3 a3a1e3d2a1 a4e5c5a3b1a1a3 e3 a1a3d1 b3a4e5e1d1
+
+b3e3b1 c1e5a3c4 e3e5a1b1a3 b4e3c4 e1a4e5c5e3d2d1 a1e5
+c4e5d2 e2e3d2b1a3 c4e5d2 a3d4c4a3c5a3b1 d1a4d4 a4b1 a2e3b4e3d2d1 d2c4 d4 a3d4 e2e5a1 c4 a3d1b3c4e3c5a3 e3e5a2a4e5b1d3 b2e5d2
+b4a3b4a3 c4a3 e1c4e5d1 c1e5 d2c4 e1a3e5a1 d2c4 c4 a3c4a4d2c2d4a3 d3a3 d1a4d4 b3a4a3e5b1 a3a1
+d3e3d4d1 e5d4a3 d1d2 c2b1e3d4d3a3 e2e3b3d2c4d2a1a3 d3 a3d4 e3b3c1e5a3b1d2b1 d2c4 d4 d5 b3b2a3b1b3b2a3 e1e3d1 d3a3
+e1c4e5d1 e1b1a3b3d2a3e5b5 e3c5e3d4a1e3c2a3 c1e5a3 d3a3 c4a3 b4a3e1b1d2d1a3b1
+
+c4 e3e5b1e3d2d1a1e5 e1b1d2c5a3 d3a3 d1a3d1 e3b4d2d1 a1e5 c4a3 d1e3c5e3d2d1 d1d2 d3d2c2d4a3 d3 a3a1b1a3 e3d2b4a3 c1e5 d2c4 a3e5a1
+e3d2d1a3b4a3d4a1 b1a3b4e1c4e3b3a3 b3a3e5b5 c1e5 d2c4 e3e5b1e3d2a1 e1a3b1d3e5d1 b3e3b1 d3a3 a1a4e5d1 c4a3d1 e1a3b1d1a4d4d4e3c2a3d1
+e1e5d2d1d1e3d4a1d1 d3e3d4d1 c4e3 b4e3d2d1a4d4 d3e5 e1b1d2d4b3a3 a2a3 d4 e3d2 b3a4d4d4e5 c1e5a3
+c4e5d2 d3a4d4a1 c4 e3b4d2a1d2a3 c2a3d4a3b1e3c4a3b4a3d4a1 d1d2 e5a1d2c4a3 a3a1e3d2a1 e1c4e5d1 b1a3b3b2a3b1b3b2a3a3
+a3d4b3a4b1a3 e1a4e5b1 d1e3 d3a4e5b3a3e5b1
+
+c4e5d2 e3e5b1e3d2d1a1e5 b1e3c5d2 c4 a3d1a1d2b4a3 e1e5c3c4d2c1e5a3
+d2c4 d5 e1a4d1d1a3d3a3 d3a3d1 d3b1a4d2a1d1 a1b1a4e1 d1a4c4d2d3a3d1 e1a4e5b1 a3a1b1a3 a3c3b1e3d4c4a3d1 b4a3b4a3
+e1e3b1 a1a4d2 e3e5b1e3d2d1a1e5 d3a3a1b1e5d2a1 d1e3 d1e3d4a1a3 b4e3d2d1 a1e5 b3a4d4d4e3d2d1d1e3d2d1 d1a4d4
+e3b4a3 d4a4e5b1b1d2a3 a3a1 e1a4e5b1 d3d2b1a3 e1c4e5d1 d4a3a3 e3e5 d1a3d2d4 d3a3d1 a3a1e5d3a3d1 c4d2c3a3b1e3c4a3d1
+b3a3a1a1a3 e3b4a3 c1e5 a3c4c4a3d1 a4d4a1 e3e2e2a3b1b4d2a3 a2e5d1c1e5 e3 c4e3 b1a3d4d3b1a3 d2d4e3b3b3a3d1d1d2c3c4a3
+e3e5b5 d1a4e5e2e2b1e3d4b3a3d1 d3e5 b3a4b1e1d1
+
+c4e5d2 e3e5b1e3d2d1a1e5 a4a1a3 c4e3 c5d2a3
+b3a4b4c3d2a3d4 e1a3e5 e1e3b1 c4e3 e1a4e5b1b1e3d2d1a1e5 d4e5d2b1a3 e3 e5d4 c2a3d4d2a3 e3e5c1e5a3c4 d1e3
+b1a3d4a4b4b4a3a3 e1b1a4b4a3a1 c4 d2b4b4a4b1a1e3c4d2a1a3  d2c4 e3 a1b1e3c5e3d2c4c4a3 e3 d1a3 d1e5b1c5d2c5b1a3
+d3e3d4d1 c4e3 e1c4e5d1 d4a4c3c4a3 e1e3b1a1d2a3 d3a3 d1a4d4 a3a1b1a3  a3a1 d1a3d1 d2c4c4e5d1a1b1a3d1 d1a3d1 a3c4a4c1e5a3d4a1a3d1
+b3a4b4e1a4d1d2a1d2a4d4d1 c4a3 b1e3b3b2a3a1a3b1a4d4a1 d3e5 a1a4b4c3a3e3e5 a1e3d4a1 c1e5a3 c4a3d1
+c4a3a1a1b1a3d1 a2a4e5d2b1a4d4a1 d3a3 c1e5a3c4c1e5a3 b2a4d4d4a3e5b1 a1e3d4a1 c1e5a3 d1e5c3d1d2d1a1a3b1a4d4a1 c4e3
+e1e5d2d1d1e3d4b3a3 d3a3 c4e3 c4e3d4c2e5a3 b1a4b4e3d2d4a3 a3a1 c4a3d1 b3b2e3b1b4a3d1 d3a3 c4e3 c4e3d4c2e5a3
+c2b1a3b3c1e5a3 e1a4c4d5c3a3 d3a4d2a1 c3b1d2c4c4a3b1 a3d4a1b1a3 b3a3d1 c2b1e3d4d3d1 d4a4b4d1 c1e5d2 c5a3b1b1a4d4a1
+a3d4 c4e5d2 c4a3 b1d2c5e3c4 a4e5 d1d2 d1e3 b4a4d3a3d1a1d2a3 b1a3e2e5d1a3 b3a3a1 a3c4a4c2a3 c4 e3d1d1a4b3d2a3 d3a3 c4a3e5b1 c2c4a4d2b1a3
+
+a1a4d4 e5d4d2c1e5a3 e1a3d4d1a3a3 e2e5a1 d3a4d4b3 d3a3 a1b1a4e5c5a3b1 b3b2a3a5 c4e5d2 c4 a3d4d3b1a4d2a1
+c4a3 e1c4e5d1 c5e5c4d4a3b1e3c3c4a3 b3 a3d1a1 a3d4 a3e2e2a3a1 e3 c4 a3c4d2a1a3 d3a3d1 b2e5b4e3d2d4d1
+c1e5a3 a1e5 b1a3d1a3b1c5a3d1 a1a3d1 b3a4e5e1d1 c4a3d1 e1c4e5d1 b2e3c3d2a1e5a3c4d1 a1a3d1 e2e5b1a3e5b1d1 c1e5d2
+d1a3c5d2d1d1a3d4a1 d2d4d3d2d1a1d2d4b3a1a3b4a3d4a1 a3a1 c1e5 d2c4 e2e3e5a1 b3b1e3d2d4d3b1a3 e3e5 b4d2c4d2a3e5
+b4a3b4a3 d3a3 a1a3d1 c3d2a3d4e2e3d2a1d1 d2c4 a1 a3d4 a3e5a1 d1d2 e1a3e5 b3a4e5a1a3 d3 a3e1e3b1c2d4a3b1
+b3a3a1a1a3 b1d2c2e5a3e5b1 e3 e5d4 b2a4b4b4a3 d1e5b1 c4a3c1e5a3c4 a1a3d1 e2e3c5a3e5b1d1 d1a3b4c3c4e3d2a3d4a1
+d3a3e1e3b1a1d2a3d1 e3c5a3b3 b3b2a4d2b5 a3a1 b1a3e2c4a3b5d2a4d4 a3a1 d4a4d4 d1e5d2c5e3d4a1 a1a4d4 e5d1e3c2a3
+a2a3a1a3a3d1 d1e3d4d1 d3d2d1b3a3b1d4a3b4a3d4a1
+
+e3a2a4e5a1a4d4d1 d1d2 c5a4e5d1 c5a4e5c4a3a5 e3 b3a3d1 e1c4e3d2d4a1a3d1 c4a3d1 b1a3c2b1a3a1d1 c1e5a3 c5a4e5d1
+c4e3d2d1d1a3 e5d4 e2b1a3b1a3 d3 e5d4 d1d2 c3a3e3e5 d4e3a1e5b1a3c4 a3d4c4a3c5a3 d3a3d1 d1a3d1 e1b1a3b4d2a3b1d1
+e1b1a4c2b1a3d1 d3e3d4d1 c4e3 b3e3b1b1d2a3b1a3 d1 d2c4 a3a1e3d2a1 d3d2c2d4a3 d3a3 c5a4e5d1 e3e1e1e3b1a1a3d4d2b1
+c5a4e5d1 a3a1d2a3a5 c3d2a3d4 e1c4e5d1 d3d2c2d4a3 a3d4b3a4b1a3 d3a3 d4 e3c5a4d2b1 e3 c5a3b1d1a3b1 e3e5b3e5d4a3
+c4e3b1b4a3 d1e5b1 c4a3 e2b1a3b1a3 b4a3b4a3 c4a3 b4a4d2d4d1 b4a3b1d2a1e3d4a1 a1a4e5d1 b1a3d4d3a3d4a1 d3a3
+c4e5d2 e5d4 b4a3b4a3 a1a3b4a4d2c2d4e3c2a3  d2c4 b4e3d4c1e5a3 e3 c5a4a1b1a3 c2c4a4d2b1a3 b1d2a3d4 d4a3
+b4e3d4c1e5a3 e3 c4e3 d1d2a3d4d4a3
+
+d2c4 d4 d5 e3c5e3d2a1 b1d2a3d4 a3d4 c4e5d2 c1e5a3 c5a4e5d1 d4a3 e2e5d1d1d2a3a5
+e2d2a3b1 d3 e3c5a4e5a3b1 e5d4 e2b1a3b1a3 b4a4d2d4d1 a3b5b3a3c4c4a3d4a1 d4a3 c5a4e5d1 a3e5a1 e1e3d1 a1b1a4e5c5a3
+b4a4d2d4d1 a1a3d4d3b1a3 b4e3d2d1 c5a4a1b1a3 e3e2e2a3b3a1d2a4d4 b1a3d4b3a4d4a1b1e3d4a1 d3e3d4d1 b3a3c4e5d2b3d2
+e5d4a3 e1c4e5d1 b1d2b3b2a3 b4e3a1d2a3b1a3 d1 d5 a3d1a1 d3a3e1c4a4d5a3a3 e3c5a3b3 c3d2a3d4 e1c4e5d1 d3a3 b3a4b4e1c4e3d2d1e3d4b3a3
+d2c4 d4 e3 e5d1a3 d3a3 d1a4d4 b3b1a3d3d2a1 e1a4e5b1 d4e5d2b1a3 e3 e1a3b1d1a4d4d4a3 d2c4
+d4 e3 b4a3d4e3b3a3 e1a3b1d1a4d4d4a3 d3a3 d1a4d4 e2b1a3b1a3 d2c4 e3c5e3d2a1 e1b1d2d1 a3b5a3b4e1c4a3 d3a3 c5a4a1b1a3
+b4a4d3a3b1e3a1d2a4d4 d2c4 e3c5e3d2a1 d1a3d4a1d2 d3a3 c1e5a3c4 b2a4d4d4a3e5b1 b4e3d2d1 e3e5d1d1d2 d3a3 c1e5a3c4
+e2e3b1d3a3e3e5 c5a4e5d1 b3b2e3b1c2d2a3a5 c4a3d1 c5a4a1b1a3d1 a3a1 d2c4 e3 d1e5e2e2d2 e3 b3a3a1a1a3 a1e3b3b2a3
+
+d2b4e1d2a1a4d5e3c3d2a3 d3a3d1a1d2d4a3a3 c1e5a3 d4a3 d3a3d1e3b1b4a3 e3e5b3e5d4a3 c5a3b1a1e5 a3c4c4a3 e3 b4a4d2d1d1a4d4d4a3
+c5a4a1b1a3 e2b1a3b1a3 e3c5e3d4a1 c1e5 d2c4 b3a4d4d4e5a1 a1a4e5a1a3 d1e3 e2a3c4d2b3d2a1a3 b4a4d4 d2d4d3d2c2d4e3a1d2a4d4
+a2a3 c4a3 d1e3d2d1 a3d1a1 a1b1a4e1 e2e3d2c3c4a3  d2c4 a3d1a1 d1d2 d3d2e2e2d2b3d2c4a3 d3a3 a1b1a4e5c5a3b1
+d3a3d1 e1e3b1a4c4a3d1 c1e5d2 a3b5e1b1d2b4a3d4a1 d3d2c2d4a3b4a3d4a1 c4a3d1 c2b1e3d4d3a3d1 d3a4e5c4a3e5b1d1
+e1a4e5b1d1e5d2c5a4d4d1 a1a4e5a1a3e2a4d2d1 d4a4d1 e1c4e3d2d4a1a3d1 d1d2 d4a4d1 e1c4e3d2d4a1a3d1 d1a3b1c5a3d4a1 d3a3
+c1e5a3c4c1e5a3 b3b2a4d1a3
+
+d3a3b4e3d4d3a4d4d1 e3 c4e3 e2a4b1a1e5d4a3  e1a4e5b1c1e5a4d2 a1e3d4a1 d3a3 c5d2a4c4a3d4b3a3
+a3a1 a1e3d4a1 d3 d2d4a2e5d1a1d2b3a3 e1a4e5b1c1e5a4d2 d1 a3d1a1a3c4c4a3 b1a3e1a3d4a1d2a3 d1d2 c5d2a1a3 d3a3
+d1a4d4 d2d4d3e5c4c2a3d4b3a3 d3 a4e5 c5d2a3d4a1 b3a3a1a1a3 b3b1e5e3e5a1a3 c1e5d2 d1a3 b1e5a3 d1d2 c3b1e5a1e3c4a3b4a3d4a1
+a3d4a1b1a3 d3a3e5b5 e2b1a3b1a3d1 c1e5d2 d3a3 d1e3 e2e3e5b5 d1e3d4c2c4e3d4a1a3 a1b1e3d4b3b2a3 c4a3d1
+d4a4a3e5d3d1 d3 e5d4a3 d1d2 d3a4e5b3a3 a3a1 d1d2 d1a4c4d2d3a3 b3a4d4b3a4b1d3a3 c1e5d2 c3a4e5c4a3c5a3b1d1a3 b3a3a1a1a3
+c5a3b1a1e5a3e5d1a3 e2e3b4d2c4c4a3 d3a3 a2a3e5d4a3d1 b2a4b4b4a3d1 a1a4e5d1 d3d2c2d4a3d1 c4 e5d4 d3a3 c4 e3e5a1b1a3
+c1e5d2 d1e3d4d1 b4a4a1d2e2 a3d4 e3c3e3a1 c4e3 e2c4a3e5b1 a3b2 c1e5a3 d1a3b1a1 d3a4d4b3 e5d4a3 e1e5b1a3a1a3
+d3a3 b3a4a3e5b1 e2d2d3a3c4a3 e3 a1a4e5a1a3d1 c4a3d1 c4a4d2d1 d3a3 c4e3 b4a4b1e3c4a3 e5d4a3 e2b1e5c2e3c4d2a1a3
+e3d4a1d2c1e5a3 e5d4 a3b4e1d2b1a3 b3a4d4d1a1e3d4a1 d1e5b1 d1a4d2b4a3b4a3 e3e5 d1a3d2d4 d3 e5d4a3 e1e5d2d1d1e3d4b3a3
+a3a1 d3 e5d4a3 e1b1a4d1e1a3b1d2a1a3 d1e3d4d1 c3a4b1d4a3d1 c4a3 d1d2d4b3a3b1a3 a3a1 d2d4c5e3b1d2e3c3c4a3
+e3b4a4e5b1 d3a3d1 c4a3a1a1b1a3d1 e5d4a3 e3b4a3 e1e5b1a3 d3a3 a1a4e5a1a3 d1a4e5d2c4c4e5b1a3
+
+e1a4c4d5c3a3 a3d1a1 d3e3d4d1 c4a3d1 e1c4a3e5b1d1 a3a1 e3c5a3b1a1d2 e1e3b1 c4e3 e1a3b1a1a3 d3 e5d4 e2b1a3b1a3 d3a3 b3a3 c1e5a3
+c4a3 d1a4b1a1 e1a3e5a1 d1e5b1 c4a3d1 e3e5a1b1a3d1 d2c4 a1b1a3b4c3c4a3 b4a3b4a3 e1a4e5b1 c4a3d1 b3a4d4d1a4c4e3a1a3e5b1d1
+c1e5d2 c4e5d2 b1a3d1a1a3d4a1 a4 b3e3a1e3d1a1b1a4e1b2a3 d4a4d4 b4a3b1d2a1a3a3 e1a4c4d5c3a3 a3d1a1
+d3e3d4d1 c4a3d1 e1c4a3e5b1d1 d2c4 e3 e1a4e5b1 c4e5d2 c4e3 e2e3c5a3e5b1 d3a3 b3a3d1e3b1 a3a1 d2c4 c2a3b4d2a1 a3d4b3a4b1a3
+d1e3d4d1 d3a4e5a1a3 e2a4b1a1e5d4a3 d2d4d1e3a1d2e3c3c4a3 a1e5 e3d1 c5a4e5c4e5 b4a4d4a1b1a3b1 c1e5a3
+b1d2a3d4 e1e3d1 b4a3b4a3 b3a3d1e3b1 d4a3 e1a3e5a1 c2e3b1e3d4a1d2b1 d3a3 a1a3d1 e3a1a1a3d4a1e3a1d1
+
+
+d4a4e5d1 e1a4e5c5a4d4d1 e3b3b3e5d1a3b1 d1e3d4d1 e2d2d4 c4e3 d3a3d1a1d2d4a3a3 b4e3d2d1 c4e3
+b3b2e3d4c2a3b1 a3d1a1 d2b4e1a4d1d1d2c3c4a3 e2d2b5a3 a3a1 d2d4a3b5a4b1e3c3c4a3 d3e3d4d1 d1a3d1 b1d2c2e5a3e5b1d1
+d4d2 d2d4c5a3b3a1d2c5a3d1 d4d2 e1c4a3e5b1d1 d4d2 b1e3d2d1a4d4 d4a3 c4 a3b4a3e5c5a3d4a1  a3c4c4a3 d4 a3e1e3b1c2d4a3
+a2e3b4e3d2d1 e1a3b1d1a4d4d4a3 a3c4c4a3 d4a3 e2e3d2a1 c2b1e3b3a3 d3a3 b1d2a3d4 a3a1a4e5e2e2a4d4d1 d3a4d4b3
+d3a3d1 c4e3b4a3d4a1e3a1d2a4d4d1 d2d4e2b1e5b3a1e5a3e5d1a3d1 c1e5d2 d4a4e5d1 b1a3e5d4d2b1e3d2a3d4a1 e1c4e5a1a4a1 e3
+c4 a4c3a2a3a1 d3a3 d4a4d1 d3a4e5c4a3e5b1d1 c1e5 a3c4c4a3d1 d4a3 c4a3 a1d2b1a3b1e3d2a3d4a1 d3a3 c4e3 a1a4b4c3a3
+b3a3d1 a1a4b1a1e5b1a3d1c4e3 d4a3 d1a4d4a1 e1e3d1 e5d4 b1a3b4a3d3a3 d2c4 e2e3e5a1 d3a4d4b3 d3a3d1 c4a3 e1b1d2d4b3d2e1a3
+d5 b1a3d4a4d4b3a3b1 c4a4d2d4 d3a3 d4a4e5d1 d3a3 e1e5a3b1d2c4d1 d1a4e5c4e3c2a3b4a3d4a1d1 a3a1 a2a3 d4a3
+d1e3d2d1 c1e5a3c4 e3b4a3b1 e1c4e3d2d1d2b1 d3a3 a1b1d2d1a1a3d1d1a3  c4 e3b4a3 d1 d5 d3a4d2a1 d1 e3b1b1e3b3b2a3b1
+
+d1d2 c4e3 b1e3d2d1a4d4 d4a3 b4a3a1 e5d4 a1a3b1b4a3 e3 d4a4d1 c4e3b1b4a3d1 c4e3 e2a4b1a1e5d4a3 d4a3 c4 d5
+b4a3a1a1b1e3 e1a4d2d4a1 a2a3a1a3a5 c4a3d1 d5a3e5b5 d1e5b1 c4 b2e5b4e3d4d2a1a3 c1e5d2 c5a4e5d1 a3d4c5d2b1a4d4d4a3
+e1e3b1a1a4e5a1 d3 e3c3a4d4d3e3d4a1a3d1 a3a1 d2d4a3e1e5d2d1e3c3c4a3d1 b3e3e5d1a3d1 d3 e3e2e2c4d2b3a1d2a4d4
+c4 e5d4 a3d1a1 b3b2e3c1e5a3 a2a4e5b1 e1a4e5d1d1a3 c5a3b1d1 c4a3 a1b1e3c5e3d2c4 e1e3b1 c4e3 d3a3a1b1a3d1d1a3
+a3a1 c4a3 c3a3d1a4d2d4  c4 e3b4c3d2a1d2a4d4 c1e5d2 d4a3 b3a4d4d4e3a1 e1e3d1 c4a3 b1a3e1a4d1 e3d2c2e5d2c4c4a4d4d4a3
+b3a3a1 e3e5a1b1a3 e1c4e5d1 c4a4d2d4 a4d4 b4e3e5d3d2a1 c4a3d1 b1d2b3b2a3d1d1a3d1 c1e5 a4d4 e3
+d1a4e5b2e3d2a1a3a3d1 a3a1 c4 a4d4 a1b1a4e5c5a3 d1a4d4 d1e5e1e1c4d2b3a3 d3e3d4d1 c4a3 d1e5b3b3a3d1 d3a3 d1a3d1
+c5a4a3e5b5 e3d2c4c4a3e5b1d1 c4a3d1 d1a4e5b3d2d1 a4e5 c4a3d1 e3e2e2e3d2b1a3d1 a1a4e5b1b4a3d4a1a3d4a1 a4e5 c4a3d1
+e2c4a4a1d1 d3a3 b3c4d2a3d4a1d1 c1e5d2 e3d1d1d2a3c2a3d4a1 d1e3d4d1 b3a3d1d1a3 d4a4d1 c5a3d1a1d2c3e5c4a3d1 b3a3c4e5d2b3d2
+d3a3e1c4a4b1a3 c4e3 d4e3d2d1d1e3d4b3a3 d3a3 d1a3d1 a3d4e2e3d4a1d1 b3a3c4e5d2c4e3 c2a3b4d2a1 d3a3 c4a3e5b1
+e1a3b1a1a3 c4a3d1 c4e3b1b4a3d1 d4a4e5d1 b4e3d4c1e5a3b1a4d4a1 e1c4e5d1 a1a4a1 c1e5a3 c4a3d1 b4a4a1d2e2d1
+d3 a3d4 c5a3b1d1a3b1
+
+d4a3 c5a4d5a3a5c5a4e5d1 e1e3d1 c1e5a3c4c4a3 a3b5d2d1a1a3d4b3a3 d4a4e5d1 e3 e1b1a4b4d2d1a3
+c4e3 d4e3a1e5b1a3 a3d4 c5a4e5c4e3d4a1 c1e5a3 c4a3d1 e1c4a3e5b1d1 e2e5d1d1a3d4a1 c4a3 e1b1a3b4d2a3b1 e3e5c2e5b1a3
+d3a3 d4a4a1b1a3 d4e3d2d1d1e3d4b3a3 a1a3c4 a3d1a1 c4a3 d3a3c3e5a1 d3a3 c4e3 c5d2a3 a3a1 c4e3 d1e5d2a1a3 d3a3
+d4a4d1 e3d4d1 d5 b1a3e1a4d4d3 b3 a3d1a1 d3e3d4d1 c4a3d1 e1c4a3e5b1d1 c1e5 d2c4d1 d1a3 e1e3d1d1a3d4a1 c1e5a3
+b3a3b3d2 d4a4e5d1 e3e1e1b1a3d4d4a3 e3 d4a4e5d1 b4a4d3a3b1a3b1 a3d4 b3a3 c1e5d2 d3a4d2a1 d1a3 b1a3d4a4e5c5a3c4a3b1
+d1d2 d1a4e5c5a3d4a1 a3a1 a3d4 c5a4d5e3d4a1 d1a3 e1b1a3d1d1a3b1 d1e5b1 d4a4d1 e1e3d1 b3a3a1a1a3
+b4e3d1d1a3 d3 e3e2e2c4d2b3a1d2a4d4d1 d2b4b4d2d4a3d4a1a3d1 d1e3b3b2a4d4d1 a1e3b1d2b1 a4e5 d3e5 b4a4d2d4d1 b1a3d1a3b1c5a3b1
+d4a4d1 c4e3b1b4a3d1 d1 d2c4 a3d1a1 e5d4a3 b3b2a4d1a3 d3a4d4a1 d2c4 e2e3d2c4c4a3 a3a1b1a3 e3c5e3b1a3
+b3 a3d1a1 d3a3 b3a3c4c4a3 d1e5b1a1a4e5a1 d3a4d4a1 c4 e5d1e3c2a3 d4 a3d1a1 c1e5a3 a1b1a4e1 e2b1a3c1e5a3d4a1
+
+e1a3d4d1a3a5 e3e5d1d1d2 e1a4e5b1 c5a4e5d1 b1e3e2e2a3b1b4d2b1 d3e3c5e3d4a1e3c2a3 c1e5a3 c4a3 b4a4d2d4d1
+e2c4e3a1a1a3 d3a3 c5a4a1b1a3 d3a4e5c4a3e5b1 a3d1a1 b3a3c4e5d2 e3 c1e5d2 a3c4c4a3 d1a3b4c3c4a3 d1 e3d3b1a3d1d1a3b1
+a4e5 d2c4 c5a4e5d1 c4e3 d3a3e2a3d4d3 a4e5 d2c4 c4 d2c2d4a4b1a3 b1d2a3d4 d4 a3d1a1 d3a4d4b3 b4a4d2d4d1 b1e3d2d1a4d4d4e3c3c4a3
+c1e5 e5d4 b2a4b4b4e3c2a3 c1e5d2 a4e2e2a3b1a1 e3 e5d4 a3a1b1a3 d2d4d1a3d4d1d2c3c4a3 a3d1a1
+d1a1a3b1d2c4a3 a3a1 c1e5d2 d1 d2c4 a3d1a1 d1a3d4a1d2 d3a3e1c4e3a1
+
+a3d1a1d2c4 e5d4 b2a4b4b4a3 d3e3d4d1 a1a4e5a1 c4 e5d4d2c5a3b1d1 e1a4e5b1 c1e5d2 c5a4a1b1a3
+d3a3e5d2c4 d1a4d2a1 e5d4 d1e5a2a3a1 d3a3 a2a4d2a3  a2a3 d3d2b1e3d2d1 b2e3b1d3d2b4a3d4a1 c1e5a3 d4a4d4 a3b2
+c3d2a3d4 b3a3d1 b4a3b4a3d1 d3d2d1e1a4d1d2a1d2a4d4d1 c1e5a3 d4e5c4 d4a3 d4a4e5b1b1d2a1 b3a4d4a1b1a3 c5a4e5d1
+c5a4e5d1 c4a3d1 e1b1a3a1a3a5 e3 c5a4a1b1a3 e2b1a3b1a3 a3d4 b3b1a4d5e3d4a1 c1e5 d2c4 c5a4e5d3b1e3d2a1 c5a4e5d1 d3a3b3b2d2b1a3b1
+c4a3 b3a4a3e5b1 c5a4e5d1 e3b1b1e3b3b2a3b1 e3 c5a4d1 a1b1e3c5e3e5b5 e3 c5a4d1 d4a4c3c4a3d1 a3a1e5d3a3d1
+e3 b3a3d1e3b1 c4e3 b3b2a4d1a3 a3d1a1a3c4c4a3 c5b1e3d2d1a3b4c3c4e3c3c4a3 b3a3c4e5d2 d3a4d4a1 c5a4e5d1
+a4c3a1a3d4d2a3a5 e5d4a3 e3e2e2a3b3a1d2a4d4 e2b1e3a1a3b1d4a3c4c4a3 e5d4a3 c5a3d4a3b1e3a1d2a4d4 e1b1a3d1c1e5a3 e2d2c4d2e3c4a3
+e5d4 b3e5c4a1a3 d3e5 e3 c5a4d1 c4e5b4d2a3b1a3d1 d1e5e1a3b1d2a3e5b1a3d1 b3a3c4e5d2c4e3 c5a4e5d1 d3a3b4e3d4d3a3
+d3a3d1 b1a3c2b1a3a1d1 b4e3d2d1 d4a4d4 d3e5 d3a3d1a3d1e1a4d2b1 c1e5a3c4 b3b2e3b1b4a3 a1b1a4e5c5a3a5c5a4e5d1
+e3e5 b3b2e3c2b1d2d4 c1e5d2 c5a4e5d1 b3a4d4d1a1d2a1e5a3 c1e5e3d4d3 c5a4a1b1a3 e2b1a3b1a3 d1 d2c4
+d5 e3 b3b2a3a5 c4a3d1 b4a4b1a1d1 c1e5a3c4c1e5a3 d1a3d4a1d2b4a3d4a1 d3a3d1d2b1a3b1e3d2a1 d5 b4a3a1a1b1a3 e5d4
+a1a3b1b4a3
+
+d1 d2c4 d1 e3c2d2d1d1e3d2a1 d3 e5d4 e2b1a3b1a3 b4a4d2d4d1 a1a3d4d3b1a3 d3a4d4a1 c4a3 b3a4a3e5b1 e2e5a1
+b4a4d2d4d1 d1e5b1 a2 a3b4e1c4a4d2a3b1e3d2d1 c4a3 c4e3d4c2e3c2a3 d3e5 d3a4e5a1a3 a3a1 a2a3 d3d2b1e3d2d1  a4e5
+c5a4a1b1a3 e2b1a3b1a3 a3b5d2c2a3 d3a3 c5a4e5d1 d3a3d1 d1a4e5e2e2b1e3d4b3a3d1 a3a1 d3a3d1 e1c4a3e5b1d1 d1e3d4d1 e2d2d4
+a3a1 d3a3d1 c4a4b1d1 d2c4 a3d1a1 d2d4d3d2c2d4a3 d3a3 a1e3d4a1 d3 e3e2e2a3b3a1d2a4d4  a4e5 d2c4 a3d1a1 c4a4d2d4 d3a3
+c4a3d1 c5a4e5c4a4d2b1 a3a1 d2c4 e2e3e5a1 b1a3d4a4d4b3a3b1 e3 e5d4a3 d3a4e5c4a3e5b1 d2d4a3e2e2d2b3e3b3a3 e1a4e5b1
+a1a4e5d1 d3a3e5b5 e3 e5d4 b3a4a3e5b1 d3a3d4e3a1e5b1a3 d3a3 a1a3c4d1 b1a3c2b1a3a1d1 d4a3 d1a4d4a1 e1e3d1
+d3e5d1  e5d4 b3a4a3e5b1 e3d2b4e3d4a1 c4a3d1 b1a3e2e5d1a3b1e3d2a1 b4e3d2d1 a2a3 e1e3b1c4a3 d3 e5d4 e2b1a3b1a3
+d3a4d4a1 c4e3 a1a3d4d3b1a3d1d1a3 c5a4e5d1 e2e5a1 a1b1a4e1 c3d2a3d4 e1b1a4e5c5a3a3  a1a4e5a1 c5a4e5d1 e3d1d1e5b1a3
+c1e5a3 c4e3 e1c4e5d1 c5d2c5a3 e1a3d2d4a3 c1e5 d2c4 e1e5a1 b1a3d1d1a3d4a1d2b1 d1a3b1e3d2a1 c1e5a3 c5a4e5d1 e2e5d1d1d2a3a5
+e1a4e5b1 c4e5d2 d3a3c5a4b1a3 d3 e3b4a3b1a1e5b4a3d1 d3a3 a1a4e5b1b4a3d4a1d1 d4a4d4 b4a4d2d4d1
+a3b5b3a3d1d1d2e2d1 c1e5 d2b4b4a3b1d2a1a3d1 a3a1 d3a3 c5a4d2b1 d2d4b3a3d1d1e3b4b4a3d4a1 c5a4d1 d5a3e5b5 d1a3
+b1a3b4e1c4d2b1 a1a4e5b1 e3 a1a4e5b1 a3a1 d1 a3e1e5d2d1a3b1 a3d4 c4e3b1b4a3d1
+
+b4e3d2d1 c5a4d2b3d2 d1e5b1a1a4e5a1 b3a3 c1e5d2 d3a4d2a1 a3e1e3b1c2d4a3b1 e3 c5a4a1b1a3 a1a3d4d3b1a3d1d1a3 d3a3d1
+c2a3b4d2d1d1a3b4a3d4a1d1 d1e5e1a3b1e2c4e5d1  d1a4d4c2a3a5 e3e5b5 e2b1a3b1a3d1 c1e5d2 c5a4e5d1 b1a3d1a1a3d4a1
+d4a3 d3a3c5a3a5c5a4e5d1 e1e3d1 c4a3d1 d2d4d1a1b1e5d2b1a3 d3 a3b5a3b4e1c4a3 e3 d1a3 b1e3d2d3d2b1 d1a4e5d1 c4 d2d4a2e5d1a1a3
+b4e3d2d4 c1e5d2 c4a3d1 e2b1e3e1e1a3  e5d4 c2b1e3d4d3 b3e3e1d2a1e3d2d4a3 e3e1b1a3d1 e5d4 a3b3b2a3b3
+e3e2e2a3b3a1a3 e3 d3a3d1d1a3d2d4 d3a3 c4e3 c2e3a1a3 a3a1 d3a3c2e5d2d1a3 d1e3 e1a4d1d2a1d2a4d4 b3b1d2a1d2c1e5a3
+d1a4e5d1 e5d4a3 a2a4d2a3 e2e3b3a1d2b3a3 d3a3 e1a3e5b1 c1e5 a3d4 c5a4d5e3d4a1 c4a3e5b1 b3b2a3e2 b3a4d4d1a1a3b1d4a3
+c4a3 b3a4e5b1e3c2a3 d3a3d1 d1a4c4d3e3a1d1 d4a3 d1 e3c3e3a1a1a3 a1a3c4 a3d1a1 b4e3d2d4a1a3d4e3d4a1
+c5a4a1b1a3 d3a3c5a4d2b1
+
+e1b1a3d4a3a5 e5d4 c5d2d1e3c2a3 c1e5d2 d3a3b4a3d4a1a3 c4 a3a1e3a1 d3a3 c5a4a1b1a3
+e3b4a3 a3a1 d1 d2c4 d1a3 e1a3e5a1 c3e3d4d4d2d1d1a3a5 a3d4a1d2a3b1a3b4a3d4a1 c5a4d1 d3a4e5c4a3e5b1d1  d1d2d4a4d4
+b3a4d4b3a3d4a1b1a3a5c4a3d1 b3a4d4a1a3d4a3a5a3d4 a2e5d1c1e5 e3e5b5 d1d5b4e1a1a4b4a3d1 e2e3d2a1a3d1
+c1e5a3 c5a4d1 e2b1a3b1a3d1 d1a3 b1a3c2c4a3d4a1 d3 e3e1b1a3d1 c5a4e5d1 a1a4e5a1 c4a3e5b1 d1a3b4c3c4a3b1e3 b2a4d4a4b1e3c3c4a3
+d3a3d1 c1e5 d2c4d1 c5a4e5d1 c4a3 c5a3b1b1a4d4a1 e2e3d2b1a3 a3a1 c4a3e5b1d1 d1a3d4a1d2b4a3d4a1d1 d1a3
+b4a4d3d2e2d2a3b1a4d4a1 d1e5b1 c4 a3b5e1b1a3d1d1d2a4d4 d3a3 c5a4d1 a1b1e3d2a1d1 c5a4e5d1 d3a3c5a3a5 a3a1b1a3 a3a1
+c4a3e5b1 b3a4d4d1a4c4e3a1d2a4d4 a3a1 c4a3e5b1 b3a4d4d1a4c4e3a1a3e5b1  a4b1 e1a4e5b1b1a3a5c5a4e5d1 e3b1b1a3a1a3b1
+c4a3e5b1d1 e1c4e3d2d4a1a3d1 d1d2 c5a4e5d1 c4e3d2d1d1a3a5 e5d4 c4d2c3b1a3 b3a4e5b1d1 e3e5b5 c5a4a1b1a3d1
+
+
+e5d4 e3e5a1b1a3 b4a4d5a3d4 d3a3 c5a4e5d1 e1b1a3d1a3b1c5a3b1 d3a3d1 a3b5b3a3d1 d3a3 c4 e3e2e2c4d2b3a1d2a4d4
+b3 a3d1a1 d3a3 b1a3e2c4a3b3b2d2b1 c1e5a3 b1d2a3d4 d3a3 b3a3 c1e5a3 c5a4e5d1 e2e3d2a1a3d1 d4a3 e1a3e5a1
+b1a3d1a1a3b1 d1a3b3b1a3a1 c4a3 d1e5e2e2b1e3c2a3 d3a3 c4 e5d4d2c5a3b1d1 c5a4e5d1 e3 d2b4e1a4d1a3 e5d4a3 c2b1e3d4d3a3
+a1e3b3b2a3  a4d1a3a5 c4e3 b1a3b4e1c4d2b1 b3a3a1 a3d1d1e3d2b4 d3a3 b3a4d4d1a4c4e3a1a3e5b1d1 c1e5d2 c5a4e5d1 e3d1d1d2a3c2a3
+a3e1d2a3 c4 d2d4a1a3b1d2a3e5b1 d3a3 c5a4a1b1a3 e3b4a3 a3a1 a1e3b3b2a3 d3a3 d1e5b1e1b1a3d4d3b1a3 a2e5d1c1e5 a4e5
+c5e3 d1e3 e2a4b1b3a3 b3a4d4a1b1a3 c4e3 d3a4e5c4a3e5b1 d1d2 c5a4e5d1 d4 a3a1a3d1 b2e3c3d2c4a3 c1e5 e3
+e5d1a3b1 d3a3 c4e3 c3a4d4d4a3 e2a4b1a1e5d4a3 d1d2 c5a4e5d1 d1e3e5b1d2a3a5 d1a4e5e2e2b1d2b1 a3d4 b2a4b4b4a3
+c4 e3d3c5a3b1d1d2a1a3 d2c4 d4 a3d1a1 e1a4d2d4a1 d3 d5a3e5b5 c1e5d2 d4 a4c3d1a3b1c5a3d4a1 c4a3d1 c5a4a1b1a3d1
+
+a1a4e5a1 a3d1a1 e1a3b1b4d2d1 e3 b3a3e5b5 d3a4d4a1 c4a3d1 e3e2e2a3b3a1d2a4d4d1 e1a3e5c5a3d4a1 d1a3 b3e3b3b2a3b1 e1a4e5b1
+c5a4e5d1 c4a3 b4a4d2d4d3b1a3 b4d5d1a1a3b1a3 a3d1a1 d2b4e1a4d1d1d2c3c4a3  c4e3 e2a4b1a1e5d4a3 c5a4e5d1 a3b5e1a4d1a3
+e3e5 c2b1e3d4d3 a2a4e5b1 c4a3 b4a4d4d3a3 a3d4a1d2a3b1 d1e3e5b1e3 d3a3 c1e5a3c4 e3d2b1 c5a4e5d1 e3c5a3a5
+b1a3e5 b3a3a1a1a3 c3c4a3d1d1e5b1a3 d1d2 e3e5 e1b1a3b4d2a3b1 b3b2a4b3 c5a4e5d1 e3c5a3a5 c3e3d2d1d1a3 c5a4a1b1a3
+a3e1a3a3 a4e5 d1d2 c5a4e5d1 a3a1a3d1 d3a3b4a3e5b1a3 e2a3b1b4a3 c4 e3b4d2a1d2a3 d3a3 b3a3d1e3b1 a3a1 c5a4a1b1a3
+c2c4a4d2b1a3 c4d2a1a1a3b1e3d2b1a3 c5a4e5d1 a4d4a1 d3a3d1a4b1b4e3d2d1 e1c4e3b3a3 a1b1a4e1 b2e3e5a1 a1a4e5a1 e3b3a1a3
+c5e5c4c2e3d2b1a3 a1a4e5a1a3 e2e3d2c3c4a3d1d1a3 d3a3 b3a4a3e5b1 c5a4e5d1 b3a4b4e1b1a4b4a3a1a1b1e3d2a1 a4b1 c1e5a4d2
+d3a3 e1c4e5d1 e2e3d2c3c4a3 a3a1 d3a3 e1c4e5d1 a3e2e2a3b4d2d4a3 c1e5a3 d3a3 d1a3 c4e3d2d1d1a3b1 b4d2d4a3b1 e1e3b1
+c4a3 b3b2e3c2b1d2d4  
+
+d1d2 c5a4a1b1a3 d3a3e5d2c4 a3d1a1 c4a3 b4a3b4a3 c1e5a3 b3a3c4e5d2 d3a3 c5a4d1 e2b1a3b1a3d1
+d2c4 a3d1a1 b4a4d2d4d1 c4d2c3b1a3 d3e3d4d1 d1a4d4 a3b5e1b1a3d1d1d2a4d4 c4 a4e1d2d4d2a4d4 c1e5 a4d4 e3 b3a4d4e5a3
+d3a3 c5a4d1 a1e3c4a3d4a1d1 a3a1 d3a3 c5a4a1b1a3 b3e3b1e3b3a1a3b1a3 c5a4e5d1 d2d4a1a3b1d3d2a1 c3d2a3d4 d3a3d1
+b3b2a4d1a3d1  a4d4 a3b5d2c2a3 d3a3 c5a4e5d1 d3a3 c2b1e3d4d3d1 d1e3b3b1d2e2d2b3a3d1 a4d4 a3d4 e3a1a1a3d4d3 d3a3
+e1c4e5d1 c2b1e3d4d3d1 a3d4b3a4b1a3 d1d2 c5a4e5d1 a3e5d1d1d2a3a5 e2e3d2a1 c5a4a3e5 d3 a3d4a1d2a3b1a3 d2d4d3a3e1a3d4d3e3d4b3a3
+c5a4e5d1 d4 e3e5b1d2a3a5 e1e3d1 e3a1a1d2b1a3 d1e5b1 c5a4e5d1 c4a3d1 b1a3c2e3b1d3d1 d3a3 a1a4e5d1
+
+d2c4 c5a4e5d1 e2e3e5a1 b4e3d2d4a1a3d4e3d4a1 b1a3b4e1c4d2b1 c4a3d1 c3a3c4c4a3d1 e1b1a4b4a3d1d1a3d1 c1e5a3 c5a4e5d1
+e3c5a3a5 d3a4d4d4a3a3d1 e3e5b5 e3d3b4d2b1e3a1a3e5b1d1 d3a3 c5a4a1b1a3 c2a3d4d2a3 e3 b3a3e5b5 c1e5d2 a3d4
+e1e5c3c4d2a3d4a1 c4a3d1 e1b1a4d3e5b3a1d2a4d4d1 e3 b3a3e5b5 a3d4e2d2d4 c1e5d2 d1 d2c4d1 d4 a4d4a1 e1e3d1 c3a3d1a4d2d4
+d3a3 c5a4d1 e1e5d2d1d1e3d4a1a3d1 e2e3c5a3e5b1d1 b1a3b3c4e3b4a3d4a1 d3e5 b4a4d2d4d1 c4a3d1 e2b1e5d2a1d1
+d3a3 c5a4a1b1a3 e1c4e5b4a3  d2c4d1 a3d4 d1a4d4a1 d3a3e1a4d1d2a1e3d2b1a3d1 c5a4e5d1 d4a3 e1a4e5c5a3a5
+e1c4e5d1 b1d2a3d4 e2e3d2b1a3 d3 d2d4d3d2c2d4a3 d3a3 c5a4d1 c4e5b4d2a3b1a3d1 a3a1 d3a3 c5a4d1 c5a3b1a1e5d1
+d1e3d4d1 c1e5 e5d4a3 e2a4e5c4a3 d3 b2a4b4b4a3d1 d1a3 b1a3e1a3d4a1a3d4a1 d3a3 c4a3e5b1 e3d3b4d2b1e3a1d2a4d4
+e1a4e5b1 c5a4e5d1
+
+c5a4e5d1 d4 e3c5a3a5 e1e3d1 c4a3 d3b1a4d2a1 d3a3 c5a4e5d1 e3e2e2c4d2c2a3b1 d1e3d4d1 b4a3d1e5b1a3
+a3a1 b3a3 d4 a3d1a1 e1e3d1 c4a3 d1a3e5c4 c1e5d2 c5a4e5d1 d1a4d2a1 b1e3c5d2  c5a4e5d1 d4 e3e5b1d2a3a5
+e1e3d1 d3b1a4d2a1 d3a3 e1b1a4c4a4d4c2a3b1 c5a4a1b1a3 d1a4b4b4a3d2c4 e5d4a3 e1e3b1a1d2a3 d3e5 a2a4e5b1 d3a3
+e2e5d2b1 c4a3 a1a4e5b1c3d2c4c4a4d4 d3a3d1 e3e2e2e3d2b1a3d1 e1a4e5b1 c4a3 c4a4d2d1d2b1 a3a1 c4e3 e1e3d2b5 d3a3d1
+b3b2e3b4e1d1 d3a3 c5a4e5d1 d3a3c4e3d1d1a3b1 e1e3b1 e5d4 c5a4d5e3c2a3 d3 e3c2b1a3b4a3d4a1 d3a3d1 e3d1d1d2d3e5d1
+a1b1e3c5e3e5b5 d3 e5d4 e1a4d1a1a3 c4e3c3a4b1d2a3e5b5 d3a3 c5a4e5d1 b1a3b3b1a3a3b1 c4 a3d1e1b1d2a1
+e1e3b1 d3a3d1 d1e1a3b3a1e3b3c4a3d1 c5e3b1d2a3d1 d3a3 b1a3c2c4a3b1 e3 c5a4d1 e2e3d4a1e3d2d1d2a3d1 c4 a3b4e1c4a4d2 d3 e5d4a3 a2a4e5b1d4a3a3
+b4d2c4c4a3 b3b2a4d1a3d1 c5a4e5d1 d1a4d4a1 d2d4a1a3b1d3d2a1a3d1 c1e5d2 d1a4d4a1 e1a3b1b4d2d1a3d1 e3 c4 b2e5b4c3c4a3 b4a4b1a1a3c4
+c2d2d1e3d4a1 d3e3d4d1 e5d4 b3a4d2d4 a4c3d1b3e5b1 e5d4a3 c2b1e3d4d3a3 e2a4b1a1e5d4a3 a3d1a1 e5d4a3 c2b1e3d4d3a3 d1a3b1c5d2a1e5d3a3
+
+e3e5b3e5d4a3 d3a3 c5a4d1 e3b3a1d2a4d4d1 d4a3 c5a4e5d1 e3e1e1e3b1a1d2a3d4a1 a1e3d4a1 d3a3 b4d2c4c4d2a3b1d1 d3 e3e5d3d2a3d4b3a3d1
+e3 d3a4d4d4a3b1 a1e3d4a1 d3a3 b1a3c1e5a3a1a3d1 e3 b4a3a1a1b1a3 a3d4 a4b1d3b1a3 b3a3d1 a1a4b1b1a3d4a1d1 d3 e3e2e2e3d2b1a3d1 c1e5d2 e3e2e2c4e5a3d4a1
+c5a3b1d1 c5a4e5d1 d3a3 a1a4e5d1 c4a3d1 e1a4d2d4a1d1 d3e5 c2c4a4c3a3 a3a1 c1e5a3 c5a4e5d1 d3a3c5a3a5 e1c4e3b3a3b1
+e3 c4a3e5b1 b1e3d4c2 d1a4e5d1 c4a3d1 a2a3e5b5 d3e5 b4e3a1b1a3 d3e5 b4a4d4d3a3 c5a3e5c4a3d4a1 e5d4a3
+d2b4b4a3d4d1a3 b3a4d4a1a3d4a1d2a4d4 d3 a3d1e1b1d2a1 a4e5d2 a2a3 c4a3 b1a3e1a3a1a3 d2c4 c5a4e5d1 a3d1a1 d2d4a1a3b1d3d2a1
+d3a3 e1c4a3e5b1a3b1 e3e2d2d4 d3a3 e1a4e5c5a4d2b1 a3b3a4e5a1a3b1 b3a3e5b5 c1e5d2 e1c4a3e5b1a3d4a1
+e1a4e5b1 a3d1d1e5d5a3b1 c4a3d1 c4e3b1b4a3d1 d3a3 b3a3e5b5 d3a4d4a1 c4e3 d3a3a1b1a3d1d1a3 b3b2a3b1b3b2a3 e3
+e3c3a4b1d3a3b1 c4e3 e1d2a1d2a3 d3e5 e1c4e5d1 d3a4e5b5 d3a3d1 a3b4e1a3b1a3e5b1d1 d2c4 e2e3e5a1 d3 e3c3a4b1d3 d1a3b3b2a3b1 c4a3d1 c5a4a1b1a3d1
+
+c5a4e5c4a3a5c5a4e5d1 a3d4e2d2d4 e1e3b1c5a3d4d2b1 e3 c4 e3c4c4a3c2a3b4a3d4a1 c4a3
+e1c4e5d1 a3e2e2d2b3e3b3a3 e3 c4 a3d4a1d2a3b1 a4e5c3c4d2 d3a3 c5a4d1 e1a3d2d4a3d1 c1e5a3 b3a3d1e3b1 a4b3b3e5e1a3
+c5a4d1 e1a3d4d1a3a3d1  b3a4d4d1d2d3a3b1a3a5 d3a3 c1e5a3c4 d3a3c5a4e5a3b4a3d4a1 d3a3 c1e5a3c4 d2d4e2e3a1d2c2e3c3c4a3
+a5a3c4a3 c5a4e5d1 d3a3c5a3a5 e1e3d5a3b1 d1e3 b2e3e5a1a3 c3d2a3d4c5a3d2c4c4e3d4b3a3 c5a4e5d1 d1a3d4a1d2b1a3a5
+c1e5 d2c4 d4a3 c5a4e5d1 a3d1a1 e1e3d1 e1c4e5d1 e3b3b3a4b1d3a3 d3a3 e1c4a4d5a3b1 d1a4e5d1 c4a3 e2e3d2b5
+c1e5 e3 c4 e3a1c4e3d1 d3a4d4a1 c4a3d1 a3e1e3e5c4a3d1 d1 d2c4 e2e3e5a1 b3b1a4d2b1a3 c4e3 e2e3c3c4a3 d1e5e1e1a4b1a1a3d4a1
+c4a3 b4a4d4d3a3
+
+a3a1 b3a3d1e3b1 c4e5d2b4a3b4a3 e3 c1e5d2 a1a4e5a1 a3d1a1 e1a3b1b4d2d1 a3d1a1 e1e3b1
+b3a3c4e3 d1a3e5c4 c4a4d2d4 d3a3 e1a4e5c5a4d2b1 a1a4e5a1 d1a3 e1a3b1b4a3a1a1b1a3 a1a4e5a1a3d1 c4a3d1 e2e3b4d2c4c4a3d1
+d1a4d4a1 e1b1a4a1a3c2a3a3d1 e1e3b1 d1e3 c5d2c2d2c4e3d4b3a3 c4e3 e1e3d2b5 e1e5c3c4d2c1e5a3 e1e3b1 d1a3d1
+a1b1e3c5e3e5b5 c4a3d1 a2a4e5d2d1d1e3d4b3a3d1 a3a1 c4a3d1 c4a4d2d1d2b1d1 d3a3 a1a4e5d1 e1e3b1 d1a4d4 d2d4c2a3d4d2a3e5d1a3
+e3b3a1d2c5d2a1a3 d3e5 a2a4e5b1 a4e5 b3a3d1e3b1 d1 a3d1a1 c5a4e5a3 e3e5 c3a4d4b2a3e5b1 d3e5 c2a3d4b1a3 b2e5b4e3d2d4
+d2c4 d1 a3d1a1 b1e3c5d2 e3 c4e5d2b4a3b4a3 e1e3b1a3d2c4 e3e5b5 e3d1a1b1a3d1 c1e5d2 e1a4e5b1d1e5d2c5a3d4a1
+c4a3e5b1 b3a4e5b1d1 d1e3d4d1 e2d2d4 b3a4b4b4a3 d1e3d4d1 b1a3c4e3b3b2a3 d2c4 c4e5d2 a3d1a1 d3a3e2a3d4d3e5
+d3a3 d1 e3b1b1a3a1a3b1 a2e3b4e3d2d1 d3a3 d3d2d1e1a4d1a3b1 d3 e5d4 d1a3e5c4 d2d4d1a1e3d4a1
+
+e3 c3d2a3d4 d3a3d1 a3c2e3b1d3d1 c4e3 b4a3b4a3 d4a3b3a3d1d1d2a1a3 c5a4e5d1 b3a4b4b4e3d4d3a3 c5a4e5d1 e3b1b1e3b3b2a3
+e3 c5a4d1 c2a4e5a1d1 a3a1 e3e5 d1a4d2d4 d3a3 c5a4d1 d2d4a1a3b1a3a1d1
+a1e3d4a1 c1e5a3 b3a3d1e3b1 c2a4e5c5a3b1d4a3 c4e3 a1a3b1b1a3 c5a4e5d1 d4a3 e1a4e5c5a3a5 c4a3 b4a4d2d4d1
+d3e5 b4a4d4d3a3 c5a4e5d1 c4d2c5b1a3b1 d4d2 e3e5b5 e1c4e3d2d1d2b1d1 d4d2 e3 c4e3 d3a4e5c4a3e5b1 d4d2 e3 b1d2a3d4
+c1e5d2 c5a4e5d1 d1a4d2a1 e1a3b1d1a4d4d4a3c4  c5a4e5d1 c5a4e5d1 d3a3c5a3a5 a1a4e5a1 e3 b3a3d1e3b1
+
+a3a1 c1e5a3 d3d2d1a2a3  e1e5d2d1c1e5a3 b3a3d1e3b1 c5a4e5d1 c4 e3c5a4e5a3a5 b2e3e5a1a3b4a3d4a1 c5a4e5d1 a3d1a1 e1c4e5d1
+b3b2a3b1 c1e5a3 c5a4a1b1a3 c5d2a3 a1e3d4a1 c1e5 d2c4 b1a3d1e1d2b1a3 c5a4e5d1 d4a3 d1e3e5b1d2a3a5 d1e3d4d1 d2d4a2e5d1a1d2b3a3
+c5a4e5d1 e1c4e3d2d4d3b1a3 d3a3 c4e3 e2a4b1a1e5d4a3 a1a4e5d1 c4a3d1 c5a4a1b1a3d1 b1a3c5d2c5a3d4a1
+a3d4 c4e5d2  c5a4e5d1 d4 e3c5a3a5 b1d2a3d4 e1a3b1d3e5 c5a4d1 d5a3e5b5 d3a4d2c5a3d4a1 a3a1b1a3 d1a3b3d1 d1a3b1a3d2d4d1
+b4a3b4a3  c5a4e5d1 a1b1a4e5c5a3a5 a1a4e5a1 a3d4 c4e5d2 d2c4 c5a4e5d1 a1d2a3d4a1 c4d2a3e5 d3a3 a1a4e5a1
+d2c4 b1a3e1e5c2d4a3b1e3d2a1 a1b1a4e1 e3 c5a4a1b1a3 d1e3c2a3d1d1a3 e3 c5a4a1b1a3 e3b4a3 d1a3d4d1d2c3c4a3 a3a1 b1a3b3a4d4d4e3d2d1d1e3d4a1a3
+d3a3 b4a3b3a4d4d4e3a1b1a3 c5a4a1b1a3 e2a3c4d2b3d2a1a3 a2e5d1c1e5 e3 a4d1a3b1 d3a3e1c4a4b1a3b1 c5a4a1b1a3 d1a4b1a1 d3e5 c5d2c5e3d4a1 d3a3 b3a3d1e3b1
+
+
+a2a3 c5a4e5d1 d2d4d3d2c1e5a3b1e3d2 a3d4b3a4b1a3 e5d4 e3e5a1b1a3 b1a3b4a3d3a3 d4a4d4 d1e3d4d1 d3a4e5a1a3
+e1c4e5d1 e1e5d2d1d1e3d4a1 b4e3d2d1 d3 e5d4 e5d1e3c2a3 e1c4e5d1 e2e3b4d2c4d2a3b1 b3 a3d1a1 d1a4e5d1 c5a4a1b1a3
+a1a4d2a1 c1e5a3 c5a4d1 b3b2e3c2b1d2d4d1 b4a3d4e3b3a3d4a1 d3a3 c5a4e5d1 d1e3d2d1d2b1 e3e5 b1a3a1a4e5b1  b3e3b1
+a3d4 e1b1a3d1a3d4b3a3 d3a3 c5a4a1b1a3 d3d2c5d2d4d2a1a3 d2c4d1 d4a3 d1e3e5b1e3d2a3d4a1 a1b1a4e5c5a3b1 e3b3b3a3d1
+b3a3d1e3b1 c4a3d1 b3a4b4e1b1d2b4a3 a1a4e5d1 a3d4 c5a4e5d1 b4e3d2d1 e5d4a3 e2a4d2d1 c4a4d2d4 d3a3 c4e5d2 c4e3
+d3a4e5c4a3e5b1 b3a4b4b4a3 a1b1a4e5c5e3d4a1 c4 a4b3b3e3d1d2a4d4 a1a3d4d3b1e3 d3a3d1 e1d2a3c2a3d1 e3 c5a4a1b1a3
+d2d1a4c4a3b4a3d4a1 a3a1 e1a3e5 e3 e1a3e5 a3c4c4a3 d1a3 c2c4d2d1d1a3b1e3 d3e3d4d1 c5a4a1b1a3 e3b4a3 c4d2c5b1a3a3
+e3e5 b1a3e1a4d1
+
+d4a3 c4e3d2d1d1a3a5 d3a4d4b3 e3e5b3e5d4a3 e1e3b1a1d2a3 d3a3 c5a4a1b1a3 a1a3b4e1d1 d2d4a4b3b3e5e1a3a3
+e1e3b1 c4 a3a1e5d3a3  b3 a3d1a1 b4e3d2d4a1a3d4e3d4a1 c1e5a3 c5a4d1 b4e5d1a3d1 b3b2a3b1d2a3d1 d1d2
+c4a4d4c2a1a3b4e1d1 a3a1 d1d2 e2d2d3a3c4a3b4a3d4a1 e3d2b4a3a3d1 c5a4e5d1 e1e3d2a3b1a4d4a1 d3a3 b1a3a1a4e5b1
+b4e3d2d4a1a3d4e3d4a1 c1e5 a3c4c4a3d1 b1a3b3c4e3b4a3d4a1 c4a3e5b1 a5a3c4e3a1a3e5b1 a3a1 c4a3e5b1 e1a4d4a1d2e2a3
+b4e3d2d4a1a3d4e3d4a1 c1e5a3 c5a4e5d1 d4a3 d3a3c5a3a5 e1c4e5d1 c1e5d2a1a1a3b1 b2a4b4a3b1a3 a3a1 c5d2b1c2d2c4a3
+c1e5d2 a4d4a1 c3d2a3d4 b4a3b1d2a1a3 d3e5 c2a3d4b1a3 b2e5b4e3d2d4 b3a4b4b4a3 c5a4e5d1 d3a3 a1a4e5a1a3d1
+c4a3d1 d4e3a1d2a4d4d1 a3a1 d3 a3e5b5b4a3b4a3d1 b3e3b1 c5a4e5d1 c4a3d1 e3c5a3a5 e2e3d2a1 b3a4d4d4e3a1b1a3 e3
+d3a3d1 e1a3e5e1c4a3d1 e1a4e5b1 c4a3d1c1e5a3c4d1 d2c4d1 d4 e3c5e3d2a3d4a1 e1a4d2d4a1 a3b3b1d2a1 d4a3 b1a3d3a4e5a1a3a5
+b1d2a3d4 e1a4e5b1 a1a4e5d1 c4a3d1 b4a4b4a3d4a1d1 c1e5a3 c5a4e5d1 b4a3a1a1b1a3a5 d1a4e5d1 c4a3e5b1 d1e3e5c5a3c2e3b1d3a3
+b3 a3d1a1 b4e3d2d4a1a3d4e3d4a1 c1e5a3 c4a3d1 e2e3d2a1d1 d3a3 b3a3d1e3b1 b1a3b3c4e3b4a3d4a1 a1a4e5d1
+c5a4d1 a3e2e2a4b1a1d1 d2c4 e2e3e5a1 c1e5a3 a1a4e5d1 c4a3d1 d1d2a3b3c4a3d1 a3d4 d1a4d2a3d4a1 d2d4e2a4b1b4a3d1 e1e3b1
+e5d4 a1a3b4a4d2c2d4e3c2a3 d3a4b4a3d1a1d2c1e5a3  b3a3c4a3c3b1a3a5c4a3d1 c4e5d2b4a3b4a3 e1a4e5b1 c4e3
+e2a4b1b4a3 a3a1 c4a3 e1c4e3d4 d3a3 b3a3d1 e3d4d4e3c4a3d1 c5a4e5d1 d3a4d4d4a3b1e3 a3a1 c4e3 b4e3a1d2a3b1a3 a3a1 c4 a3b5a3b4e1c4a3
+
+a2a3 d4 d2b1e3d2 e1e3d1 a2e5d1c1e5 e3 c5a4e5d1 b3a4d4d1a3d2c4c4a3b1 d3 e3e1e1c4d2c1e5a3b1 e3 c4e3
+b3a4b4e1a4d1d2a1d2a4d4 d3a3 e2e3c3c4a3d1 d3 e3e1a4c4a4c2e5a3d1 d3e3d4d1 c4a3 c2a4e5a1 d3 a3d1a4e1a3 c2a3d4b1a3
+c1e5a3 d4 a4d4a1 e1e3d1 a3d1d1e3d5a3 c4a3d1 b1a4b4e3d2d4d1 b3a3a1a1a3 c2b1e3b3a3 d3a3 d1a1d5c4a3 c1e5d2
+c5a4e5d1 a3d1a1 e1b1a4e1b1a3 d2c4 a3d1a1 d3d2e2e2d2b3d2c4a3 d1e3d4d1 d3a4e5a1a3 e3 e5d4a3 e3b4a3 d1d2 b1e5d3a3b4a3d4a1
+e2b1e3e1e1a3a3 d3 e3c3a4b1d3a3b1 a1a4e5a1 e3 b3a4e5e1 d3a3d1 a3b5a3b1b3d2b3a3d1 d3a3 e1e5b1 e3c2b1a3b4a3d4a1
+a1a4e5a1a3e2a4d2d1 a1a3d4a3a5c5a4e5d1 d1e5b1 c1e5 a3c4c4a3 a3d1a1 d3a3a2e3 b1e3e2e2a3b1b4d2a3 a3a1
+b1a3d4d3e5a3 e3 a3c4c4a3b4a3b4a3 d1d2 d3a3 b3a4b4e1a4d1d2a1d2a4d4d1 e1c4e5d1 e3e5d1a1a3b1a3d1 a3c4c4a3 e1a3e5a1
+d3a3d1b3a3d4d3b1a3 e3 d3a3 b4a4d2d4d1 c2b1e3c5a3d1 d1e5a2a3a1d1
+
+c5a4a1b1a3 d2b4e3c2d2d4e3a1d2a4d4 c1e5a4d2c1e5a3 b4e3c4e3d3a3 a3d4b3a4b1a3 a3a1 a3d4 c4e5a1a1a3 b3a4d4a1b1a3 a3c4c4a3b4a3b4a3
+d1a3 d1a3d4a1d2b1e3 d3d2d1a1b1e3d2a1a3 e1e3b1 c4a3 d1a3b1d2a3e5b5 d3a3 d1a3d1 a1b1e3c5e3e5b5 b4e3d2d1 c4a3d1 b3b2a4d1a3d1 c1e5d2
+c5a3e5c4a3d4a1 a3a1b1a3 a1b1e3d2a1a3a3d1 d3 e5d4 a3d1e1b1d2a1 d1a3b1a3d2d4 c4e5d2 b1a3e1e5c2d4a3b1a4d4a1 a1e3d4a1
+c1e5 a3c4c4a3 d4a3 d1a3b1e3 e1e3d1 a3d4a1d2a3b1a3b4a3d4a1 b1a3d4a1b1a3a3 d3e3d4d1 d1a4d4 e3d1d1d2a3a1a1a3
+c1e5 a3c4c4a3 b3a4b4b4a3d4b3a3 d3a4d4b3 e1e3b1 d3a3d1 d1e5a2a3a1d1 d1a3c5a3b1a3d1 e1a4e5b1 d1a3 d3a3a1a3d4d3b1a3
+e3e1b1a3d1 d1e5b1 d3a3 e1c4e5d1 b1d2e3d4a1a3d1 e1b1a4d3e5b3a1d2a4d4d1
+
+
+b3a3 d1a3b1e3 a3d4 a4e5a1b1a3 e5d4 c2b1e3d4d3 b4a4a1d2e2 d3a3 d1a4e5c4e3c2a3b4a3d4a1 d3a3 c5a4e5d1 d3a3b4e3d4d3a3b1
+d1a4e5c5a3d4a1 e3 c5a4e5d1b4a3b4a3  a3d1a1b3a3 e1a4e5b1 b4a4d2 c1e5a3 a2a3 b4 e3e2e2c4d2c2a3
+a4e5 e1a4e5b1 b3a3c4e5d2 c1e5d2 e3 b3a3d1d1a3 d3 a3a1b1a3 d1d2 b3 a3d1a1 e1a4e5b1 b4a4d2 e3e5e1b1a3d1
+d3a3 c1e5d2 a3d1a1 c4a3 b4a3b1d2a1a3 d3a3 c4e3 e2e3d2c3c4a3d1d1a3 d3a4d4a1 a2a3 b4a3 e1e3b1a3 a3c4c4a3
+d3a3c5b1e3d2a1 e1a4e5b1 a3a1b1a3 a3b5b3e5d1e3c3c4a3 e1e3b1a1d2b1 d3 e5d4 e1c4e5d1 d4a4c3c4a3 e2a4d4d3
+c1e5e3d4d3 d3a3d1 e1a3d4d1a3a3d1 d3 d2d4a1a3b1a3a1 d1 d5 b4a3c4a3d4a1 c4a3 b3a4a3e5b1 d5 d3a3c5d2a3d4a1
+a3a1b1e3d4c2a3b1 a4b1 b1d2a3d4 d4a3 d1d2a3d3 b4a4d2d4d1 e3 c4 b2a4d4d4a3a1a3 b2a4b4b4a3 c1e5a3 d3a3
+e2e3d2b1a3 d3a3 c4e3 b4a4b1a1 d3 e5d4 e2b1a3b1a3 c4 a4c3a2a3a1 d3 e5d4 b3e3c4b3e5c4
+
+d1d2 b3 a3d1a1 e1a4e5b1 c4e5d2 c1e5a3 a2a3 b4a3 c4e3b4a3d4a1a3 a2a3 d3a4d2d1 e3d3b4a3a1a1b1a3 d3e3d4d1 c4 e3e1e1b1a3b3d2e3a1d2a4d4
+d3a3 b4e3 b3a4d4d3e5d2a1a3 c4 e5d4 d3a3 b3a3d1 d3a3e5b5 e1a4d2d4a1d1 a4e5 c4a3d1 b4a4b1a1d1 d1a4d4a1 e1b1d2c5a3d1 d3a3
+a1a4e5a1 d1a3d4a1d2b4a3d4a1 a3a1 b4a4d4 e2b1a3b1a3 a3b3b2e3e1e1a3 e3 a1a4e5a1a3d1 c4a3d1 d3d2d1c2b1e3b3a3d1
+d3a3 c4e3 c5d2a3 d1a3 b1a3a1b1a4e5c5a3 e3e5b5 b4a3b4a3d1 c4d2a3e5b5 a4e5 d2c4 a3a1e3d2a1 e3c5e3d4a1 d3a3
+d4e3a1b1a3 c4d2c3b1a3 d3a3 a1a4e5a1 b4e3c4 d1e3d4d1 b3b1e3d2d4a1a3 d1e3d4d1 d3a3d1d2b1 d1e3d4d1 d1a4e5e2e2b1e3d4b3a3
+e3e5b3e5d4a3 c1e5a3c4c4a3 a3d1a1 e3c4a4b1d1 b4e3 d3a3b4a3d4b3a3 d3a3 d4a4e5b1b1d2b1 e5d4a3
+d3a4e5c4a3e5b1 d1e3d4d1 e2d2d4 e1a4e5b1 c1e5d2 d4 a3d4 a3e1b1a4e5c5a3b1e3 a2e3b4e3d2d1
+
+ a4e5 c4a3 a1b1a3e1e3d1 d4a4e5d1 c4e3d2d1d1a3 a3d4b3a4b1a3 c1e5a3c4c1e5a3 d1a3d4a1d2b4a3d4a1 a3a1 e3d2d4d1d2 c4 e3b4a3 d3a3 b4a4d4
+e2b1a3b1a3 b1a3d4c5a4d5a3a3 b3a4b4b4a3 d3 e5d4a3 c4a4d4c2e5a3 e1b1d2d1a4d4 a2a4e5d2a1 a3d4e2d2d4 d3 a3c4c4a3b4a3b4a3
+d3a3 d1a4d4 d2d4d3a3e1a3d4d3e3d4b3a3 d3e5 d1e1a3b3a1e3b3c4a3 d3a3 c4e3 d4e3a1e5b1a3 a3a1 a1e3d4d3d2d1
+c1e5 d2c4 b1a3c2e3b1d3a3 d3 a3d4 b2e3e5a1 c4a3d1 b3b2a4d1a3d1 d3a3 c4e3 a1a3b1b1a3 d2c4 b3a4d4a1a3b4e1c4a3
+e3e5d1d1d2 d3a3 e1c4e5d1 e1b1a3d1 c4a3d1 b3a3c4a3d1a1a3d1 b4d5d1a1a3b1a3d1 d3a4d4a1 d2c4 e3 d1d2 c4a4d4c2a1a3b4e1d1
+a3a1 d1d2 c5e3d2d4a3b4a3d4a1 b3b2a3b1b3b2a3 c4e3 b3c4a3e2 e1a4e5b1c1e5a4d2 d3a4d4b3 b4a3 b3a4d4d1e5b4a3a2a3
+e3 b1a3c2b1a3a1a1a3b1 e5d4 e2b1a3b1a3 c1e5d2 a3d1a1 b2a3e5b1a3e5b5 a4e5 c1e5d2 d4 a3d1a1 e1c4e5d1 b1d2a3d4
+c4 a3d4c5d2a3 d1a3e5c4a3 e1c4a3e5b1a3b1e3d2a1 d1a4d4 c3a4d4b2a3e5b1 e1c4a3e5b1a3b1 c4a3 d4a3e3d4a1 a3d1a1 e2a4c4d2a3
+
+ c5a4a1b1a3 b3b2e3c2b1d2d4 c5d2a3d4a1d2c4 d3a3 b3a3 c1e5a3 c5a4e5d1 c5a4e5d1 e2d2c2e5b1a3a5
+c5a4a1b1a3 e2b1a3b1a3 d3a3e1a4e5d2c4c4a3 d3a3d1 c3b1d2c4c4e3d4a1d1 e3c5e3d4a1e3c2a3d1 c1e5d2 c4 a3d4a1a4e5b1e3d2a3d4a1
+d3a3 a1a4e5a1 c4a3e5b1 a3b3c4e3a1 b4e3d2d1 d1a4d4c2a3a5 c1e5a3 d1 d2c4 e3 e1a3b1d3e5 c3d2a3d4 d3a3d1
+b3b2a4d1a3d1 d2c4 a3d4 a3d1a1 d3e3c5e3d4a1e3c2a3 c1e5 d2c4 d4a3 b3b1e3d2d4a1 e1c4e5d1 e1a4d2d4a1 d3a3 b1a3d1d1a3d4a1d2b4a3d4a1
+c1e5d2 c4a3 a1a4e5b1b4a3d4a1a3 d3a3 b4e3c4e3d3d2a3 c1e5d2 c4 e3c3e3a1a1a3 d3a3 d1a4e5e1a4d4
+c1e5d2 c4a3 b2e3b1b3a3c4a3 c4 a3d4c5d2a3 e3e5 e2d2a3c4 b1a4d4c2a3e5b1 b3a4d4d1a1e3d4a1a3 a3d4d4a3b4d2a3 d3a3
+a1a4e5a1 b3a3 c1e5d2 d1 a3c4a3c5a3 d4a3 d1 e3b3b2e3b1d4a3b1e3 e1c4e5d1 d1e5b1 c4e5d2  c4e3 b3b1e3d2d4a1a3 d4a3
+c4 e3d2c2e5d2c4c4a4d4d4a3b1e3 e1c4e5d1  c4e3 c4a3c2a3b1a3a1a3 d3a3 c4e3 e2a4b1a1e5d4a3 d1d2 e1b1a4b4e1a1a3 e3
+b3b2e3d4c2a3b1 d3a3 e2e3c5a4b1d2d1 d4a3 a1b1a4e5c3c4a3b1e3 e1c4e5d1 d1a4d4 b1a3e1a4d1 b3e3c4b3e5c4a3a5 c3d2a3d4
+a4d4 c4e5d2 e3 e2e3d2a1 c2b1e3b3a3 e1c4e5a1a4a1 c1e5a3 d3a4b4b4e3c2a3
+
+ d2c4 d4a3 a2a4e5d2b1e3 d4d2 d3a3 d1a4d4 a4e1e5c4a3d4b3a3 d4d2 d3a3 d1a4d4 b3b1a3d3d2a1 d4d2 d3e5 c5a4a1b1a3 d2c4 d4a3 b1a3d4d3b1e3
+d2c4 d4a3 b1a3b3a3c5b1e3 e1c4e5d1 d3a3 c3d2a3d4e2e3d2a1d1 a3d1a1d2c4 e3 e1c4e3d2d4d3b1a3 d3 e3c5a4d2b1 e1a3b1d3e5 a1a4e5a1
+b3a3c4e3 a4e5 b2a3e5b1a3e5b5 d3a3 d4a3 e1e3d1 c4a3 b1a3c2b1a3a1a1a3b1  b3b1a4d5a3a5b4a4d2 e1c4e5d1 b2a3e5b1a3e5b5
+a3d1a1 c4 b2a4b4b4a3 e3 c1e5d2 c4e3 e2a4b1a1e5d4a3 a3d1a1 d2d4e5a1d2c4a3 c1e5a3 b3a3c4e5d2 c1e5d2
+c4 e3 d1a4e5d1 c4e3 b4e3d2d4 a1a4e5d1 b3a3d1 e2e3e5b5 c3d2a3d4d1 d1d2 d1e1a3b3d2a3e5b5 c1e5d2 d4a4e5d1
+e3b4e5d1a3d4a1 d3a3 c4a3e5b1d1 a1b1a4b4e1a3e5d1a3d1 d3a4e5b3a3e5b1d1 a1b1a3d1a4b1d1 d3d2c2d4d2a1a3d1 e1e5d2d1d1e3d4b3a3
+a3a1 a1e3d4a1 d3 e3e5a1b1a3d1 d1a3d3e5b3a1d2a4d4d1 d3a3c5e3d4a1 c4a3d1c1e5a3c4c4a3d1 c4 e3c5a3e5c2c4a3
+b3e5e1d2d3d2a1a3 b2e5b4e3d2d4a3 d1 a3c3e3b2d2a1 d4a3 d1a3 b3a4d4d1a3b1c5a3d4a1 c1e5 e3 c2b1e3d4d3 e1a3d2d4a3
+d1a4d4a1 c5e5d1 e3c5a3b3 a3d4c5d2a3 b3a3e5b5 b4a3b4a3 c1e5 d2c4d1 d3a3b3a4b1a3d4a1 a3d4 d1a4d4a1 e3b3b3e3c3c4a3d1
+d2c4d1 b4a3d4e3b3a3d4a1 e1c4e5d1 c1e5 d2c4d1 d4a3 d1a3b1c5a3d4a1  c2c4d2d1d1e3d4a1d1 a3a1 e2e5c2d2a1d2e2d1
+c1e5d2 a2e3b4e3d2d1 e1a3e5a1 c4a3d1 c3d2a3d4 d1e3d2d1d2b1  b3e3b1 d4 a3e5a1a4d4 d3e3d4d1 c4 e3c5a3d4d2b1
+b1d2a3d4 e3 b3b1e3d2d4d3b1a3 e5d4a3 c2b1e3d4d3a3 e2a4b1a1e5d4a3 e3 b4e3d2d4a1a3d4d2b1 b3a4e5a1a3 c3d2a3d4 d3a3d1 d1a4e5b3d2d1
+
+ c5a3e5d2c4c4a3a5 a3d4 b3b1a4d2b1a3 b3a3e5b5 c1e5d2 e3e1e1b1a4e2a4d4d3d2d1d1a3d4a1 c4a3
+b4d2a3e5b5 c4e3 c5a3b1d2a1a3 a1a4e5a1a3 c5d2a3 a3d1a1 e5d4 d1e5e1e1c4d2b3a3 c4e3d4b3a3d1 d1e5b1 b3a3a1a1a3
+b4a3b1 e1b1a4e2a4d4d3a3 a3a1 d1e3d4d1 b1a3e1a4d1 d3e3d4d1 c4a3d1 a4d1b3d2c4c4e3a1d2a4d4d1 d3e5 e2c4e5b5 a3a1 d3e5
+b1a3e2c4e5b5 a1e3d4a1a4a1 e1a4b1a1a3d1 e1e3b1 e5d4a3 d1e5c3d2a1a3 a3c4a3c5e3a1d2a4d4 a1e3d4a1a4a1 e1b1a3b3d2e1d2a1a3d1
+e1c4e5d1 c3e3d1 c1e5 e3e5e1e3b1e3c5e3d4a1 e1a4e5d1d1a3d1 b1a3e1a4e5d1d1a3d1 d1e3d4d1 b3a3d1d1a3
+d4e5c4c4a3 e1e3b1a1 d4a4e5d1 d4a3 e1a4e5c5a4d4d1 a2a3a1a3b1 c4 e3d4b3b1a3  d4a4e5d1 e2c4a4a1a1a4d4d1 d1e5d1e1a3d4d3e5d1
+e3e5b5 c5e3c2e5a3d1 d4a4e5d1 d4a4e5d1 b2a3e5b1a1a4d4d1 c4a3d1 e5d4d1 b3a4d4a1b1a3 c4a3d1 e3e5a1b1a3d1
+e2e3d2d1e3d4a1 a1b1a4e1 d1a4e5c5a3d4a1 d4e3e5e2b1e3c2a3 c4a3 b1a3d3a4e5a1e3d4a1 a1a4e5a2a4e5b1d1 e3e5
+b4d2c4d2a3e5 d3a3 b3a3d1 e2c4a4a1d1 d1d2 a4b1e3c2a3e5b5 a3a1 a3b5e1a4d1a3d1 e3 a1a4e5a1a3d1 c4a3d1 a1a3b4e1a3a1a3d1
+c4a3 d4e3c5d2c2e3a1a3e5b1 d4 e3 d3a3 e1a4b1a1 c1e5a3 c4a3 a1b1a3e1e3d1
+
+ d4a3 e1c4a3e5b1a3a5 d3a4d4b3 e1e3d1 b3a4b4b4a3 e2a3b1e3d2a1 c4 a3d4c5d2a3 c4a3 c3a4d4b2a3e5b1 d3 e5d4
+e2b1a3b1a3  d2c4 b1a3e1a4d1a3  d2c4 a3d1a1 a3d4e2d2d4 c4d2c3b1a3 b2a4b1d1 d3a3 e1a3b1d2c4 d2b4b4a4b1a1a3c4  d2c4
+c5a4d2a1 c1e5a3 b3a3d1e3b1 a3a1 a1a4e5d1 c4a3d1 b1a3a2a3a1a4d4d1 d3a3 b3a3d1e3b1 c4e5d2 d1e5b1c5d2c5a3d4a1 d2c4
+c5a4d2a1 c4e5d2 d1e5b1c5d2c5b1a3 e1a4c4d5c3a3 a3a1 a1a4e5d1 d1a3d1 e2b1a3b1a3d1 e3c5e3d4a1 c1e5 a3c4c4a3 b3b2e3d4c2a3e3a1
+b1d2a3d4 d3a3 d1a3d1 e2e3c5a3e5b1d1 d2c4 e3 c1e5d2a1a1a3 c4e3 e2a4b1a1e5d4a3 d2b4b4a4c3d2c4a3 a3d4b3a4b1a3
+a3a1 c1e5d2 c4e5d2 c5a3b1d1e3d2a1 d1a3d1 d3a4d4d1 e3 e1c4a3d2d4a3d1 b4e3d2d4d1
+
+ d2c4 a2a4e5d2a1 b4e3d2d4a1a3d4e3d4a1 d3 e5d4 b3d2a3c4 e1e5b1 a3a1 d1e3d4d1 d4e5e3c2a3 d2c4 e3 d3a3 b3a3a1a1a3 b2e5b4c3c4a3 a3a1
+c3e3d1d1a3 b1a3c2d2a4d4 e1b1d2d1 d1a4d4 c5a4c4 c5a3b1d1 c4a3 d1a3a2a4e5b1 b4d5d1a1a3b1d2a3e5b5 c1e5d2 a4e5c5b1a3
+e3e5b5 e3b4a3d1 d3a3c2e3c2a3a3d1 d3a3 c4a3e5b1d1 e2a3b1d1 d1a3d1 d3a3b4a3e5b1a3d1 c3d2a3d4b2a3e5b1a3e5d1a3d1
+d3e3d4d1 d1a4d4 c5e3c2e5a3 a3a1 c4d2c3b1a3 a3d1d1a4b1 d2c4 d3a3b3a4e5c5b1a3 a1a4e5d1 c4a3d1 a1b1a3d1a4b1d1 d3a3
+c4e3 d4e3a1e5b1a3 e3c5a3b3 e5d4 d1e5e1b1a3b4a3 b1e3c5d2d1d1a3b4a3d4a1 d3a3a1b1a4b4e1a3a5c5a4e5d1 d2c4
+d4 e3 e1a4d2d4a1 e1a3b1d3e5 c4e3 c4e5b4d2a3b1a3 d2c4 a3d4 b1a3d1e1d2b1a3 e5d4a3 e1c4e5d1 e1e3d2d1d2c3c4a3
+
+
+ c5a3b1d1 c4e3c1e5a3c4c4a3 d4a4e5d1 d4a4e5d1 e3b3b2a3b4d2d4a4d4d1 a1a4e5d1 c1e5a3 e1c4e3d2c2d4a4d4d1d4a4e5d1
+d1a4d4 d1a4b1a1 d2c4 d4a3 d4a4e5d1 e3 e1e3d1 c1e5d2a1a1a3d1 d2c4 e3 e1b1d2d1 c4a3d1 d3a3c5e3d4a1d1
+b3 a3d1a1 b3b1a4d5a3a5b4a4d2 e5d4 c2b1e3d4d3 c3a4d4b2a3e5b1 c1e5a3 d3a3 b4a4e5b1d2b1
+e3e5 a1a3b4e1d1 d3a3 c4e3 e2a3c4d2b3d2a1a3 b1d2a3d4 d4 a3d1a1 d1e5b1 d2b3d2c3e3d1 e2e5a1b3a3 e1a4e5b1 e5d4
+d1a3e5c4 a2a4e5b1 d3e3d4d1 c4 d2b4e1a3d4a3a1b1e3c3c4a3 a4c3d1b3e5b1d2a1a3 d3a3 b3a3 c1e5d2 d3a4d2a1 a3a1b1a3
+c1e5d2 d3a3c5d2d4a3b1e3 d1d2 e1a4e5b1 c5a4a1b1a3 e2b1a3b1a3 c4e3 b4a4b1a1 e3 a3a1a3 a2e3c4a4e5d1a3 a4e5 c3d2a3d4c5a3d2c4c4e3d4a1a3
+
+ a3a1 e5d4a3 b3a4d4d1a4c4e3a1d2a4d4 d2d4e2e3d2c4c4d2c3c4a3 e1a4e5b1 c5a4e5d1 c1e5d2 a3a1a3d1
+a2e5d1a1a3 a3d4 a1a4e5a1a3d1 b3b2a4d1a3d1 d1a3b1e3 d3a3 e1a3d4d1a3b1 d4a4d4 c1e5 e5d4 a1a4b1a1 c5a4e5d1 e3
+a3a1a3 e2e3d2a1 e1e3b1 c4e3 e1a3b1a1a3 d3 e5d4 a1a3c4 e2b1a3b1a3 b4e3d2d1 c1e5a3 c5a4e5d1 a3a1a3d1 b1a3d3a3c5e3c3c4a3
+e3e5 b3d2a3c4 d3 e3c5a4d2b1 a2a4e5d2 c4a4d4c2a1a3b4e1d1 a3a1 e1c4a3d2d4a3b4a3d4a1 d3a3 d1e3 a1a3d4d3b1a3d1d1a3
+
+a2 e3e1e1a3c4c4a3 d2d4a2e5d1a1d2b3a3 d3d2d1e1e5a1a3b1 e3e5 c3d2a3d4e2e3d2a1a3e5b1 a1a4e5a1 d3b1a4d2a1 e5c4a1a3b1d2a3e5b1
+d1e5b1 d1a3d1 d3a4d4d1  e3c5d2d3d2a1a3 d4a3 e1e3d1 a1a3d4d2b1 e1a4e5b1 c2e3d2d4 d3 e3c5a4d2b1 b1a3e5 b4e3d2d1
+e1a4e5b1 d3a4b4b4e3c2a3 d3 e3c5a4d2b1 b1a3d1a1d2a1e5a3  d2d4c2b1e3a1d2a1e5d3a3 d4a4b4b4a3b1 d3d2d1c2b1e3b3a3
+c4a3 a1a3b1b4a3 d3a3 c4e3 a2a4e5d2d1d1e3d4b3a3  a2 e3e1e1a3c4c4a3 d3a3b1e3d2d1a4d4 d1 d2b4e3c2d2d4a3b1
+c1e5 a4d4 d4a3 e1a3e5a1 c2a4e5a1a3b1 c1e5a3 d3a3d1 c3d2a3d4d1 e3b3a1e5a3c4d1 e3e5 c4d2a3e5 d3a3 d1a3 b1a3e1a4d1a3b1
+e3e5d1d1d2 d1e5b1 c4a3d1 e2b1e5d2a1d1 d3e5 e1e3d1d1a3 a3a1 d3 e3e1e1b1a3b3d2a3b1 c4e3 e2d2b5d2a1a3 d3a3
+b3a3 c1e5d2 e2e5a1 a2e3d3d2d1  b3e3b1 c4e3 d3e5 b4a4d2d4d1 e1c4e5d1 d3a3 b1a3c5a4c4e5a1d2a4d4 e3 b3b1e3d2d4d3b1a3
+
+ a4d4 b1a3d1d1a3b1b1a3 a1b1a4e1 d1a3d1 a2a4e5d2d1d1e3d4b3a3d1 d1d2 a4d4 d4 a3d4 b3b1a4d2a1 a1b1a4e5c5a3b1
+c1e5 e3e5b5 b3b2a4d1a3d1 c1e5a3 c4 a4d4 a1d2a3d4a1 a3a1 c1e5 a4d4 c5a4d2a1 d1d2 c4a3d1 e3c5a4d2b1 e1a4d1d1a3d3a3a3d1
+a3d1a1 b3a4b4e1a1a3 e1a4e5b1 b1d2a3d4 b3e3b1 a1a4e5a1 e1c4e3d2d1d2b1 a3d1a1 e1b1a4b4e1a1 e3 d4a4e5d1
+c1e5d2a1a1a3b1 d2c4 e2e5d2a1 d2c4 d1 a3d4c5a4d2a3 a3a1 e1b1a3d1c1e5a3 e3c5e3d4a1 d3 e3b1b1d2c5a3b1 d2c4 d4 a3d1a1
+e1c4e5d1 c1e5a3 c4 d2b4e3c2d2d4e3a1d2a4d4 d1a3 b1a3e1a4b1a1a3 d3a4d4b3 d1e5b1 c4a3 e1e3d1d1a3  a1a4e5a1 b3a3
+c1e5d2 a2e3b4e3d2d1 e3 e1e5 d4a4e5d1 b3b2e3b1b4a3b1 b1e3e1e1a3c4a4d4d1c4a3 a3a1 c1e5a3 d3a3 e2b1a3c1e5a3d4a1a3d1
+b4a3d3d2a1e3a1d2a4d4d1 d4a4e5d1 c4a3 e2e3d1d1a3d4a1 b4d2a3e5b5 d1e3c5a4e5b1a3b1 c4a3d1 e1c4e3d2d1d2b1d1
+d4 a4d4a1 d3a3 b3a4d4d1a1e3d4a1 a3a1 d3a3 e2d2d3a3c4a3 c1e5a3 c4a3e5b1 d1a4e5c5a3d4d2b1 c4a3e5b1
+e1b1a3d1a3d4b3a3 d3e5b1a3 a1b1a4e1 e1a3e5
+
+c5a4e5d1 e3c5a3a5 e1a4d1d1a3d3a3 e5d4 a3b5b3a3c4c4a3d4a1 e2b1a3b1a3
+b3a4b4e1a1a3a5 b3a3c4e3 e1a4e5b1 e5d4a3 e2a3c4d2b3d2a1a3 d3a3d1 e1c4e5d1 c2b1e3d4d3a3d1 a3a1 e3e5 c4d2a3e5 d3a3
+d3d2b1a3  a2a3 e1a4e5c5e3d2d1 c4 e3c5a4d2b1 e1c4e5d1 c4a4d4c2a1a3b4e1d1  d1a4d4c2a3a5 b3a4b4c3d2a3d4
+d3a3 a1a3b4e1d1 c5a4e5d1 c4 e3c5a3a5 a3e5 c4e3 d4e3a1e5b1a3 c5a4e5d1 c4 e3c5e3d2a1 b3a4b4b4a3 e3 a1a4e5d1
+c4a3d1 e2b1a3b1a3d1 d4a4d4 d3a4d4d4a3 e1a4e5b1 a1a4e5a2a4e5b1d1 b4e3d2d1 e1b1a3a1a3 d2c4 c4e5d2 e3 e1c4e5
+d3a3 c4a3 b1a3d3a3b4e3d4d3a3b1 d1e3d4d1 e3a1a1a3d4d3b1a3 c1e5a3 c5a4e5d1 c5a4e5d1 a3d4 e2e5d1d1d2a3a5 b1e3d1d1e3d1d2a3
+a3c4c4a3 e3 d1e5d2c5d2 d1e3 c4a4d2
+
+c1e5 e5d4 d3a3c3d2a1a3e5b1 d1 d2d4d3d2c2d4a3 d3a3 b1a3b4c3a4e5b1d1a3b1
+e5d4 e1b1a3a1 c1e5d2 d1e5b1a1a4e5a1 c4e5d2 e2e5a1 e2e3d2a1 c2b1e3a1e5d2a1a3b4a3d4a1 d4a3 e1e3d1d1a3b1e3a1d2c4
+e1e3d1 e1a4e5b1 d2d4a2e5d1a1a3 b3 a3d1a1 e3 b3a3 a1d2a1b1a3 c1e5a3 c5a4e5d1 b1a3e5a1a3d1 c4e3
+c5d2a3 c5a4a1b1a3 e2b1a3b1a3 a3a1 c5a4e5d1  c4e3 d4e3a1e5b1a3 e3 e5d1a3 d3a3 d1a4d4 d3b1a4d2a1 a3d4 a3b5d2c2a3e3d4a1
+e1c4e5d1 a1a4a1 d1a3d1 e3c5e3d4b3a3d1 d3a3 b3a3c4e5d2 c1e5 a3c4c4a3 e3 c5a4e5c4e5  d4a3 c4 e3b3b3e5d1a3a5
+e1e3d1 d1a3d1 b3a4d4d3d2a1d2a4d4d1 a3a1e3d2a3d4a1 b3a4d4d4e5a3d1  e3b3b3e5d1a3a5 c4 a3d1e1b1d2a1 b2e5b4e3d2d4
+d1d2 e3c5d2d3a3 d3e3d4d1 d1a3d1 e1b1a3a1a3d4a1d2a4d4d1 d1d2 c5d2a1a3 a4e5c3c4d2a3e5b5 d3a3 b3a3 c1e5a3 d1a4d4a1
+c4a3d1 b3b2a4d1a3d1 d3a3 b3a3 c1e5 a3d1a1 c4 b2a4b4b4a3 c4e5d2b4a3b4a3 c1e5e3d4d3 c4e3 d4e3a1e5b1a3 d4a3
+c4 a3d4 e3c5a3b1a1d2a1 e1e3d1
+
+b1a3a2a4e5d2d1d1a3a5c5a4e5d1 d3 e3c5a4d2b1 a3e5 e5d4 d1d2 c3a4d4 e2b1a3b1a3
+a3a1 c4e3 a2a4e5d2d1d1e3d4b3a3 d3 e5d4 a1a3c4 c3d2a3d4 a1b1a4e1 b3a4e5b1a1a3 e3e5 c2b1a3 d3a3 c5a4d1 c5a4a3e5b5
+d1e3b3b2a3a5 e3e5 b4a4d2d4d1 c4 e3e1e1b1a3b3d2a3b1 b1a3b3a4d4d4e3d2d1d1a3a5 c1e5a3 d1d2 c4e3 e1a4d1d1a3d1d1d2a4d4
+e2e5a1 d3a3d1 e1c4e5d1 d3a4e5b3a3d1 c4e3 e1a3b1a1a3 e3e5d1d1d2 a3a1e3d2a1 d3e3d4d1 c4 a4b1d3b1a3 d3a3d1
+b3b2a4d1a3d1 b2e5b4e3d2d4a3d1 d2c4 d5 e3 e5d4a3 d2d4b3a4d4d1a3c1e5a3d4b3a3 d3a3d1 e1c4e5d1 c2b1e3d4d3a3d1
+e3 c5a4e5d1 e3e2e2a3b3a1a3b1 d3a3 b3a3 c1e5a3 c4a3 d1a4b1a1 c5a4e5d1 e3d2a1 e1a4e5b1 e1a3e5 d3 d2d4d1a1e3d4a1d1
+c2b1e3a1d2e2d2a3 d3 e5d4 a1a3c4 e2b1a3b1a3 a3a1 e3 d4a3 e1e3d1 c5a4e5d1 e3e1e1c4e3e5d3d2b1 c1e5 d2c4 c5a4e5d1 a3d4
+e3d2a1 c2b1e3a1d2e2d2a3
+
+ b4e3d2d1 e5d4a3 e1a3b1a1a3 d1d2 d2b4e1b1a3c5e5a3   b2a3c4e3d1 a2a4e5a3a1
+d3a3 d1a4d4 d2c4c4e5d1d2a4d4 d3e3d4d1 a1a4e5a1 b3a3 c1e5 d2c4 b3b2a3b1d2a1 c4 b2a4b4b4a3 a4e5c3c4d2a3 c5a4c4a4d4a1d2a3b1d1
+d1e3 b3a4d4d3d2a1d2a4d4 b4a4b1a1a3c4c4a3 c4e3 d4e3a1e5b1a3 d4 e3 a3d4b3a4b1a3 e2e3d2a1 d1e3c5a4d2b1
+e3 e1a3b1d1a4d4d4a3 c1e5 d2c4 d3a4d2c5a3 a3a1b1a3 a3b5a3b4e1a1 d3a3 d1a3d1 d2d4e2c4a3b5d2c3c4a3d1
+d3a3b3b1a3a1d1 a2a4e5b1d4a3c4c4a3b4a3d4a1 e1e3d1d1a3d4a1 d3a3c5e3d4a1 d4a4d1 d5a3e5b5 c4a3d1 e2e5d4a3b1e3d2c4c4a3d1
+d3 b2a4b4b4a3d1 b3a4d4d4e5d1 a4e5 d2d4b3a4d4d4e5d1 d3a3 d4a4e5d1 a3a1 d4a4e5d1 e1a3d4d1a4d4d1
+e3 e3e5a1b1a3 b3b2a4d1a3 a3a1 d4a4e5d1 e3e1e1a3c4a4d4d1 d1e5c3d2a1a3 e5d4a3 b3e3a1e3d1a1b1a4e1b2a3
+c1e5a3 b3b2e3c1e5a3 b2a3e5b1a3 d3a3 c4e3 c5d2a3 d4a4e5d1 b4a4d4a1b1a3 d2d4a3c5d2a1e3c3c4a3 d2c4 d4 d5 e3
+d3a4d4b3 e1e3d1 c4e3 d2d4a2e5d1a1d2b3a3 d3e5 d1a4b1a1  d2c4 d5 e3 d3a3e1b1e3c5e3a1d2a4d4 d3 a3d1e1b1d2a1 b3b2a3a5
+c4 b2a4b4b4a3 d2d4d1e3a1d2e3c3c4a3 a3d4 a1a4e5a1 a3a1 c1e5d2 d1 d2d4d3d2c2d4a3 d3a3 d1a4b1a1d2b1 d3 e5d4
+c4d2a3e5 a4e5 d2c4 e2e5a1 e3d3b4d2d1 e3 a1d2a1b1a3 e1b1a3b3e3d2b1a3
+
+ b3a4b4c3d2a3d4 a3a1e3d2a1 e1c4e5d1 a2e5d1a1a3 b3a3 d1e3c2a3 c1e5d2 e3e1e1b1a3d4e3d4a1 c4e3 b4a4b1a1
+d3a3 d1a4d4 e2d2c4d1 e2d2a1 b3a3a1a1a3 b1a3e1a4d4d1a3 d3d2c2d4a3 d3 e5d4a3 e3b4a3 b2a3b1a4c1e5a3  a3d4
+c4e5d2 d3a4d4d4e3d4a1 c4e3 c5d2a3 a2a3 d1e3c5e3d2d1 c1e5 d2c4 b4a4e5b1b1e3d2a1 e5d4 a2a4e5b1 e2e3e5a1d2c4
+d1 a3a1a4d4d4a3b1 c1e5a3 d3 e5d4 a1a3c4 b2a4b4b4a3 d1a4d2a1 d1a4b1a1d2 e5d4 b3d2a1a4d5a3d4 c1e5d2 d1e5a1
+b3a4e5b1e3c2a3e5d1a3b4a3d4a1 b4a4e5b1d2b1  c4e3 b4a4b1a1 d3 e5d4 e2d2c4d1 d4a3 e1e3b1e5a1 e1e3d1 e3e5
+e1b2d2c4a4d1a4e1b2a3 c1e5a3c4c1e5a3 b3b2a4d1a3 d3a3 d4a4e5c5a3e3e5  b3e3b1 c1e5 d5 e3a1d2c4 d3a3 d4a4e5c5a3e3e5
+c1e5 e5d4 b2a4b4b4a3 b4a3e5b1a3 c4e5d2 d3a4d4a1 a1a4e5a1a3 c4 a3b5d2d1a1a3d4b3a3 d4 a3d1a1
+c1e5 e5d4 e3b3b2a3b4d2d4a3b4a3d4a1 c5a3b1d1 c4e3 b4a4b1a1  
+
+ a3d4 c4e5d2 d3a4d4d4e3d4a1 c4e3 c5d2a3 a2a3 d1e3c5e3d2d1 c1e5 d2c4 b4a4e5b1b1e3d2a1 e5d4 a2a4e5b1 a3a1 d2c4 e3a2a4e5a1a3 e3c5a3b3
+e1c4e5d1 d3a3 d1e3c2a3d1d1a3 a3d4b3a4b1a3 a3a1 d3a3 e2a3b1b4a3a1a3  a2a3 c4 e3d2 a3c4a3c5a3 e1a4e5b1 b3a3c4e3
+a4e5d2 b3 a3d1a1 e1a4e5b1 b3a3c4e3 c1e5 a4d4 d4a4e5d1 a3c4a3c5a3 a1a4e5d1 c1e5d2b3a4d4c1e5a3 e3b1b1d2c5a3
+e3 c4e3 c4e5b4d2a3b1a3 a3d1a1 e1b1a4b4d2d1 e3e5 a1b1a3e1e3d1 b2a3e5b1a3e5b5 d3e5 e1b1a3a1 c1e5d2 d4a4e5d1
+a3d1a1 e2e3d2a1 b1a3d4d3a4d4d1c4a3 d3a3d1 c1e5 a4d4 c4a3 b1a3b3c4e3b4a3b1e3 c4a3 d1a4b1a1 d1e3d2d1d2b1e3
+c4 e5d4 e1c4e5d1 a1a4a1 c4 e3e5a1b1a3 e1c4e5d1 a1e3b1d3 d2c4 d4 a4e5c3c4d2a3b1e3 e1a3b1d1a4d4d4a3 d1a4d5a4d4d1
+d3a4d4b3 e1b1a3a1d1 e3 a1a4e5a1 d2d4d1a1e3d4a1 d4a3 b3b1e3d2c2d4a4d4d1 a2e3b4e3d2d1 c4 d2d4a3c5d2a1e3c3c4a3 a3a1
+e3a1a1a3d4d3a4d4d1 a1a4e5a2a4e5b1d1 c4a3 e1a4d1d1d2c3c4a3
+
+ b3d2a1a3b1e3d2a2a3 b3a3d1 c2a3d4a3b1e3e5b5 a3a1 c4a3d1 a3d4e2e3d4a1d1 d3a3 b3a3d1 c2a3d4a3b1e3e5b5 a3a1 a1e3d4a1 d3 b2a4b4b4a3d1
+b3b2e3b1c2a3d1 d3a3 b3a4d4d1e5c4e3a1d1 a4e5 d3a3 a1b1d2a4b4e1b2a3d1 e1e3d5e3d4a1 a1b1d2c3e5a1 e3 c4 d2d4a3b5a4b1e3c3c4a3 d3a3d1a1d2d4
+d3a3d1 b1a4d5e3e5b4a3d1 a3d4a1d2a3b1d1 e3c5a3b3 c4a3e5b1d1 b1a4d2d1 d3a3d1 e1a3e5e1c4a3d1 e3c5a3b3 c4a3d1 b1e3b3a3d1
+c1e5d2 c4a3d1 b3a4b4e1a4d1a3d4a1 d1e5c3d2d1d1e3d4a1 c4e3 b4a3b4a3 e2e3a1e3c4d2a1a3  a1a4e5a1 b2a4b4b4a3
+c1e5a3 d3d2d1a2a3  a1a4e5a1a3 b3b2a4d1a3 b4e3b1b3b2a3 e3 d1e3 d3a3b1d4d2a3b1a3 b2a3e5b1a3 b4e3d2d1 a1a4e5d1
+d4 a4d4a1 e1e3d1 b4a3b4a3 e2d2d4 b3 a3d1a1 e3e5 b4d2c4d2a3e5 d3a3 d1e3 b3a4e5b1d1a3 c1e5a3 c4e3 c5d2a3 e3c3e3d4d3a4d4d4a3
+c4 e5d4 a3c4c4a3 a3b3b2e3e1e1a3 e3 c4 e3e5a1b1a3 d3a3d1 c4a3 e1b1a3b4d2a3b1 e1e3d1 a1e3d4d3d2d1
+c1e5 e5d4a3 a3b5a1b1a3b4a3 c5d2a3d2c4c4a3d1d1a3 d3a3a2e3 c4e3d1d1a3 d3a3 a2a4e5b1d1 a4c3a1d2a3d4a1 e3 e1a3d2d4a3
+c4a3 b3a4d4c2a3 c1e5 a3c4c4a3 d3a3b4e3d4d3a3  b3a3c4e5d2b3d2 a1a4b4c3a3 e3e5 b4e3a1d2d4 b3a3c4e5d2c4e3
+c4a3 d1a4d2b1 b4e3d2d1 a1a4e5d1 d1 e3c5e3d4b3a3d4a1 c5a3b1d1 e5d4 b4a3b4a3 a1a3b1b4a3 a2a3 d4a3 d1e3d2d1
+d1 d2c4 d5 e3 e1c4e5d1 d3a3 e2a4c4d2a3 e3 b4a3b3a4d4d4e3a1b1a3 c4e3 c4a4d2 c1e5d2 d4a4e5d1 b3a4d4d3e3b4d4a3 e3
+b4a4e5b1d2b1 c1e5a3 d3 d2b4e1e5d3a3d4b3a3 e3 d5 b1a3d1d2d1a1a3b1
+
+ e1b1a3d4a3a5 a3d4 b4e3d2d4 e1b1a3d4a3a5 b3a3d1 a4a3e5c5b1a3d1 d3a4d4a1 c5a4d1 a1b1e3c5e3e5b5 d2d4c2a3d4d2a3e5b5
+a4d4a1 e3b3b3b1e5 c4e3 b3a3c4a3c3b1d2a1a3 c4a3d1 b3b2e3d4a1d1 d3a3 b3a3d1 d3a3e5b5 e1a4a1a3d1
+d3a4d4a1 c5a4e5d1 e3c5a3a5 b1a4b4e1e5 c4a3d1 c5a3b1d1 e3c5a3b3 a1e3d4a1 d3a3 c3a4d4b2a3e5b1 c1e5a3 c4a3
+b4a3a1b1a3 d1a3e5c4 e3 d3d2d1e1e3b1e5 d1e3d4d1 c1e5 d2c4d1 e3d2a3d4a1 b1d2a3d4 e1a3b1d3e5 d3a3 c4a3e5b1
+c2b1e3b3a3 b3e3b1 a3d4 c4a3d1 e2e3d2d1e3d4a1 e1e3d1d1a3b1 d3e3d4d1 e5d4 e3e5a1b1a3 d2d3d2a4b4a3 c5a4e5d1
+c4a3e5b1 e3c5a3a5 b3b2a4d1a3 d1d2 d3d2e2e2d2b3d2c4a3 b3a4d4d1a3b1c5a3 d1a4e5d1 e5d4 b3a4d1a1e5b4a3 a3a1b1e3d4c2a3b1
+a1a4e5d1 c4a3e5b1d1 b4a3b1d2a1a3d1 d2c4 d4 a3d1a1 e1e3d1 e5d4 d3a3d1 b3b2e3d4a1d1 d3a3 c4a3e5b1d1 e1a4b4a3d1
+c1e5d2 d4a3 c5a4e5d1 a4e2e2b1a3 e5d4a3 e2a4e5c4a3 d3 a3b5a3b4e1c4a3d1 d3a3d1 c5d2b3d2d1d1d2a1e5d3a3d1 b2e5b4e3d2d4a3d1
+d3a3d1 b3a4e5e1d1 d2b4e1b1a3c5e5d1 d3e5 b2e3d1e3b1d3 a3a1 d3a3 c4e3b1b4a3d1 e3b4a3b1a3d1
+e1b1a4c5a4c1e5a3a3d1 e1e3b1 b4d2c4c4a3 a3a1 b4d2c4c4a3 b3e3e5d1a3d1
+
+c4d2d1a3a5 b3a3d1 e2a4e5d3b1a4d5e3d4a1a3d1 c4a3a4d4d1 d1d2 e1e3a1b2a3a1d2c1e5a3b4a3d4a1 b1a3e1b1a4d3e5d2a1a3d1 e1e3b1 c5a4e5d1
+c5a4e5d1 b1a4e5c2d2b1a3a5 d3a3 e2e3d2c3c4d2b1 d1d2 e1b1a4b4e1a1a3b4a3d4a1 a3a1 d3a3 d3a3b3b2a4d2b1 d3a3 c4e3 b2e3e5a1a3e5b1 d3a3 c5a4d1
+d3d2d1b3a4e5b1d1 c2e3b1d3a3a5 c1e5a3 b3a3e5b5 c1e5d2 d4e3c2e5a3b1a3 e3d3b4d2b1e3d2a3d4a1 c1e5d2 e3d3b4d2b1a3d4a1
+a3d4b3a4b1a3 c5a4d1 a3b3b1d2a1d1 d1a3 d3a3b4e3d4d3a3d4a1 b3a4b4b4a3d4a1 d3a3 d1d2 d1e5c3c4d2b4a3d1
+a3a1 d1d2 e2a4b1a1a3d1 e1e3b1a4c4a3d1 a4d4a1 e1e5 d1a4b1a1d2b1 d3 e5d4a3 e3b4a3 d1d2 e2e3b3d2c4a3 e3 c3b1d2d1a3b1
+
+e3e5 c4d2a3e5 d3a3 c5a4e5d1 d4e3c5b1a3b1 c4a3 b3a4a3e5b1 b1a3e1a4b1a1a3a5c4a3 d1e5b1 c4a3d1 b1d2b3b2a3d1 a3a1
+d4a4b4c3b1a3e5d1a3d1 b3a4d4d1a4c4e3a1d2a4d4d1 c1e5d2 c5a4e5d1 e3a1a1a3d4d3a3d4a1  a1a4e5b1d4a3a5 c5a4d1 d5a3e5b5
+d1e5b1 d3a3d1 e2b1a3b1a3d1 b3b2a3b1d2d1 d1e5b1 e5d4a3 a3e1a4e5d1a3 d1e5b1 e5d4 e2d2c4d1 c4e3 e2a4b1a1e5d4a3
+c5a4e5d1 e3 e2e3d2a1 e1e3d5a3b1 c4a3 d1e3c4e5a1 d3 a3e5b5 a1a4e5d1 e3e5 e1b1d2b5 d3 e5d4 d1a3e5c4 d1e3b3b1d2e2d2b3a3
+c5a4e5d1 e3c5a3a5 e1c4e5d1 d3 e5d4 e3d1d2c4a3 a4e5 b1a3e1a4d1a3b1 c5a4a1b1a3 d3a4e5c4a3e5b1
+e1b1a3c5a3d4a3a5 d2b3d2 c4a3 c3c4e3b4a3 e1e5c3c4d2b3  c1e5 a4d4 d4a3 b3b1a4d2a3 e1e3d1
+c1e5 a3d4 c5a4e5d1 e5d4a3 d1a3e5c4a3 d3a4e5c4a3e5b1 c4 a3b4e1a4b1a1a3 d1e5b1 a1e3d4a1 d3a3 b3a4d4d1a4c4e3a1d2a4d4d1
+
+c5a4e5d1 c5a4d5a3a5 a1a4e5d1 c4a3d1 c5a4a1b1a3d1 e2b1e3e1e1a3d1 d3e5 b4a3b4a3 b3a4e5e1 c1e5a3
+c5a4e5d1b4a3b4a3  c5a4e5d1 d1a3d4a1a3a5 c1e5a3 c4a4d2d4 d3a3 e1a4e5c5a4d2b1 c5a3d4d2b1 e3 c5a4a1b1a3
+e3d2d3a3 d2c4d1 d4 e3a1a1a3d4d3a3d4a1 c1e5a3 d3a3 c5a4e5d1 c1e5a3c4c1e5a3 d1a4e5c4e3c2a3b4a3d4a1 b4a4d2d4d1
+d3a4d4b3 c4a3e5b1d1 c4e5b4d2a3b1a3d1 a3a1 c4a3e5b1 c2a3d4d2a3 e3e1e1b1a4b3b2a3d4a1 d3a3d1 c5a4a1b1a3d1 e1c4e5d1
+b3 a3d1a1 c5a4a1b1a3 d3a3c5a4d2b1 d3a3 b1a3d1d2d1a1a3b1 e3e5 b4e3c4 b3a4b4b4e5d4 a3a1 b3 a3d1a1 d3a3a2e3
+e5d4a3 d1a4b1a1a3 d3 e3c4c4a3c2a3b4a3d4a1 c1e5a3 d3a3 e1e3b1a1e3c2a3b1 d1e3 e1a3d2d4a3 a3d4a1b1a3 e1c4e5d1d2a3e5b1d1  
+e5d4 e2e3b1d3a3e3e5 e3d2d4d1d2 d3d2c5d2d1a3 d3a4d2a1 b1a3d3e5d2b1a3 c3a3e3e5b3a4e5e1 c4e3 e1e3b1a1
+c1e5d2 c5a4e5d1 b1a3d1a1a3
+
+a2a3 d4a3 b3a3d1d1a3b1e3d2 d4a4d4 e1c4e5d1 d3a3 c5a4e5d1 a4e2e2b1d2b1 c4 d2b4e3c2a3
+d3a3 b3a3d1e3b1 a1e3d4a1 c1e5 d2c4 c2a4e5c5a3b1d4a3 c4a3 b4a4d4d3a3 a3a1 c1e5 d2c4 e1b1a4e5c5a3 b3a4b4c3d2a3d4
+c4 e3e5a1a4b1d2a1a3 d1a3 b3a4d4d1a3b1c5a3 b4d2a3e5b5 e1e3b1 c4a3d1 c3d2a3d4e2e3d2a1d1 c1e5a3 e1e3b1 c4a3d1
+e3b1b4a3d1 a1e3d4a1 c1e5 d2c4 e1b1a3d1d2d3a3 e3e5b5 b3b2a4d1a3d1 b2e5b4e3d2d4a3d1 c5a4e5d1 d4a3 b3a4e5b1a3a5
+e1e3d1 b1d2d1c1e5a3 d3a3 c5a4e5d1 e3e1a3b1b3a3c5a4d2b1 d3 e3e5b3e5d4a3 e1a3b1a1a3  a3d4 c4e5d2 d1a3e5c4
+c5a4e5d1 a1b1a4e5c5a3a5 e5d4 d1e5e1e1a4b1a1 e5d4 b3a4d4d1a4c4e3a1a3e5b1 d1e5e2e2d2d1e3d4a1 b1a3c4a3c5a3a5
+c5a4a1b1a3 b3a4e5b1e3c2a3 a3a1 b3b2e3c1e5a3 e2a4d2d1 c1e5a3 c4a3d1 c4e3b1b4a3d1 c5d2a3d4d3b1a4d4a1 b1a3b4e1c4d2b1
+c5a4d1 d5a3e5b5 e3b1b1a3a1a3a5c4a3d1 d1e5b1 b3a3d1e3b1 a3c4c4a3d1 d1a3 d1a3b3b2a3b1a4d4a1 e3e5 b1e3d3d2a3e5b5
+e3d1e1a3b3a1 d3a3 b3a3a1a1a3 e1e5d2d1d1e3d4a1a3 d3d2c5d2d4d2a1a3 a3c3c4a4e5d2d1 d3a3 d1a4d4 a3b3c4e3a1 c5a4d1
+b1a3c2e3b1d3d1 d4a3 e1a4e5b1b1a4d4a1 d1a3 e1a4b1a1a3b1 d1e5b1 d4e5c4 e3e5a1b1a3 a4c3a2a3a1 d2c4 c4a3d1 a1d2a3d4d3b1e3
+e2d2b5a3d1 d1e5b1 c4e5d2 d1a3e5c4
+
+c1e5 d2c4 b3a4d4a1d2d4e5a3 d3 a3a1b1a3 d4e5d2a1 a3a1 a2a4e5b1 c4a3 c3e5a1 d3a3 c5a4d1
+b3a4d4a1a3b4e1c4e3a1d2a4d4d1 c1e5a3 c5a4a1b1a3 e3b4a3 a3a1 c5a4d1 e1a3d4d1a3a3d1 d4a3 d1 a3d4 a3b3e3b1a1a3d4a1
+a2e3b4e3d2d1  c1e5 d2c4 d1a4d2a1 c5a4a1b1a3 b1a3b3a4e5b1d1 b3a4d4a1b1a3 c4e3 e2a4b1a1e5d4a3  a3a1 d1e3d4d1 d3a4e5a1a3
+b3a3 e1b1d2d4b3a3 d1d2 d3a3c3a4d4d4e3d2b1a3 d1d2 e3e2e2a3b3a1e5a3e5b5 e1a4e5b1 a1a4e5d1 b3a3e5b5 c1e5d2 c4e5d2
+e3e1e1e3b1a1d2a3d4d4a3d4a1 e3e5b1e3 d3a3a2e3 b4d2d1 e1c4e5d1 d3 e5d4 e3e1e1e3b1a3d2c4 d1e5b1 c5a4a1b1a3 c3c4a3d1d1e5b1a3
+a3a1 e1b1a4d3d2c2e5a3 c4a3 c3e3e5b4a3 c1e5d2 d3a4d2a1 b3b2e3b1b4a3b1 c5a4d1 d3a4e5c4a3e5b1d1
+b4e3d2d1 a3d4b3a4b1a3 d4 a3d4 a3e5a1d2c4 b1d2a3d4 e2e3d2a1 c5a4d2b1 d1a3e5c4a3b4a3d4a1 b3a3d1e3b1 a4e5 e1a3d4d1a3b1
+e3 c4e5d2 d4 a3d1a1b3a3 e1e3d1 e5d4 e3d3a4e5b3d2d1d1a3b4a3d4a1 c3d2a3d4 b1a3a3c4 e3 c5a4a3 b4e3e5b5
+
+e1e5d2d1d1e3d4b3a3d1 d3e5 b3d2a3c4 e1b1a3a1a3a5c4a3 c4a4d4c2a1a3b4e1d1 e3 c4e3 a1a3b1b1a3 c1e5 d2c4 a3c2e3c4a3
+c4a3d1 b2e3e5a1d1 e2e3d2a1d1 d3 e3e5c2e5d1a1a3 a3a1 d3a3e1e3d1d1a3 d1a3d1 e3d4d4a3a3d1  c1e5a3 a1e3d4a1 c1e5 d2c4
+d1a3b1e3 e1e3b1b4d2 c4a3d1 b2a4b4b4a3d1 d2c4 d4a3 d1 e3e1a3b1a4d2c5a3 e1e3d1 c1e5a3 b1d2a3d4 d3e3d4d1
+d1e3 b4e3d2d1a4d4 d1a4d2a1 b4a4b1a1a3c4  c1e5a3 c4a3 b4e3a1b1a3 e2e5a1e5b1 d3a3 c4 a3b4e1d2b1a3 c1e5a3
+d1a4d4 e2d2c4d1 d3a4d4a1 d2c4 e3e5b1e3 e3e1e1b1a3b3d2a3 c4a3 c4a4d4c2 d3a3c5a4e5b4a3d4a1 d1a4d2a1 c4a3 b3a4c4c4a3c2e5a3
+d3a3 d1a4d4 e1a3b1a3 e3c5e3d4a1 d3 a3d4 a3a1b1a3 c4a3 d1e5b3b3a3d1d1a3e5b1  c1e5a3 c3d2a3d4 a1e3b1d3
+a3a1 e1a4e5b1 d4a4d1 d4a3c5a3e5b5 d1a3e5c4a3b4a3d4a1 c4e5d2d1a3 c4a3 a2a4e5b1 a4e5 d1e3 e2e3b4d2c4c4a3 c4a3
+e1c4e3b3a3b1e3 d3e3d4d1 c4a3d1 b3d2a3e5b5
+
+
+ c1e5a3 c4a3d1 b4e3d2d4d1 a4 e2a4b1a1e5d4a3 c4a3 b1a3d1e1a3b3a1a3d4a1 c1e5 d2c4 d4 a3e1b1a4e5c5a3
+a1e3 e1e5d2d1d1e3d4b3a3 c1e5a3 e1e3b1 a1a3d1 e2e3c5a3e5b1d1 e1a3b1b4a3a1d1 c1e5 d2c4 c2e5a3b1d2d1d1a3 c4a3d1
+e1c4e3d2a3d1 d3e5 c2a3d4b1a3 b2e5b4e3d2d4 d3a3e1e5d2d1 c4a4d4c2a1a3b4e1d1 d1a4e5e2e2b1e3d4a1 a3a1 a3e1e5d2d1a3
+a1a4e5a1 b3a3 c1e5a3 c4a3d1 e2e5b1a3e5b1d1 d3a3 d1a4d4 e1b1a3d3a3b3a3d1d1a3e5b1 a4d4a1 a3c3b1e3d4c4a3 e1a3b1b4a3a1d1
+c1e5 d2c4 c4a3 b1a3e1c4e3b3a3 d1e5b1 d3a3 e2a3b1b4a3d1 c3e3d1a3d1 e1e5d2d1d1a3 b3a3a1 e3d1a1b1a3 c1e5d2
+c5d2d4a1 c3b1d2c4c4a3b1 d1e5b1 e5d4 b4a4d4d3a3 a1a4b4c3a3 d3e3d4d1 c4a3 b3b2e3a4d1 a3a1 a3d4c2c4a4e5a1d2
+d3e3d4d1 c4a3d1 a1a3d4a3c3b1a3d1 d4a3 d1 a3b3c4d2e1d1a3b1 a2e3b4e3d2d1  
+
+c1e5 d2c4 e1e3b3d2e2d2a3 c4e3 c2a3b1b4e3d4d2a3 c1e5 d2c4 d4a4e5d1 a4e5c5b1a3 c4e3 c3b1a3a1e3c2d4a3 c1e5 d2c4 b3a4d4a1d2d4e5a3
+a3a1 b1a3d4a4e5c5a3c4c4a3 c4a3d1 a1b1d2a4b4e1b2a3d1 d3a3 d1a4d4 e1a3b1a3 c2c4a4d2b1a3 d3a4d4a1 b4a4d2b4a3b4a3 a2a3 d1a3b1e3d2
+d1e1a3b3a1e3a1a3e5b1  b3 a3d1a1 c4e3 e1b1a3b4d2a3b1a3 d3a3 d1a3d1 c5a3b1a1e5d1 d1e3 b3c4a3b4a3d4b3a3
+c1e5d2 b4a3 c4a3 e1b1a4b4a3a1 b3e3b1 a3d4 b4a3 e1b1a3b3d2e1d2a1e3d4a1 d3e3d4d1 c4 e3c3b4a3 d2c4 d4 e3
+e1e3d1 a2e5b1a3 d3a3 d4a3 b4 a3d4 e1a4d2d4a1 a1d2b1a3b1  c1e5a3 d3d2d1a2a3  d2c4 d4a3 b4 d5 e3 e1e3d1
+b4a3b4a3 e1b1a3b3d2e1d2a1a3  c4a3 d1a4b1a1 b4a3 e1a4e5d1d1e3d2a1 e3 b4e3 b3b2e5a1a3 a3a1 d1e3 b4e3d2d4
+d3d2c5d2d4a3 b4 e3 d1a4e5a1a3d4e5 a3a1 d1a4d4 d2d4d3e5c4c2a3d4b3a3 e3 d3e3d2c2d4a3 e3d3a4e5b3d2b1 e1a4e5b1
+b4a4d2 c4e3 b1e5d3a3d1d1a3 d3e5 b3a4e5e1 d2c4 e3 d2d4a1a3b1b3a3d3a3 a3d4 b4e3 e2e3c5a3e5b1 e3e5e1b1a3d1 d3e5
+d1a3d4e3a1  d2c4 e3 e2e3d2a1 e1c4e5d1 c1e5a3 d3a3 b4a3 d3a4d4d4a3b1 c4e3 c5d2a3 d2c4 c4 e3 d3a3b4e3d4d3a3a3
+e1a4e5b1 b4a4d2
+
+b3 a3d1a1 e3 c4e5d2 e3 c5a4d2b1 b3a4b4b4a3d4a1 d2c4 c4e5d2 e1c4e3d2b1e3 d3 e3e1e1b1a3b3d2a3b1
+b4e3 b3e3e5d1a3 d1e3 a2e5d1a1d2b3a3 c4e3 b1a3b3a4d4d4e3a1b1e3 c3a4d4d4a3 a4e5 d1e3 b3c4a3b4a3d4b3a3 c4e3
+b1a3d4d3b1e3 a1a3c4c4a3 b4e3d2d1 c4a3 c3d2a3d4e2e3d2a1 d1a3b1e3 a3c2e3c4 e1a4e5b1 b4a4d2 d1a4d2a1 c1e5 d2c4 b4a3
+c5a4d2a3 d1a4d2a1 c1e5 d2c4 c5a3e5d2c4c4a3 b4a3 c5a4d2b1 d2d4d4a4b3a3d4a1 b2a3e5b1a3e5b5 a1a4e5a1a3e2a4d2d1 a2e5d1c1e5a3
+d3e3d4d1 b4a3d1 b4e3c4b2a3e5b1d1 a2 e3d2b4a3 e3 b3a4d4d1d2d3a3b1a3b1 d1a4d4 e3b3a1d2c5a3 b3a4b4e1e3d1d1d2a4d4
+e1e3b1b3a4e5b1e3d4a1 a1a4e5a1 c4a3 c2c4a4c3a3 d3a3 b3a3 b4a3b4a3 b3a4d2d4 d3a3 a1a3b1b1a3 a4e5
+a2a3 d1e5d2d1 a3d4d1a3c5a3c4d2 a1e3d4a1 d3 d2d4e2a4b1a1e5d4a3d1 e1c4a4d4c2a3d1 d3e3d4d1 c4 a4e5c3c4d2 d3 e5d4a3
+d3d2d1c2b1e3b3a3 d3a3 e1c4e5d1d2a3e5b1d1 e3d4d4a3a3d1 a3d4 a4d4a1 a3a1a3 e3b1b1e3b3b2a3d1 e1e3b1 c4e5d2 a3a1 b1e3b4a3d4a3d1
+e3 c4e3 c4e5b4d2a3b1a3  a2a3 d4a3 b3b1e3d2d4d1 e1e3d1 d3 a3a1b1a3 c4a3 d1a3e5c4 c1e5d2 a3b3b2e3e1e1a3
+e3 d1e3 e1d2a1d2a3 b4e3d2d1 c1e5d2 d1e3d2a1 b4d2a3e5b5 c1e5a3 c4e5d2 c4 d2d4d1a1e3d4a1 a4e5 d2c4 d3a4d2a1 c5a3d4d2b1
+e3e5 d1a3b3a4e5b1d1 d3a3 b3b2e3b3e5d4  a2a3 e2a3b1e3d2 a1a4e5a1 e1a4e5b1 c1e5a3 d1e3 b3c4a3b4a3d4b3a3 d4a3
+b1a4e5c2d2d1d1a3 e1e3d1 d3a3 d3a3d1b3a3d4d3b1a3 e3 b4a4d2
+
+c3a3d4d2a3 d1a4d2a1a3c4c4a3 a4 b3a3d1e3b1  e1e3b1 a3c4c4a3 a3d4 a3e2e2a3a1 d3a3d1 c3e3d4d4d2d1 c5d2c5a3d4a1 d1a4e5d1 a1a4d4
+b1a3c2d4a3 e3c5a3b3 b4a4d2d4d1 d3 e3c4e3b1b4a3 c1e5a3 d4e3c2e5a3b1a3 c4a3d1 e1b1a3b4d2a3b1d1 d3a3 c4 a3b4e1d2b1a3 d1a4e5d1 b3e3c4d2c2e5c4e3
+e1c4e5d1 d3 e3d4c2a4d2d1d1a3d1 e1c4e5d1 d3a3 c2c4e3d2c5a3 d3 b2a3e5b1a3 a3d4 b2a3e5b1a3 e3a1a1a3d4d3e5
+b3b2e3c1e5a3 c5a4d2c4a3 c1e5d2 d1a3 b4a4d4a1b1a3 e3 c4 b2a4b1d2a5a4d4 d4a3 d4a4e5d1 e2e3d2a1 e1c4e5d1
+e1e3c4d2b1 c2b1e3b3a3 e3 a1a4d2 c4a3d1 b1d2c2e5a3e5b1d1 d3e5 d1a4b1a1 a4d4a1 c4a3e5b1d1 c3a4b1d4a3d1 c4 e3c5a3d4d2b1
+d4a4e5d1 c4a3 e2e3d2a1 a3d1e1a3b1a3b1 b4a3d2c4c4a3e5b1 a3a1 c4a3 e1b1a3d1a3d4a1 a3d1a1 e3d1d1e5b1a3 e3b2
+d1e3d4d1 d3a4e5a1a3 c4e3 e2a4e5d3b1a3 a3d1a1 a2e5d1a1a3 d3e3d4d1 d1a3d1 b3a4e5e1d1 c1e5e3d4d3 b3a3e5b5
+b4a3b4a3 c1e5 a3c4c4a3 e2b1e3e1e1a3 c4e3 b1a3c5a3b1a3d4a1
+
+
+e3d2d4d1d2 d3a4d4b3 e1a4c4d5c3a3 c4a3 e1b1d2d4b3a3 c1e5d2 a3d1a1 c4a3 b3a4d4d1a4c4e3a1a3e5b1
+d3a3 a1a4e5d1 c4a3d1 b2e5b4e3d2d4d1 e3 d3a3a2e3 d1d2 a2a3 d4a3 b4a3 a1b1a4b4e1a3 d1a4e5c4e3c2a3 c5a4a1b1a3
+e3b4a3 a3a1 e3e1e1c4d2c1e5a3 d1e5b1 e5d4a3 d1d2 c2b1e3c5a3 c3c4a3d1d1e5b1a3 d3a3d1 b1a3b4a3d3a3d1 a3d4b3a4b1a3
+e1c4e5d1 e1e5d2d1d1e3d4a1d1 d2c4 d4 e3 b1d2a3d4 a4b4d2d1 e1a4e5b1 c5a4e5d1 b1e3e2e2a3b1b4d2b1 a1a4e5d1
+c4a3d1 a3b5a3b4e1c4a3d1 e1b1a4e1b1a3d1 e3 c5a4e5d1 d2d4d1e1d2b1a3b1 c4e3 b1a3d1d2c2d4e3a1d2a4d4 d1e3 b4a3b4a4d2b1a3
+d1d2 e2d2d3a3c4a3 c5a4e5d1 c4a3d1 e3 b1e3e1e1a4b1a1a3d1  d2c4 c5a4e5d1 e3 d3a3c5a3c4a4e1e1a3 c4a3d1
+e1b1a3b3a3e1a1a3d1 d3a3 a1a4e5d1 c4a3d1 d1e3c2a3d1 e3c5a3b3 d1a4d4 a3c4a4c1e5a3d4b3a3 a4b1d3d2d4e3d2b1a3
+
+d4e5c4 d4 e3e5b1e3d2a1 b4d2a3e5b5 b1a3b4e1c4d2 c1e5a3 c4e5d2 b3a3a1a1a3 a1e3b3b2a3 d3a3 b3a4d4d1a4c4e3a1d2a4d4 d3a3
+a1a3c4d1 d3d2d1b3a4e5b1d1 e3e5b1a4d4a1 e5d4 a1a4e5a1 e3e5a1b1a3 e1a4d2d3d1 a1a4b4c3e3d4a1 d3a3 d1a3d1 c4a3c5b1a3d1
+b3a4b4b4a3 e3e5a1e3d4a1 d3 a4b1e3b3c4a3d1  d1a4d4 e3e5a1a4b1d2a1a3 e1c4e5d1 b2e5b4e3d2d4a3 c3b1d2d1a3b1e3
+c4e3 e2a4b1b3a3 d3a3 c5a4a1b1a3 d3a4e5c4a3e5b1 e2d2c2e5b1a3a5c5a4e5d1 c4 a3d4a1a3d4d3b1a3 c5a4e5d1 d3d2b1a3
+a1e5 d4 a3d1 e1e3d1 c4e3 d1a3e5c4a3 c5d2b3a1d2b4a3 c1e5a3 c4e3 e2a4b1a1e5d4a3 d1a3 d1a4d2a1 b3b2a4d2d1d2a3 a3a1
+c1e5 a3c4c4a3 e3d2a1 d1d2 d2d4d3d2c2d4a3b4a3d4a1 a1b1e3d2a1a3a3 a3b5d2d1a1a3a1d2c4 a3b5d2d1a1e3a1d2c4 a2e3b4e3d2d1
+d1e5b1 a1a4e5a1a3 c4e3 e2e3b3a3 d3e5 c2c4a4c3a3 e5d4a3 d1a3e5c4a3 b4e3d2d1a4d4 c1e5d2 d4 e3d2a1 e1c4a3e5b1a3
+c1e5a3c4c1e5a3 b3e3a1e3d1a1b1a4e1b2a3  d1e3d4d1 b4 e3b1b1a3a1a3b1 e3 d3a3d1 e2e3d2a1d1 c5e5c4c2e3d2b1a3d1 c1e5d2
+e1c4e5d1 a4c3d1b3e5b1d1 d4 a3d4 d1a4d4a1 e1e3d1 b4a4d2d4d1 e2b1e3e1e1e3d4a1d1 b3 a3d1a1 e3 d4a4d1 e2e3d1a1a3d1
+e3e5b5 e3d4d4e3c4a3d1 d3a3 b3a3a1a1a3 b1a3e1e5c3c4d2c1e5a3 c1e5a3 a2a3 a1a3 b1e3b4a3d4a3
+
+a1e5 c5a4d2d1 a1a4e5a1a3d1 b3a3d1 d2b4e3c2a3d1 c1e5d2 b1a3b4e1c4d2d1d1a3d4a1 c4a3 c5a3d1a1d2c3e5c4a3 d3a3d1 b3a3d1e3b1d1
+a3d4 a3d1a1d2c4 e5d4a3 c1e5a3 d4 e3d2a1 b1a3d4d3e5a3 e2e3b4a3e5d1a3 c1e5a3c4c1e5a3 c2b1e3d4d3a3 e1a3d2d4a3 d3a4b4a3d1a1d2c1e5a3
+a3d1a1d2c4 e5d4 d3a3 b3a3d1 b2a4b4b4a3d1 a4b1d4a3b4a3d4a1d1 d3a3d1 d1d2a3b3c4a3d1 a4e5 d2c4d1 a4d4a1
+c3b1d2c4c4a3 c1e5d2 d4 e3d2a1 a3e5 c4a3 b3a4a3e5b1 d3a3b3b2d2b1a3 d3e5 a1b1a3e1e3d1 d3a3d1 d1d2a3d4d1 a4e5 c1e5d2
+d4a3 c4a3e5b1 e3d2a1 c4e5d2b4a3b4a3 c4e3d2d1d1a3 c4a3d1 e1c4e5d1 b3e5d2d1e3d4a1d1 b1a3c2b1a3a1d1  
+
+a1a3 b1e3e1e1a3c4c4a3b1e3d2a2a3 d1b3d2e1d2a4d4 c4 e3e2b1d2b3e3d2d4 e3e1e1b1a3d4e3d4a1 d3e3d4d1 c4 a3b5d2c4 c4e3 b4a4b1a1 d3a3
+d1a4d4 e2b1a3b1a3  d2c4 c4 e3c5e3d2a1 e3b1b1e3b3b2a3 e3 c4e3 e1b1d2d1a4d4 b4e3d2d1 e3 c4e3 b4a4b1a1 d2c4 d4a3
+e1e5a1 c4a3 d1a4e5d1a1b1e3d2b1a3 a3a1 a1a4e5d1 e3c5e3d2a3d4a1 c5e5 b3a4b4c3d2a3d4 d1e3 a1a3d4d3b1a3d1d1a3 e1a4e5b1
+c4e5d2 d1a3 b1a3c5a4c4a1e3d2a1 b4a3b4a3 b3a4d4a1b1a3 c4a3d1 d3b1a4d2a1d1 c4a3d1 e1c4e5d1 a2e5d1a1a3d1 b3e3b1 c4a3
+a2a4e5b1 b4a3b4a3 a4e5 d2c4 a3d4c4a3c5e3 b3a3 e2b1a3b1a3 d3a3d1 b4e3d2d4d1 d3a3 c4 a4e2e2d2b3d2a3b1 d3e5 a1b1d2c3e5d4
+d2c4 a4d1e3 b2a4b4b4a3 e1b1d2c5a3 d1 a4e1e1a4d1a3b1 e3 b3a3 a1b1d2c3e5d4 d3e5 e1a3e5e1c4a3
+a3b2 c3d2a3d4 b3a3a1 b2a4b4b4a3 d1e5e1e1a4b1a1e3 c4e3 b4a4b1a1 d3a3 d1a4d4 e2b1a3b1a3 e3c5a3b3 e3e5a1e3d4a1
+d3a3 b3a4e5b1e3c2a3 c1e5 d2c4 c4 e3c5e3d2a1 d3a3e2a3d4d3e5
+
+a1a3 b3d2a1a3b1e3d2a2a3 d1b3d2e1d2a4d4 a3b4d2c4d2a3d4 a1a3b4a4d2d4 e1b1a3d1c1e5a3 a3d4 e5d4 d1a3e5c4 a3a1 b4a3b4a3 b4a4b4a3d4a1
+d3e5 a1b1d2a4b4e1b2a3 d3 e5d4 e1a3b1a3 a3a1 d3a3d1 e2e5d4a3b1e3d2c4c4a3d1 d3a3 d3a3e5b5 e2b1a3b1a3d1 a3a1 d4a3e3d4b4a4d2d4d1
+c1e5a4d2c1e5a3 e3d3a4c4a3d1b3a3d4a1 e3 e1a3d2d4a3 a3a1 a1a4e5b3b2e3d4a1 a3d4b3a4b1a3 e3 c4 a3d4e2e3d4b3a3 d2c4
+c5d2a1 d1e3 e2e3b4d2c4c4a3 a3d4d1a3c5a3c4d2a3 d1a4e5d1 c4a3d1 a1b1a4e1b2a3a3d1 d3a3 d1a4d4 b3b2a3e2 d2c4 b3a4d4a1a3b4e1c4e3
+b3a3 c3b1e5d1c1e5a3 c5d2d3a3 e3c5a3b3 c4e3 e2a3b1b4a3a1a3 d3 e5d4 b2a3b1a4d1 d4a3 e1a4e5b1
+e2e3d2b1a3 b1a3c5d2c5b1a3 d3e3d4d1 b1a4b4a3 c4a3d1 d1b3d2e1d2a4d4d1 a3a1 e1a4e5b1 d3a3a1b1e5d2b1a3 b3e3b1a1b2e3c2a3
+
+
+c1e5a3 d3d2b1a3 d3a3d1 d3a3e5b5 c4e5b3e5c4c4e5d1 d3a4d4a1 c4 b2a3e5b1a3e5d1a3 e5d4d2a4d4
+e2e5a1 b1a4b4e1e5a3 e1e3b1 c4e3 b4a4b1a1  d3a3d1 a1b1a4d2d1 e1a4b4e1a3a3d1 e3 c1e5d2 c4a3 b3b1e5a3c4 d3a3d1a1d2d4
+d4 e3 e1e3d1 c4e3d2d1d1a3 c4a3 c3a4d4b2a3e5b1 d3a3 a1a4b4c3a3b1 d1a4e5d1 c4a3 b4a3b4a3 b3a4e5e1
+d1a3b5a1e5d1 e1a4b4e1a3a3 a3e5a1 d3 e3c3a4b1d3 c4a3 b3b2e3c2b1d2d4 d3a3 d1e5b1c5d2c5b1a3 e3 d1e3 d1a4a3e5b1
+d3a4d4a1 c4e3 b4a4b1a1 c3b1d2d1e3 c4a3d1 c4d2a3d4d1 d1d2 d1a4c4d2d3a3b4a3d4a1 e2a4b1b4a3d1 d3a3 c4e3 e1e3d2b5 e1e5c3c4d2c1e5a3
+d2c4 d1e5b1c5a3b3e5a1 a3d4b3a4b1a3 e3 b3a3 d3d2c2d4a3 e2b1a3b1a3 c1e5a3 c4e3 e2a4b1a1e5d4a3 d4 e3c5e3d2a1
+a1e3d4a1 a3c4a3c5a3 c1e5a3 e1a4e5b1 c4a3 e1b1a3b3d2e1d2a1a3b1 d3 e3e5d1d1d2 b2e3e5a1 c1e5a3 d1a4d4 e1a3b1a3  a3a1
+e3e1b1a3d1 b3a3a1a1a3 d4a4e5c5a3c4c4a3 a3e1b1a3e5c5a3 d2c4 e1e5a1 d1e5e2e2d2b1a3 d4a4d4 d1a3e5c4a3b4a3d4a1 e3
+d1e3 d3a4e5c4a3e5b1 b4e3d2d1 e3e5b5 d1a4d2d4d1 d3a3 c4e3 c2e5a3b1b1a3
+
+e1e3b1a1a4e5a1 d1 a4e2e2b1a3d4a1 d3 d2d4d4a4b4c3b1e3c3c4a3d1 a3b5a3b4e1c4a3d1 d3a3 e2b1a3b1a3d1 d1a3e1e3b1a3d1
+e1e3b1 c4e3 b4a4b1a1 a4e5 e1c4e5a1a4a1 e3 e1a3d2d4a3 e5d4 d1a3e5c4 b3a4e5e1c4a3 e2b1e3a1a3b1d4a3c4
+e3a1d2c4 a3a1a3 c5e5 c5d2a3d2c4c4d2d1d1e3d4a1 a3d4d1a3b4c3c4a3 b4e3d2d1 d4a3 d1a4b1a1a4d4d1 e1e3d1 d3a3 c4e3
+b4e3d2d1a4d4 d2b4e1a3b1d2e3c4a3 a4e5 a3d1a1 c4 b2a4b4b4a3 e3d1d1a3a5 d3a3e1a4e5b1c5e5 d3a3 d1a3d4d1
+a3a1 d3a3 b1e3d2d1a4d4 e1a4e5b1 d1a3 e1c4e3d2d4d3b1a3 c1e5a3 c4e3 e2a4b1a1e5d4a3 c4e5d2 d2d4e2c4d2c2a3 c1e5a3c4c1e5a3
+d3a3e5d2c4 c1e5e3d4d3 d2c4 d1e3e5b1e3 c1e5 a3c4c4a3 e3 a3e5 d1a4d2e2 d3a3d1 c4e3b1b4a3d1 b4a3b4a3 d3a3d1
+b3a3d1e3b1d1  
+
+e3e5c2e5d1a1a3 e3 e1c4a3e5b1a3 a4b3a1e3c5d2a3 d1e3 d1a4a3e5b1 d1d2 b3b2a3b1a3b4a3d4a1
+e3d2b4a3a3 a3a1 c4e3 d4e3a1e5b1a3 d4 e3 e1e3d1 e2e3d2a1 b1a3b4d2d1a3 d3a3 b3a3 a1b1d2c3e5a1 d3a3 c4e3b1b4a3d1 e3
+c4 b2a4b4b4a3 e3e5c1e5a3c4 a3c4c4a3 d3a3d1a1d2d4e3d2a1 c4a3 b3d2a3c4 a3a1 c1e5a3 d3d2d1a2a3  e3b3b3e3c3c4a3
+d3a3 a1a4e5d1 c4a3d1 c2a3d4b1a3d1 d3a3 d3a3e5d2c4 d2c4 e3 c5e5 e1a3b1d2b1 c4a3 e2d2c4d1 d3a3 d1e3 d1a4a3e5b1 e1b1a3e1e3b1a3
+e1e3b1 c4e5d2 e3 c4e5d2 d1e5b3b3a3d3a3b1 d2c4 e3 e1a4e5b1 a1a4e5a1 b3a4b4e1b1a3d4d3b1a3 a3d4 d3a3e5b5
+b4a4a1d1 c5e5 e1a3b1d2b1 d1a3d1 c2a3d4d3b1a3d1 d1a3d1 e2d2c4d1 e3d3a4e1a1d2e2d1 d1a3d1 d4a3c5a3e5b5 a3a1
+d4e5c4 d3a3 a1a4e5d1 c4a3d1 b4a4b1a1a3c4d1 d4a3 d1a3d4a1d2a1 e1c4e5d1 c1e5a3 c4e5d2 c1e5 d2c4 a3a1e3d2a1 b2a4b4b4a3
+a1e3d4a1 c1e5 d2c4 d3a3b4a3e5b1e3 b3b2a3a5 c4a3d1 b2a4b4b4a3d1 b3a3e1a3d4d3e3d4a1 a1e3d4a1 d3a3 b3a4e5e1d1
+a1a3b1b1d2c3c4a3d1 d4 a3b5b3a3d3a3b1a3d4a1 e1e3d1 c4a3d1 e2a4b1b3a3d1 d3a3 b3a3a1a1a3 e3b4a3 c1e5d2 d1e5e2e2d2d1e3d2a1
+e3 a1a4e5a1 a3a1 c5e3d2d4c1e5a3e5b1 d3a3d1 d4e3a1d2a4d4d1 a3a1b1e3d4c2a3b1a3d1 c4a3 d3d2c5d2d4 e3e5c2e5d1a1a3
+d1e5a1 a3d4b3a4b1a3 c5e3d2d4b3b1a3 d1a3d1 d3a4e5c4a3e5b1d1
+
+b3 b3a3d1e3b1 e2d2c4d1 e3d3a4e1a1d2e2 a3a1 e1a3a1d2a1e2d2c4d1 d3 e3e5c2e5d1a1a3 b4a4d4 a4d4b3c4a3 e3e5
+d1a4b1a1d2b1 d3a3 c4 e3d3a4c4a3d1b3a3d4b3a3 e1a3b1d3d2a1 d1a4d4 e2b1a3b1a3 b3b2a3b1d2 c4e5b3d2e5d1 e1b1d2d4b3a3 d3a3
+c4e3 a2a3e5d4a3d1d1a3 b3a4b4b4a3 c4e5d2 b3 a3d1a1 d3e3d4d1 c4a3d1 e3e1e1b1a3a1d1 d3a3 c4e3 c2e5a3b1b1a3 d3a3d1
+e1e3b1a1b2a3d1 a4e5 d2c4 e3c4c4e3d2a1 a3a1b1a3 c3c4a3d1d1a3 c1e5 d2c4 b1a3e5a1 b3a3a1a1a3 e1c4e3d2a3 b4d2c4c4a3
+e2a4d2d1 e1c4e5d1 e1b1a4e2a4d4d3a3 a3a1 d2c4 a3d4d3e5b1e3 c4 e5d4a3 a3a1 c4 e3e5a1b1a3 e3c5a3b3 c4a3 b4a3b4a3
+b2a3b1a4d1b4a3 e3c5a3b3 c4e3 b4a3b4a3 b1a3d1d2c2d4e3a1d2a4d4
+
+a1d2c3a3b1a3 b4a4d4 a4d4b3c4a3 c5d2a1 b4a4e5b1d2b1 d3e3d4d1 d1a3d1 c3b1e3d1 a3a1 b3a4e5c5a3b1a1 d3a3 d1a3d1 c3e3d2d1a3b1d1
+b4a4d4 e1a3b1a3 d3b1e5d1e5d1 c2a3b1b4e3d4d2b3e5d1 d1a4d4 e2b1a3b1a3 e1e5d4a3 c1e5d2 d4a4e5d1 e3c5e3d2a1 a4e5c5a3b1a1 c4a3
+b3a3d4a1b1a3 d3a3 c4e3 c2a3b1b4e3d4d2a3 a3a1 d1a4e5b4d2d1 c4a3d1 b1e3b3a3d1 c4a3d1 e1c4e5d1 d2d4d3a4b4e1a1e3c3c4a3d1
+c1e5a3 e2d2a1 e1a4e5b1a1e3d4a1 a1d2c3a3b1a3  d2c4 b4d2a1 e5d4 e2b1a3d2d4 d4a4d4 d1a3e5c4a3b4a3d4a1
+e3 d1a4d4 d3a3d1a3d1e1a4d2b1 b4e3d2d1 e3 b3a3c4e5d2 d3a3d1 e3e5a1b1a3d1 c4 e3b1b4a3a3 a3d4a1d2a3b1a3 e3b3b3e3c3c4a3a3
+e1e3b1 c4e3 e2a4e5d3b1a4d5e3d4a1a3 d4a4e5c5a3c4c4a3 b1a3b3c4e3b4e3d2a1 c4a3d1 b1a3d1a1a3d1 d3a3 d1a4d4
+b3b2a3b1 d3b1e5d1e5d1 d2c4 c4e3 b3a4d4a1d2d4a1 d3e3d4d1 c4a3d1 c3a4b1d4a3d1 d3 e5d4a3 e3e2e2c4d2b3a1d2a4d4 a1a4e5a1a3
+b1a4b4e3d2d4a3 d2c4 a2e5c2a3e3 c1e5a3 d1d2 c4e3 d3d2d1b3d2e1c4d2d4a3 b4d2c4d2a1e3d2b1a3 e3 d1a3d1 b1a3c2c4a3d1 c4e3
+d3a4e5c4a3e5b1 e3e5d1d1d2 e3 c4a3d1 d1d2a3d4d4a3d1 d1 d2c4 d4 a3e5a1 d3 e3c3a4b1d3 d1a3b3b2a3 d1a3d1 c4e3b1b4a3d1
+b3a4b4b4a3d4a1 a3e5a1d2c4 a3d1d1e5d5a3 c4a3d1 d4a4a1b1a3d1
+
+
+b4e3b1b3e3d4a1a4d2d4a3 b4a4d4 e3a3e5c4 c4a3 e1b1a3b4d2a3b1 d3a3d1 b2a4b4b4a3d1
+e3e1b1a3d1 d1a4d4 c5e3d2d4c1e5a3e5b1 b1a3b3a4d4d1a1d2a1e5e3d2a1 c4e3 b1a3e1e5c3c4d2c1e5a3 d1a4e5d1 c4a3 e1a4e5c5a4d2b1
+a1b1d2e5b4c5d2b1e3c4 d3a4d4a1 d2c4 a3a1e3d2a1 c4a3 b3b2a3e2 d2c4 d4a3 b3a4d4d4e3d2d1d1e3d2a1 e1a4d2d4a1 d3a3
+d1e5e1a3b1d2a3e5b1 a3a1 d1e3e5e2 d1a3d1 d3a3e5b5 b3a4c4c4a3c2e5a3d1 c5a4d5e3d2a1 a1a4e5a1 e3e5d3a3d1d1a4e5d1
+d3a3 c4e5d2 c4a4b1d1c1e5 d2c4 e3e1e1b1d2a1 c4e3 e2d2d4 a1b1e3c2d2c1e5a3 d3a3 d1a4d4 e2b1a3b1a3
+
+a4 a1d5b1e3d4d4d2c1e5a3 e2a4b1a1e5d4a3 c1e5a3c4 a2a3e5 b3b1e5a3c4 a1e5 a1a3 e2e3d2d1 d3e5 b4e3c4b2a3e5b1 d3a3d1 b2e5b4e3d2d4d1
+d3e3d4d1 c4a3 b4a3b4a3 a1a3b4e1d1 c1e5a3 b4e3b1b3e3d4a1a4d2d4a3 d1d2a3c2a3e3d2a1 e3b1c3d2a1b1a3 d3e5 d3b1a4d2a1
+d3a3 c5d2a3 a3a1 d3a3 b4a4b1a1 d1e5b1 d1a3d1 b3a4d4b3d2a1a4d5a3d4d1 c4a3 e2b1a3b1a3 d3a3 b3a3 b4e3b1b3e3d4a1a4d2d4a3
+a3a1e3d2a1 b3a4d4d3e3b4d4a3 b3a4d4d3e5d2a1 e3e5 d1e5e1e1c4d2b3a3 c4a3 a1b1d2e5b4c5d2b1 d1e5e1a4b1a1e3
+b3a3e1a3d4d3e3d4a1 b3a3a1a1a3 e3e2e2b1a3e5d1a3 c3c4a3d1d1e5b1a3 e3c5a3b3 e3e5a1e3d4a1 d3a3 b4e3c2d4e3d4d2b4d2a1a3
+c1e5a3 a1a4e5a1a3d1 c4a3d1 d3d2d1c2b1e3b3a3d1 e1b1a3b3a3d3a3d4a1a3d1  d1a3d1 e1c4a3e5b1d1 e3 c4e5d2 b3a3
+e2e5a1 c4a3 d1e3d4c2 d3a3 c5d2d4c2a1 c4a3c2d2a4d4d1 d2b4b4a4c4a3a3d1 e3e5b5 b4e3d4a3d1 e2b1e3a1a3b1d4a3c4d1
+
+b4e3d2d1 e1a4e5b1 d4a3 e1e3d1 b1e3e1e1a3c4a3b1 b4d2c4c4a3 e3e5a1b1a3d1 d1a4e5c5a3d4d2b1d1 d3a4d4a1 e1c4e5d1d2a3e5b1d1
+b4a3 d1a4d4a1 e1a3b1d1a4d4d4a3c4d1 c4a3 d1a4b1a1 b4 e3 e2b1e3e1e1a3 d3a3e5b5 e2a4d2d1 a3a1 d3e3d4d1
+e5d4 e2b1a3b1a3 a3a1 d3e3d4d1 e5d4a3 d1a4a3e5b1 a3a1 d3a3e5b5 e2a4d2d1 d2c4 e3 c5e5 c1e5 d2c4 e1a4e5c5e3d2a1
+b4a3 c3c4a3d1d1a3b1 b4e3d2d1 d4a4d4 b4a3 c5e3d2d4b3b1a3 a2 e3d2 e1a3b1d3e5 c2a3b1b4e3d4d2b3e5d1 b4a4d4
+e2b1a3b1a3 a3a1 e1a4e5b1 a2e5c2a3b1 b3a4b4c3d2a3d4 a2a3 c4 e3d2b4e3d2d1 d2c4 e2e3e5a1 b3a4b4e1b1a3d4d3b1a3
+a2e5d1c1e5 a4e5 c5a4d4a1 b3b2a3a5 e5d4 e2b1a3b1a3 d3a3c5a4e5a3 b3a3d1 e3e2e2a3b3a1d2a4d4d1 d3e5 d1e3d4c2
+a3d4 e3d2a2a3 b4a4d2d4d1 d1e5 b1a3c2c4a3b1 b4e3 d3a4e5c4a3e5b1 d3a3 b4e3d4d2a3b1a3 e3 d4a3 b1d2a3d4 a4b4a3a1a1b1a3
+d3a3 b3a3 c1e5 a3b5d2c2a3e3d2a1 c4a3 d3a3c5a4d2b1 d3 e5d4 c3a4d4 e2b1a3b1a3 b3a4b4b4a3 e3 d4a3
+b1d2a3d4 e2e3d2b1a3 c1e5a3 c4 a4d4 e1e5a1 c3c4e3b4a3b1 d3e3d4d1 e5d4 e1b1d2d4b3a3
+
+d1e5e1e1a4d1a3a5 d3a4d4b3 e1a4c4d5c3a3 c1e5a3 b3 a3d1a1 c4a3 e1a3b1a3 d3a3 c4e3 e1e3a1b1d2a3 c1e5d2 c5a4e5d1
+b1e3e1e1a4b1a1a3 b3a3d1 d3d2e2e2a3b1a3d4a1d1 a1b1e3d2a1d1 c4e5d2 c1e5d2 c5a4e5d1 b4a4d4a1b1a3 c1e5 e3e5b3e5d4a3
+b3b2a4d1a3 d4 a3d1a1 d1e3b3b1a3a3 d4d2 d2d4c5d2a4c4e3c3c4a3 e1a4e5b1 c4e3 e2a4b1a1e5d4a3 c1e5d2 e3 a4d1a3 e2e3d2b1a3
+d1a4b1a1d2b1 d3a3d1 e1a4b4e1a3d1 e2e5d4a3b1e3d2b1a3d1 d3a3 b3a3d1 b4a3b4a3d1 e1e3c4e3d2d1 a4e5 a3c4c4a3 c5d2a3d4a1
+b3b2a3b1b3b2a3b1 d4a4d1 d3a3b4d2d3d2a3e5b5 c1e5 a4d4 d4a3 d1 a3a1a4d4d4a3 e1c4e5d1 d3a3 c4e3 a1b1a4e5c5a3b1
+a3d4 c1e5a3c4c1e5a3 b1a3d4b3a4d4a1b1a3 a4e5 c3e3b1c3e3b1a3 a4e5 d2d4a2e5d1a1a3 e3e5b1e3d2a1a3c4c4a3
+e1a4e5b1 d3a3d1 a1a3a1a3d1 e1b1d2c5a3a3d1 c4e3 b4a4d2d4d3b1a3 a3c1e5d2a1a3 c4a3d1 b4a4d2d4d3b1a3d1 b4a3d4e3c2a3b4a3d4a1d1
+a3c4c4a3 d3a4d4a1 c4 d2b4e1c4e3b3e3c3c4a3 e2e5b1a3e5b1 e3 a1e3d4a1 d3a3 e2a4d2d1 d1a4e5d2c4c4a3
+e1e3b1 c4e3 b4a4b1a1 c4 a4b1a3d2c4c4a3b1 d1e3b3b1a3 d3a3d1 b3a3d1e3b1d1
+
+a3d4 c5e3d2d4 c4a3d1 e1c4e5d1 e3b4a3b1d1 b1a3e1b1a4b3b2a3d1 d1a4b1a1d2b1a4d4a1 a3a1 d3a3 d4a4a1b1a3 c3a4e5b3b2a3 a3a1
+d3a3 c4e3 c3a4e5b3b2a3 d3a3 a1a4e5a1 e5d4 e1a3e5e1c4a3 a3c4c4a3 d4 a3d4 b1e3c3e3a1a1b1e3 b1d2a3d4 d3a3 d1a3d1 b1d2c2e5a3e5b1d1 d1a4e5b1d3a3 e3
+a1a4e5a1a3 e1c4e3d2d4a1a3 e3 a1a4e5a1a3 a3b5e1d2e3a1d2a4d4 b3a3 c1e5 a3c4c4a3 e3 e2e3d2a1 d3a3d1 b3b2a4d1a3d1 d3a3
+b3a3 b4a4d4d3a3 a3c4c4a3 c4a3 e2a3b1e3 a1a4e5a2a4e5b1d1  d2c4 d4 a3d1a1 b1d2a3d4 c1e5a3 c4e3d2d1d1a3 a3d4 e1e3d2b5
+d1a4d4 e3e5d3e3b3a3 b1d2a3d4 c1e5a3 d4a3 a1a4e5b3b2a3d4a1 d1a3d1 b4e3d2d4d1 e1b1a4e2e3d4a3d1 a3c4c4a3
+e2a4b1b3a3b1e3 b3a4b4b4a3 a3c4c4a3 c4a3 e2d2a1 d3a3 a1a4e5a1 a1a3b4e1d1 c4a3d1 e1c4e5d1 d1e3d2d4a1a3d1 c3e3b1b1d2a3b1a3d1
+a3c4c4a3 d1a3 e2a3b1e3 a2a4e5b1 e1a4e5b1 d5 e1a4b1a1a3b1 c4a3 d3a3e5d2c4 a2e5d1c1e5 a3d4 b3a3d1
+d3a3b4a3e5b1a3d1 c1e5d2 a4d4a1 d3a3d1 a1a3b4e1c4a3d1 e1a4e5b1 e3c5a3d4e5a3d1 a3a1 d1e5b1 c4a3d1 e1a4b1a1d2c1e5a3d1
+d3a3 c4e3 a1a4e5a1a3e1e5d2d1d1e3d4b3a3 a3c4c4a3 a3d4c4e3b3a3b1e3 d3a3 b3b1a3e1a3d1 c4a3d1 c4e3e5b1d2a3b1d1
+
+e1e5d2d1d1a3d4a1 d1a3e5c4a3b4a3d4a1 d1d2 a3c4c4a3 d4 e3 e1e3d1 a3d4b3a4b1a3 b1a3d1a4c4e5 d3 e3d4a3e3d4a1d2b1
+c4a3 b4a4d4d3a3 d1d2 c4a3 d4a4b4 b1a4b4e3d2d4 c4e5d2 d1a1 a3d4b3a4b1a3 b3b2a3b1 d4a4d1
+c5a4a3e5b5 a3a1 c4a3d1 e1e5c3c4d2c1e5a3d1 e1b1d2a3b1a3d1 a4c3a1a3d4d2b1 d3 a3c4c4a3 c1e5 e5d4 e1b1d2d4b3a3
+d3a4d4d4a3 e3e5 c2a3d4b1a3 b2e5b4e3d2d4 d3a3a2e3 d1e5b1 c4a3 e1a3d4b3b2e3d4a1 d3a3 c4 e3c3b4a3 d1a4d2a1
+e3e5d1d1d2 d1e3b3b1a3 e1a4e5b1 a3c4c4a3 c1e5 d2c4 c4 a3d1a1 e1a4e5b1 c4 e5d4d2c5a3b1d1 c1e5 a3c4c4a3 e3e1e1b1a3d4d4a3
+d3a3 c4e5d2 c4e3 b3c4a3b4a3d4b3a3 c1e5 a3c4c4a3 d1a4d2a1 d3a4e5b3a3 a3d4c5a3b1d1 c4a3 e1c4e5d1 d3a4e5b5 d3a3d1 e1b1d2d4b3a3d1
+
+
+e1a4e5b1 c5a4e5d1 c4a3d1 d5a3e5b5 e2d2b5a3d1 d1e5b1 b3a3d1 c2b1e3d4d3d1 b2a4b4b4a3d1 b3d2a1a3d1 a1a4e5a1
+e3 c4 b2a3e5b1a3 a3a1 d3a3a2e3 b1a3e5d1 d3e3d4d1 c4a3 b3d2a3c4 a4e5 d3e3d4d1 e5d4a3 d1e1b2a3b1a3 c5a4d2d1d2d4a3
+d3e5 b3d2a3c4 d1a4e5e2e2b1a3a5 d1e3d4d1 b4e5b1b4e5b1a3 c1e5a3 c4a3 d1a4b1a1 a3a1a3d4d3a3 a2e5d1c1e5 e3
+c5a4e5d1 b3a3a1a1a3 b4e3d2d4 c1e5d2 e2b1e3e1e1a3 b3a3e5b5 b4a3b4a3 e1e3b1 c1e5d2 c4 b2e5b4e3d4d2a1a3 b1a3d1e1d2b1a3
+a3d4b3a4b1a3 d2b4d2a1a3a5 c4a3e5b1 b3a4e5b1e3c2a3 e3 d1a4e5a1a3d4d2b1 e3 c5e3d2d4b3b1a3 c4e3 d3a4e5c4a3e5b1
+a3a1 e3e5a1e3d4a1 c1e5 d2c4 a3d1a1 d3a4d4d4a3 e3 c4 b2a4b4b4a3 b4e3b1b3b2a3a5 d1e5b1 c4a3e5b1d1
+a1b1e3b3a3d1 d3d2c5d2d4a3d1
+
+e1e3b1a1a4e5a1 e3d2c4c4a3e5b1d1 d3e3d4d1 c4a3d1 d3d2c2d4d2a1a3d1 a3a1 c4e3 d4a4c3c4a3d1d1a3
+d2c4 d5 e3 c4 a4c3d1a1e3b3c4a3 d3a3d1 d3d2d1a1e3d4b3a3d1 b4e3d2d1 c4e3 c5a3b1a1e5 a3d1a1 e3b3b3a3d1d1d2c3c4a3 e3
+a1a4e5d1  a3c4c4a3 d4a3 d3a3d3e3d2c2d4a3 a2e3b4e3d2d1 c1e5d2b3a4d4c1e5a3 e2e3d2a1 a1e3d4a1 c1e5a3 d3a3 d1a3
+a2e5c2a3b1 d3d2c2d4a3 d3 a3c4c4a3 c1e5a3c4d1 e1c4e5d1 c3a3e3e5b5 b4a4d3a3c4a3d1 e1a4e5b1 c5a4e5d1 c1e5a3 d3a3d1
+b2a4b4b4a3d1 c1e5d2 e1a4e5c5e3d4a1 d1 d2d4d3d2c2d4a3b1 d3a3 d4 a3a1b1a3 e1a4d2d4a1 a3b5a3b4e1a1d1 d3a3 b3a3d1
+b3e3c4e3b4d2a1a3d1 d4 a4d4a1 e1a4e5b1a1e3d4a1 e1e3d1 a1a3d4e5 e3 d2d4a2e5d1a1d2b3a3 d3 a3a1b1a3 a3d4 b3a3 d1a3e5c4
+e1a4d2d4a1 e3d1d1d2b4d2c4a3d1 e3e5b5 e3e5a1b1a3d1 a3a1 d4 d5 a4d4a1 c5e5 c1e5a3 c4a3 d3b1a4d2a1 b3a4b4b4e5d4
+d3a3 c4e3 b4a4b1a1 c1e5 d2c4d1 a4d4a1 d1e5c3d2a3 d1e3d4d1 b1a3d1d2d1a1e3d4b3a3 e2e3b1a4e5b3b2a3 b3a4b4b4a3 d1e3d4d1
+b4a4c4c4a3d1d1a3 a3e2e2a3b4d2d4a3a3 b3e3b1 d4a3 e1a4d2d4a1 d1a3d4a1d2b1 d1a3d1 b4e3e5b5 b3 a3d1a1 d4 a3a1b1a3
+e1e3d1 b2a4b4b4a3  d4a3 e1e3d1 c4a3d1 d1e5e1e1a4b1a1a3b1 b3 a3d1a1 b4e3d4c1e5a3b1 d3a3 b3a4e5b1e3c2a3
+
+e3e1b1a3d1 e3c5a4d2b1 e1e3b1b3a4e5b1e5 c4e3 c4d2d1a1a3 d3a3 a1a4e5d1 c4a3d1 b3a3d1e3b1d1 c1e5a3 c4a3 d1a4b1a1 e3
+e1b1d2c5a3d1 d3a3 d1a4a3e5b1d1 a4e5 d3a3 e2b1a3b1a3d1 a2a3 d4a3 e1e5d2d1 a3d4 a4e5c3c4d2a3b1 e5d4 c1e5d2 b4a3b1d2a1a3
+e5d4a3 b4a3d4a1d2a4d4 d1e1a3b3d2e3c4a3 a3d4e2e3d4a1a3 e1e3b1 c4e3 d4e3a1e5b1a3 e1a4e5b1 c4e3 b1e5d2d4a3
+a3a1 c4 a4e1e1b1a4c3b1a3 d3a3 c4 b2e5b4e3d4d2a1a3 e1a4e5b1 b1a3d4c5a3b1d1a3b1 d3a3 e2a4d4d3 a3d4 b3a4b4c3c4a3
+e5d4 a3b4e1d2b1a3 c1e5a3 b1a3c4a3c5a3 c4e3 b3c4a3b4a3d4b3a3 d3e5 b4a3d2c4c4a3e5b1 d3a3d1 d1a4e5c5a3b1e3d2d4d1
+
+b3e3c4d2c2e5c4e3 b3a3a1 b2a4b4b4a3 e3e5d1d1d2 d2d4b3e3e1e3c3c4a3 d3a3 d1a3 b1a3a2a4e5d2b1 c1e5a3 d3a3 d1 e3e2e2c4d2c2a3b1
+a3d4 e1b1d2d4b3a3 a3c5d2a1e3 e3e1b1a3d1 c4e3 e1a3b1a1a3 d3a3 d1e3 d1a4a3e5b1 d3b1e5d1d2c4c4e3 c4e3 c5e5a3
+a3a1 c4a3 b3a4b4b4a3b1b3a3 d3a3 d1a3d1 b3a4d4b3d2a1a4d5a3d4d1 d4 e3d1d1d2d1a1e3 e1e3d1 e3e5b5 a4c3d1a3c1e5a3d1
+d3a3 b3a3a1a1a3 d1a4a3e5b1 d4a3 c4e5d2 b1a3d4d3d2a1 e1e3d1 c4a3d1 d3a3b1d4d2a3b1d1 d3a3c5a4d2b1d1 b4e3d2d1 b1a3a1d2b1a3
+e3 d1e3 b4e3d2d1a4d4 d3 e3c4c3a3 b3b2a3b1b3b2e3 d3e3d4d1 c4a3d1 d3a3d1 d3e3d4d1 c4a3d1 b3e3d1a3d1 d3 e5d4a3
+a1e3c3c4a3 d3a3 a2a3e5 a3a1 e3e5a1b1a3d1 d3d2d1a1b1e3b3a1d2a4d4d1 e1e3b1a3d2c4c4a3d1 c4a3 d1a4e5c4e3c2a3b4a3d4a1 d3e5
+e1c4e5d1 b3b1e5a3c4 b3b2e3c2b1d2d4 a4 b2a4d4a1a3 d3e5 b1e3d4c2 d1e5e1b1a3b4a3 e5d4 a3b4e1a3b1a3e5b1
+b1a4b4e3d2d4 e1c4a3e5b1a3 e5d4a3 d1a4a3e5b1 a3a1 b3a3 d1a4d4a1 c4a3d1 d3a3d1 c1e5d2 c4a3 b3a4d4d1a4c4a3d4a1
+
+b3a3 b4a3b4a3 b3e3e5d1 d3e3d4d1 a1a4e5d1 c4a3d1 b3e3e1b1d2b3a3d1 d3e5 d3a3c4d2b1a3 a1e3d4a1a4a1 c4e3d2d1d1a3
+b3b1a4a1b1a3 d1e3 c3e3b1c3a3 a3a1 d1a3d1 b3b2a3c5a3e5b5 a1e3d4a1a4a1 e1e3b1b3a4e5b1a1 a3d4 a3c2e3b1a3 c4a3d1
+b1d2c5e3c2a3d1 d3 d2a1e3c4d2a3 a3a1 d3a3 d1d2b3d2c4a3 d4 a3a1e3d4a1 a2e3b4e3d2d1 c3d2a3d4 d1e5b1 d1 d2c4 c5a3e5a1
+e1a4e5b1 d3b1e5d1d2c4c4e3 d3a3d1 e1c4a3e5b1d1 a4e5 d3a3d1 e3e5a1a3c4d1  b3e3b1 a3d4 b4a3b4a3 a1a3b4e1d1
+c1e5 d2c4 c4e5d2 c5a4e5a3 d3a3d1 a1a3b4e1c4a3d1 a3a1 c4a3d1 b2a4d4d4a3e5b1d1 d3d2c5d2d4d1 d2c4 e2b1e3e1e1a3
+d3a3d1 e1c4e5d1 b3b1e5a3c4d1 b3b2e3a1d2b4a3d4a1d1 c1e5d2b3a4d4c1e5a3 d4a3 b4a4d4a1b1a3 e1e3d1 e3d1d1a3a5
+d3 e3e2e2c4d2b3a1d2a4d4 a4d4 c4a3 c5a4d2a1 e3e5d1d1d2 d2b4e1e3a1d2a3d4a1 d1a4e5d1 c4a3d1 b3a4e5e1d1 d3a3 c4e3
+b4e3e5c5e3d2d1a3 e2a4b1a1e5d4a3 c1e5 d2c4 a3a1e3d2a1 d3e3d4d1 c4e3 e1b1a4d1e1a3b1d2a1a3 c2a4d4e2c4a3 d3 e5d4
+a4b1c2e5a3d2c4 e1c4e5d1 c1e5 b2e5b4e3d2d4
+
+a1a4e5a1a3 e3b4a3 b1a4b4e3d2d4a3 b1a3e1e5d3d2a3b1e3 c4 a3b5a3b4e1c4a3 d3 e5d4 d2d4d1a3d4d1a3 c1e5d2 a4e5c3c4d2a3 d1a4d4 d3a3e5d2c4
+d3e3d4d1 d3a3d1 a2a3e5b5 b2a4b1d1 d3a3 d1e3d2d1a4d4 a4e5 c1e5d2 c4 e3d2c2b1d2a1 a3d4b3a4b1a3 e1e3b1 e5d4a3 d4a3c2c4d2c2a3d4b3a3 a3a1 e1e3b1 e5d4a3
+b4e3c4e1b1a4e1b1a3a1a3 b1a3e1a4e5d1d1e3d4a1a3d1 a4e5 c1e5d2 d1a3 b3a4d4d1a4c4a3 a3d4 c3e3b1c3e3b1a3 e1e3b1 c4a3
+b4e3c4 d3 e3e5a1b1e5d2
+
+c1e5e3d4a1 e3 e1a4c4d5c3a3 d2c4 d4 e3 b1d2a3d4 d3e3d4d1 d1e3 b3a4d4d3e5d2a1a3 c1e5 d2c4
+c4e5d2 e2e3d2c4c4a3 b3b2e3d4c2a3b1 d2c4 d1 a3d1a1 d3a3 c3a4d4d4a3 b2a3e5b1a3 e1e3d1d1d2a4d4d4a3 e1a4e5b1 b3a3d1
+a3a1e5d3a3d1 c1e5d2 b1a3c4a3c5a3d4a1 d1d2 c3d2a3d4 c4a3 e1b1d2b5 d3a3 c4e3 e1b1a4d1e1a3b1d2a1a3 c1e5d2 e3c4c4a3c2a3d4a1
+d1d2 e3d2d1a3b4a3d4a1 c4 d2d4e2a4b1a1e5d4a3 c1e5d2 e2a4d4a1 c4a3 e1c4e5d1 c3a3c4 a4b1d4a3b4a3d4a1
+b3a4b4b4a3 c4e3 e1c4e5d1 d3a4e5b3a3 b3a4d4d1a4c4e3a1d2a4d4 d3a3 c4 b2a4b4b4a3
+e1c4a4d4c2a3a5c5a4e5d1 d3a4d4b3 d3e3c5e3d4a1e3c2a3 a3d4b3a4b1a3 d3e3d4d1 c5a4d1 a3a1e5d3a3d1
+b3b2a3b1d2a3d1 b3 a3d1a1 b4e3d2d4a1a3d4e3d4a1 c1e5 d2c4 e2e3e5a1 c5a4e5d1 a3d4 e2e3d2b1a3 b3a4b4b4a3 e5d4
+b1a3b4e1e3b1a1 a4e5 c4e3 d3a4e5c4a3e5b1 d4a3 a1b1a4e5c5a3 e3e5b3e5d4a3 c3b1a3b3b2a3 e1a4e5b1 d1 d2d4a1b1a4d3e5d2b1a3
+a2e5d1c1e5 e3 c5a4a1b1a3 e3b4a3
+
+ c4e3 b4a3b4a4d2b1a3 d3a3 c5a4a1b1a3 e2b1a3b1a3 d3a3b4e3d4d3a3 e3e5d1d1d2 c1e5a3 c5a4a1b1a3 e1c4e5b4a3 c4e5d2 a3c4a3c5a3 e5d4
+b4a4d4e5b4a3d4a1 d3e5b1e3c3c4a3 b3e3b1 c5a4d2c4e3 c4a3d1 d1a3e5c4a3d1 a4a3e5c5b1a3d1 d3a3 c4 b2a4b4b4a3 c1e5a3 d4 a4e5a1b1e3c2a3 d4e5c4c4a3
+a1a3b4e1a3a1a3 c1e5a3 c4a3 a1a3b4e1d1 d4a3 b3a4d4d1e5b4a3 a2e3b4e3d2d1 a1a4e5a1 c4a3 b1a3d1a1a3 a3d4a1e3d1d1a3b4a3d4a1d1
+d3a3 e1d2a3b1b1a3d1 b4e3e5d1a4c4a3a3d1 d3a3 b4e3b1c3b1a3 a1a4b4c3a3e3e5b5 d3a3 a1a3b1b1a3
+a3c4a3c5a3d1 e3 d3 d2b4b4a3d4d1a3d1 b2e3e5a1a3e5b1d1 d4a3 e1b1a4c4a4d4c2a3d4a1 e1e3d1 d3a3 c3a3e3e5b3a4e5e1
+d4a4a1b1a3 d4a4b4 d3a3d1a1d2d4a3d1 c1e5 d2c4d1 d1a4d4a1 e3 e1a3b1d2b1 b3a4b4b4a3 d4a4e5d1 d2c4 d4 a3d1a1
+d3 d2d4d3a3d1a1b1e5b3a1d2c3c4a3 c1e5a3 c4a3d1 d1a4e5c5a3d4d2b1d1 a1b1e3d4d1b4d2d1 e1e3b1 c4a3 c2a3d4d2a3  a1a3c4 a3d1a1
+c4a3 c2a3d4a3b1a3e5b5 b2a4b4b4e3c2a3 c4a3 a1a3b4e1c4a3 c1e5a3 c5a4e5d1 d3a3c5a3a5 e3 c5a4a1b1a3 e2b1a3b1a3
+b3a4d4d1e3b3b1a3b1 d1a4d4 d4a4b4 d3e3d4d1 c5a4d1 e1b1a4d3e5b3a1d2a4d4d1 d2b4b4a4b1a1a3c4c4a3d1 c4e5d2 c5e3e5d3b1e3
+b4d2a3e5b5 c1e5a3 d3a3d1 e1c4a3e5b1d1 a3a1 d3a3 d1a1a3b1d2c4a3d1 b1a3c2b1a3a1d1
+
+ c1e5e3d4a1 e3 c4e3 e2a4b1a1e5d4a3 d1e3 b3e3e5d1a3 d2c4 a3d1a1 c5b1e3d2 d4a3 d1e3e5b1e3d2a1 d1a3 e1c4e3d2d3a3b1
+b4e3d2d4a1a3d4e3d4a1 e3e5e1b1a3d1 d3a3 c5a4e5d1  b3e3b1 a1a4e5d1 d1a3d1 d3a4d4d1 d3a3d1 c1e5 a3c4c4a3
+a3d4 e3 b1a3e1b1d2d1 e5d4 d1a3e5c4 d4a4e5d1 d3a3c5d2a3d4d4a3d4a1 e1e3b1 c4e3 b4a3b4a3 d1e5d1e1a3b3a1d1 a2a3
+a1a3d4a1a3b1e3d2 d4a3e3d4b4a4d2d4d1 d3a3 c4e3 a2e5d1a1d2e2d2a3b1 d1d2a1a4a1 c1e5a3 c4a3 a1a3b4e1d1 e3e5b1e3
+e2e3d2a1 d3a3 c5a4e5d1 e5d4 a2e5c2a3 e1c4e5d1 a3c1e5d2a1e3c3c4a3  e3c4a4b1d1 c5a4e5d1 e1a4e5b1b1a3a5 c5a4e5d1
+b1a3b3a4d4b3d2c4d2a3b1 e3c5a3b3 a3c4c4a3 a3d4 a3e2e2a3a1 e1e3b1 b3a4b4c3d2a3d4 d3a3 c2b1e3b3a3d1 d4 e3a1a3c4c4a3
+e1e3d1 d3 e3c5e3d4b3a3 b3a4b4e1a3d4d1a3 b3a3a1a1a3 e1b1a3b4d2a3b1a3 d2d4a2e5b1a3 e1e3b1 b3a4b4c3d2a3d4
+d3a3 e2e3c5a3e5b1d1 d4a3 c5e3a1a3c4c4a3 e1e3d1 c4e3 b1e3b3b2a3a1a3b1 a3d4b3a4b1a3 a3a1 e3e1b1a3d1 a1a4e5a1
+b3a3 c1e5 a3c4c4a3 c5a4e5d1 e3 b1e3c5d2 a3c4c4a3 c5a4e5d1 c4 e3c5e3d2a1 e3e5d1d1d2 d3a4d4d4a3
+
+ d4 e3b1b4a3a5 d3a4d4b3 e1e3d1 b3a4d4a1b1a3 c5a4e5d1b4a3b4a3 c5a4a1b1a3 d2b4e3c2d2d4e3a1d2a4d4 d4 e3a1a1d2d1a3a5 e1e3d1
+c5a4d1 d3a4e5c4a3e5b1d1 d1d2 c5a4a1b1a3 a3c4a4c1e5a3d4b3a3 e3 c4a3 e1a4e5c5a4d2b1 d3 e3c2b1e3d4d3d2b1 c4a3d1
+e1a3a1d2a1a3d1 b3b2a4d1a3d1 a1a4e5a1 b3a4b4b4a3 d3a3 b1e3c3e3d2d1d1a3b1 a3a1 d3a3 b1a3d3e5d2b1a3 c4a3d1 c2b1e3d4d3a3d1
+e3e5b5 e1c4e5d1 b4d2d4b3a3d1 e1b1a4e1a4b1a1d2a4d4d1 c1e5 a3c4c4a3 b1a3d1a3b1c5a3 b4e3d2d4a1a3d4e3d4a1 d1e3
+c5d2c2e5a3e5b1 e1a4e5b1 e5d4 e3e5a1b1a3 e5d1e3c2a3 c1e5 a3c4c4a3 d1 a3b4e1c4a4d2a3 a1a4e5a1a3 e3 c5a4e5d1 b3a4d4d1a4c4a3b1
+a3a1 e1a4e5b1a1e3d4a1 e1b1a3d4a3a5 c2e3b1d3a3  e1a3e5a1a3a1b1a3 d1a3d1 a3e2e2a4b1a1d1 d1a3b1e3d2a3d4a1d2c4d1
+b4a3b4a3 d1e5e1a3b1e2c4e5d1  b3e3b1 a4d4 d4a3 d1 a3d4 a1d2a3d4a1 e1e3d1 e3 b3a3 c1e5 a3b5d2c2a3 d3a3
+d4a4e5d1 c4e3 d4e3a1e5b1a3  c4e3 d3a4e5c4a3e5b1 e3 d1a4d4 e3e2e2a3b3a1e3a1d2a4d4
+
+  a2e3b4e3d2d1 e3e5 b1a3d1a1a3 a2a3 d4a3 e1b1a3a1a3d4d3b1e3d2 c5a4e5d1 d2d4a1a3b1d3d2b1a3 a1a4e5a1a3 a1b1d2d1a1a3d1d1a3 a2a3 d1e3d2d1 c3d2a3d4
+c1e5 d2c4 d1a3 a1b1a4e5c5a3 d3a3d1 c2a3d4d1 d3 e5d4a3 e1b2d2c4a4d1a4e1b2d2a3 d3e5b1a3 e1c4e5a1a4a1 c1e5a3 b3a4e5b1e3c2a3e5d1a3
+c1e5d2 d4d2a3d4a1 c1e5a3 c4a3 d1e3c2a3 e1e5d2d1d1a3 b3a4d4d4e3a1b1a3 c4e3 d3a4e5c4a3e5b1 b4e3d2d1
+d2c4 e1e3b1e3a1 c1e5a3 b3a3d1 b2a4b4b4a3d1 d4a3 d1a4d4a1 a2e3b4e3d2d1 a1a4b4c3a3d1 d3e3d4d1 c4a3d1 d1a4e5e2e2b1e3d4b3a3d1
+e3e5a1b1a3b4a3d4a1 c4e3 e2a4b1a1e5d4a3 a3e5a1 d3a3b3a4d4b3a3b1a1a3 c4a3e5b1 e2d2a3b1a3 d1e3c2a3d1d1a3
+a3a1 c4a3d1 a3e5a1 b3a4d4a1b1e3d2d4a1d1 a3d4 d3a3e1d2a1 d3 a3e5b5b4a3b4a3d1 e3 b3a4d4e2a3d1d1a3b1
+c4e3 c5a3b1d2a1a3
+
+ c4e3 b1e3d2d1a4d4 e3e5b1e3 e2e3d2a1 e3d1d1a3a5 d1d2 a3c4c4a3 b1a3a1b1e3d4b3b2a3 c4a3 d1e5e1a3b1e2c4e5
+c4 a3b5b3a3d1 d3a3 c4e3 d3a4e5c4a3e5b1  c1e5e3d4a1 e3 c4e3 d1e5e1e1b1d2b4a3b1 a1a4e5a1a3 d4a3 c4 a3d1e1a3b1a4d4d1
+d4a3 c4a3 d3a3d1d2b1a4d4d1 e1e3d1
+c1e5 a3c4c4a3 c2e3b1d3a3 e1c4e5a1a4a1 e5d4a3 b4a3d1e5b1a3 c1e5d2 d1e3d4d1 b1a3d1d1a3b4c3c4a3b1 e3 c4 d2d4d1a3d4d1d2c3d2c4d2a1a3
+d4d2 e3e5 d3a3c4d2b1a3 d4a4e5d1 b4e3d2d4a1d2a3d4d4a3 d3e3d4d1 c4 a3a1e3a1 d3 e5d4a3
+e3b4a3 e3e2e2a3b3a1a3a3 b4e3d2d1 d4a4d4 a2a3a1a3a3 b2a4b1d1 d3a3 d1a4d4 d1d2a3c2a3 c1e5a3 c5a4d1 e1c4a3e5b1d1
+b3a4e5c4a3d4a1 b4e3d2d1 c1e5 d2c4d1 b3a4e5c4a3d4a1 e1a4e5b1 b3a3d1d1a3b1 c3d2a3d4a1a4a1  c1e5a3 d3a3d1 c2a3b4d2d1d1a3b4a3d4a1d1
+d1 a3b3b2e3e1e1a3d4a1 d3a3 b3a3 b3a4a3e5b1 c3b1d2d1a3  b4e3d2d1 c1e5 d2c4d1 e3d2a3d4a1
+c4a3e5b1 a1a3b1b4a3 b1a3c2c4a3a5 c5a4a1b1a3 e3e2e2c4d2b3a1d2a4d4 d3a3 b4e3d4d2a3b1a3 e3 c4e3 a2e5d1a1d2e2d2a3b1
+e3e5b5 d5a3e5b5 d3a3d1 d1e3c2a3d1 b3a4b4b4a3 e3 b3a3e5b5 d3a3 c5a4d1 e2b1a3b1a3d1
+
+ e2e3d2a1a3d1 c1e5a3 c4e3 b4a3b4a4d2b1a3 d3a3 b3a3c4e5d2 c1e5d2 d4 a3d1a1 e1c4e5d1 e1e5d2d1d1a3 d1 a4e2e2b1d2b1 e3 c5a4e5d1
+d1a4e5c5a3d4a1 a3a1 e3c5a3b3 b3b2e3b1b4a3  d3e3d4d1 c5a4d1 d3d2d1b3a4e5b1d1 e1e3b1c4a3a5 b4e3d2d4a1a3d1 e2a4d2d1 d3a3 c4e5d2
+a3a1 c1e5a3 c5a4d1 d1a4e5c5a3d4d2b1d1 c5a4e5d1 c4a3 b1a3e1b1a3d1a3d4a1a3d4a1 d1e3d4d1 b3a3d1d1a3 a4b1 d2c4 e2e3e5a1
+e1a4e5b1 b3a3c4e3 d1e3c5a4d2b1 a1b1a4e5c5a3b1 d3e3d4d1 b3a3d1 d1a4e5c5a3d4d2b1d1 e1c4e5d1 d3a3 d3a4e5b3a3e5b1
+c1e5a3 d3 e3b4a3b1a1e5b4a3 b3e3b1 d2c4 a3d1a1 d4e3a1e5b1a3c4 c1e5a3 c4 a3d1e1b1d2a1 e2d2d4d2d1d1a3 e1e3b1 d1 a3c4a4d2c2d4a3b1
+d3a3d1 e1a3d4d1a3a3d1 e3e5b5c1e5a3c4c4a3d1 d2c4 d4a3 b1a3c5d2a3d4a1 c1e5 e3c5a3b3 a1b1d2d1a1a3d1d1a3
+
+ b1e3e1e1a3c4a3a5 c5a4e5d1 a1e3d4a1 d3a3 b4a4d3a3d1a1d2a3 a1e3d4a1 d3 e3e1a1d2a1e5d3a3 e3 a3d4a1b1a3e1b1a3d4d3b1a3
+d3 b2e3c3d2c4a3a1a3 d3e3d4d1 c4 a3b5a3b3e5a1d2a4d4 d3a3 e2d2d3a3c4d2a1a3 d3e3d4d1 c4a3d1 a3d4c2e3c2a3b4a3d4a1d1
+b1e3b3a4d4a1a3a5 e3e5b5 e3e5a1b1a3d1 a1a4e5a1a3d1 d1a3d1 e3b3a1d2a4d4d1 a1a4e5a1a3d1 d1a3d1 e1e3b1a4c4a3d1 a3a1
+b1a3d3d2a1a3d1c5a4e5d1c4a3d1 e3 c5a4e5d1b4a3b4a3 e1a3d4d1a3a5 e3 b3a3 c1e5 d2c4 e2e5a1 a3a1 e3 a1a4e5a1
+b3a3 c1e5 d2c4 e1b1a4b4a3a1a1e3d2a1 d3 a3a1b1a3 b3e3b1 c1e5a3 d4a3 e1a4e5c5e3d2a1a4d4 e1e3d1 b2e3b1d3d2b4a3d4a1 a3d1e1a3b1a3b1 d3 e5d4 a1a3c4
+e2b1a3b1a3
+
+ c5a4d2c4e3 a1a3c4c4a3d1 c1e5a3 a2a3 c4a3d1 e3d2 e1e5 b1a3d3d2c2a3b1 c4a3d1 b1a3e2c4a3b5d2a4d4d1 d3 e5d4
+a3d1e1b1d2a1 d3a3d1 c4a4d4c2a1a3b4e1d1 e3e2e2e3d2d1d1a3 a3a1 e3e1e1a3d1e3d4a1d2 e1e3b1 c4e3 d3d2d1c2b1e3b3a3 d1d2
+a3c4c4a3d1 c5a4e5d1 d1a3b4c3c4a3d4a1 e3e5d3a3d1d1a4e5d1 d3a3 c5a4a1b1a3 c2a3d4d2a3 a4e5 e1a3e5 e1b1a4e1b1a3d1
+e3 c2e5a3b1d2b1 c5a4d1 d3a4e5c4a3e5b1d1 d1a4d4c2a3a5 b3a4b4c3d2a3d4 c4 b2a4b4b4a3 c1e5 a3d4c4e3b3a3d4a1
+a3a1 e3c3d1a4b1c3a3d4a1 d1a3d1 e1b1a4e1b1a3d1 b4e3e5b5 b4e3d4c1e5a3 d3a3 c4a4d2d1d2b1 e1a4e5b1
+b3a4d4d1a4c4a3b1 e3e5a1b1e5d2 a3a1 c1e5a3 c4a3d1 a1a3b1b4a3d1 d3a3 d4a4a1b1a3 d2d3d2a4b4a3 c5d2a3d4d4a3d4a1
+d3d2e2e2d2b3d2c4a3b4a3d4a1 e3e5 c3e3d4d4d2 a3d4a1a4e5b1a3 d3a3 c3e3b1c3e3b1a3d1 d3a4d4a1 c4a3 c4e3d4c2e3c2a3
+d3d2d1b3a4b1d3e3d4a1 b3b2a4c1e5e3d4a1 b4a3b4a3 e1a4e5b1 d3a3d1 c3e3b1c3e3b1a3d1 e5d4 e1a3e5 b3d2c5d2c4d2d1a3d1
+e2b1a3b4d2a1 d2d4b3a3d1d1e3b4b4a3d4a1 e3 d1a4d4 a4b1a3d2c4c4a3
+
+e1e3d1d1 / b4a4a1 d3a3 e1e3d1d1a3 : b3e1e3e3a4e5b1c3b5e1a2e1c2e2a4
+~~~
+
+We can use an [online monoalphabetic substitution solver](https://www.dcode.fr/monoalphabetic-substitution) to find the key, but first we must simplify the substitution:
+
+~~~py
+filename = "ch12.txt"
+file = open(filename,"rt")
+text = file.read()
+file.close()
+text = text.replace(" ","")
+text = text.replace("\n","")
+text = text.replace("/","")
+text = text.replace(":","")
+
+charlist = []
+
+for i in range(0,len(text),2):
+    charlist.append(text[i]+text[i+1])
+
+charset = set(charlist)
+
+file = open(filename,"rt")
+text = file.read()
+file.close()
+letter = "A"
+for x in list(charset):
+    text = text.replace(x,letter)
+    num = ord(letter)+1
+    letter = chr(num)
+
+file = open("newfile","wt")
+file.write(text)
+file.close()
+~~~
+
+This replaces the two-letter codes with single alphabetic characters. The key is:
+
+~~~
+xuvjgcoslzqbtinfehdymrapkw
+~~~
+
+The text can be solved:
+
+~~~
+filename = "ch12.txt"
+file = open(filename,"rt")
+text = file.read()
+file.close()
+
+dic = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+key = "xuvjgcoslzqbtinfehdymrapkw"
+
+for i in range(len(dic)):
+    text = text.replace(dic[i],key[i])
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+cpaaourbxpjpgfo
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
 Last updated Jan 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
