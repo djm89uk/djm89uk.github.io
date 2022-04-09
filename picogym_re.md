@@ -47,6 +47,18 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [breadth (2021)](#breadth)
 - [riscy business (2021)](#riscy-business)
 - [MATRIX (2021)](#matrix)
+- [file-run1 (2022)](#file-run1) ✓
+- [file-run2 (2022)](#file-run2) ✓
+- [GDB Test Drive (2022)](#gdb-test-drive) ✓
+- [patchme.py (2022)](#patchme-py) ✓
+- [Safe Opener (2022)](#safe-opener) ✓
+- [unpackme.py (2022)](#unpackme-py) ✓
+- [bloat.py (2022)](#bloat-py) ✓
+- [Fresh Java (2022)](#fresh-java) ✓
+- [Bbbbloat (2022)](#bbbbloat) ✓
+- [unpackme (2022)](#unpackme) ✓
+- [Keygenme (2022)](#keygenme)
+- [Wizardlike (2022)](#wizardlike) ✓
  
 ---
 
@@ -8578,6 +8590,1219 @@ picoCTF{}
 
 ---
 
+## file run1
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+A program has been provided to you, what happens if you try to run it on the command line? Download the program [here](https://artifacts.picoctf.net/c/308/run).
+
+
+### Hints
+
+1. To run the program at all, you must make it executable (i.e. $ chmod +x run)
+2. Try running it by adding a '.' in front of the path to the file (i.e. $ ./run)
+	
+### Attachments
+
+1. [run](https://artifacts.picoctf.net/c/308/run)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Running the program provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{U51N6_Y0Ur_F1r57_F113_9bc52b6b}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## file run2
+
+- Author: Will Hong
+- 100 points
+
+### Description
+
+Another program, but this time, it seems to want some input. What happens if you try to run it on the command line with input "Hello!"? Download the program [here](https://artifacts.picoctf.net/c/351/run).
+
+### Hints
+
+1. Try running it and add the phrase "Hello!" with a space in front (i.e. "./run Hello!")
+	
+### Attachments
+
+1. [run](https://artifacts.picoctf.net/c/351/run)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Running this executable with the input "Hello!" provides the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+The flag is: picoCTF{F1r57_4rgum3n7_be0714da}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## GDB Test Drive
+
+- Author: Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+
+Can you get the flag? Download this [binary](https://artifacts.picoctf.net/c/115/gdbme). Here's the test drive instructions:
+
+~~~
+    $ chmod +x gdbme
+    $ gdb gdbme
+    (gdb) layout asm
+    (gdb) break *(main+99)
+    (gdb) run
+    (gdb) jump *(main+104)
+~~~
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [gdbme](https://artifacts.picoctf.net/c/115/gdbme)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Following the challenge instructions, the flag is returned.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{d3bugg3r_dr1v3_197c378a}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## patchme py
+
+- Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+	
+Can you get the flag? Run this [Python program](https://artifacts.picoctf.net/c/386/patchme.flag.py) in the same directory as this [encrypted flag](https://artifacts.picoctf.net/c/386/flag.txt.enc).
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [patchme.flag.py](https://artifacts.picoctf.net/c/386/patchme.flag.py)
+2. [flag.txt.enc](https://artifacts.picoctf.net/c/386/flag.txt.enc)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Running the script with the password: ak98-=90adfjhgj321sleuth9000 provides the flag:
+
+~~~shell
+$ python3 patchme.flag.py 
+Please enter correct password for flag: ak98-=90adfjhgj321sleuth9000
+Welcome back... your flag, user:
+picoCTF{p47ch1ng_l1f3_h4ck_c4a4688b}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{p47ch1ng_l1f3_h4ck_c4a4688b}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Safe Opener
+
+- Author: Mubarak Mikail
+- 100 points
+
+### Description
+
+Can you open this safe? I forgot the key to my safe but this [program](https://artifacts.picoctf.net/c/463/SafeOpener.java) is supposed to help me with retrieving the lost key. Can you help me unlock my safe? Put the password you recover into the picoCTF flag format like: picoCTF{password}
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [SafeOpener.java](https://artifacts.picoctf.net/c/463/SafeOpener.java)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reviewing the java file, we see the user input is encoded and compared against a defined encoded password:
+
+~~~java
+import java.io.*;
+import java.util.*;  
+public class SafeOpener {
+    public static void main(String args[]) throws IOException {
+        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encodedkey = "";
+        String key = "";
+        int i = 0;
+        boolean isOpen;
+        
+
+        while (i < 3) {
+            System.out.print("Enter password for the safe: ");
+            key = keyboard.readLine();
+
+            encodedkey = encoder.encodeToString(key.getBytes());
+            System.out.println(encodedkey);
+              
+            isOpen = openSafe(encodedkey);
+            if (!isOpen) {
+                System.out.println("You have  " + (2 - i) + " attempt(s) left");
+                i++;
+                continue;
+            }
+            break;
+        }
+    }
+    
+    public static boolean openSafe(String password) {
+        String encodedkey = "cGwzYXMzX2wzdF9tM18xbnQwX3RoM19zYWYz";
+        
+        if (password.equals(encodedkey)) {
+            System.out.println("Sesame open");
+            return true;
+        }
+        else {
+            System.out.println("Password is incorrect\n");
+            return false;
+        }
+    }
+}
+~~~
+	
+The java program can be compiled and run:
+	
+~~~shell
+$ javac SafeOpener.java 
+$ ls
+SafeOpener.class  SafeOpener.java
+$ java SafeOpener 
+Enter password for the safe: test
+dGVzdA==
+Password is incorrect
+
+You have  2 attempt(s) left
+Enter password for the safe: 
+~~~
+
+This looks like base64, decoding dGVzdA== gives us our input, test.  Decoding the encoded key to ascii provides the password:
+
+~~~
+cGwzYXMzX2wzdF9tM18xbnQwX3RoM19zYWYz
+pl3as3_l3t_m3_1nt0_th3_saf3
+~~~
+
+This opens the safe.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{pl3as3_l3t_m3_1nt0_th3_saf3}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## unpackme py
+
+- Author: LT 'syreal' Jones
+- 100 points
+
+### Description
+Can you get the flag? Reverse engineer this [Python program](https://artifacts.picoctf.net/c/464/unpackme.flag.py).
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [unpackme.flag.py](https://artifacts.picoctf.net/c/464/unpackme.flag.py)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+we can review the unpackme.flag.py file:
+
+~~~py
+import base64
+from cryptography.fernet import Fernet
+
+payload = b'gAAAAABiMD04m0Z6CohVV7ozdwHqtgc2__CuAFGG8rWhZBTL0lhfzp-mhu9LYNMnMQMGO-7tEwy3DJ2Y8yjogvzyojFETwN9YEIPXTnO9F1QnkPypWTgjISGve4gcSerJMs694oKcIdKHuVaSxOg1MMNs5k9iPaBIPU7xOKQqCyhnf_f4yUvLdMcer38BqRptocJNvKlyWN8h7ikoWL0zlssxd8OJyPujMz78HZaefvUouvq6LDtPVqRBJFPgSJYf1nHpHKFa1O0zJ6UpTe6ba3PPAxCVXutNg=='
+
+key_str = 'correctstaplecorrectstaplecorrec'
+key_base64 = base64.b64encode(key_str.encode())
+f = Fernet(key_base64)
+plain = f.decrypt(payload)
+exec(plain.decode())
+~~~
+
+We can edit the program to provide the flag:
+
+~~~py
+import base64
+from cryptography.fernet import Fernet
+
+payload = b'gAAAAABiMD04m0Z6CohVV7ozdwHqtgc2__CuAFGG8rWhZBTL0lhfzp-mhu9LYNMnMQMGO-7tEwy3DJ2Y8yjogvzyojFETwN9YEIPXTnO9F1QnkPypWTgjISGve4gcSerJMs694oKcIdKHuVaSxOg1MMNs5k9iPaBIPU7xOKQqCyhnf_f4yUvLdMcer38BqRptocJNvKlyWN8h7ikoWL0zlssxd8OJyPujMz78HZaefvUouvq6LDtPVqRBJFPgSJYf1nHpHKFa1O0zJ6UpTe6ba3PPAxCVXutNg=='
+
+key_str = 'correctstaplecorrectstaplecorrec'
+key_base64 = base64.b64encode(key_str.encode())
+f = Fernet(key_base64)
+plain = f.decrypt(payload)
+exec(plain.decode())
+print(plain)
+~~~
+
+Running this provides the flag:
+
+~~~
+What's the password? test
+That password is incorrect.
+b"\npw = input('What\\'s the password? ')\n\nif pw == 'batteryhorse':\n  print('picoCTF{175_chr157m45_5274ff21}')\nelse:\n  print('That password is incorrect.')\n\n"
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{175_chr157m45_5274ff21}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## bloat py
+
+- Author: Asphyxia
+- 200 points
+
+### Description
+
+Can you get the flag? Run this [Python program](https://artifacts.picoctf.net/c/428/bloat.flag.py) in the same directory as this [encrypted flag](https://artifacts.picoctf.net/c/428/flag.txt.enc).
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [bloat.flag.py](https://artifacts.picoctf.net/c/428/bloat.flag.py)
+2. [flag.txt.enc](https://artifacts.picoctf.net/c/428/flag.txt.enc)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can review the python program:
+
+~~~py
+import sys
+a = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ"+ \
+            "[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ "
+def arg133(arg432):
+  if arg432 == a[71]+a[64]+a[79]+a[79]+a[88]+a[66]+a[71]+a[64]+a[77]+a[66]+a[68]:
+    return True
+  else:
+    print(a[51]+a[71]+a[64]+a[83]+a[94]+a[79]+a[64]+a[82]+a[82]+a[86]+a[78]+\
+a[81]+a[67]+a[94]+a[72]+a[82]+a[94]+a[72]+a[77]+a[66]+a[78]+a[81]+\
+a[81]+a[68]+a[66]+a[83])
+    sys.exit(0)
+    return False
+def arg111(arg444):
+  return arg122(arg444.decode(), a[81]+a[64]+a[79]+a[82]+a[66]+a[64]+a[75]+\
+a[75]+a[72]+a[78]+a[77])
+def arg232():
+  return input(a[47]+a[75]+a[68]+a[64]+a[82]+a[68]+a[94]+a[68]+a[77]+a[83]+\
+a[68]+a[81]+a[94]+a[66]+a[78]+a[81]+a[81]+a[68]+a[66]+a[83]+\
+a[94]+a[79]+a[64]+a[82]+a[82]+a[86]+a[78]+a[81]+a[67]+a[94]+\
+a[69]+a[78]+a[81]+a[94]+a[69]+a[75]+a[64]+a[70]+a[25]+a[94])
+def arg132():
+  return open('flag.txt.enc', 'rb').read()
+def arg112():
+  print(a[54]+a[68]+a[75]+a[66]+a[78]+a[76]+a[68]+a[94]+a[65]+a[64]+a[66]+\
+a[74]+a[13]+a[13]+a[13]+a[94]+a[88]+a[78]+a[84]+a[81]+a[94]+a[69]+\
+a[75]+a[64]+a[70]+a[11]+a[94]+a[84]+a[82]+a[68]+a[81]+a[25])
+def arg122(arg432, arg423):
+    arg433 = arg423
+    i = 0
+    while len(arg433) < len(arg432):
+        arg433 = arg433 + arg423[i]
+        i = (i + 1) % len(arg423)        
+    return "".join([chr(ord(arg422) ^ ord(arg442)) for (arg422,arg442) in zip(arg432,arg433)])
+arg444 = arg132()
+arg432 = arg232()
+arg133(arg432)
+arg112()
+arg423 = arg111(arg444)
+print(arg423)
+sys.exit(0)
+~~~
+					      
+A simple edit can be made the provide the flag:
+
+~~~py
+a = ...
+def arg111(arg444):
+  return arg122(arg444.decode(), a[81]+a[64]+a[79]+a[82]+a[66]+a[64]+a[75]+\
+a[75]+a[72]+a[78]+a[77])
+def arg132():
+  return open('flag.txt.enc', 'rb').read()
+def arg122(arg432, arg423):
+    arg433 = arg423
+    i = 0
+    while len(arg433) < len(arg432):
+        arg433 = arg433 + arg423[i]
+        i = (i + 1) % len(arg423)        
+    return "".join([chr(ord(arg422) ^ ord(arg442)) for (arg422,arg442) in zip(arg432,arg433)])
+
+arg444 = arg132()
+arg423 = arg111(arg444)
+print(arg423)
+~~~
+
+This provides the flag:
+
+~~~
+picoCTF{d30bfu5c4710n_f7w_b8062eec}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{d30bfu5c4710n_f7w_b8062eec}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Fresh Java
+
+- Author: LT 'syreal' Jones
+- 200 points
+
+### Description
+
+Can you get the flag? Reverse engineer this [Java program](https://artifacts.picoctf.net/c/207/KeygenMe.class).
+
+### Hints
+
+1. Use a decompiler for Java!
+	
+### Attachments
+
+1. [KeygenMe.class](https://artifacts.picoctf.net/c/207/KeygenMe.class)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Using procyon, the java class can be decompiled:
+
+~~~shell
+$ procyon KeygenMe.class > KeygenMe_decompiled.txt
+~~~
+
+This provides the java source:
+
+~~~java
+import java.util.Scanner;
+
+// 
+// Decompiled by Procyon v0.5.32
+// 
+
+public class KeygenMe
+{
+    public static void main(final String[] array) {
+        final Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter key:");
+        final String nextLine = scanner.nextLine();
+        if (nextLine.length() != 34) {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(33) != '}') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(32) != '9') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(31) != '8') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(30) != 'c') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(29) != 'a') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(28) != 'c') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(27) != '8') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(26) != '3') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(25) != '7') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(24) != '_') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(23) != 'd') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(22) != '3') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(21) != 'r') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(20) != '1') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(19) != 'u') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(18) != 'q') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(17) != '3') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(16) != 'r') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(15) != '_') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(14) != 'g') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(13) != 'n') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(12) != '1') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(11) != 'l') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(10) != '0') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(9) != '0') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(8) != '7') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(7) != '{') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(6) != 'F') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(5) != 'T') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(4) != 'C') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(3) != 'o') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(2) != 'c') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(1) != 'i') {
+            System.out.println("Invalid key");
+            return;
+        }
+        if (nextLine.charAt(0) != 'p') {
+            System.out.println("Invalid key");
+            return;
+        }
+        System.out.println("Valid key");
+    }
+}
+~~~
+
+The key can be reconstructed from the above:
+
+~~~
+picoCTF{700l1ng_r3qu1r3d_738cac89}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{700l1ng_r3qu1r3d_738cac89}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Bbbbloat
+
+- Author: LT 'syreal' Jones
+- 300 points
+
+### Description
+
+Can you get the flag? Reverse engineer this [binary](https://artifacts.picoctf.net/c/301/bbbbloat).
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [bbbbloat](https://artifacts.picoctf.net/c/301/bbbbloat)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the file is an ELF 64-bit executable:
+
+~~~shell
+$ file bbbbloat 
+bbbbloat: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=99c5c1ce06be240322c15bcabc3cd90318eb2003, for GNU/Linux 3.2.0, stripped
+~~~
+
+Running the program, we see the program requires a user input for "favourite number":
+
+~~~shell
+$ ./bbbbloat 
+What's my favorite number? 1
+Sorry, that's not it!
+~~~
+
+Decompiling in Ghidra, we can find the comparator for the user input:
+
+~~~c
+  printf("What\'s my favorite number? ");
+  __isoc99_scanf();
+  if (local_48 == 0x86187) {
+    __s = FUN_00101249(0,(char *)&local_38);
+    fputs(__s,stdout);
+    putchar(10);
+    free(__s);
+  }
+~~~
+
+The hex number 0x86187 = 549255 is the favourite number.  Entering this into the program yields the flag:
+
+~~~shell
+$ ./bbbbloat 
+What's my favorite number? 549255
+picoCTF{cu7_7h3_bl047_36dd316a}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{cu7_7h3_bl047_36dd316a}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## unpackme
+
+- Author: Asphyxia
+- 300 points
+
+### Description
+
+Can you get the flag? Reverse engineer this [binary](https://artifacts.picoctf.net/c/365/unpackme-upx).
+
+### Hints
+
+1. What is UPX?
+	
+### Attachments
+
+1. [unpack-upx](https://artifacts.picoctf.net/c/365/unpackme-upx)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the file is an ELF 64-bit executable:
+
+~~~shell
+$ file unpackme-upx 
+unpackme-upx: ELF 64-bit LSB executable, x86-64, version 1 (GNU/Linux), statically linked, no section header
+~~~
+
+Running the file, we are again asked for the favourite number:
+
+~~~shell
+$ ./unpackme-upx 
+What's my favorite number? 1
+Sorry, that's not it!
+~~~
+
+We can unpack the file using [upx](https://github.com/upx/upx/releases/tag/v3.96):
+
+~~~shell
+$ upx-3.96-amd64_linux/./upx -d unpackme-upx 
+                       Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2020
+UPX 3.96        Markus Oberhumer, Laszlo Molnar & John Reiser   Jan 23rd 2020
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+   1002408 <-    354736   35.39%   linux/amd64   unpackme-upx
+
+Unpacked 1 file.
+~~~
+
+Using Ghidra, the executable can be decompiled:
+	     
+~~~c
+  printf("What\'s my favorite number? ");
+  __isoc99_scanf(&DAT_004b3020,&iStack68);
+  if (iStack68 == 0xb83cb) {
+    pcStack64 = (char *)rotate_encrypt(0,&uStack56);
+    fputs(pcStack64,(FILE *)stdout);
+    putchar(10);
+    free(pcStack64);
+  }
+~~~
+
+The comparison shows the favourite number is 0xb83cb = 754635.  We can use this to retrieve the flag:
+
+~~~shell
+$ ./unpackme-upx 
+What's my favorite number? 754635
+picoCTF{up><_m3_f7w_77ad107e}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{up><_m3_f7w_77ad107e}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Keygenme
+
+- Author: LT 'syreal' Jones
+- 400 points
+
+### Description
+
+Can you get the flag? Reverse engineer this [binary](https://artifacts.picoctf.net/c/513/keygenme).
+
+### Hints
+
+None
+	
+### Attachments
+
+1. [keygenme](https://artifacts.picoctf.net/c/513/keygenme)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Decompiling in Ghidra, we can see the user "license key" entered is validated in function 00101209:
+
+~~~c
+undefined8 FUN_00101209(char *param_1)
+
+{
+  size_t sVar1;
+  undefined8 uVar2;
+  long in_FS_OFFSET;
+  int local_d0;
+  int local_cc;
+  int local_c8;
+  int local_c4;
+  int local_c0;
+  undefined2 local_ba;
+  byte local_b8 [16];
+  byte local_a8 [16];
+  undefined8 local_98;
+  undefined8 local_90;
+  undefined8 local_88;
+  undefined4 local_80;
+  char local_78 [13];
+  undefined local_6b;
+  undefined local_6a;
+  undefined local_66;
+  undefined local_60;
+  undefined local_5e;
+  undefined local_5b;
+  char local_58 [32];
+  char acStack56 [40];
+  long local_10;
+  
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  local_98 = 0x7b4654436f636970;
+  local_90 = 0x30795f676e317262;
+  local_88 = 0x6b5f6e77305f7275;
+  local_80 = 0x5f7933;
+  local_ba = 0x7d;
+  sVar1 = strlen((char *)&local_98);
+  MD5((uchar *)&local_98,sVar1,local_b8);
+  sVar1 = strlen((char *)&local_ba);
+  MD5((uchar *)&local_ba,sVar1,local_a8);
+  local_d0 = 0;
+  for (local_cc = 0; local_cc < 0x10; local_cc = local_cc + 1) {
+    sprintf(local_78 + local_d0,"%02x",(uint)local_b8[local_cc]);
+    local_d0 = local_d0 + 2;
+  }
+  local_d0 = 0;
+  for (local_c8 = 0; local_c8 < 0x10; local_c8 = local_c8 + 1) {
+    sprintf(local_58 + local_d0,"%02x",(uint)local_a8[local_c8]);
+    local_d0 = local_d0 + 2;
+  }
+  for (local_c4 = 0; local_c4 < 0x1b; local_c4 = local_c4 + 1) {
+    acStack56[local_c4] = *(char *)((long)&local_98 + (long)local_c4);
+  }
+  acStack56[27] = local_6b;
+  acStack56[28] = local_66;
+  acStack56[29] = local_5b;
+  acStack56[30] = local_78[1];
+  acStack56[31] = local_6a;
+  acStack56[32] = local_60;
+  acStack56[33] = local_5e;
+  acStack56[34] = local_5b;
+  acStack56[35] = (undefined)local_ba;
+  sVar1 = strlen(param_1);
+  if (sVar1 == 0x24) {
+    for (local_c0 = 0; local_c0 < 0x24; local_c0 = local_c0 + 1) {
+      if (param_1[local_c0] != acStack56[local_c0]) {
+        uVar2 = 0;
+        goto LAB_00101475;
+      }
+    }
+    uVar2 = 1;
+  }
+  else {
+    uVar2 = 0;
+  }
+LAB_00101475:
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return uVar2;
+}
+~~~
+
+We can see the input (param1) is checked for the correct length (0x24) and compared against variable acStack56.  This variable is generated from 
+
+~~~
+local_98 = 0x7b4654436f636970;
+~~~
+
+Converting to ascii, this is "{FTCocip".  Following this discovery, the local variables can be converted to ascii:
+
+~~~
+  local_98 = 0x7b4654436f636970; = "{FTCocip"
+  local_90 = 0x30795f676e317262; = "0y_gn1rb"
+  local_88 = 0x6b5f6e77305f7275; = "k_nw0_ru"
+  local_80 = 0x5f7933;           = "_y3"
+  local_ba = 0x7d;               = "}"
+~~~
+
+Reversing these strings, we get the first part of the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{br1ng_y0ur_0wn_k3y_}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## Wizardlike
+
+- Author: LT 'syreal' Jones
+- 500 points
+
+### Description
+
+Do you seek your destiny in these deplorable dungeons? If so, you may want to look elsewhere. Many have gone before you and honestly, they've cleared out the place of all monsters, ne'erdowells, bandits and every other sort of evil foe. The dungeons themselves have seen better days too. There's a lot of missing floors and key passages blocked off. You'd have to be a real wizard to make any progress in this sorry excuse for a dungeon! Download the [game](https://artifacts.picoctf.net/c/150/game). 'w', 'a', 's', 'd' moves your character and 'Q' quits. You'll need to improvise some wizardly abilities to find the flag in this dungeon crawl. '.' is floor, '#' are walls, '<' are stairs up to previous level, and '>' are stairs down to next level.
+
+### Hints
+
+1. Different tools are better at different things. Ghidra is awesome at static analysis, but radare2 is amazing at debugging.
+2. With the right focus and preparation, you can teleport to anywhere on the map.
+	
+### Attachments
+
+1. [game](https://artifacts.picoctf.net/c/150/game)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Executing the binary, we see a game in which our character, @, can traverse an area where . is traversible, # is non-traversible and > transports to another map:
+
+~~~
+#########
+#.......#  ......#  ......................
+#.......#  .............
+#........  .#
+#.......#  .#
+#.......#  .#
+#.......#  .#
+#.......#  .#
+#.......#  ..
+#.......#
+#.......#
+#.......#
+#.......#
+#.......#
+#@.....>#
+#########
+~~~
+
+In Ghidra, we can find the decompiled function that generates this traversibility:
+	
+~~~c
+undefined8 FUN_001015ac(int param_1,int param_2)
+
+{
+  undefined8 uVar1;
+  
+  if ((((param_1 < 100) && (param_2 < 100)) && (-1 < param_1)) && (-1 < param_2)) {
+    if (((&DAT_0011fea0)[(long)param_2 * 100 + (long)param_1] == '#') ||
+       ((&DAT_0011fea0)[(long)param_2 * 100 + (long)param_1] == ' ')) {
+      uVar1 = 0;
+    }
+    else {
+      uVar1 = 1;
+    }
+  }
+  else {
+    uVar1 = 0;
+  }
+  return uVar1;
+}
+~~~
+
+This is shown in the memory address 00101656 (offset 1656): 
+
+~~~
+                     LAB_00101656                                    XREF[1]:     0010161a(j)  
+00101656 b8 00 00        MOV        EAX,0x0
+         00 00
+0010165b eb 0c           JMP        LAB_00101669
+                     LAB_0010165d                                    XREF[1]:     00101654(j)  
+0010165d b8 01 00        MOV        EAX,0x1
+         00 00
+00101662 eb 05           JMP        LAB_00101669
+~~~
+
+We can edit this byte in ghex and save as a patched game, game_patched, we can now walk through walls and find the beginning of the flag encoded in walls:
+
+~~~
+#########                                            
+#.......#  ......#...................................
+#.......#  ....................####.#####.#####..###.
+#........  .####.#..###..###..#.......#...# .....#...
+#.......#  .#  #.#.#....#   #.#.......#...###...#....
+#.......#  .####.#.#....#   #.#.......#...#......#...
+#.......#  .#....#..###..###...####...#...#......###.
+#.......#  .#........................................
+#.......#  ..........................................
+#.......#                                            
+#.......#                                            
+#.......#                                            
+#.......#                                            
+#.......#                                            
+#......>#                                            
+#########                                            
+~~~
+
+Traversing to the next level, we get:
+
+~~~
+#####. .............................................................
+#.<.#. ...............#..#.............##.......#..#........#.......  
+#...#. .#..#.###......#..#.......#...#..#.####..#..#.###....#.......  
+#...#. .#..#.#........####.......#.#.#..#...#...####.#...####.......  
+#...#. .####.#...####....#.#####..#.#..###.####....#.#...####.#####.  
+  .    .............................................................
+  .    .............................................................
+  .    .............................................................
+#....  @         
+#...#            
+#...#
+#...#
+#...#
+#...#
+#.>.#
+#####
+~~~
+
+Following the levels, we can see the flag is:
+
+~~~
+..........................................
+....................####.#####.#####..###.
+.####.#..###..###..#.......#...# .....#...
+.#  #.#.#....#...#.#.......#...###...#....
+.####.#.#....#...#.#.......#...#......#...
+.#....#..###..###...####...#...#......###.
+.#........................................
+..........................................
+~~~
+	
+~~~
+............................................................................................................................
+...............#..#.............##.......#..#........#.........###...#####..#...#..####....###...#...#...###...#####.###....
+.#..#.###......#..#.......#...#..#.####..#..#.###....#........#...#..#......#...#..#...#..#...#..#...#..#...#..#.......#....
+.#..#.#........####.......#.#.#..#...#...####.#...####.........###...###....#####..####...#...#..#####..#####..###......#...
+.####.#...####....#.#####..#.#..###.####....#.#...####.#####..#...#..#..........#..#...#..#...#......#..#...#..#.......#....
+...............................................................###...#..........#..####....###.......#..#...#..#####.###....
+............................................................................................................................
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{ur_4_w1z4rd_8F4B04AE}
+~~~
+
+</details>
+
+---
+
+### [Reverse Engineering](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
 Last updated: Dec 2021
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
