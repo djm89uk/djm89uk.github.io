@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [35/43]
+# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [46/55]
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
