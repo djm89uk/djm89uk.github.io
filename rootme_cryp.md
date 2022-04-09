@@ -1417,6 +1417,78 @@ ICONOCLASTE
 ### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+ 
+## Code Pseudo Random Number Generator
+
+- Author: Tosh
+- Date: 19 December 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+Here is an archive containing an encrypted file, and the program which has been used for encryption. Your goal is to get back the file content.
+
+Clue : according to our information, the file was encrypted during the month of december 2012.
+
+### Links
+
+1. [ch16.tgz](http://challenge01.root-me.org/cryptanalyse/ch16/ch16.tgz).
+
+### Related Resources
+
+1. [Pseudo Random Number Generators for cryptographic applications](https://repository.root-me.org/Cryptographie/EN%20-%20Pseudo%20Random%20Number%20Generators%20for%20cryptographic%20applications.pdf).
+2. [Good practice in PRNG](https://repository.root-me.org/Cryptographie/EN%20-%20Good%20practice%20in%20PRNG.pdf).
+3. [NIST Pseudo Random Number Generators for cryptographic applications](https://repository.root-me.org/Cryptographie/EN%20-%20NIST%20Pseudo%20Random%20Number%20Generators%20for%20cryptographic%20applications.pdf).
+4. [RFC1750](https://repository.root-me.org/RFC/EN%20-%20rfc1750.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The file can be retrieved and decompressed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/cryptanalyse/ch16/ch16.tgz
+--2022-04-09 21:06:45--  http://challenge01.root-me.org/cryptanalyse/ch16/ch16.tgz
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1254 (1.2K) [application/octet-stream]
+Saving to: ‘ch16.tgz’
+
+ch16.tgz                                                    100%[=========================================================================================================================================>]   1.22K  --.-KB/s    in 0s      
+
+2022-04-09 21:06:45 (77.5 MB/s) - ‘ch16.tgz’ saved [1254/1254]
+$ tar -xvf ch16.tgz 
+random_generator/
+random_generator/crypt.c
+random_generator/oDjbNkIoLpaMo.bz2.crypt
+$ ls
+ch16.tgz  random_generator
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ICONOCLASTE
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## File Insecure storage 1
 
