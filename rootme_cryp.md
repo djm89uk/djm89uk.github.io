@@ -29,7 +29,7 @@ Break encryption algorithms.
 23. [LFSR - Known plaintext](#lfsr-known-plaintext)
 24. [RSA - Factorisation](#rsa-factorisation) 🗸
 25. [RSA - Decipher Oracle](#rsa-decipher-pracle)
-26. [Service - Timing attack](#service-timing-attack)
+26. [Service - Timing attack](#service-timing-attack) 🗸
 27. [Monoalphabetic substitution - Polybe](#monoalphabetic-substitution-polybe) 🗸
 28. [Twisted secret](#twisted-secret)
 29. [Initialisation Vector](#initialisation-vector)
@@ -1932,6 +1932,113 @@ up2l6DnaIhZgxA
 
 ---
 
+## Service Timing Attack
+
+- Author: g0uZ, koma
+- Date: 28 October 2012
+- Points: 25
+- Level: 3
+
+### Statement
+
+Find back the 12 chars long key used to authenticate on the service.
+
+### Challenge connection informations
+
+- Host	challenge01.root-me.org
+- Protocol	TCP
+- Port	51015
+
+### Links
+
+None.
+
+### Resources
+
+1. [Timing Attack](http://en.wikipedia.org/wiki/Timing_attack).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Using timing attack, an iterative solver can be written in Python:
+
+~~~py
+import string
+import time
+import socket
+
+URL = "challenge01.root-me.org"
+PORT = 51015
+
+mytcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+IP = socket.gethostbyname(URL)
+mytcp.connect((IP,PORT))
+data = mytcp.recv(1024)
+print(data.decode())
+
+dic = string.printable
+ans = ["*"]*12
+
+for i in range(6,len(ans)):
+    maxt = 0
+    letter = "0"
+    for x in dic:
+        ans[i] = x
+        test = ("".join(ans)).encode()
+        t0 = time.time()
+        mytcp.send(test)
+        data = mytcp.recv(1024)
+        t1 = time.time()
+        dt = t1-t0
+        if dt > maxt:
+            maxt = dt
+            letter = x
+    ans[i] = letter
+    print("Key : " + "".join(ans))
+
+mytcp.close()
+~~~
+
+This provides the solution over an extended period:
+
+~~~
+Key : 3***********
+Key : 30**********
+Key : 304*********
+Key : 3046********
+Key : 30467*******
+Key : 30467-******
+Key : 30467-1*****
+Key : 30467-13****
+Key : 30467-132***
+Key : 30467-1326**
+Key : 30467-13263*
+Key : 30467-132630
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+30467-132630
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
 ## Monoalphabetic substitution Polybe
 
 - Author: koma
