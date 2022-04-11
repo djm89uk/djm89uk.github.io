@@ -19,7 +19,7 @@ Break encryption algorithms.
 13. [File - PKZIP](#file-pkzip) 🗸
 14. [Monoalphabetic substitution - Caesar](#monoalphabetic-substitution-caesar) 🗸
 15. [Known plaintext - XOR](#known-plaintext-xOr) 🗸
-16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator)
+16. [Code - Pseudo Random Number Generator](#code-pseudo-random-number-generator) 🗸
 17. [File - Insecure storage 1](#file-insecure-storage-1) 🗸
 18. [Polyalphabetic substitution - Vigenère](#polyalphabetic-substitution-vigenere) 🗸
 19. [System - Android lock pattern](#system-android-lock-pattern) 🗸
@@ -1470,6 +1470,199 @@ $ ls
 ch16.tgz  random_generator
 ~~~
 
+The source code can be reviewed:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define KEY_SIZE 32
+#define BUFF_SIZE 1024
+
+unsigned int holdrand = 0;
+
+static void Srand (unsigned int seed) {
+  holdrand = seed;
+}
+
+static int Rand (void) {
+  return(((holdrand = holdrand * 214013L + 2531011L) >> 16) & 0x7fff);
+}
+
+char* genere_key(void) {
+  int i;
+  static char key[KEY_SIZE+1];
+  const char charset[] = 
+    "abcdefghijklmnopqrstuvwxyz"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "123456789";
+  
+  for(i = 0; i < KEY_SIZE; i++) {
+    key[i] = charset[Rand() % (sizeof(charset) - 1)];
+  }
+  key[KEY_SIZE] = '\0';
+
+  return key;
+}
+
+void crypt_buffer(unsigned char *buffer, size_t size, char *key) {
+  size_t i;
+  int j;
+
+  j = 0;
+  for(i = 0; i < size; i++) {
+    if(j >= KEY_SIZE)
+      j = 0;
+    buffer[i] ^= key[j];
+    j++;
+  }
+}
+
+void crypt_file(FILE *in, FILE *out) {
+  unsigned char buffer[BUFF_SIZE];
+  char *key;
+  size_t size;
+
+  key = genere_key();
+
+  printf("[+] Using key : %s\n", key);
+
+  do {
+    size = fread(buffer, 1, BUFF_SIZE, in);
+    crypt_buffer(buffer, size, key);
+    fwrite(buffer, 1, size, out);
+
+  }while(size == BUFF_SIZE);  
+}
+
+int main(int argc, char **argv) {
+  char path[128];
+  FILE *in, *out;
+
+  Srand(time(NULL));
+
+  if(argc != 2) {
+    printf("[-] Usage : %s <file>\n", argv[0]);
+    return EXIT_FAILURE;
+  }
+
+  snprintf(path, sizeof(path)-1, "%s.crypt", argv[1]);
+
+  if((in = fopen(argv[1], "r")) == NULL) {
+    perror("[-] fopen (in) ");
+    return EXIT_FAILURE;
+  }
+
+  if((out = fopen(path, "w")) == NULL) {
+    perror("[-] fopen (out) ");
+    return EXIT_FAILURE;
+  }
+
+  crypt_file(in, out);
+
+  printf("[+] File %s crypted !\n", path);
+  printf("[+] DONE.\n");
+  return EXIT_SUCCESS;
+}
+~~~
+
+We can see the random function is seeded from the time:
+ 
+~~~c
+Srand(time(NULL));
+~~~
+
+We should be able to find the key from the file creation or modification date. Using stat we find the time the file was edited:
+
+~~~shell
+$ stat oDjbNkIoLpaMo.bz2.crypt 
+  File: oDjbNkIoLpaMo.bz2.crypt
+  Size: 166       	Blocks: 8          IO Block: 4096   regular file
+Device: 10307h/66311d	Inode: 551991      Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1000/   derek)   Gid: ( 1000/   derek)
+Access: 2022-04-11 10:13:33.364189876 +0100
+Modify: 2012-12-05 12:05:36.000000000 +0000
+Change: 2022-04-11 10:12:52.636628951 +0100
+ Birth: -
+~~~
+
+Using an online [epoch coverter](https://www.epochconverter.com/) we find the timestamp is 1354709136.  We can assume this is the seed or approximate seed for the file.
+
+We can update the crypt.c function and compile:
+
+~~~c
+...
+int main(int argc, char **argv) {
+  char path[128];
+  FILE *in, *out;
+
+  Srand(1354709136);
+  ...
+}
+~~~
+
+This can be compiled and tested:
+
+~~~shell
+$ gcc crypt.c -o crypt
+$ chmod +x crypt
+$ echo "secret test words" > test_file.txt
+$ cat test_file.txt 
+secret test words
+$ ./crypt test_file.txt 
+[+] Using key : aM5IkP4AdQzi48qtlAjCDFYn76xLD4NN
+[+] File test_file.txt.crypt crypted !
+[+] DONE.
+$ ls
+crypt  crypt.c  oDjbNkIoLpaMo.bz2.crypt  test_file.txt  test_file.txt.crypt
+$ cat test_file.txt.crypt 
+(V;$5"ICWK
+$ ./crypt test_file.txt.crypt 
+[+] Using key : aM5IkP4AdQzi48qtlAjCDFYn76xLD4NN
+[+] File test_file.txt.crypt.crypt crypted !
+[+] DONE.
+$ ls
+crypt  crypt.c  oDjbNkIoLpaMo.bz2.crypt  test_file.txt  test_file.txt.crypt  test_file.txt.crypt.crypt
+$ cat test_file.txt.crypt.crypt 
+secret test words
+~~~
+
+We now have repeatable key that can encrypt and decrypt a file based on the epoch of the initial execution.  Running on the encrypted file, we can see the original file was a bz2 archive:
+
+~~~shell
+$ ./crypt oDjbNkIoLpaMo.bz2.crypt 
+[+] Using key : aM5IkP4AdQzi48qtlAjCDFYn76xLD4NN
+[+] File oDjbNkIoLpaMo.bz2.crypt.crypt crypted !
+[+] DONE.
+$ file oDjbNkIoLpaMo.bz2.crypt.crypt 
+oDjbNkIoLpaMo.bz2.crypt.crypt: bzip2 compressed data, block size = 900k
+$ mv oDjbNkIoLpaMo.bz2.crypt.crypt oDjbNkIoLpaMo.bz2
+~~~
+
+We can decompress and find the challenge solution:
+
+~~~shell
+$ bunzip2 oDjbNkIoLpaMo.bz2
+$ ls
+crypt  crypt.c  oDjbNkIoLpaMo  oDjbNkIoLpaMo.bz2.crypt
+$ file oDjbNkIoLpaMo
+oDjbNkIoLpaMo: ISO-8859 text
+$ cat oDjbNkIoLpaMo
+Good job man !!!
+
+You can now validate the challenge with the key : 
+
+/
+
+Bien jou� !
+
+Tu peux maintenant valider le challenge avec la clef :
+
+xXxootHiSiStH3K3yooxXx
+~~~
+
 </details>
 
 ### Answer
@@ -1479,7 +1672,7 @@ ch16.tgz  random_generator
 <summary markdown="span">Answer</summary>
 
 ~~~
-ICONOCLASTE
+xXxootHiSiStH3K3yooxXx
 ~~~
 
 </details>
