@@ -25,14 +25,14 @@ Break encryption algorithms.
 19. [System - Android lock pattern](#system-android-lock-pattern) 🗸
 20. [Transposition - Rail Fence](#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
-22. [AES - ECB](#aes-ecb)
+22. [AES - ECB](#aes-ecb) 🗸
 23. [LFSR - Known plaintext](#lfsr-known-plaintext)
 24. [RSA - Factorisation](#rsa-factorisation) 🗸
 25. [RSA - Decipher Oracle](#rsa-decipher-pracle)
 26. [Service - Timing attack](#service-timing-attack) 🗸
 27. [Monoalphabetic substitution - Polybe](#monoalphabetic-substitution-polybe) 🗸
 28. [Twisted secret](#twisted-secret)
-29. [Initialisation Vector](#initialisation-vector)
+29. [Initialisation Vector](#initialisation-vector) 🗸
 30. [GEDEFU](#gedefu)
 31. [OTP - Implementation error](#Otp-implementation-error)
 32. [RSA - Corrupted key 1](#rsa-corrupted-key-1)
@@ -2080,6 +2080,120 @@ Frozen chicken
 
 ---
 
+## AES ECB
+
+- Author: cez40
+- Date: 29 November 2015
+- Points: 25
+- Level: 3
+
+### Statement
+
+Find the password in this file and use it to validate the challenge.
+
+### Links
+
+1. [FIPS 197 - Advanced Encryption Standard (AES)](https://repository.root-me.org/Cryptographie/Sym%C3%A9trique/EN%20-%20FIPS%20197%20-%20Advanced%20Encryption%20Standard%20(AES).pdf).
+2. [A Differential Fault Attack Technique against SPN Structures, with Application to the AES and KHAZAD](https://repository.root-me.org/Cryptographie/Sym%C3%A9trique/EN%20-%20A%20Differential%20Fault%20Attack%20Technique%20against%20SPN%20Structures,%20with%20Application%20to%20the%20AES%20and%20KHAZAD%20-%20Piret%20and%20Quisquater.pdf).
+3. [NIST Announcing the Advanced Encryption Standard AES](https://repository.root-me.org/Cryptographie/Sym%C3%A9trique/EN%20-%20NIST%20Announcing%20the%20Advanced%20Encryption%20Standard%20AES.pdf).
+4. [SANS Institute AES CBC Bit Flipping](https://repository.root-me.org/Cryptographie/EN%20-%20SANS%20Institute%20AES%20CBC%20Bit%20Flipping.pdf).
+5. [Intel Advanced Encryption Standard (AES) New Instructions Set](https://repository.root-me.org/Cryptographie/EN%20-%20Intel%20Advanced%20Encryption%20Standard%20(AES)%20New%20Instructions%20Set%20-%20Shay%20Gueron.pdf).
+
+
+### Attachments
+
+1. [ch25.zip](http://challenge01.root-me.org/cryptanalyse/ch25/ch25.zip)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be downloaded:
+
+~~~shell
+$ wget http://challenge01.root-me.org/cryptanalyse/ch25/ch25.zip
+--2022-04-11 11:25:06--  http://challenge01.root-me.org/cryptanalyse/ch25/ch25.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 257 [application/zip]
+Saving to: ‘ch25.zip’
+
+ch25.zip                                                    100%[=========================================================================================================================================>]     257  --.-KB/s    in 0s      
+
+2022-04-11 11:25:06 (30.5 MB/s) - ‘ch25.zip’ saved [257/257]
+
+$ unzip ch25.zip 
+Archive:  ch25.zip
+  inflating: mylogin.cnf             
+$ ls
+ch25.zip  mylogin.cnf
+$ file mylogin.cnf 
+mylogin.cnf: data
+$ stat mylogin.cnf 
+  File: mylogin.cnf
+  Size: 136       	Blocks: 8          IO Block: 4096   regular file
+Device: 10307h/66311d	Inode: 556719      Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/   derek)   Gid: ( 1000/   derek)
+Access: 2022-04-11 11:25:16.284042218 +0100
+Modify: 2015-04-02 17:56:56.000000000 +0100
+Change: 2022-04-11 11:25:09.792172364 +0100
+ Birth: -
+~~~
+
+A quick browse of the internet shows this is a known exploit for MySQL mylogin.cnf files encrypted using AES ECB. A generic solver can be downloaded from [github](https://gist.github.com/jedy/60d5559ae80acf6a0414e42995802fc1):
+
+~~~py
+import struct
+from Crypto.Cipher import AES
+
+LOGIN_KEY_LEN = 20
+MY_LOGIN_HEADER_LEN = 24
+MAX_CIPHER_STORE_LEN = 4
+
+f = open("mylogin.cnf", "rb")
+f.seek(4)
+b = f.read(LOGIN_KEY_LEN)
+key = [0] * 16
+for i in range(LOGIN_KEY_LEN):
+    key[i % 16] ^= b[i]
+key = struct.pack('16B', *key)
+encryptor = AES.new(key, AES.MODE_ECB)
+
+f.seek(MY_LOGIN_HEADER_LEN)
+while True:
+    b = f.read(MAX_CIPHER_STORE_LEN)
+    if len(b) < MAX_CIPHER_STORE_LEN:
+        break
+    cipher_len, = struct.unpack("<i", b)
+    b = f.read(cipher_len)
+    plain = encryptor.decrypt(b)
+    print(plain[:-plain[-1]])
+f.close()
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+mGf1du3ykb
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## RSA Factorisation
 
 - Author: HacKSpider
@@ -2467,72 +2581,43 @@ None.
 
 <summary markdown="span">Solution</summary>
 
-Downloading the ciphertext, we see a strange code:
-
-~~~
-b3a3d1 c2b1e3d4d3d1 a4e5c5b1e3c2a3d1 b3a4b4e1e3b1a3d1 e3e5 b3a4b1e1d1 b2e5b4e3d2d4 d1a3b4c3c4a3d4a1
-d1a4c4d2d3a3d1 b3a4d4d1d2d3a3b1a3d1 d1a3c4a4d4 c4a3d1 c4a4d2d1 d3a3 b3a3a1a1a3 d4e3a1e5b1a3 c1e5d2 d3a3a1b1e5d2a1
-...
-
-...
-d3d2d1b3a4b1d3e3d4a1 b3b2a4c1e5e3d4a1 b4a3b4a3 e1a4e5b1 d3a3d1 c3e3b1c3e3b1a3d1 e5d4 e1a3e5 b3d2c5d2c4d2d1a3d1
-e2b1a3b4d2a1 d2d4b3a3d1d1e3b4b4a3d4a1 e3 d1a4d4 a4b1a3d2c4c4a3
-
-e1e3d1d1 / b4a4a1 d3a3 e1e3d1d1a3 : b3e1e3e3a4e5b1c3b5e1a2e1c2e2a4
-~~~
-
-We can use an [online monoalphabetic substitution solver](https://www.dcode.fr/monoalphabetic-substitution) to find the key, but first we must simplify the substitution:
+This can be solved in Python using the Crypto library. We can generate a false IV and use this to solve for the correct IV:
 
 ~~~py
-filename = "ch12.txt"
-file = open(filename,"rt")
-text = file.read()
-file.close()
-text = text.replace(" ","")
-text = text.replace("\n","")
-text = text.replace("/","")
-text = text.replace(":","")
+from Crypto.Cipher import AES
+from Crypto import Random
+import base64 as b64
+import binascii
 
-charlist = []
+PT = "Marvin: \"I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number.\"\nZem: \"Er, five.\"\nMarvin: \"Wrong. You see?\""
+CT = b64.b64decode("cY1Y1VPXbhUqzYLIOVR0RhUXD5l+dmymBfr1vIKlyqD8KqHUUp2I3dhFXgASdGWzRhOdTj8WWFTJPK0k/GDEVUBDCk1MiB8rCmTZluVHImczlOXEwJSUEgwDHA6AbiCwyAU58e9j9QbN+HwEm1TPKHQ6JrIOpdFWoYjS+cUCZfo/85Lqi26Gj7JJxCDF8PrBp/EtHLmmTmaAVWS0ID2cJpdmNDl54N7tg5TFTrdtcIplc1tDvoCLFPEomNa5booC")
+KEY = b64.b64decode("AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRqrHB0eHyA=")
+PT_LEN = len(PT)
+BS = AES.block_size
 
-for i in range(0,len(text),2):
-    charlist.append(text[i]+text[i+1])
+def Decrypt(key, iv, ct, pt_len):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    pt = aes.decrypt(ct)[:pt_len]
+    return pt
 
-charset = set(charlist)
+# Generate random IV to decrypt with:
+test_iv = Random.new().read(BS)
 
-file = open(filename,"rt")
-text = file.read()
-file.close()
-letter = "A"
-for x in list(charset):
-    text = text.replace(x,letter)
-    num = ord(letter)+1
-    letter = chr(num)
+# Find the incorrect pt start block:
+pt_new_int = int.from_bytes(Decrypt(KEY,test_iv,CT,PT_LEN)[:BS],"big")
+test_iv_int = int.from_bytes(test_iv,"big")
 
-file = open("newfile","wt")
-file.write(text)
-file.close()
-~~~
+x = pt_new_int ^ test_iv_int
+pt_int = int.from_bytes(PT[:16].encode(),"big")
+IV = binascii.unhexlify(hex(x^pt_int)[2:])
 
-This replaces the two-letter codes with single alphabetic characters. The key is:
+# test the IV:
+CT_decrypt = Decrypt(KEY,IV,CT,PT_LEN).decode()
 
-~~~
-xuvjgcoslzqbtinfehdymrapkw
-~~~
-
-The text can be solved:
-
-~~~
-filename = "ch12.txt"
-file = open(filename,"rt")
-text = file.read()
-file.close()
-
-dic = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-key = "xuvjgcoslzqbtinfehdymrapkw"
-
-for i in range(len(dic)):
-    text = text.replace(dic[i],key[i])
+if CT_decrypt == PT:
+    print("IV found!\nIV = {}".format(IV.decode()))
+else:
+    print("Error finding IV")
 ~~~
 
 </details>
@@ -2544,7 +2629,7 @@ for i in range(len(dic)):
 <summary markdown="span">Answer</summary>
 
 ~~~
-cpaaourbxpjpgfo
+I_l0v3_Crypt0_:)
 ~~~
 
 </details>
