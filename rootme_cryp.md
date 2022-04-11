@@ -37,7 +37,7 @@ Break encryption algorithms.
 31. [OTP - Implementation error](#Otp-implementation-error)
 32. [RSA - Corrupted key 1](#rsa-corrupted-key-1)
 33. [RSA - Continued fractions](#rsa-continued-fractions)
-34. [RSA - Common modulus](#rsa-common-modulus)
+34. [RSA - Common modulus](#rsa-common-modulus) 🗸
 35. [Service - Hash length extension attack](#service-hash-length-extension-attack)
 36. [AES - 4 Rounds](#aes-4-rounds)
 37. [ECDSA - Introduction](#ecdsa-introduction)
@@ -2630,6 +2630,168 @@ else:
 
 ~~~
 I_l0v3_Crypt0_:)
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## RSA Common Modulus
+
+- Author: franb
+- Date: 24 December 2016
+- Points: 30
+- Level: 3
+
+### Statement
+
+A message was sent by a company to two of its engineers, but they were negligent in the choice of the keys of its employees. Decrypt the sent message.
+
+### Links
+
+1. [ch30.zip](http://challenge01.root-me.org/cryptanalyse/ch30/ch30.zip)
+
+### Resources
+
+1. [Bezout's Identity - Theorem of the day](https://repository.root-me.org/Cryptographie/EN%20-%20B%C3%A9zout's%20Identity%20-%20Theorem%20of%20the%20day.pdf).
+2. [Bexout's identity - Euclidean algorithm](https://repository.root-me.org/Cryptographie/EN%20-%20B%C3%A9zout's%20identity%20-%20euclidean%20algorithm.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge files can be downloaded and decompressed:
+
+~~~shell
+$ wget http://challenge01.root-me.org/cryptanalyse/ch30/ch30.zip
+--2022-04-11 11:57:26--  http://challenge01.root-me.org/cryptanalyse/ch30/ch30.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1394 (1.4K) [application/zip]
+Saving to: ‘ch30.zip’
+
+ch30.zip                                                    100%[=========================================================================================================================================>]   1.36K  --.-KB/s    in 0s      
+
+2022-04-11 11:57:26 (149 MB/s) - ‘ch30.zip’ saved [1394/1394]
+$ unzip ch30.zip 
+Archive:  ch30.zip
+  inflating: key1_pub.pem            
+  inflating: key2_pub.pem            
+  inflating: message1                
+  inflating: message2
+$ ls
+ch30.zip  key1_pub.pem  key2_pub.pem  message1  message2
+~~~
+
+We can see 2 encrypted messages and 2 public keys.  We can use openssl to view the keys:
+
+~~~shell
+$ openssl rsa -pubin -inform PEM -text -noout < key1_pub.pem 
+RSA Public-Key: (1024 bit)
+Modulus:
+    00:ad:6d:d4:00:cd:d6:8e:ec:61:d7:c5:4b:15:67:
+    e1:66:71:d7:40:1e:bb:a0:ab:e6:b3:91:57:5f:82:
+    71:ee:ea:d7:8a:de:10:d0:96:4d:01:74:dc:fd:2e:
+    54:13:dc:1a:07:5e:0e:7f:83:d1:43:bf:76:c1:c1:
+    ab:a5:a5:01:10:3e:51:8c:51:71:14:9d:00:09:eb:
+    d2:92:55:a2:f1:1d:be:56:99:bd:2f:a9:7f:ea:c9:
+    22:9c:f0:7b:1e:aa:de:70:6d:79:25:3a:b9:d9:78:
+    72:77:1e:6d:e6:51:e2:29:96:95:8f:7f:5f:42:ea:
+    0a:0d:dd:b5:06:ae:b9:e2:c3
+Exponent: 65537 (0x10001)
+$ openssl rsa -pubin -inform PEM -text -noout < key2_pub.pem 
+RSA Public-Key: (1024 bit)
+Modulus:
+    00:ad:6d:d4:00:cd:d6:8e:ec:61:d7:c5:4b:15:67:
+    e1:66:71:d7:40:1e:bb:a0:ab:e6:b3:91:57:5f:82:
+    71:ee:ea:d7:8a:de:10:d0:96:4d:01:74:dc:fd:2e:
+    54:13:dc:1a:07:5e:0e:7f:83:d1:43:bf:76:c1:c1:
+    ab:a5:a5:01:10:3e:51:8c:51:71:14:9d:00:09:eb:
+    d2:92:55:a2:f1:1d:be:56:99:bd:2f:a9:7f:ea:c9:
+    22:9c:f0:7b:1e:aa:de:70:6d:79:25:3a:b9:d9:78:
+    72:77:1e:6d:e6:51:e2:29:96:95:8f:7f:5f:42:ea:
+    0a:0d:dd:b5:06:ae:b9:e2:c3
+Exponent: 343223 (0x53cb7)
+~~~
+
+This shows the RSA keys are both 1024-bit and use the same modulus. The exponents are different.  We can find details of the RSA common modulus attack on [infosecwriteups](https://infosecwriteups.com/rsa-attacks-common-modulus-7bdb34f331a5).  This shows the test criteria to determine if the plaintext can be recovered from the common modulus keys.  We confirm this in Python:
+ 
+~~~py
+import base64 as b64
+import numpy as np
+
+n = 0x00ad6dd400cdd68eec61d7c54b1567e16671d7401ebba0abe6b391575f8271eeead78ade10d0964d0174dcfd2e5413dc1a075e0e7f83d143bf76c1c1aba5a501103e518c5171149d0009ebd29255a2f11dbe5699bd2fa97feac9229cf07b1eaade706d79253ab9d97872771e6de651e22996958f7f5f42ea0a0dddb506aeb9e2c3
+e1 = 65537
+e2 = 343223
+
+ct1 = "BzFd4riBUZdFuPCkB3LOh+5iyMImeQ/saFLVD+ca2L8VKSz0+wtTaL55RRpHBAQdl24Fb3XyVg2N9UDcx3slT+vZs7tr03W7oJZxVp3M0ihoCwer3xZNieem8WZQvQvyNP5s5gMT+K6pjB9hDFWWmHzsn7eOYxRJZTIDgxA4k2w="
+ct2 = "jmVRiKyVPy1CHiYLl8fvpsDAhz8rDa/Ug87ZUXZ//rMBKfcJ5MqZnQbyTJZwSNASnQfgel3J/xJsjlnf8LoChzhgT28qSppjMfWtQvR6mar1GA0Ya1VRHkhggX1RUFA4uzL56X5voi0wZEpJITUXubbujDXHjlAfdLC7BvL/5+w="
+
+ct1 = int.from_bytes(b64.b64decode(ct1),"big")
+ct2 = int.from_bytes(b64.b64decode(ct2),"big")
+
+if np.gcd(e1,e2) == 1 and np.gcd(ct2,n) == 1:
+    print("plaintext can be recovered!")
+else:
+    print("plaintext may not be recoverable.")
+~~~
+
+Running this test, the plaintext is proven to be recoverable.  Following the algorithm, the pt message can be recovered:
+
+~~~py
+import base64 as b64
+import numpy as np
+import binascii
+
+n = 0x00ad6dd400cdd68eec61d7c54b1567e16671d7401ebba0abe6b391575f8271eeead78ade10d0964d0174dcfd2e5413dc1a075e0e7f83d143bf76c1c1aba5a501103e518c5171149d0009ebd29255a2f11dbe5699bd2fa97feac9229cf07b1eaade706d79253ab9d97872771e6de651e22996958f7f5f42ea0a0dddb506aeb9e2c3
+e1 = 65537
+e2 = 343223
+
+ct1 = "BzFd4riBUZdFuPCkB3LOh+5iyMImeQ/saFLVD+ca2L8VKSz0+wtTaL55RRpHBAQdl24Fb3XyVg2N9UDcx3slT+vZs7tr03W7oJZxVp3M0ihoCwer3xZNieem8WZQvQvyNP5s5gMT+K6pjB9hDFWWmHzsn7eOYxRJZTIDgxA4k2w="
+ct2 = "jmVRiKyVPy1CHiYLl8fvpsDAhz8rDa/Ug87ZUXZ//rMBKfcJ5MqZnQbyTJZwSNASnQfgel3J/xJsjlnf8LoChzhgT28qSppjMfWtQvR6mar1GA0Ya1VRHkhggX1RUFA4uzL56X5voi0wZEpJITUXubbujDXHjlAfdLC7BvL/5+w="
+
+ct1 = int.from_bytes(b64.b64decode(ct1),"big")
+ct2 = int.from_bytes(b64.b64decode(ct2),"big")
+
+if np.gcd(e1,e2) == 1 and np.gcd(ct2,n) == 1:
+    print("plaintext can be recovered!")
+else:
+    print("plaintext may not be recoverable.")
+
+s1 = pow(e1,-1,e2)
+s2 = int((np.gcd(e1,e2)-e1*s1)/e2)
+tmp = pow(ct2,-1,n)
+m1 = pow(ct1,s1,n)
+m2 = pow(tmp,-s2,n)
+pt = binascii.unhexlify(hex((m1*m2)%n)[2:]).decode()
+
+print("Plaintext message:\n{}".format(pt))
+~~~
+
+This returns:
+
+~~~
+Plaintext message:
+Yeah man, you got the message. The flag is W311D0n3! and this is a padding to have a long text, else it will be easy to decrypt.
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+W311D0n3!
 ~~~
 
 </details>
