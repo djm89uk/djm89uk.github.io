@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [19/56]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [19/60]
 
 Break encryption algorithms.
 
@@ -44,22 +44,26 @@ Break encryption algorithms.
 38. [RSA - Padding](#rsa-padding)
 39. [RSA - Signature](#rsa-signature)
 40. [AES128 - CTR](#aes128-ctr)
-41. [Discrete logarithm problem](#discrete-logarithm-problem)
-42. [RSA - Corrupted key 2](#rsa-corrupted-key-2)
-43. [RSA - Corrupted key 3](#rsa-corrupted-key-3)
-44. [RSA - Multiple recipients](#rsa-multiple-recipients)
-45. [AES - Fault attack #1](#aes-fault-attack-1)
-46. [Enigma Machine](#enigma-machine)
-47. [ECDHE](#ecdhe)
-48. [RSA - Lee cooper](#rsa-lee-cooper)
-49. [Service - CBC Padding](#service-cbc-padding)
-50. [Polyalphabetic substitution - One Time Pad](#polyalphabetic-substitution-One-time-pad)
-51. [White-Box Cryptography](#white-box-cryptography)
-52. [AES - Weaker variant](#aes-weaker-variant)
-53. [Hash - SHA-3](#hash-sha-3)
-54. [AES - Fault attack #2](#aes-fault-attack-2)
-55. [AES-PMAC](#aes-pmac)
-56. [ECDSA - Implementation error](#ecdsa-implementation-error)
+41. [PHP - mt_rand](#php-mt-rand)
+42. [Discrete logarithm problem](#discrete-logarithm-problem)
+43. [RSA - Corrupted key 2](#rsa-corrupted-key-2)
+44. [RSA - Corrupted key 3](#rsa-corrupted-key-3)
+45. [RSA - Multiple recipients](#rsa-multiple-recipients)
+46. [AES - Fault attack #1](#aes-fault-attack-1)
+47. [FEAL - Differential Cryptanalysis](#feal-differential-cryptanalysis)
+48. [Enigma Machine](#enigma-machine)
+49. [Side Channel - AES : CPA](#side-channel-aes-cpa)
+50. [ECDHE](#ecdhe)
+51. [RSA - Lee cooper](#rsa-lee-cooper)
+52. [Service - CBC Padding](#service-cbc-padding)
+53. [Side Channel - AES: first round](#side-channel-aes-first-round)
+54. [Polyalphabetic substitution - One Time Pad](#polyalphabetic-substitution-One-time-pad)
+55. [White-Box Cryptography](#white-box-cryptography)
+56. [AES - Weaker variant](#aes-weaker-variant)
+57. [Hash - SHA-3](#hash-sha-3)
+58. [AES - Fault attack #2](#aes-fault-attack-2)
+59. [AES-PMAC](#aes-pmac)
+60. [ECDSA - Implementation error](#ecdsa-implementation-error)
 
 
 ---
