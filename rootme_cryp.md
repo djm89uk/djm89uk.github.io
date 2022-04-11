@@ -2084,6 +2084,140 @@ Frozen chicken
 
 ---
 
+## AES CBC Bit Flipping Attack
+
+- Author: Tie21
+- Date: 17 June 2018
+- Points: 25
+- Level: 3
+
+### Statement
+
+An elite hacker team is sharing tools.
+Some of the tools seems interesting but you need to join their team to access them.
+
+### Challenge Connection Information
+
+- Host: 	challenge01.root-me.org
+- Protocol: TCP
+- Port: 51034
+
+### Resources
+
+1. [SANS Institute AES CBC Bit Flipping](https://repository.root-me.org/Cryptographie/EN%20-%20SANS%20Institute%20AES%20CBC%20Bit%20Flipping.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We can connect to the challenge server and create a new user.  
+
+~~~shell
+$ nc challenge01.root-me.org 51035
+
+_ _   _   ____       _    _____
+| | | | | / __ \  ___| | _|___ / _ __ ____
+| | |_| |/ / _` |/ __| |/ / |_ \| '__|_  /
+|_|  _  | | (_| | (__|   < ___) | |   / /
+(_)_| |_|\ \__,_|\___|_|\_\____/|_|  /___|
+          \____/
+__        _______   ____         ___            _
+\ \      / /___ /  / __ \ _ __  / _ \ _ __  ___| |
+ \ \ /\ / /  |_ \ / / _` | '_ \| | | | '_ \|_  / |
+  \ V  V /  ___) | | (_| | |_) | |_| | | | |/ /|_|
+   \_/\_/  |____/ \ \__,_| .__/ \___/|_| |_/___(_)
+                   \____/|_| 
+*************************************************************************************************
+* Welcome on our private repo of extraodinary powerfull exploits and incredible databases
+* You need an account to see our exploits 
+*************************************************************************************************
+1) Account Creation
+2) Login
+3) Leave
+>>1
+[?] Name : test
+[?] Mail address (To receive alert when new exploits are published) :   test@test.com
+[*] Let's generate the authentification token....
+1)--> First, a plaintext token is generated :
+|	b'[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]'
+2)--> Second, the token is encrypted with military grade encryption (AES CBC)
+|	AES_CBC(<Secret_key>,<IV>,b'[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]')
+|	Your token is : 'IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wb2Ya1u0Gmy7ECxVE/LRGCnATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA=='
+|	Save it to be able to login later...
+1) Account Creation
+2) Login
+3) Leave
+~~~
+ 
+We are provided with the user details and an authentication token that is an encrypted version of the user token:
+
+~~~
+1)--> First, a plaintext token is generated :
+|	b'[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]'
+2)--> Second, the token is encrypted with military grade encryption (AES CBC)
+|	AES_CBC(<Secret_key>,<IV>,b'[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]')
+|	Your token is : 'IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wb2Ya1u0Gmy7ECxVE/LRGCnATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA=='
+~~~
+
+We can use python to identify a
+
+~~~py
+import base64 as b64 
+import binascii
+from Crypto.Cipher import AES
+
+PT = "[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]"
+AT = "IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wb2Ya1u0Gmy7ECxVE/LRGCnATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA=="
+CT = b64.b64decode(AT)
+BS = AES.block_size
+
+PT2 = "[id=546815648;name=tests;is_member=true;mail=test@test.com;pad=]"
+CT2 = []
+for i in range(len(CT)):
+  CT2.append(hex(CT[i]^ord(PT[i])^ord(PT2[i]))[2:])
+  if len(CT2[i]) == 1:
+      CT2[i] = "0"+CT2[i]
+
+CT2 = b64.b64encode(binascii.unhexlify("".join(CT2))).decode()
+
+print("New Authentication Token generated:\n{}".format(CT2))
+~~~
+
+This provides a new authentication token with membership credentials.
+
+~~~
+New Authentication Token generated:
+IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wa+M7dC4mG640emGxTeWmanATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA==
+~~~
+
+We can use this to logon to the challenge server and retrieve the flag:
+
+~~~
+
+~~~
+ 
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Frozen chicken
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+ 
 ## AES ECB
 
 - Author: cez40
