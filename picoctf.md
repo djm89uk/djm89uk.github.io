@@ -82,6 +82,10 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
+<details>
+
+<summary markdown="span">Challenges</summary>
+
 - [The Numbers (2019)](./picogym_c.md#the-numbers) ✓
 - [caesar (2019)](./picogym_c.md#caesar) ✓
 - [Easy1 (2019)](./picogym_c.md#easy1) ✓
@@ -133,15 +137,21 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [Sum-O-Primes (2022)](./picogym_c.md#sum-o-primes)
 - [NSA Backdoor (2022)](./picogym_c.md#nsa-backdoor)
 
+</details>
+
 ---
 
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
 
-## [PicoGym Reverse Engineering](./picogym_re.md) (35/43)
+## [PicoGym Reverse Engineering](./picogym_re.md) (46/55)
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
+
+<details>
+
+<summary markdown="span">Challenges</summary>
 
 - [vault-door-training (2019)](./picogym_re.md#vault-door-training) ✓
 - [vault-door-1 (2019)](./picogym_re.md#vault-door-1) ✓
@@ -166,7 +176,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Forky (2019)](./picogym_re.md#forky) ✓
 - [OTP Implementation (2020)](./picogym_re.md#otp-implementation) ✓
 - [Transformation (2021)](./picogym_re.md#transformation) ✓
-- [Keygenme-py (2021)](./picogym_re.md#keygneme-py) ✓
+- [Keygenme-py (2021)](./picogym_re.md#keygenme-py) ✓
 - [crackme-py (2021)](./picogym_re.md#crackme-py) ✓
 - [ARMssembly 0 (2021)](./picogym_re.md#armssembly-0) ✓
 - [speeds and feeds (2021)](./picogym_re.md#speeds-and-feeds) ✓
@@ -186,6 +196,20 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [breadth (2021)](./picogym_re.md#breadth)
 - [riscy business (2021)](./picogym_re.md#riscy-business)
 - [MATRIX (2021)](./picogym_re.md#matrix)
+- [file-run1 (2022)](./picogym_re.md#file-run1) ✓
+- [file-run2 (2022)](./picogym_re.md#file-run2) ✓
+- [GDB Test Drive (2022)](./picogym_re.md#gdb-test-drive) ✓
+- [patchme.py (2022)](./picogym_re.md#patchme-py) ✓
+- [Safe Opener (2022)](./picogym_re.md#safe-opener) ✓
+- [unpackme.py (2022)](./picogym_re.md#unpackme-py) ✓
+- [bloat.py (2022)](./picogym_re.md#bloat-py) ✓
+- [Fresh Java (2022)](./picogym_re.md#fresh-java) ✓
+- [Bbbbloat (2022)](./picogym_re.md#bbbbloat) ✓
+- [unpackme (2022)](./picogym_re.md#unpackme) ✓
+- [Keygenme (2022)](./picogym_re.md#keygenme)
+- [Wizardlike (2022)](./picogym_re.md#wizardlike) ✓
+
+</details>
 
 ---
 
@@ -197,6 +221,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
+<details>
+
+<summary markdown="span">Challenges</summary>
+ 
 - [Glory of the Garden (2019)](./picogym_f.md#glory-of-the-garden) ✓
 - [So Meta (2019)](./picogym_f.md#so-meta) ✓
 - [extensions (2019)](./picogym_f.md#extensions) ✓
@@ -235,6 +263,8 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Scrambled-bytes (2021)](./picogym_f.md#scrambled-bytes) ✓
 - [WPA-ing Out](./picogym_f.md#wpa-ing-out) ✓
 
+</details>
+
 ---
 
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -242,6 +272,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ---
 ## [PicoGym General Skills](./picogym_gs.md) (19/19)
 
+<details>
+
+<summary markdown="span">Challenges</summary>
+ 
 - [2Warm (2019)](./picogym_gs#two-warm) ✓
 - [Warmed Up (2019)](./picogym_gs#warmed-up) ✓
 - [Lets Warm Up (2019)](./picogym_gs#lets-warm-up) ✓
@@ -262,6 +296,8 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Tab Tab Attack (2021)](./picogym_gs#tab-tab-attack) ✓
 - [Magikarp Ground Mission (2021)](./picogym_gs#magikarp-ground-mission) ✓
 
+</details>
+
 ---
 
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
@@ -271,6 +307,10 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ## [PicoGym Binary Exploitation](./picogym_be.md) (3/22)
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
+
+<details>
+
+<summary markdown="span">Challenges</summary>
 
 - [seed-sPRiNG (2019)](./picogym_be.md#seed-spring)
 - [sice_cream (2019)](./picogym_be.md#sice-cream)
@@ -294,6 +334,8 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [homework (2021)](./picogym_be.md#homework)
 - [lockdown-horses (2021)](./picogym_be.md#lockdown-horses)
 - [vr-school (2021)](./picogym_be.md#vr-school)
+
+</details>
 
 ---
 
