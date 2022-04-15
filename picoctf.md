@@ -72,7 +72,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ---
 
-## [PicoGym Cryptography](./picogym_c.md) (33/36)
+## [PicoGym Cryptography](./picogym_c.md) (43/50)
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -91,7 +91,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [AES-ABC (2019)](./picogym_c.md#aes-abc) ✓
 - [b00tl3gRSA3 (2019)](./picogym_c.md#b00tl3grsa3) ✓
 - [john_pollard (2019)](./picogym_c.md#john-pollard) ✓
-- [Mod 26 (2021)](./picogym_c.md#mod26) ✓
+- [Mod 26 (2021)](./picogym_c.md#mod-26) ✓
 - [Mind your Ps and Qs (2021)](./picogym_c.md#mind-your-ps-and-qs) ✓
 - [Easy Peasy (2021)](./picogym_c.md#easy-peasy) ✓
 - [New Caesar (2021)](./picogym_c.md#new-caesar) ✓
@@ -112,6 +112,20 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team) ✓
 - [Corrupt-key-1 (2021)](./picogym_c.md#corrupt-key-1)
 - [Corrupt-key-2 (2021)](./picogym_c.md#corrupt-key-2)
+- [basic-mod1 (2022)](./picogym_c.md#basic-mod1) ✓
+- [basic-mod2 (2022)](./picogym_c.md#basic-mod2) ✓
+- [credstuff (2022)](./picogym_c.md#credstuff) ✓
+- [morse-code (2022)](./picogym_c.md#morse-code) ✓
+- [rail-fence (2022)](./picogym_c.md#rail-fence) ✓
+- [substitution0 (2022)](./picogym_c.md#substitution0) ✓
+- [substitution1 (2022)](./picogym_c.md#substitution1) ✓
+- [substitution2 (2022)](./picogym_c.md#substitution2) ✓
+- [transposition-trial (2022)](./picogym_c.md#transposition-trial) ✓
+- [Vigenere (2022)](./picogym_c.md#vigenere) ✓
+- [Very Smooth (2022)](./picogym_c.md#very-smooth)
+- [Sequences (2022)](./picogym_c.md#sequences)
+- [Sum-O-Primes (2022)](./picogym_c.md#sum-o-primes)
+- [NSA Backdoor (2022)](./picogym_c.md#nsa-backdoor)
 
 ---
 
