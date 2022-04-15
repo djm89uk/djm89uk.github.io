@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [47/55]
+# [PicoCTF](./picoctf.md) PicoGym Reverse Engineering [48/55]
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
@@ -38,7 +38,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [gogo (2021)](#gogo) ✓
 - [ARMssembly 3 (2021)](#armssembly-3) ✓
 - [Let's get dynamic (2021)](#lets-get-dynamic) ✓
-- [Easy as GDB (2021)](#easy-as-gdb)
+- [Easy as GDB (2021)](#easy-as-gdb) ✓
 - [ARMssembly 4 (2021)](#armssembly-4) ✓
 - [Powershelly (2021)](#powershelly)
 - [Rolling My Own (2021)](#rolling-my-own)
@@ -7458,77 +7458,85 @@ if (FUN_000108c4(input,sVar2):
 	print("Correct")
 ~~~
 
-Working our way through, we can inspect FUN_0001082b:
-
-~~~c
-char * FUN_0001082b(char *param_1,uint param_2)
-
-{
-  uint __n;
-  char *__dest;
-  uint local_1c;
-
-  __n = (param_2 & 0xfffffffc) + 4;
-  __dest = (char *)malloc((param_2 & 0xfffffffc) + 5);
-  strncpy(__dest,param_1,__n);
-  for (local_1c = 0xabcf00d; local_1c < 0xdeadbeef; local_1c = local_1c + 0x1fab4d) {
-    FUN_000106bd((int)__dest,__n,local_1c);
-  }
-  return __dest;
-}
-~~~
-						   
-Again, rewriting in python:
-						  
-~~~py
-def fn_1082b(str1,int1):
-  n = (int1 & 0xfffffffc) + 4
-  dest = str1[:n]
-  for i in range(0xabcf00d,0xdeadbeef,0x1fab4d):
-    fn_106bd(int(dest),n,i)
-  return dest
-~~~
-
-The next function can be decompiled:
-
-~~~c
-void FUN_000106bd(int param_1,uint param_2,undefined4 param_3)
-
-{
-  int in_GS_OFFSET;
-  uint local_18;
-  byte local_14 [4];
-  int local_10;
-  
-  local_10 = *(int *)(in_GS_OFFSET + 0x14);
-  local_14[0] = (byte)((uint)param_3 >> 0x18);
-  local_14[1] = (char)((uint)param_3 >> 0x10);
-  local_14[2] = (char)((uint)param_3 >> 8);
-  local_14[3] = (char)param_3;
-  for (local_18 = 0; local_18 < param_2; local_18 = local_18 + 1) {
-    *(byte *)(local_18 + param_1) = *(byte *)(local_18 + param_1) ^ local_14[local_18 & 3];
-  }
-  if (local_10 != *(int *)(in_GS_OFFSET + 0x14)) {
-    FUN_00010b20();
-  }
-  return;
-}
-~~~
-
-And rewritten in python:
+Using Python in gdb, a solver can be used to find the flag:
 
 ~~~py
-def fn_106bd(input1, int2, int3):
-  x = []
-  x.append(int3 >> 0x18)
-  x.append(int3 >> 0x10)
-  x.append(int3 >> 8
-  x.append(int3)
-  for i in range(int2):
-     input1[i] = input1[i]^x[i&3]
-  return input
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr 15 15:49:25 2022
+
+@author: derek
+"""
+
+import gdb
+import string
+from queue import Queue, Empty
+
+
+MAX_FLAG_LEN = 31
+
+class Checkpoint(gdb.Breakpoint):
+    def __init__(self, queue, target_hitcount, *args):
+        super().__init__(*args)
+        self.silent = True
+        self.queue = queue
+        self.target_hitcount = target_hitcount
+        self.hit = 0
+
+    def stop(self):
+        res = []
+        self.hit += 1
+        #print(f"\nhit {self.hit}/{self.target_hitcount}")
+        if self.hit == self.target_hitcount:
+            al = gdb.parse_and_eval("$al")
+            dl = gdb.parse_and_eval("$dl")
+            self.queue.put(al == dl)
+        return False
+
+class Solvepoint(gdb.Breakpoint):
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.silent = True
+        self.hit = 0
+
+    def stop(self):
+        #gdb.execute("q")
+        self.hit += 1
+        return False
+
+
+gdb.execute("set disable-randomization on")
+gdb.execute("delete")
+sp = Solvepoint("*0x56555a71")
+queue = Queue()
+
+
+flag = "picoCTF{"
+ALPHABET = string.ascii_letters + string.digits + "{}_"
+
+for i in range(len(flag), MAX_FLAG_LEN):
+    for c in ALPHABET:
+        bp = Checkpoint(queue, len(flag) + 1, '*0x5655598e')
+        gdb.execute("run <<< {}{}".format(flag, c))
+        try:
+            result = queue.get(timeout = 1)
+            bp.delete()
+            if result:
+                flag += c
+                print("\n\n{}\n\n".format(flag))
+                break
+        except Empty:
+            print("Error: Empty queue!")
+            gdb.execute("q")
+
+    if sp.hit > 0:
+        print("Found flag: {}".format(flag))
+        gdb.execute("q")
 ~~~
-			 
+
+This provides the flag.
+
 </details>
 
 ### Answer
@@ -7538,7 +7546,7 @@ def fn_106bd(input1, int2, int3):
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{I_5D3_A11DA7_358a9150}
 ~~~
 
 </details>
