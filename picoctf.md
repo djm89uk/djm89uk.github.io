@@ -16,7 +16,7 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 
 ---
 
-## [PicoGym Web Exploitation](./picogym_we.md) (30/33)
+## [PicoGym Web Exploitation](./picogym_we.md) (40/45)
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
@@ -45,7 +45,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Most Cookies (2021)](./picogym_we.md#most-cookies) ✓
 - [Some Assembly Required 3 (2021)](./picogym_we.md#some-assembly-required-3) ✓
 - [Web Gauntlet 2 (2021)](./picogym_we.md#web-gauntlet-2) ✓
-- [Some Assembly Required 4 (2021)](./picogym_we.md#some-assembly-required-4)
+- [Some Assembly Required 4 (2021)](./picogym_we.md#some-assembly-required-4) ✓
 - [X marks the spot (2021)](./picogym_we.md#x-marks-the-spot) ✓
 - [Web Gauntlet 3 (2021)](./picogym_we.md#web-gauntlet-3) ✓
 - [Bithug (2021)](./picogym_we.md#bithug)
@@ -53,6 +53,18 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [caas (2021)](./picogym_we.md#caas) ✓
 - [notepad (2021)](./picogym_we.md#notepad)
 - [JAuth (2021)](./picogym_we.md#jauth)
+- [Includes (2022)](./picogym_we.md#includes) ✓
+- [Inspect HTML (2022)](./picogym_we.md#inspect-html) ✓
+- [Local Authority (2022)](./picogym_we.md#local-authority) ✓
+- [Search Source (2022)](./picogym_we.md#search-source) ✓
+- [Forbidden Paths (2022)](./picogym_we.md#forbidden-paths) ✓
+- [Power Cookie (2022)](./picogym_we.md#power-cookie) ✓
+- [Roboto Sans (2022)](./picogym_we.md#roboto-sans) ✓
+- [Secrets (2022)](./picogym_we.md#secrets) ✓
+- [SQL Direct (2022)](./picogym_we.md#sql-direct) ✓
+- [SQLiLite (2022)](./picogym_we.md#sqlilite) ✓
+- [Live Art (2022)](./picogym_we.md#live-art)
+- [Noted (2022)](./picogym_we.md#noted)
 
 ---
 
