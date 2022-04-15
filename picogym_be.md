@@ -3116,7 +3116,7 @@ picoCTF{b1663r_15_b3773r_11c407bc}
 
 ---
 
-## buffer overlflow 2
+## buffer overflow 2
 
 - Author: Sanjay C / Palash Oswal
 - 300 Points
