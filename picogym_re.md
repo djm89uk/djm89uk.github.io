@@ -9465,7 +9465,7 @@ The comparison shows the favourite number is 0xb83cb = 754635.  We can use this 
 
 ~~~shell
 $ ./unpackme-upx 
-What's my favorite number? 754635
+Whats my favorite number? 754635
 picoCTF{up><_m3_f7w_77ad107e}
 ~~~
 
@@ -9616,6 +9616,20 @@ Converting to ascii, this is "{FTCocip".  Following this discovery, the local va
 
 Reversing these strings, we get the first part of the flag.
 
+The program can be decompiled in Ghidra.  We find multiple calls to the strlen() function before and after the flag is generated.  Using gdb, we can add breakpoints at these locations:
+	  
+~~~
+(gdb) b strlen
+Breakpoint 5 at gnu-indirect-function resolver at 0x7ffff7b3b660
+~~~
+
+Executing the programme, we can find the flag at address 0x7fffffffd620 and print with the function:
+
+~~~
+(gdb) x/s 0x7fffffffd620
+0x7fffffffd620:	"picoCTF{br1ng_y0ur_0wn_k3y_19836cd8}\377\177"
+~~~
+
 </details>
 
 ### Answer
@@ -9625,7 +9639,7 @@ Reversing these strings, we get the first part of the flag.
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{br1ng_y0ur_0wn_k3y_}
+picoCTF{br1ng_y0ur_0wn_k3y_19836cd8}
 ~~~
 
 </details>
