@@ -20,6 +20,10 @@ picoCTF hold periodic CTF events and provide a practice CTF environment called p
 
 Web Exploitation entails the manipulation of websites and web hosted services using vulnerabilities in the interactive elements of a website.
 
+<details>
+
+<summary markdown="span">Challenges</summary>
+
 - [Insp3ct0r (2019)](./picogym_we.md#insp3ct0r) ✓
 - [logon (2019)](./picogym_we.md#logon) ✓
 - [where are the robots (2019)](./picogym_we.md#where-are-the-robots) ✓
@@ -66,6 +70,8 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 - [Live Art (2022)](./picogym_we.md#live-art)
 - [Noted (2022)](./picogym_we.md#noted)
 
+</details>
+ 
 ---
 
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
