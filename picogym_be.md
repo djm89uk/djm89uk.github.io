@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [4/22]
+# [PicoCTF](./picoctf.md) Binary Exploitation [5/33]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -27,7 +27,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [lockdown-horses (2021)](#lockdown-horses)
 - [vr-school (2021)](#vr-school)
 - [buffer overflow 1 (2022)](#buffer-overflow-1)
-- [RPS (2022)](#rps)
+- [RPS (2022)](#rps) 🗸
 - [x-sixty-what (2022)](#x-sixty-what)
 - [buffer overflow 2 (2022)](#buffer-overflow-2)
 - [buffer overflow 3 (2022)](#buffer-overflow-3)
@@ -2361,6 +2361,297 @@ A google search for the CVE provides the details: CVE-2021-34527
 
 ~~~
 picoCTF{CVE-2021-34527}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+	
+## RPS
+
+- Author: Will Hong
+- 200 Points
+
+### Description
+
+Here's a program that plays rock, paper, scissors against you. I hear something good happens if you win 5 times in a row. Connect to the program with netcat: 
+	
+~~~shell
+$ nc saturn.picoctf.net 51420
+~~~
+
+The program's source code with the flag redacted can be downloaded [here](https://artifacts.picoctf.net/c/442/game-redacted.c).
+
+### Hints
+
+1. How does the program check if you won?
+
+### Attachments
+
+1. [game-redacted.c](https://artifacts.picoctf.net/c/442/game-redacted.c)
+	
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Reviewing the source code we can see the program is a rock-paper-scissors game:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <sys/types.h>
+
+
+#define WAIT 60
+
+
+
+static const char* flag = "[REDACTED]";
+
+char* hands[3] = {"rock", "paper", "scissors"};
+char* loses[3] = {"paper", "scissors", "rock"};
+int wins = 0;
+
+
+
+int tgetinput(char *input, unsigned int l)
+{
+    fd_set          input_set;
+    struct timeval  timeout;
+    int             ready_for_reading = 0;
+    int             read_bytes = 0;
+    
+    if( l <= 0 )
+    {
+      printf("'l' for tgetinput must be greater than 0\n");
+      return -2;
+    }
+    
+    
+    /* Empty the FD Set */
+    FD_ZERO(&input_set );
+    /* Listen to the input descriptor */
+    FD_SET(STDIN_FILENO, &input_set);
+
+    /* Waiting for some seconds */
+    timeout.tv_sec = WAIT;    // WAIT seconds
+    timeout.tv_usec = 0;    // 0 milliseconds
+
+    /* Listening for input stream for any activity */
+    ready_for_reading = select(1, &input_set, NULL, NULL, &timeout);
+    /* Here, first parameter is number of FDs in the set, 
+     * second is our FD set for reading,
+     * third is the FD set in which any write activity needs to updated,
+     * which is not required in this case. 
+     * Fourth is timeout
+     */
+
+    if (ready_for_reading == -1) {
+        /* Some error has occured in input */
+        printf("Unable to read your input\n");
+        return -1;
+    } 
+
+    if (ready_for_reading) {
+        read_bytes = read(0, input, l-1);
+        if(input[read_bytes-1]=='\n'){
+        --read_bytes;
+        input[read_bytes]='\0';
+        }
+        if(read_bytes==0){
+            printf("No data given.\n");
+            return -4;
+        } else {
+            return 0;
+        }
+    } else {
+        printf("Timed out waiting for user input. Press Ctrl-C to disconnect\n");
+        return -3;
+    }
+
+    return 0;
+}
+
+
+bool play () {
+  char player_turn[100];
+  srand(time(0));
+  int r;
+
+  printf("Please make your selection (rock/paper/scissors):\n");
+  r = tgetinput(player_turn, 100);
+  // Timeout on user input
+  if(r == -3)
+  {
+    printf("Goodbye!\n");
+    exit(0);
+  }
+
+  int computer_turn = rand() % 3;
+  printf("You played: %s\n", player_turn);
+  printf("The computer played: %s\n", hands[computer_turn]);
+
+  if (strstr(player_turn, loses[computer_turn])) {
+    puts("You win! Play again?");
+    return true;
+  } else {
+    puts("Seems like you didn't win this time. Play again?");
+    return false;
+  }
+}
+
+
+int main () {
+  char input[3] = {'\0'};
+  int command;
+  int r;
+
+  puts("Welcome challenger to the game of Rock, Paper, Scissors");
+  puts("For anyone that beats me 5 times in a row, I will offer up a flag I found");
+  puts("Are you ready?");
+  
+  while (true) {
+    puts("Type '1' to play a game");
+    puts("Type '2' to exit the program");
+    r = tgetinput(input, 3);
+    // Timeout on user input
+    if(r == -3)
+    {
+      printf("Goodbye!\n");
+      exit(0);
+    }
+    
+    if ((command = strtol(input, NULL, 10)) == 0) {
+      puts("Please put in a valid number");
+      
+    } else if (command == 1) {
+      printf("\n\n");
+      if (play()) {
+        wins++;
+      } else {
+        wins = 0;
+      }
+
+      if (wins >= 5) {
+        puts("Congrats, here's the flag!");
+        puts(flag);
+      }
+    } else if (command == 2) {
+      return 0;
+    } else {
+      puts("Please type either 1 or 2");
+    }
+  }
+
+  return 0;
+}
+~~~
+
+The program checks if the user has entered a winning guess by looking for a winning string in the user input:
+
+~~~c
+  if (strstr(player_turn, loses[computer_turn])) {
+    puts("You win! Play again?");
+    return true;
+~~~
+	
+This returns true is the winning string is found in the user input.  We can simply enter all inputs ("rockpaperscissors") to "win" each round:
+
+~~~shell
+$ nc saturn.picoctf.net 51420
+Welcome challenger to the game of Rock, Paper, Scissors
+For anyone that beats me 5 times in a row, I will offer up a flag I found
+Are you ready?
+Type '1' to play a game
+Type '2' to exit the program
+1
+1
+
+
+Please make your selection (rock/paper/scissors):
+rockpaperscissors
+rockpaperscissors
+You played: rockpaperscissors
+The computer played: scissors
+You win! Play again?
+Type '1' to play a game
+Type '2' to exit the program
+1
+1
+
+
+Please make your selection (rock/paper/scissors):
+rockpaperscissors
+rockpaperscissors
+You played: rockpaperscissors
+The computer played: rock
+You win! Play again?
+Type '1' to play a game
+Type '2' to exit the program
+1
+1
+
+
+Please make your selection (rock/paper/scissors):
+rockpaperscissors
+rockpaperscissors
+You played: rockpaperscissors
+The computer played: rock
+You win! Play again?
+Type '1' to play a game
+Type '2' to exit the program
+1
+1
+
+
+Please make your selection (rock/paper/scissors):
+rockpaperscissors
+rockpaperscissors
+You played: rockpaperscissors
+The computer played: scissors
+You win! Play again?
+Type '1' to play a game
+Type '2' to exit the program
+1
+1
+
+
+Please make your selection (rock/paper/scissors):
+rockpaperscissors
+rockpaperscissors
+You played: rockpaperscissors
+The computer played: paper
+You win! Play again?
+Congrats, here's the flag!
+picoCTF{50M3_3X7R3M3_1UCK_58F0F41B}
+Type '1' to play a game
+Type '2' to exit the program
+2
+2
+exit
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{50M3_3X7R3M3_1UCK_58F0F41B}
 ~~~
 
 </details>
