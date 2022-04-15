@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [11/37]
+# [PicoCTF](./picoctf.md) Binary Exploitation [13/37]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
