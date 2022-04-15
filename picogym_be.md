@@ -730,16 +730,29 @@ picoCTF{r0p_y0u_l1k3_4_hurr1c4n3_b30e66e722f3f0d0}
 
 ---
 
-## guessing game 2
+## Guessing Game 2
 
-- Author:
--  Points
+- Author: madStacks
+- 300 Points
 
 ### Description
 
+It's the Return of your favorite game! [vuln](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/vuln) [vuln.c](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/vuln.c) [Makefile](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/Makefile)
+
+~~~
+nc jupiter.challenges.picoctf.org 13610
+~~~
+
 ### Hints
 
+1. No longer a static binary, but maybe this will help https://libc.blukat.me/
+2. Check out the other differences in the Makefile as well.
+
 ### Attachments
+
+1. [vuln](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/vuln)
+2. [vuln.c](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/vuln.c)
+3. [Makefile](https://jupiter.challenges.picoctf.org/static/f1053300ea851bb84f5e7b781efe59ac/Makefile)
 
 ### Solutions
 
@@ -747,7 +760,17 @@ picoCTF{r0p_y0u_l1k3_4_hurr1c4n3_b30e66e722f3f0d0}
 
 <summary markdown="span">Solution 1</summary>
 
-solution details
+Reviewing the Makefile we find:
+
+~~~
+all:
+	gcc -m32 -no-pie -Wl,-z,relro,-z,now -o vuln vuln.c
+
+clean:
+	rm vuln
+~~~
+
+We can make more sense of this, the binary is compiled with GCC (gcc) for 32 bit architecture (-m32) with Relocation Read Only (relro).
 
 </details>
 
