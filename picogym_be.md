@@ -26,6 +26,17 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [homework (2021)](#homework)
 - [lockdown-horses (2021)](#lockdown-horses)
 - [vr-school (2021)](#vr-school)
+- [buffer overflow 1 (2022)](#buffer-overflow-1)
+- [RPS (2022)](#rps)
+- [x-sixty-what (2022)](#x-sixty-what)
+- [buffer overflow 2 (2022)](#buffer-overflow-2)
+- [buffer overflow 3 (2022)](#buffer-overflow-3)
+- [flag leak (2022)](#flag-leak)
+- [ropfu (2022)](#ropfu)
+- [wine (2022)](#wine)
+- [function overwrite (2022)](#function-overwrite)
+- [stack cache (2022)](#stack-cache)
+- [solfire (2022)](#solfire)
 
 ---
 
