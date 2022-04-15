@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) Binary Exploitation [8/33]
+# [PicoCTF](./picoctf.md) Binary Exploitation [11/37]
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -7,6 +7,7 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [seed-sPRiNG (2019)](#seed-spring) 🗸
 - [sice_cream (2019)](#sice-cream)
 - [zero_to_hero (2019)](#zero-to-hero)
+- [messy-malloc (2019)](#messy-malloc)
 - [Guessing Game 1 (2020)](#guessing-game-1) 🗸
 - [Guessing Game 2 (2020)](#guessing-game-2)
 - [Stonks (2021)](#stonks) 🗸
@@ -26,6 +27,9 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [homework (2021)](#homework)
 - [lockdown-horses (2021)](#lockdown-horses)
 - [vr-school (2021)](#vr-school)
+- [basic-file-exploit (2022)](#basic-file-exploit) 🗸
+- [buffer overflow 0 (2022)](#buffer-overflow-0) 🗸
+- [CVE-XXXX-XXXX (2022)](#cve-xxxx-xxxx) 🗸
 - [buffer overflow 1 (2022)](#buffer-overflow-1) 🗸
 - [RPS (2022)](#rps) 🗸
 - [x-sixty-what (2022)](#x-sixty-what) 🗸
