@@ -2006,7 +2006,7 @@ picoCTF{}
 
 ---
 
-## basic file explot
+## basic file exploit
 
 - Author: Will Hong
 - 100 Points
