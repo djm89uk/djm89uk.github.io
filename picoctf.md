@@ -217,7 +217,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-## [PicoGym Forensics](./picogym_f.md) (37/37)
+## [PicoGym Forensics](./picogym_f.md) (50/50)
 
 "Forensics" challenges can include file format analysis, steganography, memory dump analysis, or network packet capture analysis.
 
@@ -262,6 +262,19 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 - [Advanced-potion-making (2021)](./picogym_f.md#advanced-potion-making) ✓
 - [Scrambled-bytes (2021)](./picogym_f.md#scrambled-bytes) ✓
 - [WPA-ing Out](./picogym_f.md#wpa-ing-out) ✓
+- [Enhance! (2022)](./picogym_f.md#enhance) ✓
+- [File Types (2022)](./picogym_f.md#file-types) ✓
+- [Lookey Here (2022)](./picogym_f.md#lookey-here) ✓
+- [Packets Primer (2022)](./picogym_f.md#packets-primer) ✓
+- [Redaction Gone Wrong  (2022)](./picogym_f.md#redaction-gone-wrong) ✓
+- [Sleuthkit Intro (2022)](./picogym_f.md#sleuthkit-intro) ✓
+- [Sleuthkit Apprentice (2022)](./picogym_f.md#sleuthkit-apprentice) ✓
+- [Eavesdrop (2022)](./picogym_f.md#eavesdrop) ✓
+- [Operation Oni (2022)](./picogym_f.md#operation-oni) ✓
+- [St3g0 (2022)](./picogym_f.md#st3g0) ✓
+- [Operation Orchid (2022)](./picogym_f.md#operation-orchid) ✓
+- [Sidechannel (2022)](./picogym_f.md#sidechannel) ✓
+- [Torrent Analyze (2022)](./picogym_f.md#torrent-analyze) ✓
 
 </details>
 
