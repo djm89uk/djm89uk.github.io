@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [43/50]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [45/50]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -51,9 +51,9 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [substitution2 (2022)](#substitution2) ✓
 - [transposition-trial (2022)](#transposition-trial) ✓
 - [Vigenere (2022)](#vigenere) ✓
-- [Very Smooth (2022)](#very-smooth)
+- [Very Smooth (2022)](#very-smooth) ✓
 - [Sequences (2022)](#sequences)
-- [Sum-O-Primes (2022)](#sum-o-primes)
+- [Sum-O-Primes (2022)](#sum-o-primes) ✓
 - [NSA Backdoor (2022)](#nsa-backdoor)
 
 ---
@@ -5134,6 +5134,44 @@ We have so much faith in RSA we give you not just the product of the primes, but
 
 <summary markdown="span">Solution 1</summary>
 
+With the sum and product of the encryption primes, we can generate a quadratic function that can be solved to resolve the primes:
+
+~~~
+p + q = x
+p * q = n
+p = x - q
+(x - q) * q = n
+x*q - q**2 = n
+q**2 - x*q - n = 0
+q = (x +- sqrt(x**2 - 4 * n)) / 2
+~~~
+
+This can be solved in python using the gmpy2 library with precision set to 2048:
+
+~~~py
+import gmpy2
+import binascii
+
+gmpy2.get_context().precision = 2048
+
+ct = gmpy2.mpz(0x42cafbc77ed8396a681dac328701ee02cd746488ae084f15a3e6a5b8f666c595a372a69bbca0dae934fd5ed2292d4393912ee10a22a3b57de9cee2f30b5dc7c67f574b0453f6074171cca37bd407529cb30ba17f152ef5b2484d94b38cf0a513a723255d725e5c3b3f3c985f9223095be3fa148afedf91e4ed37720c3d97dd29cf07830efa8a557a9da68d3095fc3b31f3763e030b62c70d94c3d2951e163e48683f3b9611d562ea06bf1e5d8465e8bf5a6345050a5e7b0c175faf136562cf2a196fdb61ac6503446616cffa9ed85015b86dda73f6eda4d688d3e719a07439d98f95fb5dcf675948ec58d9af83fa29afa4375213ec48f09a6c8cbc431cfe7c6a)
+n = gmpy2.mpz(0x85393637a04ec36e699796ac16979c51ecea41cfd8353c2a241193d1d40d02701b34e9cd4deaf2b13b6717757f178ff75249f3d675448ec928aef41c39e4be1c8ba2ba79c4ada36c607763d7dc8543103acfe1027245acda2208f22fcabe0f37bdadf077e4f943c4f4178cedeb5279a4ebc86323356e23a58b6666ac6ffbf4f1c8229117ffb9071a94dfb724957f10d6664e4ee02e16bed29eb922f126e2082e2f73b5c5b7817e0543155eb9673f4de3de8c91707c1261e8ba6e7348d930293f7796679218c2b1dabe41527eccd72ec3e7284344622eff81ae0541769fb70b6146b54bd092c2dfbe7f8e9653cad80d0fb4f3ef288778927b3852f9ff3a4076d7)
+x = gmpy2.mpz(0x17fef88f46a58da13be8083b814caf6cd8d494dd6c21ad7bf399e521e14466d51a74f51ad5499731018b6a437576e72bd397c4bb07bfbb699c1a35f1f4fa1b86dee2a1702670e9cea45aa7062f9569279d6d4b964f3df2ff8e38cf029faad57e42b831bde21132303e127cba4e80cd3c9ff6a7bad5b399a18252dc35460471ea8)
+e = 65537
+
+q = gmpy2.mpz((x+gmpy2.sqrt(x**2-4*n))/2)
+p = gmpy2.mpz(n/q)
+m = gmpy2.lcm(p-1,q-1)
+d = pow(e, -1, m)
+pt = pow(ct, d, n)
+
+pt = binascii.unhexlify(hex(int(pt))[2:]).decode()
+
+print("Flag is {}.".format(pt))
+~~~
+
+This provides the flag.
+	
 </details>
 
 ### Answer
@@ -5143,7 +5181,7 @@ We have so much faith in RSA we give you not just the product of the primes, but
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{3921def5}
 ~~~
 
 </details>
