@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym Cryptography [45/50]
+# [PicoCTF](./picoctf.md) PicoGym Cryptography [46/50]
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -52,7 +52,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 - [transposition-trial (2022)](#transposition-trial) ✓
 - [Vigenere (2022)](#vigenere) ✓
 - [Very Smooth (2022)](#very-smooth) ✓
-- [Sequences (2022)](#sequences)
+- [Sequences (2022)](#sequences) ✓
 - [Sum-O-Primes (2022)](#sum-o-primes) ✓
 - [NSA Backdoor (2022)](#nsa-backdoor)
 
@@ -95,7 +95,6 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 ## The Numbers
 
 - Author: Danny
-- 50 Points
 
 ### Description
 
@@ -5090,6 +5089,47 @@ I wrote this linear recurrence function, can you figure out how to make it run f
 
 <summary markdown="span">Solution 1</summary>
 
+We can simplify the m_func by both solving the diagonalised matrix function and reducing the accuracy.  We only care about the trailing digits so can simplify using gmpy2's mpz function to find the modulus answer:
+
+~~~py
+import hashlib
+import sys
+from gmpy2 import mpz
+import time
+
+ITERS = int(2e7)
+VERIF_KEY = "96cc5f3b460732b442814fd33cf8537c"
+ENCRYPTED_FLAG = bytes.fromhex("42cbbce1487b443de1acf4834baed794f4bbd0dfb5885e6c7ed9a3c62b")
+
+# This will overflow the stack, it will need to be significantly optimized in order to get the answer :)
+def m_func(i):
+    return (1612*(mpz(-21)**int(i)) + 981920*(mpz(12)**int(i)) - 1082829*(mpz(13)**int(i)) + 141933*(mpz(17)**int(i)))//42636
+
+# Decrypt the flag
+def decrypt_flag(sol):
+    sol = sol % (10**10000)
+    sol = str(sol)
+    sol_md5 = hashlib.md5(sol.encode()).hexdigest()
+
+    if sol_md5 != VERIF_KEY:
+        print("Incorrect solution")
+        sys.exit(1)
+
+    key = hashlib.sha256(sol.encode()).digest()
+    flag = bytearray([char ^ key[i] for i, char in enumerate(ENCRYPTED_FLAG)]).decode()
+
+    print(flag)
+
+if __name__ == "__main__":
+    t0 = time.time()
+    sol = m_func(ITERS)
+    decrypt_flag(sol)
+    t1 = time.time()
+    print("Execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the flag and executes in less than 1 second.
+	
 </details>
 
 ### Answer
@@ -5099,7 +5139,7 @@ I wrote this linear recurrence function, can you figure out how to make it run f
 <summary markdown="span">Flag</summary>
 
 ~~~
-picoCTF{}
+picoCTF{b1g_numb3rs_afc4ce7f}
 ~~~
 
 </details>
