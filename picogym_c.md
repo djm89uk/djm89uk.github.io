@@ -4491,7 +4491,7 @@ picoCTF{}
 
 ---
 
-## corrupt-key-2
+## Corrupt key 2
 
 - Author: Tux
 - 500 points
@@ -4515,6 +4515,45 @@ None.
 
 <summary markdown="span">Solution 1</summary>
 
+The corrupt private key can be viewed using openssl:
+
+~~~shell
+$ openssl rsa -noout -text -in private.key 
+RSA Private-Key: (1024 bit, 2 primes)
+modulus:
+    00:c2:0d:4f:07:92:f1:62:e3:f3:48:6f:47:c2:c5:
+    b0:56:96:ba:5c:81:ec:09:f5:38:6b:f7:41:b7:28:
+    9b:85:e2:d7:44:55:98:25:a2:3b:0a:e0:94:da:21:
+    4f:31:58:34:4e:5d:5b:a8:6f:b1:ec:d1:f4:0c:86:
+    82:a7:be:e5:50:21:eb:a7:72:e2:37:93:00:1a:38:
+    b9:cc:cb:fd:c1:d9:31:6c:cc:c3:b7:9a:cd:04:5c:
+    51:2b:44:e0:f3:69:73:83:95:81:13:a2:80:79:1e:
+    17:c2:3f:e8:0f:a3:80:99:e4:90:7f:70:f4:d2:28:
+    28:5a:ac:69:ed:2d:3b:cf:99
+publicExponent: 65537 (0x10001)
+privateExponent: 0
+prime1:
+    00:fe:89:84:40:7b:08:16:cc:28:e5:cc:c6:bb:73:
+    79:00:00:00:00:00:ca:38:06:dd:2c:fd:fc:8d:61:
+    6b:00:00:00:00:61:09:a4:db:e3:87:6b:8d:1b:8a:
+    dc:91:75:df:ba:0e:1e:f3:18:80:16:48:d6:00:00:
+    00:00:00:a0:5b
+prime2: 0
+exponent1: 0
+exponent2: 0
+coefficient: 0
+~~~
+	
+We can see we have a complete modulus and public exponent with a partially-corrupted prime factor:
+
+~~~
+n = 0x00c20d4f0792f162e3f3486f47c2c5b05696ba5c81ec09f5386bf741b7289b85e2d744559825a23b0ae094da214f3158344e5d5ba86fb1ecd1f40c8682a7bee55021eba772e23793001a38b9cccbfdc1d9316cccc3b79acd045c512b44e0f3697383958113a280791e17c23fe80fa38099e4907f70f4d228285aac69ed2d3bcf99
+	
+e = 0x10001
+	
+p = 00fe8984407b0816cc28e5ccc6bb73790000000000ca3806dd2cfdfc8d616b000000006109a4dbe3876b8d1b8adc9175dfba0e1ef318801648d60000000000a05b
+~~~
+	
 </details>
 
 ### Answer
