@@ -2161,42 +2161,34 @@ We are provided with the user details and an authentication token that is an enc
 |	Your token is : 'IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wb2Ya1u0Gmy7ECxVE/LRGCnATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA=='
 ~~~
 
-We can use python to identify a
+The CBC block size is 16.  To exploit the encryption using bit flipping, we will need to change the ciphertext block prior to the ";is_member=false" without interfering with the "[id=546815648;name=".  We can generate a new code with a 29 Byte name to enable tampering with the ciphertext without interfering with the fields in the plaintext code.  The new user token and authentication tokens are:
+
+~~~
+[id=546815648;name=aaaaaaaaaaaaaaaaaaaaaaaaaaaaa;is_member=false;mail=a@a.com;pad=0000000000000]
+IRZjBh6GxjeYI7YZvxwfBKKRhmbMapZCJ5zJpedj5Q7n7te4cJHyrcqnwB2tCX/nA4UX7UhHUODyB17JymX8kuxHx16T61x/OII0W+T0/aF2v2TFEtMShIcvzNxN/Mq5
+~~~
+
+The plaintext blocks are now:
+
+~~~
+"[id=546815648;na"
+"me=aaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaa"
+";is_member=false"
+";mail=a@a.com;pa"
+"d=0000000000000]"
+~~~
+
+We will change the ciphertext corresponding to the block "aaaaaaaaaaaaaaaa" to change the following block from ";is_member=false" to "a;is_member=true".  We can convert the ciphertext to an integer array to enable manipulation:
 
 ~~~py
-import base64 as b64 
-import binascii
-from Crypto.Cipher import AES
-
-PT = "[id=546815648;name=test;is_member=false;mail=test@test.com;pad=]"
-AT = "IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wb2Ya1u0Gmy7ECxVE/LRGCnATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA=="
-CT = b64.b64decode(AT)
+PT = "[id=546815648;name=aaaaaaaaaaaaaaaaaaaaaaaaaaaaa;is_member=false;mail=a@a.com;pad=0000000000000]"
+AT = "IRZjBh6GxjeYI7YZvxwfBKKRhmbMapZCJ5zJpedj5Q7n7te4cJHyrcqnwB2tCX/nA4UX7UhHUODyB17JymX8kuxHx16T61x/OII0W+T0/aF2v2TFEtMShIcvzNxN/Mq5"
+CT = list(b64.b64decode(AT))
 BS = AES.block_size
-
-PT2 = "[id=546815648;name=tests;is_member=true;mail=test@test.com;pad=]"
-CT2 = []
-for i in range(len(CT)):
-  CT2.append(hex(CT[i]^ord(PT[i])^ord(PT2[i]))[2:])
-  if len(CT2[i]) == 1:
-      CT2[i] = "0"+CT2[i]
-
-CT2 = b64.b64encode(binascii.unhexlify("".join(CT2))).decode()
-
-print("New Authentication Token generated:\n{}".format(CT2))
 ~~~
 
-This provides a new authentication token with membership credentials.
-
-~~~
-New Authentication Token generated:
-IRZjBh6GxjeYI7YZvxwfBLk98Hmr7wa+M7dC4mG640emGxTeWmanATboRzeQrwHAvEL0wnzN/FZxNnPan03YsA==
-~~~
-
-We can use this to logon to the challenge server and retrieve the flag:
-
-~~~
-
-~~~
+Using bit flipping, we can brute force a near-solution by 
  
 </details>
 
