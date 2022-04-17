@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Cryptanalysis [19/60]
+# [Root-Me](./rootme.md) Root-Me Cryptanalysis [27/60]
 
 Break encryption algorithms.
 
@@ -26,7 +26,7 @@ Break encryption algorithms.
 20. [Transposition - Rail Fence](#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](#aes-cbc-bit-flipping-attack)
 22. [AES - ECB](#aes-ecb) 🗸
-23. [LFSR - Known plaintext](#lfsr-known-plaintext)
+23. [LFSR - Known plaintext](#lfsr-known-plaintext) 🗸
 24. [RSA - Factorisation](#rsa-factorisation) 🗸
 25. [RSA - Decipher Oracle](#rsa-decipher-pracle)
 26. [Service - Timing attack](#service-timing-attack) 🗸
@@ -2314,6 +2314,133 @@ f.close()
 
 ~~~
 mGf1du3ykb
+~~~
+
+</details>
+
+---
+
+### [Cryptanalysis](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## LFSR Known Plaintext
+
+- Author: Brissouille
+- Date: 28 November 2017
+- Points: 25
+- Level: 3
+
+### Statement
+
+One of your friend argue that stream ciphers are safer than ever.
+You smile and tell him he is not right.
+Upset, he challenges you by sending you an encrypted file. Show him he’s wrong !
+
+### Links
+
+1. [LFSR-based Stream Ciphers](https://repository.root-me.org/Cryptographie/EN%20-%20LFSR-based%20Stream%20Ciphers%20-%20Anne%20Canteaut.pdf).
+2. [Linear Feedback Shift Registers (LFSR)](https://repository.root-me.org/Cryptographie/EN%20-%20Linear%20Feedback%20Shift%20Registers%20(LFSR)%20-%20Auburn%20Univ.pdf).
+
+
+### Attachments
+
+1. [ch32.zip](http://challenge01.root-me.org/cryptanalyse/ch32/ch32.zip)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be downloaded:
+
+~~~shell
+$ wget http://challenge01.root-me.org/cryptanalyse/ch32/ch32.zip
+--2022-04-17 21:32:00--  http://challenge01.root-me.org/cryptanalyse/ch32/ch32.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 215126 (210K) [application/zip]
+Saving to: ‘ch32.zip’
+
+ch32.zip                                                    100%[=========================================================================================================================================>] 210.08K  --.-KB/s    in 0.1s    
+
+2022-04-17 21:32:00 (1.90 MB/s) - ‘ch32.zip’ saved [215126/215126]
+$ unzip ch32.zip 
+Archive:  ch32.zip
+  inflating: challenge.png.encrypt   
+$ ls
+ch32.zip  challenge.png.encrypt
+$ file challenge.png.encrypt 
+challenge.png.encrypt: data
+~~~
+
+We see an encrypted file that can be assumed to be an encrypted png.  We know the [first 8 Bytes of a PNG](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html) are defined as the file header:
+
+~~~
+137 80 78 71 13 10 26 10
+~~~
+
+We can convert this to binary and generate the key from the start of the encrypted file in python.  Using a key length of 16, we can generate a key for all bytes in the file and unencrypt:
+
+~~~py
+import binascii
+
+filename = "challenge.png.encrypt"
+file = open(filename,"rb")
+filedata = file.read()
+file.close()
+
+keyArr = []
+keyByt = b""
+keybin = ""
+pnghead = [137,80,78,71,13,10,26,10]
+for i in range(8):
+    keyint = pnghead[i]^filedata[i]
+    keyhex= hex(keyint)[2:]
+    if len(keyhex)%2 != 0:
+        keyhex = '0'+keyhex
+    keybyt = binascii.unhexlify(keyhex)
+    keyByt += keybyt
+    keyArr.append(keyint)
+    keybin += '{0:08b}'.format(keyint)
+
+keystr = keybin[:16]
+keystream = []
+for i in range(len(keystr)):
+    keystream.append(int(keystr[i]))
+
+for i in range(16,len(filedata)*8):
+    keystream.append(keystream[i-1]^keystream[i-3]^keystream[i-11]^keystream[i-16])
+
+newfilename = "challenge.png"
+newfile = open(newfilename,"wb")
+
+idx = 0
+for B in filedata:
+  k = 0
+  for i in range(8):
+    k <<= 1
+    k = k | keystream[idx]
+    idx += 1
+#  print(c^k)
+  newfile.write(bytes([B^k]))
+newfile.close()
+~~~
+
+This provides a png with the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+LSFRNGAG
 ~~~
 
 </details>
