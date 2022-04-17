@@ -4,29 +4,118 @@ The art of hiding information in a document.
 
 ## Contents
 
-1. [Gunnm](#gunnm) 🗸
-2. [Squared](#squared) 🗸
-3. [Dot and next line](#dot-and-next-line) 🗸
-4. [Steganomobile](#steganomobile) 🗸
-5. [Twitter Secret Messages](#twitter-secret-messages) 🗸
-6. [Some noise](#some-noise) 🗸
-7. [George and Alfred](#george-and-alfred) 🗸
-8. [Poem from Space](#poem-from-space) 🗸
-9. [Yellow dots](#yellow-dots) 🗸
-10. [Audio stegano](#audio-stegano) 🗸
-11. [Mimic - Dummy sight](#mimic-dummy-sight)
-12. [We need to go deeper](#we-need-to-go-deeper) 🗸
-13. [APNG - Just A PNG](#apng-just-a-png) 🗸
-14. [Base Jumper](#base-jumper) 🗸
-15. [ELF x64 - Duality](#elf-x64-duality)
-16. [Hide and seek](#hide-and-seek)
-17. [PDF Object](#pdf-object)
-18. [Angecryption](#angecryption)
-19. [Kitty spy](#kitty-spy)
-20. [LSB - Uncle Scrooge](#lsb-uncle-scrooge)
-21. [Pixel Indicator Technique](#pixel-indicator-technique)
-22. [Pixel Value Differencing](#pixel-value-differencing)
-23. [Crypt-art](#crypt-art)
+1. [EXIF Metadata](#exif-metadata) 🗸
+2. [Gunnm](#gunnm) 🗸
+3. [Squared](#squared) 🗸
+4. [Dot and next line](#dot-and-next-line) 🗸
+5. [Steganomobile](#steganomobile) 🗸
+6. [Twitter Secret Messages](#twitter-secret-messages) 🗸
+7. [Some noise](#some-noise) 🗸
+8. [George and Alfred](#george-and-alfred) 🗸
+9. [Poem from Space](#poem-from-space) 🗸
+10. [Yellow dots](#yellow-dots) 🗸
+11. [Audio stegano](#audio-stegano) 🗸
+12. [Mimic - Dummy sight](#mimic-dummy-sight)
+13. [We need to go deeper](#we-need-to-go-deeper) 🗸
+14. [APNG - Just A PNG](#apng-just-a-png) 🗸
+15. [Base Jumper](#base-jumper) 🗸
+16. [ELF x64 - Duality](#elf-x64-duality)
+17. [Hide and seek](#hide-and-seek)
+18. [PDF Object](#pdf-object)
+19. [Angecryption](#angecryption)
+20. [Kitty spy](#kitty-spy)
+21. [LSB - Uncle Scrooge](#lsb-uncle-scrooge)
+22. [Pixel Indicator Technique](#pixel-indicator-technique)
+23. [Pixel Value Differencing](#pixel-value-differencing)
+24. [Crypt-art](#crypt-art)
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+## EXIF Metadata
+
+- Author: ISISTM
+- Date: 28 March 2022
+- Points: 5
+- Level: 1
+
+### Statement
+
+Our sad friend pepo got lost! Can you find where he is ?
+
+The password is the city where pepo is located.
+
+### Attachments
+
+1. [ch1.png](http://challenge01.root-me.org/steganographie/ch1/ch1.png)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Using exiftool, we can find the gps coordinates of where the photo was taken:
+
+~~~shell
+$ exiftool ch1.png 
+ExifTool Version Number         : 11.88
+File Name                       : ch1.png
+Directory                       : .
+File Size                       : 13 kB
+File Modification Date/Time     : 2022:03:28 09:29:00+01:00
+File Access Date/Time           : 2022:04:17 22:45:32+01:00
+File Inode Change Date/Time     : 2022:04:17 22:45:32+01:00
+File Permissions                : rw-rw-r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 96
+Image Height                    : 96
+Bit Depth                       : 8
+Color Type                      : RGB with Alpha
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+SRGB Rendering                  : Perceptual
+Gamma                           : 2.2
+Pixels Per Unit X               : 3779
+Pixels Per Unit Y               : 3779
+Pixel Units                     : meters
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Image Description               : S0rry_N0_Gu3ss1ng_Gh1zm0!
+Resolution Unit                 : inches
+Y Cb Cr Positioning             : Centered
+Exif Version                    : 0232
+Components Configuration        : Y, Cb, Cr, -
+Flashpix Version                : 0100
+Owner Name                      : ISISTM
+GPS Latitude Ref                : North
+GPS Longitude Ref               : East
+Image Size                      : 96x96
+Megapixels                      : 0.009
+GPS Latitude                    : 43 deg 17' 56.27" N
+GPS Longitude                   : 5 deg 22' 49.38" E
+GPS Position                    : 43 deg 17' 56.27" N, 5 deg 22' 49.38" E
+~~~
+
+A quick look on [gps-coordinates.net](https://www.gps-coordinates.net/) shows us the city.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Marseille
+~~~
+
+</details>
 
 ---
 
