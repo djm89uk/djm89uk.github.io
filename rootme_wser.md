@@ -49,7 +49,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 41. [SQL injection - Authentication - GBK](#sql-injection-authentication-gbk)
 42. [SQL injection - String](#sql-injection-string) 🗸
 43. [XSLT - Code execution](#xslt-code-execution)
-44. [LDAP injection - Authentication](#ldap-injection-authentication)
+44. [LDAP injection - Authentication](#ldap-injection-authentication) 🗸
 45. [Node - Serialize](#node-serialize)
 46. [NodeJS - Prototype Pollution Bypass](#nodejs-prototype-pollution-bypass)
 47. [NoSQL injection - Authentication](#nosql-injection-authentication)
@@ -3182,6 +3182,74 @@ This provides 3 usernames and passwords including the admin password.
 
 ~~~
 c4K04dtIaJsuWdi
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## LDAP injection Authentication
+
+- Author: g0uZ
+- Date: 26 May 2013
+- Points: 35
+- Level: 3
+
+### Statement
+
+Bypass authentication mecanism.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch25/).
+
+### Resources
+
+1. [Blackhat Europe 2008 - LDAP Injection & Blind LDAP Injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202008%20%20-%20LDAP%20Injection%20&%20Blind%20LDAP%20Injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the site, we find a form requesting username and password.  Trying username = "admin" and password = "password" we get response "unknown identifiers".  We can try to interfere with the LDAP query with a simple inject: username = ")))" and password = "password".  We get a helpful response:
+
+~~~
+ERROR : Invalid LDAP syntax : (&(uid=))))(userPassword=password))
+~~~
+
+We can now construct an inject using the known query format:
+	
+~~~
+(&(uid = <username inject>)(userPassword = <password inject>))
+~~~
+
+The & statement requires both values to be true.  We can enter an OR statement in the password query with the following inject:
+
+~~~
+username = "*)(|(userPassword=*"
+password = "password)"
+
+(&(uid = *)(|(userPassword=*)(userPassword = password)))
+~~~
+
+This provides the password details in the source code of the website.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+SWRwehpkTI3Vu2F9DoTJJ0LBO
 ~~~
 
 </details>
