@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [15/25]
+# [Root-Me](./rootme.md) Root-Me Networks [16/26]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -21,7 +21,7 @@ Investigate captured traffic, network services and perform packet analysis.
 15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication) 🗸
 16. [HTTP - DNS Rebinding](#http-dns-rebinding)
 17. [RF - Key Fixed Code](#rf-key-fixed-code)
-18. [SSL - HTTP exchange](#ssl-http-exchange)
+18. [SSL - HTTP exchange](#ssl-http-exchange) 🗸
 19. [Netfilter - common mistakes](#netfilter-common-mistakes)
 20. [SNMP - Authentification](#snmp-authentification)
 21. [Wired Equivalent Privacy](#wired-equivalent-privacy)
@@ -29,6 +29,7 @@ Investigate captured traffic, network services and perform packet analysis.
 23. [RIPv1 - no authentication](#ripv1-no-authentication)
 24. [XMPP - authentication](#xmpp-authentication)
 25. [RF - Satellite transmission](#rf-satellite-transmission)
+25. [RF - L Band](#rf-l-band)
 
 ---
 
@@ -1912,6 +1913,220 @@ asdpokv4e57q7a2
 
 ---
 
-Last updated Jan 2022.
+## SSL HTTP exchange
+
+- Author: g0uZ
+- Date: 30 August 2010
+- Points: 20
+- Level: 2
+
+### Statement
+
+This challenge comes from the 19th DEFCON CTF’s qualification (pkt300).
+
+CLUE : "google is your friend : inurl:server.pem..."
+
+### Related Resources
+
+1. [BlackHat USA 09 Zusman AttackExtSSL slides](https://repository.root-me.org/R%C3%A9seau/EN%20-%20BlackHat%20USA%2009%20Zusman%20AttackExtSSL%20slides.pdf).
+2. [BlackHat USA 09 Marlin Spike DefeatSSL slides](https://repository.root-me.org/R%C3%A9seau/EN%20-%20BlackHat%20USA%2009%20Marlin%20Spike%20DefeatSSL%20slides.pdf).
+3. [BlackHat USA 09 Zusman AttackExtSSL paper](https://repository.root-me.org/R%C3%A9seau/EN%20-%20BlackHat%20USA%2009%20Zusman%20AttackExtSSL%20paper.pdf).
+4. [DROWN: Breaking TLS using SSLv2](https://repository.root-me.org/Cryptographie/Asym%C3%A9trique/EN%20-%20DROWN:%20Breaking%20TLS%20using%20SSLv2.pdf).
+5. [RFC2246](https://repository.root-me.org/RFC/EN%20-%20rfc2246.txt).
+
+### Attachments
+
+1. [ch5.pcap](http://challenge01.root-me.org/reseau/ch5/ch5.pcap).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+The challenge file can be retrived using wget:
+
+~~~shell
+$ wget http://challenge01.root-me.org/reseau/ch5/ch5.pcap
+--2022-04-23 11:59:11--  http://challenge01.root-me.org/reseau/ch5/ch5.pcap
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3242 (3.2K) [application/octet-stream]
+Saving to: ‘ch5.pcap’
+
+ch5.pcap                                                    100%[=========================================================================================================================================>]   3.17K  --.-KB/s    in 0s      
+
+2022-04-23 11:59:11 (127 MB/s) - ‘ch5.pcap’ saved [3242/3242]
+
+$ ls
+ch5.pcap
+~~~
+
+As described in the challenge description, we can find the relevant rsa key from DEFCON 19 on google.  The RSA key can be copied from [github](https://github.com/Seabreg/dnmap/blob/master/server.pem) and saved in a local server.pem key file:
+
+~~~
+-----BEGIN CERTIFICATE-----
+MIIDBjCCAm+gAwIBAgIBATANBgkqhkiG9w0BAQQFADB7MQswCQYDVQQGEwJTRzER
+MA8GA1UEChMITTJDcnlwdG8xFDASBgNVBAsTC00yQ3J5cHRvIENBMSQwIgYDVQQD
+ExtNMkNyeXB0byBDZXJ0aWZpY2F0ZSBNYXN0ZXIxHTAbBgkqhkiG9w0BCQEWDm5n
+cHNAcG9zdDEuY29tMB4XDTAwMDkxMDA5NTEzMFoXDTAyMDkxMDA5NTEzMFowUzEL
+MAkGA1UEBhMCU0cxETAPBgNVBAoTCE0yQ3J5cHRvMRIwEAYDVQQDEwlsb2NhbGhv
+c3QxHTAbBgkqhkiG9w0BCQEWDm5ncHNAcG9zdDEuY29tMFwwDQYJKoZIhvcNAQEB
+BQADSwAwSAJBAKy+e3dulvXzV7zoTZWc5TzgApr8DmeQHTYC8ydfzH7EECe4R1Xh
+5kwIzOuuFfn178FBiS84gngaNcrFi0Z5fAkCAwEAAaOCAQQwggEAMAkGA1UdEwQC
+MAAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRpZmljYXRl
+MB0GA1UdDgQWBBTPhIKSvnsmYsBVNWjj0m3M2z0qVTCBpQYDVR0jBIGdMIGagBT7
+hyNp65w6kxXlxb8pUU/+7Sg4AaF/pH0wezELMAkGA1UEBhMCU0cxETAPBgNVBAoT
+CE0yQ3J5cHRvMRQwEgYDVQQLEwtNMkNyeXB0byBDQTEkMCIGA1UEAxMbTTJDcnlw
+dG8gQ2VydGlmaWNhdGUgTWFzdGVyMR0wGwYJKoZIhvcNAQkBFg5uZ3BzQHBvc3Qx
+LmNvbYIBADANBgkqhkiG9w0BAQQFAAOBgQA7/CqT6PoHycTdhEStWNZde7M/2Yc6
+BoJuVwnW8YxGO8Sn6UJ4FeffZNcYZddSDKosw8LtPOeWoK3JINjAk5jiPQ2cww++
+7QGG/g5NDjxFZNDJP1dGiLAxPW6JXwov4v0FmdzfLOZ01jDcgQQZqEpYlgpuI5JE
+WUQ9Ho4EzbYCOQ==
+-----END CERTIFICATE-----
+-----BEGIN RSA PRIVATE KEY-----
+MIIBPAIBAAJBAKy+e3dulvXzV7zoTZWc5TzgApr8DmeQHTYC8ydfzH7EECe4R1Xh
+5kwIzOuuFfn178FBiS84gngaNcrFi0Z5fAkCAwEAAQJBAIqm/bz4NA1H++Vx5Ewx
+OcKp3w19QSaZAwlGRtsUxrP7436QjnREM3Bm8ygU11BjkPVmtrKm6AayQfCHqJoT
+ZIECIQDW0BoMoL0HOYM/mrTLhaykYAVqgIeJsPjvkEhTFXWBuQIhAM3deFAvWNu4
+nklUQ37XsCT2c9tmNt1LAT+slG2JOTTRAiAuXDtC/m3NYVwyHfFm+zKHRzHkClk2
+HjubeEgjpj32AQIhAJqMGTaZVOwevTXvvHwNEH+vRWsAYU/gbx+OQB+7VOcBAiEA
+oolb6NMg/R3enNPvS1O4UU1H8wpaF77L4yiSWlE0p4w=
+-----END RSA PRIVATE KEY-----
+-----BEGIN CERTIFICATE REQUEST-----
+MIIBDTCBuAIBADBTMQswCQYDVQQGEwJTRzERMA8GA1UEChMITTJDcnlwdG8xEjAQ
+BgNVBAMTCWxvY2FsaG9zdDEdMBsGCSqGSIb3DQEJARYObmdwc0Bwb3N0MS5jb20w
+XDANBgkqhkiG9w0BAQEFAANLADBIAkEArL57d26W9fNXvOhNlZzlPOACmvwOZ5Ad
+NgLzJ1/MfsQQJ7hHVeHmTAjM664V+fXvwUGJLziCeBo1ysWLRnl8CQIDAQABoAAw
+DQYJKoZIhvcNAQEEBQADQQA7uqbrNTjVWpF6By5ZNPvhZ4YdFgkeXFVWi5ao/TaP
+Vq4BG021fJ9nlHRtr4rotpgHDX1rr+iWeHKsx4+5DRSy
+-----END CERTIFICATE REQUEST-----
+~~~
+
+We can view and check this key is parsable using openssl:
+
+~~~shell
+$ openssl rsa -noout -text -in server.pem 
+RSA Private-Key: (512 bit, 2 primes)
+modulus:
+    00:ac:be:7b:77:6e:96:f5:f3:57:bc:e8:4d:95:9c:
+    e5:3c:e0:02:9a:fc:0e:67:90:1d:36:02:f3:27:5f:
+    cc:7e:c4:10:27:b8:47:55:e1:e6:4c:08:cc:eb:ae:
+    15:f9:f5:ef:c1:41:89:2f:38:82:78:1a:35:ca:c5:
+    8b:46:79:7c:09
+publicExponent: 65537 (0x10001)
+privateExponent:
+    00:8a:a6:fd:bc:f8:34:0d:47:fb:e5:71:e4:4c:31:
+    39:c2:a9:df:0d:7d:41:26:99:03:09:46:46:db:14:
+    c6:b3:fb:e3:7e:90:8e:74:44:33:70:66:f3:28:14:
+    d7:50:63:90:f5:66:b6:b2:a6:e8:06:b2:41:f0:87:
+    a8:9a:13:64:81
+prime1:
+    00:d6:d0:1a:0c:a0:bd:07:39:83:3f:9a:b4:cb:85:
+    ac:a4:60:05:6a:80:87:89:b0:f8:ef:90:48:53:15:
+    75:81:b9
+prime2:
+    00:cd:dd:78:50:2f:58:db:b8:9e:49:54:43:7e:d7:
+    b0:24:f6:73:db:66:36:dd:4b:01:3f:ac:94:6d:89:
+    39:34:d1
+exponent1:
+    2e:5c:3b:42:fe:6d:cd:61:5c:32:1d:f1:66:fb:32:
+    87:47:31:e4:0a:59:36:1e:3b:9b:78:48:23:a6:3d:
+    f6:01
+exponent2:
+    00:9a:8c:19:36:99:54:ec:1e:bd:35:ef:bc:7c:0d:
+    10:7f:af:45:6b:00:61:4f:e0:6f:1f:8e:40:1f:bb:
+    54:e7:01
+coefficient:
+    00:a2:89:5b:e8:d3:20:fd:1d:de:9c:d3:ef:4b:53:
+    b8:51:4d:47:f3:0a:5a:17:be:cb:e3:28:92:5a:51:
+    34:a7:8c
+~~~
+
+We can view the pcap file in tshark and see TLSv1 conversation that likely holds the encrypted data we need to solve this challenge:
+
+~~~shell
+$ tshark -r ch5.pcap
+    1   0.000000  192.168.1.5 → 192.168.1.9  TCP 78 51663 → 4433 [SYN] Seq=0 Win=65535 Len=0 MSS=1460 WS=8 TSval=883067051 TSecr=0 SACK_PERM=1 51663 4433     
+    2   0.097069  192.168.1.9 → 192.168.1.5  TCP 78 4433 → 51663 [SYN, ACK] Seq=0 Ack=1 Win=65535 Len=0 MSS=1460 WS=8 TSval=602956726 TSecr=883067051 SACK_PERM=1 4433 51663     
+    3   0.097177  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [ACK] Seq=1 Ack=1 Win=524280 Len=0 TSval=883067052 TSecr=602956726 51663 4433     
+    4   0.097601  192.168.1.5 → 192.168.1.9  SSLv2 193 Client Hello 51663 4433     
+    5   0.127956  192.168.1.9 → 192.168.1.5  TCP 66 [TCP Dup ACK 2#1] 4433 → 51663 [ACK] Seq=1 Ack=1 Win=524280 Len=0 TSval=602956727 TSecr=883067052 4433 51663     
+    6   0.151078  192.168.1.9 → 192.168.1.5  TCP 66 4433 → 51663 [ACK] Seq=1 Ack=128 Win=524280 Len=0 TSval=602956727 TSecr=883067052 4433 51663     
+    7   0.170059  192.168.1.9 → 192.168.1.5  TLSv1 947 Server Hello, Certificate, Server Hello Done 4433 51663     
+    8   0.170169  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [ACK] Seq=128 Ack=882 Win=524280 Len=0 TSval=883067052 TSecr=602956727 51663 4433     
+    9   0.171257  192.168.1.5 → 192.168.1.9  TLSv1 200 Client Key Exchange, Change Cipher Spec, Finished 51663 4433     
+   10   0.201991  192.168.1.9 → 192.168.1.5  TCP 66 4433 → 51663 [ACK] Seq=882 Ack=262 Win=524280 Len=0 TSval=602956728 TSecr=883067052 4433 51663     
+   11   0.204638  192.168.1.9 → 192.168.1.5  TLSv1 125 Change Cipher Spec, Finished 4433 51663     
+   12   0.204714  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [ACK] Seq=262 Ack=941 Win=524280 Len=0 TSval=883067053 TSecr=602956728 51663 4433     
+   13   0.218063  192.168.1.9 → 192.168.1.5  TLSv1 156 Application Data, Application Data 4433 51663     
+   14   0.218179  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [ACK] Seq=262 Ack=1031 Win=524280 Len=0 TSval=883067053 TSecr=602956728 51663 4433     
+   15   3.794403  192.168.1.5 → 192.168.1.9  TLSv1 140 Application Data, Application Data 51663 4433     
+   16   3.824184  192.168.1.9 → 192.168.1.5  TCP 66 4433 → 51663 [ACK] Seq=1031 Ack=336 Win=524280 Len=0 TSval=602956764 TSecr=883067089 4433 51663     
+   17   3.827807  192.168.1.9 → 192.168.1.5  TCP 66 4433 → 51663 [FIN, ACK] Seq=1031 Ack=336 Win=524280 Len=0 TSval=602956764 TSecr=883067089 4433 51663     
+   18   3.827905  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [ACK] Seq=336 Ack=1032 Win=524280 Len=0 TSval=883067089 TSecr=602956764 51663 4433     
+   19   3.828064  192.168.1.5 → 192.168.1.9  TLSv1 103 Alert (Level: Warning, Description: Close Notify) 51663 4433     
+   20   3.828104  192.168.1.5 → 192.168.1.9  TCP 66 51663 → 4433 [FIN, ACK] Seq=373 Ack=1032 Win=524280 Len=0 TSval=883067089 TSecr=602956764 51663 4433     
+   21   3.857509  192.168.1.9 → 192.168.1.5  TCP 66 [TCP Dup ACK 16#1] 4433 → 51663 [ACK] Seq=1032 Ack=336 Win=524280 Len=0 TSval=602956764 TSecr=883067089 4433 51663     
+   22   3.859417  192.168.1.9 → 192.168.1.5  TCP 54 4433 → 51663 [RST] Seq=1032 Win=0 Len=0 4433 51663 
+~~~
+
+We can use ssldump to decrypt and view the TLS traffic:
+
+~~~shell
+$ ssldump -k server.pem -r ch5.pcap -dnq
+New TCP connection #1: 192.168.1.5(51663) <-> 192.168.1.9(4433)
+1 1  0.0976 (0.0976)  C>S SSLv2 compatible client hello
+1 2  0.1700 (0.0724)  S>C  Handshake      ServerHello
+Short read: 0 bytes available (expecting 2)
+1 3  0.1700 (0.0000)  S>C  Handshake      Certificate
+1 4  0.1700 (0.0000)  S>C  Handshake      ServerHelloDone
+1 5  0.1712 (0.0011)  C>S  Handshake      ClientKeyExchange
+1 6  0.1712 (0.0000)  C>S  ChangeCipherSpec
+1 7  0.1712 (0.0000)  C>S  Handshake      Finished
+1 8  0.2046 (0.0333)  S>C  ChangeCipherSpec
+1 9  0.2046 (0.0000)  S>C  Handshake      Finished
+1 10 0.2180 (0.0134)  S>C  application_data
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+1 11 0.2180 (0.0000)  S>C  application_data
+    ---------------------------------------------------------------
+    twisted by design
+    ---------------------------------------------------------------
+1 12 3.7944 (3.5763)  C>S  application_data
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+1 13 3.7944 (0.0000)  C>S  application_data
+    ---------------------------------------------------------------
+    
+    ---------------------------------------------------------------
+1    3.8278 (0.0334)  S>C  TCP FIN
+1 14 3.8280 (0.0002)  C>S  Alert          warning          close_notify
+1    3.8281 (0.0000)  C>S  TCP FIN
+Cleaning 0 remaining connection(s) from connection pool
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+twisted by design
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
+Last updated April 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
