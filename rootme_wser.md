@@ -43,7 +43,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 35. [Node - Eval](#node-eval)
 36. [PHP - Loose Comparison](#php-loose-comparison)
 37. [PHP - preg_replace()](#php-preg-replace) 🗸
-38. [PHP - type juggling](#php-type-juggling)
+38. [PHP - type juggling](#php-type-juggling) 🗸
 39. [Remote File Inclusion](#remote-file-inclusion)
 40. [SQL injection - Authentication](#sql-injection-authentication) 🗸
 41. [SQL injection - Authentication - GBK](#sql-injection-authentication-gbk)
@@ -3131,6 +3131,145 @@ the flag is pr3g_r3pl4c3_3_m0d1f13r_styl3
 
 ~~~
 pr3g_r3pl4c3_3_m0d1f13r_styl3
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## PHP type juggling
+
+- Author: vic
+- Date: 10 March 2016
+- Points: 30
+- Level: 3
+
+### Statement
+
+Get an access.
+
+</details>
+
+### Link
+
+- [ch44](http://challenge01.root-me.org/web-serveur/ch44/)
+
+### Resources
+
+1. [PHP loose comparison - Type Juggling](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20PHP%20loose%20comparison%20-%20Type%20Juggling%20-%20OWASP.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We can visit the website and find a html form with two inputs: login and password:
+
+~~~html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP loose comparison</title>
+    </head>
+
+   <body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+        <form action="auth.php" class="authform" method="post" accept-charset="utf-8">
+        <fieldset>
+            <legend>Authentication</legend>
+            <input type="text" id="login" name="login" value="" placeholder="Your login" />
+            <input type="password" id="password" name="password" value="" placeholder="Your password" />
+            <input type="submit" name="submit" value="Authenticate" />
+        
+        <div class="return-value" style="padding: 10px 0">&nbsp;
+        </div>
+        </fieldset>
+        </form>
+        <br>
+        <p><em><a href="auth.php?source">Authentication source code</a></em></p>
+
+        <script src="jquery-2.2.1.min.js" type="text/javascript"></script>
+        <script src="sha256.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        $("document").ready(function(){
+            $(".authform").submit(function(){
+                $(".return-value").html("&nbsp;");
+
+                var hashobj = new jsSHA("SHA-256", "TEXT");
+                hashobj.update($('#password').val());
+                var hashpass = hashobj.getHash("HEX");
+
+                var data = {login: $('#login').val(), password: hashpass};
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "auth.php",
+                    data: {auth : JSON.stringify({data})},
+                    success: function(data) {
+                        $(".return-value").html(
+                            "Result: " + data['status']
+                        );
+                    }
+                });
+                return false;
+            });
+        });
+
+        </script>
+    </body>
+
+</html> 
+
+~~~
+
+From the challenge site we can view the auth.php authentication script:
+
+~~~php
+ <?php
+
+// $FLAG, $USER and $PASSWORD_SHA256 in secret file
+require("secret.php");
+
+// show my source code
+if(isset($_GET['source'])){
+    show_source(__FILE__);
+    die();
+}
+
+$return['status'] = 'Authentication failed!';
+if (isset($_POST["auth"]))  { 
+    // retrieve JSON data
+    $auth = @json_decode($_POST['auth'], true);
+    
+    // check login and password (sha256)
+    if($auth['data']['login'] == $USER && !strcmp($auth['data']['password'], $PASSWORD_SHA256)){
+        $return['status'] = "Access granted! The validation password is: $FLAG";
+    }
+}
+print json_encode($return);
+~~~
+
+Using JSON encoded requests, we can set the username to 0 and password = [].  This provides the response:
+
+~~~
+DontForgetPHPL00seComp4r1s0n
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+DontForgetPHPL00seComp4r1s0n
 ~~~
 
 </details>
