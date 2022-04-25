@@ -20,7 +20,7 @@ Investigate captured traffic, network services and perform packet analysis.
 14. [ETHERNET - Patched transmission](#ethernet-patched-transmission) 🗸
 15. [Global System Traffic for Mobile communication](#global-system-traffic-for-mobile-communication) 🗸
 16. [HTTP - DNS Rebinding](#http-dns-rebinding)
-17. [RF - Key Fixed Code](#rf-key-fixed-code)
+17. [RF - Key Fixed Code](#rf-key-fixed-code) 🗸
 18. [SSL - HTTP exchange](#ssl-http-exchange) 🗸
 19. [Netfilter - common mistakes](#netfilter-common-mistakes)
 20. [SNMP - Authentification](#snmp-authentification)
@@ -1903,6 +1903,87 @@ print(text)
 
 ~~~
 asdpokv4e57q7a2
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+	
+## RF Key Fixed Code
+
+- Author: Podalirius
+- Date: 28 January 2021
+- Points: 30
+- Level: 3
+
+### Statement
+
+Bob is tired of thieves trying to lockpick his garage door. He replaced his traditional lock with an electronic lock.
+
+In order to prove to Bob that his new garage door does not improve security, your team of radio analysts captured the radio transmissions around his house when he opened his garage door.
+
+The flag is the sha256 hash of the code sent by the key in binary form. Example (printf "0110101101010" | sha256sum = 0d690e963de37180bb9b4ce77145d90e677444e9ebba9e738839fe60bda906f8 )
+
+### Related Resources
+
+1. [GNU Radio Tutorial](https://repository.root-me.org/R%C3%A9seau/EN%20-%20GNU%20Radio%20Guided%20Tutorial%20-%20gnuradio-org%20-%202020.pdf).
+2. [Using GNU Radio for Analog Communications](https://repository.root-me.org/R%C3%A9seau/EN%20-%20Using%20GNU%20Radio%20forAnalog%20Communications%20-%20Derek%20Kozel%20Hackspace%20Brussels%20-%202019.pdf).
+
+### Attachments
+
+1. [ch26.zip](http://challenge01.root-me.org/reseau/ch26/ch26.zip).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+Downloading and unpacking the zip file, we are given a raw data file.  This can be opened into Audacity and visibly a key shift transmission can be seen.  Reviewing the capture, we find a repeating pattern:
+
+~~~
+ssllsslllslslllssslslssss
+~~~
+
+Where s is a short pulse and l is a long pulse.  This can be transcibed into 2 different binary patterns:
+	
+~~~
+1100110001010001110101111
+0011001110101110001010000
+~~~
+
+In Python, teh SHA256 hash for both binary strings can be generated and each hash can be submitted to find the correct version:
+
+~~~py
+import hashlib
+
+binT = "0110101101010"
+bin1 = "1100110001010001110101111"
+bin2 = "0011001110101110001010000"
+
+hashT = hashlib.sha256(binT.encode('utf-8')).hexdigest()
+hash1 = hashlib.sha256(bin1.encode('utf-8')).hexdigest()
+hash2 = hashlib.sha256(bin2.encode('utf-8')).hexdigest()
+
+print("Test Binary: {}, hash = {}.".format(binT,hashT))
+print("Key Binary v1: {}, hash: {}.".format(bin1,hash1))
+print("Key Binary v2: {}, hash: {}.".format(bin2,hash2))
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+99cd1ae4e7d01e76a116cf823b4262f0b6ad1496bc398da91903526e1ad6b4fe
 ~~~
 
 </details>
