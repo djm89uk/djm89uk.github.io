@@ -1706,6 +1706,26 @@ This is brainfk and can be compiled and executed using an online tool at [tutori
 $bfi main.bf
 All you need to know is that you will have to find a QRCode to have the flag !
 ~~~
+
+On the index.html webpage, an interesting comment:
+
+~~~
+You just have to know that the hidden message is not using numbers ! You have to skip them :) 
+~~~
+
+In the webpage source code:
+
+~~~
+"Do you know the difference between a "C" and a "c" ? ... It could help you !"
+~~~
+
+And in the README file:
+
+~~~
+QRCode - It's very funny to hide a QRCode in a picture ... you just have to apply 1-LSB on a pixel color to hide it ...
+~~~
+
+So perhaps we are looking for a QR Code?
 	
 </details>
 
