@@ -23,7 +23,7 @@ Investigate captured traffic, network services and perform packet analysis.
 17. [RF - Key Fixed Code](#rf-key-fixed-code) 🗸
 18. [SSL - HTTP exchange](#ssl-http-exchange) 🗸
 19. [Netfilter - common mistakes](#netfilter-common-mistakes)
-20. [SNMP - Authentification](#snmp-authentification)
+20. [SNMP - Authentification](#snmp-authentification) 🗸
 21. [Wired Equivalent Privacy](#wired-equivalent-privacy)
 22. [ICMP payload](#icmp-payload)
 23. [RIPv1 - no authentication](#ripv1-no-authentication)
@@ -2198,6 +2198,81 @@ Cleaning 0 remaining connection(s) from connection pool
 
 ~~~
 twisted by design
+~~~
+
+</details>
+
+---
+
+### [Networks](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## SNMP Authentication
+
+- Author: 0x0ff
+- Date: 17 October 2014
+- Points: 35
+- Level: 3
+
+### Statement
+
+Get the password that was used to authenticate the SNMP exchange in this network capture.
+
+### Related Resources
+
+1. [Collissions of MD5](https://repository.root-me.org/Cryptographie/EN%20-%20Collisions%20of%20MD5.pdf).
+2. [rootmedict.txt](https://repository.root-me.org/Cryptographie/EN%20-%20rootmedict.txt).
+3. [RFC2571](https://repository.root-me.org/RFC/EN%20-%20rfc2571.txt).
+4. [RFC3414](https://repository.root-me.org/RFC/EN%20-%20rfc3414.txt).
+5. [RFC2574](https://repository.root-me.org/RFC/EN%20-%20rfc2574.txt).
+
+### Attachments
+
+1. [ch5.pcap](http://challenge01.root-me.org/reseau/ch5/ch5.pcap).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution</summary>
+
+A SNMP3 Brute-Force tool can be downloaded from [applied risk](https://github.com/applied-risk/snmpv3brute).  Using the rootmedict.txt file, the password can be Brute-Forced:
+
+~~~shell
+$ python3 snmpv3brute.py -w rootmedict.txt -p ch16.pcap
+                                ____  _                _       
+                               |___ \| |              | |      
+  ___ _ __  _ __ ___  _ ____   ____) | |__  _ __ _   _| |_ ___ 
+ / __| '_ \| '_ ` _ \| '_ \ \ / /__ <| '_ \| '__| | | | __/ _ \
+ \__ \ | | | | | | | | |_) \ V /___) | |_) | |  | |_| | ||  __/
+ |___/_| |_|_| |_| |_| .__/ \_/|____/|_.__/|_|   \__,_|\__\___|
+                     | |        by Scott Thomas                
+                     |_|           for Applied Risk            
+                                                               
+Looking for SNMPv3 packets in ch16.pcap...
+
+Tasks to be processed:
+ ID   IP address      Username
+---- --------------- ----------
+ 01   192.168.1.207   user
+
+Results:
+ ID   IP address      Username   Alg   Password
+---- --------------- ---------- ----- ----------
+ 01   192.168.1.207   user       MD5   4dm1n (13.35s)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+4dm1n
 ~~~
 
 </details>
