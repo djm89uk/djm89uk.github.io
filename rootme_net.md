@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Networks [16/26]
+# [Root-Me](./rootme.md) Root-Me Networks [18/26]
 
 Investigate captured traffic, network services and perform packet analysis.
 
@@ -29,7 +29,7 @@ Investigate captured traffic, network services and perform packet analysis.
 23. [RIPv1 - no authentication](#ripv1-no-authentication)
 24. [XMPP - authentication](#xmpp-authentication)
 25. [RF - Satellite transmission](#rf-satellite-transmission)
-25. [RF - L Band](#rf-l-band)
+26. [RF - L Band](#rf-l-band)
 
 ---
 
