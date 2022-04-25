@@ -1506,6 +1506,226 @@ print(asciistr)
 ### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+## Kitty Spy
+
+- Author: LetMeR00t
+- Date: 9 July 2018
+- Points: 30
+- Level: 3
+
+### Statement
+
+Find the flag of the challenge through this heavy picture.
+
+### Attachments
+
+1. [ch16.jpg](http://challenge01.root-me.org/steganographie/ch16/ch16.jpg).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and inspect the jpg:
+	
+~~~shell
+$ wget http://challenge01.root-me.org/steganographie/ch16/ch16.jpg
+--2022-04-25 15:06:53--  http://challenge01.root-me.org/steganographie/ch16/ch16.jpg
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4354048 (4.2M) [image/jpeg]
+Saving to: ‘ch16.jpg’
+
+ch16.jpg                                                    100%[=========================================================================================================================================>]   4.15M  5.51MB/s    in 0.8s    
+
+2022-04-25 15:06:54 (5.51 MB/s) - ‘ch16.jpg’ saved [4354048/4354048]
+
+$ file ch16.jpg 
+ch16.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, progressive, precision 8, 100x67, components 3
+~~~
+
+Inspecting the file with strings, we see multiple zip files are contained:
+
+~~~shell
+$ strings ch16.jpg 
+...
+step4/UT
+step4/README#4.txtUT
+y;"6
+step4/kitty.pngUT
+K)_c
+step1.zipUT
+step2.zipUT
+step3.zipUT
+step4.zipUT
+~~~
+
+We can unzip the jpg:
+
+~~~shell
+$ unzip ch16.jpg
+Archive:  ch16.jpg
+warning [ch16.jpg]:  7265 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+ extracting: step1.zip               
+ extracting: step2.zip               
+ extracting: step3.zip               
+ extracting: step4.zip 
+~~~
+	
+There are 4 "steps" to solve this.  Step 1:
+
+~~~shell
+$ unzip step1.zip 
+Archive:  step1.zip
+   creating: step1/
+  inflating: step1/route.png         
+  inflating: step1/README#1.txt
+$ cat step1/README#1.txt 
+Something is hidden in this picture, I'm pretty sure of this... But what ?
+$ exiftool step1/route.png 
+ExifTool Version Number         : 11.88
+File Name                       : route.png
+Directory                       : step1
+File Size                       : 659 kB
+File Modification Date/Time     : 2017:08:08 06:32:40+01:00
+File Access Date/Time           : 2022:04:25 15:09:16+01:00
+File Inode Change Date/Time     : 2022:04:25 15:08:51+01:00
+File Permissions                : rwxrwx---
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 1195
+Image Height                    : 688
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+Pixels Per Unit X               : 2835
+Pixels Per Unit Y               : 2835
+Pixel Units                     : meters
+Comment                         : Hello you :) Just stay on the picture !!
+Modify Date                     : 2017:08:07 11:36:27
+Image Size                      : 1195x688
+Megapixels                      : 0.822
+~~~
+
+The picture shows a route from Russie to the USA, to Algeria, to China, to Argentina and to France.  We can try some ISO codes for the password following this route:
+
+~~~
+RUACAF - FAIL
+RUUSDZCNARFR - FAIL
+RUSUSADZACHNARGFRA - FAIL
+643840012156032250 - FAIL
+~~~
+
+Uploading the image to [stegonline](https://stegonline.georgeom.net/image) we can see text encoded in the LSB of the image. After careful inspection, it can be seen this spells out:
+
+~~~	
+f1rstStepi5DoN3
+~~~
+
+This unencrypts the second zip file including a wav file:
+
+~~~shell
+$ cat README#2.txt 
+Well ... Now that we know that, we must find the next step, we success to record a sound from his micro !
+Maybe a trap to escape us ? I hope not ! We need to find how to use this sound, EVERYTHING can be a clue ...
+
+
+Copyright © - 2017 - 18574115dbcd47d71e7eb9da74e45bf2
+$ file monster.wav 
+monster.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 8 bit, mono 11025 Hz
+$ exiftool monster.wav 
+ExifTool Version Number         : 11.88
+File Name                       : monster.wav
+Directory                       : .
+File Size                       : 8.8 kB
+File Modification Date/Time     : 2017:08:08 06:32:40+01:00
+File Access Date/Time           : 2022:04:25 15:40:59+01:00
+File Inode Change Date/Time     : 2022:04:25 15:38:38+01:00
+File Permissions                : rwxrwx---
+File Type                       : WAV
+File Type Extension             : wav
+MIME Type                       : audio/x-wav
+Encoding                        : Microsoft PCM
+Num Channels                    : 1
+Sample Rate                     : 11025
+Avg Bytes Per Sec               : 11025
+Bits Per Sample                 : 8
+Duration                        : 0.81 s
+$ binwalk -Me monster.wav 
+
+Scan Time:     2022-04-25 15:42:15
+Target File:   /home/derek/Downloads/step2/monster.wav
+MD5 Checksum:  d18a1ab91444fa08a66cd569e02737b1
+Signatures:    391
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+~~~
+	
+The hex string at the end of the README file can be unhashed using the tool at [md5hashing.net](https://md5hashing.net/) to reveal it is an Md5 hash of "meowmeowmeowmeow"  this is not the password for step3.zip.  Using steghide the password can be retrieved:
+
+~~~shell
+$ steghide extract -sf step2/monster.wav 
+Enter passphrase: meowmeowmeowmeow
+wrote extracted data to "step2.txt".
+$ cat step2.txt 
+passw0rd=s3c0nDSt3pIsAls0D0n3
+~~~
+
+The 3rd zip file can now be inflated.  We can inspect the README file:
+
+~~~shell
+$ cat README#3 
+Wow ... Now we need to find what's hidden in this suspected website, we know that the guy get information from this site ...
+BUt WhERe AnD HoW ?
+~~~
+
+Interesting letter cases at the end:
+
+~~~
+BUt WhERe AnD HoW
+BUWERADHW
+theno
+~~~
+
+Inside the suspected website directory we find teh LICENSE.md file with an interesting code at the end:
+
+~~~
+++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>-----.>++++++++..<<++.>>+++++++++++++.----------.++++++.<<.>>-------.---------..-.<<.>>++++++++++++++++.-----.<<.>>----.+++.+.++++++++.<<.>>--------------.++++++++++.<<.>>+.------------.-------.+++++++++++++++++++.<<.>>+++++.----------.++++++.<<.>>++.--------------.+++..<<.>>----.-------.+++++++++++++++++++++.-----------------.<<.>>+++++++++++++++.-----.<<.>>---------.+++.+++++.----------.<<.>>---.<<.>++++++++++++++++.+.---------------.>++++++++++++++.-----------.+.<<.>>+++++++++++++++.-----.<<.>>-------.-------.+++++++++++++++++++++.-----------------.<<.>>+++++++++++++++.------------.---.<<.>>+.++++++.-----------.++++++.<<.+.
+~~~
+
+This is brainfk and can be compiled and executed using an online tool at [tutorialspoint](https://www.tutorialspoint.com/execute_brainfk_online.php) resulting in:
+
+~~~
+$bfi main.bf
+All you need to know is that you will have to find a QRCode to have the flag !
+~~~
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+ARTLOVERSWILLNEVERDIE
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
 
 ## Crypt Art
 
