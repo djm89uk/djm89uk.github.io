@@ -21,7 +21,7 @@ The art of hiding information in a document.
 15. [Base Jumper](#base-jumper) 🗸
 16. [ELF x64 - Duality](#elf-x64-duality)
 17. [Hide and seek](#hide-and-seek)
-18. [PDF Object](#pdf-object)
+18. [PDF Object](#pdf-object) 🗸
 19. [Angecryption](#angecryption)
 20. [Kitty spy](#kitty-spy)
 21. [LSB - Uncle Scrooge](#lsb-uncle-scrooge)
@@ -34,6 +34,7 @@ The art of hiding information in a document.
 ### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+
 ## EXIF Metadata
 
 - Author: ISISTM
@@ -1486,7 +1487,6 @@ asciistr = asciistr.strip(b"\x00").decode()
 print(asciistr)
 ~~~
 
-
 </details>
 
 ### Answer
@@ -1506,6 +1506,201 @@ print(asciistr)
 ### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
+
+## PDF Object
+
+- Author: eilco
+- Date: 23 July 2017
+- Points: 25
+- Level: 3
+
+### Statement
+
+Find the hidden information in this PDF file.
+Understanding the French language is not needed.
+
+### Attachments
+
+1. [ch11.zip](http://challenge01.root-me.org/steganographie/ch11/ch11.zip).
+
+### Resources
+
+1. [Malicious Origami in PDF](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20Malicious%20Origami%20in%20PDF%20-%20Raynal%20-%20Delugr%C3%A9.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and uncompress the zip file:
+	
+~~~shell
+$ wget http://challenge01.root-me.org/steganographie/ch11/ch11.zip
+--2022-04-28 17:25:34--  http://challenge01.root-me.org/steganographie/ch11/ch11.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2164768 (2.1M) [application/zip]
+Saving to: ‘ch11.zip.1’
+
+ch11.zip.1                                                  100%[=========================================================================================================================================>]   2.06M  8.09MB/s    in 0.3s    
+
+2022-04-28 17:25:34 (8.09 MB/s) - ‘ch11.zip.1’ saved [2164768/2164768]
+$ unzip ch11.zip 
+Archive:  ch11.zip
+  inflating: epreuve_BAC_2004.pdf 
+$ file epreuve_BAC_2004.pdf 
+epreuve_BAC_2004.pdf: PDF document, version 1.3
+~~~
+
+We can use the PeePDF python tool to inspect the file:
+
+~~~shell
+$ peepdf -i epreuve_BAC_2004.pdf 
+Warning: PyV8 is not installed!!
+
+File: epreuve_BAC_2004.pdf
+MD5: 89d00a355489034dd39ddea2b426fb46
+SHA1: be1edb8e45be559388dad27128595daac3d1fae9
+SHA256: 579d71aa13b0bf20289bb6beabdbeccff5ccc2776d38a11808e8bed6650d1650
+Size: 2388166 bytes
+Version: 1.3
+Binary: True
+Linearized: False
+Encrypted: False
+Updates: 0
+Objects: 78
+Streams: 25
+URIs: 0
+Comments: 0
+Errors: 0
+
+Version 0:
+	Catalog: 1
+	Info: 2
+	Objects (78): [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
+	Streams (25): [8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74, 77, 5, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72]
+		Encoded (25): [8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74, 77, 5, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72]
+		Decoding errors (25): [8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74, 77, 5, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72]
+	Suspicious elements:
+		/Names (1): [1]
+
+~~~
+
+We can see 78 objects and 25 streams.  The first set of streams (8-74) are standard PDF objects with the same structure:
+
+~~~
+PPDF> object 8
+
+<< /Filter /FlateDecode
+/Length 255189
+/ColorSpace /DeviceRGB
+/DecodeParms << /Colors 3
+/Columns 3488
+/Predictor 15 >>
+/BitsPerComponent 8
+/Height 2480
+/Width 3488
+/Subtype /Image >>
+stream
+
+endstream
+~~~
+
+The last set of streams (5-72) are flatencoded integers:
+
+~~~
+PPDF> object 72
+
+<< /Length 73 0 R
+/Filter /FlateDecode >>
+stream
+
+endstream
+~~~
+
+Only 1 object seems suspicious, object 77 contains an unknown stream:
+
+~~~
+PPDF> object 77
+
+<< /Length 79749
+/Type /Embeddedfile
+/Filter /FlateDecode
+/Params << /Size 108542
+/Checksum VY
+            ½]¿átâ± >>
+/Subtype /text/plain >>
+stream
+
+endstream
+~~~
+
+We can find the byte offsets for these objects:
+
+~~~
+PPDF> offsets
+
+       0 Header
+...
+ 2306406
+        Object  77 (79905)
+ 2386310
+ ...
+~~~
+
+We can import this data in python and decompress into a new file using zlib:
+
+~~~py
+import base64 as b64
+import zlib
+
+filename = "epreuve_BAC_2004.pdf"
+file = open(filename,"rb")
+data = file.read()
+file.close()
+
+data = data[2306400:2386400]
+data = data[178:-73]
+data = zlib.decompress(data)
+data = b64.b64decode(data)
+
+filename = "output"
+file = open(filename,"wb")
+file.write(data)
+file.close()
+~~~
+
+Inspecting the output, we can see it is a jpg:
+
+~~~shell
+$ file output
+output: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96, segment length 16, comment: "CREATOR: gd-jpeg v1.0 (using IJG JPEG v62), quality = 95", baseline, precision 8, 500x417, components 3
+~~~
+
+The jpg can be opened to retrieve the solution.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+Hidden_embedded_Fil3
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## Kitty Spy
 
 - Author: LetMeR00t
@@ -1737,6 +1932,175 @@ So perhaps we are looking for a QR Code?
 
 ~~~
 ARTLOVERSWILLNEVERDIE
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## LSB Uncle Scrooge
+
+- Author: koma
+- Date: 21 March 2012
+- Points: 30
+- Level: 3
+
+### Statement
+
+Uncle Scrooge does not only love gold, seems he also likes secrets. Find what is hidden in the image.
+
+### Attachments
+
+1. [ch9.png](http://challenge01.root-me.org/steganographie/ch9/ch9.png).
+
+### Resources
+
+1. [Pixel Indicator Technique for RGB Image Steganography](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20Pixel%20Indicator%20Technique%20for%20RGB%20Image%20Steganography%20-%20Adnan%20Abdul%20-%20Aziz%20Gutub.pdf).
+2. [Image Steganography Overview](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20Image%20Steganography%20Overview.pdf).
+3. [LSB Steganography](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20LSB%20Steganography.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and inspect the file:
+
+~~~shell
+$ wget http://challenge01.root-me.org/steganographie/ch9/ch9.png
+--2022-04-28 18:27:25--  http://challenge01.root-me.org/steganographie/ch9/ch9.png
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 64218 (63K) [image/png]
+Saving to: ‘ch9.png’
+
+ch9.png                                                     100%[=========================================================================================================================================>]  62.71K  --.-KB/s    in 0.04s   
+
+2022-04-28 18:27:25 (1.40 MB/s) - ‘ch9.png’ saved [64218/64218]
+$ file ch9.png 
+ch9.png: PNG image data, 225 x 225, 8-bit/color RGB, non-interlaced
+~~~
+
+We can see the image is a 255x255 pixel 8-bit color RGB PNG image file.  We can look for hints in the file using strings:
+
+~~~shell
+$ strings -n 7 -t x ch9.png 
+    ad2 apXFoo/
+   213c %)EeRhP
+   23eb *!k% VQ
+   2422 b -cb &
+   320b !;ldw)h
+   3733 '~<wn2%5
+   3d30 m=] 454r
+   3f5a b"IJSDq@*
+   4598 \QgggSSS
+   47a5 w>c7LMa
+   497e mooomm}
+   5026 tWWWcccooo
+   5e69 fZ'\pF_
+   6245 jYK"M!+
+   6665 R}FB2ox
+   67bf (B(u,PR
+   70cc oPPR}CDR
+   774e qtDB!$1
+   8471 Zs&7CnF
+   8e49 .T#;)5o
+   91e6 ?A<1k3h
+   9e91 NG['@0yl
+   9ed7 d=6/RQT
+   a3f4 3v,HDi`
+   a476 BN4\nr(P
+   a831 ?[=sw\z
+   aad8 O;8@:;k
+   aba8 n5l_Dm-
+   b019 }cF4zb>9X*g
+   b171 S,3888~
+   b6a7 V^HEd|+j
+   bfbe MRtut5'I
+   c0d3 HM#P5,`CHC3
+   c257 Kg2Il*Ime
+   c493 qLe&)K)
+   ccb3 -'"LZfD
+   cdc5 ` LP*(U
+   d074 S&M&fHu
+   d6d5 ROZv>gW
+   dd38 v #p3ig
+   e4db J@JeXTjE	
+   eadb MP	*v"d
+   ed1f l|{7c>a
+   eeae ,t\(aa -
+   ef4f MhC)J4Q
+   efbf LHd3Kha
+~~~
+
+Nothing of interest here.  Using exiftool, we can look at the specifications for the image for anything suspicious.
+
+~~~shell
+$ exiftool ch9.png 
+ExifTool Version Number         : 11.88
+File Name                       : ch9.png
+Directory                       : .
+File Size                       : 63 kB
+File Modification Date/Time     : 2021:12:10 17:05:19+00:00
+File Access Date/Time           : 2022:04:28 18:27:25+01:00
+File Inode Change Date/Time     : 2022:04:28 18:27:25+01:00
+File Permissions                : rw-rw-r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 225
+Image Height                    : 225
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+Image Size                      : 225x225
+Megapixels                      : 0.051
+~~~
+
+Using binwalk, we can see the image uses zlib compression:
+
+~~~shell
+$ binwalk ch9.png
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 225 x 225, 8-bit/color RGB, non-interlaced
+41            0x29            Zlib compressed data, default compression
+~~~
+
+We can use pngcheck to identify the location of the pixel data in the file:
+
+~~~shell
+$ pngcheck -vtp7f ch9.png 
+File: ch9.png (64218 bytes)
+  chunk IHDR at offset 0x0000c, length 13
+    225 x 225 image, 24-bit RGB, non-interlaced
+  chunk IDAT at offset 0x00025, length 64161
+    zlib: deflated, 32K window, default compression
+  chunk IEND at offset 0x0fad2, length 0
+No errors detected in ch9.png (3 chunks, 57.7% compression).
+~~~
+	
+Using stegolsb, stegdetect, we can extract RGB bit planes from the png to identify possible locations of hidden data.  All 3 bit-0 planes have interesting coding in the top row of pixels and several large squares appear across the lowest 4 bits.
+	
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+
 ~~~
 
 </details>
