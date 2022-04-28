@@ -27,7 +27,7 @@
 
 ---
 
-## [Root-Me App - Script](./rootme_ascr.md) (3/25)
+## [Root-Me App - Script](./rootme_ascr.md) (6/28)
 
 1. [Bash - System 1](./rootme_ascr#bash-system-1) 🗸
 2. [sudo - weak configuration](./rootme_ascr#sudo-weak-configuration) 🗸
@@ -35,11 +35,11 @@
 4. [LaTeX - Input](./rootme_ascr#latex-input)
 5. [Powershell - Command Injection](./rootme_ascr#powershell-command-injection)
 6. [Bash - unquoted expression injection](./rootme_ascr#bash-unquoted-expression-injection)
-7. [Perl - Command injection](./rootme_ascr#perl-command-injection)
+7. [Perl - Command injection](./rootme_ascr#perl-command-injection) 🗸
 8. [Powershell - SecureString](./rootme_ascr#powershell-securestring)
-9. [Bash - cron](./rootme_ascr#bash-cron)
+9. [Bash - cron](./rootme_ascr#bash-cron) 🗸
 10. [LaTeX - Command execution](./rootme_ascr#latex-command-execution)
-11. [Python - input()](./rootme_ascr#python-input)
+11. [Python - input()](./rootme_ascr#python-input) 🗸
 12. [Bash - quoted expression injection](./rootme_ascr#bash-quoted-expression)
 13. [Bash - race condition](./rootme_ascr#bash-race-condition)
 14. [Powershell - Basic jail](./rootme_ascr#powershell-basic-jail)
@@ -61,15 +61,15 @@
 
 ---
 
-## [Root-Me App - System](./rootme_asys.md) (2/83)
+## [Root-Me App - System](./rootme_asys.md) (7/83)
 
 1. [ELF x86 - Stack buffer overflow basic 1](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-1) 🗸
 2. [ELF x86 - Stack buffer overflow basic 2](./rootme_asys.md#elf-x86-stack-buffer-overflow-basic-2) 🗸
-3. [PE32 - Stack buffer overflow basic](./rootme_asys.md#pe32-stack-buffer-overflow-basic)
-4. [ELF x86 - Format string bug basic 1](./rootme_asys.md#elf-x86-format-string-bug-basic-1)
-5. [ELF x64 - Stack buffer overflow - basic](./rootme_asys.md#elf-x64-stack-buffer-overflow-basic)
-6. [ELF x86 - Format string bug basic 2](./rootme_asys.md#elf-x86-format-string-bug-basic-2)
-7. [ELF x86 - Race condition](./rootme_asys.md#elf-x86-race-condition)
+3. [PE32 - Stack buffer overflow basic](./rootme_asys.md#pe32-stack-buffer-overflow-basic) 🗸
+4. [ELF x86 - Format string bug basic 1](./rootme_asys.md#elf-x86-format-string-bug-basic-1) 🗸
+5. [ELF x64 - Stack buffer overflow - basic](./rootme_asys.md#elf-x64-stack-buffer-overflow-basic) 🗸
+6. [ELF x86 - Format string bug basic 2](./rootme_asys.md#elf-x86-format-string-bug-basic-2) 🗸
+7. [ELF x86 - Race condition](./rootme_asys.md#elf-x86-race-condition) 🗸
 8. [ELF ARM - Stack buffer overflow - basic](./rootme_asys.md#elf-arm-stack-buffer-overflow-basic)
 9. [ELF MIPS - Stack buffer overflow - No NX](./rootme_asys.md#elf-mips-stack-buffer-overflow-no-nx)
 10. [ELF x64 - Double free](./rootme_asys.md#elf-x64-double-free)
@@ -153,17 +153,17 @@
 
 ---
 
-## [Root-Me Cracking](./rootme_crac.md) (3/46)
+## [Root-Me Cracking](./rootme_crac.md) (10/46)
 
 1. [ELF x86 - 0 protection](./rootme_crac.md#elf-x86-0-protection) 🗸
 2. [ELF x86 - Basic](./rootme_crac.md#elf-x86-basic) 🗸
 3. [PE x86 - 0 protection](./rootme_crac.md#pe-x86-0-protection) 🗸
-4. [ELF C++ - 0 protection](./rootme_crac.md#elf-cpp-0-protection)
-5. [PE DotNet - 0 protection](./rootme_crac.md#pe-dotnet-0-protection)
-6. [ELF MIPS - Basic Crackme](./rootme_crac.md#elf-mips-basic-crackme)
-7. [ELF x64 - Golang basic](./rootme_crac.md#elf-x64-golang-basic)
-8. [ELF x86 - Fake Instructions](./rootme_crac.md#elf-x86-fake-instructions)
-9. [ELF x86 - Ptrace](./rootme_crac.md#elf-x86-ptrace)
+4. [ELF C++ - 0 protection](./rootme_crac.md#elf-cpp-0-protection) 🗸
+5. [PE DotNet - 0 protection](./rootme_crac.md#pe-dotnet-0-protection) 🗸
+6. [ELF MIPS - Basic Crackme](./rootme_crac.md#elf-mips-basic-crackme) 🗸
+7. [ELF x64 - Golang basic](./rootme_crac.md#elf-x64-golang-basic) 🗸
+8. [ELF x86 - Fake Instructions](./rootme_crac.md#elf-x86-fake-instructions) 🗸
+9. [ELF x86 - Ptrace](./rootme_crac.md#elf-x86-ptrace) 🗸
 10. [WASM - Introduction](./rootme_crac.md#wasm-introduction)
 11. [ELF ARM - Basic Crackme](./rootme_crac.md#elf-arm-basic-crackme)
 12. [ELF x64 - Basic KeygenMe](./rootme_crac.md#elf-x64-basic-keygenme)
@@ -174,7 +174,7 @@
 17. [Lua - Bytecode](./rootme_crac.md#lua-bytecode)
 18. [MachO x64 - keygenme or not](./rootme_crac.md#macho-x64-keygenme-or-not)
 19. [ELF ARM - crackme 1337](./rootme_crac.md#elf-arm-crackme-1337)
-20. [ELF x86 - CrackPass](./rootme_crac.md#elf-x86-crackpass)
+20. [ELF x86 - CrackPass](./rootme_crac.md#elf-x86-crackpass) 🗸
 21. [ELF x86 - ExploitMe](./rootme_crac.md#elf-x86-exploitme)
 22. [ELF x86 - Random Crackme](./rootme_crac.md#elf-x86-random-crackme)
 23. [GB - Basic GameBoy crackme](./rootme_crac.md#gb-basic-gameboy-crackme)
@@ -208,7 +208,7 @@
 
 ---
 
-## [Root-Me Cryptanalysis](./rootme_cryp.md) (15/56)
+## [Root-Me Cryptanalysis](./rootme_cryp.md) (27/60)
 
 1. [Encoding - ASCII](./rootme_cryp.md#encoding-ascii) 🗸
 2. [Encoding - UU](./rootme_cryp.md#encoding-uu) 🗸
@@ -225,25 +225,25 @@
 13. [File - PKZIP](./rootme_cryp.md#file-pkzip) 🗸
 14. [Monoalphabetic substitution - Caesar](./rootme_cryp.md#monoalphabetic-substitution-caesar) 🗸
 15. [Known plaintext - XOR](./rootme_cryp.md#known-plaintext-xOr) 🗸
-16. [Code - Pseudo Random Number Generator](./rootme_cryp.md#code-pseudo-random-number-generator)
-17. [File - Insecure storage 1](./rootme_cryp.md#file-insecure-storage-1)
-18. [Polyalphabetic substitution - Vigenère](./rootme_cryp.md#polyalphabetic-substitution-vigenère)
-19. [System - Android lock pattern](./rootme_cryp.md#system-android-lock-pattern)
-20. [Transposition - Rail Fence](./rootme_cryp.md#transposition-rail-fence)
+16. [Code - Pseudo Random Number Generator](./rootme_cryp.md#code-pseudo-random-number-generator) 🗸
+17. [File - Insecure storage 1](./rootme_cryp.md#file-insecure-storage-1) 🗸
+18. [Polyalphabetic substitution - Vigenère](./rootme_cryp.md#polyalphabetic-substitution-vigenère) 🗸
+19. [System - Android lock pattern](./rootme_cryp.md#system-android-lock-pattern) 🗸
+20. [Transposition - Rail Fence](./rootme_cryp.md#transposition-rail-fence) 🗸
 21. [AES - CBC - Bit-Flipping Attack](./rootme_cryp.md#aes-cbc-bit-flipping-attack)
-22. [AES - ECB](./rootme_cryp.md#aes-ecb)
-23. [LFSR - Known plaintext](./rootme_cryp.md#lfsr-known-plaintext)
-24. [RSA - Factorisation](./rootme_cryp.md#rsa-factorisation)
-25. [RSA - Decipher Oracle](./rootme_cryp.md#rsa-decipher-pracle)
-26. [Service - Timing attack](./rootme_cryp.md#service-timing-attack)
-27. [Monoalphabetic substitution - Polybe](./rootme_cryp.md#monoalphabetic-substitution-polybe)
+22. [AES - ECB](./rootme_cryp.md#aes-ecb) 🗸
+23. [LFSR - Known plaintext](./rootme_cryp.md#lfsr-known-plaintext) 🗸
+24. [RSA - Factorisation](./rootme_cryp.md#rsa-factorisation) 🗸
+25. [RSA - Decipher Oracle](./rootme_cryp.md#rsa-decipher-oracle) 
+26. [Service - Timing attack](./rootme_cryp.md#service-timing-attack) 🗸
+27. [Monoalphabetic substitution - Polybe](./rootme_cryp.md#monoalphabetic-substitution-polybe) 🗸
 28. [Twisted secret](./rootme_cryp.md#twisted-secret)
-29. [Initialisation Vector](./rootme_cryp.md#initialisation-vector)
+29. [Initialisation Vector](./rootme_cryp.md#initialisation-vector) 🗸
 30. [GEDEFU](./rootme_cryp.md#gedefu)
 31. [OTP - Implementation error](./rootme_cryp.md#Otp-implementation-error)
 32. [RSA - Corrupted key 1](./rootme_cryp.md#rsa-corrupted-key-1)
 33. [RSA - Continued fractions](./rootme_cryp.md#rsa-continued-fractions)
-34. [RSA - Common modulus](./rootme_cryp.md#rsa-common-modulus)
+34. [RSA - Common modulus](./rootme_cryp.md#rsa-common-modulus) 🗸
 35. [Service - Hash length extension attack](./rootme_cryp.md#service-hash-length-extension-attack)
 36. [AES - 4 Rounds](./rootme_cryp.md#aes-4-rounds)
 37. [ECDSA - Introduction](./rootme_cryp.md#ecdsa-introduction)
@@ -310,7 +310,7 @@
 
 ---
 
-## [Root-Me Network](./rootme_net.md) (15/25)
+## [Root-Me Network](./rootme_net.md) (18/26)
 
 1. [FTP - authentication](./rootme_net.md#ftp-authentication) 🗸
 2. [TELNET - authentication](./rootme_net.md#telnet-authentication) 🗸
@@ -328,10 +328,10 @@
 14. [ETHERNET - Patched transmission](./rootme_net.md#ethernet-patched-transmission) 🗸
 15. [Global System Traffic for Mobile communication](./rootme_net.md#global-system-traffic-for-mobile-communication) 🗸
 16. [HTTP - DNS Rebinding](./rootme_net.md#http-dns-rebinding)
-17. [RF - Key Fixed Code](./rootme_net.md#rf-key-fixed-code)
-18. [SSL - HTTP exchange](./rootme_net.md#ssl-http-exchange)
+17. [RF - Key Fixed Code](./rootme_net.md#rf-key-fixed-code) 🗸
+18. [SSL - HTTP exchange](./rootme_net.md#ssl-http-exchange) 🗸
 19. [Netfilter - common mistakes](./rootme_net.md#netfilter-common-mistakes)
-20. [SNMP - Authentification](./rootme_net.md#snmp-authentification)
+20. [SNMP - Authentification](./rootme_net.md#snmp-authentification) 🗸
 21. [Wired Equivalent Privacy](./rootme_net.md#wired-equivalent-privacy)
 22. [ICMP payload](./rootme_net.md#icmp-payload)
 23. [RIPv1 - no authentication](./rootme_net.md#ripv1-no-authentication)
@@ -344,7 +344,7 @@
 
 ---
 
-## [Root-Me Programming](./rootme_prog.md) (5/18)
+## [Root-Me Programming](./rootme_prog.md) (8/18)
 
 1. [IRC - Go back to college](./rootme_prog.md#irc-go-back-to-college) 🗸
 2. [IRC - Encoded string](./rootme_prog.md#irc-encoded-string) 🗸
@@ -352,14 +352,14 @@
 4. [IRC - Uncompress me](./rootme_prog.md#irc-uncompress-me) 🗸
 5. [CAPTCHA me if you can](./rootme_prog.md#captcha-me-if-you-can) 🗸
 6. [Ethereum - Tutoreum](./rootme_prog.md#ethereum-tutoreum)
-7. [Arithmetic progression](./rootme_prog.md#arithmetic-progression)
+7. [Arithmetic progression](./rootme_prog.md#arithmetic-progression) 🗸
 8. [ELF x64 - Shellcoding - Sheep warmup](./rootme_prog.md#elf-x64-shellcoding-sheep-warmup)
 9. [Ethereum - Takeover](./rootme_prog.md#ethereum-takeover)
-10. [Various encodings](./rootme_prog.md#various-encodings)
+10. [Various encodings](./rootme_prog.md#various-encodings) 🗸
 11. [ARM - Shellcoding - Egg hunter](./rootme_prog.md#arm-shellcoding-egg-hunter)
 12. [Ethereum - NotSoPriv8](./rootme_prog.md#ethereum-notsopriv8)
 13. [ELF x64 - Shellcoding - Polymorphism](./rootme_prog.md#elf-x64-shellcoding-polymorphism)
-14. [Quick Response Code](./rootme_prog.md#quick-response-code)
+14. [Quick Response Code](./rootme_prog.md#quick-response-code) 🗸
 15. [WinKern x64 - shellcoding : token stealing](./rootme_prog.md#winkern-x64-shellcoding-token-stealing)
 16. [Ethereum - BadStack](./rootme_prog.md#ethereum-badstack)
 17. [ELF x64 - Sandbox shellcoding](./rootme_prog.md#elf-x64-sandbox-shellcoding)
@@ -371,7 +371,7 @@
 
 ---
 
-## [Root-Me Realist](./rootme_real.md) (1/43)
+## [Root-Me Realist](./rootme_real.md) (1/44)
 
 1. [It happens, sometimes ](./rootme_real.md#it-happens-sometimes) 🗸
 2. [P0wn3d ](./rootme_real.md#p0wn3d)
@@ -423,7 +423,7 @@
 
 ---
 
-## [Root-Me Steganography](./rootme_steg.md) (10/23)
+## [Root-Me Steganography](./rootme_steg.md) (17/23)
 
 1. [Gunnm](./rootme_steg.md#gunnm) 🗸
 2. [Squared](./rootme_steg.md#squared) 🗸
@@ -436,18 +436,18 @@
 9. [Yellow dots](./rootme_steg.md#yellow-dots) 🗸
 10. [Audio stegano](./rootme_steg.md#audio-stegano) 🗸
 11. [Mimic - Dummy sight](./rootme_steg.md#mimic-dummy-sight)
-12. [We need to go deeper](./rootme_steg.md#we-need-to-go-deeper)
-13. [APNG - Just A PNG](./rootme_steg.md#apng-just-a-png)
-14. [Base Jumper](./rootme_steg.md#base-jumper)
+12. [We need to go deeper](./rootme_steg.md#we-need-to-go-deeper) 🗸
+13. [APNG - Just A PNG](./rootme_steg.md#apng-just-a-png) 🗸
+14. [Base Jumper](./rootme_steg.md#base-jumper) 🗸
 15. [ELF x64 - Duality](./rootme_steg.md#elf-x64-duality)
 16. [Hide and seek](./rootme_steg.md#hide-and-seek)
-17. [PDF Object](./rootme_steg.md#pdf-object)
+17. [PDF Object](./rootme_steg.md#pdf-object) 🗸
 18. [Angecryption](./rootme_steg.md#angecryption)
-19. [Kitty spy](./rootme_steg.md#kitty-spy)
-20. [LSB - Uncle Scrooge](./rootme_steg.md#lsb-uncle-scrooge)
+19. [Kitty spy](./rootme_steg.md#kitty-spy) 🗸
+20. [LSB - Uncle Scrooge](./rootme_steg.md#lsb-uncle-scrooge) 🗸 🗸
 21. [Pixel Indicator Technique](./rootme_steg.md#pixel-indicator-technique)
 22. [Pixel Value Differencing](./rootme_steg.md#pixel-value-differencing)
-23. [Crypt-art](./rootme_steg.md#crypt-art)
+23. [Crypt-art](./rootme_steg.md#crypt-art) 🗸
 
 
 ---
@@ -456,7 +456,7 @@
 
 ---
 
-## [Root-Me Web - Client](./rootme_wcli.md) (9/29)
+## [Root-Me Web - Client](./rootme_wcli.md) (9/33)
 
 1. [HTML - disabled buttons](./rootme_wcli.md#html-disabled-buttons) 🗸
 2. [Javascript - Authentication](./rootme_wcli.md#javascript-authentication) 🗸
@@ -494,7 +494,7 @@
 
 ---
 
-## [Root-Me Web - Server](./rootme_wser.md) (25/74)
+## [Root-Me Web - Server](./rootme_wser.md) (40/74)
 
 1. [HTML - Source code](./rootme_wser.md#html-source-code) 🗸
 2. [HTTP - IP restriction bypass](./rootme_wser.md#http-ip-restriction-bypass) 🗸
@@ -521,32 +521,32 @@
 23. [JWT - Revoked token](./rootme_wser.md#jwt-revoked-token) 🗸
 24. [PHP - assert()](./rootme_wser.md#php-assert) 🗸
 25. [PHP - Filters](./rootme_wser.md#php-filters) 🗸
-26. [PHP - register globals](./rootme_wser.md#php-register-globals)
+26. [PHP - register globals](./rootme_wser.md#php-register-globals) 🗸
 27. [PHP - Remote Xdebug](./rootme_wser.md#php-remote-xdebug)
 28. [Python - Server-side Template Injection Introduction](./rootme_wser.md#python-server-side-template-injection-introduction)
 29. [File upload - ZIP](./rootme_wser.md#file-upload-zip)
 30. [Command injection - Filter bypass](./rootme_wser.md#command-injection-filter-bypass)
-31. [Java - Server-side Template Injection](./rootme_wser.md#java-server-side-template-injection)
+31. [Java - Server-side Template Injection](./rootme_wser.md#java-server-side-template-injection) 🗸
 32. [JSON Web Token (JWT) - Public key](./rootme_wser.md#json-web-token-jwt-public-key)
-33. [Local File Inclusion](./rootme_wser.md#local-file-inclusion)
-34. [Local File Inclusion - Double encoding](./rootme_wser.md#local-file-inclusion-double-encoding)
+33. [Local File Inclusion](./rootme_wser.md#local-file-inclusion) 🗸
+34. [Local File Inclusion - Double encoding](./rootme_wser.md#local-file-inclusion-double-encoding) 🗸
 35. [Node - Eval](./rootme_wser.md#node-eval)
 36. [PHP - Loose Comparison](./rootme_wser.md#php-loose-comparison)
-37. [PHP - preg_replace()](./rootme_wser.md#php-preg-replace)
-38. [PHP - type juggling](./rootme_wser.md#php-type-juggling)
-39. [Remote File Inclusion](./rootme_wser.md#remote-file-inclusion)
-40. [SQL injection - Authentication](./rootme_wser.md#sql-injection-authentication)
+37. [PHP - preg_replace()](./rootme_wser.md#php-preg-replace) 🗸
+38. [PHP - type juggling](./rootme_wser.md#php-type-juggling) 🗸
+39. [Remote File Inclusion](./rootme_wser.md#remote-file-inclusion) 🗸
+40. [SQL injection - Authentication](./rootme_wser.md#sql-injection-authentication) 🗸
 41. [SQL injection - Authentication - GBK](./rootme_wser.md#sql-injection-authentication-gbk)
-42. [SQL injection - String](./rootme_wser.md#sql-injection-string)
+42. [SQL injection - String](./rootme_wser.md#sql-injection-string) 🗸
 43. [XSLT - Code execution](./rootme_wser.md#xslt-code-execution)
-44. [LDAP injection - Authentication](./rootme_wser.md#ldap-injection-authentication)
+44. [LDAP injection - Authentication](./rootme_wser.md#ldap-injection-authentication) 🗸
 45. [Node - Serialize](./rootme_wser.md#node-serialize)
 46. [NodeJS - Prototype Pollution Bypass](./rootme_wser.md#nodejs-prototype-pollution-bypass)
 47. [NoSQL injection - Authentication](./rootme_wser.md#nosql-injection-authentication)
 48. [PHP - Path Truncation](./rootme_wser.md#php-path-truncation)
 49. [PHP - Serialization](./rootme_wser.md#php-serialization)
-50. [SQL injection - Numeric](./rootme_wser.md#sql-injection-numeric)
-51. [SQL Injection - Routed](./rootme_wser.md#sql-injection-routed)
+50. [SQL injection - Numeric](./rootme_wser.md#sql-injection-numeric) 🗸
+51. [SQL Injection - Routed](./rootme_wser.md#sql-injection-routed) 🗸
 52. [SQL Truncation](./rootme_wser.md#sql-truncation)
 53. [XML External Entity](./rootme_wser.md#xml-external-entity)
 54. [XPath injection - Authentication](./rootme_wser.md#xpath-injection-authentication)
@@ -556,12 +556,12 @@
 58. [Local File Inclusion - Wrappers](./rootme_wser.md#local-file-inclusion-wrappers)
 59. [PHP - Eval](./rootme_wser.md#php-eval)
 60. [PHP - Unserialize overflow](./rootme_wser.md#php-unserialize-overflow)
-61. [SQL injection - Error](./rootme_wser.md#sql-injection-error)
+61. [SQL injection - Error](./rootme_wser.md#sql-injection-error) 🗸
 62. [SQL injection - Insert](./rootme_wser.md#sql-injection-insert)
-63. [SQL injection - File reading](./rootme_wser.md#sql-injection-file-reading)
+63. [SQL injection - File reading](./rootme_wser.md#sql-injection-file-reading) 🗸
 64. [XPath injection - String](./rootme_wser.md#xpath-injection-string)
 65. [NoSQL injection - Blind](./rootme_wser.md#nosql-injection-blind)
-66. [SQL injection - Time based](./rootme_wser.md#sql-injection-time-based)
+66. [SQL injection - Time based](./rootme_wser.md#sql-injection-time-based) 🗸
 67. [NodeJS - vm escape](./rootme_wser.md#nodejs-vm-escape)
 68. [Server Side Request Forgery](./rootme_wser.md#server-side-request-forgery)
 69. [SQL injection - Blind](./rootme_wser.md#sql-injection-blind)
@@ -577,6 +577,6 @@
 
 ---
 
-This page was last updated Jan 22.
+This page was last updated April 22.
 
 # [djm89uk homepage](./index.md)
