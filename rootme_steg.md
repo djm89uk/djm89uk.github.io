@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Steganography [15/23]
+# [Root-Me](./rootme.md) Root-Me Steganography [17/23]
 
 The art of hiding information in a document. 
 
@@ -23,7 +23,7 @@ The art of hiding information in a document.
 17. [Hide and seek](#hide-and-seek)
 18. [PDF Object](#pdf-object) 🗸
 19. [Angecryption](#angecryption)
-20. [Kitty spy](#kitty-spy)
+20. [Kitty spy](#kitty-spy) 🗸
 21. [LSB - Uncle Scrooge](#lsb-uncle-scrooge) 🗸
 22. [Pixel Indicator Technique](#pixel-indicator-technique)
 23. [Pixel Value Differencing](#pixel-value-differencing)
@@ -1920,8 +1920,249 @@ And in the README file:
 QRCode - It's very funny to hide a QRCode in a picture ... you just have to apply 1-LSB on a pixel color to hide it ...
 ~~~
 
-So perhaps we are looking for a QR Code?
+So perhaps we are looking for a QR Code?  In the website index file "index.html" we find suspicious html tags throughout the site:
+
+~~~
+<HtmL>
+<heaD>
+	<MEta charset="utf-8">
+	<MEta http-equiv="X-UA-Compatible" content="IE=edge">
+	<Meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<lINK rel="shortcut icon" href="img/favicon.ico"> 
+	<LiNk rel="stylesheet" href="css/vendor/fluidbox.min.css">
+	<LiNK rel="stylesheet" href="css/main.css">
+
+	<TiTlE>🐱 </TitLe>
+
+</heAd>
+<BODY>
+...
+~~~
 	
+After multiple attempts, the password can be recovered from the html tags in python:
+
+~~~py
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 28 19:30:18 2022
+
+@author: derek
+"""
+
+import string
+import binascii
+
+UC= string.ascii_uppercase
+LC = string.ascii_lowercase
+text = "HtmLheaDMEtaMEtaMetalINKLiNkLiNKTiTlETitLeheAdBODYheADerDivdIVAADiVDiVDiVdivNAvuLlIaAlILIaaLiLIAALilIAalIuLNavHEADerDiVSEctiONh1sPansPaNH1PPSECTIONSECTIONDIVH2H2ppdivsectionsectiondivh2h2ppdivdivh2h2ppdivsectionsectiondivppdivsectiondivscriptscriptscriptscriptscriptscriptscriptscriptscriptscriptbodyhtml"
+
+b = []
+x = ""
+for c in text:
+    if c in UC:
+        x += "0"
+    elif c in LC:
+        x += "1"
+    if len(x) == 8:
+        b.append(x)
+        x = ""
+
+y = ""
+for i in range(len(b)):
+    X = int(b[i],2)
+    H = hex(X)[2:]
+    if len(H)%2 != 0:
+        H = "0"+H
+    try:
+        z = binascii.unhexlify(H.encode()).decode()
+        if z in string.printable:
+            y += z
+    except:
+        continue
+~~~
+
+This returns:
+
+~~~
+n3xTSt3pIsTh3L4st
+~~~
+	
+Which is the password for step4:
+
+~~~shell
+$ unzip step4
+Archive:  step4.zip
+   creating: step4/
+[step4.zip] step4/README#4.txt password: 
+  inflating: step4/README#4.txt      
+  inflating: step4/kitty.png   
+~~~
+
+This inflated zip directory has two files:
+
+~~~shell
+$ ls
+kitty.png  README#4.txt
+$ file kitty.png 
+kitty.png: PNG image data, 2000 x 1333, 8-bit/color RGB, non-interlaced
+$ file README#4.txt 
+README#4.txt: ASCII text
+$ cat README#4.txt 
+The last step !
+
+Let's go and find the flag !
+
+Oh ... if nothing come to your mind for this step, don't hesitate to check on previous challenges to have some clues !
+~~~
+
+Let's check the basics:
+
+~~~shell
+$ strings -n 12 -t x kitty.png 
+  43a6b Z/x|[FDApsJfM
+  c6831 Z$+e?3UiU|")
+  d1387 DET*+Y=TA4VI
+  fa12f /6_DdC)-UU9k
+ 126f60 b;:CGVL 3yD$
+ 12aea1 *%"C)Nrk- \\]
+ 14764e Y~~qvzvZow7w
+ 168f69 F	}w{wruZ.gRk"
+ 16c4b4 ^*YWu]7U]wm7)
+ 194fb9 $98:xzq~x4{X
+ 1efabe ~bHPLt?2KdV@
+ 1f7a13 |~ptz|xrxr|X
+ 2155d7 \"`YU&1,|yy	
+ 217b3e ]sqvq~vvq~y}
+ 25dfbe 7j"D#0Q$b&Mz
+ 260758 r(Pl`1\fcD`H
+ 2647d5 JPDQRLjjbNVv~
+ 2745d8 J Rwxr~#:2+"h r
+ 283738 ~w{s{{s{rrrv
+ 28ead3 po}}{{~ysqqq~~
+ 291ba6 z}uqq}}yxxt~~
+ 29bb36 .KJM<vUN@IQRX
+ 2a27ae YE;RDWw	13*YO
+ 2b44b9 Er`kKRg#AUAN
+ 2bbd70 {oVjy~zjsk6?
+ 302dee efLJe&kJDc-Z6\!3W
+ 336bd0 4TqD}Z7f@XEJ=uj
+ 35bd5c qADj5Zk${4q]
+$ exiftool kitty.png 
+ExifTool Version Number         : 11.88
+File Name                       : kitty.png
+Directory                       : .
+File Size                       : 3.4 MB
+File Modification Date/Time     : 2017:08:08 20:11:18+01:00
+File Access Date/Time           : 2022:04:28 19:50:32+01:00
+File Inode Change Date/Time     : 2022:04:28 19:49:46+01:00
+File Permissions                : rwxrwx---
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 2000
+Image Height                    : 1333
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+Image Size                      : 2000x1333
+Megapixels                      : 2.7
+$ binwalk -Me kitty.png 
+
+Scan Time:     2022-04-28 19:52:46
+Target File:   /home/derek/Downloads/step4/kitty.png
+MD5 Checksum:  2ed40448f8261397ae3d0c37c5e4feaa
+Signatures:    391
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 2000 x 1333, 8-bit/color RGB, non-interlaced
+41            0x29            Zlib compressed data, default compression
+
+
+Scan Time:     2022-04-28 19:52:46
+Target File:   /home/derek/Downloads/step4/_kitty.png.extracted/29
+MD5 Checksum:  d41d8cd98f00b204e9800998ecf8427e
+Signatures:    391
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+$ pngcheck -vtp7f kitty.png 
+File: kitty.png (3550134 bytes)
+  chunk IHDR at offset 0x0000c, length 13
+    2000 x 1333 image, 24-bit RGB, non-interlaced
+  chunk IDAT at offset 0x00025, length 65536
+    zlib: deflated, 32K window, default compression
+  chunk IDAT at offset 0x10031, length 65536
+  chunk IDAT at offset 0x2003d, length 65536
+  chunk IDAT at offset 0x30049, length 65536
+  chunk IDAT at offset 0x40055, length 65536
+  chunk IDAT at offset 0x50061, length 65536
+  chunk IDAT at offset 0x6006d, length 65536
+  chunk IDAT at offset 0x70079, length 65536
+  chunk IDAT at offset 0x80085, length 65536
+  chunk IDAT at offset 0x90091, length 65536
+  chunk IDAT at offset 0xa009d, length 65536
+  chunk IDAT at offset 0xb00a9, length 65536
+  chunk IDAT at offset 0xc00b5, length 65536
+  chunk IDAT at offset 0xd00c1, length 65536
+  chunk IDAT at offset 0xe00cd, length 65536
+  chunk IDAT at offset 0xf00d9, length 65536
+  chunk IDAT at offset 0x1000e5, length 65536
+  chunk IDAT at offset 0x1100f1, length 65536
+  chunk IDAT at offset 0x1200fd, length 65536
+  chunk IDAT at offset 0x130109, length 65536
+  chunk IDAT at offset 0x140115, length 65536
+  chunk IDAT at offset 0x150121, length 65536
+  chunk IDAT at offset 0x16012d, length 65536
+  chunk IDAT at offset 0x170139, length 65536
+  chunk IDAT at offset 0x180145, length 65536
+  chunk IDAT at offset 0x190151, length 65536
+  chunk IDAT at offset 0x1a015d, length 65536
+  chunk IDAT at offset 0x1b0169, length 65536
+  chunk IDAT at offset 0x1c0175, length 65536
+  chunk IDAT at offset 0x1d0181, length 65536
+  chunk IDAT at offset 0x1e018d, length 65536
+  chunk IDAT at offset 0x1f0199, length 65536
+  chunk IDAT at offset 0x2001a5, length 65536
+  chunk IDAT at offset 0x2101b1, length 65536
+  chunk IDAT at offset 0x2201bd, length 65536
+  chunk IDAT at offset 0x2301c9, length 65536
+  chunk IDAT at offset 0x2401d5, length 65536
+  chunk IDAT at offset 0x2501e1, length 65536
+  chunk IDAT at offset 0x2601ed, length 65536
+  chunk IDAT at offset 0x2701f9, length 65536
+  chunk IDAT at offset 0x280205, length 65536
+  chunk IDAT at offset 0x290211, length 65536
+  chunk IDAT at offset 0x2a021d, length 65536
+  chunk IDAT at offset 0x2b0229, length 65536
+  chunk IDAT at offset 0x2c0235, length 65536
+  chunk IDAT at offset 0x2d0241, length 65536
+  chunk IDAT at offset 0x2e024d, length 65536
+  chunk IDAT at offset 0x2f0259, length 65536
+  chunk IDAT at offset 0x300265, length 65536
+  chunk IDAT at offset 0x310271, length 65536
+  chunk IDAT at offset 0x32027d, length 65536
+  chunk IDAT at offset 0x330289, length 65536
+  chunk IDAT at offset 0x340295, length 65536
+  chunk IDAT at offset 0x3502a1, length 65536
+  chunk IDAT at offset 0x3602ad, length 10485
+  chunk IEND at offset 0x362bae, length 0
+No errors detected in kitty.png (57 chunks, 55.6% compression).
+~~~
+		      
+Nothing suspicious so far.  We can check the LSB of the file using [stegonline](stegonline.georgeom.net) and find each LSB plane has a QR code.  We can decode online at [4qrcode](4qrcode.com/scan-qr-code.php) and get the following outputs:
+		     
+~~~
+QR Code 1 (R Plane): "Sorry, you've got the wrong QRCode :)"
+QR Code 2 (G Plane): "Sorry, you've got the wrong QRCode :)"
+QR Code 3 (B Plane): "Well done ! You can now validate the challenge using this password : "C4tsW1llRul3th3W0rld""
+~~~
+
+
 </details>
 
 ### Answer
@@ -1931,7 +2172,7 @@ So perhaps we are looking for a QR Code?
 <summary markdown="span">Answer</summary>
 
 ~~~
-ARTLOVERSWILLNEVERDIE
+C4tsW1llRul3th3W0rld
 ~~~
 
 </details>
