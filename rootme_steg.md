@@ -24,7 +24,7 @@ The art of hiding information in a document.
 18. [PDF Object](#pdf-object) 🗸
 19. [Angecryption](#angecryption)
 20. [Kitty spy](#kitty-spy)
-21. [LSB - Uncle Scrooge](#lsb-uncle-scrooge)
+21. [LSB - Uncle Scrooge](#lsb-uncle-scrooge) 🗸
 22. [Pixel Indicator Technique](#pixel-indicator-technique)
 23. [Pixel Value Differencing](#pixel-value-differencing)
 24. [Crypt-art](#crypt-art) 🗸
@@ -2089,7 +2089,23 @@ File: ch9.png (64218 bytes)
 No errors detected in ch9.png (3 chunks, 57.7% compression).
 ~~~
 	
-Using stegolsb, stegdetect, we can extract RGB bit planes from the png to identify possible locations of hidden data.  All 3 bit-0 planes have interesting coding in the top row of pixels and several large squares appear across the lowest 4 bits.
+Using stegolsb, stegdetect, we can extract RGB bit planes from the png to identify possible locations of hidden data.  All 3 bit-0 planes have interesting coding in the top row of pixels and several large squares appear across the lowest 4 bits.  After multiple attempts, the password was recivered using [stegolsb](https://gist.github.com/dhondta/d2151c82dcd9a610a7380df1c6a0272c) in brute-force mode:
+
+~~~
+$ /usr/bin/stegolsb bruteforce ch9.png
+                                                                                                         _                   _     _
+                                                                                                     ___| |_ ___  __ _  ___ | |___| |__
+                                                                                                    / __| __/ _ \/ _` |/ _ \| / __| '_ \
+                                                                                                    \__ \ ||  __/ (_| | (_) | \__ \ |_) |
+                                                                                                    |___/\__\___|\__, |\___/|_|___/_.__/
+                                                                                                                 |___/
+
+
+ 
+19:22:45 [INFO] 16:TFdmMDdyc01iaUE2
+~~~
+
+Decoding from base64, the password can be recovered.
 	
 </details>
 
@@ -2098,9 +2114,9 @@ Using stegolsb, stegdetect, we can extract RGB bit planes from the png to identi
 <details>
 
 <summary markdown="span">Answer</summary>
-
+	
 ~~~
-
+LWf07rsMbiA6
 ~~~
 
 </details>
