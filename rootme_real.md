@@ -1,4 +1,4 @@
-# [Root-Me](./rootme.md) Root-Me Realist [1/43]
+# [Root-Me](./rootme.md) Root-Me Realist [1/44]
 
 You will end up in environments full of diverse and varied themes. These challenges will help you understand the operation, including authentication methods, and target vulnerabilities to exploit target in realistic scenarios.
 
