@@ -4,9 +4,9 @@
 
 ## Statistics
 
-1. Score: 1400
-2. Challenges: 97
-3. Ranking 6516
+1. Score: 2800
+2. Challenges: 152
+3. Ranking 2467
 
 ## Contents
 - [Root-Me App - Script](./rootme_ascr.md)
