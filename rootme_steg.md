@@ -1584,6 +1584,199 @@ print(asciistr)
 
 ---
 
+## ELF x64 Duality
+
+- Author: exti0p, AnthoLaMalice
+- Date: 22 November 2021
+- Points: 25
+- Level: 3
+
+### Statement
+
+The reverse engineering intern has found a binary that looks perfectly normal to him, however, your senior colleague tells you that it is strange. Find the information hidden in this executable.
+
+### Attachments
+
+1. [ch22.zip](http://challenge01.root-me.org/steganographie/ch22/ch22.zip).
+
+### Resources
+
+1. [download](https://academiccommons.columbia.edu/doi/10.7916/D8V414JC/download)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge files can be downloaded, extracted and inspected:
+
+~~~shell
+$ wget http://challenge01.root-me.org/steganographie/ch22/ch22.zip
+--2022-04-29 18:11:35--  http://challenge01.root-me.org/steganographie/ch22/ch22.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 797861 (779K) [application/zip]
+Saving to: ‘ch22.zip’
+
+ch22.zip                                                    100%[=========================================================================================================================================>] 779.16K  3.68MB/s    in 0.2s    
+
+2022-04-29 18:11:35 (3.68 MB/s) - ‘ch22.zip’ saved [797861/797861]
+
+$ unzip ch22.zip 
+Archive:  ch22.zip
+  inflating: innocent.bin            
+  inflating: happy.jpg               
+$ ls
+ch22.zip  happy.jpg  innocent.bin
+$ file innocent.bin 
+innocent.bin: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c1e1977d6c15f173215ce21f017c50aa577bb50d, for GNU/Linux 3.2.0, stripped
+$ file happy.jpg 
+happy.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=3, resolutionunit=2], baseline, precision 8, 2300x2328, components 3
+~~~
+
+We find a binary, innocent.bin and a jpg, happy.jpg. We can check the files for obvious strings:
+
+~~~shell
+$ strings -n 12 -t x happy.jpg 
+     8e y0u_4r3_g00d_4t_st3gggz_n0w_unh1d3_m3
+    1b3 %&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz
+    28e &'()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz
+~~~
+
+We find an interesting string in the jpg: "y0u_4r3_g00d_4t_st3gggz_n0w_unh1d3_m3"...  This can also be found in the metadata as a user comment using exiftool:
+
+~~~shell
+$ exiftool happy.jpg 
+ExifTool Version Number         : 11.88
+File Name                       : happy.jpg
+Directory                       : .
+File Size                       : 835 kB
+File Modification Date/Time     : 2022:03:02 01:12:09+00:00
+File Access Date/Time           : 2022:04:29 18:11:50+01:00
+File Inode Change Date/Time     : 2022:04:29 18:11:37+01:00
+File Permissions                : rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+X Resolution                    : 300
+Y Resolution                    : 300
+Exif Byte Order                 : Big-endian (Motorola, MM)
+Resolution Unit                 : inches
+Y Cb Cr Positioning             : Centered
+Exif Version                    : 0232
+Components Configuration        : Y, Cb, Cr, -
+User Comment                    : y0u_4r3_g00d_4t_st3gggz_n0w_unh1d3_m3
+Flashpix Version                : 0100
+Image Width                     : 2300
+Image Height                    : 2328
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 2300x2328
+Megapixels                      : 5.4
+~~~
+
+The binwalk shows a TIFF image encoded within the jpeg:
+
+~~~shell
+$ binwalk happy.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+~~~
+
+We will need a password to extract the second image from happy.jpg.  This is likely in innocent.bin.  We can use [steg86](https://lib.rs/crates/steg86) to extract the password:
+
+~~~shell
+$ ./steg86 extract innocent.bin 
+y0u_s33m__t0___und3rst4nd___s3m4nt1c_du41s_h44y_n0t_s0_r3v3rs3
+~~~
+
+Using this password the embedded image in happy.jpg can be extracted:
+
+~~~shell
+
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
+## Hide and Seek
+
+- Author: swap89
+- Date: 22 September 2019
+- Points: 25
+- Level: 3
+
+### Statement
+
+These 3 files were extracted from a USB key used by Jean-Kevin to store a backup of his passwords.
+
+The validation password is his password for root-me.org.
+
+### Attachments
+
+1. [ch17.7z](http://challenge01.root-me.org/steganographie/ch17/ch17.7z).
+
+### Resources
+
+1. [PNG (Portable Network Graphics) Specification v 1.2](https://repository.root-me.org/St%C3%A9ganographie/EN%20-%20PNG%20(Portable%20Network%20Graphics)%20Specification%20version%201.2.pdf).
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge files can be downloaded, extracted and inspected:
+
+~~~shell
+
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## PDF Object
 
 - Author: eilco
