@@ -9,7 +9,6 @@ The art of hiding information in a document.
 3. [Squared](#squared) 🗸
 4. [Dot and next line](#dot-and-next-line) 🗸
 5. [Steganomobile](#steganomobile) 🗸
-6. [Twitter Secret Messages](#twitter-secret-messages) 🗸
 7. [Some noise](#some-noise) 🗸
 8. [George and Alfred](#george-and-alfred) 🗸
 9. [Poem from Space](#poem-from-space) 🗸
@@ -955,6 +954,85 @@ secret-password
 
 ---
 
+## Mimic Dummy sight
+
+- Author: exti0p, AnthoLaMalice
+- Date: 22 November 2021
+- Points: 20
+- Level: 2
+
+### Statement
+
+A childhood friend knows that you work in cybersecurity, and he thinks he has received a fraudulent email containing two attachments. He asks you to check that it is not malicious.
+
+### Attachments
+
+1. [ch23.zip](http://challenge01.root-me.org/steganographie/ch23/ch23.zip).
+
+### Resources
+
+1. [item?id=8721475](https://news.ycombinator.com/item?id=8721475)
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download, inflate and inspect the challenge files:
+
+~~~shell
+$ wget http://challenge01.root-me.org/steganographie/ch23/ch23.zip
+--2022-04-29 12:38:26--  http://challenge01.root-me.org/steganographie/ch23/ch23.zip
+Resolving challenge01.root-me.org (challenge01.root-me.org)... 212.129.38.224, 2001:bc8:35b0:c166::151
+Connecting to challenge01.root-me.org (challenge01.root-me.org)|212.129.38.224|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1429 (1.4K) [application/zip]
+Saving to: ‘ch23.zip’
+
+ch23.zip                                                    100%[=========================================================================================================================================>]   1.40K  --.-KB/s    in 0s      
+
+2022-04-29 12:38:26 (499 MB/s) - ‘ch23.zip’ saved [1429/1429]
+$ file ch23.zip 
+ch23.zip: Zip archive data, at least v1.0 to extract
+$ unzip ch23.zip 
+Archive:  ch23.zip
+   creating: attachments/
+  inflating: attachments/ciphertext  
+  inflating: attachments/plaintext
+$ ls
+attachments  ch23.zip
+$ cd attachments/
+$ ls
+ciphertext  plaintext
+$ file ciphertext 
+ciphertext: ASCII text, with very long lines, with no line terminators
+$ file plaintext 
+plaintext: ASCII text, with very long lines, with no line terminators
+~~~
+
+The challenge resource suggests this is a mimic cipher.  Attempting to decipher using [spammimic.com](https://spammimic.com/decode.shtml) fails, we must decipher this locally using both plaintext and ciphertext documents as decipher input and model.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
+
+---
+
 ## We need to go deeper
 
 - Author: whoami
@@ -1080,7 +1158,6 @@ B33r1sG00d!
 ### [Steganography](#contents) | [Root-Me](./rootme.md) | [Home](./index.md)
 
 ---
-
 
 ## APNG Just A PNG
 
