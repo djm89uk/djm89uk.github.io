@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym General Skills [31/31]
+# [PicoCTF](./picoctf.md) PicoGym General Skills [32/32]
 
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
