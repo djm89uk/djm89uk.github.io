@@ -4,52 +4,51 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ## Contents
 
-- [Useful References](#useful-references)
-- [Insp3ct0r (2019)](#insp3ct0r) ✓
-- [logon (2019)](#logon) ✓
-- [where are the robots (2019)](#where-are-the-robots) ✓
-- [dont-use-client-side (2019)](#dont-use-client-side) ✓
-- [picobrowser (2019)](#picobrowser) ✓
-- [Client-side-again (2019)](#client-side-again) ✓
-- [Irish-Name-Repo 1 (2019)](#irish-name-repo-1) ✓
-- [Irish-Name-Repo 2 (2019)](#irish-name-repo-2) ✓
-- [Irish-Name-Repo 3 (2019)](#irish-name-repo-3) ✓
-- [JaWT Scratchpad (2019)](#jawt-scratchpad) ✓
-- [Java Script Kiddie (2019)](#java-script-kiddie) ✓
-- [Java Script Kiddie 2 (2019)](#java-script-kiddie-2) ✓
-- [Web Gauntlet (2020)](#web-gauntlet) ✓
-- [GET aHEAD (2021)](#get-ahead) ✓
-- [Cookies (2021)](#cookies) ✓
-- [Scavenger Hunt (2021)](#scavenger-hunt) ✓
-- [Some Assembly Required 1 (2021)](#some-assembly-required-1) ✓
-- [More Cookies (2021)](#more-cookies) ✓
-- [It is my Birthday (2021)](#it-is-my-birthday) ✓
-- [Who are you? (2021)](#who-are-you) ✓
-- [Some Assembly Required 2 (2021)](#some-assembly-required-2) ✓
-- [Super Serial (2021)](#super-serial) ✓
-- [Most Cookies (2021)](#most-cookies) ✓
-- [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
-- [Web Gauntlet 2 (2021)](#web-gauntlet-2) ✓
-- [Some Assembly Required 4 (2021)](#some-assembly-required-4) ✓
-- [X marks the spot (2021)](#x-marks-the-spot) ✓
-- [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
-- [Bithug (2021)](#bithug)
-- [login (2021)](#login) ✓
-- [caas (2021)](#caas) ✓
-- [notepad (2021)](#notepad)
-- [JAuth (2021)](#jauth)
-- [Includes (2022)](#includes) ✓
-- [Inspect HTML (2022)](#inspect-html) ✓
-- [Local Authority (2022)](#local-authority) ✓
-- [Search Source (2022)](#search-source) ✓
-- [Forbidden Paths (2022)](#forbidden-paths) ✓
-- [Power Cookie (2022)](#power-cookie) ✓
-- [Roboto Sans (2022)](#roboto-sans) ✓
-- [Secrets (2022)](#secrets) ✓
-- [SQL Direct (2022)](#sql-direct) ✓
-- [SQLiLite (2022)](#sqlilite) ✓
-- [Live Art (2022)](#live-art)
-- [Noted (2022)](#noted)
+1. [Insp3ct0r (2019)](#insp3ct0r) ✓
+2. [logon (2019)](#logon) ✓
+3. [where are the robots (2019)](#where-are-the-robots) ✓
+4. [dont-use-client-side (2019)](#dont-use-client-side) ✓
+5. [picobrowser (2019)](#picobrowser) ✓
+6. [Client-side-again (2019)](#client-side-again) ✓
+7. [Irish-Name-Repo 1 (2019)](#irish-name-repo-1) ✓
+8. [Irish-Name-Repo 2 (2019)](#irish-name-repo-2) ✓
+9. [Irish-Name-Repo 3 (2019)](#irish-name-repo-3) ✓
+10. [JaWT Scratchpad (2019)](#jawt-scratchpad) ✓
+11. [Java Script Kiddie (2019)](#java-script-kiddie) ✓
+12. [Java Script Kiddie 2 (2019)](#java-script-kiddie-2) ✓
+13. [Web Gauntlet (2020)](#web-gauntlet) ✓
+14. [GET aHEAD (2021)](#get-ahead) ✓
+15. [Cookies (2021)](#cookies) ✓
+16. [Scavenger Hunt (2021)](#scavenger-hunt) ✓
+17. [Some Assembly Required 1 (2021)](#some-assembly-required-1) ✓
+18. [More Cookies (2021)](#more-cookies) ✓
+19. [It is my Birthday (2021)](#it-is-my-birthday) ✓
+20. [Who are you? (2021)](#who-are-you) ✓
+21. [Some Assembly Required 2 (2021)](#some-assembly-required-2) ✓
+22. [Super Serial (2021)](#super-serial) ✓
+23. [Most Cookies (2021)](#most-cookies) ✓
+24. [Some Assembly Required 3 (2021)](#some-assembly-required-3) ✓
+25. [Web Gauntlet 2 (2021)](#web-gauntlet-2) ✓
+26. [Some Assembly Required 4 (2021)](#some-assembly-required-4) ✓
+27. [X marks the spot (2021)](#x-marks-the-spot) ✓
+28. [Web Gauntlet 3 (2021)](#web-gauntlet-3) ✓
+29. [Bithug (2021)](#bithug)
+30. [login (2021)](#login) ✓
+31. [caas (2021)](#caas) ✓
+32. [notepad (2021)](#notepad)
+33. [JAuth (2021)](#jauth)
+34. [Includes (2022)](#includes) ✓
+35. [Inspect HTML (2022)](#inspect-html) ✓
+36. [Local Authority (2022)](#local-authority) ✓
+37. [Search Source (2022)](#search-source) ✓
+38. [Forbidden Paths (2022)](#forbidden-paths) ✓
+39. [Power Cookie (2022)](#power-cookie) ✓
+40. [Roboto Sans (2022)](#roboto-sans) ✓
+41. [Secrets (2022)](#secrets) ✓
+42. [SQL Direct (2022)](#sql-direct) ✓
+43. [SQLiLite (2022)](#sqlilite) ✓
+44. [Live Art (2022)](#live-art)
+45. [Noted (2022)](#noted)
 
 ---
 
@@ -7999,6 +7998,6 @@ picoCTF{}
 ### [Web Exploitation](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-Last updated Dec 2021.
+Last updated May 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
