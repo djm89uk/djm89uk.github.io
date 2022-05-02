@@ -311,16 +311,16 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 20. [Codebook](./picogym_gs#codebook) ✓
 21. [convertme.py](./picogym_gs#convertme) ✓
 22. [fixme1.py](./picogym_gs#fixme1) ✓
-22. [fixme2.py](./picogym_gs#fixme2) ✓
-23. [Glitch Cat](./picogym_gs#glitch-cat) ✓
-24. [HashingJobApp](./picogym_gs#hashingjobapp) ✓
-25. [PW Crack 1](./picogym_gs#pw-crack-1) ✓
-26. [PW Crack 2](./picogym_gs#pw-crack-2) ✓
-27. [PW Crack 3](./picogym_gs#pw-crack-3) ✓
-28. [PW Crack 4](./picogym_gs#pw-crack-4) ✓
-29. [PW Crack 5](./picogym_gs#pw-crack-5) ✓
-30. [runme.py](./picogym_gs#runme) ✓
-31. [Serpentine](./picogym_gs#serpentine) ✓
+23. [fixme2.py](./picogym_gs#fixme2) ✓
+24. [Glitch Cat](./picogym_gs#glitch-cat) ✓
+25. [HashingJobApp](./picogym_gs#hashingjobapp) ✓
+26. [PW Crack 1](./picogym_gs#pw-crack-1) ✓
+27. [PW Crack 2](./picogym_gs#pw-crack-2) ✓
+28. [PW Crack 3](./picogym_gs#pw-crack-3) ✓
+29. [PW Crack 4](./picogym_gs#pw-crack-4) ✓
+30. [PW Crack 5](./picogym_gs#pw-crack-5) ✓
+31. [runme.py](./picogym_gs#runme) ✓
+32. [Serpentine](./picogym_gs#serpentine) ✓
 
 </details>
 
