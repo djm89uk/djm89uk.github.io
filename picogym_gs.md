@@ -1,42 +1,41 @@
-# [PicoCTF](./picoctf.md) PicoGym General Skills [32/32]
+# [PicoCTF](./picoctf.md) PicoGym General Skills [31/31]
 
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
 ## Contents
 
-- [Useful References](#useful-references)
-- [2Warm (2019)](#two-warm) ✓
-- [Warmed Up (2019)](#warmed-up) ✓
-- [Lets Warm Up (2019)](#lets-warm-up) ✓
-- [strings it (2019)](#strings-it) ✓
-- [Bases (2019)](#bases) ✓
-- [First Grep (2019)](#first-grep) ✓
-- [what's a net cat? (2019)](#whats-a-net-cat) ✓
-- [plumbing (2019)](#plumbing) ✓
-- [Based (2019)](#based) ✓
-- [flag_shop (2019)](#flag-shop) ✓
-- [mus1c (2019)](#mus1c) ✓
-- [1_wanna_b3_a_r0ck5tar (2019)](#i-wanna-b3-a-r0ck5tar) ✓
-- [Obedient cat (2021)](#obedient-cat) ✓
-- [Python Wrangling (2021)](#python-wrangling) ✓
-- [Wave a flag (2021)](#wave-a-flag) ✓
-- [Nice netcat (2021)](#nice-netcat) ✓
-- [Static aint always noise (2021)](#static-aint-always-noise) ✓
-- [Tab Tab Attack (2021)](#tab-tab-attack) ✓
-- [Magikarp Ground Mission (2021)](#magikarp-ground-mission) ✓
-- [Codebook](#codebook) ✓
-- [convertme.py](#convertme) ✓
-- [fixme1.py](#fixme1) ✓
-- [fixme2.py](#fixme2) ✓
-- [Glitch Cat](#glitch-cat) ✓
-- [HashingJobApp](#hashingjobapp) ✓
-- [PW Crack 1](#pw-crack-1) ✓
-- [PW Crack 2](#pw-crack-2) ✓
-- [PW Crack 3](#pw-crack-3) ✓
-- [PW Crack 4](#pw-crack-4) ✓
-- [PW Crack 5](#pw-crack-5) ✓
-- [runme.py](#runme) ✓
-- [Serpentine](#serpentine) ✓
+1. [2Warm (2019)](#two-warm) ✓
+2. [Warmed Up (2019)](#warmed-up) ✓
+3. [Lets Warm Up (2019)](#lets-warm-up) ✓
+4. [strings it (2019)](#strings-it) ✓
+5. [Bases (2019)](#bases) ✓
+6. [First Grep (2019)](#first-grep) ✓
+7. [what's a net cat? (2019)](#whats-a-net-cat) ✓
+8. [plumbing (2019)](#plumbing) ✓
+9. [Based (2019)](#based) ✓
+10. [flag_shop (2019)](#flag-shop) ✓
+11. [mus1c (2019)](#mus1c) ✓
+12. [1_wanna_b3_a_r0ck5tar (2019)](#i-wanna-b3-a-r0ck5tar) ✓
+13. [Obedient cat (2021)](#obedient-cat) ✓
+14. [Python Wrangling (2021)](#python-wrangling) ✓
+15. [Wave a flag (2021)](#wave-a-flag) ✓
+16. [Nice netcat (2021)](#nice-netcat) ✓
+17. [Static aint always noise (2021)](#static-aint-always-noise) ✓
+18. [Tab Tab Attack (2021)](#tab-tab-attack) ✓
+19. [Magikarp Ground Mission (2021)](#magikarp-ground-mission) ✓
+20. [Codebook](#codebook) ✓
+21. [convertme.py](#convertme) ✓
+22. [fixme1.py](#fixme1) ✓
+22. [fixme2.py](#fixme2) ✓
+23. [Glitch Cat](#glitch-cat) ✓
+24. [HashingJobApp](#hashingjobapp) ✓
+25. [PW Crack 1](#pw-crack-1) ✓
+26. [PW Crack 2](#pw-crack-2) ✓
+27. [PW Crack 3](#pw-crack-3) ✓
+28. [PW Crack 4](#pw-crack-4) ✓
+29. [PW Crack 5](#pw-crack-5) ✓
+30. [runme.py](#runme) ✓
+31. [Serpentine](#serpentine) ✓
 
 ---
 
