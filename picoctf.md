@@ -283,31 +283,44 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-## [PicoGym General Skills](./picogym_gs.md) (19/19)
+## [PicoGym General Skills](./picogym_gs.md) (32/32)
 
 <details>
 
 <summary markdown="span">Challenges</summary>
  
-- [2Warm (2019)](./picogym_gs#two-warm) ✓
-- [Warmed Up (2019)](./picogym_gs#warmed-up) ✓
-- [Lets Warm Up (2019)](./picogym_gs#lets-warm-up) ✓
-- [strings it (2019)](./picogym_gs#strings-it) ✓
-- [Bases (2019)](./picogym_gs#bases) ✓
-- [First Grep (2019)](./picogym_gs#first-grep) ✓
-- [what's a net cat? (2019)](./picogym_gs#whats-a-net-cat) ✓
-- [plumbing (2019)](./picogym_gs#plumbing) ✓
-- [Based (2019)](./picogym_gs#based) ✓
-- [flag_shop (2019)](./picogym_gs#flag-shop) ✓
-- [mus1c (2019)](./picogym_gs#mus1c) ✓
-- [1_wanna_b3_a_r0ck5tar (2019)](./picogym_gs#i-wanna-b3-a-r0ck5tar) ✓
-- [Obedient cat (2021)](./picogym_gs#obedient-cat) ✓
-- [Python Wrangling (2021)](./picogym_gs#python-wrangling) ✓
-- [Wave a flag (2021)](./picogym_gs#wave-a-flag) ✓
-- [Nice netcat (2021)](./picogym_gs#nice-netcat) ✓
-- [Static aint always noise (2021)](./picogym_gs#static-aint-always-noise) ✓
-- [Tab Tab Attack (2021)](./picogym_gs#tab-tab-attack) ✓
-- [Magikarp Ground Mission (2021)](./picogym_gs#magikarp-ground-mission) ✓
+1. [2Warm (2019)](./picogym_gs#two-warm) ✓
+2. [Warmed Up (2019)](./picogym_gs#warmed-up) ✓
+3. [Lets Warm Up (2019)](./picogym_gs#lets-warm-up) ✓
+4. [strings it (2019)](./picogym_gs#strings-it) ✓
+5. [Bases (2019)](./picogym_gs#bases) ✓
+6. [First Grep (2019)](./picogym_gs#first-grep) ✓
+7. [what's a net cat? (2019)](./picogym_gs#whats-a-net-cat) ✓
+8. [plumbing (2019)](./picogym_gs#plumbing) ✓
+9. [Based (2019)](./picogym_gs#based) ✓
+10. [flag_shop (2019)](./picogym_gs#flag-shop) ✓
+11. [mus1c (2019)](./picogym_gs#mus1c) ✓
+12. [1_wanna_b3_a_r0ck5tar (2019)](./picogym_gs#i-wanna-b3-a-r0ck5tar) ✓
+13. [Obedient cat (2021)](./picogym_gs#obedient-cat) ✓
+14. [Python Wrangling (2021)](./picogym_gs#python-wrangling) ✓
+15. [Wave a flag (2021)](./picogym_gs#wave-a-flag) ✓
+16. [Nice netcat (2021)](./picogym_gs#nice-netcat) ✓
+17. [Static aint always noise (2021)](./picogym_gs#static-aint-always-noise) ✓
+18. [Tab Tab Attack (2021)](./picogym_gs#tab-tab-attack) ✓
+19. [Magikarp Ground Mission (2021)](./picogym_gs#magikarp-ground-mission) ✓
+20. [Codebook](./picogym_gs#codebook) ✓
+21. [convertme.py](./picogym_gs#convertme) ✓
+22. [fixme1.py](./picogym_gs#fixme1) ✓
+22. [fixme2.py](./picogym_gs#fixme2) ✓
+23. [Glitch Cat](./picogym_gs#glitch-cat) ✓
+24. [HashingJobApp](./picogym_gs#hashingjobapp) ✓
+25. [PW Crack 1](./picogym_gs#pw-crack-1) ✓
+26. [PW Crack 2](./picogym_gs#pw-crack-2) ✓
+27. [PW Crack 3](./picogym_gs#pw-crack-3) ✓
+28. [PW Crack 4](./picogym_gs#pw-crack-4) ✓
+29. [PW Crack 5](./picogym_gs#pw-crack-5) ✓
+30. [runme.py](./picogym_gs#runme) ✓
+31. [Serpentine](./picogym_gs#serpentine) ✓
 
 </details>
 
