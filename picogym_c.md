@@ -4,56 +4,105 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ## Contents
 
-- [Useful References](#useful-references)
-- [The Numbers (2019)](#the-numbers) ✓
-- [caesar (2019)](#caesar) ✓
-- [Easy1 (2019)](#easy1) ✓
-- [13 (2019)](#thirteen) ✓
-- [la cifra de (2019)](#la-cifra-de) ✓
-- [Tapping (2019)](#tapping) ✓
-- [Mr-Worldwide (2019)](#mr-worldwide) ✓
-- [Flags (2019)](#flags) ✓
-- [waves over lambda (2019)](#waves-over-lambda) ✓
-- [miniRSA (2019)](#minirsa) ✓
-- [b00tl3gRSA2 (2019)](#b00tl3grsa2) ✓
-- [AES-ABC (2019)](#aes-abc) ✓
-- [b00tl3gRSA3 (2019)](#b00tl3grsa3) ✓
-- [john_pollard (2019)](#john-pollard) ✓
-- [Mod 26 (2021)](#mod-26) ✓
-- [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
-- [Easy Peasy (2021)](#easy-peasy) ✓
-- [New Caesar (2021)](#new-caesar) ✓
-- [Mini RSA (2021)](#mini-rsa) ✓
-- [Dachshund Attacks (2021)](#dachshund-attacks) ✓
-- [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
-- [Pixelated (2021)](#pixelated) ✓
-- [Play Nice (2021)](#play-nice) ✓
-- [Double DES (2021)](#double-des) ✓
-- [Compress and Attack (2021)](#compress-and-attack) ✓
-- [Scrambled: RSA (2021)](#scrambled-rsa) ✓
-- [It's Not My Fault 1 (2021)](#its-not-my-fault-1) ✓
-- [New Vignere (2021)](#new-vignere) ✓
-- [Clouds (2021)](#clouds)
-- [Spelling-Quiz (2021)](#spelling-quiz) ✓
-- [XtraORdinary (2021)](#xtraordinary) ✓
-- [Triple-Secure (2021)](#triple-secure) ✓
-- [College-Rowing-Team (2021)](#college-rowing-team) ✓
-- [Corrupt-key-1 (2021)](#corrupt-key-1)
-- [Corrupt-key-2 (2021)](#corrupt-key-2)
-- [basic-mod1 (2022)](#basic-mod1) ✓
-- [basic-mod2 (2022)](#basic-mod2) ✓
-- [credstuff (2022)](#credstuff) ✓
-- [morse-code (2022)](#morse-code) ✓
-- [rail-fence (2022)](#rail-fence) ✓
-- [substitution0 (2022)](#substitution0) ✓
-- [substitution1 (2022)](#substitution1) ✓
-- [substitution2 (2022)](#substitution2) ✓
-- [transposition-trial (2022)](#transposition-trial) ✓
-- [Vigenere (2022)](#vigenere) ✓
-- [Very Smooth (2022)](#very-smooth) ✓
-- [Sequences (2022)](#sequences) ✓
-- [Sum-O-Primes (2022)](#sum-o-primes) ✓
-- [NSA Backdoor (2022)](#nsa-backdoor)
+1. [The Numbers (2019)](#the-numbers) ✓
+2. [caesar (2019)](#caesar) ✓
+3. [Easy1 (2019)](#easy1) ✓
+4. [13 (2019)](#thirteen) ✓
+5. [la cifra de (2019)](#la-cifra-de) ✓
+6. [rsa-pop-quiz (2019)](#rsa-pop-quiz) ✓
+7. [Tapping (2019)](#tapping) ✓
+8. [Mr-Worldwide (2019)](#mr-worldwide) ✓
+9. [Flags (2019)](#flags) ✓
+10. [waves over lambda (2019)](#waves-over-lambda) ✓
+11. [miniRSA (2019)](#minirsa) ✓
+12. [b00tl3gRSA2 (2019)](#b00tl3grsa2) ✓
+13. [AES-ABC (2019)](#aes-abc) ✓
+14. [b00tl3gRSA3 (2019)](#b00tl3grsa3) ✓
+15. [john_pollard (2019)](#john-pollard) ✓
+16. [Mod 26 (2021)](#mod-26) ✓
+17. [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
+18. [Easy Peasy (2021)](#easy-peasy) ✓
+19. [New Caesar (2021)](#new-caesar) ✓
+20. [Mini RSA (2021)](#mini-rsa) ✓
+21. [Dachshund Attacks (2021)](#dachshund-attacks) ✓
+22. [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
+23. [Pixelated (2021)](#pixelated) ✓
+24. [Play Nice (2021)](#play-nice) ✓
+25. [Double DES (2021)](#double-des) ✓
+26. [Compress and Attack (2021)](#compress-and-attack) ✓
+27. [Scrambled: RSA (2021)](#scrambled-rsa) ✓
+28. [It's Not My Fault 1 (2021)](#its-not-my-fault-1) ✓
+29. [New Vignere (2021)](#new-vignere) ✓
+30. [Clouds (2021)](#clouds)
+31. [Spelling-Quiz (2021)](#spelling-1. [The Numbers (2019)](#the-numbers) ✓
+2. [caesar (2019)](#caesar) ✓
+3. [Easy1 (2019)](#easy1) ✓
+4. [13 (2019)](#thirteen) ✓
+5. [la cifra de (2019)](#la-cifra-de) ✓
+6. [Tapping (2019)](#tapping) ✓
+7. [Mr-Worldwide (2019)](#mr-worldwide) ✓
+8. [rsa-pop-quiz (2019)](#rsa-pop-quiz) ✓
+9. [Flags (2019)](#flags) ✓
+10. [waves over lambda (2019)](#waves-over-lambda) ✓
+11. [miniRSA (2019)](#minirsa) ✓
+12. [b00tl3gRSA2 (2019)](#b00tl3grsa2) ✓
+13. [AES-ABC (2019)](#aes-abc) ✓
+14. [b00tl3gRSA3 (2019)](#b00tl3grsa3) ✓
+15. [john_pollard (2019)](#john-pollard) ✓
+16. [Mod 26 (2021)](#mod-26) ✓
+17. [Mind your Ps and Qs (2021)](#mind-your-ps-and-qs) ✓
+18. [Easy Peasy (2021)](#easy-peasy) ✓
+19. [New Caesar (2021)](#new-caesar) ✓
+20. [Mini RSA (2021)](#mini-rsa) ✓
+21. [Dachshund Attacks (2021)](#dachshund-attacks) ✓
+22. [No Padding, No Problem (2021)](#no-padding-no-problem) ✓
+23. [Pixelated (2021)](#pixelated) ✓
+24. [Play Nice (2021)](#play-nice) ✓
+25. [Double DES (2021)](#double-des) ✓
+26. [Compress and Attack (2021)](#compress-and-attack) ✓
+27. [Scrambled: RSA (2021)](#scrambled-rsa) ✓
+28. [It's Not My Fault 1 (2021)](#its-not-my-fault-1) ✓
+29. [New Vignere (2021)](#new-vignere) ✓
+30. [Clouds (2021)](#clouds)
+31. [Spelling-Quiz (2021)](#spelling-quiz) ✓
+32. [XtraORdinary (2021)](#xtraordinary) ✓
+33. [Triple-Secure (2021)](#triple-secure) ✓
+34. [College-Rowing-Team (2021)](#college-rowing-team) ✓
+35. [Corrupt-key-1 (2021)](#corrupt-key-1)
+36. [Corrupt-key-2 (2021)](#corrupt-key-2)
+37. [basic-mod1 (2022)](#basic-mod1) ✓
+38. [basic-mod2 (2022)](#basic-mod2) ✓
+39. [credstuff (2022)](#credstuff) ✓
+40. [morse-code (2022)](#morse-code) ✓
+41. [rail-fence (2022)](#rail-fence) ✓
+42. [substitution0 (2022)](#substitution0) ✓
+43. [substitution1 (2022)](#substitution1) ✓
+44. [substitution2 (2022)](#substitution2) ✓
+45. [transposition-trial (2022)](#transposition-trial) ✓
+46. [Vigenere (2022)](#vigenere) ✓
+47. [Very Smooth (2022)](#very-smooth) ✓
+48. [Sequences (2022)](#sequences) ✓
+49. [Sum-O-Primes (2022)](#sum-o-primes) ✓
+50. [NSA Backdoor (2022)](#nsa-backdoor) ✓
+32. [XtraORdinary (2021)](#xtraordinary) ✓
+33. [Triple-Secure (2021)](#triple-secure) ✓
+34. [College-Rowing-Team (2021)](#college-rowing-team) ✓
+35. [Corrupt-key-1 (2021)](#corrupt-key-1)
+36. [Corrupt-key-2 (2021)](#corrupt-key-2)
+37. [basic-mod1 (2022)](#basic-mod1) ✓
+38. [basic-mod2 (2022)](#basic-mod2) ✓
+39. [credstuff (2022)](#credstuff) ✓
+40. [morse-code (2022)](#morse-code) ✓
+41. [rail-fence (2022)](#rail-fence) ✓
+42. [substitution0 (2022)](#substitution0) ✓
+43. [substitution1 (2022)](#substitution1) ✓
+44. [substitution2 (2022)](#substitution2) ✓
+45. [transposition-trial (2022)](#transposition-trial) ✓
+46. [Vigenere (2022)](#vigenere) ✓
+47. [Very Smooth (2022)](#very-smooth) ✓
+48. [Sequences (2022)](#sequences) ✓
+49. [Sum-O-Primes (2022)](#sum-o-primes) ✓
+50. [NSA Backdoor (2022)](#nsa-backdoor)
 
 ---
 
@@ -5436,6 +5485,6 @@ picoCTF{}
 
 ---
 	
-Page last updated Jan 2021.
+Page last updated May 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
