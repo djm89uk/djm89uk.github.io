@@ -225,56 +225,56 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 <summary markdown="span">Challenges</summary>
  
-- [Glory of the Garden (2019)](./picogym_f.md#glory-of-the-garden) ✓
-- [So Meta (2019)](./picogym_f.md#so-meta) ✓
-- [extensions (2019)](./picogym_f.md#extensions) ✓
-- [shark on wire 1 (2019)](./picogym_f.md#shark-on-wire-1) ✓
-- [What Lies Within (2019)](./picogym_f.md#what-lies-within) ✓
-- [c0rrupt (2019)](./picogym_f.md#c0rrupt) ✓
-- [WhitePages (2019)](./picogym_f.md#whitepages) ✓
-- [m00nwalk (2019)](./picogym_f.md#m00nwalk) ✓
-- [like1000 (2019)](./picogym_f.md#like1000) ✓
-- [shark on wire 2 (2019)](./picogym_f.md#shark-on-wire-2) ✓
-- [m00nwalk2 (2019)](./picogym_f.md#m00nwalk2) ✓
-- [Investigative Reversing 0 (2019)](./picogym_f.md#investigative-reversing-0) ✓
-- [WebNet0 (2019)](./picogym_f.md#webnet0) ✓
-- [Investigative Reversing 1 (2019)](./picogym_f.md#investigative-reversing-1) ✓
-- [Investigative Reversing 2 (2019)](./picogym_f.md#investigative-reversing-2) ✓
-- [Investigative Reversing 3 (2019)](./picogym_f.md#investigative-reversing-3) ✓
-- [Investigative Reversing 4 (2019)](./picogym_f.md#investigative-reversing-4) ✓
-- [investigation_encoded_1 (2019)](./picogym_f.md#investigation-encoded-1) ✓
-- [WebNet1 (2019)](./picogym_f.md#webnet1) ✓
-- [investigation_encoded_2 (2019)](./picogym_f.md#investigation-encoded-2) ✓
-- [B1g_Mac (2019)](./picogym_f.md#b1g-mac) ✓
-- [Pitter, Patter, Platters (2020)](./picogym_f.md#pitter-patter-platters) ✓
-- [Information (2021)](./picogym_f.md#information) ✓
-- [Matryoshka doll (2021)](./picogym_f.md#matryoshka-doll) ✓
-- [tunn3l v1s10n (2021)](./picogym_f.md#tunn3l-v1s10n) ✓
-- [Wireshark doo dooo do doo (2021)](./picogym_f.md#wireshark-doo-dooo-do-doo) ✓
-- [MacroHard WeakEdge (2021)](./picogym_f.md#macrohard-weakedge) ✓
-- [Trivial Flag Transfer Protocol (2021)](./picogym_f.md#trivial-flag-transfer-protocol) ✓
-- [Wireshark twoo twooo two twoo (2021)](./picogym_f.md#wireshark-twoo-twooo-two-twoo) ✓
-- [Disk, disk, sleuth! (2021)](./picogym_f.md#disk-disk-sleuth) ✓
-- [Milkslap (2021)](./picogym_f.md#milkslap) ✓
-- [Disk,disk, sleauth II (2021)](./picogym_f.md#disk-disk-sleuth-ii) ✓
-- [Surfing the Waves (2021)](./picogym_f.md#surfing-the-waves) ✓
-- [Very very very Hidden (2021)](./picogym_f.md#very-very-very-hidden) ✓
-- [Advanced-potion-making (2021)](./picogym_f.md#advanced-potion-making) ✓
-- [Scrambled-bytes (2021)](./picogym_f.md#scrambled-bytes) ✓
-- [WPA-ing Out](./picogym_f.md#wpa-ing-out) ✓
-- [Enhance! (2022)](./picogym_f.md#enhance) ✓
-- [File Types (2022)](./picogym_f.md#file-types) ✓
-- [Lookey Here (2022)](./picogym_f.md#lookey-here) ✓
-- [Packets Primer (2022)](./picogym_f.md#packets-primer) ✓
-- [Redaction Gone Wrong  (2022)](./picogym_f.md#redaction-gone-wrong) ✓
-- [Sleuthkit Intro (2022)](./picogym_f.md#sleuthkit-intro) ✓
-- [Sleuthkit Apprentice (2022)](./picogym_f.md#sleuthkit-apprentice) ✓
-- [Eavesdrop (2022)](./picogym_f.md#eavesdrop) ✓
-- [Operation Oni (2022)](./picogym_f.md#operation-oni) ✓
-- [St3g0 (2022)](./picogym_f.md#st3g0) ✓
-- [Operation Orchid (2022)](./picogym_f.md#operation-orchid) ✓
-- [Sidechannel (2022)](./picogym_f.md#sidechannel) ✓
-- [Torrent Analyze (2022)](./picogym_f.md#torrent-analyze) ✓
+1. [Glory of the Garden (2019)](./picogym_f.md#glory-of-the-garden) ✓
+2. [So Meta (2019)](./picogym_f.md#so-meta) ✓
+3. [extensions (2019)](./picogym_f.md#extensions) ✓
+4. [shark on wire 1 (2019)](./picogym_f.md#shark-on-wire-1) ✓
+5. [What Lies Within (2019)](./picogym_f.md#what-lies-within) ✓
+6. [c0rrupt (2019)](./picogym_f.md#c0rrupt) ✓
+7. [WhitePages (2019)](./picogym_f.md#whitepages) ✓
+8. [m00nwalk (2019)](./picogym_f.md#m00nwalk) ✓
+9. [like1000 (2019)](./picogym_f.md#like1000) ✓
+10. [shark on wire 2 (2019)](./picogym_f.md#shark-on-wire-2) ✓
+11. [m00nwalk2 (2019)](./picogym_f.md#m00nwalk2) ✓
+12. [Investigative Reversing 0 (2019)](./picogym_f.md#investigative-reversing-0) ✓
+13. [WebNet0 (2019)](./picogym_f.md#webnet0) ✓
+14. [Investigative Reversing 1 (2019)](./picogym_f.md#investigative-reversing-1) ✓
+15. [Investigative Reversing 2 (2019)](./picogym_f.md#investigative-reversing-2) ✓
+16. [Investigative Reversing 3 (2019)](./picogym_f.md#investigative-reversing-3) ✓
+17. [Investigative Reversing 4 (2019)](./picogym_f.md#investigative-reversing-4) ✓
+18. [investigation_encoded_1 (2019)](./picogym_f.md#investigation-encoded-1) ✓
+19. [WebNet1 (2019)](./picogym_f.md#webnet1) ✓
+20. [investigation_encoded_2 (2019)](./picogym_f.md#investigation-encoded-2) ✓
+21. [B1g_Mac (2019)](./picogym_f.md#b1g-mac) ✓
+22. [Pitter, Patter, Platters (2020)](./picogym_f.md#pitter-patter-platters) ✓
+23. [Information (2021)](./picogym_f.md#information) ✓
+24. [Matryoshka doll (2021)](./picogym_f.md#matryoshka-doll) ✓
+25. [tunn3l v1s10n (2021)](./picogym_f.md#tunn3l-v1s10n) ✓
+26. [Wireshark doo dooo do doo (2021)](./picogym_f.md#wireshark-doo-dooo-do-doo) ✓
+27. [MacroHard WeakEdge (2021)](./picogym_f.md#macrohard-weakedge) ✓
+28. [Trivial Flag Transfer Protocol (2021)](./picogym_f.md#trivial-flag-transfer-protocol) ✓
+29. [Wireshark twoo twooo two twoo (2021)](./picogym_f.md#wireshark-twoo-twooo-two-twoo) ✓
+30. [Disk, disk, sleuth! (2021)](./picogym_f.md#disk-disk-sleuth) ✓
+31. [Milkslap (2021)](./picogym_f.md#milkslap) ✓
+32. [Disk,disk, sleauth II (2021)](./picogym_f.md#disk-disk-sleuth-ii) ✓
+33. [Surfing the Waves (2021)](./picogym_f.md#surfing-the-waves) ✓
+34. [Very very very Hidden (2021)](./picogym_f.md#very-very-very-hidden) ✓
+35. [Advanced-potion-making (2021)](./picogym_f.md#advanced-potion-making) ✓
+36. [Scrambled-bytes (2021)](./picogym_f.md#scrambled-bytes) ✓
+37. [WPA-ing Out](./picogym_f.md#wpa-ing-out) ✓
+38. [Enhance! (2022)](./picogym_f.md#enhance) ✓
+39. [File Types (2022)](./picogym_f.md#file-types) ✓
+40. [Lookey Here (2022)](./picogym_f.md#lookey-here) ✓
+41. [Packets Primer (2022)](./picogym_f.md#packets-primer) ✓
+42. [Redaction Gone Wrong  (2022)](./picogym_f.md#redaction-gone-wrong) ✓
+43. [Sleuthkit Intro (2022)](./picogym_f.md#sleuthkit-intro) ✓
+44. [Sleuthkit Apprentice (2022)](./picogym_f.md#sleuthkit-apprentice) ✓
+45. [Eavesdrop (2022)](./picogym_f.md#eavesdrop) ✓
+46. [Operation Oni (2022)](./picogym_f.md#operation-oni) ✓
+47. [St3g0 (2022)](./picogym_f.md#st3g0) ✓
+48. [Operation Orchid (2022)](./picogym_f.md#operation-orchid) ✓
+49. [Sidechannel (2022)](./picogym_f.md#sidechannel) ✓
+50. [Torrent Analyze (2022)](./picogym_f.md#torrent-analyze) ✓
 
 </details>
 
@@ -289,38 +289,38 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 <summary markdown="span">Challenges</summary>
  
-1. [2Warm (2019)](./picogym_gs#two-warm) ✓
-2. [Warmed Up (2019)](./picogym_gs#warmed-up) ✓
-3. [Lets Warm Up (2019)](./picogym_gs#lets-warm-up) ✓
-4. [strings it (2019)](./picogym_gs#strings-it) ✓
-5. [Bases (2019)](./picogym_gs#bases) ✓
-6. [First Grep (2019)](./picogym_gs#first-grep) ✓
-7. [what's a net cat? (2019)](./picogym_gs#whats-a-net-cat) ✓
-8. [plumbing (2019)](./picogym_gs#plumbing) ✓
-9. [Based (2019)](./picogym_gs#based) ✓
-10. [flag_shop (2019)](./picogym_gs#flag-shop) ✓
-11. [mus1c (2019)](./picogym_gs#mus1c) ✓
-12. [1_wanna_b3_a_r0ck5tar (2019)](./picogym_gs#i-wanna-b3-a-r0ck5tar) ✓
-13. [Obedient cat (2021)](./picogym_gs#obedient-cat) ✓
-14. [Python Wrangling (2021)](./picogym_gs#python-wrangling) ✓
-15. [Wave a flag (2021)](./picogym_gs#wave-a-flag) ✓
-16. [Nice netcat (2021)](./picogym_gs#nice-netcat) ✓
-17. [Static aint always noise (2021)](./picogym_gs#static-aint-always-noise) ✓
-18. [Tab Tab Attack (2021)](./picogym_gs#tab-tab-attack) ✓
-19. [Magikarp Ground Mission (2021)](./picogym_gs#magikarp-ground-mission) ✓
-20. [Codebook](./picogym_gs#codebook) ✓
-21. [convertme.py](./picogym_gs#convertme) ✓
-22. [fixme1.py](./picogym_gs#fixme1) ✓
-23. [fixme2.py](./picogym_gs#fixme2) ✓
-24. [Glitch Cat](./picogym_gs#glitch-cat) ✓
-25. [HashingJobApp](./picogym_gs#hashingjobapp) ✓
-26. [PW Crack 1](./picogym_gs#pw-crack-1) ✓
-27. [PW Crack 2](./picogym_gs#pw-crack-2) ✓
-28. [PW Crack 3](./picogym_gs#pw-crack-3) ✓
-29. [PW Crack 4](./picogym_gs#pw-crack-4) ✓
-30. [PW Crack 5](./picogym_gs#pw-crack-5) ✓
-31. [runme.py](./picogym_gs#runme) ✓
-32. [Serpentine](./picogym_gs#serpentine) ✓
+1. [2Warm (2019)](./picogym_gs.md#two-warm) ✓
+2. [Warmed Up (2019)](./picogym_gs.md#warmed-up) ✓
+3. [Lets Warm Up (2019)](./picogym_gs.md#lets-warm-up) ✓
+4. [strings it (2019)](./picogym_gs.md#strings-it) ✓
+5. [Bases (2019)](./picogym_gs.md#bases) ✓
+6. [First Grep (2019)](./picogym_gs.md#first-grep) ✓
+7. [what's a net cat? (2019)](./picogym_gs.md#whats-a-net-cat) ✓
+8. [plumbing (2019)](./picogym_gs.md#plumbing) ✓
+9. [Based (2019)](./picogym_gs.md#based) ✓
+10. [flag_shop (2019)](./picogym_gs.md#flag-shop) ✓
+11. [mus1c (2019)](./picogym_gs.md#mus1c) ✓
+12. [1_wanna_b3_a_r0ck5tar (2019)](./picogym_gs.md#i-wanna-b3-a-r0ck5tar) ✓
+13. [Obedient cat (2021)](./picogym_gs.md#obedient-cat) ✓
+14. [Python Wrangling (2021)](./picogym_gs.md#python-wrangling) ✓
+15. [Wave a flag (2021)](./picogym_gs.md#wave-a-flag) ✓
+16. [Nice netcat (2021)](./picogym_gs.md#nice-netcat) ✓
+17. [Static aint always noise (2021)](./picogym_gs.md#static-aint-always-noise) ✓
+18. [Tab Tab Attack (2021)](./picogym_gs.md#tab-tab-attack) ✓
+19. [Magikarp Ground Mission (2021)](./picogym_gs.md#magikarp-ground-mission) ✓
+20. [Codebook](./picogym_gs.md#codebook) ✓
+21. [convertme.py](./picogym_gs.md#convertme) ✓
+22. [fixme1.py](./picogym_gs.md#fixme1) ✓
+23. [fixme2.py](./picogym_gs.md#fixme2) ✓
+24. [Glitch Cat](./picogym_gs.md#glitch-cat) ✓
+25. [HashingJobApp](./picogym_gs.md#hashingjobapp) ✓
+26. [PW Crack 1](./picogym_gs.md#pw-crack-1) ✓
+27. [PW Crack 2](./picogym_gs.md#pw-crack-2) ✓
+28. [PW Crack 3](./picogym_gs.md#pw-crack-3) ✓
+29. [PW Crack 4](./picogym_gs.md#pw-crack-4) ✓
+30. [PW Crack 5](./picogym_gs.md#pw-crack-5) ✓
+31. [runme.py](./picogym_gs.md#runme) ✓
+32. [Serpentine](./picogym_gs.md#serpentine) ✓
 
 </details>
 
