@@ -153,61 +153,61 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 <summary markdown="span">Challenges</summary>
 
-- [vault-door-training (2019)](./picogym_re.md#vault-door-training) ✓
-- [vault-door-1 (2019)](./picogym_re.md#vault-door-1) ✓
-- [vault-door-3 (2019)](./picogym_re.md#vault-door-3) ✓
-- [vault-door-4 (2019)](./picogym_re.md#vault-door-4) ✓
-- [vault-door-5 (2019)](./picogym_re.md#vault-door-5) ✓
-- [vault-door-6 (2019)](./picogym_re.md#vault-door-6) ✓
-- [vault-door-7 (2019)](./picogym_re.md#vault-door-7) ✓
-- [vault-door-8 (2019)](./picogym_re.md#vault-door-8) ✓
-- [asm1 (2019)](./picogym_re.md#asm1) ✓
-- [asm2 (2019)](./picogym_re.md#asm2) ✓
-- [asm3 (2019)](./picogym_re.md#asm3) ✓
-- [asm4 (2019)](./picogym_re.md#asm4) ✓
-- [droids0 (2019)](./picogym_re.md#droids0) ✓
-- [droids1 (2019)](./picogym_re.md#droids1) ✓
-- [droids2 (2019)](./picogym_re.md#droids2) ✓
-- [droids3 (2019)](./picogym_re.md#droids3) ✓
-- [droids4 (2019)](./picogym_re.md#droids4) ✓
-- [revese_cipher (2019)](./picogym_re.md#reverse-cipher) ✓
-- [Need For Speed (2019)](./picogym_re.md#need-for-speed) ✓
-- [B1ll_Gat35 (2019)](./picogym_re.md#b1ll-gat35)
-- [Forky (2019)](./picogym_re.md#forky) ✓
-- [OTP Implementation (2020)](./picogym_re.md#otp-implementation) ✓
-- [Transformation (2021)](./picogym_re.md#transformation) ✓
-- [Keygenme-py (2021)](./picogym_re.md#keygenme-py) ✓
-- [crackme-py (2021)](./picogym_re.md#crackme-py) ✓
-- [ARMssembly 0 (2021)](./picogym_re.md#armssembly-0) ✓
-- [speeds and feeds (2021)](./picogym_re.md#speeds-and-feeds) ✓
-- [Shop (2021)](./picogym_re.md#shop) ✓
-- [ARMssembly 1 (2021)](./picogym_re.md#armssembly-1) ✓
-- [ARMssembly 2 (2021)](./picogym_re.md#armssembly-2) ✓
-- [Hurry up! Wait! (2021)](./picogym_re.md#hurry-up-wait) ✓
-- [gogo (2021)](./picogym_re.md#gogo) ✓
-- [ARMssembly 3 (2021)](./picogym_re.md#armssembly-3) ✓
-- [Let's get dynamic (2021)](./picogym_re.md#lets-get-dynamic) ✓
-- [Easy as GDB (2021)](./picogym_re.md#easy-as-gdb)
-- [ARMssembly 4 (2021)](./picogym_re.md#armssembly-4) ✓
-- [Powershelly (2021)](./picogym_re.md#powershelly)
-- [Rolling My Own (2021)](./picogym_re.md#rolling-my-own)
-- [Checkpass (2021)](./picogym_re.md#checkpass)
-- [not crypto (2021)](./picogym_re.md#not-crypto) ✓
-- [breadth (2021)](./picogym_re.md#breadth)
-- [riscy business (2021)](./picogym_re.md#riscy-business)
-- [MATRIX (2021)](./picogym_re.md#matrix)
-- [file-run1 (2022)](./picogym_re.md#file-run1) ✓
-- [file-run2 (2022)](./picogym_re.md#file-run2) ✓
-- [GDB Test Drive (2022)](./picogym_re.md#gdb-test-drive) ✓
-- [patchme.py (2022)](./picogym_re.md#patchme-py) ✓
-- [Safe Opener (2022)](./picogym_re.md#safe-opener) ✓
-- [unpackme.py (2022)](./picogym_re.md#unpackme-py) ✓
-- [bloat.py (2022)](./picogym_re.md#bloat-py) ✓
-- [Fresh Java (2022)](./picogym_re.md#fresh-java) ✓
-- [Bbbbloat (2022)](./picogym_re.md#bbbbloat) ✓
-- [unpackme (2022)](./picogym_re.md#unpackme) ✓
-- [Keygenme (2022)](./picogym_re.md#keygenme)
-- [Wizardlike (2022)](./picogym_re.md#wizardlike) ✓
+1. [vault-door-training (2019)](./picogym_re.md#vault-door-training) ✓
+2. [vault-door-1 (2019)](./picogym_re.md#vault-door-1) ✓
+3. [vault-door-3 (2019)](./picogym_re.md#vault-door-3) ✓
+4. [vault-door-4 (2019)](./picogym_re.md#vault-door-4) ✓
+5. [vault-door-5 (2019)](./picogym_re.md#vault-door-5) ✓
+6. [vault-door-6 (2019)](./picogym_re.md#vault-door-6) ✓
+7. [vault-door-7 (2019)](./picogym_re.md#vault-door-7) ✓
+8. [vault-door-8 (2019)](./picogym_re.md#vault-door-8) ✓
+9. [asm1 (2019)](./picogym_re.md#asm1) ✓
+10. [asm2 (2019)](./picogym_re.md#asm2) ✓
+11. [asm3 (2019)](./picogym_re.md#asm3) ✓
+12. [asm4 (2019)](./picogym_re.md#asm4) ✓
+13. [droids0 (2019)](./picogym_re.md#droids0) ✓
+14. [droids1 (2019)](./picogym_re.md#droids1) ✓
+15. [droids2 (2019)](./picogym_re.md#droids2) ✓
+16. [droids3 (2019)](./picogym_re.md#droids3) ✓
+17. [droids4 (2019)](./picogym_re.md#droids4) ✓
+18. [revese_cipher (2019)](./picogym_re.md#reverse-cipher) ✓
+19. [Need For Speed (2019)](./picogym_re.md#need-for-speed) ✓
+20. [B1ll_Gat35 (2019)](./picogym_re.md#b1ll-gat35)
+21. [Forky (2019)](./picogym_re.md#forky) ✓
+22. [OTP Implementation (2020)](./picogym_re.md#otp-implementation) ✓
+23. [Transformation (2021)](./picogym_re.md#transformation) ✓
+24. [Keygenme-py (2021)](./picogym_re.md#keygenme-py) ✓
+25. [crackme-py (2021)](./picogym_re.md#crackme-py) ✓
+26. [ARMssembly 0 (2021)](./picogym_re.md#armssembly-0) ✓
+27. [speeds and feeds (2021)](./picogym_re.md#speeds-and-feeds) ✓
+28. [Shop (2021)](./picogym_re.md#shop) ✓
+29. [ARMssembly 1 (2021)](./picogym_re.md#armssembly-1) ✓
+30. [ARMssembly 2 (2021)](./picogym_re.md#armssembly-2) ✓
+31. [Hurry up! Wait! (2021)](./picogym_re.md#hurry-up-wait) ✓
+32. [gogo (2021)](./picogym_re.md#gogo) ✓
+33. [ARMssembly 3 (2021)](./picogym_re.md#armssembly-3) ✓
+34. [Let's get dynamic (2021)](./picogym_re.md#lets-get-dynamic) ✓
+35. [Easy as GDB (2021)](./picogym_re.md#easy-as-gdb) ✓
+36. [ARMssembly 4 (2021)](./picogym_re.md#armssembly-4) ✓
+37. [Powershelly (2021)](./picogym_re.md#powershelly)
+38. [Rolling My Own (2021)](./picogym_re.md#rolling-my-own)
+39. [Checkpass (2021)](./picogym_re.md#checkpass)
+40. [not crypto (2021)](./picogym_re.md#not-crypto) ✓
+41. [breadth (2021)](./picogym_re.md#breadth)
+42. [riscy business (2021)](./picogym_re.md#riscy-business)
+43. [MATRIX (2021)](./picogym_re.md#matrix)
+44. [file-run1 (2022)](./picogym_re.md#file-run1) ✓
+45. [file-run2 (2022)](./picogym_re.md#file-run2) ✓
+46. [GDB Test Drive (2022)](./picogym_re.md#gdb-test-drive) ✓
+47. [patchme.py (2022)](./picogym_re.md#patchme-py) ✓
+48. [Safe Opener (2022)](./picogym_re.md#safe-opener) ✓
+49. [unpackme.py (2022)](./picogym_re.md#unpackme-py) ✓
+50. [bloat.py (2022)](./picogym_re.md#bloat-py) ✓
+51. [Fresh Java (2022)](./picogym_re.md#fresh-java) ✓
+52. [Bbbbloat (2022)](./picogym_re.md#bbbbloat) ✓
+53. [unpackme (2022)](./picogym_re.md#unpackme) ✓
+54. [Keygenme (2022)](./picogym_re.md#keygenme) ✓
+55. [Wizardlike (2022)](./picogym_re.md#wizardlike) ✓
 
 </details>
 
