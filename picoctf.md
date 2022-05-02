@@ -330,7 +330,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ---
 
-## [PicoGym Binary Exploitation](./picogym_be.md) (11/37)
+## [PicoGym Binary Exploitation](./picogym_be.md) (13/37)
 
 Binary exploitation is the process of subverting a compiled application such that it violates some trust boundary in a way that is advantageous to you, the attacker.
 
@@ -338,43 +338,43 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 <summary markdown="span">Challenges</summary>
 
-- [seed-sPRiNG (2019)](./picogym_be.md#seed-spring) 🗸
-- [sice_cream (2019)](./picogym_be.md#sice-cream)
-- [zero_to_hero (2019)](./picogym_be.md#zero-to-hero)
-- [messy-malloc (2019)](./picogym_be.md#messy-malloc)
-- [Guessing Game 1 (2020)](./picogym_be.md#guessing-game-1) 🗸
-- [Guessing Game 2 (2020)](./picogym_be.md#guessing-game-2)
-- [Stonks (2021)](./picogym_be.md#stonks) 🗸
-- [Cache Me Outside (2021)](./picogym_be.md#cache-me-outside)
-- [Here's a LIBC (2021)](./picogym_be.md#heres-a-libc)
-- [Unsubscriptions Are Free (2021)](./picogym_be.md#unsubscriptions-are-free)
-- [filtered-shellcode (2021)](./picogym_be.md#filtered-shellcode)
-- [Kit Engine (2021)](./picogym_be.md#kit-engine)
-- [Stonk Market (2021)](./picogym_be.md#stonk-market)
-- [Download Horsepower (2021)](./picogym_be.md#download-horsepower)
-- [The Office (2021)](./picogym_be.md#the-office)
-- [Turboflan (2021)](./picogym_be.md#turboflan)
-- [Bizz Fuzz (2021)](./picogym_be.md#bizz-fuzz)
-- [cutter-overflow (2021)](./picogym_be.md#cutter-overflow) 🗸
-- [fermat-strings (2021)](./picogym_be.md#fermat-strings)
-- [SaaS (2021)](./picogym_be.md#saas)
-- [homework (2021)](./picogym_be.md#homework)
-- [lockdown-horses (2021)](./picogym_be.md#lockdown-horses)
-- [vr-school (2021)](./picogym_be.md#vr-school)
-- [basic-file-exploit (2022)](./picogym_be.md#basic-file-exploit) 🗸
-- [buffer overflow 0 (2022)](./picogym_be.md#buffer-overflow-0) 🗸
-- [CVE-XXXX-XXXX (2022)](./picogym_be.md#cve-xxxx-xxxx) 🗸
-- [buffer overflow 1 (2022)](./picogym_be.md#buffer-overflow-1) 🗸
-- [RPS (2022)](./picogym_be.md#rps) 🗸
-- [x-sixty-what (2022)](./picogym_be.md#x-sixty-what) 🗸
-- [buffer overflow 2 (2022)](./picogym_be.md#buffer-overflow-2) 🗸
-- [buffer overflow 3 (2022)](./picogym_be.md#buffer-overflow-3)
-- [flag leak (2022)](./picogym_be.md#flag-leak)
-- [ropfu (2022)](./picogym_be.md#ropfu)
-- [wine (2022)](./picogym_be.md#wine)
-- [function overwrite (2022)](./picogym_be.md#function-overwrite)
-- [stack cache (2022)](./picogym_be.md#stack-cache)
-- [solfire (2022)](./picogym_be.md#solfire)
+1. [seed-sPRiNG (2019)](./picogym_be.md#seed-spring) 🗸
+2. [sice_cream (2019)](./picogym_be.md#sice-cream)
+3. [zero_to_hero (2019)](./picogym_be.md#zero-to-hero)
+4. [messy-malloc (2019)](./picogym_be.md#messy-malloc)
+5. [Guessing Game 1 (2020)](./picogym_be.md#guessing-game-1) 🗸
+6. [Guessing Game 2 (2020)](./picogym_be.md#guessing-game-2)
+7. [Stonks (2021)](./picogym_be.md#stonks) 🗸
+8. [Cache Me Outside (2021)](./picogym_be.md#cache-me-outside)
+9. [Here's a LIBC (2021)](./picogym_be.md#heres-a-libc)
+10. [Unsubscriptions Are Free (2021)](./picogym_be.md#unsubscriptions-are-free)
+11. [filtered-shellcode (2021)](./picogym_be.md#filtered-shellcode)
+12. [Kit Engine (2021)](./picogym_be.md#kit-engine)
+13. [Stonk Market (2021)](./picogym_be.md#stonk-market)
+14. [Download Horsepower (2021)](./picogym_be.md#download-horsepower)
+15. [The Office (2021)](./picogym_be.md#the-office)
+16. [Turboflan (2021)](./picogym_be.md#turboflan)
+17. [Bizz Fuzz (2021)](./picogym_be.md#bizz-fuzz)
+18. [cutter-overflow (2021)](./picogym_be.md#cutter-overflow) 🗸
+19. [fermat-strings (2021)](./picogym_be.md#fermat-strings)
+20. [SaaS (2021)](./picogym_be.md#saas)
+21. [homework (2021)](./picogym_be.md#homework)
+22. [lockdown-horses (2021)](./picogym_be.md#lockdown-horses)
+23. [vr-school (2021)](./picogym_be.md#vr-school)
+24. [basic-file-exploit (2022)](./picogym_be.md#basic-file-exploit) 🗸
+25. [buffer overflow 0 (2022)](./picogym_be.md#buffer-overflow-0) 🗸
+26. [CVE-XXXX-XXXX (2022)](./picogym_be.md#cve-xxxx-xxxx) 🗸
+27. [buffer overflow 1 (2022)](./picogym_be.md#buffer-overflow-1) 🗸
+28. [RPS (2022)](./picogym_be.md#rps) 🗸
+29. [x-sixty-what (2022)](./picogym_be.md#x-sixty-what) 🗸
+30. [buffer overflow 2 (2022)](./picogym_be.md#buffer-overflow-2) 🗸
+31. [buffer overflow 3 (2022)](./picogym_be.md#buffer-overflow-3) 🗸
+32. [flag leak (2022)](./picogym_be.md#flag-leak) 🗸
+33. [ropfu (2022)](./picogym_be.md#ropfu)
+34. [wine (2022)](./picogym_be.md#wine)
+35. [function overwrite (2022)](./picogym_be.md#function-overwrite)
+36. [stack cache (2022)](./picogym_be.md#stack-cache)
+37. [solfire (2022)](./picogym_be.md#solfire)
 
 </details>
 
@@ -384,6 +384,6 @@ Binary exploitation is the process of subverting a compiled application such tha
 
 ---
 
-This page was last updated April 22.
+This page was last updated May 22.
 
 # [djm89uk homepage](./index.md)
