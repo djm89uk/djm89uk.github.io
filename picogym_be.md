@@ -894,7 +894,7 @@ picoCTF{I_l05t_4ll_my_m0n3y_a24c14a6}
 
 ---
 
-## Cache me outside
+## Cache me Outside
 
 - Author: madStacks
 - 70 Points
@@ -988,7 +988,7 @@ undefined8 main(void)
 }
 ~~~
 				  
-This shows the program is manipulating memory addresses.  There is a prompt to change 1 byte of memory to try and print the flag.
+This shows the program is opening flag.txt and reading the contents into a buffer.  There is a prompt to change 1 byte of memory to try and print the flag.
 
 </details>
 
