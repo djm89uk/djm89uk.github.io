@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym General Skills [19/19]
+# [PicoCTF](./picoctf.md) PicoGym General Skills [32/32]
 
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
@@ -24,6 +24,19 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 - [Static aint always noise (2021)](#static-aint-always-noise) ✓
 - [Tab Tab Attack (2021)](#tab-tab-attack) ✓
 - [Magikarp Ground Mission (2021)](#magikarp-ground-mission) ✓
+- [Codebook](#codebook) ✓
+- [convertme.py](#convertme) ✓
+- [fixme1.py](#fixme1) ✓
+- [fixme2.py](#fixme2) ✓
+- [Glitch Cat](#glitch-cat) ✓
+- [HashingJobApp](#hashingjobapp) ✓
+- [PW Crack 1](#pw-crack-1) ✓
+- [PW Crack 2](#pw-crack-2) ✓
+- [PW Crack 3](#pw-crack-3) ✓
+- [PW Crack 4](#pw-crack-4) ✓
+- [PW Crack 5](#pw-crack-5) ✓
+- [runme.py](#runme) ✓
+- [Serpentine](#serpentine) ✓
 
 ---
 
@@ -2207,7 +2220,945 @@ picoCTF{xxsh_0ut_0f_\/\/4t3r_1118a9a4}
 ### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
+## Codebook
 
-This page was last updated Dec 2021.
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Run the Python script code.py in the same directory as codebook.txt.
+
+### Attachments
+
+1. [code.py](https://artifacts.picoctf.net/c/100/code.py)
+2. [codebook.txt](https://artifacts.picoctf.net/c/100/codebook.txt)
+
+### Hints
+
+1. On the webshell, use ls to see if both files are in the directory you are in
+2. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge files can be downloaded:
+
+~~~shell
+$ wget https://artifacts.picoctf.net/c/100/code.py https://artifacts.picoctf.net/c/100/codebook.txt
+--2022-05-02 12:51:49--  https://artifacts.picoctf.net/c/100/code.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.14, 143.204.191.102, 143.204.191.75, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.14|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1278 (1.2K) [application/octet-stream]
+Saving to: ‘code.py’
+
+code.py                                                     100%[=========================================================================================================================================>]   1.25K  --.-KB/s    in 0s      
+
+2022-05-02 12:51:50 (134 MB/s) - ‘code.py’ saved [1278/1278]
+
+--2022-05-02 12:51:50--  https://artifacts.picoctf.net/c/100/codebook.txt
+Reusing existing connection to artifacts.picoctf.net:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 27 [application/octet-stream]
+Saving to: ‘codebook.txt’
+
+codebook.txt                                                100%[=========================================================================================================================================>]      27  --.-KB/s    in 0s      
+
+2022-05-02 12:51:50 (18.5 MB/s) - ‘codebook.txt’ saved [27/27]
+
+FINISHED --2022-05-02 12:51:50--
+Total wall clock time: 1.1s
+Downloaded: 2 files, 1.3K in 0s (119 MB/s)
+~~~
+
+The code.py file can be reviewed:
+
+~~~py
+import random
+import sys
+
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+
+flag_enc = chr(0x13) + chr(0x01) + chr(0x17) + chr(0x07) + chr(0x2c) + chr(0x3a) + chr(0x2f) + chr(0x1a) + chr(0x0d) + chr(0x53) + chr(0x0c) + chr(0x47) + chr(0x0a) + chr(0x5f) + chr(0x5e) + chr(0x02) + chr(0x3e) + chr(0x5a) + chr(0x56) + chr(0x5d) + chr(0x45) + chr(0x5d) + chr(0x58) + chr(0x31) + chr(0x0d) + chr(0x58) + chr(0x0f) + chr(0x02) + chr(0x5a) + chr(0x10) + chr(0x0e) + chr(0x5d) + chr(0x13)
+
+def print_flag():
+  try:
+    codebook = open('codebook.txt', 'r').read()    
+    password = codebook[4] + codebook[14] + codebook[13] + codebook[14] +\
+               codebook[23]+ codebook[25] + codebook[16] + codebook[0]  +\
+               codebook[25]
+    flag = str_xor(flag_enc, password)
+    print(flag)
+  except FileNotFoundError:
+    print('Couldn\'t find codebook.txt. Did you download that file into the same directory as this script?')
+
+def main():
+  print_flag()
+
+if __name__ == "__main__":
+  main()
+~~~
+
+The codebook can be seen:
+
+~~~shell
+$ cat codebook.txt 
+azbycxdwevfugthsirjqkplomn
+~~~
+
+We can simply run the code python script to retrieve the flag:
+
+~~~shell
+$ python code.py 
+picoCTF{c0d3b00k_455157_d9aa2df2}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{c0d3b00k_455157_d9aa2df2}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## convertme
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Run the Python script and convert the given number from decimal to binary to get the flag.
+
+### Attachments
+
+1. [convertme.py](https://artifacts.picoctf.net/c/32/convertme.py)
+
+### Hints
+
+1. Look up a decimal to binary number conversion app on the web or use your computer's calculator!
+2. The str_xor function does not need to be reverse engineered for this challenge.
+3. If you have Python on your computer, you can download the script normally and run it. Otherwise, use the wget command in the webshell.
+4. To use wget in the webshell, first right click on the download link and select 'Copy Link' or 'Copy Link Address'
+5. Type everything after the dollar sign in the webshell: $ wget , then paste the link after the space after wget and press enter. This will download the script for you in the webshell so you can run it!
+6. Finally, to run the script, type everything after the dollar sign and then press enter: $ python3 convertme.py
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+The challenge file can be downloaded:
+
+~~~shell
+$ wget https://artifacts.picoctf.net/c/32/convertme.py
+--2022-05-02 12:55:17--  https://artifacts.picoctf.net/c/32/convertme.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.14, 143.204.191.75, 143.204.191.102, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.14|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1189 (1.2K) [application/octet-stream]
+Saving to: ‘convertme.py’
+
+convertme.py                                                100%[=========================================================================================================================================>]   1.16K  --.-KB/s    in 0s      
+
+2022-05-02 12:55:17 (476 MB/s) - ‘convertme.py’ saved [1189/1189]
+~~~
+
+We can run the python script and solve the challenge question (converting decimal to binary) or we can retrieve the flag by changing the code and simply printing the flag.
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{4ll_y0ur_b4535_722f6b39}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## fixme1
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Fix the syntax error in this Python script to print the flag.
+
+### Attachments
+
+1. [fixme1.py](https://artifacts.picoctf.net/c/37/fixme1.py)
+
+### Hints
+
+1. Indentation is very meaningful in Python
+2. To view the file in the webshell, do: $ nano fixme1.py
+3. To exit nano, press Ctrl and x and follow the on-screen prompts.
+4. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and try to execute the python script:
+
+~~~shell
+$ wget https://artifacts.picoctf.net/c/37/fixme1.py
+--2022-05-02 12:59:58--  https://artifacts.picoctf.net/c/37/fixme1.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.14, 143.204.191.102, 143.204.191.79, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.14|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 837 [application/octet-stream]
+Saving to: ‘fixme1.py’
+
+fixme1.py                                                   100%[=========================================================================================================================================>]     837  --.-KB/s    in 0s      
+
+2022-05-02 12:59:58 (25.9 MB/s) - ‘fixme1.py’ saved [837/837]
+
+$ python fixme1.py 
+  File "fixme1.py", line 20
+    print('That is correct! Here\'s your flag: ' + flag)
+    ^
+IndentationError: unexpected indent
+~~~
+
+We get a syntax error in the Python code.  We can review and fix the code:
+
+~~~py
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+flag_enc = chr(0x15) + chr(0x07) + chr(0x08) + chr(0x06) + chr(0x27) + chr(0x21) + chr(0x23) + chr(0x15) + chr(0x5a) + chr(0x07) + chr(0x00) + chr(0x46) + chr(0x0b) + chr(0x1a) + chr(0x5a) + chr(0x1d) + chr(0x1d) + chr(0x2a) + chr(0x06) + chr(0x1c) + chr(0x5a) + chr(0x5c) + chr(0x55) + chr(0x40) + chr(0x3a) + chr(0x58) + chr(0x0a) + chr(0x5d) + chr(0x53) + chr(0x43) + chr(0x06) + chr(0x56) + chr(0x0d) + chr(0x14)  
+flag = str_xor(flag_enc, 'enkidu')
+print('That is correct! Here\'s your flag: ' + flag)
+~~~
+
+Running now gives us the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{1nd3nt1ty_cr1515_6a476c8f}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## fixme2
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Fix the syntax error in this Python script to print the flag.
+
+### Attachments
+
+1. [fixme2.py](https://artifacts.picoctf.net/c/66/fixme2.py)
+
+### Hints
+
+1. Are equality and assignment the same symbol?
+2. To view the file in the webshell, do: $ nano fixme2.py
+3. To exit nano, press Ctrl and x and follow the on-screen prompts.
+4. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download and try to execute the python script:
+
+~~~shell
+$ wget https://artifacts.picoctf.net/c/66/fixme2.py
+--2022-05-02 13:02:23--  https://artifacts.picoctf.net/c/66/fixme2.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.14, 143.204.191.79, 143.204.191.102, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.14|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1029 (1.0K) [application/octet-stream]
+Saving to: ‘fixme2.py’
+
+fixme2.py                                                   100%[=========================================================================================================================================>]   1.00K  --.-KB/s    in 0s      
+
+2022-05-02 13:02:24 (545 MB/s) - ‘fixme2.py’ saved [1029/1029]
+
+$ python fixme2.py 
+  File "fixme2.py", line 22
+    if flag = "":
+            ^
+SyntaxError: invalid syntax
+~~~
+
+We get a syntax error in the Python code.  We can review and fix the code:
+
+~~~py
+def str_xor(secret, key):
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+flag_enc = chr(0x15) + chr(0x07) + chr(0x08) + chr(0x06) + chr(0x27) + chr(0x21) + chr(0x23) + chr(0x15) + chr(0x58) + chr(0x18) + chr(0x11) + chr(0x41) + chr(0x09) + chr(0x5f) + chr(0x1f) + chr(0x10) + chr(0x3b) + chr(0x1b) + chr(0x55) + chr(0x1a) + chr(0x34) + chr(0x5d) + chr(0x51) + chr(0x40) + chr(0x54) + chr(0x09) + chr(0x05) + chr(0x04) + chr(0x57) + chr(0x1b) + chr(0x11) + chr(0x31) + chr(0x5f) + chr(0x51) + chr(0x52) + chr(0x46) + chr(0x00) + chr(0x5f) + chr(0x5a) + chr(0x0b) + chr(0x19)
+flag = str_xor(flag_enc, 'enkidu')
+if flag == "":
+  print('String XOR encountered a problem, quitting.')
+else:
+  print('That is correct! Here\'s your flag: ' + flag)
+~~~
+
+Running now gives us the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{3qu4l1ty_n0t_4551gnm3nt_4863e11b}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Glitch Cat
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Our flag printing service has started glitching! $ nc saturn.picoctf.net 65353
+
+### Attachments
+
+None.
+
+### Hints
+
+1. ASCII is one of the most common encodings used in programming
+2. We know that the glitch output is valid Python, somehow!
+3. Press Ctrl and c on your keyboard to close your connection and return to the command prompt.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+Connecting to the challenge server, we get an encoded flag:
+
+~~~shell
+$ nc saturn.picoctf.net 65353
+'picoCTF{gl17ch_m3_n07_' + chr(0x39) + chr(0x63) + chr(0x34) + chr(0x32) + chr(0x61) + chr(0x34) + chr(0x35) + chr(0x64) + '}'
+~~~
+
+We can load this verbatim in Python and print the flag.
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{gl17ch_m3_n07_9c42a45d}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## HashingJobApp
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+If you want to hash with the best, beat this test! nc saturn.picoctf.net 54555
+
+### Attachments
+
+None.
+
+### Hints
+
+1. You can use a commandline tool or web app to hash text.
+2. Press Ctrl and c on your keyboard to close your connection and return to the command prompt.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can connect to the challenge server and solve the md5 hashes automatically using Python:
+
+~~~py
+import hashlib
+import socket
+import time
+
+HOST = "saturn.picoctf.net"
+PORT = 54555
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((HOST, PORT))
+while True:
+    data = sock.recv(1024)
+    if b"picoCTF{" in data:
+        data = data.split(b"picoCTF{")[1].split(b"}")[0]
+        print("Flag = picoCTF{"+ data.decode() + "}\n")
+        break
+    word = data.split(b"'")[1]
+    print("PT Word = {}.\n".format(word.decode()))
+    ct = hashlib.md5(word).hexdigest()
+    print("Hash = {}.\n".format(ct))
+    sock.send(ct.encode()+b"\n")
+    time.sleep(1)
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{4ppl1c4710n_r3c31v3d_674c1de2}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## PW Crack 1
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you crack the password to get the flag? Download the password checker [here](https://artifacts.picoctf.net/c/53/level1.py) and you'll need the encrypted [flag](https://artifacts.picoctf.net/c/53/level1.flag.txt.enc) in the same directory too.
+
+### Attachments
+
+1. [level1.py](https://artifacts.picoctf.net/c/53/level1.py)
+2. [level1.flag.txt.enc](https://artifacts.picoctf.net/c/53/level1.flag.txt.enc)
+
+### Hints
+
+1. To view the file in the webshell, do: $ nano level1.py
+2. To exit nano, press Ctrl and x and follow the on-screen prompts.
+3. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+We can download the challenge files:
+
+~~~shell
+$ wget https://artifacts.picoctf.net/c/53/level1.py https://artifacts.picoctf.net/c/53/level1.flag.txt.enc
+--2022-05-02 13:18:58--  https://artifacts.picoctf.net/c/53/level1.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.102, 143.204.191.79, 143.204.191.14, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.102|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 876 [application/octet-stream]
+Saving to: ‘level1.py’
+
+level1.py                                                   100%[=========================================================================================================================================>]     876  --.-KB/s    in 0s      
+
+2022-05-02 13:18:59 (353 MB/s) - ‘level1.py’ saved [876/876]
+
+--2022-05-02 13:18:59--  https://artifacts.picoctf.net/c/53/level1.flag.txt.enc
+Reusing existing connection to artifacts.picoctf.net:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 30 [application/octet-stream]
+Saving to: ‘level1.flag.txt.enc’
+
+level1.flag.txt.enc                                         100%[=========================================================================================================================================>]      30  --.-KB/s    in 0s      
+
+2022-05-02 13:18:59 (13.1 MB/s) - ‘level1.flag.txt.enc’ saved [30/30]
+
+FINISHED --2022-05-02 13:18:59--
+Total wall clock time: 1.0s
+Downloaded: 2 files, 906 in 0s (190 MB/s)
+~~~
+
+We can review the python source code to get the password:
+
+~~~py
+### THIS FUNCTION WILL NOT HELP YOU FIND THE FLAG --LT ########################
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+###############################################################################
+
+
+flag_enc = open('level1.flag.txt.enc', 'rb').read()
+
+
+
+def level_1_pw_check():
+    user_pw = input("Please enter correct password for flag: ")
+    if( user_pw == "8713"):
+        print("Welcome back... your flag, user:")
+        decryption = str_xor(flag_enc.decode(), user_pw)
+        print(decryption)
+        return
+    print("That password is incorrect")
+
+
+
+level_1_pw_check()
+~~~
+
+We can change the source code to print the flag without authentication:
+
+~~~py
+### THIS FUNCTION WILL NOT HELP YOU FIND THE FLAG --LT ########################
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+###############################################################################
+
+flag_enc = open('level1.flag.txt.enc', 'rb').read()
+def level_1_pw_check():
+    print("Please wait, decypting flag.")
+    decryption = str_xor(flag_enc.decode(), "8713")
+    print(decryption)
+
+level_1_pw_check()
+~~~
+
+Running the code, we can recover the flag:
+
+~~~shell
+$ python level1.py 
+Please wait, decypting flag.
+picoCTF{545h_r1ng1ng_1b2fd683}
+~~~ 
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{545h_r1ng1ng_1b2fd683}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## PW Crack 2
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you crack the password to get the flag? Download the password checker [here](https://artifacts.picoctf.net/c/16/level2.py) and you'll need the encrypted [flag](https://artifacts.picoctf.net/c/16/level2.flag.txt.enc) in the same directory too.
+
+### Attachments
+
+1. [level2.py](https://artifacts.picoctf.net/c/16/level2.py)
+2. [level2.flag.txt.enc](https://artifacts.picoctf.net/c/16/level2.flag.txt.enc)
+
+### Hints
+
+1. Does that encoding look familiar?
+2. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+As with the previous challenge, we can edit the Python code to bypass authentication:
+
+~~~py
+### THIS FUNCTION WILL NOT HELP YOU FIND THE FLAG --LT ########################
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+###############################################################################
+flag_enc = open('level2.flag.txt.enc', 'rb').read()
+def level_2_pw_check():
+    user_pw = chr(0x64) + chr(0x65) + chr(0x37) + chr(0x36)
+    decryption = str_xor(flag_enc.decode(), user_pw)
+    print(decryption)
+level_2_pw_check()
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{tr45h_51ng1ng_489dea9a}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## PW Crack 3
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you crack the password to get the flag? Download the password checker [here](https://artifacts.picoctf.net/c/25/level3.py) and you'll need the encrypted [flag](https://artifacts.picoctf.net/c/25/level3.flag.txt.enc) and the [hash](https://artifacts.picoctf.net/c/25/level3.hash.bin) in the same directory too. There are 7 potential passwords with 1 being correct. You can find these by examining the password checker script.
+
+### Attachments
+
+1. [level3.py](https://artifacts.picoctf.net/c/25/level3.py)
+2. [level3.flag.txt.enc](https://artifacts.picoctf.net/c/25/level3.flag.txt.enc)
+3. [level3.hash.bin](https://artifacts.picoctf.net/c/25/level3.hash.bin)
+
+### Hints
+
+1. To view the level3.hash.bin file in the webshell, do: $ bvi level3.hash.bin.
+2. To exit bvi type :q and press enter.
+3. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## PW Crack 4
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you crack the password to get the flag? Download the password checker [here](https://artifacts.picoctf.net/c/58/level4.py) and you'll need the encrypted [flag](https://artifacts.picoctf.net/c/25/level3.flag.txt.enc) and the [hash](https://artifacts.picoctf.net/c/25/level3.hash.bin) in the same directory too. There are 100 potential passwords with 1 being correct. You can find these by examining the password checker script.
+
+### Attachments
+
+1. [level4.py](https://artifacts.picoctf.net/c/58/level4.py)
+2. [level4.flag.txt.enc](https://artifacts.picoctf.net/c/58/level4.flag.txt.enc)
+3. [level4.hash.bin](https://artifacts.picoctf.net/c/58/level4.hash.bin)
+
+### Hints
+
+1. A for loop can help you do many things very quickly.
+2. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## PW Crack 5
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Can you crack the password to get the flag? Download the password checker [here](https://artifacts.picoctf.net/c/81/level5.py) and you'll need the encrypted [flag](https://artifacts.picoctf.net/c/81/level5.flag.txt.enc) and the [hash](https://artifacts.picoctf.net/c/81/level5.hash.bin) in the same directory too. Here's a [dictionary](https://artifacts.picoctf.net/c/81/dictionary.txt) with all possible passwords based on the password conventions we've seen so far.
+
+### Attachments
+
+1. [level5.py](https://artifacts.picoctf.net/c/81/level5.py)
+2. [level5.flag.txt.enc](https://artifacts.picoctf.net/c/81/level5.flag.txt.enc)
+3. [level5.hash.bin](https://artifacts.picoctf.net/c/81/level5.hash.bin)
+4. [dictionary.txt](https://artifacts.picoctf.net/c/81/dictionary.txt)
+
+### Hints
+
+1. Opening a file in Python is crucial to using the provided dictionary.
+2. You may need to trim the whitespace from the dictionary word before hashing. Look up the Python string function, strip
+3. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## runme
+
+- Author: Sujeet Kumar
+- 100 Points
+
+### Description
+
+Run the runme.py script to get the flag. Download the script with your browser or with wget in the webshell. [Download runme.py Python script](https://artifacts.picoctf.net/c/86/runme.py).
+
+### Attachments
+
+1. [runme.py](https://artifacts.picoctf.net/c/86/runme.py)
+
+### Hints
+
+1. If you have Python on your computer, you can download the script normally and run it. Otherwise, use the wget command in the webshell.
+2. To use wget in the webshell, first right click on the download link and select 'Copy Link' or 'Copy Link Address'
+3. Type everything after the dollar sign in the webshell: $ wget , then paste the link after the space after wget and press enter. This will download the script for you in the webshell so you can run it!
+4. Finally, to run the script, type everything after the dollar sign and then press enter: $ python3 runme.py You should have the flag now!
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Serpentine
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Find the flag in the Python script! [Download Python script](https://artifacts.picoctf.net/c/95/serpentine.py).
+
+### Attachments
+
+1. [serpentine.py](https://artifacts.picoctf.net/c/95/serpentine.py)
+
+### Hints
+
+1. Try running the script and see what happens.
+2. In the webshell, try examining the script with a text editor like nano.
+3. To exit nano, press Ctrl and x and follow the on-screen prompts.
+4. The str_xor function does not need to be reverse engineered for this challenge.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+This page was last updated April 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
