@@ -4,61 +4,61 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 
 ## Contents
 
-- [vault-door-training (2019)](#vault-door-training) ✓
-- [vault-door-1 (2019)](#vault-door-1) ✓
-- [vault-door-3 (2019)](#vault-door-3) ✓
-- [vault-door-4 (2019)](#vault-door-4) ✓
-- [vault-door-5 (2019)](#vault-door-5) ✓
-- [vault-door-6 (2019)](#vault-door-6) ✓
-- [vault-door-7 (2019)](#vault-door-7) ✓
-- [vault-door-8 (2019)](#vault-door-8) ✓
-- [asm1 (2019)](#asm1) ✓
-- [asm2 (2019)](#asm2) ✓
-- [asm3 (2019)](#asm3) ✓
-- [asm4 (2019)](#asm4) ✓
-- [droids0 (2019)](#droids0) ✓
-- [droids1 (2019)](#droids1) ✓
-- [droids2 (2019)](#droids2) ✓
-- [droids3 (2019)](#droids3) ✓
-- [droids4 (2019)](#droids4) ✓
-- [revese_cipher (2019)](#reverse-cipher) ✓
-- [Need For Speed (2019)](#need-for-speed) ✓
-- [B1ll_Gat35 (2019)](#b1ll-gat35)
-- [Forky (2019)](#forky) ✓
-- [OTP Implementation (2020)](#otp-implementation) ✓
-- [Transformation (2021)](#transformation) ✓
-- [Keygenme-py (2021)](#keygenme-py) ✓
-- [crackme-py (2021)](#crackme-py) ✓
-- [ARMssembly 0 (2021)](#armssembly-0) ✓
-- [speeds and feeds (2021)](#speeds-and-feeds) ✓
-- [Shop (2021)](#shop) ✓
-- [ARMssembly 1 (2021)](#armssembly-1) ✓
-- [ARMssembly 2 (2021)](#armssembly-2) ✓
-- [Hurry up! Wait! (2021)](#hurry-up-wait) ✓
-- [gogo (2021)](#gogo) ✓
-- [ARMssembly 3 (2021)](#armssembly-3) ✓
-- [Let's get dynamic (2021)](#lets-get-dynamic) ✓
-- [Easy as GDB (2021)](#easy-as-gdb) ✓
-- [ARMssembly 4 (2021)](#armssembly-4) ✓
-- [Powershelly (2021)](#powershelly)
-- [Rolling My Own (2021)](#rolling-my-own)
-- [Checkpass (2021)](#checkpass)
-- [not crypto (2021)](#not-crypto) ✓
-- [breadth (2021)](#breadth)
-- [riscy business (2021)](#riscy-business)
-- [MATRIX (2021)](#matrix)
-- [file-run1 (2022)](#file-run1) ✓
-- [file-run2 (2022)](#file-run2) ✓
-- [GDB Test Drive (2022)](#gdb-test-drive) ✓
-- [patchme.py (2022)](#patchme-py) ✓
-- [Safe Opener (2022)](#safe-opener) ✓
-- [unpackme.py (2022)](#unpackme-py) ✓
-- [bloat.py (2022)](#bloat-py) ✓
-- [Fresh Java (2022)](#fresh-java) ✓
-- [Bbbbloat (2022)](#bbbbloat) ✓
-- [unpackme (2022)](#unpackme) ✓
-- [Keygenme (2022)](#keygenme) ✓
-- [Wizardlike (2022)](#wizardlike) ✓
+1. [vault-door-training (2019)](#vault-door-training) ✓
+2. [vault-door-1 (2019)](#vault-door-1) ✓
+3. [vault-door-3 (2019)](#vault-door-3) ✓
+4. [vault-door-4 (2019)](#vault-door-4) ✓
+5. [vault-door-5 (2019)](#vault-door-5) ✓
+6. [vault-door-6 (2019)](#vault-door-6) ✓
+7. [vault-door-7 (2019)](#vault-door-7) ✓
+8. [vault-door-8 (2019)](#vault-door-8) ✓
+9. [asm1 (2019)](#asm1) ✓
+10. [asm2 (2019)](#asm2) ✓
+11. [asm3 (2019)](#asm3) ✓
+12. [asm4 (2019)](#asm4) ✓
+13. [droids0 (2019)](#droids0) ✓
+14. [droids1 (2019)](#droids1) ✓
+15. [droids2 (2019)](#droids2) ✓
+16. [droids3 (2019)](#droids3) ✓
+17. [droids4 (2019)](#droids4) ✓
+18. [revese_cipher (2019)](#reverse-cipher) ✓
+19. [Need For Speed (2019)](#need-for-speed) ✓
+20. [B1ll_Gat35 (2019)](#b1ll-gat35)
+21. [Forky (2019)](#forky) ✓
+22. [OTP Implementation (2020)](#otp-implementation) ✓
+23. [Transformation (2021)](#transformation) ✓
+24. [Keygenme-py (2021)](#keygenme-py) ✓
+25. [crackme-py (2021)](#crackme-py) ✓
+26. [ARMssembly 0 (2021)](#armssembly-0) ✓
+27. [speeds and feeds (2021)](#speeds-and-feeds) ✓
+28. [Shop (2021)](#shop) ✓
+29. [ARMssembly 1 (2021)](#armssembly-1) ✓
+30. [ARMssembly 2 (2021)](#armssembly-2) ✓
+31. [Hurry up! Wait! (2021)](#hurry-up-wait) ✓
+32. [gogo (2021)](#gogo) ✓
+33. [ARMssembly 3 (2021)](#armssembly-3) ✓
+34. [Let's get dynamic (2021)](#lets-get-dynamic) ✓
+35. [Easy as GDB (2021)](#easy-as-gdb) ✓
+36. [ARMssembly 4 (2021)](#armssembly-4) ✓
+37. [Powershelly (2021)](#powershelly)
+38. [Rolling My Own (2021)](#rolling-my-own)
+39. [Checkpass (2021)](#checkpass)
+40. [not crypto (2021)](#not-crypto) ✓
+41. [breadth (2021)](#breadth)
+42. [riscy business (2021)](#riscy-business)
+43. [MATRIX (2021)](#matrix)
+44. [file-run1 (2022)](#file-run1) ✓
+45. [file-run2 (2022)](#file-run2) ✓
+46. [GDB Test Drive (2022)](#gdb-test-drive) ✓
+47. [patchme.py (2022)](#patchme-py) ✓
+48. [Safe Opener (2022)](#safe-opener) ✓
+49. [unpackme.py (2022)](#unpackme-py) ✓
+50. [bloat.py (2022)](#bloat-py) ✓
+51. [Fresh Java (2022)](#fresh-java) ✓
+52. [Bbbbloat (2022)](#bbbbloat) ✓
+53. [unpackme (2022)](#unpackme) ✓
+54. [Keygenme (2022)](#keygenme) ✓
+55. [Wizardlike (2022)](#wizardlike) ✓
  
 ---
 
@@ -9825,6 +9825,6 @@ picoCTF{ur_4_w1z4rd_8F4B04AE}
 
 ---
 	
-Last updated: April 2022
+Last updated: May 2022
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
