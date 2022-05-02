@@ -78,7 +78,7 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 ---
 
-## [PicoGym Cryptography](./picogym_c.md) (43/50)
+## [PicoGym Cryptography](./picogym_c.md) (46/50)
 
 Cryptography is essential to many models of cyber security. Cryptography applies algorithms to shuffle the bits that represent data in such a way that only authorized users can unshuffle them to obtain the original data. 
 
@@ -86,56 +86,56 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 <summary markdown="span">Challenges</summary>
 
-- [The Numbers (2019)](./picogym_c.md#the-numbers) ✓
-- [caesar (2019)](./picogym_c.md#caesar) ✓
-- [Easy1 (2019)](./picogym_c.md#easy1) ✓
-- [13 (2019)](./picogym_c.md#thirteen) ✓
-- [la cifra de (2019)](./picogym_c.md#la-cifra-de) ✓
-- [rsa pop quiz (2019)](./picogym_c.md#rsa-pop-quiz) ✓
-- [Tapping (2019)](./picogym_c.md#tapping) ✓
-- [Mr-Worldwide (2019)](./picogym_c.md#mr-worldwide) ✓
-- [Flags (2019)](./picogym_c.md#flags) ✓
-- [waves over lambda (2019)](./picogym_c.md#waves-over-lambda) ✓
-- [miniRSA (2019)](./picogym_c.md#minirsa) ✓
-- [b00tl3gRSA2 (2019)](./picogym_c.md#b00tl3grsa2) ✓
-- [AES-ABC (2019)](./picogym_c.md#aes-abc) ✓
-- [b00tl3gRSA3 (2019)](./picogym_c.md#b00tl3grsa3) ✓
-- [john_pollard (2019)](./picogym_c.md#john-pollard) ✓
-- [Mod 26 (2021)](./picogym_c.md#mod-26) ✓
-- [Mind your Ps and Qs (2021)](./picogym_c.md#mind-your-ps-and-qs) ✓
-- [Easy Peasy (2021)](./picogym_c.md#easy-peasy) ✓
-- [New Caesar (2021)](./picogym_c.md#new-caesar) ✓
-- [Mini RSA (2021)](./picogym_c.md#mini-rsa) ✓
-- [Dachshund Attacks (2021)](./picogym_c.md#dachshund-attacks) ✓
-- [No Padding, No Problem (2021)](./picogym_c.md#no-padding-no-problem) ✓
-- [Pixelated (2021)](./picogym_c.md#pixelated) ✓
-- [Play Nice (2021)](./picogym_c.md#play-nice) ✓
-- [Double DES (2021)](./picogym_c.md#double-des) ✓
-- [Compress and Attack (2021)](./picogym_c.md#compress-and-attack) ✓
-- [Scrambled: RSA (2021)](./picogym_c.md#scrambled-rsa) ✓
-- [It's Not My Fault 1 (2021)](./picogym_c.md#its-not-my-fault-1) ✓
-- [New Vignere (2021)](./picogym_c.md#new-vignere) ✓
-- [Clouds (2021)](./picogym_c.md#clouds)
-- [Spelling-Quiz (2021)](./picogym_c.md#spelling-quiz) ✓
-- [XtraORdinary (2021)](./picogym_c.md#xtraordinary) ✓
-- [Triple-Secure (2021)](./picogym_c.md#triple-secure) ✓
-- [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team) ✓
-- [Corrupt-key-1 (2021)](./picogym_c.md#corrupt-key-1)
-- [Corrupt-key-2 (2021)](./picogym_c.md#corrupt-key-2)
-- [basic-mod1 (2022)](./picogym_c.md#basic-mod1) ✓
-- [basic-mod2 (2022)](./picogym_c.md#basic-mod2) ✓
-- [credstuff (2022)](./picogym_c.md#credstuff) ✓
-- [morse-code (2022)](./picogym_c.md#morse-code) ✓
-- [rail-fence (2022)](./picogym_c.md#rail-fence) ✓
-- [substitution0 (2022)](./picogym_c.md#substitution0) ✓
-- [substitution1 (2022)](./picogym_c.md#substitution1) ✓
-- [substitution2 (2022)](./picogym_c.md#substitution2) ✓
-- [transposition-trial (2022)](./picogym_c.md#transposition-trial) ✓
-- [Vigenere (2022)](./picogym_c.md#vigenere) ✓
-- [Very Smooth (2022)](./picogym_c.md#very-smooth)
-- [Sequences (2022)](./picogym_c.md#sequences)
-- [Sum-O-Primes (2022)](./picogym_c.md#sum-o-primes)
-- [NSA Backdoor (2022)](./picogym_c.md#nsa-backdoor)
+1. [The Numbers (2019)](./picogym_c.md#the-numbers) ✓
+2. [caesar (2019)](./picogym_c.md#caesar) ✓
+3. [Easy1 (2019)](./picogym_c.md#easy1) ✓
+4. [13 (2019)](./picogym_c.md#thirteen) ✓
+5. [la cifra de (2019)](./picogym_c.md#la-cifra-de) ✓
+6. [rsa-pop-quiz (2019)](./picogym_c.md#rsa-pop-quiz) ✓
+7. [Tapping (2019)](./picogym_c.md#tapping) ✓
+8. [Mr-Worldwide (2019)](./picogym_c.md#mr-worldwide) ✓
+9. [Flags (2019)](./picogym_c.md#flags) ✓
+10. [waves over lambda (2019)](./picogym_c.md#waves-over-lambda) ✓
+11. [miniRSA (2019)](./picogym_c.md#minirsa) ✓
+12. [b00tl3gRSA2 (2019)](./picogym_c.md#b00tl3grsa2) ✓
+13. [AES-ABC (2019)](./picogym_c.md#aes-abc) ✓
+14. [b00tl3gRSA3 (2019)](./picogym_c.md#b00tl3grsa3) ✓
+15. [john_pollard (2019)](./picogym_c.md#john-pollard) ✓
+16. [Mod 26 (2021)](./picogym_c.md#mod-26) ✓
+17. [Mind your Ps and Qs (2021)](./picogym_c.md#mind-your-ps-and-qs) ✓
+18. [Easy Peasy (2021)](./picogym_c.md#easy-peasy) ✓
+19. [New Caesar (2021)](./picogym_c.md#new-caesar) ✓
+20. [Mini RSA (2021)](./picogym_c.md#mini-rsa) ✓
+21. [Dachshund Attacks (2021)](./picogym_c.md#dachshund-attacks) ✓
+22. [No Padding, No Problem (2021)](./picogym_c.md#no-padding-no-problem) ✓
+23. [Pixelated (2021)](./picogym_c.md#pixelated) ✓
+24. [Play Nice (2021)](./picogym_c.md#play-nice) ✓
+25. [Double DES (2021)](./picogym_c.md#double-des) ✓
+26. [Compress and Attack (2021)](./picogym_c.md#compress-and-attack) ✓
+27. [Scrambled: RSA (2021)](./picogym_c.md#scrambled-rsa) ✓
+28. [It's Not My Fault 1 (2021)](./picogym_c.md#its-not-my-fault-1) ✓
+29. [New Vignere (2021)](./picogym_c.md#new-vignere) ✓
+30. [Clouds (2021)](./picogym_c.md#clouds)
+31. [Spelling-Quiz (2021)](./picogym_c.md#spelling-quiz) ✓
+32. [XtraORdinary (2021)](./picogym_c.md#xtraordinary) ✓
+33. [Triple-Secure (2021)](./picogym_c.md#triple-secure) ✓
+34. [College-Rowing-Team (2021)](./picogym_c.md#college-rowing-team) ✓
+35. [Corrupt-key-1 (2021)](./picogym_c.md#corrupt-key-1)
+36. [Corrupt-key-2 (2021)](./picogym_c.md#corrupt-key-2)
+37. [basic-mod1 (2022)](./picogym_c.md#basic-mod1) ✓
+38. [basic-mod2 (2022)](./picogym_c.md#basic-mod2) ✓
+39. [credstuff (2022)](./picogym_c.md#credstuff) ✓
+40. [morse-code (2022)](./picogym_c.md#morse-code) ✓
+41. [rail-fence (2022)](./picogym_c.md#rail-fence) ✓
+42. [substitution0 (2022)](./picogym_c.md#substitution0) ✓
+43. [substitution1 (2022)](./picogym_c.md#substitution1) ✓
+44. [substitution2 (2022)](./picogym_c.md#substitution2) ✓
+45. [transposition-trial (2022)](./picogym_c.md#transposition-trial) ✓
+46. [Vigenere (2022)](./picogym_c.md#vigenere) ✓
+47. [Very Smooth (2022)](./picogym_c.md#very-smooth) ✓
+48. [Sequences (2022)](./picogym_c.md#sequences) ✓
+49. [Sum-O-Primes (2022)](./picogym_c.md#sum-o-primes) ✓
+50. [NSA Backdoor (2022)](./picogym_c.md#nsa-backdoor)
 
 </details>
 
