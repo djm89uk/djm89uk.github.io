@@ -72,91 +72,7 @@ The most revolutionary game is finally available: [seed sPRiNG](https://jupiter.
 
 <summary markdown="span">Solution 1</summary>
 
-We can connect to the challenge server and are asked for the "height":
-
-~~~shell
-$ nc jupiter.challenges.picoctf.org 34558
-
-
-                                                                             
-                          #                mmmmm  mmmmm    "    mm   m   mmm 
-  mmm    mmm    mmm    mmm#          mmm   #   "# #   "# mmm    #"m  # m"   "
- #   "  #"  #  #"  #  #" "#         #   "  #mmm#" #mmmm"   #    # #m # #   mm
-  """m  #""""  #""""  #   #          """m  #      #   "m   #    #  # # #    #
- "mmm"  "#mm"  "#mm"  "#m##         "mmm"  #      #    " mm#mm  #   ##  "mmm"
-                                                                             
-
-
-Welcome! The game is easy: you jump on a sPRiNG.
-How high will you fly?
-
-LEVEL (1/30)
-
-Guess the height: 1
-WRONG! Sorry, better luck next time!
-exit
-~~~
-
-We can decompile the program in Ghidra and find the main function:
-
-~~~shell
-undefined4 main(undefined param_1)
-
-{
-  uint local_20;
-  uint local_1c;
-  uint local_18;
-  int local_14;
-  undefined *local_10;
-  
-  local_10 = &param_1;
-  puts("");
-  puts("");
-  puts("                                                                             ");
-  puts("                          #                mmmmm  mmmmm    \"    mm   m   mmm ");
-  puts("  mmm    mmm    mmm    mmm#          mmm   #   \"# #   \"# mmm    #\"m  # m\"   \"");
-  puts(" #   \"  #\"  #  #\"  #  #\" \"#         #   \"  #mmm#\" #mmmm\"   #    # #m # #   mm");
-  puts(
-      "  \"\"\"m  #\"\"\"\"  #\"\"\"\"  #   #          \"\"\"m  #      #   \"m   #    #  # # #    #"
-      );
-  puts(" \"mmm\"  \"#mm\"  \"#mm\"  \"#m##         \"mmm\"  #      #    \" mm#mm  #   ##  \"mmm\"");
-  puts("                                                                             ");
-  puts("");
-  puts("");
-  puts("Welcome! The game is easy: you jump on a sPRiNG.");
-  puts("How high will you fly?");
-  puts("");
-  fflush(stdout);
-  local_18 = time((time_t *)0x0);
-  srand(local_18);
-  local_14 = 1;
-  while( true ) {
-    if (0x1e < local_14) {
-      puts("Congratulation! You\'ve won! Here is your flag:\n");
-      fflush(stdout);
-      get_flag();
-      fflush(stdout);
-      return 0;
-    }
-    printf("LEVEL (%d/30)\n",local_14);
-    puts("");
-    local_1c = rand();
-    local_1c = local_1c & 0xf;
-    printf("Guess the height: ");
-    fflush(stdout);
-    __isoc99_scanf(&DAT_00010caa,&local_20);
-    fflush(stdin);
-    if (local_1c != local_20) break;
-    local_14 = local_14 + 1;
-  }
-  puts("WRONG! Sorry, better luck next time!");
-  fflush(stdout);
-                    /* WARNING: Subroutine does not return */
-  exit(-1);
-}
-~~~
-
-We can see the main program generates a random number seeded from the time:
+We can decompile the program in Ghidra and find the main function.  We can see the main program generates a random number seeded from the time:
 
 ~~~c
   local_18 = time((time_t *)0x0);
@@ -166,7 +82,7 @@ We can see the main program generates a random number seeded from the time:
 ~~~
 	
 Using the same seed and call, we can generate a random number to solve the program:
-		
+	
 ~~~c
 #include <stdio.h> 
 #include <time.h>
@@ -187,173 +103,52 @@ int main ()
 } 
 ~~~
 
-We can compile and pipe this into the challenge executable:
-
-~~~shell
-$ gcc seed_spring_solver.c -o seed_spring_solver
-$ chmod +x seed_spring
-$ chmod +x seed_spring_solver 
-$ ./seed_spring_solver | ./seed_spring
-
-
-                                                                             
-                          #                mmmmm  mmmmm    "    mm   m   mmm 
-  mmm    mmm    mmm    mmm#          mmm   #   "# #   "# mmm    #"m  # m"   "
- #   "  #"  #  #"  #  #" "#         #   "  #mmm#" #mmmm"   #    # #m # #   mm
-  """m  #""""  #""""  #   #          """m  #      #   "m   #    #  # # #    #
- "mmm"  "#mm"  "#mm"  "#m##         "mmm"  #      #    " mm#mm  #   ##  "mmm"
-                                                                             
-
-
-Welcome! The game is easy: you jump on a sPRiNG.
-How high will you fly?
-
-LEVEL (1/30)
-
-Guess the height: LEVEL (2/30)
-
-Guess the height: LEVEL (3/30)
-
-Guess the height: LEVEL (4/30)
-
-Guess the height: LEVEL (5/30)
-
-Guess the height: LEVEL (6/30)
-
-Guess the height: LEVEL (7/30)
-
-Guess the height: LEVEL (8/30)
-
-Guess the height: LEVEL (9/30)
-
-Guess the height: LEVEL (10/30)
-
-Guess the height: LEVEL (11/30)
-
-Guess the height: LEVEL (12/30)
-
-Guess the height: LEVEL (13/30)
-
-Guess the height: LEVEL (14/30)
-
-Guess the height: LEVEL (15/30)
-
-Guess the height: LEVEL (16/30)
-
-Guess the height: LEVEL (17/30)
-
-Guess the height: LEVEL (18/30)
-
-Guess the height: LEVEL (19/30)
-
-Guess the height: LEVEL (20/30)
-
-Guess the height: LEVEL (21/30)
-
-Guess the height: LEVEL (22/30)
-
-Guess the height: LEVEL (23/30)
-
-Guess the height: LEVEL (24/30)
-
-Guess the height: LEVEL (25/30)
-
-Guess the height: LEVEL (26/30)
-
-Guess the height: LEVEL (27/30)
-
-Guess the height: LEVEL (28/30)
-
-Guess the height: LEVEL (29/30)
-
-Guess the height: LEVEL (30/30)
-
-Guess the height: Congratulation! You've won! Here is your flag:
-
-
-cat: flag.txt: No such file or directory
-
-~~~
-
-This provides the correct output.  We can pipe to netcat to retrieve the flag:
+We can compile and pipe this into the challenge executable and pipe to netcat to retrieve the flag:
 
 ~~~shell
 $ ./seed_spring_solver | nc jupiter.challenges.picoctf.org 34558
-
-
-                                                                             
-                          #                mmmmm  mmmmm    "    mm   m   mmm 
-  mmm    mmm    mmm    mmm#          mmm   #   "# #   "# mmm    #"m  # m"   "
- #   "  #"  #  #"  #  #" "#         #   "  #mmm#" #mmmm"   #    # #m # #   mm
-  """m  #""""  #""""  #   #          """m  #      #   "m   #    #  # # #    #
- "mmm"  "#mm"  "#mm"  "#m##         "mmm"  #      #    " mm#mm  #   ##  "mmm"
-                                                                             
-
+	    
+                          #                mmmmm  mmmmm         mm   m   mmm 
+  mmm    mmm    mmm    mmm#          mmm   #    # #    # mmm    # m  # m     
+ #      #   #  #   #  #   #         #      #mmm#  #mmmm    #    # #m # #   mm
+     m  #      #      #   #             m  #      #    m   #    #  # # #    #
+  mmm    #mm    #mm    #m##          mmm   #      #      mm#mm  #   ##   mmm        
 
 Welcome! The game is easy: you jump on a sPRiNG.
 How high will you fly?
 
 LEVEL (1/30)
-
 Guess the height: LEVEL (2/30)
-
 Guess the height: LEVEL (3/30)
-
 Guess the height: LEVEL (4/30)
-
 Guess the height: LEVEL (5/30)
-
 Guess the height: LEVEL (6/30)
-
 Guess the height: LEVEL (7/30)
-
 Guess the height: LEVEL (8/30)
-
 Guess the height: LEVEL (9/30)
-
 Guess the height: LEVEL (10/30)
-
 Guess the height: LEVEL (11/30)
-
 Guess the height: LEVEL (12/30)
-
 Guess the height: LEVEL (13/30)
-
 Guess the height: LEVEL (14/30)
-
 Guess the height: LEVEL (15/30)
-
 Guess the height: LEVEL (16/30)
-
 Guess the height: LEVEL (17/30)
-
 Guess the height: LEVEL (18/30)
-
 Guess the height: LEVEL (19/30)
-
 Guess the height: LEVEL (20/30)
-
 Guess the height: LEVEL (21/30)
-
 Guess the height: LEVEL (22/30)
-
 Guess the height: LEVEL (23/30)
-
 Guess the height: LEVEL (24/30)
-
 Guess the height: LEVEL (25/30)
-
 Guess the height: LEVEL (26/30)
-
 Guess the height: LEVEL (27/30)
-
 Guess the height: LEVEL (28/30)
-
 Guess the height: LEVEL (29/30)
-
 Guess the height: LEVEL (30/30)
 
-Guess the height: Congratulation! You've won! Here is your flag:
+Guess the height: Congratulation! Youve won! Here is your flag:
 
 picoCTF{pseudo_random_number_generator_not_so_random_81b0dd7e}
 ~~~
@@ -1099,7 +894,7 @@ picoCTF{I_l05t_4ll_my_m0n3y_a24c14a6}
 
 ---
 
-## cache me outside
+## Cache me outside
 
 - Author: madStacks
 - 70 Points
