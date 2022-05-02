@@ -24,51 +24,51 @@ Web Exploitation entails the manipulation of websites and web hosted services us
 
 <summary markdown="span">Challenges</summary>
 
-- [Insp3ct0r (2019)](./picogym_we.md#insp3ct0r) ✓
-- [logon (2019)](./picogym_we.md#logon) ✓
-- [where are the robots (2019)](./picogym_we.md#where-are-the-robots) ✓
-- [dont-use-client-side (2019)](./picogym_we.md#dont-use-client-side) ✓
-- [picobrowser (2019)](./picogym_we.md#picobrowser) ✓
-- [Client-side-again (2019)](./picogym_we.md#client-side-again) ✓
-- [Irish-Name-Repo 1 (2019)](./picogym_we.md#irish-name-repo-1) ✓
-- [Irish-Name-Repo 2 (2019)](./picogym_we.md#irish-name-repo-2) ✓
-- [Irish-Name-Repo 3 (2019)](./picogym_we.md#irish-name-repo-3) ✓
-- [JaWT Scratchpad (2019)](./picogym_we.md#jawt-scratchpad) ✓
-- [Java Script Kiddie (2019)](./picogym_we.md#java-script-kiddie) ✓
-- [Java Script Kiddie 2 (2019)](./picogym_we.md#java-script-kiddie-2) ✓
-- [Web Gauntlet (2020)](./picogym_we.md#web-gauntlet) ✓
-- [GET aHEAD (2021)](./picogym_we.md#get-ahead) ✓
-- [Cookies (2021)](./picogym_we.md#cookies) ✓
-- [Scavenger Hunt (2021)](./picogym_we.md#scavenger-hunt) ✓
-- [Some Assembly Required 1 (2021)](./picogym_we.md#some-assembly-required-1) ✓
-- [More Cookies (2021)](./picogym_we.md#more-cookies) ✓
-- [It is my Birthday (2021)](./picogym_we.md#it-is-my-birthday) ✓
-- [Who are you? (2021)](./picogym_we.md#who-are-you) ✓
-- [Some Assembly Required 2 (2021)](./picogym_we.md#some-assembly-required-2) ✓
-- [Super Serial (2021)](./picogym_we.md#super-serial) ✓
-- [Most Cookies (2021)](./picogym_we.md#most-cookies) ✓
-- [Some Assembly Required 3 (2021)](./picogym_we.md#some-assembly-required-3) ✓
-- [Web Gauntlet 2 (2021)](./picogym_we.md#web-gauntlet-2) ✓
-- [Some Assembly Required 4 (2021)](./picogym_we.md#some-assembly-required-4) ✓
-- [X marks the spot (2021)](./picogym_we.md#x-marks-the-spot) ✓
-- [Web Gauntlet 3 (2021)](./picogym_we.md#web-gauntlet-3) ✓
-- [Bithug (2021)](./picogym_we.md#bithug)
-- [login (2021)](./picogym_we.md#login) ✓
-- [caas (2021)](./picogym_we.md#caas) ✓
-- [notepad (2021)](./picogym_we.md#notepad)
-- [JAuth (2021)](./picogym_we.md#jauth)
-- [Includes (2022)](./picogym_we.md#includes) ✓
-- [Inspect HTML (2022)](./picogym_we.md#inspect-html) ✓
-- [Local Authority (2022)](./picogym_we.md#local-authority) ✓
-- [Search Source (2022)](./picogym_we.md#search-source) ✓
-- [Forbidden Paths (2022)](./picogym_we.md#forbidden-paths) ✓
-- [Power Cookie (2022)](./picogym_we.md#power-cookie) ✓
-- [Roboto Sans (2022)](./picogym_we.md#roboto-sans) ✓
-- [Secrets (2022)](./picogym_we.md#secrets) ✓
-- [SQL Direct (2022)](./picogym_we.md#sql-direct) ✓
-- [SQLiLite (2022)](./picogym_we.md#sqlilite) ✓
-- [Live Art (2022)](./picogym_we.md#live-art)
-- [Noted (2022)](./picogym_we.md#noted)
+1. [Insp3ct0r (2019)](./picogym_we.md#insp3ct0r) ✓
+2. [logon (2019)](./picogym_we.md#logon) ✓
+3. [where are the robots (2019)](./picogym_we.md#where-are-the-robots) ✓
+4. [dont-use-client-side (2019)](./picogym_we.md#dont-use-client-side) ✓
+5. [picobrowser (2019)](./picogym_we.md#picobrowser) ✓
+6. [Client-side-again (2019)](./picogym_we.md#client-side-again) ✓
+7. [Irish-Name-Repo 1 (2019)](./picogym_we.md#irish-name-repo-1) ✓
+8. [Irish-Name-Repo 2 (2019)](./picogym_we.md#irish-name-repo-2) ✓
+9. [Irish-Name-Repo 3 (2019)](./picogym_we.md#irish-name-repo-3) ✓
+10. [JaWT Scratchpad (2019)](./picogym_we.md#jawt-scratchpad) ✓
+11. [Java Script Kiddie (2019)](./picogym_we.md#java-script-kiddie) ✓
+12. [Java Script Kiddie 2 (2019)](./picogym_we.md#java-script-kiddie-2) ✓
+13. [Web Gauntlet (2020)](./picogym_we.md#web-gauntlet) ✓
+14. [GET aHEAD (2021)](./picogym_we.md#get-ahead) ✓
+15. [Cookies (2021)](./picogym_we.md#cookies) ✓
+16. [Scavenger Hunt (2021)](./picogym_we.md#scavenger-hunt) ✓
+17. [Some Assembly Required 1 (2021)](./picogym_we.md#some-assembly-required-1) ✓
+18. [More Cookies (2021)](./picogym_we.md#more-cookies) ✓
+19. [It is my Birthday (2021)](./picogym_we.md#it-is-my-birthday) ✓
+20. [Who are you? (2021)](./picogym_we.md#who-are-you) ✓
+21. [Some Assembly Required 2 (2021)](./picogym_we.md#some-assembly-required-2) ✓
+22. [Super Serial (2021)](./picogym_we.md#super-serial) ✓
+23. [Most Cookies (2021)](./picogym_we.md#most-cookies) ✓
+24. [Some Assembly Required 3 (2021)](./picogym_we.md#some-assembly-required-3) ✓
+25. [Web Gauntlet 2 (2021)](./picogym_we.md#web-gauntlet-2) ✓
+26. [Some Assembly Required 4 (2021)](./picogym_we.md#some-assembly-required-4) ✓
+27. [X marks the spot (2021)](./picogym_we.md#x-marks-the-spot) ✓
+28. [Web Gauntlet 3 (2021)](./picogym_we.md#web-gauntlet-3) ✓
+29. [Bithug (2021)](./picogym_we.md#bithug)
+30. [login (2021)](./picogym_we.md#login) ✓
+31. [caas (2021)](./picogym_we.md#caas) ✓
+32. [notepad (2021)](./picogym_we.md#notepad)
+33. [JAuth (2021)](./picogym_we.md#jauth)
+34. [Includes (2022)](./picogym_we.md#includes) ✓
+35. [Inspect HTML (2022)](./picogym_we.md#inspect-html) ✓
+36. [Local Authority (2022)](./picogym_we.md#local-authority) ✓
+37. [Search Source (2022)](./picogym_we.md#search-source) ✓
+38. [Forbidden Paths (2022)](./picogym_we.md#forbidden-paths) ✓
+39. [Power Cookie (2022)](./picogym_we.md#power-cookie) ✓
+40. [Roboto Sans (2022)](./picogym_we.md#roboto-sans) ✓
+41. [Secrets (2022)](./picogym_we.md#secrets) ✓
+42. [SQL Direct (2022)](./picogym_we.md#sql-direct) ✓
+43. [SQLiLite (2022)](./picogym_we.md#sqlilite) ✓
+44. [Live Art (2022)](./picogym_we.md#live-art)
+45. [Noted (2022)](./picogym_we.md#noted)
 
 </details>
  
