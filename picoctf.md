@@ -145,7 +145,7 @@ Cryptography is essential to many models of cyber security. Cryptography applies
 
 ---
 
-## [PicoGym Reverse Engineering](./picogym_re.md) (46/55)
+## [PicoGym Reverse Engineering](./picogym_re.md) (48/55)
 
 Reverse engineering entails taking a software system and analyzing it to trace it back to the original design and implementation information. It is used to fix certain bugs in software as well as to enhance product features in both hardware and software.
 
