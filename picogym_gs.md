@@ -26,16 +26,16 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 20. [Codebook](#codebook) ✓
 21. [convertme.py](#convertme) ✓
 22. [fixme1.py](#fixme1) ✓
-22. [fixme2.py](#fixme2) ✓
-23. [Glitch Cat](#glitch-cat) ✓
-24. [HashingJobApp](#hashingjobapp) ✓
-25. [PW Crack 1](#pw-crack-1) ✓
-26. [PW Crack 2](#pw-crack-2) ✓
-27. [PW Crack 3](#pw-crack-3) ✓
-28. [PW Crack 4](#pw-crack-4) ✓
-29. [PW Crack 5](#pw-crack-5) ✓
-30. [runme.py](#runme) ✓
-31. [Serpentine](#serpentine) ✓
+23. [fixme2.py](#fixme2) ✓
+24. [Glitch Cat](#glitch-cat) ✓
+25. [HashingJobApp](#hashingjobapp) ✓
+26. [PW Crack 1](#pw-crack-1) ✓
+27. [PW Crack 2](#pw-crack-2) ✓
+28. [PW Crack 3](#pw-crack-3) ✓
+29. [PW Crack 4](#pw-crack-4) ✓
+30. [PW Crack 5](#pw-crack-5) ✓
+31. [runme.py](#runme) ✓
+32. [Serpentine](#serpentine) ✓
 
 ---
 
