@@ -917,90 +917,6 @@ There's a flag shop selling stuff, can you buy a flag? Source. Connect with nc j
 
 1. Two's compliment can do some weird things when numbers get really big!
 
-### Attachments
-
-<details>
-<summary markdown="span">store.c</summary>
-
-~~~c
-#include <stdio.h>
-#include <stdlib.h>
-int main()
-{
-    setbuf(stdout, NULL);
-    int con;
-    con = 0;
-    int account_balance = 1100;
-    while(con == 0){
-        printf("Welcome to the flag exchange\n");
-        printf("We sell flags\n");
-        printf("\n1. Check Account Balance\n");
-        printf("\n2. Buy Flags\n");
-        printf("\n3. Exit\n");
-        int menu;
-        printf("\n Enter a menu selection\n");
-        fflush(stdin);
-        scanf("%d", &menu);
-        if(menu == 1){
-            printf("\n\n\n Balance: %d \n\n\n", account_balance);
-        }
-        else if(menu == 2){
-            printf("Currently for sale\n");
-            printf("1. Defintely not the flag Flag\n");
-            printf("2. 1337 Flag\n");
-            int auction_choice;
-            fflush(stdin);
-            scanf("%d", &auction_choice);
-            if(auction_choice == 1){
-                printf("These knockoff Flags cost 900 each, enter desired quantity\n");
-                int number_flags = 0;
-                fflush(stdin);
-                scanf("%d", &number_flags);
-                if(number_flags > 0){
-                    int total_cost = 0;
-                    total_cost = 900*number_flags;
-                    printf("\nThe final cost is: %d\n", total_cost);
-                    if(total_cost <= account_balance){
-                        account_balance = account_balance - total_cost;
-                        printf("\nYour current balance after transaction: %d\n\n", account_balance);
-                    }
-                    else{
-                        printf("Not enough funds to complete purchase\n");
-                    }
-                }    
-            }
-            else if(auction_choice == 2){
-                printf("1337 flags cost 100000 dollars, and we only have 1 in stock\n");
-                printf("Enter 1 to buy one");
-                int bid = 0;
-                fflush(stdin);
-                scanf("%d", &bid);
-                if(bid == 1){
-                    if(account_balance > 100000){
-                        FILE *f = fopen("flag.txt", "r");
-                        if(f == NULL){
-                            printf("flag not found: please run this on the server\n");
-                            exit(0);
-                        }
-                        char buf[64];
-                        fgets(buf, 63, f);
-                        printf("YOUR FLAG IS: %s\n", buf);
-                        }
-                    else{
-                        printf("\nNot enough funds for transaction\n\n\n");
-                    }}
-            }
-        }
-        else{
-            con = 1;
-        }
-    }
-    return 0;
-}
-~~~
-
-</details>
-
 ### Solutions
 
 <details>
@@ -1082,11 +998,12 @@ account_balance = 1100+2147481796
                 = 2147482896
 ~~~
 
-We can netcat to the challenge server and purchase 2386095 "Definitely not the flag Flag"s and proceed to purchase the "1337 Flag" that holds: picoCTF{m0n3y_bag5_65d67a74}.
+We can netcat to the challenge server and purchase 2386095 Definitely not the flag Flags and proceed to purchase the 1337 Flag that holds: picoCTF{m0n3y_bag5_65d67a74}.
 
 </details>
 
 ### Answer
+	
 <details>
 <summary markdown="span">Flag</summary>
 
@@ -2942,8 +2859,22 @@ Can you crack the password to get the flag? Download the password checker [here]
 
 <summary markdown="span">Solution 1</summary>
 
+We can view the hash as described in the challenge hints.
+	
+~~~shell
+$ bvi level3.hash.bin 
+00000000  8F 60 45 8C C6 42 43 BA 3B 88 F8 BF CF A2 69 EB                                                                                                                         .`E..BC.;.....i.
+~~~
 
+We can unhash the password using hashcat:
 
+~~~shell
+$ hashcat -a 3 hashes --force --show
+8f60458cc64243ba3b88f8bfcfa269eb:1ea2
+~~~
+
+Running with the correct password we can retrieve the flag.
+	
 </details>
 
 ### Answer
@@ -2953,7 +2884,7 @@ Can you crack the password to get the flag? Download the password checker [here]
 <summary markdown="span">Flag</summary>
 
 ~~~
-
+picoCTF{m45h_fl1ng1ng_6f98a49f}
 ~~~
 
 </details>
@@ -2990,7 +2921,20 @@ Can you crack the password to get the flag? Download the password checker [here]
 
 <summary markdown="span">Solution 1</summary>
 
+As with the previous challenge, we can retrieve the password hash.
+	
+~~~
+68712f7523564f0e8253d83d4a4d905c
+~~~
 
+Using hashcat we can crack the password:
+
+~~~shell
+$ hashcat -a 3 hashes --force --show
+68712f7523564f0e8253d83d4a4d905c:76fd
+~~~
+
+Using the password, "76fd", the flag can be retrieved.
 
 </details>
 
@@ -3001,7 +2945,7 @@ Can you crack the password to get the flag? Download the password checker [here]
 <summary markdown="span">Flag</summary>
 
 ~~~
-
+picoCTF{fl45h_5pr1ng1ng_ae0fb77c}
 ~~~
 
 </details>
@@ -3040,8 +2984,21 @@ Can you crack the password to get the flag? Download the password checker [here]
 
 <summary markdown="span">Solution 1</summary>
 
+The hashed password can be recovered:
 
+~~~
+0f4238735916dea9bac9b6a79824223b
+~~~
 
+This can be cracked using hashcat in dictionary mode:
+
+~~~shell
+$ hashcat -m 0 hashes dictionary.txt --force --show
+0f4238735916dea9bac9b6a79824223b:eee0
+~~~
+
+This password can be used to recover the flag.
+	
 </details>
 
 ### Answer
@@ -3051,7 +3008,7 @@ Can you crack the password to get the flag? Download the password checker [here]
 <summary markdown="span">Flag</summary>
 
 ~~~
-
+picoCTF{h45h_sl1ng1ng_fffcda23}
 ~~~
 
 </details>
@@ -3088,7 +3045,24 @@ Run the runme.py script to get the flag. Download the script with your browser o
 
 <summary markdown="span">Solution 1</summary>
 
+We can download and run the python code to recover the flag:
 
+~~~shell
+$ wget https://artifacts.picoctf.net/c/86/runme.py
+--2022-05-02 13:51:28--  https://artifacts.picoctf.net/c/86/runme.py
+Resolving artifacts.picoctf.net (artifacts.picoctf.net)... 143.204.191.14, 143.204.191.79, 143.204.191.102, ...
+Connecting to artifacts.picoctf.net (artifacts.picoctf.net)|143.204.191.14|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 270 [application/octet-stream]
+Saving to: ‘runme.py’
+
+runme.py                                                    100%[=========================================================================================================================================>]     270  --.-KB/s    in 0s      
+
+2022-05-02 13:51:29 (20.5 MB/s) - ‘runme.py’ saved [270/270]
+
+$ python runme.py 
+picoCTF{run_s4n1ty_run}
+~~~
 
 </details>
 
@@ -3099,7 +3073,7 @@ Run the runme.py script to get the flag. Download the script with your browser o
 <summary markdown="span">Flag</summary>
 
 ~~~
-
+picoCTF{run_s4n1ty_run}
 ~~~
 
 </details>
@@ -3136,7 +3110,26 @@ Find the flag in the Python script! [Download Python script](https://artifacts.p
 
 <summary markdown="span">Solution 1</summary>
 
+After downloading the source code, we can simplify the code and recover the flag:
 
+~~~py
+def str_xor(secret, key):
+    #extend key to secret length
+    new_key = key
+    i = 0
+    while len(new_key) < len(secret):
+        new_key = new_key + key[i]
+        i = (i + 1) % len(key)        
+    return "".join([chr(ord(secret_c) ^ ord(new_key_c)) for (secret_c,new_key_c) in zip(secret,new_key)])
+
+flag_enc = chr(0x15) + chr(0x07) + chr(0x08) + chr(0x06) + chr(0x27) + chr(0x21) + chr(0x23) + chr(0x15) + chr(0x5c) + chr(0x01) + chr(0x57) + chr(0x2a) + chr(0x17) + chr(0x5e) + chr(0x5f) + chr(0x0d) + chr(0x3b) + chr(0x19) + chr(0x56) + chr(0x5b) + chr(0x5e) + chr(0x36) + chr(0x53) + chr(0x07) + chr(0x51) + chr(0x18) + chr(0x58) + chr(0x05) + chr(0x57) + chr(0x11) + chr(0x3a) + chr(0x56) + chr(0x0e) + chr(0x5d) + chr(0x53) + chr(0x11) + chr(0x54) + chr(0x5c) + chr(0x53) + chr(0x14)
+
+def print_flag():
+  flag = str_xor(flag_enc, 'enkidu')
+  print(flag)
+
+print_flag()
+~~~
 
 </details>
 
@@ -3147,7 +3140,7 @@ Find the flag in the Python script! [Download Python script](https://artifacts.p
 <summary markdown="span">Flag</summary>
 
 ~~~
-
+picoCTF{7h3_r04d_l355_7r4v3l3d_8e47d128}
 ~~~
 
 </details>
