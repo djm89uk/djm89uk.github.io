@@ -283,7 +283,7 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 ### [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
-## [PicoGym General Skills](./picogym_gs.md) (32/32)
+## [PicoGym General Skills](./picogym_gs.md) (34/34)
 
 <details>
 
@@ -321,6 +321,8 @@ Reverse engineering entails taking a software system and analyzing it to trace i
 30. [PW Crack 5](./picogym_gs.md#pw-crack-5) ✓
 31. [runme.py](./picogym_gs.md#runme) ✓
 32. [Serpentine](./picogym_gs.md#serpentine) ✓
+33. [First Find](./picogym_gs.md#first-find) ✓
+34. [Big Zip](./picogym_gs.md#big-zip) ✓
 
 </details>
 
