@@ -1,4 +1,4 @@
-# [PicoCTF](./picoctf.md) PicoGym General Skills [32/32]
+# [PicoCTF](./picoctf.md) PicoGym General Skills [34/34]
 
 This section introduces some basic Unix commands, base encoding and the mechanics of CTF exercises.
 
@@ -36,6 +36,8 @@ This section introduces some basic Unix commands, base encoding and the mechanic
 30. [PW Crack 5](#pw-crack-5) ✓
 31. [runme.py](#runme) ✓
 32. [Serpentine](#serpentine) ✓
+33. [First Find](#first-find) ✓
+34. [Big Zip](#big-zip) ✓
 
 ---
 
@@ -3150,7 +3152,141 @@ picoCTF{7h3_r04d_l355_7r4v3l3d_8e47d128}
 ### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
 
 ---
+	
+## First Find
 
-This page was last updated May 2022.
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Unzip this archive and find the file named 'uber-secret.txt' [Download zip file](https://artifacts.picoctf.net/c/550/files.zip)
+
+### Attachments
+
+1. [files.zip](https://artifacts.picoctf.net/c/550/files.zip)
+
+### Hints
+
+None.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+After downloading the zip file we can inspect and extract, we find the secret in a hidden directory:
+
+~~~shell
+$ file files.zip
+files.zip: Zip archive data, at least v1.0 to extract, compression method=store
+$ unzip files.zip 
+Archive:  files.zip
+   creating: files/
+   creating: files/satisfactory_books/
+   creating: files/satisfactory_books/more_books/
+  inflating: files/satisfactory_books/more_books/37121.txt.utf-8  
+  inflating: files/satisfactory_books/23765.txt.utf-8  
+  inflating: files/satisfactory_books/16021.txt.utf-8  
+  inflating: files/13771.txt.utf-8   
+   creating: files/adequate_books/
+   creating: files/adequate_books/more_books/
+   creating: files/adequate_books/more_books/.secret/
+   creating: files/adequate_books/more_books/.secret/deeper_secrets/
+   creating: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/
+ extracting: files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/uber-secret.txt  
+  inflating: files/adequate_books/more_books/1023.txt.utf-8  
+  inflating: files/adequate_books/46804-0.txt  
+  inflating: files/adequate_books/44578.txt.utf-8  
+   creating: files/acceptable_books/
+   creating: files/acceptable_books/more_books/
+  inflating: files/acceptable_books/more_books/40723.txt.utf-8  
+  inflating: files/acceptable_books/17880.txt.utf-8  
+  inflating: files/acceptable_books/17879.txt.utf-8  
+  inflating: files/14789.txt.utf-8   
+$ cd  files
+files$ ls
+13771.txt.utf-8  14789.txt.utf-8  acceptable_books  adequate_books  satisfactory_books
+files$ cd adequate_books/more_books/.secret/deeper_secrets/deepest_secrets/
+files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets$ ls
+uber-secret.txt
+files/adequate_books/more_books/.secret/deeper_secrets/deepest_secrets$ strings uber-secret.txt 
+picoCTF{f1nd_15_f457_ab443fd1}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{f1nd_15_f457_ab443fd1}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+## Big Zip
+
+- Author: LT 'syreal' Jones
+- 100 Points
+
+### Description
+
+Unzip this archive and find the flag. [Download zip file](https://artifacts.picoctf.net/c/553/big-zip-files.zip)
+
+### Attachments
+
+1. [big-zip-files.zip](https://artifacts.picoctf.net/c/553/big-zip-files.zip)
+
+### Hints
+
+1. Can grep be instructed to look at every file in a directory and its subdirectories?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Solution 1</summary>
+
+After downloading the zip file we can inspect and extract, we find the secret using recursive grep:
+
+~~~shell
+$ unzip big-zip-files.zip 
+$ cd big-zip-files/
+$ grep -r 'pico' *
+folder_pmbymkjcya/folder_cawigcwvgv/folder_ltdayfmktr/folder_fnpfclfyee/whzxrpivpqld.txt:information on the record will last a billion years. Genes and brains and books encode picoCTF{gr3p_15_m4g1c_ef8790dc}
+~~~
+
+</details>
+
+### Answer
+
+<details>
+
+<summary markdown="span">Flag</summary>
+
+~~~
+picoCTF{gr3p_15_m4g1c_ef8790dc}
+~~~
+
+</details>
+
+---
+
+### [General Skills](#contents) | [PicoCTF](./picoctf.md) | [Home](./index.md)
+
+---
+
+This page was last updated August 2022.
 
 ## [djm89uk.github.io](https://djm89uk.github.io)
