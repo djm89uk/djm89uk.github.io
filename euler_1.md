@@ -2330,30 +2330,56 @@ Find the product of the coefficients, a and b, for the quadratic expression that
 
 <summary markdown="span">Python</summary>
 
-A simple python code to solve:
+The solution includes the case where n=0; therefore, b must be prime. Further, the case of n=1: 1 + a + b = prime, a must be an odd number.  We can simplify the problem:
 	
+b is prime
+1 < b < 1000
+a is odd.
+-1000 < a < 1000
+
+We can implement a solution in Python:
+
 ~~~py
 import time
+import sympy
 
 t0 = time.time()
-T = 1
+# generate a list of primes for b:
+b_primes = list(sympy.primerange(0,1000))[::-1]
+ans_len = 0
+ans_a = 0
+ans_b = 0
 
-for i in range(3,1002,2):
-    T += 4*i**2 - 6*i + 6
+for b in b_primes:
+    if b-1 < ans_len:
+        break
+    for a in range(-999,1000,2):
+        n = 0
+        p_len = 0
+        while(sympy.isprime(n**2+a*n+b)):
+            p_len += 1
+            n += 1
+        if p_len > ans_len:
+            ans_len = p_len
+            ans_a = a
+            ans_b = b
+    
+ans = ans_a*ans_b
 t1 = time.time()
-ans = T
 
-print("Number spiral diagonals, Project Euler Problem 27")
+print("Quadratic primes, Project Euler Problem 27")
 print("Answer = {}".format(ans))
+print("a = {}, b = {}, consecutive primes = {}".format(ans_a,ans_b,ans_len))
 print("execution time = {} seconds.".format(t1-t0))
 ~~~
 
-This provides the answer in 0.1 milliseconds:
+This provides the answer in 259 milliseconds:
 	
 ~~~
-Number spiral diagonals, Project Euler Problem 28
-Answer = 669171001
-execution time = 0.0001323223114013672 seconds.
+Quadratic primes, Project Euler Problem 27
+Answer = -59231
+a = -61, b = 971, consecutive primes = 71
+execution time = 0.2599170207977295 seconds.
 ~~~
 
 </details>
@@ -2366,7 +2392,7 @@ execution time = 0.0001323223114013672 seconds.
 <summary markdown="span">Answer</summary>
 
 ~~~
-669171001
+-59231
 ~~~
 
 </details>
