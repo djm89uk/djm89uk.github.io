@@ -31,7 +31,7 @@ These are the first 50 challenges from the site.
 23. [Non-abundant sums](#non-abundant-sums) 🗸
 24. [Lexicographic permutations](#lexicographic-permutations) 🗸
 25. [1000-digit Fibonacci number](#1000-digit-fibonacci-number) 🗸
-26. [Reciprocal cycles](#reciprocal-cycles) 
+26. [Reciprocal cycles](#reciprocal-cycles) 🗸
 27. [Quadratic primes](#quadratic-primes) 
 28. [Number spiral diagonals](#number-spiral-diagonals) 
 29. [Distinct powers](#distinct-powers) 
@@ -2128,7 +2128,7 @@ This provides the answer in 10 nanoseconds.
 
 ---
 
-## 1000 digital Fibonacci number
+## 1000 digit Fibonacci number
 
 - Problem 25
 
@@ -2181,7 +2181,7 @@ while l != 1000:
     i += 1
 t1= time.time()
 print("i = {}".format(i))
-print("execution time = {} seconds.",format(t1-t0))
+print("execution time = {} seconds.".format(t1-t0))
 ~~~
 
 This provides the answer in 22 milliseconds.
@@ -2206,7 +2206,102 @@ This provides the answer in 22 milliseconds.
 ### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
 
 ---
+	
+## Reciprocal Cycles
 
-This page was last updated Feb 22.
+- Problem 26
+
+### Description
+
+A unit fraction contains 1 in the numerator. The decimal representation of the unit fractions with denominators 2 to 10 are given:
+
+1/2	= 	0.5
+1/3	= 	0.(3)
+1/4	= 	0.25
+1/5	= 	0.2
+1/6	= 	0.1(6)
+1/7	= 	0.(142857)
+1/8	= 	0.125
+1/9	= 	0.(1)
+1/10	= 	0.1
+
+Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be seen that 1/7 has a 6-digit recurring cycle.
+
+Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple python code to solve:
+	
+~~~py
+import time
+
+t0 = time.time()
+rlen_max = 0
+ans = 0
+
+for i in range(1,1000):
+    if i%2==0:
+        continue
+    elif i%5==0:
+        continue
+    else:
+        r = 10
+        x = {}
+        j = 0
+        while r != 0:
+            if r in x:
+                rlen = j-x[r]
+                if rlen > rlen_max:
+                    rlen_max = rlen
+                    ans = i
+                break
+            x[r] = j
+            r = 10*(r%i)
+            j+=1
+t1 = time.time()
+print("Reciprocal Cycles, Project Euler Problem 26")
+print("Answer = {}".format(ans))
+print("Recurring length = {}".format(rlen_max))
+print("1/{} = {}".format(ans,1.0/ans))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 11 milliseconds:
+	
+~~~
+Reciprocal Cycles, Project Euler Problem 26
+Answer = 983
+Recurring length = 982
+1/983 = 0.001017293997965412
+execution time = 0.011209487915039062 seconds.
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+983
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+This page was last updated Nov 22.
 	
 ## [djm89uk.github.io](https://djm89uk.github.io)
