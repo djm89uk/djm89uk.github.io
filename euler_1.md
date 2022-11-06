@@ -2577,35 +2577,39 @@ Find the sum of all the numbers that can be written as the sum of fifth powers o
 
 We can bound the problem by considering the minima and maxima solutions:  for 9^5; we have 9^5=59049.  We can limit the integer size by comparing the minimum integer with the maximum products:  for 1 digit, the minimum value is 1, the maximum solution is 59049, 1 < 59049 so this is feasible.  expanding for other integer lengths:
 
-1 digit:  1, 9^5   =  59049 > 1
-2 digits: 10, 2*9^5 = 118098 > 10
-3 digits: 100, 3*9^5 = 177147 > 100
-4 digits: 1000, 4*9^5 = 236196 > 1000
-5 digits: 10000, 5*9^5 = 295245 > 10000
-6 digits: 100000, 6*9^5 = 354294 > 100000
-7 digits: 1000000, 7*9^5 = 413343 < 1000000
-8 digits: 10000000, 8*9^5 = 472392 < 10000000
-9 digits: 100000000, 9*9^5 = 531441 < 100000000
+| 1 digit  | 1         | 9^5   =  59049 > 1         |
+| 2 digits | 10        | 2*9^5 = 118098 > 10        |
+| 3 digits | 100       | 3*9^5 = 177147 > 100       |
+| 4 digits | 1000      | 4*9^5 = 236196 > 1000      |
+| 5 digits | 10000     | 5*9^5 = 295245 > 10000     |
+| 6 digits | 100000    | 6*9^5 = 354294 > 100000    |
+| 7 digits | 1000000   | 7*9^5 = 413343 < 1000000   |
+| 8 digits | 10000000  | 8*9^5 = 472392 < 10000000  |
+| 9 digits | 100000000 | 9*9^5 = 531441 < 100000000 |
 
 The maximum integer is 6 digits long.  We can find the minima by investigating the minimum products for each index:
 
-1**5 = 1
-2**5 = 32
-3**5 = 243
-4**5 = 1024
-5**5 = 3125
-6**5 = 7776
-7**5 = 16807
-8**5 = 32768
-9**5 = 59049
+| 1**5 = 1     |
+| 2**5 = 32    |
+| 3**5 = 243   |
+| 4**5 = 1024  |
+| 5**5 = 3125  |
+| 6**5 = 7776  |
+| 7**5 = 16807 |
+| 8**5 = 32768 |
+| 9**5 = 59049 |
 
-Any 2-digit number cannot include an integer greater than 2 and will have no solution below 32, therefore there are no solutions.
-Any 3-digit number cannot include an integer greater than 3 and will have no solution below 245.  We have a limited number of possible integers:
+- Any 2-digit number cannot include an integer greater than 2 and will have no solution below 32, therefore there are no solutions.
+- Any 3-digit number cannot include an integer greater than 3 and will have no solution below 245.  We have a limited number of possible integers:
+						   
 	300, 301, 302, 303, 310, 311, 312, 313, 320, 321, 322, 323, 330, 331, 332, 333
-None of these provide a valid solution.
-Any 4-digit number cannot include an integer greater than 6:
+						   
+- None of these provide a valid solution.
+- Any 4-digit number cannot include an integer greater than 6:
+						   
 	1000, 1001, 1002, 1003, 1004, 1005, 1006, 1010.... 6665, 6666.
-There are 2 solutions for 4-digit integers: 4150, 4151
+						   
+- There are 2 solutions for 4-digit integers: 4150, 4151
 
 We can solve using a simple Python script:
 
