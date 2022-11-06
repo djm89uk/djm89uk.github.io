@@ -2588,7 +2588,6 @@ We can bound the problem by considering the minima and maxima solutions:  for 9^
 | 7 digits | 1000000   | 7*9**5 = 413343 |
 | 8 digits | 10000000  | 8*9**5 = 472392 |
 | 9 digits | 100000000 | 9*9**5 = 531441 |
-|----------|-----------|-----------------|
 
 The maximum integer is 6 digits long.  We can find the minima by investigating the minimum products for each index:
 
@@ -2603,7 +2602,6 @@ The maximum integer is 6 digits long.  We can find the minima by investigating t
 | 7**5 = 16807 |
 | 8**5 = 32768 |
 | 9**5 = 59049 |
-|--------------|
 
 - Any 2-digit number cannot include an integer greater than 2 and will have no solution below 32, therefore there are no solutions.
 - Any 3-digit number cannot include an integer greater than 3 and will have no solution below 245.  We have a limited number of possible integers:
