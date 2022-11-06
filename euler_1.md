@@ -2302,13 +2302,86 @@ execution time = 0.011209487915039062 seconds.
 
 ---
 
-## Number spiral diagonals
+## Quadratic primes
 
 - Problem 27
 
 ### Description
 
+Euler discovered the remarkable quadratic formula:
+	
+	n^2+n+41
 
+It turns out that the formula will produce 40 primes for the consecutive integer values 0<=n<=39. However, when n =40, 40^2+40+41 = 40(40+1) + 41 is divisible by 41, and certainly when n=41, 41^2+41+41 is clearly divisible by 41.
+
+The incredible formula n^2-79n+1601 was discovered, which produces 80 primes for the consecutive values 0<=n<=79. The product of the coefficients, −79 and 1601, is −126479.
+
+Considering quadratics of the form:
+
+	n^2 + an + b, where |a| < 1000 and |b| <= 1000
+	where |n| is the modulus/absolute value of n
+	e.g. |11| = 11 and |-4| = 4
+
+Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n=0.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple python code to solve:
+	
+~~~py
+import time
+
+t0 = time.time()
+T = 1
+
+for i in range(3,1002,2):
+    T += 4*i**2 - 6*i + 6
+t1 = time.time()
+ans = T
+
+print("Number spiral diagonals, Project Euler Problem 27")
+print("Answer = {}".format(ans))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 0.1 milliseconds:
+	
+~~~
+Number spiral diagonals, Project Euler Problem 28
+Answer = 669171001
+execution time = 0.0001323223114013672 seconds.
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+669171001
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+	
+## Number spiral diagonals
+
+- Problem 28
+
+### Description
 
 Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
 
@@ -2349,7 +2422,7 @@ print("execution time = {} seconds.".format(t1-t0))
 This provides the answer in 0.1 milliseconds:
 	
 ~~~
-Number spiral diagonals, Project Euler Problem 27
+Number spiral diagonals, Project Euler Problem 28
 Answer = 669171001
 execution time = 0.0001323223114013672 seconds.
 ~~~
