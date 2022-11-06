@@ -32,7 +32,7 @@ These are the first 50 challenges from the site.
 24. [Lexicographic permutations](#lexicographic-permutations) 🗸
 25. [1000-digit Fibonacci number](#1000-digit-fibonacci-number) 🗸
 26. [Reciprocal cycles](#reciprocal-cycles) 🗸
-27. [Quadratic primes](#quadratic-primes) 
+27. [Quadratic primes](#quadratic-primes) 🗸
 28. [Number spiral diagonals](#number-spiral-diagonals) 
 29. [Distinct powers](#distinct-powers) 
 30. [Digit fifth powers](#digit-fifth-powers) 
@@ -2292,6 +2292,79 @@ execution time = 0.011209487915039062 seconds.
 
 ~~~
 983
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Number spiral diagonals
+
+- Problem 27
+
+### Description
+
+
+
+Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
+
+21 22 23 24 25
+20  7  8  9 10
+19  6  1  2 11
+18  5  4  3 12
+17 16 15 14 13
+
+It can be verified that the sum of the numbers on the diagonals is 101.
+
+What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+A simple python code to solve:
+	
+~~~py
+import time
+
+t0 = time.time()
+T = 1
+
+for i in range(3,1002,2):
+    T += 4*i**2 - 6*i + 6
+t1 = time.time()
+ans = T
+
+print("Number spiral diagonals, Project Euler Problem 27")
+print("Answer = {}".format(ans))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 0.1 milliseconds:
+	
+~~~
+Number spiral diagonals, Project Euler Problem 27
+Answer = 669171001
+execution time = 0.0001323223114013672 seconds.
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+669171001
 ~~~
 
 </details>
