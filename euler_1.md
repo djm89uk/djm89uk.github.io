@@ -1,4 +1,4 @@
-# [Project Euler](./euler.md) Challenges 1-50 (25/50)
+# [Project Euler](./euler.md) Challenges 1-50 (30/50)
 
 [Project Euler](https://projecteuler.net/) was started by Colin Hughes (a.k.a. euler) in October 2001 as a sub-section on mathschallenge.net. Who could have known how popular these types of problems would turn out to be? Since then the membership has continued to grow and Project Euler moved to its own domain in 2006.
 
@@ -35,7 +35,7 @@ These are the first 50 challenges from the site.
 27. [Quadratic primes](#quadratic-primes) 🗸
 28. [Number spiral diagonals](#number-spiral-diagonals) 🗸
 29. [Distinct powers](#distinct-powers) 🗸
-30. [Digit fifth powers](#digit-fifth-powers) 
+30. [Digit fifth powers](#digit-fifth-powers) 🗸
 31. [Coin sums](#coin-sums) 
 32. [Pandigital products](#pandigital-products) 
 33. [Digit cancelling fractions](#digit-cancelling-fractions) 
@@ -2541,6 +2541,115 @@ execution time = 0.0037431716918945312 seconds.
 
 ~~~
 9183
+~~~
+
+</details>
+
+---
+
+### [Project Euler 1-50](#contents) | [Project Euler](./euler.md) | [Home](./index.md)
+
+---
+
+## Digit fifth powers
+
+- Problem 30
+
+### Description
+
+Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
+
+    1634 = 1^4 + 6^4 + 3^4 + 4^4
+    8208 = 8^4 + 2^4 + 0^4 + 8^4
+    9474 = 9^4 + 4^4 + 7^4 + 4^4
+
+As 1 = 1^4 is not a sum it is not included.
+
+The sum of these numbers is 1634 + 8208 + 9474 = 19316.
+
+Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
+
+### Solutions
+
+<details>
+
+<summary markdown="span">Python</summary>
+
+We can bound the problem by considering the minima and maxima solutions:  for 9^5; we have 9^5=59049.  We can limit the integer size by comparing the minimum integer with the maximum products:  for 1 digit, the minimum value is 1, the maximum solution is 59049, 1 < 59049 so this is feasible.  expanding for other integer lengths:
+
+1 digit:  1, 9^5   =  59049 > 1
+2 digits: 10, 2*9^5 = 118098 > 10
+3 digits: 100, 3*9^5 = 177147 > 100
+4 digits: 1000, 4*9^5 = 236196 > 1000
+5 digits: 10000, 5*9^5 = 295245 > 10000
+6 digits: 100000, 6*9^5 = 354294 > 100000
+7 digits: 1000000, 7*9^5 = 413343 < 1000000
+8 digits: 10000000, 8*9^5 = 472392 < 10000000
+9 digits: 100000000, 9*9^5 = 531441 < 100000000
+
+The maximum integer is 6 digits long.  We can find the minima by investigating the minimum products for each index:
+
+1**5 = 1
+2**5 = 32
+3**5 = 243
+4**5 = 1024
+5**5 = 3125
+6**5 = 7776
+7**5 = 16807
+8**5 = 32768
+9**5 = 59049
+
+Any 2-digit number cannot include an integer greater than 2 and will have no solution below 32, therefore there are no solutions.
+Any 3-digit number cannot include an integer greater than 3 and will have no solution below 245.  We have a limited number of possible integers:
+	300, 301, 302, 303, 310, 311, 312, 313, 320, 321, 322, 323, 330, 331, 332, 333
+None of these provide a valid solution.
+Any 4-digit number cannot include an integer greater than 6:
+	1000, 1001, 1002, 1003, 1004, 1005, 1006, 1010.... 6665, 6666.
+There are 2 solutions for 4-digit integers: 4150, 4151
+
+We can solve using a simple Python script:
+
+~~~py
+import time
+
+t0 = time.time()
+
+ans = 4150+4151
+pow_arr = [0,1,32,243,1024,3125,7776,16807,32768,59049]
+
+for i in range(10000,1000000):
+    int_sum = 0
+    i_str = str(i)
+    for idx in i_str:
+        int_sum += pow_arr[int(idx)]
+    if i==int_sum:
+        ans += i
+
+t1 = time.time()
+print("Digit fifth powers, Project Euler Problem 30")
+print("Answer = {}".format(ans))
+print("execution time = {} seconds.".format(t1-t0))
+~~~
+
+This provides the answer in 968 milliseconds:
+	
+~~~
+Digit fifth powers, Project Euler Problem 30
+Answer = 443839
+execution time = 0.9686989784240723 seconds.
+~~~
+
+</details>
+
+
+### Answer
+
+<details>
+
+<summary markdown="span">Answer</summary>
+
+~~~
+443839
 ~~~
 
 </details>
