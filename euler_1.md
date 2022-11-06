@@ -2577,6 +2577,7 @@ Find the sum of all the numbers that can be written as the sum of fifth powers o
 
 We can bound the problem by considering the minima and maxima solutions:  for 9^5;we have 9^5=59049.  We can limit the integer size by comparing the minimum integer with the maximum products:  for 1 digit, the minimum value is 1, the maximum solution is 59049, 1 < 59049 so this is feasible. Expanding for other integer lengths:
 
+| Int Len  | Minimum   | Maximum         |
 |----------|-----------|-----------------|
 | 1 digit  | 1         | 9**5   =  59049 |
 | 2 digits | 10        | 2*9**5 = 118098 |
@@ -2591,6 +2592,7 @@ We can bound the problem by considering the minima and maxima solutions:  for 9^
 
 The maximum integer is 6 digits long.  We can find the minima by investigating the minimum products for each index:
 
+|  Index       |
 |--------------|
 | 1**5 = 1     |
 | 2**5 = 32    |
