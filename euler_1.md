@@ -2267,7 +2267,7 @@ t1 = time.time()
 print("Reciprocal Cycles, Project Euler Problem 26")
 print("Answer = {}".format(ans))
 print("Recurring length = {}".format(rlen_max))
-print("1/{} = {}".format(ans,1.0/ans))
+print("1/{} = {}...".format(ans,1.0/ans))
 print("execution time = {} seconds.".format(t1-t0))
 ~~~
 
@@ -2277,7 +2277,7 @@ This provides the answer in 11 milliseconds:
 Reciprocal Cycles, Project Euler Problem 26
 Answer = 983
 Recurring length = 982
-1/983 = 0.001017293997965412
+1/983 = 0.001017293997965412...
 execution time = 0.011209487915039062 seconds.
 ~~~
 
