@@ -89,9 +89,9 @@ function encrypt(password) {
 }
 
 gulp.task('firewall:encrypt', () => {
-  return gulp.src('_protected/*.*')
-    .pipe(encrypt('password'))
-    .pipe(gulp.dest('_posts'));
+  return gulp.src('sourcepages/*.*')
+    .pipe(encrypt('Gh5613'))
+    .pipe(gulp.dest(''));
 });
 
 gulp.task('firewall:watch', () => {
