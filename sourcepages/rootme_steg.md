@@ -2291,34 +2291,7 @@ Let's check the basics:
 
 ~~~shell
 $ strings -n 12 -t x kitty.png 
-  43a6b Z/x|[FDApsJfM
-  c6831 Z$+e?3UiU|")
-  d1387 DET*+Y=TA4VI
-  fa12f /6_DdC)-UU9k
- 126f60 b;:CGVL 3yD$
- 12aea1 *%"C)Nrk- \\]
- 14764e Y~~qvzvZow7w
- 168f69 F	}w{wruZ.gRk"
- 16c4b4 ^*YWu]7U]wm7)
- 194fb9 $98:xzq~x4{X
- 1efabe ~bHPLt?2KdV@
- 1f7a13 |~ptz|xrxr|X
- 2155d7 \"`YU&1,|yy	
- 217b3e ]sqvq~vvq~y}
- 25dfbe 7j"D#0Q$b&Mz
- 260758 r(Pl`1\fcD`H
- 2647d5 JPDQRLjjbNVv~
- 2745d8 J Rwxr~#:2+"h r
- 283738 ~w{s{{s{rrrv
- 28ead3 po}}{{~ysqqq~~
- 291ba6 z}uqq}}yxxt~~
- 29bb36 .KJM<vUN@IQRX
- 2a27ae YE;RDWw	13*YO
- 2b44b9 Er`kKRg#AUAN
- 2bbd70 {oVjy~zjsk6?
- 302dee efLJe&kJDc-Z6\!3W
- 336bd0 4TqD}Z7f@XEJ=uj
- 35bd5c qADj5Zk${4q]
+...
 $ exiftool kitty.png 
 ExifTool Version Number         : 11.88
 File Name                       : kitty.png
